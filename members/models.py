@@ -65,7 +65,7 @@ class Member(User):
         '''
         If the methods check_can_allocate() and check_is_new() return True,
         allocate a Marshmallow to an object. The Marshmallow's weight attribute
-        is determined by the Member's get_adjusted_weight() method.
+        is determined by the get_adjusted_weight() method.
 
         Arguments
         obj - A database model object that uses Marshmallow Mixin
