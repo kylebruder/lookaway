@@ -7,13 +7,13 @@ class MarshmallowMixin(models.Model):
     class Meta:
         abstract = True
 
-    marshmallows = models.ManyToManyField(Marshmallow, blank=True)
+    marshmallows = models.ManyToManyField('members.marshmallow', blank=True)
     weight = models.FloatField(default=0)
 
-class MemberObjectProtectionMixin:
+class MemberOwnershipView:
 
     def form_valid(self, form):
-        if self.request.user == self.object.user:
+        if self.request.member == self.object.owner:
             form.save()
             messages.add_message(
                 self.request, messages.INFO,
@@ -23,15 +23,16 @@ class MemberObjectProtectionMixin:
         else:
             messages.add_message(
                 self.request, messages.ERROR,
-                'You do not own {}. Modification Failed. It is not nice to modify other people\'s work!'.format(self.object)
+                'You do not own {}. Modification Failed. It is not nice to \
+modify other people\'s work!'.format(self.object)
             )
             return HttpResponseRedirect(self.get_success_url())
         
+class MemberOwnershipModel:
+
     def delete(self, request, pk):
-        user = request.user
         instance = self.model.objects.get(pk=pk)
-        owner = instance.user
-        if user == owner:
+        if request.member == instance.owner:
             instance.delete()
             messages.add_message(
                 request, messages.INFO,
@@ -41,6 +42,7 @@ class MemberObjectProtectionMixin:
         else:
             messages.add_message(
                 request, messages.ERROR,
-                'You do not own {}. Delete Failed. It is not nice to delete other people\'s work!'.format(instance)
+                'You do not own {}. Delete Failed. It is not nice to delete \
+other people\'s work!'.format(instance)
             )
             return HttpResponseRedirect(self.get_success_url())
