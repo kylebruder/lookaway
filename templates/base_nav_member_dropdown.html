@@ -1,0 +1,12 @@
+<div class="dropdown">
+  <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{ user }}
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="{% url 'studio' %}">Studio</a>
+    {% if user.is_staff %}
+       <a target="_blank" rel="noopener noreferrer" class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
+    {% endif %}
+    <a class="dropdown-item" href="{% url 'members:logout' %}">Logout</a>
+  </div>
+</div>

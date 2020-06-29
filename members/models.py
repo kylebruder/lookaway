@@ -107,7 +107,7 @@ class Profile(models.Model):
     last_marshmallow_allocation = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.member)
 
 class Marshmallow(models.Model):
 

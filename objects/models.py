@@ -84,20 +84,33 @@ class MetaDataMixin(models.Model):
 
 # User specific paths for image uploads
 def member_image_dir(instance, filename):
-    return 'member_{0}/images/%Y/%m/%d/{1}'.format(instance.member.id, filename)
+    try:
+        owner = instance.owner.id
+    except:
+        owner = 0
+    return instance.creation_date.strftime(
+        'media/member_{0}/images/%Y/%m/%d/{1}'.format(
+            owner,
+            filename
+        )
+    )
 
 def member_thumbnail_dir(instance, filename):
-    return 'member_{0}/thumbnails/%Y/%m/%d/{1}'.format(instance.member.id, filename)
-
+    try:
+        owner = instance.owner.id
+    except:
+        owner = 0
+    return instance.creation_date.strftime(
+        'media/member_{0}/thumbnails/%Y/%m/%d/{1}'.format(
+            owner,
+            filename
+        )
+    )
 
 class Image(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
 
     image_file = models.ImageField(
-        upload_to='member_image_dir',
-        max_length=255,
-    )
-    thumbnail_file = models.ImageField(
-        upload_to='member_thumbnail_dir',
+        upload_to=member_image_dir,
         max_length=255,
     )
     title = models.CharField(
@@ -110,6 +123,12 @@ class Image(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
     )
     credit = models.CharField(
         max_length=256,
+        blank = True,
+        null = True,
+    )
+    thumbnail_file = models.ImageField(
+        upload_to=member_thumbnail_dir,
+        max_length=255,
         blank = True,
         null = True,
     )
@@ -127,12 +146,21 @@ class Image(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
 
 # User specific path for audio uploads
 def member_sound_dir(instance, filename):
-    return 'member_{0}/sounds/%Y/%m/%d/{1}'.format(instance.user.id, filename)
+    try:
+        owner = instance.owner.id
+    except:
+        owner = 0
+    return instance.creation_date.strftime(
+        'member_{0}/sounds/%Y/%m/%d/{1}'.format(
+            owner,
+            filename
+        )
+    )
 
 class Sound(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
 
     sound_file = models.FileField(
-        upload_to='member_sound_dir',
+        upload_to=member_sound_dir,
         max_length=256,
     )
     title = models.CharField(
