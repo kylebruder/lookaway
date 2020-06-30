@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.staticfiles.urls import static, staticfiles_urlpatterns
 from .views import (ImageCreateView, ImageListView, MemberImageView, 
-    ImageDetailView, ImageUpdateView, ImageDeleteView)
+    ImageDetailView, ImageUpdateView, ImageDeleteView, publish_image_view)
 
 app_name = 'objects'
 
@@ -12,7 +12,12 @@ urlpatterns = [
         name='public_images',
     ),
     path(
-        'member/images/',
+        'images/<int:pk>/',
+        ImageDetailView.as_view(),
+        name='image_detail',
+    ),
+    path(
+        'member/<slug:member>/images/',
         MemberImageView.as_view(),
         name='member_images',
     ),
@@ -29,6 +34,11 @@ urlpatterns = [
     path(
         'delete/image/<int:pk>',
         ImageDeleteView.as_view(),
-        name='image_delte',
+        name='image_delete',
+    ),
+    path(
+        'publish/image/<int:pk>',
+        publish_image_view,
+        name='publish_image',
     ),
 ]

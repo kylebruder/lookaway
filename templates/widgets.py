@@ -7,5 +7,5 @@ from django.forms.widgets import ClearableFileInput, CheckboxInput
 class ImagePreviewWidget(ClearableFileInput):
 
     def render(self, name, value, attrs=None, renderer=None):
-        template = '<input type=\'file\' name=\'image_file\' onchange="loadFile(event)"><br><br><img class="updates-form-image" id="output"/>'
+        template = '<input type=\'file\' name=\'image_file\' onchange="loadFile(event)"><br><br><img class="form-preview-image" id="output"/>'
         return mark_safe(template)

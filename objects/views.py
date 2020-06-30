@@ -26,7 +26,7 @@ class ImageCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.creation_date = timezone.now()
-        form.instance.member = self.request.user
+        form.instance.owner = Member.objects.get(pk=self.request.user.pk)
         return super().form_valid(form)
     
     def get_context_data(self, **kwargs):
@@ -45,7 +45,7 @@ class ImageListView(ListView):
     model = Image
     paginate_by = 30
     queryset = Image.objects.filter(is_public=True)
-    context_object_name = 'public_images'
+    context_object_name = 'images'
     ordering = ['-creation_date']
 
     def get_context_data(self, **kwargs):
@@ -56,15 +56,15 @@ class MemberImageView(LoginRequiredMixin, ListView):
 
     model = Image
     paginate_by = 30
-    context_object_name = 'member_images'
+    context_object_name = 'images'
 
     def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(pk=self.kwargs['user'].pk)
-        return Image.objects.filter(member=member)
+        member = Member.objects.get(username=self.kwargs['member'])
+        return Image.objects.filter(owner=member)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        member = Member.objects.get(pk=self.kwargs['user'].pk)
+        member = Member.objects.get(username=self.kwargs['member'])
         context['user_only'] = True
         context['member'] = member
         return context
@@ -96,3 +96,30 @@ class ImageDeleteView(LoginRequiredMixin, MemberOwnershipView, DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+def publish_image_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(Image, pk=pk)
+    successful = instance.publish(instance, member)
+    if successful:
+        messages.add_message(
+            request,
+            messages.INFO,
+            '{} has been published'.format(
+                instance,
+            )
+        )
+    else:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            '{} could not be published'.format(
+                instance,
+            )
+        )
+    return HttpResponseRedirect(
+        reverse(
+            'objects:image_detail',
+            kwargs={'pk': instance.pk}
+        )
+    )

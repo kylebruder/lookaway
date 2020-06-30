@@ -3,7 +3,7 @@
     {{ user }}
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="{% url 'studio' %}">Studio</a>
+    <a class="dropdown-item" href="#">Studio</a>
     {% if user.is_staff %}
        <a target="_blank" rel="noopener noreferrer" class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
     {% endif %}

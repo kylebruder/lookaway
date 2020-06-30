@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block body_block %}
+  <div class ="container edit-bg">
+    <div class="container">
+      <h2 class="images-title">Modify Image</h2>
+    </div>
+    <br>
+    <div class="container">
+      <form  method="post" enctype="multipart/form-data">
+        <img class="images-image" src="{{ object.image_file.url }}" alt="{{ object.caption }}"><br>
+        {% csrf_token %}
+        {% include 'form_fields.html' %}
+        <input type="submit" value="Modify" class="btn btn-success">
+      </form>
+      <br>
+      {% if not object.is_public %}
+        <a href="{% url 'objects:publish_image' object.pk %}">
+          <button class="btn btn-success">Publish</button>
+        </a>
+      {% endif %}
+      <br>
+    </div>
+  </div>
+{% endblock %}

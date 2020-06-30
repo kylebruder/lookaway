@@ -21,7 +21,11 @@ from . import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path(
-        'objects',
+        'members/',
+        include('members.urls'),
+    ),
+    path(
+        'objects/',
         include('objects.urls'),
     )
 ]

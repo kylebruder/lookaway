@@ -1,0 +1,14 @@
+{% if image.is_public or image.owner == request.user %}
+  <div class="images-card float-left">
+    <a href="{% url 'objects:image_detail' image.pk %}">
+      {% if image.thumbnail_file %}
+        <div class="float-left images-piece-card" style="background-image:url('/media/{{ image.thumbnail_file }}">
+          <span class="images-piece-card-title">{{ image.title }}</span>
+        </div>
+      {% else %}
+        <span class="images-piece-card-title">{{ image.title }}</span>
+        <span class="images-piece-card-title">Click here to see the image</span>
+      {% endif %}
+    </a>
+  </div>
+{% endif %}

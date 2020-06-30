@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container image-bg">
+  {% include "./image_list_button_bar.html" %}
+  {% if object_list %}
+    {% include "page_control.html" %}
+    <div class="images-card-container">
+      {% for image in images %}
+        {% include "./image_list_card.html" %}
+      {% endfor %}
+    </div>
+    {% include "page_control.html" %}
+  {% else %}
+    <p>There are no images yet.</p>
+  {% endif %}
+</div>
+{% endblock %} 

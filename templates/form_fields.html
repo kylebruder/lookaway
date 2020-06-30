@@ -1,0 +1,16 @@
+{% for field in form %}
+  {{ field.errors }}
+  <div class="row">
+    <div class="col-sm-2">
+      <h5 class="form-label">{{ field.label_tag }}</h5>
+    </div>
+    <div class="col-sm-10">
+      {% if field.help_text %}
+        <p class="form-help">{{ field.help_text }}<p>
+      {% endif %}
+      {{ field }}
+    </div>
+  </div>
+  <br>
+  <br>
+{% endfor %}
