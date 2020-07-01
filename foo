@@ -1,0 +1,36 @@
+class SoundCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Sound
+        fields = [
+            'title',
+            'sound_file',
+            'text',
+            'credit',
+        ]
+        widgets = {
+            'sound_file': SoundPreviewWidget
+        }
+        help_texts = {
+            'title': "Give the sound a memorable and unique title that will be easy to reference later.",
+            'sound_file': "Obtain permission before uploading depicitons of private persons or places. Sound Preview will appear when successfully uploaded.",
+            'text': "Captions may appear on pages that include Sounds or other objects that use Sounds",
+            'credit': "Give credit to the original creator of the sound file. Obtain expressed permission before uploading sounds with exclusive rights.",
+        }
+
+class SoundUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Sound
+        fields = [
+            'title',
+            'text',
+            'credit',
+        ]
+        help_texts = {
+            'title': "Give the sound a memorable and unique title that will be easy to reference later.",
+            'text': "Captions may appear on pages that include Sounds or other objects that use Sounds",
+            'credit': "Give credit to the original creator of the sound file. Obtain expressed permission before uploading sounds with exclusive rights.",
+        }
+
+

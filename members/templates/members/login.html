@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block body_block %}
+
+<div class="container updates-bg">
+    <h3>Login</h3>
+    <form method="POST" class="uniForm">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Login" class="btn btn-default">
+    </form>
+</div>
+<br>
+{% endblock %}

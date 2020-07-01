@@ -1,0 +1,21 @@
+<h4 class="studio-image-title">Your Images</h4>
+{% if images %}
+  {% for i in images %}
+    <a href="{% url 'objects:image_detail' i.pk %}">
+      <div class="studio-images-card float-left" style="background-image:url('/media/{{ i.thumbnail_file }}')">
+        {% if not i.is_public %}
+          <span class="badge badge-secondary">Unpublished</span>
+        {% endif %}
+      </div>
+    </a>
+  {% endfor %}
+  <div class="clear"></div>
+  <p>
+    <a href="{% url 'objects:member_images' member=images.0.owner.username %}">more ...</a>
+  </p>
+{% else %}
+  <p>You have not contributed any images yet</p>
+  <a href="{% url 'objects:image_create' %}">
+    <button class="btn btn-success">Upload Image</button>
+  </a>
+{% endif %}

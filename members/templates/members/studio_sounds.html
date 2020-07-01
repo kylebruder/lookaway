@@ -1,0 +1,27 @@
+<h4 class="studio-image-title">Your Sounds</h4>
+{% if sounds %}
+  <ul class="list-group">
+    {% for s in sounds %}
+      <li class="list-group-item studio-link-li">
+        <a href="{% url 'objects:sound_detail' pk=s.pk %}">
+            <h3>{{ s.title }}</h3>
+        </a>
+        {% if not s.is_public %}
+          <span class="badge badge-secondary">Unpublished</span>
+        {% endif %}
+        <audio controls>
+          <source src="{{ s.sound_file.path }}">
+          Your Browser does not support the media player
+        </audio>
+      </li>
+    {% endfor %}
+  </ul>
+  <p>
+    <a href="{% url 'objects:member_sounds' member=sounds.0.owner %}">more ...</a>
+  </p>
+{% else %}
+  <p>You have not uploaded any Sounds yet</p>
+  <a href="{% url 'objects:image_create' %}">
+    <button class="btn btn-success">Upload Sound</button>
+  </a>
+{% endif %}

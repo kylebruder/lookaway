@@ -1,44 +1,79 @@
 from django.urls import path
 from django.contrib.staticfiles.urls import static, staticfiles_urlpatterns
-from .views import (ImageCreateView, ImageListView, MemberImageView, 
-    ImageDetailView, ImageUpdateView, ImageDeleteView, publish_image_view)
+import objects.views as views  
 
 app_name = 'objects'
 
 urlpatterns = [
+    # Read Views
     path(
         'images/',
-        ImageListView.as_view(),
+        views.ImageListView.as_view(),
         name='public_images',
     ),
     path(
         'images/<int:pk>/',
-        ImageDetailView.as_view(),
+        views.ImageDetailView.as_view(),
         name='image_detail',
     ),
     path(
+        'sounds/',
+        views.SoundListView.as_view(),
+        name='public_sounds',
+    ),
+    path(
+        'sounds/<int:pk>/',
+        views.SoundDetailView.as_view(),
+        name='sound_detail',
+    ),
+    # Member Specific Views
+    path(
         'member/<slug:member>/images/',
-        MemberImageView.as_view(),
+        views.MemberImageView.as_view(),
         name='member_images',
     ),
     path(
+        'member/<slug:member>/sounds/',
+        views.MemberImageView.as_view(),
+        name='member_sounds',
+    ),
+    # Create Views
+    path(
         'upload/image/',
-        ImageCreateView.as_view(),
+        views.ImageCreateView.as_view(),
         name='image_create',
     ),
     path(
+        'upload/sound/',
+        views.SoundCreateView.as_view(),
+        name='sound_create',
+    ),
+    # Update Views
+    path(
         'modify/image/<int:pk>',
-        ImageUpdateView.as_view(),
+        views.ImageUpdateView.as_view(),
         name='image_update',
     ),
     path(
+        'modify/sound/<int:pk>',
+        views.SoundUpdateView.as_view(),
+        name='sound_update',
+    ),
+    # Delete Views
+    path(
         'delete/image/<int:pk>',
-        ImageDeleteView.as_view(),
+        views.ImageDeleteView.as_view(),
         name='image_delete',
     ),
     path(
-        'publish/image/<int:pk>',
-        publish_image_view,
-        name='publish_image',
+        'delete/sound/<int:pk>',
+        views.SoundDeleteView.as_view(),
+        name='sound_delete',
+    ),
+    # Publish Views
+    path(
+        'publish/sound/<int:pk>',
+        views.publish_sound_view,
+        name='publish_sound',
     ),
 ]

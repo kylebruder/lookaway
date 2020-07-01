@@ -1,6 +1,6 @@
 from django import forms
-from templates.widgets import ImagePreviewWidget
-from .models import Image 
+from templates.widgets import ImagePreviewWidget, SoundPreviewWidget
+from .models import Image, Sound 
 
 class CustomModelChoiceIterator(forms.models.ModelChoiceIterator):
 
@@ -42,7 +42,7 @@ class ImageCreateForm(forms.ModelForm):
         help_texts = {
             'title': "Give the image a memorable and unique title that will be easy to reference later.",
             'image_file': "Obtain permission before uploading depicitons of private persons or places. Image Preview will appear when successfully uploaded.",
-            'text': "Captions may appear on pages that include Images or other objects that use Images",
+            'text': "The text may appear on pages that include Images or other objects that use Images",
             'credit': "Give credit to the original creator of the image file. Obtain expressed permission before uploading images with exclusive rights.",
         }
 
@@ -57,7 +57,41 @@ class ImageUpdateForm(forms.ModelForm):
         ]
         help_texts = {
             'title': "Give the image a memorable and unique title that will be easy to reference later.",
-            'text': "Captions may appear on pages that include Images or other objects that use Images",
+            'text': "The text may appear on pages that include Images or other objects that use Images",
             'credit': "Give credit to the original creator of the image file. Obtain expressed permission before uploading images with exclusive rights.",
         }
 
+class SoundCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Sound
+        fields = [
+            'title',
+            'sound_file',
+            'text',
+            'credit',
+        ]
+        widgets = {
+            'sound_file': SoundPreviewWidget
+        }
+        help_texts = {
+            'title': "Give the sound a memorable and unique title that will be easy to reference later.",
+            'sound_file': "Obtain permission before uploading depicitons of private persons or places. Sound Preview will appear when successfully uploaded.",
+            'text': "The text may appear on pages that include Sounds or other objects that use Sounds",
+            'credit': "Give credit to the original creator of the sound file. Obtain expressed permission before uploading sounds with exclusive rights.",
+        }
+
+class SoundUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Sound
+        fields = [
+            'title',
+            'text',
+            'credit',
+        ]
+        help_texts = {
+            'title': "Give the sound a memorable and unique title that will be easy to reference later.",
+            'text': "The text may appear on pages that include Sounds or other objects that use Sounds",
+            'credit': "Give credit to the original creator of the sound file. Obtain expressed permission before uploading sounds with exclusive rights.",
+        }

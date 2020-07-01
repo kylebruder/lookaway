@@ -9,3 +9,9 @@ class ImagePreviewWidget(ClearableFileInput):
     def render(self, name, value, attrs=None, renderer=None):
         template = '<input type=\'file\' name=\'image_file\' onchange="loadFile(event)"><br><br><img class="form-preview-image" id="output"/>'
         return mark_safe(template)
+
+class SoundPreviewWidget(ClearableFileInput):
+
+    def render(self, name, value, attrs=None, renderer=None):
+        template = '<input type=\'file\' name=\'sound_file\' onchange="loadFile(event)"><br><br><audio controls="controls" src="" type="audio/mpeg" id="output"></audio>'
+        return mark_safe(template)

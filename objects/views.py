@@ -13,7 +13,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from members.models import Member
 from members.mixins import MemberOwnershipView
-from .forms import ImageCreateForm, ImageUpdateForm
+from .forms import (ImageCreateForm, ImageUpdateForm, SoundCreateForm, SoundUpdateForm,)
 from .models import Tag, Image, Sound, Code, Link
 # Create your views here.
 
@@ -123,3 +123,112 @@ def publish_image_view(request, pk):
             kwargs={'pk': instance.pk}
         )
     )
+
+# Sound Views
+class SoundCreateView(LoginRequiredMixin, CreateView):
+
+    model = Sound
+    form_class = SoundCreateForm
+    template_name_suffix = '_create_form'
+
+    def form_valid(self, form):
+        form.instance.creation_date = timezone.now()
+        form.instance.owner = Member.objects.get(pk=self.request.user.pk)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('objects:sound_detail', kwargs={'pk': self.object.pk})
+
+class SoundListView(ListView):
+
+    model = Sound
+    paginate_by = 30
+    queryset = Sound.objects.filter(is_public=True)
+    context_object_name = 'sounds'
+    ordering = ['-creation_date']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class MemberSoundView(LoginRequiredMixin, ListView):
+
+    model = Sound
+    paginate_by = 30
+    context_object_name = 'sounds'
+
+    def get_queryset(self, *args, **kwargs):
+        member = Member.objects.get(username=self.kwargs['member'])
+        return Sound.objects.filter(owner=member)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = Member.objects.get(username=self.kwargs['member'])
+        context['user_only'] = True
+        context['member'] = member
+        return context
+
+class SoundDetailView(DetailView):
+
+    model = Sound
+    context_object_name = 'sound'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class SoundUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+
+    model = Sound
+    form_class = SoundUpdateForm
+    template_name_suffix = '_update_form'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class SoundDeleteView(LoginRequiredMixin, MemberOwnershipView, DeleteView):
+
+    model = Sound
+    success_url = reverse_lazy('objects:member_sounds')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+def publish_sound_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(Sound, pk=pk)
+    successful = instance.publish(instance, member)
+    if successful:
+        messages.add_message(
+            request,
+            messages.INFO,
+            '{} has been published'.format(
+                instance,
+            )
+        )
+    else:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            '{} could not be published'.format(
+                instance,
+            )
+        )
+    return HttpResponseRedirect(
+        reverse(
+            'objects:sound_detail',
+            kwargs={'pk': instance.pk}
+        )
+    )
+
+
