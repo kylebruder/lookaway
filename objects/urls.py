@@ -28,14 +28,14 @@ urlpatterns = [
     ),
     # Member Specific Views
     path(
+        'member/<slug:member>/sounds/',
+        views.MemberSoundView.as_view(),
+        name='member_sounds',
+    ),
+    path(
         'member/<slug:member>/images/',
         views.MemberImageView.as_view(),
         name='member_images',
-    ),
-    path(
-        'member/<slug:member>/sounds/',
-        views.MemberImageView.as_view(),
-        name='member_sounds',
     ),
     # Create Views
     path(

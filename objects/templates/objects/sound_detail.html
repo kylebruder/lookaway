@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block body_block %}
+<div class="container sounds-bg">
+  <br>
+  {% ifequal request.user.pk sound.owner.pk %}
+    <a href="{% url 'objects:sound_update' sound.pk %}">
+      <button type="button" class="btn btn-warning float-right">Edit</button>
+    </a>
+    <br>
+  {% endifequal %}
+    <div class="row">
+      <div class="col-sm">
+        <div class="container">
+          <a href="{% url 'objects:sound_detail' pk=sound.pk %}">
+            <h4 class="sound-title">{{ sound.title }}</h4>
+          </a>
+        </div>
+        <div class="container">
+          {% if not s.is_public %}
+            <div class="container">
+              <span class="badge badge-secondary">Unpublished</span>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-sm">
+        <p>{{ sound.text }}</p>
+      </div>
+      <div class="col-sm">
+        <audio controls>
+          <source src="{{ sound.sound_file.url }}" type="audio/mpeg">
+          <source src="{{ sound.sound_file.url }}" type="audio/ogg">
+            Your Browser does not support the media player
+        </audio>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+{% endblock %}

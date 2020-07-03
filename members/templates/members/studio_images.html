@@ -1,8 +1,8 @@
-<h4 class="studio-image-title">Your Images</h4>
+<h4 class="studio-title">Your Images</h4>
 {% if images %}
   {% for i in images %}
     <a href="{% url 'objects:image_detail' i.pk %}">
-      <div class="studio-images-card float-left" style="background-image:url('/media/{{ i.thumbnail_file }}')">
+      <div class="studio-image-card float-left" style="background-image:url('/media/{{ i.thumbnail_file }}')">
         {% if not i.is_public %}
           <span class="badge badge-secondary">Unpublished</span>
         {% endif %}

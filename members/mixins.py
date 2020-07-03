@@ -13,7 +13,7 @@ class MarshmallowMixin(models.Model):
 class MemberOwnershipView:
 
     def form_valid(self, form):
-        if self.request.member == self.object.owner:
+        if self.request.user.pk == self.object.owner.pk:
             form.save()
             messages.add_message(
                 self.request, messages.INFO,

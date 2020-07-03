@@ -1,15 +1,24 @@
 {% extends 'base.html' %}
 {% block body_block %}
 <div class="container-fluid studio-bg">
+  <p>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#images" aria-expanded="false" aria-controls="images">Images</button>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#sounds" aria-expanded="false" aria-controls="images">Sounds</button>
+  </p>    
+  <!-- Member Images -->
   <div class="row">
-    <div class="col-sm">
-      {% include './studio_images.html' %}
+    <div class="col">
+      <div class="collapse" id="images">
+        {% include './studio_images.html' %}
+      </div>
     </div>
   </div>
+  <!-- Member Sounds -->
   <div class="row">
-    <div class="col-sm-8">
-    </div>
-    <div class="col-sm-4">
+    <div class="col">
+      <div class="collapse" id="sounds">
+        {% include './studio_sounds.html' %}
+      </div>
     </div>
   </div>
 </div>

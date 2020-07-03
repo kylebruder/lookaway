@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col">
+    <h3 class="sound-title">
+      {% if user_only %}
+          {{ member }}'s Sounds
+      {% else %}
+        Sounds
+      {% endif %}
+    </h3>
+  </div>
+  {% if request.user.is_authenticated %}
+    <div class="col-">
+      <div class="container">
+        <a href="{% url 'objects:sound_create' %}">
+          <button type="button" class="btn btn-primary float-right">Upload Sound</button>
+        </a>
+      </div>
+    </div>
+  {% endif %}
+</div>

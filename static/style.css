@@ -1,12 +1,11 @@
 @import "css/forms.css";
+@import "css/sounds.css";
 @import "css/images.css";
 @import "css/index.css";
-@import "css/kbtech.css";
 @import "css/links.css";
 @import "css/people.css";
 @import "css/studio.css";
-@import "css/updates.css";
-@import "css/qnd.css";
+@import "css/nav.css";
 
 .clear {
   clear: both;

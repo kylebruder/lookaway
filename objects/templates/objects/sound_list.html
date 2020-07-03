@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container sound-bg">
+  {% include "./sound_list_button_bar.html" %}
+  {% if sounds %}
+    {% include "page_control.html" %}
+    <div class="images-card-container">
+      {% for sound in sounds %}
+        {% include "./sound_list_item.html" %}
+      {% endfor %}
+    </div>
+    {% include "page_control.html" %}
+  {% else %}
+    <p>There are no sounds yet.</p>
+  {% endif %}
+</div>
+{% endblock %} 

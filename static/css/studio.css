@@ -1,0 +1,12 @@
+.studio-image-card {
+  display: block;
+  width: 100px;
+  height: 100px;
+  background-color: #222222;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.studio-title {
+  font-family: 'Ibarra Real Nova', serif;
+}

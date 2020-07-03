@@ -1,6 +1,8 @@
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from members.mixins import MemberOwnershipModel, MarshmallowMixin
+
 
 # Create your models here.
 
@@ -137,7 +139,7 @@ class Image(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('images:image_detail', kwargs={'pk': self.pk})
+        return reverse('objects:image_detail', kwargs={'pk': self.pk})
    
     class Meta:
         ordering = ['-creation_date']
@@ -177,6 +179,15 @@ class Sound(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
         null = True,
     )
 
+    class Meta:
+        ordering = ['-creation_date']
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('objects:sound_detail', kwargs={'pk': self.pk})
+   
 ## Code - Used to hold examples of code to be displayed on a page inside <pre> tags
 
 class Code(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
@@ -208,7 +219,7 @@ class Code(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
         ordering = ['title', 'language',]
 
     def __str__(self):
-        return '{0} - {1} {2}'.format(title, language, language_version,)
+        return '{0} - {1} {2}'.format(self.title, self.language.self. language_version,)
 
     def get_absolute_url(self):
         return reverse('objects:code_block_detail', kwargs={'pk': self.pk,})

@@ -1,0 +1,12 @@
+.nav-logo {
+  max-width: 30px;
+  max-height: 30px;
+}
+
+.nav-font {
+   font-family: 'IBM Plex Mono', monospace;
+}
+.nav-pad {
+  padding-left: 25px;
+  padding-right: 100px;
+}

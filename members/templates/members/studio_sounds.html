@@ -1,23 +1,39 @@
-<h4 class="studio-image-title">Your Sounds</h4>
+<h4 class="studio-title">Your Sounds</h4>
 {% if sounds %}
   <ul class="list-group">
     {% for s in sounds %}
-      <li class="list-group-item studio-link-li">
-        <a href="{% url 'objects:sound_detail' pk=s.pk %}">
-            <h3>{{ s.title }}</h3>
-        </a>
-        {% if not s.is_public %}
-          <span class="badge badge-secondary">Unpublished</span>
-        {% endif %}
-        <audio controls>
-          <source src="{{ s.sound_file.path }}">
-          Your Browser does not support the media player
-        </audio>
+      <li class="list-group-item sound-list-li">
+        <div class="row">
+          <div class="col-sm">
+            <div class="container">
+              <a href="{% url 'objects:sound_detail' pk=s.pk %}">
+                <h4 class="sound-title">{{ s.title }}</h4>
+              </a>
+            </div>
+            <div class="container">
+              {% if not s.is_public %}
+                <div class="container">
+                  <span class="badge badge-secondary">Unpublished</span>
+                </div>
+              {% endif %}
+           </div>
+          </div>
+          <div class="col-sm">
+            <p>{{ s.text }}</p>
+          </div>
+          <div class="col-sm">
+            <audio controls>
+              <source src="{{ s.sound_file.url }}" type="audio/mpeg">
+              <source src="{{ s.sound_file.url }}" type="audio/ogg">
+                Your Browser does not support the media player
+            </audio>
+          </div>
+        </div>
       </li>
     {% endfor %}
   </ul>
   <p>
-    <a href="{% url 'objects:member_sounds' member=sounds.0.owner %}">more ...</a>
+    <a href="{% url 'objects:member_sounds' member=sounds.0.owner.username %}">more ...</a>
   </p>
 {% else %}
   <p>You have not uploaded any Sounds yet</p>
