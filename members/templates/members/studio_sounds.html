@@ -4,7 +4,7 @@
     {% for s in sounds %}
       <li class="list-group-item sound-list-li">
         <div class="row">
-          <div class="col-sm">
+          <div class="col-">
             <div class="container">
               <a href="{% url 'objects:sound_detail' pk=s.pk %}">
                 <h4 class="sound-title">{{ s.title }}</h4>
@@ -18,10 +18,10 @@
               {% endif %}
            </div>
           </div>
-          <div class="col-sm">
+          <div class="col">
             <p>{{ s.text }}</p>
           </div>
-          <div class="col-sm">
+          <div class="col-">
             <audio controls>
               <source src="{{ s.sound_file.url }}" type="audio/mpeg">
               <source src="{{ s.sound_file.url }}" type="audio/ogg">

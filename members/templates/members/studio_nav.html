@@ -1,4 +1,4 @@
-<nav class="container-fluid navbar fixed-top navbar-expand-lg navbar-light bg-light nav-pad">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light nav-pad">
   {% load static %}
   <a class="nav-item navbar-brand" href="/"><img src="{% static 'favicon.ico' %}" class="nav-logo" alt="Lookaway CMS(dev)"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,14 +9,14 @@
     <ul class="navbar-nav mr-auto">
       {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'objects:public_images' %}">Images</a>
+          <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#images" aria-expanded="false" aria-controls="images">Images</button>&nbsp;
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'objects:public_sounds' %}">Sounds</a>
+          <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#sounds" aria-expanded="false" aria-controls="images">Sounds</button>&nbsp;
         </li>
       </ul>
       <div class="btn-group">
-          {% include "./base_nav_member_dropdown.html" %}
+          {% include "base_nav_member_dropdown.html" %}
       </div>
       {% else %}
       {% endif %}

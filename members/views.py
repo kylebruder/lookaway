@@ -13,6 +13,7 @@ class StudioView(TemplateView):
         member = Member.objects.get(pk=self.request.user.pk)
 
         # Images
+        context['member'] = member
         context['images'] = Image.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:24]

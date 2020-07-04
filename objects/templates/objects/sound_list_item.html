@@ -3,19 +3,25 @@
     <div class="row">
       <div class="col-">
         <a href="{% url 'objects:sound_detail' sound.pk %}">
-        <h4 class="sound-title">{{ sound.title }}</h4>
+          <h4 class="sound-title">{{ sound.title }}</h4>
+          <br>
         </a>
-        <p>{{ link.description }}</p>
-        <p class="clear">{{ sound.text }}</p>
-        {% if not sound.is_public %}
-          <span class="badge badge-secondary">Unpublished</span>
-        {% endif %}
+      </div>
+      <div class="col-sm">
         {% if user_only and sound.owner.pk == request.user.pk %}
-          <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
-            <button class="btn-sm btn-warning">Edit</button>
-          </a>
+          {% if not sound.is_public %}
+            <span class="badge badge-secondary">Unpublished</span>
+          {% endif %}
+          <div class="float-right">
+            <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
+              <button class="btn-sm btn-warning">Edit</button>
+            </a>
+          </div>
         {% endif %}
-        <br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
         <audio controls="controls">
           <source src="{{ sound.sound_file.url }}" type="audio/mpeg">
           <source src="{{ sound.sound_file.url }}" type="ogg">

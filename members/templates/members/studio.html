@@ -1,10 +1,7 @@
-{% extends 'base.html' %}
+{% extends './studio_base.html' %}
 {% block body_block %}
 <div class="container-fluid studio-bg">
-  <p>
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#images" aria-expanded="false" aria-controls="images">Images</button>
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#sounds" aria-expanded="false" aria-controls="images">Sounds</button>
-  </p>    
+  <h1 class="studio-title">{{ member }}'s Digital Studio</h1>
   <!-- Member Images -->
   <div class="row">
     <div class="col">
