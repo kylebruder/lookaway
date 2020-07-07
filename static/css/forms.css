@@ -6,3 +6,15 @@
 .form-label {
   font-family: 'Ibarra Real Nova', serif;
 }
+
+.form-code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75em;
+  color: #222222;
+  background-color: #ffffff;
+  max-width: auto;
+  height: 400px;
+  overflow-x: scroll;
+  overflow-y: scroll;
+}
+

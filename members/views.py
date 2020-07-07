@@ -22,7 +22,7 @@ class StudioView(TemplateView):
             owner=member
         ).order_by('is_public', '-creation_date')[:10]
         # Code
-        context['code'] = Code.objects.filter(
+        context['codes'] = Code.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:10]
         # Links

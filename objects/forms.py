@@ -1,6 +1,7 @@
 from django import forms
+from django.forms import Textarea
 from templates.widgets import ImagePreviewWidget, SoundPreviewWidget
-from .models import Image, Sound 
+from .models import Image, Sound, Code, Link, Tag 
 
 class CustomModelChoiceIterator(forms.models.ModelChoiceIterator):
 
@@ -95,3 +96,31 @@ class SoundUpdateForm(forms.ModelForm):
             'text': "The text may appear on pages that include Sounds or other objects that use Sounds",
             'credit': "Give credit to the original creator of the sound file. Obtain expressed permission before uploading sounds with exclusive rights.",
         }
+
+class CodeForm(forms.ModelForm):
+
+    class Meta:
+        model = Code
+        fields = [
+            'title',
+            'code',
+            'language',
+            'language_version',
+            'file_path',
+            'source',
+        ]
+        widgets = {
+            'code': Textarea(attrs={
+                'wrap': 'off',
+                'class': 'code-box',
+            }),
+        }
+        help_texts = {
+            'title': "Give the code sample a memorable and unique title that will be easy to reference later.",
+            'code': "Enter the code here.",
+            'language': "For which language is the code written?",
+            'language_version': "For which version or versions of the language is the code written?",
+            'file_path': "In which file does this code belong?",
+            'source': "From where does the code originate? Please credit yourself or your source.",
+        }
+

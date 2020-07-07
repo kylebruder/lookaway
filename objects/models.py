@@ -1,3 +1,4 @@
+import hashlib
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -214,15 +215,26 @@ class Code(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
         blank=True,
         null = True,
     )
+    md5 = models.CharField(
+        max_length=32,
+    )
 
     class Meta:
         ordering = ['title', 'language',]
 
     def __str__(self):
-        return '{0} - {1} {2}'.format(self.title, self.language.self. language_version,)
+        return '{} - {} {}'.format(self.title, self.language, self.language_version,)
 
     def get_absolute_url(self):
-        return reverse('objects:code_block_detail', kwargs={'pk': self.pk,})
+        return reverse('objects:code_detail', kwargs={'pk': self.pk,})
+
+    def get_md5(string):
+        '''
+        Given a string, returns a MD5 hash digest
+        '''
+        md5 = hashlib.md5(string.encode())
+        digest = md5.hexdigest()
+        return digest
 
 ## Link - External URL for online resources outside of the site domain
 

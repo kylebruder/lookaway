@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block body_block %}
+<div class="container code-bg">
+  <br>
+  {% ifequal request.user.pk code.owner.pk %}
+    <a href="{% url 'objects:code_update' code.pk %}?next={{ request.path }}">
+      <button type="button" class="btn btn-warning float-right">Edit</button>
+    </a>
+  {% endifequal %}
+  <h4 class="code-title">{{ code.title }} - {{ code.language }} {{ code.language_version }}</h4>
+  {% if not code.is_public %}
+    <span class="badge badge-secondary">Unpublished</span>
+  {% endif %}
+  {% if code.file_path %}
+    <p><i>{{ code.file_path }}</i></p>
+  {% endif %}
+  <pre class="code-block">{{ code.code }}</pre>
+  <p>md5 digest: {{ code.md5 }}</p>
+{% endblock %}
+

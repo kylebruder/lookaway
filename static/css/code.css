@@ -1,0 +1,34 @@
+.code-bg {
+  background-color: #222222;
+  color: #eeeeee;
+  overflow: auto;
+  border-radius: 0px 0px 15px 15px;
+}
+
+.code-block {
+  font-family: 'IBM Plex Mono', monospace;
+  color: #dddddd;
+  background-color: #000000;
+  padding: 5px;
+  width: auto;
+}
+
+.code-box {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75em;
+  color: #222222;
+  background-color: #ffffff;
+  width: 100%;
+  height: 200px;
+  overflow-x: auto;
+  overflow-y: auto;
+} 
+
+.code-list-li {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+.code-title {
+  font-family: 'Ibarra Real Nova', serif;
+}

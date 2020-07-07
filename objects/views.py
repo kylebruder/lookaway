@@ -13,7 +13,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from members.models import Member
 from members.mixins import MemberOwnershipView
-from .forms import (ImageCreateForm, ImageUpdateForm, SoundCreateForm, SoundUpdateForm,)
+from .forms import (ImageCreateForm, ImageUpdateForm, SoundCreateForm,
+    SoundUpdateForm, CodeForm)
 from .models import Tag, Image, Sound, Code, Link
 # Create your views here.
 
@@ -230,5 +231,118 @@ def publish_sound_view(request, pk):
             kwargs={'pk': instance.pk}
         )
     )
+
+# Code Views
+class CodeCreateView(LoginRequiredMixin, CreateView):
+
+    model = Code
+    form_class = CodeForm
+    template_name_suffix = '_form'
+
+    def form_valid(self, form):
+        form.instance.creation_date = timezone.now()
+        form.instance.owner = Member.objects.get(pk=self.request.user.pk)
+        form.instance.md5 = Code.get_md5(form.instance.code)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('objects:code_detail', kwargs={'pk': self.object.pk})
+
+class CodeListView(ListView):
+
+    model = Code
+    paginate_by = 12
+    queryset = Code.objects.filter(is_public=True)
+    context_object_name = 'codes'
+    ordering = ['-creation_date']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class MemberCodeView(LoginRequiredMixin, ListView):
+
+    model = Code
+    paginate_by = 12
+    context_object_name = 'codes'
+
+    def get_queryset(self, *args, **kwargs):
+        member = Member.objects.get(username=self.kwargs['member'])
+        return Code.objects.filter(owner=member)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = Member.objects.get(username=self.kwargs['member'])
+        context['user_only'] = True
+        context['member'] = member
+        return context
+
+class CodeDetailView(DetailView):
+
+    model = Code
+    context_object_name = 'code'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class CodeUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+
+    model = Code
+    form_class = CodeForm
+    template_name_suffix = '_form'
+
+    def form_valid(self, form):
+        form.instance.md5 = Code.get_md5(form.instance.code)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class CodeDeleteView(LoginRequiredMixin, MemberOwnershipView, DeleteView):
+
+    model = Code
+    success_url = reverse_lazy('objects:member_code')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+def publish_code_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(Code, pk=pk)
+    successful = instance.publish(instance, member)
+    if successful:
+        messages.add_message(
+            request,
+            messages.INFO,
+            '{} has been published'.format(
+                instance,
+            )
+        )
+    else:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            '{} could not be published'.format(
+                instance,
+            )
+        )
+    return HttpResponseRedirect(
+        reverse(
+            'objects:code_detail',
+            kwargs={'pk': instance.pk}
+        )
+    )
+
 
 

@@ -12,24 +12,22 @@
 
 .images-card {
   display: block;
-  width: 180px;
-  height: 180px;
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-size: cover;
   background-color: #222222;
-  border-radius: 10px 10px 10px 10px;
-  margin: 10px;
 }
 
 .images-card-container {
   display: block;
-  padding: 0 10px;
 }
 
 .images-card-title {
-  color: #ffffff;
-  font-family: 'Ibarra Real Nova', serif;
-  text-align: center;
-  padding-left: 5px;
-  padding-right: 5px;
+  font-size: 0.75em;
+  color: #eeeeee;
+  background: #222222;
+  padding: 5px;
 }
 
 .images-credit {
@@ -96,7 +94,7 @@
 
 .images-image {
   max-width: 100%;
-  max-height: 100%;
+  max-height: 750px;
   display: block;
   margin: auto;
   border-radius: 5px;

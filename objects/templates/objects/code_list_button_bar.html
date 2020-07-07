@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col">
+    <h3 class="code-title">
+      {% if user_only %}
+          {{ member }}'s Code
+      {% else %}
+        Code
+      {% endif %}
+    </h3>
+  </div>
+  {% if request.user.is_authenticated %}
+    <div class="col-">
+      <div class="container">
+        <a href="{% url 'objects:code_create' %}">
+          <button type="button" class="btn btn-primary float-left">Upload Code</button>
+        </a>
+      </div>
+    </div>
+  {% endif %}
+</div>

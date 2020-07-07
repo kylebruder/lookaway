@@ -8,18 +8,12 @@
     </a>
     <br>
   {% endifequal %}
-  <h3 class="images-title">{{ image.title }}</h3>
-  <img class="images-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
-  <div class="row">
-    <div class="col">
-      <p class="images-caption">{{ image.text }}</p>
-    </div>
-    <div class="col-">
-      <div class="container">
-        <p class="images-credit"><i>{{ image.credit }}</i></p>
-      </div>
-    </div>
-  </div>
+  <center>
+    <h3 class="images-title">{{ image.title }}</h3>
+    <img class="images-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
+    <p>{{ image.text }}</p>
+    <p><i>{{ image.credit }}</i></p>
+  </center>
 </div>
 <br>
 {% endblock %}

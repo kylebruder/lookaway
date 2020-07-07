@@ -1,20 +1,24 @@
 {% extends './studio_base.html' %}
 {% block body_block %}
 <div class="container-fluid studio-bg">
-  <h1 class="studio-title">{{ member }}'s Digital Studio</h1>
+  <h3 class="studio-title">{{ member }}'s Digital Studio</h3>
   <!-- Member Images -->
   <div class="row">
-    <div class="col">
+    <div class="col-sm-">
       <div class="collapse" id="images">
         {% include './studio_images.html' %}
       </div>
     </div>
-  </div>
-  <!-- Member Sounds -->
-  <div class="row">
-    <div class="col">
+    <!-- Member Sounds -->
+    <div class="col-sm-">
       <div class="collapse" id="sounds">
         {% include './studio_sounds.html' %}
+      </div>
+    </div>
+    <!-- Member Code -->
+    <div class="col-sm-">
+      <div class="collapse" id="code">
+        {% include './studio_code.html' %}
       </div>
     </div>
   </div>
