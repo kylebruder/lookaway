@@ -11,6 +11,12 @@
       {% include 'form_fields.html' %}
       <input type="submit" value="Upload" class="btn btn-success">
     </form>
+    <br>
+    {% if code.title and not code.is_public %}
+      <a href="{% url 'objects:publish_code' object.pk %}">
+        <button class="btn btn-success">Publish</button>
+      </a>
+    {% endif %}
   </div>
   <br>
 </div>

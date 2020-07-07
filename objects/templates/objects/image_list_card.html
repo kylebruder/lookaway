@@ -3,6 +3,9 @@
     <a href="{% url 'objects:image_detail' image.pk %}">
       {% if image.thumbnail_file %}
         <div class="float-left images-card" style="background-image:url('/media/{{ image.thumbnail_file }}">
+          {% if not image.is_public %}
+            <span class="badge badge-secondary">Unpublished</span>
+          {% endif %}
         </div>
       {% else %}
         <span class="images-piece-card-title">{{ image.title }}</span>
