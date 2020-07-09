@@ -1,12 +1,3 @@
-.form-preview-image {
-  max-width: auto;
-  max-height: 250px;
-}
-
-.form-label {
-  font-family: 'Ibarra Real Nova', serif;
-}
-
 .form-code {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.75em;
@@ -16,5 +7,29 @@
   height: 400px;
   overflow-x: scroll;
   overflow-y: scroll;
+}
+
+.form-image-card {
+  display: block;
+  width: 100px;
+  height: 100px;
+  background-color: #222222;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.form-image-selection {
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.form-label {
+  font-family: 'Ibarra Real Nova', serif;
+}
+
+
+.form-preview-image {
+  max-width: auto;
+  max-height: 250px;
 }
 

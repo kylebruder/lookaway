@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col">
+    <h3 class="link-title">
+      {% if user_only %}
+        {% if user.first_name and user.last_name %}
+          {{ user.first_name }} {{ user.last_name }}{% else %}{{ user }}{% endif %}'s Links
+      {% else %}
+        Links
+      {% endif %}
+    </h3>
+  </div>
+  {% if request.user.is_authenticated %}
+    <div class="col-">
+      <div class="container">
+        <a href="{% url 'objects:link_create' %}">
+          <button type="button" class="btn btn-primary float-right">Add Link</button>
+        </a>
+      </div>
+    </div>
+  {% endif %}
+</div>

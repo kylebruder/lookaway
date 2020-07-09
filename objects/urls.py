@@ -36,6 +36,16 @@ urlpatterns = [
         views.CodeDetailView.as_view(),
         name='code_detail',
     ),
+    path(
+        'links/',
+        views.LinkListView.as_view(),
+        name='public_links',
+    ),
+    path(
+        'links/<int:pk>/',
+        views.LinkDetailView.as_view(),
+        name='link_detail',
+    ),
     # Member Specific Views
     path(
         'member/<slug:member>/images/',
@@ -51,6 +61,11 @@ urlpatterns = [
         'member/<slug:member>/code/',
         views.MemberCodeView.as_view(),
         name='member_code',
+    ),
+    path(
+        'member/<slug:member>/link/',
+        views.MemberLinkView.as_view(),
+        name='member_links',
     ),
     # Create Views
     path(
@@ -68,6 +83,11 @@ urlpatterns = [
         views.CodeCreateView.as_view(),
         name='code_create',
     ),
+    path(
+        'upload/link/',
+        views.LinkCreateView.as_view(),
+        name='link_create',
+    ),
     # Update Views
     path(
         'modify/image/<int:pk>',
@@ -83,6 +103,11 @@ urlpatterns = [
         'modify/code/<int:pk>',
         views.CodeUpdateView.as_view(),
         name='code_update',
+    ),
+    path(
+        'modify/link/<int:pk>',
+        views.LinkUpdateView.as_view(),
+        name='link_update',
     ),
     # Delete Views
     path(
@@ -100,6 +125,11 @@ urlpatterns = [
         views.CodeDeleteView.as_view(),
         name='code_delete',
     ),
+    path(
+        'delete/link/<int:pk>',
+        views.LinkDeleteView.as_view(),
+        name='link_delete',
+    ),
     # Publish Views
     path(
         'publish/image/<int:pk>',
@@ -115,5 +145,10 @@ urlpatterns = [
         'publish/code/<int:pk>',
         views.publish_code_view,
         name='publish_code',
+    ),
+    path(
+        'publish/link/<int:pk>',
+        views.publish_link_view,
+        name='publish_link',
     ),
 ]

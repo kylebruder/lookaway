@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import Textarea
 from templates.widgets import ImagePreviewWidget, SoundPreviewWidget
+from members.models import Member
 from .models import Image, Sound, Code, Link, Tag 
 
 class CustomModelChoiceIterator(forms.models.ModelChoiceIterator):
@@ -123,4 +124,39 @@ class CodeForm(forms.ModelForm):
             'file_path': "In which file does this code belong?",
             'source': "From where does the code originate? Please credit yourself or your source.",
         }
+
+class LinkForm(forms.ModelForm):
+
+    image = CustomModelChoiceField(
+        queryset=Image.objects.all(),
+        required=False,
+        help_text=Link._meta.get_field('image').help_text,
+    )
+
+    class Meta:
+        model = Link
+        fields = [
+            'title',
+            'url',
+            'image',
+            'text',
+        ]
+        widgets = {
+            'image': ImagePreviewWidget
+        }
+        help_texts = {
+            'title': "Give the link a memorable and unique title that will be easy to reference later.",
+            'image': "Choose an image that represents the linked resource. It is recommended to use an image close to a 1:1 aspect ratio because the image may be cropped when displayed on a page.",
+            'url': "Enter the URL here.",
+            'text': "The text may appear on pages that include Links or other objects that use Links",
+        }
+
+    def __init__(self, *args, **kwargs):
+        member = Member.objects.get(pk=kwargs.pop('user').pk)
+        super(LinkForm, self).__init__(*args, **kwargs)
+        self.fields['image'].queryset = Image.objects.filter(
+            owner=member,
+        ).order_by(
+            '-creation_date',
+        )
 

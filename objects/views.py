@@ -14,7 +14,7 @@ from django.views.generic.list import ListView
 from members.models import Member
 from members.mixins import MemberOwnershipView
 from .forms import (ImageCreateForm, ImageUpdateForm, SoundCreateForm,
-    SoundUpdateForm, CodeForm)
+    SoundUpdateForm, CodeForm, LinkForm,)
 from .models import Tag, Image, Sound, Code, Link
 # Create your views here.
 
@@ -344,5 +344,125 @@ def publish_code_view(request, pk):
         )
     )
 
+
+# Link Views
+class LinkCreateView(LoginRequiredMixin, CreateView):
+
+    model = Link
+    form_class = LinkForm
+    template_name_suffix = '_form'
+
+    def form_valid(self, form):
+        form.instance.creation_date = timezone.now()
+        form.instance.owner = Member.objects.get(pk=self.request.user.pk)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('objects:link_detail', kwargs={'pk': self.object.pk})
+
+    def get_form_kwargs(self):
+        kwargs = super(LinkCreateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+class LinkListView(ListView):
+
+    model = Link
+    paginate_by = 32
+    queryset = Link.objects.filter(is_public=True)
+    context_object_name = 'links'
+    ordering = ['-creation_date']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class MemberLinkView(LoginRequiredMixin, ListView):
+
+    model = Link
+    paginate_by = 12
+    context_object_name = 'links'
+
+    def get_queryset(self, *args, **kwargs):
+        member = Member.objects.get(username=self.kwargs['member'])
+        return Link.objects.filter(owner=member)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = Member.objects.get(username=self.kwargs['member'])
+        context['user_only'] = True
+        context['member'] = member
+        return context
+
+class LinkDetailView(DetailView):
+
+    model = Link
+    context_object_name = 'link'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class LinkUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+
+    model = Link
+    form_class = LinkForm
+    template_name_suffix = '_form'
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super(LinkUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+class LinkDeleteView(LoginRequiredMixin, MemberOwnershipView, DeleteView):
+
+    model = Link
+    success_url = reverse_lazy('objects:member_links')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+def publish_link_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(Link, pk=pk)
+    successful = instance.publish(instance, member)
+    if successful:
+        messages.add_message(
+            request,
+            messages.INFO,
+            '{} has been published'.format(
+                instance,
+            )
+        )
+    else:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            '{} could not be published'.format(
+                instance,
+            )
+        )
+    return HttpResponseRedirect(
+        reverse(
+            'objects:link_detail',
+            kwargs={'pk': instance.pk}
+        )
+    )
 
 

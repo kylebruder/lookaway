@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container links-bg">
+{% if link.is_public or link.owner.pk == request.user.pk %}
+  <h4 class="links-list-title">{{ link.title }}</h4>
+  <img src="{{ link.image.thumbnail_file.url }}" class="links-list-thumbnail float-left">
+  <p class="links-list-description">{{ link.text }}</p>
+  <a href="{{ link.url }}" class="links-list-link">
+    <p class="links-list-link clear">{{ link.url }}</p>
+  </a>
+  {% if not link.is_public %}
+    <span class="badge badge-secondary">Unpublished</span>
+  {% endif %}
+  <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
+    <button class="btn-sm btn-warning">Edit</button>
+  </a>
+  {% if not link.is_public %}
+    <a href="{% url 'objects:link_delete' link.pk %}?next={{ request.path }}">
+      <button class="btn-sm btn-danger">Delete</button>
+    </a>
+  {% endif %}
+{% endif %}
+</div>
+{% endblock %}
