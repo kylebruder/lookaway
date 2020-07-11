@@ -8,10 +8,7 @@
     </a>
     <br>
   {% endifequal %}
-  <center>
-  <a href="{% url 'objects:sound_detail' pk=sound.pk %}">
-    <h4 class="sound-title">{{ sound.title }}</h4>
-  </a>
+  <h4 class="sound-title">{{ sound.title }}</h4>
   {% if not sound.is_public %}
     <div class="container">
       <span class="badge badge-secondary">Unpublished</span>
@@ -23,8 +20,18 @@
     <source src="{{ sound.sound_file.url }}" type="audio/ogg">
       Your Browser does not support the media player
   </audio>
-  </center>
   <br>
+  <br>
+  <p>created: {{ sound.creation_date }}</p>
+  {% if sound.publication_date %}
+    <p>published: {{ sound.publication_date }}</p>
+  {% endif %}
+  <p>last modified: {{ sound.last_modified }}</p>
+  {% for tag in sound.tags.all %}
+    <a href="#">
+      <span class="badge badge-secondary">Tag</span>
+    </a>
+  {% endfor %}
   <br>
 </div>
 <br>

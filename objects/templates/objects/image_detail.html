@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block body_block %}
-<div class="container-fluid images-bg">
+<div class="container image-bg">
   <br>
   {% ifequal request.user.pk image.owner.pk %}
     <a href="{% url 'objects:image_update' image.pk %}">
@@ -8,12 +8,22 @@
     </a>
     <br>
   {% endifequal %}
-  <center>
-    <h3 class="images-title">{{ image.title }}</h3>
+  <h3 class="images-title">{{ image.title }}</h3>
+  <a href="{{ image.image_file.url }}">
     <img class="images-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
-    <p>{{ image.text }}</p>
-    <p><i>{{ image.credit }}</i></p>
-  </center>
+  </a>
+  <p>{{ image.text }}</p>
+  <p><i>image credit: {{ image.credit }}</i></p>
+  <p>created: {{ image.creation_date }}</p>
+  {% if image.publication_date %}
+    <p>published: {{ image.publication_date }}</p>
+  {% endif %}
+  <p>last modified: {{ image.last_modified }}</p>
+  {% for tag in image.tags.all %}
+    <a href="#">
+      <span class="badge badge-secondary">{{ tag }}</span>
+    </a>
+  {% endfor %}
+  <br>
 </div>
-<br>
 {% endblock %}

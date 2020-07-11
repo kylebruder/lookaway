@@ -74,6 +74,7 @@ class MetaDataMixin(models.Model):
         '''
         if instance.owner == member:
             instance.is_public = True
+            print("publishing {} on {}".format(instance, timezone.now()))
             instance.publication_date = timezone.now()
             instance.save()
             return True
@@ -92,7 +93,7 @@ def member_image_dir(instance, filename):
     except:
         owner = 0
     return instance.creation_date.strftime(
-        'media/member_{0}/images/%Y/%m/%d/{1}'.format(
+        'member_{0}/images/%Y/%m/%d/{1}'.format(
             owner,
             filename
         )
@@ -104,7 +105,7 @@ def member_thumbnail_dir(instance, filename):
     except:
         owner = 0
     return instance.creation_date.strftime(
-        'media/member_{0}/thumbnails/%Y/%m/%d/{1}'.format(
+        'member_{0}/thumbnails/%Y/%m/%d/{1}'.format(
             owner,
             filename
         )

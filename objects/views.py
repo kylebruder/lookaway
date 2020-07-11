@@ -85,6 +85,10 @@ class ImageUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
     form_class = ImageUpdateForm    
     template_name_suffix = '_update_form'
 
+    def form_valid(self, form):
+        form.instance.last_modified = timezone.now()
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
@@ -191,6 +195,10 @@ class SoundUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
     model = Sound
     form_class = SoundUpdateForm
     template_name_suffix = '_update_form'
+
+    def form_valid(self, form):
+        form.instance.last_modified = timezone.now()
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -301,6 +309,7 @@ class CodeUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
     template_name_suffix = '_form'
 
     def form_valid(self, form):
+        form.instance.last_modified = timezone.now()
         form.instance.md5 = Code.get_md5(form.instance.code)
         return super().form_valid(form)
 
@@ -418,6 +427,7 @@ class LinkUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
     template_name_suffix = '_form'
 
     def form_valid(self, form):
+        form.instance.last_modified = timezone.now()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):

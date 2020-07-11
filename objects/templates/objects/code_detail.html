@@ -17,5 +17,17 @@
   <pre class="code-block">{{ code.code }}</pre>
   <p>source: {{ code.source }}</p>
   <p>md5 digest: {{ code.md5 }}</p>
+  <p>created: {{ code.creation_date }}</p>
+  {% if code.publication_date %}
+    <p>published: {{ code.publication_date }}</p>
+  {% endif %}
+  <p>last modified: {{ code.last_modified }}</p>
+  {% for tag in code.tags.all %}
+    <a href="#">
+      <span class="badge badge-secondary">Tag</span>
+    </a>
+  {% endfor %}
+
+
 {% endblock %}
 
