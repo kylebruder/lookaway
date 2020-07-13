@@ -41,7 +41,7 @@ class ImageCreateView(LoginRequiredMixin, CreateView):
         else:
             return reverse('objects:image_detail', kwargs={'pk': self.object.pk})
 
-class ImageListView(ListView):
+class ImageListView(LoginRequiredMixin, ListView):
 
     model = Image
     paginate_by = 30
