@@ -1,0 +1,125 @@
+import os
+from io import BytesIO
+from django.conf import settings
+from django.contrib.auth.models import User
+from members.models import Member
+from .models import Image, Sound
+class TestData:
+
+    def __init__(self, *args, **kwargs):
+        pass
+
+    # Text
+    big_text = """Lorem ipsum dolor sit amet, consectetur adipiscing
+elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+mollit anim id est laborum."""
+    small_text = "Duis aute irure dolor"
+    email = "fred@slate.rock"
+    first_name = "Fred"
+    last_name = "Flinstone"
+    password = "testpassword"
+    tiny_text = "1.4a"
+    url = "https://www.slate.rock"
+    username = "fflinstone"
+    
+    # File paths
+    image_path = os.path.join(settings.BASE_DIR, 'media/test.png')
+    sound_path = os.path.join(settings.BASE_DIR, 'media/test.wav')
+
+    def create_test_member(self):
+        '''
+        Create a test member.
+        Returns the Member and proxied User 
+        '''
+        member = Member.objects.create_user(
+            username=self.username,
+            email=self.email,
+            password=self.password,
+            first_name=self.first_name,
+            last_name=self.last_name,
+        )
+        user = User.objects.get(pk=member.pk)
+        return member, user
+
+    def code_data(self):
+        '''
+        Returns test data for Code views.
+        '''
+        data = {
+            'title': self.small_text,
+            'code': self.big_text,
+            'language': self.small_text,
+            'language_version': self.tiny_text,
+            'file_path': self.small_text,
+            'source': self.small_text,
+        }
+        return data
+        
+
+    def link_data(self):
+        '''
+        Returns test data for Link views.
+        '''
+        data = {
+            'title': self.small_text,
+            'text': self.big_text,
+            'url': self.url
+        }
+        return data
+
+    def small_image(self, member):
+        '''
+        Given a Member instance, creates an image in the database.
+        Returns test data for Image views and a raw image file.
+        '''
+        # Create test image in media dir
+        from PIL import Image as image
+        test_image = image.new('RGB', (500, 500))
+        test_image.save(self.image_path, "PNG")
+        with open(self.image_path, 'rb') as f:
+            img = BytesIO(b'f')
+            img.name = "test.png"
+            data = {
+                'title': self.small_text,
+                'image_file': self.image_path.split('/')[-1],
+                'text': self.big_text,
+                'credit': self.small_text,
+            }
+            image = Image.objects.create(owner=member, **data)
+            image.save()
+            return data, img
+
+    def small_sound(self, member):
+        '''
+        Given a Member instance, creates a sound in the database.
+        Returns test data for sound views and a raw sound file
+        '''
+        # Create test sound in media dir
+        # https://medium.com/@jxxcarlson/creating-audio-files-with-python-55cba61bfe73
+        import numpy as np
+        import wavio
+        # Parameters
+        rate = 44100    # samples per second
+        T = 150         # sample duration (seconds)
+        f = 440.0       # sound frequency (Hz)
+        # Compute waveform samples
+        t = np.linspace(0, T, T*rate, endpoint=False)
+        x = np.sin(2*np.pi * f * t)
+        # Write the samples to a file
+        wavio.write(self.sound_path, x, rate, sampwidth=3)
+        with open(self.sound_path, 'rb') as f:
+            smp = BytesIO(b'f')
+            smp.name = "test.wav"
+            data = {
+                'title': self.small_text,
+                'sound_file': self.sound_path.split('/')[-1],
+                'text': self.big_text,
+                'credit': self.small_text,
+            }
+            sound = Sound.objects.create(owner=member, **data)
+            sound.save()
+            return data, smp

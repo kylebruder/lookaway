@@ -152,7 +152,7 @@ class SoundCreateView(LoginRequiredMixin, CreateView):
         else:
             return reverse('objects:sound_detail', kwargs={'pk': self.object.pk})
 
-class SoundListView(ListView):
+class SoundListView(LoginRequiredMixin, ListView):
 
     model = Sound
     paginate_by = 30
@@ -181,7 +181,7 @@ class MemberSoundView(LoginRequiredMixin, ListView):
         context['member'] = member
         return context
 
-class SoundDetailView(DetailView):
+class SoundDetailView(LoginRequiredMixin, DetailView):
 
     model = Sound
     context_object_name = 'sound'
@@ -264,7 +264,7 @@ class CodeCreateView(LoginRequiredMixin, CreateView):
         else:
             return reverse('objects:code_detail', kwargs={'pk': self.object.pk})
 
-class CodeListView(ListView):
+class CodeListView(LoginRequiredMixin, ListView):
 
     model = Code
     paginate_by = 12
@@ -293,7 +293,7 @@ class MemberCodeView(LoginRequiredMixin, ListView):
         context['member'] = member
         return context
 
-class CodeDetailView(DetailView):
+class CodeDetailView(LoginRequiredMixin, DetailView):
 
     model = Code
     context_object_name = 'code'
@@ -382,7 +382,7 @@ class LinkCreateView(LoginRequiredMixin, CreateView):
         kwargs['user'] = self.request.user
         return kwargs
 
-class LinkListView(ListView):
+class LinkListView(LoginRequiredMixin, ListView):
 
     model = Link
     paginate_by = 32
@@ -411,7 +411,7 @@ class MemberLinkView(LoginRequiredMixin, ListView):
         context['member'] = member
         return context
 
-class LinkDetailView(DetailView):
+class LinkDetailView(LoginRequiredMixin, DetailView):
 
     model = Link
     context_object_name = 'link'
