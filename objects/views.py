@@ -12,7 +12,7 @@ from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteVi
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from members.models import Member
-from members.mixins import MemberOwnershipView
+from members.mixins import MemberOwnershipView, MemberDeleteView
 from .forms import (ImageCreateForm, ImageUpdateForm, SoundCreateForm,
     SoundUpdateForm, CodeForm, LinkForm,)
 from .models import Tag, Image, Sound, Code, Link
@@ -93,7 +93,7 @@ class ImageUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
-class ImageDeleteView(LoginRequiredMixin, MemberOwnershipView, DeleteView):
+class ImageDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     model = Image
     success_url = reverse_lazy('objects:member_image_list')
@@ -204,7 +204,7 @@ class SoundUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
-class SoundDeleteView(LoginRequiredMixin, MemberOwnershipView, DeleteView):
+class SoundDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     model = Sound
     success_url = reverse_lazy('objects:member_sounds')
@@ -317,7 +317,7 @@ class CodeUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
-class CodeDeleteView(LoginRequiredMixin, MemberOwnershipView, DeleteView):
+class CodeDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     model = Code
     success_url = reverse_lazy('objects:member_code')
@@ -439,15 +439,18 @@ class LinkUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
         kwargs['user'] = self.request.user
         return kwargs
 
-class LinkDeleteView(LoginRequiredMixin, MemberOwnershipView, DeleteView):
+class LinkDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     model = Link
-    success_url = reverse_lazy('objects:member_links')
+
+    def get_success_url(self):
+        return reverse('members:studio')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
 
+ 
 def publish_link_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Link, pk=pk)

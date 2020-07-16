@@ -4,6 +4,25 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from members.models import Member
 from .models import Image, Sound
+
+class FileSystemOps:
+
+    def __init__(self, *args, **kwargs):
+        pass
+
+    def _delete_file(path):
+        '''
+        Delete a file from the filesystem
+        '''
+        f = Path(path)
+        if f.is_file():
+            f.unlink()
+            return 0
+        else:
+            return 1
+
+
+
 class TestData:
 
     def __init__(self, *args, **kwargs):
@@ -23,7 +42,7 @@ mollit anim id est laborum."""
     last_name = "Flinstone"
     password = "testpassword"
     tiny_text = "1.4a"
-    url = "https://www.slate.rock"
+    url = "https://www.google.com"
     username = "fflinstone"
     
     # File paths

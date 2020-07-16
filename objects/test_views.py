@@ -14,14 +14,11 @@ from .views import *
 class ImageTest(TestCase):
 
     def setUp(self):
-        setup_test_environment()
         self.data = TestData()
         self.client = Client()
         # Create a memeber
-        self.member, self.user = Member.objects.create_user(
+        self.member, self.user = self.data.create_test_member()
         # Login
-        self.client.login(username=self.user, password=self.data.password)
-        self.assertIn('_auth_user_id', self.client.session)
 
     def tearDown(self):
         pass

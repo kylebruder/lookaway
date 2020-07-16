@@ -3,8 +3,14 @@
   <ul class="list-group">
     {% for link in links %}
       <li class="list-group-item link-list-li">
-        <h4 class="link-title">{{ link.title }}</h4>
-        <div class="link-list-card float-left" style="background-image:url('/media/{{ link.image.thumbnail_file }}')"></div>
+        <a href="{% url 'objects:link_detail' link.pk %}">
+            <h4 class="link-title">{{ link.title }}</h4>
+        </a>
+        {% if link.favicon_href %}
+            <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
+        {% elif link.image %}
+            <div class="link-list-card float-left" style="background-image:url('/media/{{ link.image.thumbnail_file }}')"></div>
+        {% endif %}
         <p>{{ link.text }}</p>
         <a href="{{ link.url }}" class="links-list-link">
           <p class="link-list-link">{{ link.url }}</p>

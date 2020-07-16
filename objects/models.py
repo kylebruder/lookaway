@@ -2,7 +2,7 @@ import hashlib
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-from members.mixins import MemberOwnershipModel, MarshmallowMixin
+from members.mixins import MarshmallowMixin, MemberOwnershipModel
 
 
 # Create your models here.
@@ -111,7 +111,7 @@ def member_thumbnail_dir(instance, filename):
         )
     )
 
-class Image(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
+class Image(MetaDataMixin, MarshmallowMixin):
 
     image_file = models.ImageField(
         upload_to=member_image_dir,
@@ -161,7 +161,7 @@ def member_sound_dir(instance, filename):
         )
     )
 
-class Sound(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
+class Sound(MetaDataMixin, MarshmallowMixin):
 
     sound_file = models.FileField(
         upload_to=member_sound_dir,
@@ -192,7 +192,7 @@ class Sound(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
    
 ## Code - Used to hold examples of code to be displayed on a page inside <pre> tags
 
-class Code(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
+class Code(MetaDataMixin, MarshmallowMixin):
 
     title = models.CharField(
         max_length=256,
@@ -209,12 +209,17 @@ class Code(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
     file_path = models.CharField(
         max_length=256,
         blank=True,
-        null = True,
+        null=True,
     )
     source = models.CharField(
         max_length=64,
         blank=True,
-        null = True,
+        null=True,
+    )
+    source_url = models.URLField(
+        max_length=256,
+        blank=True,
+        null=True,
     )
     md5 = models.CharField(
         max_length=32,
@@ -239,13 +244,18 @@ class Code(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
 
 ## Link - External URL for online resources outside of the site domain
 
-class Link(MetaDataMixin, MemberOwnershipModel, MarshmallowMixin):
+class Link(MetaDataMixin, MarshmallowMixin):
 
     title = models.CharField(
         max_length=256,
     )
     url = models.URLField(
         max_length=256,
+    )
+    favicon_href = models.URLField(
+        max_length=256,
+        blank=True,
+        null=True,
     )
     image = models.ForeignKey(
         Image,
