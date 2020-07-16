@@ -130,7 +130,6 @@ class LinkForm(forms.ModelForm):
     image = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False,
-        help_text=Link._meta.get_field('image').help_text,
     )
 
     class Meta:
@@ -138,25 +137,12 @@ class LinkForm(forms.ModelForm):
         fields = [
             'title',
             'url',
-            'image',
             'text',
+            'favicon_href',
         ]
-        widgets = {
-            'image': ImagePreviewWidget
-        }
         help_texts = {
             'title': "Give the link a memorable and unique title that will be easy to reference later.",
-            'image': "Choose an image that represents the linked resource. It is recommended to use an image close to a 1:1 aspect ratio because the image may be cropped when displayed on a page.",
             'url': "Enter the URL here.",
-            'text': "The text may appear on pages that include Links or other objects that use Links",
+            'text': "The text may appear on pages that include Links or other objects that use Links.",
+            'favicon_href': "Enter a URL for the webpage image."
         }
-
-    def __init__(self, *args, **kwargs):
-        member = Member.objects.get(pk=kwargs.pop('user').pk)
-        super(LinkForm, self).__init__(*args, **kwargs)
-        self.fields['image'].queryset = Image.objects.filter(
-            owner=member,
-        ).order_by(
-            '-creation_date',
-        )
-

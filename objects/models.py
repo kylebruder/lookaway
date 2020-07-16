@@ -248,18 +248,14 @@ class Link(MetaDataMixin, MarshmallowMixin):
 
     title = models.CharField(
         max_length=256,
+        blank=True,
+        null=True,
     )
     url = models.URLField(
         max_length=256,
     )
     favicon_href = models.URLField(
         max_length=256,
-        blank=True,
-        null=True,
-    )
-    image = models.ForeignKey(
-        Image,
-        on_delete=models.SET_NULL,
         blank=True,
         null=True,
     )
@@ -273,7 +269,7 @@ class Link(MetaDataMixin, MarshmallowMixin):
         ordering = ['-creation_date']
         
     def __str__(self):
-        return self.title
+        return self.url
 
     def get_absolute_url(self):
         return reverse('objects:link_detail', kwargs={'pk': self.pk})

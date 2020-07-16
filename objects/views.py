@@ -320,7 +320,7 @@ class CodeUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
 class CodeDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     model = Code
-    success_url = reverse_lazy('objects:member_code')
+    success_url = reverse_lazy('members:studio')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -377,11 +377,6 @@ class LinkCreateView(LoginRequiredMixin, CreateView):
         else:
             return reverse('objects:link_detail', kwargs={'pk': self.object.pk})
 
-    def get_form_kwargs(self):
-        kwargs = super(LinkCreateView, self).get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
-
 class LinkListView(LoginRequiredMixin, ListView):
 
     model = Link
@@ -433,11 +428,6 @@ class LinkUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-
-    def get_form_kwargs(self):
-        kwargs = super(LinkUpdateView, self).get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
 
 class LinkDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
