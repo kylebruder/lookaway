@@ -1,8 +1,10 @@
 {% if link.is_public or link.user == request.user %}
   <li class="list-group-item link-list-li">
-    <h4 class="link-title">{{ link.title }}</h4>
+    <a href="{% url 'objects:link_detail' link.pk %}">
+      <h4 class="link-title">{{ link.title }}</h4>
+    </a>
     {% if link.text %}
-        <p>{{ link.text }}</p>
+      <p>{{ link.text }}</p>
     {% endif %}
     {% if link.favicon_href %}
         <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>

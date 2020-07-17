@@ -11,19 +11,19 @@
         <div class="col"> 
           <h4 class="link-title">Untitled Link</h4>
         </div>
-        {% if link.owner.pk == request.user.pk %}
-          <div class="col-">
-            <a href="{% url 'objects:link_delete' link.pk %}?next={{ request.path }}">
-              <button class="btn-sm btn-danger float-right">Delete</button>
-            </a>&nbsp;
-            <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
-              <button class="btn-sm btn-warning float-right">Edit</button>
-            </a>&nbsp;
-            {% if not link.is_public %}
-              <span class="badge badge-secondary float-right">Unpublished</span>&nbsp;
-            {% endif %}
-          </div>
-        {% endif %}
+      {% endif %}
+      {% if link.owner.pk == request.user.pk %}
+        <div class="col-">
+          <a href="{% url 'objects:link_delete' link.pk %}?next={{ request.path }}">
+            <button class="btn-sm btn-danger float-right">Delete</button>
+          </a>&nbsp;
+          <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
+            <button class="btn-sm btn-warning float-right">Edit</button>
+          </a>&nbsp;
+          {% if not link.is_public %}
+            <span class="badge badge-secondary float-right">Unpublished</span>&nbsp;
+          {% endif %}
+        </div>
       {% endif %}
     </div>
     {% if link.text %}
