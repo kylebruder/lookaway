@@ -14,10 +14,16 @@ from members.mixins import MarshmallowMixin, MemberOwnershipModel
 
 class Tag(models.Model):
 
-    key = models.CharField(max_length=64, unique=True)
+    key = models.CharField(max_length=64)
     value = models.CharField(max_length=64)
    
     class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['key', 'value'],
+                name='key-value pair',
+            )
+        ]
         ordering = ['key', 'value']
 
     def __str__(self):
