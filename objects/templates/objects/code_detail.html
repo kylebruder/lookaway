@@ -1,33 +1,44 @@
 {% extends "base.html" %}
 {% block body_block %}
 <div class="container code-bg">
-  <br>
-  {% ifequal request.user.pk code.owner.pk %}
-    <a href="{% url 'objects:code_update' code.pk %}?next={{ request.path }}">
-      <button type="button" class="btn btn-warning float-right">Edit</button>
-    </a>
-  {% endifequal %}
-  <h4 class="code-title">{{ code.title }} - {{ code.language }} {{ code.language_version }}</h4>
-  {% if not code.is_public %}
-    <span class="badge badge-secondary">Unpublished</span>
+  {% if code.is_public or code.owner.pk == request.user.pk %}
+    <div class="row">
+      <div class="col"> 
+        <h4 class="code-title">{{ code.title }} - {{ code.language }} {{ code.language_version }}</h4>
+      </div>
+      <div class="col-"> 
+        {% if code.owner.pk == request.user.pk %}
+          <a href="{% url 'objects:code_delete' code.pk %}?next={{ request.path }}">
+            <button class="btn-sm btn-danger float-right">Delete</button>
+          </a>
+          <a href="{% url 'objects:code_update' code.pk %}?next={{ request.path }}">
+            <button type="button" class="btn btn-sm btn-warning float-right">Edit</button>
+          </a>
+        {% endif %}
+        {% if not code.is_public %}
+          <span class="badge badge-secondary">Unpublished</span>
+        {% endif %}
+      </div>
+    </div>
+    {% if code.file_path %}
+      <p><i>{{ code.file_path }}</i></p>
+    {% endif %}
+    <pre class="code-block">{{ code.code }}</pre>
+    <p>source: {{ code.source }}</p>
+    <p>md5 digest: {{ code.md5 }}</p>
+    <p>created: {{ code.creation_date }}</p>
+    {% if code.publication_date %}
+      <p>published: {{ code.publication_date }}</p>
+    {% endif %}
+    <p>last modified: {{ code.last_modified }}</p>
+    {% for tag in code.tags.all %}
+      <a href="#">
+        <span class="badge badge-secondary">Tag</span>
+      </a>
+    {% endfor %}
+  {% else %}
+    <p>This Code sample has not been published yet.</p>
   {% endif %}
-  {% if code.file_path %}
-    <p><i>{{ code.file_path }}</i></p>
-  {% endif %}
-  <pre class="code-block">{{ code.code }}</pre>
-  <p>source: {{ code.source }}</p>
-  <p>md5 digest: {{ code.md5 }}</p>
-  <p>created: {{ code.creation_date }}</p>
-  {% if code.publication_date %}
-    <p>published: {{ code.publication_date }}</p>
-  {% endif %}
-  <p>last modified: {{ code.last_modified }}</p>
-  {% for tag in code.tags.all %}
-    <a href="#">
-      <span class="badge badge-secondary">Tag</span>
-    </a>
-  {% endfor %}
-
-
+</div>  
 {% endblock %}
-
+  

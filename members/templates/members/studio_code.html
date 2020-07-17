@@ -3,19 +3,13 @@
   <ul class="list-group">
     {% for code in codes %}
       <li class="list-group-item code-list-li">
-        <h5 class="code-title">
-          <a href="{% url 'objects:code_detail' code.pk %}">
-            {{ code.title }}
-          </a>
-          - {{ code.language }} {{ code.language_version }}
-        </h5>
-        {% if user_only and code.user == request.user %}
-          {% if not code.is_public %}
-            <span class="badge badge-secondary">Unpublished</span>
-          {% endif %}
-          <a href="{% url 'codes:code_update' code.pk %}?next={{ request.path }}">
-            <button class="btn-sm btn-warning">Edit</button>
-          </a>
+        <a href="{% url 'objects:code_detail' code.pk %}">
+          {{ code.title }}
+        </a>
+        <br>
+        {{ code.language }} {{ code.language_version }}
+        {% if code.owner.pk == request.user.pk and not code.is_public%}
+          <span class="badge badge-secondary">Unpublished</span>
         {% endif %}
       </li>
     {% endfor %}

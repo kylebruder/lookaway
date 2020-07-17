@@ -3,29 +3,19 @@
   <ul class="list-group">
     {% for s in sounds %}
       <li class="list-group-item sound-list-li">
-        <div class="row">
-          <div class="col-sm">
-            <div class="container">
-              <a href="{% url 'objects:sound_detail' pk=s.pk %}">
-                <h4 class="sound-title">{{ s.title }}</h4>
-              </a>
-            </div>
-            <div class="container">
-              {% if not s.is_public %}
-                <div class="container">
-                  <span class="badge badge-secondary">Unpublished</span>
-                </div>
-              {% endif %}
-           </div>
+        <a href="{% url 'objects:sound_detail' pk=s.pk %}">
+          <p class="sound-title">{{ s.title }}</p>
+        </a>
+        {% if not s.is_public %}
+          <div class="container">
+            <span class="badge badge-secondary">Unpublished</span>
           </div>
-          <div class="col-sm">
-            <audio controls>
-              <source src="{{ s.sound_file.url }}" type="audio/mpeg">
-              <source src="{{ s.sound_file.url }}" type="audio/ogg">
-                Your Browser does not support the media player
-            </audio>
-          </div>
-        </div>
+        {% endif %}
+        <audio controls>
+          <source src="{{ s.sound_file.url }}" type="audio/mpeg">
+          <source src="{{ s.sound_file.url }}" type="audio/ogg">
+          Your Browser does not support the media player
+        </audio>
       </li>
     {% endfor %}
   </ul>

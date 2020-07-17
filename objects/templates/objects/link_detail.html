@@ -1,24 +1,51 @@
 {% extends 'base.html' %}
 {% block body_block %}
 <div class="container links-bg">
-{% if link.is_public or link.owner.pk == request.user.pk %}
-  <h4 class="links-list-title">{{ link.title }}</h4>
-  <img src="{{ link.image.thumbnail_file.url }}" class="links-list-thumbnail float-left">
-  <p class="links-list-description">{{ link.text }}</p>
-  <a href="{{ link.url }}" class="links-list-link">
-    <p class="links-list-link clear">{{ link.url }}</p>
-  </a>
-  {% if not link.is_public %}
-    <span class="badge badge-secondary">Unpublished</span>
+  {% if link.is_public or link.owner.pk == request.user.pk %}
+    <div class="row">
+      {% if link.title %}
+        <div class="col"> 
+          <h4 class="link-title">{{ link.title }}</h4>
+        </div>
+      {% else %}
+        <div class="col"> 
+          <h4 class="link-title">Untitled Link</h4>
+        </div>
+        {% if link.owner.pk == request.user.pk %}
+          <div class="col-">
+            <a href="{% url 'objects:link_delete' link.pk %}?next={{ request.path }}">
+              <button class="btn-sm btn-danger float-right">Delete</button>
+            </a>&nbsp;
+            <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
+              <button class="btn-sm btn-warning float-right">Edit</button>
+            </a>&nbsp;
+            {% if not link.is_public %}
+              <span class="badge badge-secondary float-right">Unpublished</span>&nbsp;
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+    {% if link.text %}
+      <p class="links-list-description">{{ link.text }}</p>
+    {% endif %}
+    {% if link.favicon_href %}
+      <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
+    {% endif %}
+    <a href="{{ link.url }}" class="links-list-link"><p class="links-list-link">{{ link.url }}</p></a>
+    <p>created: {{ link.creation_date }}</p>
+    {% if link.publication_date %}
+      <p>published: {{ link.publication_date }}</p>
+    {% endif %}
+    <p>last modified: {{ link.last_modified }}</p>
+    {% for tag in link.tags.all %}
+      <a href="#">
+        <span class="badge badge-secondary">{{ tag }}</span>
+      </a>
+    {% endfor %}
+    <br>
+  {% else %}
+    <p>This Link has not been published yet.</p>
   {% endif %}
-  <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
-    <button class="btn-sm btn-warning">Edit</button>
-  </a>
-  {% if not link.is_public %}
-    <a href="{% url 'objects:link_delete' link.pk %}?next={{ request.path }}">
-      <button class="btn-sm btn-danger">Delete</button>
-    </a>
-  {% endif %}
-{% endif %}
 </div>
 {% endblock %}

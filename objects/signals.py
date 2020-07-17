@@ -78,45 +78,48 @@ def scrape_link_fields(sender, instance, created, *args, **kwargs):
     '''
     if created and instance.url:
         # Check the instance URL for a good response
-        response = rq.urlopen(instance.url)
-        if response.getcode() in (200, 300, 301, 302):
-            soup = BeautifulSoup(response, 'html.parser')
-            # Look for a title
-            try:
-                instance.title = soup.find('title').string
-            except:
-                pass
-            # Look for a description
-            try:
-                instance.text = soup.find('meta', {'name': 'description'}).get('content')
-            except:
-                pass
-            try:
-                instance.title = soup.find('p').string
-            except:
-                pass
-            # Look for the favicon
-            try:
-                href = soup.find('link',  attrs={'rel':'shortcut icon'}).get('href')
-            except:
-                href = ''
-            if href != '':
-                o = urlparse(href)
-                # Ensure HTTPS in URI and FQDN
-                if o[0] == 'https' and o[1]:
-                    instance.favicon_href = href
-                    print(instance.favicon_href)
-                # If no FQDN append the relative path to the FQDN
-                else:
-                    url = urlparse(instance.url)
-                    # Ensure HTTPS in URI
-                    if url[0] == 'https':
-                        href = url[0] + '://' + url[1] + href
+        try:
+            response = rq.urlopen(instance.url)
+            if response.getcode() in (200, 300, 301, 302):
+                soup = BeautifulSoup(response, 'html.parser')
+                # Look for a title
+                try:
+                    instance.title = soup.find('title').string
+                except:
+                    pass
+                # Look for a description
+                try:
+                    instance.text = soup.find('meta', {'name': 'description'}).get('content')
+                except:
+                    pass
+                try:
+                    instance.text = soup.find('p').string
+                except:
+                    pass
+                # Look for the favicon
+                try:
+                    href = soup.find('link',  attrs={'rel':'shortcut icon'}).get('href')
+                except:
+                    href = ''
+                if href != '':
+                    o = urlparse(href)
+                    # Ensure HTTPS in URI and FQDN
+                    if o[0] == 'https' and o[1]:
                         instance.favicon_href = href
                         print(instance.favicon_href)
-            post_save.disconnect(scrape_link_fields, sender=Link)
-            try:
-                instance.save()
-            except:
-                pass
-            post_save.connect(scrape_link_fields, sender=Link)
+                    # If no FQDN append the relative path to the FQDN
+                    else:
+                        url = urlparse(instance.url)
+                        # Ensure HTTPS in URI
+                        if url[0] == 'https':
+                            href = url[0] + '://' + url[1] + href
+                            instance.favicon_href = href
+                            print(instance.favicon_href)
+                post_save.disconnect(scrape_link_fields, sender=Link)
+                try:
+                    instance.save()
+                except:
+                    pass
+                post_save.connect(scrape_link_fields, sender=Link)
+        except:
+            pass
