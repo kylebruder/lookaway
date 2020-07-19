@@ -4,7 +4,7 @@
   <h4 class="tag-title">Tags</h4>
   {% for tag in tags %}
     <span class="badge badge-secondary">
-      <a href="{% url 'objects:tag_detail' tag.pk %}" class="tag-font">
+      <a href="{% url 'objects:tag_detail' tag.slug %}" class="tag-font">
         {{ tag.key }} {% if tag.value %}: {{ tag.value }}{% endif %}
       </a>
     </span>

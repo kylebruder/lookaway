@@ -30,7 +30,7 @@
     {% endif %}
     <p>md5 digest: {{ code.md5 }}</p>
     {% for tag in code.tags.all %}
-      <a href="{% url 'objects:tag_detail' tag.pk %}">
+      <a href="{% url 'objects:tag_detail' tag.slug %}">
         <span class="badge badge-secondary">{{ tag }}</span>
       </a>
     {% endfor %}

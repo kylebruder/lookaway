@@ -52,7 +52,7 @@ urlpatterns = [
         name='tags',
     ),
     path(
-        'tags/<int:pk>/',
+        'tags/<slug:slug>/',
         views.TagDetailView.as_view(),
         name='tag_detail',
     ),
@@ -125,7 +125,7 @@ urlpatterns = [
         name='link_update',
     ),
     path(
-        'modify/tag/<int:pk>',
+        'modify/tag/<slug:slug>',
         views.TagUpdateView.as_view(),
         name='tag_update',
     ),
@@ -151,7 +151,7 @@ urlpatterns = [
         name='link_delete',
     ),
     path(
-        'delete/tag/<int:pk>',
+        'delete/tag/<slug:slug>',
         views.TagDeleteView.as_view(),
         name='tag_delete',
     ),
@@ -171,6 +171,12 @@ urlpatterns = [
         views.publish_code_view,
         name='publish_code',
     ),
+    path(
+        'publish/link/<int:pk>',
+        views.publish_link_view,
+        name='publish_link',
+    ),
+    # Tag Views
     path(
         'publish/link/<int:pk>',
         views.publish_link_view,

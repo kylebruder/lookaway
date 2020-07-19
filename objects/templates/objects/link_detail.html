@@ -34,7 +34,7 @@
     {% endif %}
     <a href="{{ link.url }}" class="links-list-link"><p class="links-list-link">{{ link.url }}</p></a>
     {% for tag in link.tags.all %}
-      <a href="{% url 'objects:tag_detail' tag.pk %}">
+      <a href="{% url 'objects:tag_detail' tag.slug %}">
         <span class="badge badge-secondary">{{ tag }}</span>
       </a>
     {% endfor %}

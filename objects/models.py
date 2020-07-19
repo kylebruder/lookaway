@@ -20,6 +20,7 @@ class Tag(models.Model):
         blank=True,
         null=True,
     )
+    slug = models.SlugField()
    
     class Meta:
         constraints = [

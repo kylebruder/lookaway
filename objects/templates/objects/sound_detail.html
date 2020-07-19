@@ -29,7 +29,7 @@
     <br>
     <br>
     {% for tag in sound.tags.all %}
-      <a href="{% url 'objects:tag_detail' tag.pk %}">
+      <a href="{% url 'objects:tag_detail' tag.slug %}">
         <span class="badge badge-secondary">{{ tag }}</span>
       </a>
     {% endfor %}

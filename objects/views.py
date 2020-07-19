@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import(
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.utils import timezone
+from django.utils import timezone, text
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -482,6 +482,12 @@ class TagCreateView(LoginRequiredMixin, CreateView):
     template_name_suffix = '_form'
 
     def form_valid(self, form):
+        if form.instance.value:
+            form.instance.slug = text.slugify(
+                "{}-{}".format(form.instance.key, form.instance.value)
+            )
+        else:
+            form.instance.slug = text.slugify(form.instance.key)
         form.instance.creation_date = timezone.now()
         form.instance.owner = Member.objects.get(pk=self.request.user.pk)
         return super().form_valid(form)
@@ -495,7 +501,7 @@ class TagCreateView(LoginRequiredMixin, CreateView):
         if next_url:
             return next_url
         else:
-            return reverse('objects:tag_detail', kwargs={'pk': self.object.pk})
+            return reverse('objects:tag_detail', kwargs={'slug': self.object.slug})
 
 class TagListView(LoginRequiredMixin, ListView):
 
@@ -516,15 +522,24 @@ class TagDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
-class TagUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class TagUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Tag
     form_class = TagForm
     template_name_suffix = '_form'
 
     def form_valid(self, form):
+        if form.instance.value:
+            form.instance.slug = text.slugify(
+                "{}-{}".format(form.instance.key, form.instance.value)
+            )
+        else:
+            form.instance.slug = text.slugify(form.instance.key)
         form.instance.last_modified = timezone.now()
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('objects:tag_detail', kwargs={'slug': self.object.slug})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
