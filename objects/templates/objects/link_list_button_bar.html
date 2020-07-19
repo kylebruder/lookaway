@@ -1,11 +1,12 @@
 <div class="row">
   <div class="col">
-    <h3 class="link-title">
       {% if user_only %}
-        {% if user.first_name and user.last_name %}
-          {{ user.first_name }} {{ user.last_name }}{% else %}{{ user }}{% endif %}'s Links
+        <h3 class="link-title">{{ member }}'s Links</h3>
+      {% elif tag %}
+        <h3 class="images-title">Links</h3>
+        <p><span class="badge badge-secondary">{{ tag }}</span></p>
       {% else %}
-        Links
+        <h3 class="images-title">Links</h3>
       {% endif %}
     </h3>
   </div>

@@ -178,8 +178,23 @@ urlpatterns = [
     ),
     # Tag Views
     path(
-        'publish/link/<int:pk>',
-        views.publish_link_view,
-        name='publish_link',
+        'tags/images/<slug:slug>',
+        views.ImageByTag.as_view(),
+        name='image_tag',
+    ),
+    path(
+        'tags/sounds/<slug:slug>',
+        views.SoundByTag.as_view(),
+        name='sound_tag',
+    ),
+    path(
+        'tags/code/<slug:slug>',
+        views.CodeByTag.as_view(),
+        name='code_tag',
+    ),
+    path(
+        'tags/links/<slug:slug>',
+        views.LinkByTag.as_view(),
+        name='link_tag',
     ),
 ]

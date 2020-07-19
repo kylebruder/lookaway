@@ -520,6 +520,12 @@ class TagDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        slug = self.object.slug
+        print(slug)
+        context['images'] = Image.objects.filter(tags__slug__exact=slug)
+        context['sounds'] = Sound.objects.filter(tags__slug__exact=slug)
+        context['codes'] = Code.objects.filter(tags__slug__exact=slug)
+        context['links'] = Link.objects.filter(tags__slug__exact=slug)
         return context
 
 class TagUpdateView(LoginRequiredMixin, UpdateView):
@@ -554,4 +560,66 @@ class TagDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        return context
+
+
+# By Tag Views
+class ImageByTag(LoginRequiredMixin, ListView):
+    
+    model = Image
+    context_object_name = 'images'
+    paginate_by = 32
+
+    def get_queryset(self, *args, **kwargs):
+        print(Image.objects.filter(tags__slug__exact=self.kwargs['slug']))
+        return Image.objects.filter(tags__slug__exact=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
+        return context
+
+class SoundByTag(LoginRequiredMixin, ListView):
+    
+    model = Sound
+    context_object_name = 'sounds'
+    paginate_by = 32
+
+    def get_queryset(self, *args, **kwargs):
+        print(Sound.objects.filter(tags__slug__exact=self.kwargs['slug']))
+        return Sound.objects.filter(tags__slug__exact=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
+        return context
+
+class CodeByTag(LoginRequiredMixin, ListView):
+    
+    model = Code
+    context_object_name = 'codes'
+    paginate_by = 32
+
+    def get_queryset(self, *args, **kwargs):
+        print(Code.objects.filter(tags__slug__exact=self.kwargs['slug']))
+        return Code.objects.filter(tags__slug__exact=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
+        return context
+
+class LinkByTag(LoginRequiredMixin, ListView):
+    
+    model = Link
+    context_object_name = 'links'
+    paginate_by = 32
+
+    def get_queryset(self, *args, **kwargs):
+        print(Link.objects.filter(tags__slug__exact=self.kwargs['slug']))
+        return Link.objects.filter(tags__slug__exact=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
         return context

@@ -1,8 +1,95 @@
 {% extends 'base.html' %}
 {% block body_block %}
 <div class="container tags-bg">
-<h4>{{ tag.key }} {% if tag.value %}: {{ tag.value }}{% endif %}</h4>
-<br>
-<br>
+  <h4 class="tag-title">{{ tag.key }} {% if tag.value %}: {{ tag.value }}{% endif %}</h4>
+  <br>
+  {% if images %}
+    <h4 class="tag-title">Images</h4>
+    {% for image in images %}
+      <div class="container">
+        <a href="{% url 'objects:image_detail' image.pk %}">
+          <div class="studio-image-card float-left" style="background-image:url('/media/{{ image.thumbnail_file }}')">
+            {% if not image.is_public %}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+    <div class="clear"></div>
+    <br>
+    <p>
+      <a href="{% url 'objects:image_tag' tag.slug %}">more images...</a>
+    </p>
+  {% endif %}
+  {% if sounds %}
+    <h4 class="tag-title">Sounds</h4>
+    {% for sound in sounds %}
+      <div class="container">
+        <a href="{% url 'objects:sound_detail' sound.pk %}">
+          <p class="sound-title">{{ sound.title }}</p>
+        </a>
+        {% if not sound.is_public %}
+          <div class="container">
+            <span class="badge badge-secondary">Unpublished</span>
+          </div>
+        {% endif %}
+        <audio controls>
+          <source src="{{ sound.sound_file.url }}" type="audio/mpeg">
+          <source src="{{ sound.sound_file.url }}" type="audio/ogg">
+          Your Browser does not support the media player
+        </audio>
+        <br>
+      </div>
+    {% endfor %}
+    <p>
+      <a href="{% url 'objects:sound_tag' tag.slug %}">more sounds...</a>
+    </p>
+  {% endif %}
+  {% if codes %}
+    <h4 class="tag-title">Code</span></h4>
+    {% for code in codes %}
+      <div class="container float-left">
+        <a href="{% url 'objects:code_detail' code.pk %}">
+          {{ code.title }}
+        </a>
+        <p>{{ code.language }} {{ code.language_version }}</p>
+        {% if code.owner.pk == request.user.pk and not code.is_public%}
+          <span class="badge badge-secondary">Unpublished</span>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <p>
+      <a href="{% url 'objects:code_tag' tag.slug %}">more code...</a>
+    </p>
+    <br>
+  {% endif %}
+  {% if links %}
+    <h4 class="tag-title">Links</span></h4>
+    {% for link in links %}
+      <div class="container">
+        <a href="{% url 'objects:link_detail' link.pk %}">
+          {% if link.title %}
+            <p>{{ link.title }}</p>
+          {% else %}
+            <p>Untitled Link</p>
+          {% endif %}
+        </a>
+        {% if link.favicon_href %}
+            <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
+        {% endif %}
+        <a href="{{ link.url }}" class="links-list-link">
+          <p class="link-list-link">{{ link.url }}</p>
+        </a>
+        {% if not link.is_public %}
+          <span class="badge badge-secondary">Unpublished</span>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <p>
+      <a href="{% url 'objects:link_tag' tag.slug %}">more links...</a>
+    </p>
+    <br>
+  {% endif %}
 </div>
 {% endblock %}
