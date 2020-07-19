@@ -28,16 +28,18 @@
     </audio>
     <br>
     <br>
+    {% for tag in sound.tags.all %}
+      <a href="{% url 'objects:tag_detail' tag.pk %}">
+        <span class="badge badge-secondary">{{ tag }}</span>
+      </a>
+    {% endfor %}
+    <br>
+    <br>
     <p>created: {{ sound.creation_date }}</p>
     {% if sound.publication_date %}
       <p>published: {{ sound.publication_date }}</p>
     {% endif %}
     <p>last modified: {{ sound.last_modified }}</p>
-    {% for tag in sound.tags.all %}
-      <a href="#">
-        <span class="badge badge-secondary">Tag</span>
-      </a>
-    {% endfor %}
     <br>
   {% else %}
     <p>This Sound has not been published yet.</p>

@@ -37,6 +37,7 @@ class ImageCreateForm(forms.ModelForm):
             'image_file',
             'text',
             'credit',
+            'tags',
         ]
         widgets = {
             'image_file': ImagePreviewWidget
@@ -46,6 +47,7 @@ class ImageCreateForm(forms.ModelForm):
             'image_file': "Obtain permission before uploading depicitons of private persons or places. Image Preview will appear when successfully uploaded.",
             'text': "The text may appear on pages that include Images or other objects that use Images",
             'credit': "Give credit to the original creator of the image file. Obtain expressed permission before uploading images with exclusive rights.",
+            'tags': "Choose one or more tags that relate to the Image.",
         }
 
 class ImageUpdateForm(forms.ModelForm):
@@ -56,11 +58,13 @@ class ImageUpdateForm(forms.ModelForm):
             'title',
             'text',
             'credit',
+            'tags',
         ]
         help_texts = {
             'title': "Give the image a memorable and unique title that will be easy to reference later.",
             'text': "The text may appear on pages that include Images or other objects that use Images",
             'credit': "Give credit to the original creator of the image file. Obtain expressed permission before uploading images with exclusive rights.",
+            'tags': "Choose one or more tags that relate to the Image.",
         }
 
 class SoundCreateForm(forms.ModelForm):
@@ -72,6 +76,7 @@ class SoundCreateForm(forms.ModelForm):
             'sound_file',
             'text',
             'credit',
+            'tags',
         ]
         widgets = {
             'sound_file': SoundPreviewWidget
@@ -81,6 +86,7 @@ class SoundCreateForm(forms.ModelForm):
             'sound_file': "Obtain permission before uploading depicitons of private persons or places. Sound Preview will appear when successfully uploaded.",
             'text': "The text may appear on pages that include Sounds or other objects that use Sounds",
             'credit': "Give credit to the original creator of the sound file. Obtain expressed permission before uploading sounds with exclusive rights.",
+            'tags': "Choose one or more tags that relate to the Sound.",
         }
 
 class SoundUpdateForm(forms.ModelForm):
@@ -91,11 +97,13 @@ class SoundUpdateForm(forms.ModelForm):
             'title',
             'text',
             'credit',
+            'tags',
         ]
         help_texts = {
             'title': "Give the sound a memorable and unique title that will be easy to reference later.",
             'text': "The text may appear on pages that include Sounds or other objects that use Sounds",
             'credit': "Give credit to the original creator of the sound file. Obtain expressed permission before uploading sounds with exclusive rights.",
+            'tags': "Choose one or more tags that relate to the Sound.",
         }
 
 class CodeForm(forms.ModelForm):
@@ -109,6 +117,8 @@ class CodeForm(forms.ModelForm):
             'language_version',
             'file_path',
             'source',
+            'source_url',
+            'tags',
         ]
         widgets = {
             'code': Textarea(attrs={
@@ -123,14 +133,11 @@ class CodeForm(forms.ModelForm):
             'language_version': "For which version or versions of the language is the code written?",
             'file_path': "In which file does this code belong?",
             'source': "From where does the code originate? Please credit yourself or your source.",
+            'source_url': "Does the source have a website or webpage? If so enter it here.",
+            'tags': "Choose one or more tags that relate to the Code.",
         }
 
 class LinkForm(forms.ModelForm):
-
-    image = CustomModelChoiceField(
-        queryset=Image.objects.all(),
-        required=False,
-    )
 
     class Meta:
         model = Link
@@ -139,10 +146,25 @@ class LinkForm(forms.ModelForm):
             'url',
             'text',
             'favicon_href',
+            'tags',
         ]
         help_texts = {
-            'title': "Give the link a memorable and unique title that will be easy to reference later.",
+            'title': "Give the tag a memorable and unique title that will be easy to reference later.",
             'url': "Enter the URL here.",
             'text': "The text may appear on pages that include Links or other objects that use Links.",
-            'favicon_href': "Enter a URL for the webpage image."
+            'favicon_href': "Enter a URL for the webpage image.",
+            'tags': "Choose one or more tags that relate to the Link.",
+        }
+
+class TagForm(forms.ModelForm):
+
+    class Meta:
+        model = Tag
+        fields = [
+            'key',
+            'value',
+        ]
+        help_texts = {
+            'key': "Enter a word or words that describe a category",
+            'value': "Enter words or numbers that describe a qualative or quantative value",
         }

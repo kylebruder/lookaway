@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block body_block %}
+  <div class ="container create-bg">
+    <div class="container">
+      <h2 class="tag-title">Add Tag</h2>
+      <p>
+        Add a tag that can be attached to a site object.
+      </p>
+      <br>
+      <form  method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% include 'form_fields.html' %}
+        <input type="submit" value="Submit" class="btn btn-success">
+      </form>
+      <br>
+      <br>
+    </div>
+  </div>
+{% endblock %}

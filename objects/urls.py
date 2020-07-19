@@ -46,6 +46,16 @@ urlpatterns = [
         views.LinkDetailView.as_view(),
         name='link_detail',
     ),
+    path(
+        'tags/',
+        views.TagListView.as_view(),
+        name='tags',
+    ),
+    path(
+        'tags/<int:pk>/',
+        views.TagDetailView.as_view(),
+        name='tag_detail',
+    ),
     # Member Specific Views
     path(
         'member/<slug:member>/images/',
@@ -63,30 +73,35 @@ urlpatterns = [
         name='member_code',
     ),
     path(
-        'member/<slug:member>/link/',
+        'member/<slug:member>/links/',
         views.MemberLinkView.as_view(),
         name='member_links',
     ),
     # Create Views
     path(
-        'upload/image/',
+        'add/image/',
         views.ImageCreateView.as_view(),
         name='image_create',
     ),
     path(
-        'upload/sound/',
+        'add/sound/',
         views.SoundCreateView.as_view(),
         name='sound_create',
     ),
     path(
-        'upload/code/',
+        'add/code/',
         views.CodeCreateView.as_view(),
         name='code_create',
     ),
     path(
-        'upload/link/',
+        'add/link/',
         views.LinkCreateView.as_view(),
         name='link_create',
+    ),
+    path(
+        'add/tag/',
+        views.TagCreateView.as_view(),
+        name='tag_create',
     ),
     # Update Views
     path(
@@ -109,6 +124,11 @@ urlpatterns = [
         views.LinkUpdateView.as_view(),
         name='link_update',
     ),
+    path(
+        'modify/tag/<int:pk>',
+        views.TagUpdateView.as_view(),
+        name='tag_update',
+    ),
     # Delete Views
     path(
         'delete/image/<int:pk>',
@@ -129,6 +149,11 @@ urlpatterns = [
         'delete/link/<int:pk>',
         views.LinkDeleteView.as_view(),
         name='link_delete',
+    ),
+    path(
+        'delete/tag/<int:pk>',
+        views.TagDeleteView.as_view(),
+        name='tag_delete',
     ),
     # Publish Views
     path(

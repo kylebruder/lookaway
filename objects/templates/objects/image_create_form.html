@@ -1,17 +1,27 @@
 {% extends 'base.html' %}
 {% block body_block %}
 <div class ="container create-bg">
-    <div class="container">
-      <h2 class="images-title">Upload an Image</h2>
-    </div>
+  <div class="container">
+    <h2 class="images-title">Upload an Image</h2>
     <br>
-    <div class="container">
-      <form  method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% include 'form_fields.html' %}
-        <input type="submit" value="Upload" class="btn btn-success">
-      </form>
+    <div class="row">
+      <div class="col-2">
+        <h5 class="form-label">New:</h5>
+      </div>
+      <div class="col">
+        <p>
+          <a href="{% url 'objects:tag_create' %}?next={{ request.path }}">
+            <button class="btn btn-sm btn-primary">New Tag</button>
+          </a>
+        </p>
+      </div>
     </div>
-    <br>
+    <form  method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% include 'form_fields.html' %}
+      <input type="submit" value="Upload" class="btn btn-success">
+    </form>
+  </div>
+  <br>
 </div>
 {% endblock %}

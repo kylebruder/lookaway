@@ -15,7 +15,11 @@ from members.mixins import MarshmallowMixin, MemberOwnershipModel
 class Tag(models.Model):
 
     key = models.CharField(max_length=64)
-    value = models.CharField(max_length=64)
+    value = models.CharField(
+        max_length=64,
+        blank=True,
+        null=True,
+    )
    
     class Meta:
         constraints = [
@@ -27,7 +31,9 @@ class Tag(models.Model):
         ordering = ['key', 'value']
 
     def __str__(self):
-        return '{}: {}'.format(key, value)
+        if self.value:
+            return '{}: {}'.format(self.key, self.value)
+        else: return '{}'.format(self.key) 
 
 ## Metadata Mixin - Common meta data for site objects
 

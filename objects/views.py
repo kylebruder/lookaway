@@ -14,7 +14,7 @@ from django.views.generic.list import ListView
 from members.models import Member
 from members.mixins import MemberOwnershipView, MemberDeleteView
 from .forms import (ImageCreateForm, ImageUpdateForm, SoundCreateForm,
-    SoundUpdateForm, CodeForm, LinkForm,)
+    SoundUpdateForm, CodeForm, LinkForm, TagForm)
 from .models import Tag, Image, Sound, Code, Link
 # Create your views here.
 
@@ -96,11 +96,13 @@ class ImageUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
 class ImageDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     model = Image
-    success_url = reverse_lazy('objects:member_image_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+    def get_success_url(self):
+        return reverse('members:studio')
 
 def publish_image_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -207,11 +209,13 @@ class SoundUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
 class SoundDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     model = Sound
-    success_url = reverse_lazy('objects:member_sounds')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+    def get_success_url(self):
+        return reverse('members:studio')
 
 def publish_sound_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -320,11 +324,13 @@ class CodeUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
 class CodeDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     model = Code
-    success_url = reverse_lazy('members:studio')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+    def get_success_url(self):
+        return reverse('members:studio')
 
 def publish_code_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -440,7 +446,6 @@ class LinkDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
         context = super().get_context_data(**kwargs)
         return context
 
- 
 def publish_link_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Link, pk=pk)
@@ -469,3 +474,69 @@ def publish_link_view(request, pk):
     )
 
 
+# Tag Views
+class TagCreateView(LoginRequiredMixin, CreateView):
+
+    model = Tag
+    form_class = TagForm
+    template_name_suffix = '_form'
+
+    def form_valid(self, form):
+        form.instance.creation_date = timezone.now()
+        form.instance.owner = Member.objects.get(pk=self.request.user.pk)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('objects:tag_detail', kwargs={'pk': self.object.pk})
+
+class TagListView(LoginRequiredMixin, ListView):
+
+    model = Tag
+    paginate_by = 32
+    context_object_name = 'tags'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class TagDetailView(LoginRequiredMixin, DetailView):
+
+    model = Tag
+    context_object_name = 'tag'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class TagUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+
+    model = Tag
+    form_class = TagForm
+    template_name_suffix = '_form'
+
+    def form_valid(self, form):
+        form.instance.last_modified = timezone.now()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class TagDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+
+    model = Tag
+
+    def get_success_url(self):
+        return reverse('members:studio')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

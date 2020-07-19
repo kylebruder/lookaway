@@ -1,0 +1,39 @@
+.tags-bg {
+  background-color: #222222;
+  color: #eeeeee;
+  border-radius: 0px 0px 25px 25px;
+  margin-bottom: 40px;
+}
+
+.tag-list-card {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-color: #222222;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.tag-list-li {
+  background-color: #222222;
+  color: #ffffff;
+  padding: 20px;
+  border-bottom: solid 2px #111111;
+}
+
+.tag-list-link {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75em;
+}
+
+.tag-font {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.tag-title {
+  font-family: 'Ibarra Real Nova', serif;
+}
+

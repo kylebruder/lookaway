@@ -25,17 +25,24 @@
     {% endif %}
     <pre class="code-block">{{ code.code }}</pre>
     <p>source: {{ code.source }}</p>
+    {% if code.source_url %}
+      <p>source URL: <a href="{{ code.source_url }}">{{ code.source_url }}</a></p>
+    {% endif %}
     <p>md5 digest: {{ code.md5 }}</p>
+    {% for tag in code.tags.all %}
+      <a href="{% url 'objects:tag_detail' tag.pk %}">
+        <span class="badge badge-secondary">{{ tag }}</span>
+      </a>
+    {% endfor %}
+    <br>
+    <br>
     <p>created: {{ code.creation_date }}</p>
     {% if code.publication_date %}
       <p>published: {{ code.publication_date }}</p>
     {% endif %}
     <p>last modified: {{ code.last_modified }}</p>
-    {% for tag in code.tags.all %}
-      <a href="#">
-        <span class="badge badge-secondary">Tag</span>
-      </a>
-    {% endfor %}
+    <br>
+    <br>
   {% else %}
     <p>This Code sample has not been published yet.</p>
   {% endif %}

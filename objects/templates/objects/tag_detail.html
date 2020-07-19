@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container tags-bg">
+<h4>{{ tag.key }} {% if tag.value %}: {{ tag.value }}{% endif %}</h4>
+<br>
+<br>
+</div>
+{% endblock %}

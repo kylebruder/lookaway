@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container tags-bg">
+  <h4 class="tag-title">Tags</h4>
+  {% for tag in tags %}
+    <span class="badge badge-secondary">
+      <a href="{% url 'objects:tag_detail' tag.pk %}" class="tag-font">
+        {{ tag.key }} {% if tag.value %}: {{ tag.value }}{% endif %}
+      </a>
+    </span>
+  {% endfor %}
+  <br>
+  <br>
+</div>
+{% endblock %}

@@ -1,33 +1,22 @@
 {% if sound.is_public or sound.owner.pk == request.user.pk %}
   <li class="list-group-item sound-list-li">
-    <div class="row">
-      <div class="col-">
-        <a href="{% url 'objects:sound_detail' sound.pk %}">
-          <h4 class="sound-title">{{ sound.title }}</h4>
-          <br>
+    <a href="{% url 'objects:sound_detail' sound.pk %}">
+      <h4 class="sound-title">{{ sound.title }}</h4>
+    </a>
+    {% if user_only and sound.owner.pk == request.user.pk %}
+      {% if not sound.is_public %}
+        <span class="badge badge-secondary">Unpublished</span>
+      {% endif %}
+      <div class="float-right">
+        <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
+          <button class="btn-sm btn-warning">Edit</button>
         </a>
       </div>
-      <div class="col-sm">
-        {% if user_only and sound.owner.pk == request.user.pk %}
-          {% if not sound.is_public %}
-            <span class="badge badge-secondary">Unpublished</span>
-          {% endif %}
-          <div class="float-right">
-            <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
-              <button class="btn-sm btn-warning">Edit</button>
-            </a>
-          </div>
-        {% endif %}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <audio controls="controls">
-          <source src="{{ sound.sound_file.url }}" type="audio/mpeg">
-          <source src="{{ sound.sound_file.url }}" type="ogg">
-        </audio>
-      </div>
-    </div>
+    {% endif %}
+    <audio controls="controls">
+      <source src="{{ sound.sound_file.url }}" type="audio/mpeg">
+      <source src="{{ sound.sound_file.url }}" type="ogg">
+    </audio>
     <br>
   </li>
 {% endif %}

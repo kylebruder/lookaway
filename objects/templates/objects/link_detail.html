@@ -33,16 +33,18 @@
       <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
     {% endif %}
     <a href="{{ link.url }}" class="links-list-link"><p class="links-list-link">{{ link.url }}</p></a>
+    {% for tag in link.tags.all %}
+      <a href="{% url 'objects:tag_detail' tag.pk %}">
+        <span class="badge badge-secondary">{{ tag }}</span>
+      </a>
+    {% endfor %}
+    <br>
+    <br>
     <p>created: {{ link.creation_date }}</p>
     {% if link.publication_date %}
       <p>published: {{ link.publication_date }}</p>
     {% endif %}
     <p>last modified: {{ link.last_modified }}</p>
-    {% for tag in link.tags.all %}
-      <a href="#">
-        <span class="badge badge-secondary">{{ tag }}</span>
-      </a>
-    {% endfor %}
     <br>
   {% else %}
     <p>This Link has not been published yet.</p>
