@@ -7,6 +7,8 @@
         Share a link to another website or other online resource.
       </p>
       <br>
+      {% include './new_tag.html' %}
+      <br>
       <form  method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <!-- Standard field iterator -->
@@ -28,14 +30,8 @@
         {% endfor %}
         <br>
         <br>
-        <input type="submit" value="Add" class="btn btn-success">
+        <input type="submit" value="Submit" class="btn btn-success">
       </form>
-      <br>
-      {% if link.title and not link.is_public %}
-        <a href="{% url 'objects:publish_link' link.pk %}">
-          <button class="btn btn-success">Publish</button>
-        </a>
-      {% endif %}
       <br>
     </div>
   </div>

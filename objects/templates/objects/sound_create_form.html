@@ -4,22 +4,12 @@
   <div class="container">
     <h2 class="images-title">Upload a Sound</h2>
     <br>
-    <div class="row">
-      <div class="col-2">
-        <h5 class="form-label">New:</h5>
-      </div>
-      <div class="col">
-        <p>
-          <a href="{% url 'objects:tag_create' %}?next={{ request.path }}">
-            <button class="btn btn-sm btn-primary">New Tag</button>
-          </a>
-        </p>
-      </div>
-    </div>
+    {% include './new_tag.html' %}
+    <br>
     <form  method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {% include 'form_fields.html' %}
-      <input type="submit" value="Upload" class="btn btn-success">
+      <input type="submit" value="Submit" class="btn btn-success">
     </form>
   </div>
   <br>

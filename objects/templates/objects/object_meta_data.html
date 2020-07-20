@@ -1,0 +1,5 @@
+<p>Contributed by {{ object.owner }} on {{ object.creation_date }}</p>
+{% if object.publication_date %}
+  <p>Published on {{ object.publication_date }}</p>
+{% endif %}
+<p>Last modified on {{ object.last_modified }}</p>

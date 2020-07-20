@@ -1,4 +1,4 @@
-{% if image.is_public or image.owner == request.user %}
+{% if image.is_public or image.owner.pk == request.user.pk %}
   <div class="images-card float-left">
     <a href="{% url 'objects:image_detail' image.pk %}">
       {% if image.thumbnail_file %}

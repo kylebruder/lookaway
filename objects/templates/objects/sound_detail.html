@@ -16,7 +16,9 @@
           </a>
         {% endif %}
         {% if not sound.is_public %}
-          <span class="badge badge-secondary float-right">Unpublished</span>
+          <a href="{% url 'objects:publish_sound' sound.pk %}?next={{ request.path }}">
+            <button class="btn-sm btn-success float-right">Publish</button>
+          </a>
         {% endif %} 
       </div>
     </div>
@@ -28,18 +30,9 @@
     </audio>
     <br>
     <br>
-    {% for tag in sound.tags.all %}
-      <a href="{% url 'objects:tag_detail' tag.slug %}">
-        <span class="badge badge-secondary">{{ tag }}</span>
-      </a>
-    {% endfor %}
+    {% include './object_tags.html' %}
     <br>
-    <br>
-    <p>created: {{ sound.creation_date }}</p>
-    {% if sound.publication_date %}
-      <p>published: {{ sound.publication_date }}</p>
-    {% endif %}
-    <p>last modified: {{ sound.last_modified }}</p>
+    {% include './object_meta_data.html' %}
     <br>
   {% else %}
     <p>This Sound has not been published yet.</p>

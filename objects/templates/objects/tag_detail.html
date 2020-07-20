@@ -6,88 +6,95 @@
   {% if images %}
     <h4 class="tag-title">Images</h4>
     {% for image in images %}
-      <div class="container">
-        <a href="{% url 'objects:image_detail' image.pk %}">
-          <div class="studio-image-card float-left" style="background-image:url('/media/{{ image.thumbnail_file }}')">
-            {% if not image.is_public %}
-              <span class="badge badge-secondary">Unpublished</span>
-            {% endif %}
-          </div>
-        </a>
-      </div>
+      {% if image.is_public or image.owner.pk == request.user.pk %}
+        <div class="container">
+          <a href="{% url 'objects:image_detail' image.pk %}">
+            <div class="studio-image-card float-left" style="background-image:url('/media/{{ image.thumbnail_file }}')">
+              {% if not image.is_public %}
+                <span class="badge badge-secondary">Unpublished</span>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+      {% endif %}
     {% endfor %}
     <div class="clear"></div>
     <br>
     <p>
-      <a href="{% url 'objects:image_tag' tag.slug %}">more images...</a>
+      <a href="{% url 'objects:image_tag' tag.slug %}">more images tagged with "{{ tag }}" ...</a>
     </p>
+    <br>
   {% endif %}
   {% if sounds %}
     <h4 class="tag-title">Sounds</h4>
     {% for sound in sounds %}
-      <div class="container">
-        <a href="{% url 'objects:sound_detail' sound.pk %}">
-          <p class="sound-title">{{ sound.title }}</p>
-        </a>
-        {% if not sound.is_public %}
-          <div class="container">
-            <span class="badge badge-secondary">Unpublished</span>
-          </div>
-        {% endif %}
-        <audio controls>
-          <source src="{{ sound.sound_file.url }}" type="audio/mpeg">
-          <source src="{{ sound.sound_file.url }}" type="audio/ogg">
-          Your Browser does not support the media player
-        </audio>
-        <br>
-      </div>
+      {% if sound.is_public or sound.owner.pk == request.user.pk %}
+        <div class="container">
+          <a href="{% url 'objects:sound_detail' sound.pk %}">
+            <p class="sound-title">{{ sound.title }}</p>
+          </a>
+          {% if not sound.is_public %}
+            <div class="container">
+              <span class="badge badge-secondary">Unpublished</span>
+            </div>
+          {% endif %}
+          <audio controls>
+            <source src="{{ sound.sound_file.url }}" type="audio/mpeg">
+            <source src="{{ sound.sound_file.url }}" type="audio/ogg">
+            Your Browser does not support the media player
+          </audio>
+          <br>
+        </div>
+      {% endif %}
     {% endfor %}
     <p>
-      <a href="{% url 'objects:sound_tag' tag.slug %}">more sounds...</a>
+      <a href="{% url 'objects:sound_tag' tag.slug %}">more sounds tagged with "{{ tag }}"...</a>
     </p>
   {% endif %}
   {% if codes %}
     <h4 class="tag-title">Code</span></h4>
     {% for code in codes %}
-      <div class="container float-left">
-        <a href="{% url 'objects:code_detail' code.pk %}">
-          {{ code.title }}
-        </a>
-        <p>{{ code.language }} {{ code.language_version }}</p>
-        {% if code.owner.pk == request.user.pk and not code.is_public%}
-          <span class="badge badge-secondary">Unpublished</span>
-        {% endif %}
-      </div>
+      {% if code.is_public or code.owner.pk == request.user.pk %}
+        <div class="container float-left">
+          <a href="{% url 'objects:code_detail' code.pk %}">
+            {{ code.title }}
+          </a>
+          <p>{{ code.language }} {{ code.language_version }}</p>
+          {% if code.owner.pk == request.user.pk and not code.is_public%}
+            <span class="badge badge-secondary">Unpublished</span>
+          {% endif %}
+        </div>
+      {% endif %}
     {% endfor %}
     <p>
-      <a href="{% url 'objects:code_tag' tag.slug %}">more code...</a>
+      <a href="{% url 'objects:code_tag' tag.slug %}">more code tagged with "{{ tag }}"...</a>
     </p>
     <br>
   {% endif %}
   {% if links %}
     <h4 class="tag-title">Links</span></h4>
     {% for link in links %}
-      <div class="container">
-        <a href="{% url 'objects:link_detail' link.pk %}">
-          {% if link.title %}
-            <p>{{ link.title }}</p>
-          {% else %}
-            <p>Untitled Link</p>
-          {% endif %}
-        </a>
-        {% if link.favicon_href %}
+      {% if link.is_public or link.owner.pk == request.user.pk %}
+        <div class="container">
+          <a href="{% url 'objects:link_detail' link.pk %}">
+            {% if link.title %}
+              <p>{{ link.title }}</p>
+            {% else %}
+              <p>Untitled Link</p>
+            {% endif %}
+          </a>
+          {% if link.favicon_href %}
             <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
-        {% endif %}
-        <a href="{{ link.url }}" class="links-list-link">
+          {% endif %}
           <p class="link-list-link">{{ link.url }}</p>
-        </a>
-        {% if not link.is_public %}
-          <span class="badge badge-secondary">Unpublished</span>
-        {% endif %}
-      </div>
+          {% if not link.is_public %}
+            <span class="badge badge-secondary">Unpublished</span>
+          {% endif %}
+        </div>
+      {% endif %}
     {% endfor %}
     <p>
-      <a href="{% url 'objects:link_tag' tag.slug %}">more links...</a>
+      <a href="{% url 'objects:link_tag' tag.slug %}">more links tagged with "{{ tag }}"...</a>
     </p>
     <br>
   {% endif %}

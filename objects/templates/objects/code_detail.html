@@ -16,7 +16,9 @@
           </a>
         {% endif %}
         {% if not code.is_public %}
-          <span class="badge badge-secondary">Unpublished</span>
+          <a href="{% url 'objects:publish_code' code.pk %}?next={{ request.path }}">
+            <button type="button" class="btn btn-sm btn-success float-right">Publish</button>
+          </a>
         {% endif %}
       </div>
     </div>
@@ -24,24 +26,14 @@
       <p><i>{{ code.file_path }}</i></p>
     {% endif %}
     <pre class="code-block">{{ code.code }}</pre>
-    <p>source: {{ code.source }}</p>
+    {% include './object_tags.html' %}
+    <br>
+    <p>Source: {{ code.source }}</p>
     {% if code.source_url %}
-      <p>source URL: <a href="{{ code.source_url }}">{{ code.source_url }}</a></p>
+      <p>Source URL: <a href="{{ code.source_url }}">{{ code.source_url }}</a></p>
     {% endif %}
-    <p>md5 digest: {{ code.md5 }}</p>
-    {% for tag in code.tags.all %}
-      <a href="{% url 'objects:tag_detail' tag.slug %}">
-        <span class="badge badge-secondary">{{ tag }}</span>
-      </a>
-    {% endfor %}
-    <br>
-    <br>
-    <p>created: {{ code.creation_date }}</p>
-    {% if code.publication_date %}
-      <p>published: {{ code.publication_date }}</p>
-    {% endif %}
-    <p>last modified: {{ code.last_modified }}</p>
-    <br>
+    <p>MD5 hash: {{ code.md5 }}</p>
+    {% include './object_meta_data.html' %}
     <br>
   {% else %}
     <p>This Code sample has not been published yet.</p>
