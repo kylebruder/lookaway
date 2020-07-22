@@ -27,11 +27,11 @@
   </a>
   <br>
   <br>
+  <p>{{ image.text }}</p>
   {% include './object_tags.html' %}
   <br>
   <p>Image file: <a href="{{ image.image_file.url }}">{{ image.image_file.url }}</a>
   <p>Thumbnail file: <a href="{{ image.thumbnail_file.url }}">{{ image.thumbnail_file.url }}</a>
-  <p>{{ image.text }}</p>
   <p>Credit: {{ image.credit }}</p>
   {% include './object_meta_data.html' %}
   <br>

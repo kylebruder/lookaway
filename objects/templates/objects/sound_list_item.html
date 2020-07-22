@@ -3,6 +3,7 @@
     <a href="{% url 'objects:sound_detail' sound.pk %}">
       <h4 class="sound-title">{{ sound.title }}</h4>
     </a>
+    <p>{{ sound.credit }}</p>
     {% if user_only and sound.owner.pk == request.user.pk %}
       {% if not sound.is_public %}
         <span class="badge badge-secondary">Unpublished</span>

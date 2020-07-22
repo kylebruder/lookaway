@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from django.views.generic.edit import UpdateView
+from django.views.generic.detail import DetailView
 from objects.models import Image, Sound, Code, Link
 from .models import Member
 # Create your views here.
@@ -30,3 +32,10 @@ class StudioView(TemplateView):
             owner=member
         ).order_by( '-creation_date')[:10]
         return context
+
+class MemberDetailView(DetailView):
+
+    model = Member
+    context_object_name = 'member'
+
+

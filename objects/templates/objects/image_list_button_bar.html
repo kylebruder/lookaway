@@ -4,7 +4,9 @@
         <h3 class="images-title">{{ member }}'s Images</h3>
       {% elif tag %}
         <h3 class="images-title">Images</h3>
-        <p><span class="badge badge-secondary">{{ tag }}</span></p>
+        <a href="{% url 'objects:tag_detail' tag.slug %}">
+          <p><span class="badge badge-secondary">{{ tag }}</span></p>
+        </a>
       {% else %}
         <h3 class="images-title">Images</h3>
       {% endif %}

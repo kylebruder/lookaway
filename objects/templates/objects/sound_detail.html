@@ -32,6 +32,8 @@
     <br>
     {% include './object_tags.html' %}
     <br>
+    <p>Credit: <i>{{ sound.credit }}</i></p>
+    <p>Sound file: <a href="{{ sound.sound_file.url }}">{{ sound.sound_file.url }}</a></p>
     {% include './object_meta_data.html' %}
     <br>
   {% else %}

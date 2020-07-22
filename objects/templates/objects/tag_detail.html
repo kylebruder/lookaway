@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block body_block %}
 <div class="container tags-bg">
-  <h4 class="tag-title">{{ tag.key }} {% if tag.value %}: {{ tag.value }}{% endif %}</h4>
+  <h3 class="tag-title">{{ tag.key }}{% if tag.value %}: {{ tag.value }}{% endif %}</h3>
   <br>
   {% if images %}
     <h4 class="tag-title">Images</h4>
