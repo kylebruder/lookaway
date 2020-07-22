@@ -2,6 +2,7 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from objects.models import Image
 
 # Create your models here.
 
@@ -105,6 +106,12 @@ class Profile(models.Model):
 
     member = models.OneToOneField(Member, on_delete=models.CASCADE)
     last_marshmallow_allocation = models.DateTimeField(default=timezone.now)
+    image = models.ForeignKey(
+        Image,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return str(self.member)
