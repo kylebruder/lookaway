@@ -1,4 +1,4 @@
-<p>Contributed by {{ object.owner }} on {{ object.creation_date }}</p>
+<p>Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}</p>
 {% if object.publication_date %}
   <p>Published on {{ object.publication_date }}</p>
 {% endif %}

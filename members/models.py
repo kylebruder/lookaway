@@ -41,35 +41,39 @@ class Member(User):
         except:
             return False
 
-    def get_adjusted_weight(self, n=30, m=5):
+    def get_adjusted_weight(self, n=30, m=5, *args, **kwargs):
         '''
         Returns this user's current adjusted weight as floating point number.
         The weight is adjusted based on the user's weight allocation frequency.
         The higher the frequency, the lower the weight (to prevent spamming).
         Arguments
-        n - Number of days ago to query in determining the allocation period.
-            Defaults to 30 days.
-        m - Multiplier for the adjusted weight.
-            Default is 5.
+        n       - Number of days ago to query in determining the allocation period.
+                Defaults to 30 days.
+        m       - Multiplier for the adjusted weight.
+                Default is 5.
+        model   - the model recieving the marshmallow
         '''
         # get n days ago
         t = timezone.now() - datetime.timedelta(days=n)
-        # number marshmallows allocated by the user in the last n days
+        ## number marshmallows allocated by the user in the last n days
+        ## counting all 
         q = Marshmallow.objects.filter(member=self, date__gte=t).count()
+        ## counting allocation
+        #q = model.objects.filter(member=self, date__gte=t).count()
         print('number of marshmalows allocated in last {0} days by {1}: {2}'.format(n, q, self))
         # weight allocation period
         p = n / q 
         # apply the multiplier
         return p * m
 
-    def allocate_marshmallow(self, obj):
+    def allocate_marshmallow(self, instance):
         '''
         If the methods check_can_allocate() and check_is_new() return True,
-        allocate a Marshmallow to an object. The Marshmallow's weight attribute
+        allocate a Marshmallow to a model instance. The Marshmallow's weight attribute
         is determined by the get_adjusted_weight() method.
 
         Arguments
-        obj - A database model object that uses Marshmallow Mixin
+        instance - A database model instance that uses Marshmallow Mixin
 
         Returns 
         self - The Member calling this function
@@ -105,6 +109,7 @@ class Member(User):
 class Profile(models.Model):
 
     member = models.OneToOneField(Member, on_delete=models.CASCADE)
+    slug = models.SlugField()
     last_marshmallow_allocation = models.DateTimeField(default=timezone.now)
     image = models.ForeignKey(
         Image,

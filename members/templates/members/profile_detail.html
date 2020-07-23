@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block body_block %}
+<div class="container member-bg">
+  {% if member.profile.image %}
+    <img src="{{ profile.image.thumbnail_file.url }}">
+  {% endif %}
+  <h1>{{ profile.member }}</h1>
+  <p>
+    {% if profile.member.check_is_new %}
+      <span class="badge badge-primary">New Member</span>
+    {% endif %}
+    {% if profile.member.is_staff %}
+      <span class="badge badge-primary">Staff</span>
+    {% endif %}
+    {% if profile.member.is_superuser %}
+      <span class="badge badge-primary">Admin</span>
+    {% endif %}
+  </p>
+  <p>Date Joined: {{ profile.member.date_joined }}</p>
+  {% if request.user.is_authenticated %}
+    {% if images %}
+      <h4 class="member-title">Images</h4>
+      {% for i in images %}
+        <a href="{% url 'objects:image_detail' i.pk %}">
+          <div class="studio-image-card float-left" style="background-image:url('/media/{{ i.thumbnail_file }}')">
+            {% if not i.is_public %}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+          </div>
+        </a>
+      {% endfor %}
+      <div class="clear"></div>
+      <p>
+        <a href="{% url 'objects:member_images' member=images.0.owner.username %}">more ...</a>
+      </p>
+    {% endif %}
+    {% if sounds %}
+      <h4 class="member-title">Sounds</h4>
+      <ul class="list-group">
+        {% for s in sounds %}
+          <li class="list-group-item sound-list-li">
+            <a href="{% url 'objects:sound_detail' pk=s.pk %}">
+              <p class="sound-title">{{ s.title }}</p>
+            </a>
+            {% if not s.is_public %}
+              <div class="container">
+                <span class="badge badge-secondary">Unpublished</span>
+              </div>
+            {% endif %}
+            <audio controls>
+              <source src="{{ s.sound_file.url }}" type="audio/mpeg">
+              <source src="{{ s.sound_file.url }}" type="audio/ogg">
+              Your Browser does not support the media player
+            </audio>
+          </li>
+        {% endfor %}
+      </ul>
+      <p>
+        <a href="{% url 'objects:member_sounds' member=sounds.0.owner.username %}">more ...</a>
+      </p>
+    {% endif %}
+    {% if codes %}
+      <h4 class="member-title">Code</h4>
+      <ul class="list-group">
+        {% for code in codes %}
+          <li class="list-group-item code-list-li">
+            <a href="{% url 'objects:code_detail' code.pk %}">
+              {{ code.title }}
+            </a>
+            <br>
+            {{ code.language }} {{ code.language_version }}
+            {% if code.owner.pk == request.user.pk and not code.is_public%}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+      <p>
+        <a href="{% url 'objects:member_code' member=codes.0.owner.username %}">more ...</a>
+      </p>
+    {% endif %}
+    {% if links %}
+      <h4 class="member-title">Links</h4>
+      <ul class="list-group">
+        {% for link in links %}
+          <li class="list-group-item link-list-li">
+            <a href="{% url 'objects:link_detail' link.pk %}">
+              {% if link.title %}
+                <p>{{ link.title }}</p>
+              {% else %}
+                <p>Untitled Link</p>
+              {% endif %}
+            </a>
+            {% if link.favicon_href %}
+                <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
+            {% endif %}
+            <a href="{{ link.url }}" class="links-list-link">
+              <p class="link-list-link">{{ link.url }}</p>
+            </a>
+            {% if not link.is_public %}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+            {% if user_only and link.owner.pk == request.user.pk %}
+              <a href="{% url 'links:link_update' link.pk %}?next={{ request.path }}">
+                <button class="btn-sm btn-warning">Edit</button>
+              </a>
+              {% if not link.is_public %}
+                <a href="{% url 'links:link_delete' link.pk %}?next={{ request.path }}">
+                  <button class="btn-sm btn-danger">Delete</button>
+                </a>
+              {% endif %}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+      <p>
+        <a href="{% url 'objects:member_links' member=links.0.owner.username %}">more ...</a>
+      </p>
+    {% endif %}
+  {% endif %}
+</div>
+{% endblock %}

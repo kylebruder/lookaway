@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import StudioView
+from .views import StudioView, MemberProfileView
 
 app_name = "members"
 
@@ -19,5 +19,10 @@ urlpatterns = [
         'studio/',
          StudioView.as_view(),
          name='studio',
+    ),
+    path(
+        '<slug:slug>/', 
+        MemberProfileView.as_view(),
+        name='member_profile',
     ),
 ]
