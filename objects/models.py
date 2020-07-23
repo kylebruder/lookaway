@@ -159,6 +159,26 @@ class Image(MetaDataMixin, MarshmallowMixin):
     class Meta:
         ordering = ['-creation_date']
 
+def promote_image(request, pk):
+    member = get_object_or_404(Member, pk=request.user.pk)
+    instance = get_object_or_404(Image, pk=pk)
+    successful, image, weight = member.allocate_weight(instance, Image)
+    if successful:
+        messages.add_message(
+            request, messages.INFO,
+            'You gave a marshmallow to {} weighing {}'.format(
+                image,
+                round(weight, 2)
+            )
+       )
+    else:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            'You failed to give a marshmallow to {}'.format(image)
+        )
+    return HttpResponseRedirect(reverse('objects:image_detail', kwargs={'pk': instance.pk}))
+
 ## Sound - Digital audio media uploaded by a Member
 
 # User specific path for audio uploads

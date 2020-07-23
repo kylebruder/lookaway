@@ -56,17 +56,22 @@ class Member(User):
         # get n days ago
         t = timezone.now() - datetime.timedelta(days=n)
         ## number marshmallows allocated by the user in the last n days
-        ## counting all 
-        q = Marshmallow.objects.filter(member=self, date__gte=t).count()
-        ## counting allocation
-        #q = model.objects.filter(member=self, date__gte=t).count()
+        if 'model' in kwargs:
+            q = kwargs['model'].objects.filter(
+                marshmallows__member=self,
+                marshmallows__date__gte=t,
+            ).count()
+        else:
+            q = Marshmallow.objects.filter(member=self, date__gte=t).count()
+        if q == 0:
+            q += 1
         print('number of marshmalows allocated in last {0} days by {1}: {2}'.format(n, q, self))
         # weight allocation period
         p = n / q 
         # apply the multiplier
         return p * m
 
-    def allocate_marshmallow(self, instance):
+    def allocate_marshmallow(self, instance, *args, **kwargs):
         '''
         If the methods check_can_allocate() and check_is_new() return True,
         allocate a Marshmallow to a model instance. The Marshmallow's weight attribute
@@ -74,31 +79,42 @@ class Member(User):
 
         Arguments
         instance - A database model instance that uses Marshmallow Mixin
+        model    - the model recieving the marshmallow
 
         Returns 
         self - The Member calling this function
+        instance - The updated instance
         m.weight - The weight of the newly created Marshmallow model object as a float
         '''
         if  self.check_can_allocate() and not self.check_is_new():
-            # Create new Marshmallow
-            m = Marshmallow(
-                member=self, 
-                date=timezone.now(), 
-                weight=self.get_adjusted_weight()
-            )
-            m.save()
+            if 'model' in kwargs:
+                # Create new Marshmallow adjusted by single model
+                m = Marshmallow(
+                    member=self, 
+                    date=timezone.now(), 
+                    weight=self.get_adjusted_weight(model=kwargs['model'])
+                )
+                m.save()
+            else:
+                # Create new Marshmallow adjusted universaly
+                m = Marshmallow(
+                    member=self, 
+                    date=timezone.now(), 
+                    weight=self.get_adjusted_weight()
+                )
+                m.save()
             # Add the Marshmalow to the object
-            obj.marshmallows.add(m)
-            obj.weight += m.weight
-            obj.save()
-            print('{} allocated a marshmallow weighing {} to {}'.format(self, m.weight, obj))
+            instance.marshmallows.add(m)
+            instance.weight += m.weight
+            instance.save()
+            print('{} allocated a marshmallow weighing {} to {}'.format(self, m.weight, instance))
             p = Profile.objects.select_related('member').get(member=self)
             p.last_marshmallow_allocation = timezone.now()
             p.save()
-            return True, obj, m.weight
+            return True, instance, m.weight
         else:
             print("could not allocate weight")
-            return False, obj, 0
+            return False, instance, 0
         
     def __str__(self):
         if self.first_name and self.last_name:
@@ -129,4 +145,3 @@ class Marshmallow(models.Model):
 
     def __str__(self):
         return '{} - {} - {}'.format(self.user, self.date, self.weight) 
-
