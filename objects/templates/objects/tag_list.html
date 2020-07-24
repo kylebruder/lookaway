@@ -3,7 +3,7 @@
 <div class="container tags-bg">
   <div class="row">
     <div class="col">
-      <h4 class="tag-title">Tags</h4>
+      <h3 class="tag-title">Tags</h3>
     </div>
     <div class="col-">
       <a href="{% url 'objects:tag_create' %}">
@@ -11,6 +11,7 @@
       </a>
     </div>
   </div>
+  <br>
   {% for tag in tags %}
     <span class="badge badge-secondary">
       <a href="{% url 'objects:tag_detail' tag.slug %}" class="tag-font">

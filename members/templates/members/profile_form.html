@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class ="container create-bg">
+  <div class="container">
+    <h2 class="form-title">Update Profile</h2>
+    <form  method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <!-- Standard field iterator -->
+      {% for field in form %}
+        {% if field != form.image %}
+          {{ field.errors }}
+          <div class="row">
+            <div class="col-sm-2">
+              <h5 class="form-label">{{ field.label_tag }}</h5>
+            </div>
+            <div class="col-sm-10">
+              <p>{{ field.help_text }}</p>
+              {{ field }}
+            </div>
+          </div>
+          <br>
+          <br>
+        {% endif %}
+      {% endfor %}
+      <!-- Custom multiple model choice form field for Artwork -->
+      <div class="row">
+        <div class="col-2">
+          <h5 class="form-label">{{ form.image.label_tag }}</h5>
+        </div>
+        <div class="col-sm-10 images-form-selector">
+          {{ form.image.errors }}
+          {% if form.image.field.choices.queryset.all|length == 0 %}
+            <p><i>You haven't published any images yet.</i></p>
+          {% else %}
+            {% for value in form.image.field.choices %}
+              {% if value|first != '' %}
+                <div class="form-image-card float-left" style="background-image:url('/media/{{ value.2.thumbnail_file }}')">
+                  <p>&nbsp;<input type="radio" value="{{ value|first }}" name="image" {% if object.image.pk == value|first %}checked{% endif %}></p>
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <br>
+      <input type="submit" value="Submit" class="btn btn-success">
+    </form>
+  </div>
+  <br>
+</div>
+{% endblock %}

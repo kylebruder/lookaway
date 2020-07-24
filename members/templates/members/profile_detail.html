@@ -1,38 +1,49 @@
 {% extends "base.html" %}
 {% block body_block %}
 <div class="container member-bg">
-  {% if member.profile.image %}
-    <img src="{{ profile.image.thumbnail_file.url }}">
-  {% endif %}
-  <h1>{{ profile.member }}</h1>
-  <p>
-    {% if profile.member.check_is_new %}
-      <span class="badge badge-primary">New Member</span>
-    {% endif %}
-    {% if profile.member.is_staff %}
-      <span class="badge badge-primary">Staff</span>
-    {% endif %}
-    {% if profile.member.is_superuser %}
-      <span class="badge badge-primary">Admin</span>
-    {% endif %}
-  </p>
-  <p>Date Joined: {{ profile.member.date_joined }}</p>
-  {% if request.user.is_authenticated %}
-    {% if images %}
-      <h4 class="member-title">Images</h4>
-      {% for i in images %}
-        <a href="{% url 'objects:image_detail' i.pk %}">
-          <div class="studio-image-card float-left" style="background-image:url('/media/{{ i.thumbnail_file }}')">
-            {% if not i.is_public %}
-              <span class="badge badge-secondary">Unpublished</span>
-            {% endif %}
-          </div>
-        </a>
-      {% endfor %}
-      <div class="clear"></div>
+  <div class="row">
+    <div class="col">
+      {% if member.profile.image %}
+        <img src="{{ profile.image.thumbnail_file.url }}">
+      {% endif %}
+      <h1>{{ profile.member }}</h1>
       <p>
-        <a href="{% url 'objects:member_images' member=images.0.owner.username %}">more ...</a>
-      </p>
+        {% if profile.member.check_is_new %}
+          <span class="badge badge-primary">New Member</span>
+        {% endif %}
+        {% if profile.member.is_staff %}
+          <span class="badge badge-primary">Staff</span>
+        {% endif %}
+        {% if profile.member.is_superuser %}
+          <span class="badge badge-primary">Admin</span>
+        {% endif %}
+        </p>
+      </div>
+      {% if request.user.pk == member.pk %}
+        <div class="col-">
+          <a href="{% url 'members:member_profile_update' request.user.username %}">
+            <button class="btn btn-sm btn-primary">Edit Profile</button>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+    <p>Date Joined: {{ profile.member.date_joined }}</p>
+    {% if request.user.is_authenticated %}
+      {% if images %}
+    <h4 class="member-title">Images</h4>
+    {% for i in images %}
+      <a href="{% url 'objects:image_detail' i.pk %}">
+        <div class="studio-image-card float-left" style="background-image:url('/media/{{ i.thumbnail_file }}')">
+          {% if not i.is_public %}
+            <span class="badge badge-secondary">Unpublished</span>
+          {% endif %}
+        </div>
+      </a>
+    {% endfor %}
+    <div class="clear"></div>
+    <p>
+      <a href="{% url 'objects:member_images' member=images.0.owner.username %}">more ...</a>
+    </p>
     {% endif %}
     {% if sounds %}
       <h4 class="member-title">Sounds</h4>

@@ -1,12 +1,15 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
 from objects.models import Image, Sound, Code, Link
+from .forms import ProfileForm
 from .models import Member, Profile
 # Create your views here.
 
-class StudioView(TemplateView):
+class StudioView(LoginRequiredMixin, TemplateView):
 
     template_name = 'members/studio.html'
     
@@ -64,3 +67,22 @@ class MemberProfileView(DetailView):
         ).order_by( '-creation_date')[:5]
     
         return context
+
+class MemberProfileUpdateView(UpdateView):
+
+    model = Profile
+    form_class = ProfileForm
+
+    def get_form_kwargs(self):
+        kwargs = super(MemberProfileUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse_lazy('members:member_profile', 
+                kwargs={'slug': self.object.slug}
+            )
