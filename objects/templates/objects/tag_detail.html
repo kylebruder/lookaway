@@ -30,20 +30,17 @@
     {% for sound in sounds %}
       {% if sound.is_public or sound.owner.pk == request.user.pk %}
         <div class="container">
-          <a href="{% url 'objects:sound_detail' sound.pk %}">
-            <p class="sound-title">{{ sound.title }}</p>
-          </a>
-          {% if not sound.is_public %}
-            <div class="container">
-              <span class="badge badge-secondary">Unpublished</span>
-            </div>
-          {% endif %}
-          <audio controls>
-            <source src="{{ sound.sound_file.url }}" type="audio/mpeg">
-            <source src="{{ sound.sound_file.url }}" type="audio/ogg">
-            Your Browser does not support the media player
-          </audio>
-          <br>
+          <p>
+            <a href="{% url 'objects:sound_detail' sound.pk %}">
+              {{ sound.title }}
+            </a><br>
+            {{ sound.credit }}
+            {% if not sound.is_public %}
+              <div class="container">
+                <span class="badge badge-secondary">Unpublished</span>
+              </div>
+            {% endif %}
+          </p>
         </div>
       {% endif %}
     {% endfor %}

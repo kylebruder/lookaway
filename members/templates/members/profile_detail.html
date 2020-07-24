@@ -37,21 +37,18 @@
     {% if sounds %}
       <h4 class="member-title">Sounds</h4>
       <ul class="list-group">
-        {% for s in sounds %}
+        {% for sound in sounds %}
           <li class="list-group-item sound-list-li">
-            <a href="{% url 'objects:sound_detail' pk=s.pk %}">
-              <p class="sound-title">{{ s.title }}</p>
+            <a href="{% url 'objects:sound_detail' pk=sound.pk %}">
+              {{ sound.title }}
             </a>
-            {% if not s.is_public %}
+            {% if not sound.is_public %}
               <div class="container">
                 <span class="badge badge-secondary">Unpublished</span>
               </div>
             {% endif %}
-            <audio controls>
-              <source src="{{ s.sound_file.url }}" type="audio/mpeg">
-              <source src="{{ s.sound_file.url }}" type="audio/ogg">
-              Your Browser does not support the media player
-            </audio>
+            <br>
+            {{ sound.credit }}
           </li>
         {% endfor %}
       </ul>
@@ -86,29 +83,18 @@
           <li class="list-group-item link-list-li">
             <a href="{% url 'objects:link_detail' link.pk %}">
               {% if link.title %}
-                <p>{{ link.title }}</p>
+                {{ link.title }}
               {% else %}
                 <p>Untitled Link</p>
               {% endif %}
             </a>
+            <br>
             {% if link.favicon_href %}
                 <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
             {% endif %}
-            <a href="{{ link.url }}" class="links-list-link">
-              <p class="link-list-link">{{ link.url }}</p>
-            </a>
+              {{ link.url }}
             {% if not link.is_public %}
               <span class="badge badge-secondary">Unpublished</span>
-            {% endif %}
-            {% if user_only and link.owner.pk == request.user.pk %}
-              <a href="{% url 'links:link_update' link.pk %}?next={{ request.path }}">
-                <button class="btn-sm btn-warning">Edit</button>
-              </a>
-              {% if not link.is_public %}
-                <a href="{% url 'links:link_delete' link.pk %}?next={{ request.path }}">
-                  <button class="btn-sm btn-danger">Delete</button>
-                </a>
-              {% endif %}
             {% endif %}
           </li>
         {% endfor %}

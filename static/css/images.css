@@ -5,6 +5,14 @@
   margin-bottom: 40px;
 }
 
+.image-matrix {
+  max-height: 600px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
 .images-caption {
   text-align: left;
   margin: 5px;

@@ -1,21 +1,17 @@
 <h4 class="studio-title">Your Sounds</h4>
 {% if sounds %}
   <ul class="list-group">
-    {% for s in sounds %}
+    {% for sound in sounds %}
       <li class="list-group-item sound-list-li">
-        <a href="{% url 'objects:sound_detail' pk=s.pk %}">
-          <p class="sound-title">{{ s.title }}</p>
-        </a>
-        {% if not s.is_public %}
+        <a href="{% url 'objects:sound_detail' pk=sound.pk %}">
+          {{ sound.title }}
+        </a><br>
+        {{ sound.credit }}
+        {% if not sound.is_public %}
           <div class="container">
             <span class="badge badge-secondary">Unpublished</span>
           </div>
         {% endif %}
-        <audio controls>
-          <source src="{{ s.sound_file.url }}" type="audio/mpeg">
-          <source src="{{ s.sound_file.url }}" type="audio/ogg">
-          Your Browser does not support the media player
-        </audio>
       </li>
     {% endfor %}
   </ul>

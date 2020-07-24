@@ -44,7 +44,7 @@ class ImageCreateView(LoginRequiredMixin, CreateView):
 class ImageListView(LoginRequiredMixin, ListView):
 
     model = Image
-    paginate_by = 30
+    paginate_by = 36
     queryset = Image.objects.filter(is_public=True)
     context_object_name = 'images'
     ordering = ['-creation_date']

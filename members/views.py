@@ -18,7 +18,7 @@ class StudioView(TemplateView):
         context['member'] = member
         context['images'] = Image.objects.filter(
             owner=member
-        ).order_by('is_public', '-creation_date')[:10]
+        ).order_by('is_public', '-creation_date')[:16]
         # Sounds
         context['sounds'] = Sound.objects.filter(
             owner=member

@@ -1,27 +1,14 @@
 {% if link.is_public or link.user == request.user %}
   <li class="list-group-item link-list-li">
-    <a href="{% url 'objects:link_detail' link.pk %}">
-      <h4 class="link-title">{{ link.title }}</h4>
-    </a>
-    {% if link.text %}
-      <p>{{ link.text }}</p>
-    {% endif %}
     {% if link.favicon_href %}
         <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
     {% endif %}
-    <a href="{{ link.url }}" class="links-list-link">
-      <p class="link-list-link">{{ link.url }}</p>
+    <a href="{% url 'objects:link_detail' link.pk %}">
+      <h5 class="link-title">{{ link.title }}</h5>
     </a>
+    <p class="link-list-link">{{ link.url }}</p>
     {% if not link.is_public %}
       <span class="badge badge-secondary">Unpublished</span>
-    {% endif %}
-    {% if user_only and link.owner.pk == request.user.pk %}
-      <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
-        <button class="btn-sm btn-warning">Edit</button>
-      </a>
-      <a href="{% url 'objects:link_delete' link.pk %}?next={{ request.path }}">
-        <button class="btn-sm btn-danger">Delete</button>
-      </a>
     {% endif %}
   </li>
 {% endif %}

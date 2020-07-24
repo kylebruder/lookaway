@@ -1,30 +1,17 @@
 {% for code in codes %}
   {% if code.is_public or code.owner.pk == request.user.pk %}
     <li class="list-group-item code-list-li">
-      <div class="row">
-        <div class="col">
-          <h5 class="code-title">
-            <a href="{% url 'objects:code_detail' code.pk %}">
-              {{ code.title }}
-            </a>
-            - {{ code.language }} {{ code.language_version }}
-          </h5>
-        </div>
-        <div class="col-">
-          {% if not code.is_public %}
-            <span class="badge badge-secondary">Unpublished</span>
-          {% endif %}
-        </div>
-        {% if user_only and code.owner.pk == request.user.pk %}
-          <div class="col-">
-            <div class="container float-left">
-              <a href="{% url 'objects:code_update' code.pk %}?next={{ request.path }}">
-                <button class="btn-sm btn-warning">Edit</button>
-              </a>
-            </div>
-          </div>
+      <h5 class="code-title">
+        <a href="{% url 'objects:code_detail' code.pk %}">
+          {{ code.title }}
+        </a>
+      </h5>
+      <p>
+        {{ code.language }} {{ code.language_version }}
+        {% if not code.is_public %}
+          <span class="badge badge-secondary">Unpublished</span>
         {% endif %}
-      </div>
+      </p>
     </li>
   {% endif %}
 {% endfor %}
