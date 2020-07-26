@@ -7,3 +7,11 @@ var loadFile = function(event) {
     URL.revokeObjectURL(output.src) // free memory
   }
 };
+
+// Searchable select field
+// https://stackoverflow.com/questions/18796221/creating-a-select-box-with-a-search-option/57809086#57809086
+$(document).ready(function () {
+    $('select').selectize({
+        sortField: 'text'
+    });
+});
