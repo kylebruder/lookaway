@@ -1,4 +1,5 @@
 import datetime
+import os
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -41,6 +42,42 @@ class Member(User):
         except:
             return False
 
+    def get_dir_size(self, path='.'):
+        '''
+        Returns the total bytes used within a given directory.
+        Thanks to blakev!
+        https://stackoverflow.com/questions/1392413/calculating-a-directorys-size-using-python
+        '''
+        total = 0
+        for entry in os.scandir(path):
+            if entry.is_file():
+                total += entry.stat().st_size
+            elif entry.is_dir():
+                total += self.get_dir_size(entry.path)
+        return total
+
+    def check_free_media_capacity(self, directory):
+        '''
+        Checks total bytes under a dir and compares to the members capacity
+        indicated bt the models .
+
+        Arguments
+        directory   - A string that indicates the directory path to check.
+
+        Returns
+        Boolean     - True if the bytes used is less than the given capacity.
+        free        - The difference of capacity and bytes used.
+                      Returns 0 if the bytes used is over capacity.
+        used        - The total bytes used.
+        '''
+        bytes_used = self.get_dir_size(directory)
+        capacity = self.profile.media_capacity
+        if bytes_used < capacity:
+            bytes_free = capacity - bytes_used
+            return True, bytes_free, bytes_used
+        else:
+            return False, 0, bytes_used
+        
     def get_adjusted_weight(self, n=30, m=5, *args, **kwargs):
         '''
         Returns this user's current adjusted weight as floating point number.
@@ -127,6 +164,7 @@ class Profile(models.Model):
     member = models.OneToOneField(Member, on_delete=models.CASCADE)
     slug = models.SlugField()
     last_marshmallow_allocation = models.DateTimeField(default=timezone.now)
+    media_capacity = models.PositiveIntegerField(default=5*10**8)
     image = models.ForeignKey(
         Image,
         on_delete=models.SET_NULL,

@@ -26,9 +26,44 @@ class ImageCreateView(LoginRequiredMixin, CreateView):
     template_name_suffix = '_create_form'
 
     def form_valid(self, form):
-        form.instance.creation_date = timezone.now()
-        form.instance.owner = Member.objects.get(pk=self.request.user.pk)
-        return super().form_valid(form)
+        
+        member = Member.objects.get(pk=self.request.user.pk)
+        has_free_space, free, used = member.check_free_media_capacity(
+            'media/member_{}/'.format(member.pk),
+        )
+        upload_size = self.request.FILES['image_file'].size
+        print('{}, {}, {}'.format(has_free_space, free, used))
+        if has_free_space:
+            if free > upload_size:
+                messages.add_message(
+                    self.request,
+                    messages.INFO,
+                    'Upload Successful. Your media directory has {} MB of free capicity.'.format(
+                        round(free*10**-6),
+                    )
+                )
+                form.instance.creation_date = timezone.now()
+                form.instance.owner = member
+                return super().form_valid(form)
+            else:
+                messages.add_message(
+                    self.request,
+                    messages.WARNING,
+                    'Upload FAIL: Your media directory only has {} bytes of free capacity. Image file of \
+{} bytes is too large.'.format(
+                        free,
+                        upload_size,
+                    ),
+                )
+                return redirect(reverse('objects:image_create')) 
+        else:
+            messages.add_message(
+                self.request,
+                messages.WARNING,
+                'Upload FAIL. Your media directory is over capacity.',
+            )
+            return redirect(reverse('members:studio'))
+            
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -139,9 +174,42 @@ class SoundCreateView(LoginRequiredMixin, CreateView):
     template_name_suffix = '_create_form'
 
     def form_valid(self, form):
-        form.instance.creation_date = timezone.now()
-        form.instance.owner = Member.objects.get(pk=self.request.user.pk)
-        return super().form_valid(form)
+        member = Member.objects.get(pk=self.request.user.pk)
+        has_free_space, free, used = member.check_free_media_capacity(
+            'media/member_{}/'.format(member.pk),
+        )
+        upload_size = self.request.FILES['sound_file'].size
+        print('{}, {}, {}'.format(has_free_space, free, used))
+        if has_free_space:
+            if free > upload_size:
+                messages.add_message(
+                    self.request,
+                    messages.INFO,
+                    'Submission accepted. Your media directory has {} MB of free capicity.'.format(
+                        round(free*10**-6),
+                    )
+                )
+                form.instance.creation_date = timezone.now()
+                form.instance.owner = member
+                return super().form_valid(form)
+            else:
+                messages.add_message(
+                    self.request,
+                    messages.WARNING,
+                    'Submission Rejected. Your media directory only has {} bytes of free capacity. Sound file of \
+{} bytes is too large.'.format(
+                        free,
+                        upload_size,
+                    ),
+                )
+                return redirect(reverse('objects:image_create'))
+        else:
+            messages.add_message(
+                self.request,
+                messages.WARNING,
+                'Submission Rejected. Your media directory is over capacity.',
+            )
+            return redirect(reverse('members:studio'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
