@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import(
     )
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template import loader
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone, text
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
@@ -142,29 +143,44 @@ class ImageDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 def publish_image_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Image, pk=pk)
-    successful = instance.publish(instance, member)
-    if successful:
-        messages.add_message(
-            request,
-            messages.INFO,
-            '{} has been published'.format(
-                instance,
+    if request.method == 'GET':
+        template = loader.get_template('publish.html')
+        context = {'object': instance}
+        return render(request, 'publish.html', context)
+    elif request.method == 'POST':
+        successful = instance.publish(instance, member)
+        if successful:
+            messages.add_message(
+                request,
+                messages.INFO,
+                '{} has been published'.format(
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                    'objects:image_detail',
+                    kwargs={
+                        'pk': instance.pk,
+                    }
+                )
+            )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                '{} could not be published'.format(
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                'objects:image_detail',
+                kwargs={'pk': instance.pk}
             )
         )
     else:
-        messages.add_message(
-            request,
-            messages.ERROR,
-            '{} could not be published'.format(
-                instance,
-            )
-        )
-    return HttpResponseRedirect(
-        reverse(
-            'objects:image_detail',
-            kwargs={'pk': instance.pk}
-        )
-    )
+        return HttpResponseRedirect(reverse('member:studio'))
 
 # Sound Views
 class SoundCreateView(LoginRequiredMixin, CreateView):
@@ -288,29 +304,44 @@ class SoundDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 def publish_sound_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Sound, pk=pk)
-    successful = instance.publish(instance, member)
-    if successful:
-        messages.add_message(
-            request,
-            messages.INFO,
-            '{} has been published'.format(
-                instance,
+    if request.method == 'GET':
+        template = loader.get_template('publish.html')
+        context = {'object': instance}
+        return render(request, 'publish.html', context)
+    elif request.method == 'POST':
+        successful = instance.publish(instance, member)
+        if successful:
+            messages.add_message(
+                request,
+                messages.INFO,
+                '{} has been published'.format(
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                    'objects:sound_detail',
+                    kwargs={
+                        'pk': instance.pk,
+                    }
+                )
+            )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                '{} could not be published'.format(
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                'objects:sound_detail',
+                kwargs={'pk': instance.pk}
             )
         )
     else:
-        messages.add_message(
-            request,
-            messages.ERROR,
-            '{} could not be published'.format(
-                instance,
-            )
-        )
-    return HttpResponseRedirect(
-        reverse(
-            'objects:sound_detail',
-            kwargs={'pk': instance.pk}
-        )
-    )
+        return HttpResponseRedirect(reverse('member:studio'))
 
 # Code Views
 class CodeCreateView(LoginRequiredMixin, CreateView):
@@ -403,30 +434,44 @@ class CodeDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 def publish_code_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Code, pk=pk)
-    successful = instance.publish(instance, member)
-    if successful:
-        messages.add_message(
-            request,
-            messages.INFO,
-            '{} has been published'.format(
-                instance,
+    if request.method == 'GET':
+        template = loader.get_template('publish.html')
+        context = {'object': instance}
+        return render(request, 'publish.html', context)
+    elif request.method == 'POST':
+        successful = instance.publish(instance, member)
+        if successful:
+            messages.add_message(
+                request,
+                messages.INFO,
+                '{} has been published'.format(
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                    'objects:code_detail',
+                    kwargs={
+                        'pk': instance.pk,
+                    }
+                )
+            )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                '{} could not be published'.format(
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                'objects:code_detail',
+                kwargs={'pk': instance.pk}
             )
         )
     else:
-        messages.add_message(
-            request,
-            messages.ERROR,
-            '{} could not be published'.format(
-                instance,
-            )
-        )
-    return HttpResponseRedirect(
-        reverse(
-            'objects:code_detail',
-            kwargs={'pk': instance.pk}
-        )
-    )
-
+        return HttpResponseRedirect(reverse('member:studio'))
 
 # Link Views
 class LinkCreateView(LoginRequiredMixin, CreateView):
@@ -541,6 +586,47 @@ def publish_link_view(request, pk):
         )
     )
 
+def publish_link_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(Link, pk=pk)
+    if request.method == 'GET':
+        template = loader.get_template('publish.html')
+        context = {'object': instance}
+        return render(request, 'publish.html', context)
+    elif request.method == 'POST':
+        successful = instance.publish(instance, member)
+        if successful:
+            messages.add_message(
+                request,
+                messages.INFO,
+                '{} has been published'.format(
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                    'objects:link_detail',
+                    kwargs={
+                        'pk': instance.pk,
+                    }
+                )
+            )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                '{} could not be published'.format(
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                'objects:link_detail',
+                kwargs={'pk': instance.pk}
+            )
+        )
+    else:
+        return HttpResponseRedirect(reverse('member:studio'))
 
 # Tag Views
 class TagCreateView(LoginRequiredMixin, CreateView):
