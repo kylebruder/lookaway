@@ -3,6 +3,7 @@
 <div class="container-fluid studio-bg">
   <h3 class="studio-title">{{ member }}'s Digital Studio</h3>
   <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#images" aria-expanded="false" aria-controls="images">Images</button>&nbsp;
+  <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#videos" aria-expanded="false" aria-controls="videos">Videos</button>&nbsp;
   <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#sounds" aria-expanded="false" aria-controls="images">Sounds</button>&nbsp;
   <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#code" aria-expanded="false" aria-controls="code">Code</button>&nbsp;
   <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#links" aria-expanded="false" aria-controls="links">Links</button>&nbsp;
@@ -12,6 +13,12 @@
     <div class="col-sm-">
       <div class="collapse" id="images">
         {% include './studio_images.html' %}
+      </div>
+    </div>
+    <!-- Member Videos -->
+    <div class="col-sm-">
+      <div class="collapse" id="videos">
+        {% include './studio_videos.html' %}
       </div>
     </div>
     <!-- Member Sounds -->

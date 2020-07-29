@@ -16,6 +16,12 @@ class SoundPreviewWidget(ClearableFileInput):
         template = '<input type=\'file\' name=\'sound_file\' onchange="loadFile(event)"><br><br><audio controls="controls" src="" type="audio/mpeg" id="output"></audio>'
         return mark_safe(template)
 
+class VideoPreviewWidget(ClearableFileInput):
+
+    def render(self, name, value, attrs=None, renderer=None):
+        template = '<input type=\'file\' name=\'video_file\' onchange="loadFile(event)"><br><br><video class="video-player-sm" controls="controls" src="" type="audio/mpeg" id="output"></video>'
+        return mark_safe(template)
+
 class CodeWidget(Textarea):
 
     def render(self, name, value, attrs=None, renderer=None):

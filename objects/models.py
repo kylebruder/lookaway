@@ -222,9 +222,53 @@ class Sound(MetaDataMixin, MarshmallowMixin):
 
     def get_absolute_url(self):
         return reverse('objects:sound_detail', kwargs={'pk': self.pk})
-   
-## Code - Used to hold examples of code to be displayed on a page inside <pre> tags
 
+## Video - Digital video media uploaded by a Member
+
+# User specific path for audio uploads
+def member_video_dir(instance, filename):
+    try:
+        owner = instance.owner.id
+    except:
+        owner = 0
+    return instance.creation_date.strftime(
+        'member_{0}/videos/%Y/%m/%d/{1}'.format(
+            owner,
+            filename
+        )
+    )
+
+
+class Video(MetaDataMixin, MarshmallowMixin):
+
+    video_file = models.FileField(
+        upload_to=member_video_dir,
+        max_length=256,
+    )
+    title = models.CharField(
+        max_length=64,
+    )
+    text = models.TextField(
+        max_length=1024,
+        blank = True,
+        null = True,
+    )
+    credit = models.CharField(
+        max_length=256,
+        blank = True,
+        null = True,
+    )
+
+    class Meta:
+        ordering = ['-creation_date']
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('objects:video_detail', kwargs={'pk': self.pk}) 
+
+## Code - Used to hold examples of code to be displayed on a page inside <pre> tags
 class Code(MetaDataMixin, MarshmallowMixin):
 
     title = models.CharField(

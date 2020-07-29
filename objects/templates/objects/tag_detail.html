@@ -25,6 +25,30 @@
     </p>
     <br>
   {% endif %}
+  {% if videos %}
+    <h4 class="tag-title">Videos</h4>
+    {% for video in videos %}
+      {% if video.is_public or video.owner.pk == request.user.pk %}
+        <div class="container">
+          <p>
+            <a href="{% url 'objects:video_detail' video.pk %}">
+              {{ video.title }}
+            </a><br>
+            {{ video.credit }}
+            {% if not video.is_public %}
+              <div class="container">
+                <span class="badge badge-secondary">Unpublished</span>
+              </div>
+            {% endif %}
+          </p>
+        </div>
+      {% endif %}
+    {% endfor %}
+    <p>
+      <a href="{% url 'objects:video_tag' tag.slug %}">more videos tagged with "{{ tag }}"...</a>
+    </p>
+    <br>
+  {% endif %}
   {% if sounds %}
     <h4 class="tag-title">Sounds</h4>
     {% for sound in sounds %}

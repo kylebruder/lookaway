@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container video-bg">
+  {% include "./video_list_button_bar.html" %}
+  {% if videos %}
+    {% include "page_control.html" %}
+      <ul class="list-group">
+        {% for video in videos %}
+          {% include "./video_list_item.html" %}
+        {% endfor %}
+      </ul>
+    {% include "page_control.html" %}
+  {% else %}
+    <p>There are no videos yet.</p>
+  {% endif %}
+</div>
+{% endblock %} 

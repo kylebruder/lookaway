@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
-from objects.models import Image, Sound, Code, Link
+from objects.models import Image, Sound, Video, Code, Link
 from .forms import ProfileForm
 from .models import Member, Profile
 # Create your views here.
@@ -24,6 +24,10 @@ class StudioView(LoginRequiredMixin, TemplateView):
         ).order_by('is_public', '-creation_date')[:16]
         # Sounds
         context['sounds'] = Sound.objects.filter(
+            owner=member
+        ).order_by('is_public', '-creation_date')[:10]
+        # Videos
+        context['videos'] = Video.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:10]
         # Code
@@ -50,6 +54,11 @@ class MemberProfileView(DetailView):
             owner=member,
             is_public=True,
         ).order_by('is_public', '-creation_date')[:16]
+        # Videos
+        context['videos'] = Video.objects.filter(
+            owner=member,
+            is_public=True,
+        ).order_by('is_public', '-creation_date')[:5]
         # Sounds
         context['sounds'] = Sound.objects.filter(
             owner=member,

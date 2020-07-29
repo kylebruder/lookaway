@@ -1,8 +1,8 @@
 from django import forms
 from django.forms import Textarea
-from templates.widgets import ImagePreviewWidget, SoundPreviewWidget
+from templates.widgets import ImagePreviewWidget, SoundPreviewWidget, VideoPreviewWidget
 from members.models import Member
-from .models import Image, Sound, Code, Link, Tag 
+from .models import Image, Sound, Video, Code, Link, Tag 
 
 class CustomModelChoiceIterator(forms.models.ModelChoiceIterator):
 
@@ -105,6 +105,47 @@ class SoundUpdateForm(forms.ModelForm):
             'credit': "Give credit to the original creator of the sound file. Obtain expressed permission before uploading sounds with exclusive rights.",
             'tags': "Choose one or more tags that relate to the Sound.",
         }
+
+class VideoCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Video
+        fields = [
+            'title',
+            'video_file',
+            'text',
+            'credit',
+            'tags',
+        ]
+        widgets = {
+            'video_file': VideoPreviewWidget
+        }
+
+        help_texts = {
+            'title': "Give the video a memorable and unique title that will be easy to reference later.",
+            'video_file': "Obtain permission before uploading depicitons of private persons or places. Video Preview will appear when successfully uploaded.",
+            'text': "The text may appear on pages that include Videos or other objects that use Videos",
+            'credit': "Give credit to the original creator of the video file. Obtain expressed permission before uploading videos with exclusive rights.",
+            'tags': "Choose one or more tags that relate to the Video.",
+        }
+
+class VideoUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Video
+        fields = [
+            'title',
+            'text',
+            'credit',
+            'tags',
+        ]
+        help_texts = {
+            'title': "Give the video a memorable and unique title that will be easy to reference later.",
+            'text': "The text may appear on pages that include Videos or other objects that use Videos",
+            'credit': "Give credit to the original creator of the video file. Obtain expressed permission before uploading videos with exclusive rights.",
+            'tags': "Choose one or more tags that relate to the Video.",
+        }
+
 
 class CodeForm(forms.ModelForm):
 

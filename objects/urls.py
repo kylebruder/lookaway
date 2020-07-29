@@ -27,6 +27,16 @@ urlpatterns = [
         name='sound_detail',
     ),
     path(
+        'videos/',
+        views.VideoListView.as_view(),
+        name='public_videos',
+    ),
+    path(
+        'videos/<int:pk>/',
+        views.VideoDetailView.as_view(),
+        name='video_detail',
+    ),
+    path(
         'code/',
         views.CodeListView.as_view(),
         name='public_code',
@@ -68,6 +78,11 @@ urlpatterns = [
         name='member_sounds',
     ),
     path(
+        'member/<slug:member>/sounds/',
+        views.MemberVideoView.as_view(),
+        name='member_videos',
+    ),
+    path(
         'member/<slug:member>/code/',
         views.MemberCodeView.as_view(),
         name='member_code',
@@ -87,6 +102,11 @@ urlpatterns = [
         'add/sound/',
         views.SoundCreateView.as_view(),
         name='sound_create',
+    ),
+    path(
+        'add/video/',
+        views.VideoCreateView.as_view(),
+        name='video_create',
     ),
     path(
         'add/code/',
@@ -115,6 +135,11 @@ urlpatterns = [
         name='sound_update',
     ),
     path(
+        'modify/video/<int:pk>',
+        views.VideoUpdateView.as_view(),
+        name='video_update',
+    ),
+    path(
         'modify/code/<int:pk>',
         views.CodeUpdateView.as_view(),
         name='code_update',
@@ -139,6 +164,11 @@ urlpatterns = [
         'delete/sound/<int:pk>',
         views.SoundDeleteView.as_view(),
         name='sound_delete',
+    ),
+    path(
+        'delete/video/<int:pk>',
+        views.VideoDeleteView.as_view(),
+        name='video_delete',
     ),
     path(
         'delete/code/<int:pk>',
@@ -167,6 +197,11 @@ urlpatterns = [
         name='publish_sound',
     ),
     path(
+        'publish/video/<int:pk>',
+        views.publish_video_view,
+        name='publish_video',
+    ),
+    path(
         'publish/code/<int:pk>',
         views.publish_code_view,
         name='publish_code',
@@ -186,6 +221,11 @@ urlpatterns = [
         'tags/sounds/<slug:slug>',
         views.SoundByTag.as_view(),
         name='sound_tag',
+    ),
+    path(
+        'tags/videos/<slug:slug>',
+        views.VideoByTag.as_view(),
+        name='video_tag',
     ),
     path(
         'tags/code/<slug:slug>',

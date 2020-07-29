@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col">
+    {% if user_only %}
+      <h3 class="video-title">{{ member }}'s Videos</h3>
+    {% elif tag %}
+      <h3 class="video-title">Videos</h3>
+      <p><span class="badge badge-secondary">{{ tag }}</span></p>
+    {% else %}
+      <h3 class="video-title">Videos</h3>
+    {% endif %}
+    </h3>
+  </div>
+  {% if request.user.is_authenticated %}
+    <div class="col-">
+      <div class="container">
+        <a href="{% url 'objects:video_create' %}">
+          <button type="button" class="btn btn-sm btn-primary">Upload Video</button>
+        </a>
+      </div>
+    </div>
+  {% endif %}
+</div>

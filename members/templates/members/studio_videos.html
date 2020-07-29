@@ -1,0 +1,26 @@
+<h4 class="studio-title">Your Videos</h4>
+{% if videos %}
+  <ul class="list-group">
+    {% for video in videos %}
+      <li class="list-group-item video-list-li">
+        <a href="{% url 'objects:video_detail' pk=video.pk %}">
+          {{ video.title }}
+        </a><br>
+        {{ video.credit }}
+        {% if not video.is_public %}
+          <div class="container">
+            <span class="badge badge-secondary">Unpublished</span>
+          </div>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  <p>
+    <a href="{% url 'objects:member_videos' member=videos.0.owner.username %}">more ...</a>
+  </p>
+{% else %}
+  <p>You have not uploaded any Videos yet</p>
+  <a href="{% url 'objects:image_create' %}">
+    <button class="btn btn-success">Upload Video</button>
+  </a>
+{% endif %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block body_block %}
+  <div class ="container edit-bg">
+    <div class="container">
+      <h2 class="video-title">Edit "{{ video }}"</h2>
+    </div>
+    <br>
+    <div class="container">
+      <audio controls>
+        <source src="{{ video.video_file.url }}" type="audio/mpeg">
+        <source src="{{ video.video_file.url }}" type="audio/ogg">
+          Your Browser does not support the media player
+      </audio>
+      <br>
+      <br>
+      {% include './new_tag.html' %}
+      <br>
+      <form  method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% include 'form_fields.html' %}
+        <input type="submit" value="Submit" class="btn btn-success">
+      </form>
+      <br>
+    </div>
+  </div>
+{% endblock %}

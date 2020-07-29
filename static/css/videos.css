@@ -1,0 +1,26 @@
+.video-bg {
+  background-color: #222222;
+  color: #eeeeee;
+  border-radius: 0px 0px 25px 25px;
+  margin-bottom: 40px;
+}
+
+.video-list-li {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+.video-player {
+  max-width: 1080px;
+  max-height: auto;
+}
+
+.video-player-sm {
+  max-width: 500px;
+  max-height: 500px;
+}
+
+.video-title {
+  font-family: 'Ibarra Real Nova', serif;
+}
+

@@ -15,8 +15,8 @@ from django.views.generic.list import ListView
 from members.models import Member
 from members.mixins import MemberOwnershipView, MemberDeleteView
 from .forms import (ImageCreateForm, ImageUpdateForm, SoundCreateForm,
-    SoundUpdateForm, CodeForm, LinkForm, TagForm)
-from .models import Tag, Image, Sound, Code, Link
+    SoundUpdateForm, VideoCreateForm, VideoUpdateForm, CodeForm, LinkForm, TagForm)
+from .models import Tag, Image, Sound, Video, Code, Link
 # Create your views here.
 
 # Image Views
@@ -337,6 +337,167 @@ def publish_sound_view(request, pk):
             return HttpResponseRedirect(
                 reverse(
                 'objects:sound_detail',
+                kwargs={'pk': instance.pk}
+            )
+        )
+    else:
+        return HttpResponseRedirect(reverse('member:studio'))
+
+# Video Views
+class VideoCreateView(LoginRequiredMixin, CreateView):
+
+    model = Video
+    form_class = VideoCreateForm
+    template_name_suffix = '_create_form'
+
+    def form_valid(self, form):
+        member = Member.objects.get(pk=self.request.user.pk)
+        has_free_space, free, used = member.check_free_media_capacity(
+            'media/member_{}/'.format(member.pk),
+        )
+        upload_size = self.request.FILES['video_file'].size
+        print('{}, {}, {}'.format(has_free_space, free, used))
+        if has_free_space:
+            if free > upload_size:
+                messages.add_message(
+                    self.request,
+                    messages.INFO,
+                    'Submission accepted. Your media directory has {} MB of free capicity.'.format(
+                        round(free*10**-6),
+                    )
+                )
+                form.instance.creation_date = timezone.now()
+                form.instance.owner = member
+                return super().form_valid(form)
+            else:
+                messages.add_message(
+                    self.request,
+                    messages.WARNING,
+                    'Submission Rejected. Your media directory only has {} bytes of free capacity. Video file of \
+{} bytes is too large.'.format(
+                        free,
+                        upload_size,
+                    ),
+                )
+                return redirect(reverse('objects:image_create'))
+        else:
+            messages.add_message(
+                self.request,
+                messages.WARNING,
+                'Submission Rejected. Your media directory is over capacity.',
+            )
+            return redirect(reverse('members:studio'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('objects:video_detail', kwargs={'pk': self.object.pk})
+
+class VideoListView(LoginRequiredMixin, ListView):
+
+    model = Video
+    paginate_by = 30
+    queryset = Video.objects.filter(is_public=True)
+    context_object_name = 'videos'
+    ordering = ['-creation_date']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class MemberVideoView(LoginRequiredMixin, ListView):
+
+    model = Video
+    paginate_by = 30
+    context_object_name = 'videos'
+
+    def get_queryset(self, *args, **kwargs):
+        member = Member.objects.get(username=self.kwargs['member'])
+        return Video.objects.filter(owner=member)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = Member.objects.get(username=self.kwargs['member'])
+        context['user_only'] = True
+        context['member'] = member
+        return context
+
+class VideoDetailView(LoginRequiredMixin, DetailView):
+
+    model = Video
+    context_object_name = 'video'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class VideoUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+
+    model = Video
+    form_class = VideoUpdateForm
+    template_name_suffix = '_update_form'
+
+    def form_valid(self, form):
+        form.instance.last_modified = timezone.now()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class VideoDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+
+    model = Video
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_success_url(self):
+        return reverse('members:studio')
+
+def publish_video_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(Video, pk=pk)
+    if request.method == 'GET':
+        template = loader.get_template('publish.html')
+        context = {'object': instance}
+        return render(request, 'publish.html', context)
+    elif request.method == 'POST':
+        successful = instance.publish(instance, member)
+        if successful:
+            messages.add_message(
+                request,
+                messages.INFO,
+                '{} has been published'.format(
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                    'objects:video_detail',
+                    kwargs={
+                        'pk': instance.pk,
+                    }
+                )
+            )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                '{} could not be published'.format(
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                'objects:video_detail',
                 kwargs={'pk': instance.pk}
             )
         )
@@ -677,6 +838,7 @@ class TagDetailView(LoginRequiredMixin, DetailView):
         slug = self.object.slug
         print(slug)
         context['images'] = Image.objects.filter(tags__slug__exact=slug)
+        context['videos'] = Video.objects.filter(tags__slug__exact=slug)
         context['sounds'] = Sound.objects.filter(tags__slug__exact=slug)
         context['codes'] = Code.objects.filter(tags__slug__exact=slug)
         context['links'] = Link.objects.filter(tags__slug__exact=slug)
@@ -742,6 +904,21 @@ class SoundByTag(LoginRequiredMixin, ListView):
     def get_queryset(self, *args, **kwargs):
         print(Sound.objects.filter(tags__slug__exact=self.kwargs['slug']))
         return Sound.objects.filter(tags__slug__exact=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
+        return context
+
+class VideoByTag(LoginRequiredMixin, ListView):
+    
+    model = Video
+    context_object_name = 'videos'
+    paginate_by = 32
+
+    def get_queryset(self, *args, **kwargs):
+        print(Video.objects.filter(tags__slug__exact=self.kwargs['slug']))
+        return Video.objects.filter(tags__slug__exact=self.kwargs['slug'])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

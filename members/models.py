@@ -186,4 +186,4 @@ class Marshmallow(models.Model):
     weight = models.FloatField(default=0.0)
 
     def __str__(self):
-        return '{} - {} - {}'.format(self.user, self.date, self.weight) 
+        return '{} - {} - {}'.format(self.member, self.date, self.weight) 
