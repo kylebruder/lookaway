@@ -49,7 +49,7 @@ class MemberProfileView(DetailView):
         context['images'] = Image.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('is_public', '-creation_date')[:10]
+        ).order_by('is_public', '-creation_date')[:16]
         # Sounds
         context['sounds'] = Sound.objects.filter(
             owner=member,

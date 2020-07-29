@@ -38,6 +38,7 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = (
             'image',
+            'text',
         )
 
     def __init__(self, *args, **kwargs):

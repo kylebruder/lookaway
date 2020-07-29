@@ -165,6 +165,10 @@ class Profile(models.Model):
     slug = models.SlugField()
     last_marshmallow_allocation = models.DateTimeField(default=timezone.now)
     media_capacity = models.PositiveIntegerField(default=5*10**8)
+    text = models.TextField(
+        blank=True,
+        null=True,
+    )
     image = models.ForeignKey(
         Image,
         on_delete=models.SET_NULL,

@@ -23,10 +23,13 @@
         <li class="nav-item">
           <a class="nav-link nav-font" href="{% url 'objects:tags' %}">Tags</a>
         </li>
-      </ul>
-      <div class="btn-group">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle nav-font" href="{% url 'members:member_profile' request.user.username %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ request.user }}
+          </a>
           {% include "./base_nav_member_dropdown.html" %}
-      </div>
+        </li>
+      </ul>
       {% else %}
       {% endif %}
     </ul>

@@ -2,73 +2,93 @@
 {% block body_block %}
 <div class="container member-bg">
   <div class="row">
-    <div class="col">
-      {% if member.profile.image %}
+    {% if profile.image %}
+      <div class="col-">
         <img src="{{ profile.image.thumbnail_file.url }}">
-      {% endif %}
-      <h1>{{ profile.member }}</h1>
+      </div>
+    {% endif %}
+    <div class="col">
+      <h1 class="profile-title">{{ profile.member }}</h1>
       <p>
         {% if profile.member.check_is_new %}
-          <span class="badge badge-primary">New Member</span>
+          <span class="badge badge-success">New Member</span>
         {% endif %}
         {% if profile.member.is_staff %}
-          <span class="badge badge-primary">Staff</span>
+          <span class="badge badge-info">Staff</span>
         {% endif %}
         {% if profile.member.is_superuser %}
-          <span class="badge badge-primary">Admin</span>
+          <span class="badge badge-light">Admin</span>
         {% endif %}
-        </p>
+      </p>
+      <p>Date Joined: {{ profile.member.date_joined }}</p>
+    </div>
+    {% if request.user.pk == member.pk %}
+      <div class="col-">
+        <a href="{% url 'members:studio' %}">
+          <button class="btn btn-sm btn-primary">Studio</button>&nbsp;
+        </a>
+        <a href="{% url 'members:member_profile_update' request.user.username %}">
+          <button class="btn btn-sm btn-primary">Edit Profile</button>
+        </a>
       </div>
-      {% if request.user.pk == member.pk %}
-        <div class="col-">
-          <a href="{% url 'members:member_profile_update' request.user.username %}">
-            <button class="btn btn-sm btn-primary">Edit Profile</button>
-          </a>
+    {% endif %}
+  </div>
+  <br>
+  {% if profile.text %}
+    <p>{{ profile.text }}</p>
+  {% endif %}
+  <br>
+  {% if request.user.is_authenticated %}
+    <div class="row">
+      {% if images %}
+        <div class="col-sm-6">
+          <div class="container">
+            <h4 class="profile-title">Images</h4>
+            <div class="profile-image-matrix">
+              {% for i in images %}
+                <a href="{% url 'objects:image_detail' i.pk %}">
+                  <div class="profile-image-card float-left" style="background-image:url('/media/{{ i.thumbnail_file }}')">
+                    {% if not i.is_public %}
+                      <span class="badge badge-secondary">Unpublished</span>
+                    {% endif %}
+                  </div>
+                </a>
+              {% endfor %}
+            </div>
+            <div class="clear"></div>
+            <p>
+              <a href="{% url 'objects:member_images' member=images.0.owner.username %}">more ...</a>
+            </p>
+          </div>
+        </div>
+      {% endif %}
+      {% if sounds %}
+        <div class="col-sm-6">
+          <h4 class="profile-title">Sounds</h4>
+          <ul class="list-group">
+            {% for sound in sounds %}
+              <li class="list-group-item sound-list-li">
+                <a href="{% url 'objects:sound_detail' pk=sound.pk %}">
+                  {{ sound.title }}
+                </a>
+                {% if not sound.is_public %}
+                  <div class="container">
+                    <span class="badge badge-secondary">Unpublished</span>
+                  </div>
+                {% endif %}
+                <br>
+                {{ sound.credit }}
+              </li>
+            {% endfor %}
+          </ul>
+          <p>
+            <a href="{% url 'objects:member_sounds' member=sounds.0.owner.username %}">more ...</a>
+          </p>
         </div>
       {% endif %}
     </div>
-    <p>Date Joined: {{ profile.member.date_joined }}</p>
-    {% if request.user.is_authenticated %}
-      {% if images %}
-    <h4 class="member-title">Images</h4>
-    {% for i in images %}
-      <a href="{% url 'objects:image_detail' i.pk %}">
-        <div class="studio-image-card float-left" style="background-image:url('/media/{{ i.thumbnail_file }}')">
-          {% if not i.is_public %}
-            <span class="badge badge-secondary">Unpublished</span>
-          {% endif %}
-        </div>
-      </a>
-    {% endfor %}
-    <div class="clear"></div>
-    <p>
-      <a href="{% url 'objects:member_images' member=images.0.owner.username %}">more ...</a>
-    </p>
-    {% endif %}
-    {% if sounds %}
-      <h4 class="member-title">Sounds</h4>
-      <ul class="list-group">
-        {% for sound in sounds %}
-          <li class="list-group-item sound-list-li">
-            <a href="{% url 'objects:sound_detail' pk=sound.pk %}">
-              {{ sound.title }}
-            </a>
-            {% if not sound.is_public %}
-              <div class="container">
-                <span class="badge badge-secondary">Unpublished</span>
-              </div>
-            {% endif %}
-            <br>
-            {{ sound.credit }}
-          </li>
-        {% endfor %}
-      </ul>
-      <p>
-        <a href="{% url 'objects:member_sounds' member=sounds.0.owner.username %}">more ...</a>
-      </p>
-    {% endif %}
     {% if codes %}
-      <h4 class="member-title">Code</h4>
+      <h4 class="profile-title">Code</h4>
       <ul class="list-group">
         {% for code in codes %}
           <li class="list-group-item code-list-li">
@@ -88,7 +108,7 @@
       </p>
     {% endif %}
     {% if links %}
-      <h4 class="member-title">Links</h4>
+      <h4 class="profile-title">Links</h4>
       <ul class="list-group">
         {% for link in links %}
           <li class="list-group-item link-list-li">
@@ -101,9 +121,9 @@
             </a>
             <br>
             {% if link.favicon_href %}
-                <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
+              <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
             {% endif %}
-              {{ link.url }}
+            {{ link.url }}
             {% if not link.is_public %}
               <span class="badge badge-secondary">Unpublished</span>
             {% endif %}

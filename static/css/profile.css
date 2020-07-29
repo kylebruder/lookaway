@@ -1,0 +1,17 @@
+.profile-image-card {
+  display: block;
+  width: 100px;
+  height: 100px;
+  background-color: #222222;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.profile-image-matrix {
+  max-height: 400px;
+  max-width: 400px;
+}
+
+.profile-title {
+  font-family: 'Ibarra Real Nova', serif;
+}
