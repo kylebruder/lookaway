@@ -21,6 +21,8 @@ class Tag(models.Model):
         null=True,
     )
     slug = models.SlugField()
+    marshmallows = models.ManyToManyField('members.marshmallow', blank=True)
+    weight = models.FloatField(default=0)
    
     class Meta:
         constraints = [

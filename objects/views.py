@@ -901,7 +901,7 @@ class TagListView(LoginRequiredMixin, ListView):
     model = Tag
     paginate_by = 32
     context_object_name = 'tags'
-    ordering = ['-weight', '-creation_date']
+    ordering = ['-weight', '-pk']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
