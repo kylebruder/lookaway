@@ -83,7 +83,7 @@ class ImageListView(LoginRequiredMixin, ListView):
     paginate_by = 36
     queryset = Image.objects.filter(is_public=True)
     context_object_name = 'images'
-    ordering = ['-creation_date']
+    ordering = ['-weight', '-creation_date']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -139,6 +139,27 @@ class ImageDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     def get_success_url(self):
         return reverse('members:studio')
+
+def add_marshmallow_to_image_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(Image, pk=pk)
+    if instance.is_public and instance.owner == member:
+        successful, instance, weight = member.allocate_marshmallow(instance, model=Image)
+        if successful:
+            messages.add_message(
+                request, messages.INFO,
+                'You gave a marshmallow to {} weighing {}'.format(
+                    instance,
+                    round(weight, 2)
+                )
+           )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                'You failed to give a marshmallow to {}'.format(instance)
+            )
+    return HttpResponseRedirect(reverse('objects:public_images'))
 
 def publish_image_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -244,7 +265,7 @@ class SoundListView(LoginRequiredMixin, ListView):
     paginate_by = 30
     queryset = Sound.objects.filter(is_public=True)
     context_object_name = 'sounds'
-    ordering = ['-creation_date']
+    ordering = ['-weight', '-creation_date']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -300,6 +321,27 @@ class SoundDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     def get_success_url(self):
         return reverse('members:studio')
+
+def add_marshmallow_to_sound_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(Sound, pk=pk)
+    if instance.is_public and instance.owner == member:
+        successful, instance, weight = member.allocate_marshmallow(instance, model=Sound)
+        if successful:
+            messages.add_message(
+                request, messages.INFO,
+                'You gave a marshmallow to {} weighing {}'.format(
+                    instance,
+                    round(weight, 2)
+                )
+            )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                'You failed to give a marshmallow to {}'.format(instance)
+            )
+    return HttpResponseRedirect(reverse('objects:public_sounds'))
 
 def publish_sound_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -405,7 +447,7 @@ class VideoListView(LoginRequiredMixin, ListView):
     paginate_by = 30
     queryset = Video.objects.filter(is_public=True)
     context_object_name = 'videos'
-    ordering = ['-creation_date']
+    ordering = ['-weight', '-creation_date']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -461,6 +503,27 @@ class VideoDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     def get_success_url(self):
         return reverse('members:studio')
+
+def add_marshmallow_to_video_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(Video, pk=pk)
+    if instance.is_public and instance.owner == member:
+        successful, instance, weight = member.allocate_marshmallow(instance, model=Video)
+        if successful:
+            messages.add_message(
+                request, messages.INFO,
+                'You gave a marshmallow to {} weighing {}'.format(
+                    instance,
+                    round(weight, 2)
+                )
+            )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                'You failed to give a marshmallow to {}'.format(instance)
+            )
+    return HttpResponseRedirect(reverse('objects:public_videos'))
 
 def publish_video_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -534,7 +597,7 @@ class CodeListView(LoginRequiredMixin, ListView):
     paginate_by = 12
     queryset = Code.objects.filter(is_public=True)
     context_object_name = 'codes'
-    ordering = ['-creation_date']
+    ordering = ['-weight', '-creation_date']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -591,6 +654,27 @@ class CodeDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     def get_success_url(self):
         return reverse('members:studio')
+
+def add_marshmallow_to_code_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(Code, pk=pk)
+    if instance.is_public and instance.owner == member:
+        successful, instance, weight = member.allocate_marshmallow(instance, model=Code)
+        if successful:
+            messages.add_message(
+                request, messages.INFO,
+                'You gave a marshmallow to {} weighing {}'.format(
+                    instance,
+                    round(weight, 2)
+                )
+            )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                'You failed to give a marshmallow to {}'.format(instance)
+            )
+    return HttpResponseRedirect(reverse('objects:public_code'))
 
 def publish_code_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -663,7 +747,7 @@ class LinkListView(LoginRequiredMixin, ListView):
     paginate_by = 32
     queryset = Link.objects.filter(is_public=True)
     context_object_name = 'links'
-    ordering = ['-creation_date']
+    ordering = ['-weight', '-creation_date']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -720,32 +804,26 @@ class LinkDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
         context = super().get_context_data(**kwargs)
         return context
 
-def publish_link_view(request, pk):
+def add_marshmallow_to_link_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Link, pk=pk)
-    successful = instance.publish(instance, member)
-    if successful:
-        messages.add_message(
-            request,
-            messages.INFO,
-            '{} has been published'.format(
-                instance,
+    if instance.is_public and instance.owner == member:
+        successful, instance, weight = member.allocate_marshmallow(instance, model=Link)
+        if successful:
+            messages.add_message(
+                request, messages.INFO,
+                'You gave a marshmallow to {} weighing {}'.format(
+                    instance,
+                    round(weight, 2)
+                )
             )
-        )
-    else:
-        messages.add_message(
-            request,
-            messages.ERROR,
-            '{} could not be published'.format(
-                instance,
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                'You failed to give a marshmallow to {}'.format(instance)
             )
-        )
-    return HttpResponseRedirect(
-        reverse(
-            'objects:link_detail',
-            kwargs={'pk': instance.pk}
-        )
-    )
+    return HttpResponseRedirect(reverse('objects:public_links'))
 
 def publish_link_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -823,6 +901,7 @@ class TagListView(LoginRequiredMixin, ListView):
     model = Tag
     paginate_by = 32
     context_object_name = 'tags'
+    ordering = ['-weight', '-creation_date']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -878,6 +957,26 @@ class TagDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
         context = super().get_context_data(**kwargs)
         return context
 
+def add_marshmallow_to_tag_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(Tag, pk=pk)
+    if instance.is_public and instance.owner == member:
+        successful, instance, weight = member.allocate_marshmallow(instance, model=Tag)
+        if successful:
+            messages.add_message(
+                request, messages.INFO,
+                'You gave a marshmallow to {} weighing {}'.format(
+                    instance,
+                    round(weight, 2)
+                )
+            )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                'You failed to give a marshmallow to {}'.format(instance)
+            )
+    return HttpResponseRedirect(reverse('objects:public_tags'))
 
 # By Tag Views
 class ImageByTag(LoginRequiredMixin, ListView):
@@ -885,6 +984,7 @@ class ImageByTag(LoginRequiredMixin, ListView):
     model = Image
     context_object_name = 'images'
     paginate_by = 32
+    ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
         print(Image.objects.filter(tags__slug__exact=self.kwargs['slug']))
@@ -900,6 +1000,7 @@ class SoundByTag(LoginRequiredMixin, ListView):
     model = Sound
     context_object_name = 'sounds'
     paginate_by = 32
+    ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
         print(Sound.objects.filter(tags__slug__exact=self.kwargs['slug']))
@@ -915,6 +1016,7 @@ class VideoByTag(LoginRequiredMixin, ListView):
     model = Video
     context_object_name = 'videos'
     paginate_by = 32
+    ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
         print(Video.objects.filter(tags__slug__exact=self.kwargs['slug']))
@@ -930,6 +1032,7 @@ class CodeByTag(LoginRequiredMixin, ListView):
     model = Code
     context_object_name = 'codes'
     paginate_by = 32
+    ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
         print(Code.objects.filter(tags__slug__exact=self.kwargs['slug']))
@@ -945,6 +1048,7 @@ class LinkByTag(LoginRequiredMixin, ListView):
     model = Link
     context_object_name = 'links'
     paginate_by = 32
+    ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
         print(Link.objects.filter(tags__slug__exact=self.kwargs['slug']))

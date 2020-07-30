@@ -237,4 +237,35 @@ urlpatterns = [
         views.LinkByTag.as_view(),
         name='link_tag',
     ),
+    # Marshmallow Views
+    path(
+        'images/<int:pk>/add-marshmallow',
+        views.add_marshmallow_to_image_view,
+        name='image_marshmallow',
+    ),
+    path(
+        'sounds/<int:pk>/add-marshmallow',
+        views.add_marshmallow_to_sound_view,
+        name='sound_marshmallow',
+    ),
+    path(
+        'videos/<int:pk>/add-marshmallow',
+        views.add_marshmallow_to_video_view,
+        name='video_marshmallow',
+    ),
+    path(
+        'code/<int:pk>/add-marshmallow',
+        views.add_marshmallow_to_code_view,
+        name='code_marshmallow',
+    ),
+    path(
+        'links/<int:pk>/add-marshmallow',
+        views.add_marshmallow_to_link_view,
+        name='link_marshmallow',
+    ),
+    path(
+        'tags/<int:pk>/add-marshmallow',
+        views.add_marshmallow_to_tag_view,
+        name='tag_marshmallow',
+    ),
 ]
