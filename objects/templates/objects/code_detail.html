@@ -2,26 +2,7 @@
 {% block body_block %}
 <div class="container code-bg">
   {% if code.is_public or code.owner.pk == request.user.pk %}
-    <div class="row">
-      <div class="col"> 
-        <h4 class="code-title">{{ code.title }} - {{ code.language }} {{ code.language_version }}</h4>
-      </div>
-      <div class="col-"> 
-        {% if code.owner.pk == request.user.pk %}
-          <a href="{% url 'objects:code_delete' code.pk %}?next={{ request.path }}">
-            <button class="btn-sm btn-danger float-right">Delete</button>
-          </a>
-          <a href="{% url 'objects:code_update' code.pk %}?next={{ request.path }}">
-            <button type="button" class="btn btn-sm btn-warning float-right">Edit</button>
-          </a>
-        {% endif %}
-        {% if not code.is_public %}
-          <a href="{% url 'objects:publish_code' code.pk %}?next={{ request.path }}">
-            <button type="button" class="btn btn-sm btn-success float-right">Publish</button>
-          </a>
-        {% endif %}
-      </div>
-    </div>
+    {% include './code_detail_button_bar.html' %}
     {% if code.file_path %}
       <p><i>{{ code.file_path }}</i></p>
     {% endif %}

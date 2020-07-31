@@ -2,26 +2,7 @@
 {% block body_block %}
 <div class="container sound-bg">
   {% if sound.is_public or sound.owner.pk == request.user.pk %}
-    <div class="row">
-      <div class="col">
-        <h4 class="sound-title">{{ sound.title }}</h4>
-      </div>
-      <div class="col">
-        {% if sound.owner.pk == request.user.pk %}
-          <a href="{% url 'objects:sound_delete' sound.pk %}?next={{ request.path }}">
-            <button class="btn-sm btn-danger float-right">Delete</button>
-          </a>
-          <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
-            <button class="btn-sm btn-warning float-right">Edit</button>
-          </a>
-        {% endif %}
-        {% if not sound.is_public %}
-          <a href="{% url 'objects:publish_sound' sound.pk %}?next={{ request.path }}">
-            <button class="btn-sm btn-success float-right">Publish</button>
-          </a>
-        {% endif %} 
-      </div>
-    </div>
+    {% include './sound_detail_button_bar.html %}
     <p>{{ sound.text }}</p>
     <audio controls>
       <source src="{{ sound.sound_file.url }}" type="audio/mpeg">

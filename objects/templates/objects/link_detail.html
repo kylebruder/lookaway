@@ -2,32 +2,7 @@
 {% block body_block %}
 <div class="container links-bg">
   {% if link.is_public or link.owner.pk == request.user.pk %}
-    <div class="row">
-      {% if link.title %}
-        <div class="col"> 
-          <h4 class="link-title">{{ link.title }}</h4>
-        </div>
-      {% else %}
-        <div class="col"> 
-          <h4 class="link-title">Untitled Link</h4>
-        </div>
-      {% endif %}
-      {% if link.owner.pk == request.user.pk %}
-        <div class="col-">
-          <a href="{% url 'objects:link_delete' link.pk %}?next={{ request.path }}">
-            <button class="btn-sm btn-danger float-right">Delete</button>
-          </a>&nbsp;
-          <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
-            <button class="btn-sm btn-warning float-right">Edit</button>
-          </a>&nbsp;
-          {% if not link.is_public %}
-          <a href="{% url 'objects:publish_link' link.pk %}?next={{ request.path }}">
-            <button class="btn-sm btn-success float-right">Publish</button>
-          </a>&nbsp;
-          {% endif %}
-        </div>
-      {% endif %}
-    </div>
+    {% include './link_detail_button_bar.html' %}
     {% if link.text %}
       <p class="links-list-description">{{ link.text }}</p>
     {% endif %}

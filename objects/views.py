@@ -106,13 +106,18 @@ class MemberImageView(LoginRequiredMixin, ListView):
         context['member'] = member
         return context
 
-class ImageDetailView(DetailView):
+class ImageDetailView(LoginRequiredMixin, DetailView):
 
     model = Image
     context_object_name = 'image'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        member = Member.objects.get(pk=self.request.user.pk)
+        if member.check_can_allocate() and not member.check_is_new():
+            context['can_add_marshmallow'] = True
+        else:
+            context['can_add_marshmallow'] = False
         return context
 
 class ImageUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
@@ -143,7 +148,7 @@ class ImageDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 def add_marshmallow_to_image_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Image, pk=pk)
-    if instance.is_public and instance.owner == member:
+    if instance.is_public:
         successful, instance, weight = member.allocate_marshmallow(instance, model=Image)
         if successful:
             messages.add_message(
@@ -295,6 +300,11 @@ class SoundDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        member = Member.objects.get(pk=self.request.user.pk)
+        if member.check_can_allocate() and not member.check_is_new():
+            context['can_add_marshmallow'] = True
+        else:
+            context['can_add_marshmallow'] = False
         return context
 
 class SoundUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
@@ -325,7 +335,7 @@ class SoundDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 def add_marshmallow_to_sound_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Sound, pk=pk)
-    if instance.is_public and instance.owner == member:
+    if instance.is_public:
         successful, instance, weight = member.allocate_marshmallow(instance, model=Sound)
         if successful:
             messages.add_message(
@@ -477,6 +487,11 @@ class VideoDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        member = Member.objects.get(pk=self.request.user.pk)
+        if member.check_can_allocate() and not member.check_is_new():
+            context['can_add_marshmallow'] = True
+        else:
+            context['can_add_marshmallow'] = False
         return context
 
 class VideoUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
@@ -507,7 +522,7 @@ class VideoDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 def add_marshmallow_to_video_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Video, pk=pk)
-    if instance.is_public and instance.owner == member:
+    if instance.is_public:
         successful, instance, weight = member.allocate_marshmallow(instance, model=Video)
         if successful:
             messages.add_message(
@@ -627,6 +642,11 @@ class CodeDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        member = Member.objects.get(pk=self.request.user.pk)
+        if member.check_can_allocate() and not member.check_is_new():
+            context['can_add_marshmallow'] = True
+        else:
+            context['can_add_marshmallow'] = False
         return context
 
 class CodeUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
@@ -658,7 +678,7 @@ class CodeDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 def add_marshmallow_to_code_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Code, pk=pk)
-    if instance.is_public and instance.owner == member:
+    if instance.is_public:
         successful, instance, weight = member.allocate_marshmallow(instance, model=Code)
         if successful:
             messages.add_message(
@@ -777,6 +797,11 @@ class LinkDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        member = Member.objects.get(pk=self.request.user.pk)
+        if member.check_can_allocate() and not member.check_is_new():
+            context['can_add_marshmallow'] = True
+        else:
+            context['can_add_marshmallow'] = False
         return context
 
 class LinkUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
@@ -807,7 +832,7 @@ class LinkDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 def add_marshmallow_to_link_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Link, pk=pk)
-    if instance.is_public and instance.owner == member:
+    if instance.is_public:
         successful, instance, weight = member.allocate_marshmallow(instance, model=Link)
         if successful:
             messages.add_message(
@@ -914,8 +939,9 @@ class TagDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        member = Member.objects.get(pk=self.request.user.pk)
+        context['can_add_marshmallow'] = member.check_can_allocate()
         slug = self.object.slug
-        print(slug)
         context['images'] = Image.objects.filter(tags__slug__exact=slug)
         context['videos'] = Video.objects.filter(tags__slug__exact=slug)
         context['sounds'] = Sound.objects.filter(tags__slug__exact=slug)
@@ -960,23 +986,22 @@ class TagDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 def add_marshmallow_to_tag_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Tag, pk=pk)
-    if instance.is_public and instance.owner == member:
-        successful, instance, weight = member.allocate_marshmallow(instance, model=Tag)
-        if successful:
-            messages.add_message(
-                request, messages.INFO,
-                'You gave a marshmallow to {} weighing {}'.format(
-                    instance,
-                    round(weight, 2)
-                )
+    successful, instance, weight = member.allocate_marshmallow(instance, model=Tag)
+    if successful:
+        messages.add_message(
+            request, messages.INFO,
+            'You gave a marshmallow to {} weighing {}'.format(
+                instance,
+                round(weight, 2)
             )
-        else:
-            messages.add_message(
-                request,
-                messages.ERROR,
-                'You failed to give a marshmallow to {}'.format(instance)
-            )
-    return HttpResponseRedirect(reverse('objects:public_tags'))
+        )
+    else:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            'You failed to give a marshmallow to {}'.format(instance)
+        )
+    return HttpResponseRedirect(reverse('objects:tags'))
 
 # By Tag Views
 class ImageByTag(LoginRequiredMixin, ListView):
