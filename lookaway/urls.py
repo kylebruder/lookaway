@@ -29,6 +29,10 @@ urlpatterns = [
         include('objects.urls'),
     ),
     path(
+        'documentation/',
+        include('documentation.urls'),
+    ),
+    path(
         '',
         include('home.urls'),
     ),
