@@ -1,0 +1,25 @@
+<h4 class="studio-title">Your Support Documents</h4>
+{% if documents %}
+  <ul class="list-group">
+    {% for document in documents %}
+      <li class="list-group-item documentation-list-li">
+        <h5 class="documentation-title">
+          <a href="{% url 'documentation:support_document_detail' document.slug %}">
+            {{ document.title }}
+          </a>
+          {% if not document.is_public %}
+            <span class="badge badge-secondary">Unpublished</span>
+          {% endif %}
+        </h5>
+      </li>
+    {% endfor %}
+  </ul>
+  <p>
+    <a href="{% url 'documentation:member_support_documents' member=documents.0.owner.username %}">more ...</a>
+  </p>
+{% else %}
+  <p>You have not uploaded any documentation yet</p>
+  <a href="{% url 'documentation:support_document_create' %}">
+    <button class="btn btn-success">New Support Document</button>
+  </a>
+{% endif %}

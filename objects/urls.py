@@ -213,6 +213,11 @@ urlpatterns = [
     ),
     # Tag Views
     path(
+        'tags/documentation/<slug:slug>',
+        views.SupportDocumentByTag.as_view(),
+        name='support_document_tag',
+    ),
+    path(
         'tags/images/<slug:slug>',
         views.ImageByTag.as_view(),
         name='image_tag',

@@ -2,14 +2,25 @@
 {% block body_block %}
 <div class="container-fluid studio-bg">
   <h3 class="studio-title">{{ member }}'s Digital Studio</h3>
+  {% if member.is_staff %}
+    <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#documentation" aria-expanded="false" aria-controls="images">Documentation</button>&nbsp;
+  {% endif %}
   <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#images" aria-expanded="false" aria-controls="images">Images</button>&nbsp;
   <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#videos" aria-expanded="false" aria-controls="videos">Videos</button>&nbsp;
   <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#sounds" aria-expanded="false" aria-controls="images">Sounds</button>&nbsp;
   <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#code" aria-expanded="false" aria-controls="code">Code</button>&nbsp;
   <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#links" aria-expanded="false" aria-controls="links">Links</button>&nbsp;
 
-  <!-- Member Images -->
   <div class="row">
+    <!-- Staff Documentation -->
+    {% if member.is_staff %}
+      <div class="col-sm-">
+        <div class="collapse" id="documentation">
+          {% include './studio_documentation.html' %}
+        </div>
+      </div>
+    {% endif %}
+    <!-- Member Images -->
     <div class="col-sm-">
       <div class="collapse" id="images">
         {% include './studio_images.html' %}

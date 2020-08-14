@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
+from documentation.models import SupportDocument
 from objects.models import Image, Sound, Video, Code, Link
 from .forms import ProfileForm
 from .models import Member, Profile
@@ -17,8 +18,12 @@ class StudioView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(pk=self.request.user.pk)
 
-        # Images
         context['member'] = member
+        # Documentation
+        context['documents'] = SupportDocument.objects.filter(
+            owner=member
+        ).order_by('is_public', '-creation_date')[:16]
+        # Images
         context['images'] = Image.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:16]

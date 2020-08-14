@@ -18,13 +18,18 @@ urlpatterns = [
     path(
         'section/<int:pk>/', 
         views.SectionDetailView.as_view(),
-        name='section_document_detail',
+        name='section_detail',
     ),
     # Member Specific Views
     path(
         'member/<slug:member>/', 
-        views.SupportDocumentListView.as_view(),
+        views.MemberSupportDocumentView.as_view(),
         name='member_support_documents',
+    ),
+    path(
+        'member/<slug:member>/sections/', 
+        views.MemberSectionView.as_view(),
+        name='member_section',
     ),
     # Create Views
     path(
@@ -39,30 +44,36 @@ urlpatterns = [
     ),
     # Update Views
     path(
-        'modify/support-document/', 
+        'modify/support-document/<slug:slug>/', 
         views.SupportDocumentUpdateView.as_view(),
         name='support_document_update',
     ),
     path(
-        'modify/section/', 
+        'modify/section/<int:pk>/', 
         views.SectionUpdateView.as_view(),
         name='section_update',
     ),
     # Delete Views
     path(
-        'delete/support-document/', 
+        'delete/support-document/<int:pk>/', 
         views.SupportDocumentDeleteView.as_view(),
         name='support_document_delete',
     ),
     path(
-        'delete/section/', 
+        'delete/section/<int:pk>/', 
         views.SectionDeleteView.as_view(),
         name='section_delete',
     ),
     # Publish Views
     path(
-        'publish/support-document/', 
+        'publish/support-document/<int:pk>/', 
         views.publish_support_document_view,
         name='publish_support_document',
+    ),
+    # Marshmallow Views
+    path(
+        'support-document/<int:pk>/add-marshmallow', 
+        views.add_marshmallow_to_support_document_view,
+        name='support_document_marshmallow',
     ),
 ]

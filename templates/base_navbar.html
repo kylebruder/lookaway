@@ -26,6 +26,9 @@
         <li class="nav-item">
           <a class="nav-link nav-font" href="{% url 'objects:tags' %}">Tags</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">Support</a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle nav-font" href="{% url 'members:member_profile' request.user.username %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{ request.user }}
@@ -34,6 +37,9 @@
         </li>
       </ul>
       {% else %}
+        <li class="nav-item">
+          <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">Support</a>
+        </li>
       {% endif %}
     </ul>
   </div>

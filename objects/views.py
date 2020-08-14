@@ -12,6 +12,7 @@ from django.utils import timezone, text
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from documentation.models import SupportDocument
 from members.models import Member
 from members.mixins import MemberOwnershipView, MemberDeleteView
 from .forms import (ImageCreateForm, ImageUpdateForm, SoundCreateForm,
@@ -942,6 +943,7 @@ class TagDetailView(LoginRequiredMixin, DetailView):
         member = Member.objects.get(pk=self.request.user.pk)
         context['can_add_marshmallow'] = member.check_can_allocate()
         slug = self.object.slug
+        context['documents'] = SupportDocument.objects.filter(tags__slug__exact=slug)
         context['images'] = Image.objects.filter(tags__slug__exact=slug)
         context['videos'] = Video.objects.filter(tags__slug__exact=slug)
         context['sounds'] = Sound.objects.filter(tags__slug__exact=slug)
@@ -1004,6 +1006,21 @@ def add_marshmallow_to_tag_view(request, pk):
     return HttpResponseRedirect(reverse('objects:tags'))
 
 # By Tag Views
+class SupportDocumentByTag(ListView):
+    
+    model = SupportDocument
+    context_object_name = 'documents'
+    paginate_by = 32
+    ordering = ['-weight', '-creation_date']
+
+    def get_queryset(self, *args, **kwargs):
+        return SupportDocument.objects.filter(tags__slug__exact=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
+        return context
+
 class ImageByTag(LoginRequiredMixin, ListView):
     
     model = Image

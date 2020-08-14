@@ -2,6 +2,28 @@
 {% block body_block %}
 <div class="container tags-bg">
   {% include './tag_detail_button_bar.html' %}
+  {% if documents %}
+    <h4 class="tag-title">Documentation</h4>
+        {% for document in documents %}
+      {% if document.is_public or document.owner.pk == request.user.pk %}
+        <li class="list-group-item documentation-list-li">
+          <h5 class="documentation-title">
+            <a href="{% url 'documentation:support_document_detail' document.slug %}">
+              {{ document.title }}
+            </a>
+            {% if not document.is_public %}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+          </h5>
+        </li>
+      {% endif %}
+    {% endfor %}
+    <br>
+    <p>
+      <a href="{% url 'objects:support_document_tag' tag.slug %}">more documentation tagged with "{{ tag }}" ...</a>
+    </p>
+    <br>
+  {% endif %}
   {% if images %}
     <h4 class="tag-title">Images</h4>
     {% for image in images %}

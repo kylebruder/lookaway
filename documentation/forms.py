@@ -44,6 +44,7 @@ class SupportDocumentForm(forms.ModelForm):
             'image',
             'links',
             'numbered',
+            'tags',
         )
         help_texts = {
             'title': "Give the Support Document a memorable and unique title that will be easy to reference later.",
@@ -65,7 +66,7 @@ class SupportDocumentForm(forms.ModelForm):
 
 class SectionForm(forms.ModelForm):
 
-    images = CustomModelChoiceField(
+    images = CustomModelMultipleChoiceField(
         queryset = Image.objects.all(),
         required=False,
     )
@@ -80,24 +81,25 @@ class SectionForm(forms.ModelForm):
             'images',
             'sounds',
             'videos',
+            'code',
             'links',
         )
         help_texts = {
-            'title':"Give the Section a memorable and unique title that will be easy to reference later.",
-            'support_document':"Choose the Support Document in which this Section will appear.",
-            'order':"Choose the order in which the Section will appear in the Support Document. Decimals are allowed.",
-            'text':"Enter the written instructions here.",
-            'images':"Choose one or more Images that support your instructions.",
-            'sounds':"Choose one or more Sounds that support your instructions.",
-            'videos':"Choose one or more Videos that support your instructions.",
-            'code':"Choose one or more Code samples that support your instructions.",
-            'links':"Choose one or more Links that provide reference to your instructions.",
+            'title': "Give the Section a memorable and unique title that will be easy to reference later.",
+            'support_document': "Choose the Support Document in which this Section will appear.",
+            'order': "Choose the order in which the Section will appear in the Support Document. Decimals are allowed.",
+            'text': "Enter the written instructions here.",
+            'images': "Choose one or more Images that support your instructions.",
+            'sounds': "Choose one or more Sounds that support your instructions.",
+            'videos': "Choose one or more Videos that support your instructions.",
+            'code': "Choose one or more Code samples that support your instructions.",
+            'links': "Choose one or more Links that provide reference to your instructions.",
         }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super(SectionForm, self).__init__(*args, **kwargs)
-        self.fields['image'].queryset = Image.objects.filter(
+        self.fields['images'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
             '-creation_date',
