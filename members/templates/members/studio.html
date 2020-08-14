@@ -3,51 +3,64 @@
 <div class="container-fluid studio-bg">
   <h3 class="studio-title">{{ member }}'s Digital Studio</h3>
   {% if member.is_staff %}
-    <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#documentation" aria-expanded="false" aria-controls="images">Documentation</button>&nbsp;
+    <button class="btn btn-sm btn-dark" type="button" data-toggle="collapse" data-target="#documentation" aria-expanded="false" aria-controls="images">Documentation</button>&nbsp;
   {% endif %}
-  <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#images" aria-expanded="false" aria-controls="images">Images</button>&nbsp;
-  <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#videos" aria-expanded="false" aria-controls="videos">Videos</button>&nbsp;
-  <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#sounds" aria-expanded="false" aria-controls="images">Sounds</button>&nbsp;
-  <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#code" aria-expanded="false" aria-controls="code">Code</button>&nbsp;
-  <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#links" aria-expanded="false" aria-controls="links">Links</button>&nbsp;
-
+  <button class="btn btn-sm btn-dark" type="button" data-toggle="collapse" data-target="#images" aria-expanded="false" aria-controls="images">Images</button>&nbsp;
+  <button class="btn btn-sm btn-dark" type="button" data-toggle="collapse" data-target="#videos" aria-expanded="false" aria-controls="videos">Videos</button>&nbsp;
+  <button class="btn btn-sm btn-dark" type="button" data-toggle="collapse" data-target="#sounds" aria-expanded="false" aria-controls="images">Sounds</button>&nbsp;
+  <button class="btn btn-sm btn-dark" type="button" data-toggle="collapse" data-target="#code" aria-expanded="false" aria-controls="code">Code</button>&nbsp;
+  <button class="btn btn-sm btn-dark" type="button" data-toggle="collapse" data-target="#links" aria-expanded="false" aria-controls="links">Links</button>&nbsp;
+  <br>
+  <br>
   <div class="row">
     <!-- Staff Documentation -->
     {% if member.is_staff %}
       <div class="col-sm-">
         <div class="collapse" id="documentation">
-          {% include './studio_documentation.html' %}
+          <div class="container">
+            {% include './studio_documentation.html' %}
+          </div>
         </div>
       </div>
     {% endif %}
     <!-- Member Images -->
     <div class="col-sm-">
       <div class="collapse" id="images">
-        {% include './studio_images.html' %}
+        <div class="container">
+          {% include './studio_images.html' %}
+        </div>
       </div>
     </div>
     <!-- Member Videos -->
     <div class="col-sm-">
       <div class="collapse" id="videos">
-        {% include './studio_videos.html' %}
+        <div class="container">
+          {% include './studio_videos.html' %}
+        </div>
       </div>
     </div>
     <!-- Member Sounds -->
     <div class="col-sm-">
       <div class="collapse" id="sounds">
-        {% include './studio_sounds.html' %}
+        <div class="container">
+          {% include './studio_sounds.html' %}
+        </div>
       </div>
     </div>
     <!-- Member Code -->
     <div class="col-sm-">
       <div class="collapse" id="code">
-        {% include './studio_code.html' %}
+        <div class="container">
+          {% include './studio_code.html' %}
+        </div>
       </div>
     </div>
     <!-- Member Links -->
     <div class="col-sm-">
       <div class="collapse" id="links">
-        {% include './studio_links.html' %}
+        <div class="container">
+          {% include './studio_links.html' %}
+        </div>
       </div>
     </div>
   </div>
