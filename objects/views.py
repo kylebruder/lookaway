@@ -922,7 +922,7 @@ class TagCreateView(LoginRequiredMixin, CreateView):
         else:
             return reverse('objects:tag_detail', kwargs={'slug': self.object.slug})
 
-class TagListView(LoginRequiredMixin, ListView):
+class TagListView(ListView):
 
     model = Tag
     paginate_by = 32
@@ -933,22 +933,23 @@ class TagListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         return context
 
-class TagDetailView(LoginRequiredMixin, DetailView):
+class TagDetailView(DetailView):
 
     model = Tag
     context_object_name = 'tag'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        member = Member.objects.get(pk=self.request.user.pk)
-        context['can_add_marshmallow'] = member.check_can_allocate()
         slug = self.object.slug
         context['documents'] = SupportDocument.objects.filter(tags__slug__exact=slug)
-        context['images'] = Image.objects.filter(tags__slug__exact=slug)
-        context['videos'] = Video.objects.filter(tags__slug__exact=slug)
-        context['sounds'] = Sound.objects.filter(tags__slug__exact=slug)
-        context['codes'] = Code.objects.filter(tags__slug__exact=slug)
-        context['links'] = Link.objects.filter(tags__slug__exact=slug)
+        if self.request.user.is_authenticated:
+            member = Member.objects.get(pk=self.request.user.pk)
+            context['can_add_marshmallow'] = member.check_can_allocate()
+            context['images'] = Image.objects.filter(tags__slug__exact=slug)
+            context['videos'] = Video.objects.filter(tags__slug__exact=slug)
+            context['sounds'] = Sound.objects.filter(tags__slug__exact=slug)
+            context['codes'] = Code.objects.filter(tags__slug__exact=slug)
+            context['links'] = Link.objects.filter(tags__slug__exact=slug)
         return context
 
 class TagUpdateView(LoginRequiredMixin, UpdateView):
