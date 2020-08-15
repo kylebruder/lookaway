@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block body_block %}
-<div class ="container create-bg">
+<div class ="container form-bg">
   <div class="container">
-    <h2 class="form-title">Update Profile</h2>
+    <h2 class="profile-title">Update Profile</h2>
+    <p>Change your password <a href="{% url 'password_change' %}">here</a></p>
     <form  method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <!-- Standard field iterator -->

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block body_block %}
+
+<div class="container updates-bg">
+    <h3>Authentication</h3>
+    <form method="POST" class="uniForm">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit" class="btn btn-success">
+    </form>
+    <br>
+    <p>Reset your password <a href="{% url 'password_reset' %}">here</a></p>
+</div>
+<br>
+{% endblock %}
