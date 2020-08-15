@@ -43,8 +43,8 @@
     {% if document.links.count > 0 %}
       <h4 class="documentation-title">Reference and Further Reading</h4>
       {% for link in document.links.all %}
-        {% if link.text %}
-          <p class="links-list-description">{{ link.text }}</p>
+        {% if link.title %}
+          <h6 class="documentation-title">{{ link.title }}</h6>
         {% endif %}
       {% if link.favicon_href %}
         <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>

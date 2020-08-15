@@ -45,10 +45,9 @@
   {% if section.code.count > 0  %}
     {% for code in section.code.all %}
       {% if code.file_path %}
-        <p><i>{{ code.file_path }}</i></p>
+        {{ code.file_path }}
       {% endif %}
       <pre class="code-block">{{ code.code }}</pre>
-      <br>
       {% if code.source and code.source_url %}
         <p>Source: <a href="{{ code.source_url }}">{{ code.source }}</a></p>
       {% elif code.source %}
@@ -56,14 +55,13 @@
       {% elif code.source_url %}
         <p>Source: <a href="{{ code.source_url }}">{{ code.source_url }}</a></p>
       {% endif %}
-      <br>
     {% endfor %}
     <br>
   {% endif %}
   {% if section.links.count > 0  %}
     {% for link in section.links.all %}
-      {% if link.text %}
-        <p class="links-list-description">{{ link.text }}</p>
+      {% if link.title %}
+        <p class="documentation-title">{{ link.title }}</p>
       {% endif %}
       {% if link.favicon_href %}
         <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>

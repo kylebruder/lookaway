@@ -1,12 +1,13 @@
 <div class="row">
   <div class="col">
-    <h3 class="documentation-section-title">{{ section.title }}
+    <h3 class="documentation-section-title">{{ section.title }}</h3>
       {% if not document %}
-        from <a href="{% url 'documentation:support_document_detail' section.support_document.slug %}">
-          {{ section.support_document }}
-        </a>
+        <p>
+          from <a href="{% url 'documentation:support_document_detail' section.support_document.slug %}">
+            {{ section.support_document }}
+          </a>
+        </p>
       {% endif %}
-    </h3>
   </div>
   <div class="col-">
     {% if section.owner.pk == request.user.pk %}

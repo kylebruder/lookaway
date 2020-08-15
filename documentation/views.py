@@ -98,7 +98,7 @@ class SupportDocumentDetailView(DetailView):
                 context['can_add_marshmallow'] = False
         context['sections'] = Section.objects.filter(
             support_document=self.get_object(),
-        )
+        ).order_by('order')
         return context
 
 class SupportDocumentUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
