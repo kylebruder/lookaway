@@ -1,11 +1,11 @@
 import datetime
 import os
+from hashlib import md5
+from random import randrange
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from objects.models import Image
-
-# Create your models here.
 
 
 class Member(User):
@@ -70,7 +70,10 @@ class Member(User):
                       Returns 0 if the bytes used is over capacity.
         used        - The total bytes used.
         '''
-        bytes_used = self.get_dir_size(directory)
+        try:
+            bytes_used = self.get_dir_size(directory)
+        except:
+            bytes_used = 0
         capacity = self.profile.media_capacity
         if bytes_used < capacity:
             bytes_free = capacity - bytes_used
@@ -187,3 +190,29 @@ class Marshmallow(models.Model):
 
     def __str__(self):
         return '{} - {} - {}'.format(self.member, self.date, self.weight) 
+
+class InviteLink(models.Model):
+
+    slug = models.SlugField(
+        max_length=32,
+        unique=True,
+    )
+    expiration_date = models.DateTimeField(
+        default=timezone.now()+datetime.timedelta(days=7)
+    )
+    label = models.CharField(
+        max_length=64,
+        unique=True,
+    )
+    note = models.TextField(
+        max_length=256,
+        blank=True,
+        null=True,
+    )
+
+    def make_slug(self):
+        string = str(randrange(0,10**8))+str(timezone.now())
+        return md5(string.encode()).hexdigest()
+
+    def __str__(self):
+        return self.label

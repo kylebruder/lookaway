@@ -1,5 +1,4 @@
 from django import forms
-from django.forms import Textarea
 from templates.widgets import ImagePreviewWidget
 from .models import Member, Profile
 from objects.models import Image

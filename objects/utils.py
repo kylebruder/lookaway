@@ -22,6 +22,22 @@ class FileSystemOps:
         else:
             return 1
 
+    def _make_dir(self, path):
+        '''
+        Checks to see if a path exists as a directory.
+        If the path exists but is a file, return 1.
+        If the path does not exist, create the directory, return 0.
+        If the path exists and is a directory, return -1.
+        '''
+        f = Path(path)
+        if f.is_file():
+            return 1
+        elif f.is_dir():
+            return 0
+        else:
+            f.mkdir
+            return -1
+
 class TestData:
 
     def __init__(self, *args, **kwargs):

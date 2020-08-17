@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block body_block %}
+  <div class ="container create-bg">
+    <div class="container">
+      <h2 class="link-title">Update Personally Identifiable Information</h2>
+      <p>
+        Your email will only be used to recover your password in the event you no longer know you password. If you provide a first name and a last name, they will be displayed on public pages. Feel free to use a pseudonym
+      </p>
+      <br>
+      <form  method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% include 'form_fields.html' %}
+        <input type="submit" value="Submit" class="btn btn-success">
+      </form>
+      <br>
+    </div>
+  </div>
+{% endblock %}

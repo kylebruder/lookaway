@@ -24,11 +24,16 @@
     </div>
     {% if request.user.pk == member.pk %}
       <div class="col-">
+        {% if profile.member.is_superuser %}
+          <a href="{% url 'invite' %}">
+            <button class="btn btn-sm btn-primary">Invite</button>
+          </a>
+        {% endif %}
         <a href="{% url 'members:studio' %}">
-          <button class="btn btn-sm btn-primary">Studio</button>&nbsp;
+          <button class="btn btn-sm btn-dark">Studio</button>
         </a>
         <a href="{% url 'members:member_profile_update' request.user.username %}">
-          <button class="btn btn-sm btn-primary">Edit Profile</button>
+          <button class="btn btn-sm btn-dark">Edit Profile</button>
         </a>
       </div>
     {% endif %}

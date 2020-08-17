@@ -4,6 +4,20 @@
   <div class="container">
     <h2 class="profile-title">Update Profile</h2>
     <p>Change your password <a href="{% url 'password_change' %}">here</a></p>
+    {% if not object.member.email %}
+      <p>We do not have an email on file for you. Unless you provide a recovery email, you will be unable to recover your password. You may provide an email address by pressing the button below.</p>
+    {% endif %}
+    <p><a href="{% url 'email_change' object.member.pk %}"><button class="btn btn-sm btn-warning">Update Personally Identifiable Information</button></a></p>
+    <div class="row">
+      <div class="col-sm-2">
+        <h5 class="form-label">New: </h5>
+      </div>
+      <div class="col-sm-10">
+        <a href="{% url 'objects:image_create' %}?next={{ request.path }}">
+          <button class="btn btn-sm btn-primary">Image</button>
+        </a>
+      </div>
+    </div>
     <form  method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <!-- Standard field iterator -->

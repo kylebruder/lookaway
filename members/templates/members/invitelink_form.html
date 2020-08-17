@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class ="container create-bg">
+  <div class="container">
+    <h2 class="images-title">Invite a New Member</h2>
+    <br>
+    <br>
+  </div>
+  <br>
+  <div class="container">
+    <form  method="post">
+      {% csrf_token %}
+      {% include 'form_fields.html' %}
+      <input type="submit" value="Submit" class="btn btn-success">
+    </form>
+    <br>
+  </div>
+</div>
+{% endblock %}

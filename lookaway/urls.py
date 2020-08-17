@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.staticfiles.urls import static, staticfiles_urlpatterns
 from django.urls import include, path
+from members.views import InviteLinkCreateView, InviteLinkDetailView, MemberEmailChangeView
 from . import settings
 
 urlpatterns = [
@@ -38,12 +39,17 @@ urlpatterns = [
         include('home.urls'),
     ),
     path(
+        'invite/',
+        InviteLinkCreateView.as_view(),
+        name='invite',
+    ),
+    path(
         'login/',
         auth_views.LoginView.as_view(template_name='login.html'),
         name='login',
     ),
     path(
-        'logout',
+        'logout/',
          auth_views.LogoutView.as_view(),
          name='logout',
     ),
@@ -51,6 +57,11 @@ urlpatterns = [
         'change-password/',
          auth_views.PasswordChangeView.as_view(template_name='password_change.html'),
          name='password_change',
+    ),
+    path(
+        'change-email/<int:pk>/',
+         MemberEmailChangeView.as_view(),
+         name='email_change',
     ),
     path(
         'reset-password/',

@@ -14,7 +14,7 @@ from .views import *
 class ImageTest(TestCase):
 
     def setUp(self):
-        #self.factory = RequestFactory()
+        self.factory = RequestFactory()
         self.client = Client()
         self.data = TestData()
         self.member, self.user = self.data.create_test_member()
@@ -29,17 +29,25 @@ class ImageTest(TestCase):
 
     def test_read_urls(self):
         # GET empty public Image list
+        request = self.factory.get('/')
+        request.user = self.user
         response = self.client.get(reverse('objects:public_images'))
         self.assertEqual(response.status_code, 200)
         # GET Member Image list
+        request = self.factory.get('/')
+        request.user = self.user
         response = self.client.get(reverse('objects:member_images', kwargs={'member': self.member.username}))
         self.assertEqual(response.status_code, 200)
         # GET create view
+        request = self.factory.get('/')
+        request.user = self.user
         response = self.client.get(reverse('objects:image_create'))
         self.assertEqual(response.status_code, 200)
 
     def test_post_create(self):
         # POST create view
+        request = self.factory.get('/')
+        request.user = self.user
         data, img = self.data.small_image(self.member)
         response = self.client.post(
             reverse('objects:image_create'),
@@ -50,8 +58,9 @@ class ImageTest(TestCase):
  
     def test_post_update(self):
         # POST update view
+        request = self.factory.get('/')
+        request.user = self.user
         data, img = self.data.small_image(self.member)
-        # POST create view
         response = self.client.post(
             reverse(
                 'objects:image_update',
@@ -80,7 +89,7 @@ class ImageTest(TestCase):
 class SoundTest(TestCase):
 
     def setUp(self):
-        #self.factory = RequestFactory()
+        self.factory = RequestFactory()
         self.data = TestData()
         self.client = Client()
         self.member, self.user = self.data.create_test_member()
@@ -95,6 +104,8 @@ class SoundTest(TestCase):
             f.unlink()
 
     def test_read_urls(self):
+        request = self.factory.get('/')
+        request.user = self.user
         # GET empty public Sound list
         response = self.client.get(reverse('objects:public_sounds'))
         self.assertEqual(response.status_code, 200)
@@ -105,8 +116,10 @@ class SoundTest(TestCase):
         response = self.client.get(reverse('objects:sound_create'))
         self.assertEqual(response.status_code, 200)
 
-    def test_post_create(self):
+    def test_create_urls(self):
         # POST create view
+        request = self.factory.get('/')
+        request.user = self.user
         data, smp = self.data.small_sound(self.member)
         response = self.client.post(
             reverse('objects:sound_create'),
@@ -115,10 +128,10 @@ class SoundTest(TestCase):
         )
         self.assertEqual(response.status_code, 200)
  
-    def test_post_update(self):
-        # POST update view
+    def test_update_urls(self):
+        request = self.factory.get('/')
+        request.user = self.member
         data, smp = self.data.small_sound(self.member)
-        # POST create view
         response = self.client.post(
             reverse(
                 'objects:sound_update',
@@ -158,6 +171,7 @@ class SoundTest(TestCase):
 class CodeTest(TestCase):
 
     def setUp(self):
+        self.factory = RequestFactory()
         self.client = Client()
         self.data = TestData()
         self.member, self.user = self.data.create_test_member()
@@ -169,6 +183,8 @@ class CodeTest(TestCase):
         pass
 
     def test_read_urls(self):
+        request = self.factory.get('/')
+        request.user = self.user
         # GET empty public Code list
         response = self.client.get(reverse('objects:public_code'))
         self.assertEqual(response.status_code, 200)
@@ -181,6 +197,8 @@ class CodeTest(TestCase):
 
     def test_post_create(self):
         # POST create view
+        request = self.factory.get('/')
+        request.user = self.user
         data = self.data.link_data()
         response = self.client.post(
             reverse('objects:code_create'),
@@ -190,6 +208,8 @@ class CodeTest(TestCase):
         self.assertEqual(response.status_code, 200)
  
     def test_post_update(self):
+        request = self.factory.get('/')
+        request.user = self.user
         # POST update view
         data = self.data.code_data()
         code = Code.objects.create(owner=self.member, **data)
@@ -233,6 +253,7 @@ class CodeTest(TestCase):
 class LinkTest(TestCase):
 
     def setUp(self):
+        self.factory = RequestFactory()
         self.client = Client()
         self.data = TestData()
         self.member, self.user = self.data.create_test_member()
@@ -248,6 +269,8 @@ class LinkTest(TestCase):
             f.unlink()
 
     def test_read_urls(self):
+        request = self.factory.get('/')
+        request.user = self.user
         # GET empty public Link list
         response = self.client.get(reverse('objects:public_links'))
         self.assertEqual(response.status_code, 200)
@@ -260,6 +283,8 @@ class LinkTest(TestCase):
 
     def test_post_create(self):
         # POST create view
+        request = self.factory.get('/')
+        request.user = self.user
         data = self.data.link_data()
         response = self.client.post(
             reverse('objects:link_create'),
@@ -269,6 +294,8 @@ class LinkTest(TestCase):
         self.assertEqual(response.status_code, 200)
  
     def test_post_update(self):
+        request = self.factory.get('/')
+        request.user = self.user
         # POST update view
         data = self.data.link_data()
         link = Link.objects.create(owner=self.member, **data)

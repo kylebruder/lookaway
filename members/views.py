@@ -1,13 +1,20 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.forms import ValidationError
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, reverse
 from django.urls import reverse_lazy
+from django.utils import timezone, text
 from django.views.generic import TemplateView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
 from documentation.models import SupportDocument
 from objects.models import Image, Sound, Video, Code, Link
 from .forms import ProfileForm
-from .models import Member, Profile
+from .models import Member, Profile, InviteLink
 # Create your views here.
 
 class StudioView(LoginRequiredMixin, TemplateView):
@@ -82,7 +89,7 @@ class MemberProfileView(DetailView):
     
         return context
 
-class MemberProfileUpdateView(UpdateView):
+class MemberProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Profile
     form_class = ProfileForm
@@ -100,3 +107,81 @@ class MemberProfileUpdateView(UpdateView):
             return reverse_lazy('members:member_profile', 
                 kwargs={'slug': self.object.slug}
             )
+
+class MemberEmailChangeView(LoginRequiredMixin, UpdateView):
+
+    model = Member
+    fields = ['first_name', 'last_name', 'email']
+
+    def form_valid(self, form):
+        if self.request.user.pk == self.object.pk:
+            return super().form_valid(form)
+        else:
+            return reverse_lazy('members:member_profile',
+                kwargs={'slug': self.object.username}
+            )
+            
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse_lazy('members:member_profile',
+                kwargs={'slug': self.object.username}
+            )
+
+def member_registration(request, *args, **kwargs):
+    if request.method == 'POST':
+        global invite 
+        invite = InviteLink.objects.get(
+            pk=request.POST.get('invite'),
+        )
+        if invite.expiration_date > timezone.now():
+            f = UserCreationForm(request.POST)
+            if f.is_valid():
+                f.save()
+                invite.delete()
+                messages.success(
+                    request,
+                    "Welcome! Please log in using your provided credentials."
+                )
+                return HttpResponseRedirect(reverse('login'))
+        else:
+            messages.info(
+                request,
+                "The invite link is expired and can no longer be used."
+            )
+            return HttpResponseRedirect(reverse('login'))
+    return HttpResponseRedirect(
+        reverse_lazy(
+            'members:invite_link_detail',
+            kwargs={
+                'slug': invite.slug,
+            },
+        )
+    )
+
+class InviteLinkCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+
+    permission_required = 'members.add_invitelink'
+    model = InviteLink
+    fields = ['label', 'note']
+
+    def form_valid(self, form):
+        form.instance.slug = self.model.make_slug(form.instance)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('members:invite_link_detail', 
+            kwargs={'slug': self.object.slug}
+        )
+
+class InviteLinkDetailView(DetailView):
+
+    model = InviteLink
+    template_name = 'member_registration.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = UserCreationForm() 
+        return context

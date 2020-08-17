@@ -24,11 +24,12 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
             image = ImageOps.exif_transpose(image)
             image.save(q)
         except:
-            print("Image upload handler failed to transpose EXIF tags")
+            #print("Image upload handler failed to transpose EXIF tags")
+            pass
         
         # Resize the original if it is bigger than 2500 by 2500
         if image.width > 2500 or image.height > 2500:
-            print("Resizing image...")
+            #print("Resizing image...")
             max_size = (2500, 2500)
             image.thumbnail(max_size)
             image.save(instance.image_file.path)
