@@ -1,4 +1,5 @@
 import re
+import logging
 from bs4 import BeautifulSoup
 from urllib import request as rq
 from urllib.parse import urlparse
@@ -10,6 +11,7 @@ from PIL import ImageOps
 from .models import Image, Link
 from .utils import FileSystemOps
 
+logger = logging.getLogger(__name__)
 # Images
 @receiver(post_save, sender=Image)
 def handle_image_upload(sender, instance, created, *args, **kwargs):
@@ -19,36 +21,28 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
     '''
     if created:
         image = img.open(instance.image_file.path)
-        # Transpose Exif tags if the image has them
-        try:
-            image = ImageOps.exif_transpose(image)
-            image.save(q)
-        except:
-            #print("Image upload handler failed to transpose EXIF tags")
-            pass
-        
         # Resize the original if it is bigger than 2500 by 2500
         if image.width > 2500 or image.height > 2500:
-            #print("Resizing image...")
+            print("Resizing image...")
             max_size = (2500, 2500)
             image.thumbnail(max_size)
             image.save(instance.image_file.path)
         # Create a thumbnail based on the uploaded image
         max_size = (250, 250)
         image.thumbnail(max_size)
-        try:
-            owner = instance.owner.id
-        except:
-            owner = 0
+        owner = instance.owner.id
         thumb_dir = instance.creation_date.strftime(
             'member_{0}/thumbnails/%Y/%m/%d/'.format(owner)
         )
+        print("Thumb dir: {}".format(thumb_dir))
         file_name = instance.image_file.name.split('/')[-1].split('.')[0]
         extension = instance.image_file.name.split('/')[-1].split('.')[-1]
         thumb_file_name = '{}{}{}'.format(file_name, '-thumbnail.', extension)
         p = Path('media')
         q = p / thumb_dir
+        print(q)
         Path.mkdir(q, parents=True, exist_ok=True)
+        print(q.exists())
         image.save(q / thumb_file_name)
         image.close()
         p = Path(thumb_dir)
