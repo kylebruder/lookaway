@@ -1,21 +1,22 @@
 #!/bin/bash
 
-project=lookaway
-venv_dir=lookaway_env
-user=lookaway
-group=lookaway
+project="lookaway"
+venv_dir="lookaway-env"
+user="lookaway"
+group="lookaway"
 
 NAME="$project"
 DJANGODIR=/home/$user/$venv_dir/$project
 USER=$user
 GROUP=$group
-WORKERS=3
-BIND=unix:/home/$user/$venv_dir/$project/run/gunicorn.sock
-DJANGO_SETTINGS_MODULE=wells.settings
-DJANGO_WSGI_MODULE=wells.wsgi
+WORKERS=1
+BIND=unix:/home/lookaway/lookaway-env/lookaway/gunicorn.sock
+DJANGO_SETTINGS_MODULE=lookaway.settings
+DJANGO_WSGI_MODULE=lookaway.wsgi
 LOGLEVEL=error
 
 cd /home/$user
+source .bash_profile
 source $venv_dir/bin/activate
 
 export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
