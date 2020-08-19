@@ -8,6 +8,14 @@ var loadFile = function(event) {
   }
 };
 
+// Show video upload preview
+// https://stackoverflow.com/questions/36035721/how-can-i-set-preview-of-video-file-selecting-from-input-type-file/40580663
+$(document).on("change", ".file_multi_video", function(evt) {
+  var $source = $('#video_here');
+  $source[0].src = URL.createObjectURL(this.files[0]);
+  $source.parent()[0].load();
+});
+
 // Searchable select field
 // https://stackoverflow.com/questions/18796221/creating-a-select-box-with-a-search-option/57809086#57809086
 $(document).ready(function () {
