@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from pathlib import Path
 from PIL import Image as img
 from PIL import ImageOps
+from lookaway.settings import BASE_DIR
 from .models import Image, Link
 from .utils import FileSystemOps
 
@@ -47,7 +48,7 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
         extension = instance.image_file.name.split('/')[-1].split('.')[-1]
         thumb_file_name = '{}{}{}'.format(file_name, '-thumbnail.', extension)
         p = Path('media')
-        q = p / thumb_dir
+        q = BASE_DIR / p / thumb_dir
         Path.mkdir(q, parents=True, exist_ok=True)
         image.save(q / thumb_file_name)
         image.close()
