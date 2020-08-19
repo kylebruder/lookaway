@@ -17,10 +17,8 @@
   {% if section.sounds.count > 0 %}
     {% for sound in section.sounds.all %}
       <p>{{ sound.text }}</p>
-      <audio controls>
-        <source src="{{ sound.sound_file.url }}" type="audio/mpeg">
-        <source src="{{ sound.sound_file.url }}" type="audio/ogg">
-        Your Browser does not support the media player.
+      <audio controls="controls">
+        {% include 'audio_mime_types.html' %}
       </audio>
       <br>
       <br>
@@ -32,8 +30,8 @@
   {% if section.videos.count > 0  %}
     {% for video in section.videos.all %}
       <p>{{ video.text }}</p>
-      <video class="video-player" src="{{ video.video_file.url }}" controls>
-        Your Browser does not support the media player.
+      <video class="video-player" controls="controls">
+        {% include 'video_mime_types.html' %}
       </video>
       <br>
       <br>

@@ -6,10 +6,8 @@
     </div>
     <br>
     <div class="container">
-      <audio controls>
-        <source src="{{ sound.sound_file.url }}" type="audio/mpeg">
-        <source src="{{ sound.sound_file.url }}" type="audio/ogg">
-          Your Browser does not support the media player
+      <audio controls="controls">
+        {% include 'audio_mime_types.html' %}
       </audio>
       <br>
       <br>

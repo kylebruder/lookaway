@@ -10,10 +10,12 @@ var loadFile = function(event) {
 
 // Show video upload preview
 // https://stackoverflow.com/questions/36035721/how-can-i-set-preview-of-video-file-selecting-from-input-type-file/40580663
-$(document).on("change", ".file_multi_video", function(evt) {
-  var $source = $('#video_here');
-  $source[0].src = URL.createObjectURL(this.files[0]);
-  $source.parent()[0].load();
+$(document).on("change", ".file_multi_media", function(evt) {
+  var source = $('source');
+  for(let i = 0; i < source.length; i++){
+    source[i].src = URL.createObjectURL(this.files[0]);
+    source.parent()[0].load();
+  }
 });
 
 // Searchable select field

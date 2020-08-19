@@ -24,7 +24,6 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
         image = img.open(instance.image_file.path)
         # Resize the original if it is bigger than 2500 by 2500
         if image.width > 2500 or image.height > 2500:
-            print("Resizing image...")
             max_size = (2500, 2500)
             image.thumbnail(max_size)
             image.save(instance.image_file.path)
@@ -35,14 +34,12 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
         thumb_dir = instance.creation_date.strftime(
             'member_{0}/thumbnails/%Y/%m/%d/'.format(owner)
         )
-        print("Thumb dir: {}".format(thumb_dir))
         file_name = instance.image_file.name.split('/')[-1].split('.')[0]
         extension = instance.image_file.name.split('/')[-1].split('.')[-1]
         thumb_file_name = '{}{}{}'.format(file_name, '-thumbnail.', extension)
         p = Path('media')
         q = BASE_DIR / p / thumb_dir
         Path.mkdir(q, parents=True, exist_ok=True)
-        print(q.exists())
         image.save(q / thumb_file_name)
         image.close()
         p = Path(thumb_dir)

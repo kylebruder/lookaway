@@ -4,10 +4,8 @@
   {% if sound.is_public or sound.owner.pk == request.user.pk %}
     {% include './sound_detail_button_bar.html %}
     <p>{{ sound.text }}</p>
-    <audio controls>
-      <source src="{{ sound.sound_file.url }}" type="audio/mpeg">
-      <source src="{{ sound.sound_file.url }}" type="audio/ogg">
-        Your Browser does not support the media player.
+    <audio controls="controls">
+      {% include 'audio_mime_types.html %}
     </audio>
     <br>
     <br>

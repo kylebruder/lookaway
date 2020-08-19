@@ -6,11 +6,9 @@
     </div>
     <br>
     <div class="container">
-      <audio controls>
-        <source src="{{ video.video_file.url }}" type="audio/mpeg">
-        <source src="{{ video.video_file.url }}" type="audio/ogg">
-          Your Browser does not support the media player
-      </audio>
+      <video class="video-player-sm" controls>
+        {% include 'video_mime_types.html' %}
+      </video>
       <br>
       <br>
       {% include './new_tag.html' %}
