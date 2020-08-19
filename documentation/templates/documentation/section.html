@@ -30,7 +30,7 @@
   {% if section.videos.count > 0  %}
     {% for video in section.videos.all %}
       <p>{{ video.text }}</p>
-      <video class="video-player" controls="controls">
+      <video class="video-player" preload="auto" controls="controls">
         {% include 'video_mime_types.html' %}
       </video>
       <br>

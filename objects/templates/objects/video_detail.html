@@ -4,7 +4,7 @@
   {% if video.is_public or video.owner.pk == request.user.pk %}
     {% include './video_detail_button_bar.html' %}
     <p>{{ video.text }}</p>
-    <video class="video-player" controls>
+    <video class="video-player" preload="auto" controls>
       {% include 'video_mime_types.html' %}
     </video>
     <br>
