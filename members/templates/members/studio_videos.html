@@ -1,4 +1,13 @@
-<h4 class="studio-title">Your Videos</h4>
+<div class="row">
+  <div class="col">
+    <h4 class="studio-title">Your Video</h4>
+  </div>
+  <div class="col-">
+    <a href="{% url 'objects:video_create' %}">
+      <button class="btn btn-sm btn-primary">New Video</button>
+    </a>
+  </div>
+</div>
 {% if videos %}
   <ul class="list-group">
     {% for video in videos %}
@@ -20,7 +29,7 @@
   </p>
 {% else %}
   <p>You have not uploaded any Videos yet</p>
-  <a href="{% url 'objects:image_create' %}">
+  <a href="{% url 'objects:video_create' %}">
     <button class="btn btn-success">Upload Video</button>
   </a>
 {% endif %}

@@ -78,7 +78,7 @@ urlpatterns = [
         name='member_sounds',
     ),
     path(
-        'member/<slug:member>/sounds/',
+        'member/<slug:member>/videos/',
         views.MemberVideoView.as_view(),
         name='member_videos',
     ),

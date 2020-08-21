@@ -1,4 +1,13 @@
-<h4 class="studio-title">Your Links</h4>
+<div class="row">
+  <div class="col">
+    <h4 class="studio-title">Your Link</h4>
+  </div>
+  <div class="col-">
+    <a href="{% url 'objects:link_create' %}">
+      <button class="btn btn-sm btn-primary">New Link</button>
+    </a>
+  </div>
+</div>
 {% if links %}
   <ul class="list-group">
     {% for link in links %}

@@ -1,4 +1,13 @@
-<h4 class="studio-title">Your Images</h4>
+<div class="row">
+  <div class="col">
+    <h4 class="studio-title">Your Images</h4>
+  </div>
+  <div class="col-">
+    <a href="{% url 'objects:image_create' %}">
+      <button class="btn btn-sm btn-primary">New Image</button>
+    </a>
+  </div>
+</div>
 {% if images %}
   <div class="studio-image-matrix">
     {% for i in images %}

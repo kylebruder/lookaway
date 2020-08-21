@@ -1,4 +1,13 @@
-<h4 class="studio-title">Your Support Documents</h4>
+<div class="row">
+  <div class="col">
+    <h4 class="studio-title">Your Support Documents</h4>
+  </div>
+  <div class="col-">
+    <a href="{% url 'documentation:support_document_create' %}">
+      <button class="btn btn-sm btn-primary">New Support Document</button>
+    </a>
+  </div>
+</div>
 {% if documents %}
   <ul class="list-group">
     {% for document in documents %}

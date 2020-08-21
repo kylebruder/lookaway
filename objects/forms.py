@@ -33,8 +33,8 @@ class ImageCreateForm(forms.ModelForm):
     class Meta:
         model = Image
         fields = [
-            'title',
             'image_file',
+            'title',
             'text',
             'credit',
             'tags',
@@ -72,8 +72,8 @@ class SoundCreateForm(forms.ModelForm):
     class Meta:
         model = Sound
         fields = [
-            'title',
             'sound_file',
+            'title',
             'text',
             'credit',
             'tags',
@@ -111,8 +111,8 @@ class VideoCreateForm(forms.ModelForm):
     class Meta:
         model = Video
         fields = [
-            'title',
             'video_file',
+            'title',
             'text',
             'credit',
             'tags',
