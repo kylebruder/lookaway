@@ -14,6 +14,16 @@ import os
 from django.contrib.messages import constants as messages
 from django.urls import reverse_lazy
 
+### Site variables
+
+# When a new member is created, set the limit for number of bytes they
+# can use in the media directory. 10**10 = 10 gigabytes.
+# If you dont need space on your media storage for backups,
+# then the default should be < total storage capacity / n members
+# to prevent the disk from getting too full.
+DEFAULT_MEMBER_STORAGE = 10**10
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')

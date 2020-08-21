@@ -5,6 +5,7 @@ from random import randrange
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from lookaway.settings import DEFAULT_MEMBER_STORAGE
 from objects.models import Image
 
 
@@ -167,7 +168,7 @@ class Profile(models.Model):
     member = models.OneToOneField(Member, on_delete=models.CASCADE)
     slug = models.SlugField()
     last_marshmallow_allocation = models.DateTimeField(default=timezone.now)
-    media_capacity = models.PositiveIntegerField(default=5*10**8)
+    media_capacity = models.PositiveIntegerField(default=DEFAULT_MEMBER_STORAGE)
     text = models.TextField(
         blank=True,
         null=True,
