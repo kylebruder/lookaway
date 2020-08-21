@@ -13,6 +13,7 @@ from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteVi
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from documentation.models import SupportDocument
+from lookaway.settings import BASE_DIR
 from members.models import Member
 from members.mixins import MemberOwnershipView, MemberDeleteView
 from .forms import (ImageCreateForm, ImageUpdateForm, SoundCreateForm,
@@ -31,7 +32,7 @@ class ImageCreateView(LoginRequiredMixin, CreateView):
         
         member = Member.objects.get(pk=self.request.user.pk)
         has_free_space, free, used = member.check_free_media_capacity(
-            'media/member_{}/'.format(member.pk),
+            BASE_DIR + '/media/member_{}/'.format(member.pk),
         )
         upload_size = self.request.FILES['image_file'].size
         print('{}, {}, {}'.format(has_free_space, free, used))
@@ -219,7 +220,7 @@ class SoundCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         member = Member.objects.get(pk=self.request.user.pk)
         has_free_space, free, used = member.check_free_media_capacity(
-            'media/member_{}/'.format(member.pk),
+            BASE_DIR + '/media/member_{}/'.format(member.pk),
         )
         upload_size = self.request.FILES['sound_file'].size
         print('{}, {}, {}'.format(has_free_space, free, used))
@@ -406,7 +407,7 @@ class VideoCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         member = Member.objects.get(pk=self.request.user.pk)
         has_free_space, free, used = member.check_free_media_capacity(
-            'media/member_{}/'.format(member.pk),
+            BASE_DIR + '/media/member_{}/'.format(member.pk),
         )
         upload_size = self.request.FILES['video_file'].size
         print('{}, {}, {}'.format(has_free_space, free, used))
