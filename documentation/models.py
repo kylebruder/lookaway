@@ -24,6 +24,11 @@ class SupportDocument(MetaDataMixin, MarshmallowMixin):
         'objects.link',
         blank=True,
     )
+    meta_description = models.TextField(
+        max_length = 155,
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return self.title
@@ -39,9 +44,17 @@ class Section(MetaDataMixin):
     )
     text = models.TextField(max_length=2048)
     support_document = models.ForeignKey(
-        'SupportDocument',
+        SupportDocument,
         on_delete=models.CASCADE,
+        related_name='parent_doc',
     ) 
+    support_reference = models.ForeignKey(
+        SupportDocument,
+        on_delete=models.SET_NULL,
+        related_name='reference_doc',
+        blank=True,
+        null=True,
+    )
     images = models.ManyToManyField(
         'objects.image',
         blank=True,

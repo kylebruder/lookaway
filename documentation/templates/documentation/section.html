@@ -56,6 +56,10 @@
     {% endfor %}
     <br>
   {% endif %}
+  {% if section.support_reference %}
+    <a href="{% url 'documentation:support_document_detail' section.support_reference.slug %}"><p>{{ section.support_reference.title }}</p></a>
+    <br>
+  {% endif %}
   {% if section.links.count > 0  %}
     {% for link in section.links.all %}
       {% if link.title %}

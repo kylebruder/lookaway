@@ -39,6 +39,7 @@ class SupportDocumentForm(forms.ModelForm):
         model = SupportDocument
         fields = (
             'title',
+            'meta_description',
             'intro',
             'outro',
             'image',
@@ -47,7 +48,8 @@ class SupportDocumentForm(forms.ModelForm):
             'tags',
         )
         help_texts = {
-            'title': "Give the Support Document a memorable and unique title that will be easy to reference later.",
+            'title': "Give this document a title containing key words that relate to its topic. The title will be displayed on search engine results pages (SERPs) and will improve search engine optimization (SEO). The optimal format is 'Primary Keyword - Secondary Keyword | Brand Name'.",
+            'meta_description': "Add a short description of this document. This description will be used by SERPs and will improve SEO. Include key words used in the title. Keep in less than 155 characters.",
             'intro': "Introduce the topic of the Support Document.",
             'outro': "Restate the concept of what is to be accomplished by following the Support Document.",
             'image': "Choose an image that represents the topic of the Support Document.",
@@ -83,10 +85,12 @@ class SectionForm(forms.ModelForm):
             'videos',
             'code',
             'links',
+            'support_reference',
         )
         help_texts = {
             'title': "Give the Section a memorable and unique title that will be easy to reference later.",
             'support_document': "Choose the Support Document in which this Section will appear.",
+            'support_reference': "Does this Section reference another Support Document? Add one here.",
             'order': "Choose the order in which the Section will appear in the Support Document. Decimals are allowed.",
             'text': "Enter the written instructions here.",
             'images': "Choose one or more Images that support your instructions.",
