@@ -163,7 +163,14 @@ LOGIN_URL = reverse_lazy('login')
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-DEFAULT_FROM_EMAIL = 'help@kbruder.info'
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = os.environ['ES_FROM']
+EMAIL_HOST = os.environ['ES_HOST']
+EMAIL_PORT = os.environ['ES_PORT']
+EMAIL_HOST_USER = os.environ['ES_USER']
+EMAIL_HOST_PASSWORD = os.environ['ES_PASS']
+EMAIL_USE_TLS = True
 
 # Logging
 LOGGING = {
@@ -179,7 +186,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['file'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
     },

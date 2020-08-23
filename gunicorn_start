@@ -16,7 +16,7 @@ DJANGO_WSGI_MODULE=lookaway.wsgi
 LOGLEVEL=error
 
 cd /home/$user
-source .bash_profile
+source .profile
 source $venv_dir/bin/activate
 
 export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
