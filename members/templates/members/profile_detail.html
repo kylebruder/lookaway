@@ -43,6 +43,26 @@
     <p>{{ profile.text }}</p>
   {% endif %}
   <br>
+  {% if documents %}
+    <h4 class="studio-title">Support Documents</h4>
+    <ul class="list-group">
+      {% for document in documents %}
+        <li class="list-group-item documentation-list-li">
+          <p>
+            <a href="{% url 'documentation:support_document_detail' document.slug %}">
+              {{ document.title }}
+            </a>
+            {% if not document.is_public %}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+    <p>
+      <a href="{% url 'documentation:member_support_documents' member=documents.0.owner.username %}">more ...</a>
+    </p>
+  {% endif %}
   {% if request.user.is_authenticated %}
     <div class="row">
       {% if images %}
@@ -81,8 +101,6 @@
                     <span class="badge badge-secondary">Unpublished</span>
                   </div>
                 {% endif %}
-                <br>
-                {{ video.credit }}
               </li>
             {% endfor %}
           </ul>
@@ -105,8 +123,6 @@
                     <span class="badge badge-secondary">Unpublished</span>
                   </div>
                 {% endif %}
-                <br>
-                {{ sound.credit }}
               </li>
             {% endfor %}
           </ul>
@@ -124,8 +140,6 @@
                 <a href="{% url 'objects:code_detail' code.pk %}">
                   {{ code.title }}
                 </a>
-                <br>
-                {{ code.language }} {{ code.language_version }}
                 {% if code.owner.pk == request.user.pk and not code.is_public%}
                   <span class="badge badge-secondary">Unpublished</span>
                 {% endif %}
@@ -154,7 +168,6 @@
             {% if link.favicon_href %}
               <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
             {% endif %}
-            {{ link.url }}
             {% if not link.is_public %}
               <span class="badge badge-secondary">Unpublished</span>
             {% endif %}

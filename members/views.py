@@ -62,6 +62,11 @@ class MemberProfileView(DetailView):
         context = super().get_context_data(**kwargs)
         member = self.object.member
         context['member'] = member
+        # Documentation
+        context['documents'] = SupportDocument.objects.filter(
+            owner=member
+        ).order_by('is_public', '-creation_date')[:5]
+        # Images
         context['images'] = Image.objects.filter(
             owner=member,
             is_public=True,
