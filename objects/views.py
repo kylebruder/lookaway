@@ -744,7 +744,7 @@ def publish_code_view(request, pk):
 class LinkCreateView(LoginRequiredMixin, CreateView):
 
     model = Link
-    form_class = LinkForm
+    fields = ['url',]
     template_name_suffix = '_form'
 
     def form_valid(self, form):

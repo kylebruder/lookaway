@@ -3,10 +3,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-
-  <title>Lookaway CMS</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
+  {% if object.title %}
+    <title>{{ object.title }}</title>
+  {% else %}
+    <title>Lookaway CMS</title>
+  {% endif %}
+  {% if object.meta_description %}
+    <meta name="description" content="{{ object.meta_description }}">
+  {% endif %}
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  
@@ -49,7 +53,7 @@
   <!-- <footer class="container page-footer font-small base-footer">
     <div class="container">
       © kbruder Tech 2020 | <a href="https://www.github.com/kylebruder">My Git Hub</a>
-    </div> -->
-  </footer>
+    </div>
+  </footer> -->
 </body>
 </html>
