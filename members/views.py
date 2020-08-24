@@ -1,3 +1,4 @@
+import datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.forms import UserCreationForm
@@ -174,6 +175,7 @@ class InviteLinkCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
 
     def form_valid(self, form):
         form.instance.slug = self.model.make_slug(form.instance)
+        form.instance.expiration_date += datetime.timedelta(days=7)
         return super().form_valid(form)
 
     def get_success_url(self):

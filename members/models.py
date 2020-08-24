@@ -199,7 +199,7 @@ class InviteLink(models.Model):
         unique=True,
     )
     expiration_date = models.DateTimeField(
-        default=timezone.now()+datetime.timedelta(days=7)
+        default=timezone.now
     )
     label = models.CharField(
         max_length=64,
