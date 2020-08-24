@@ -83,11 +83,7 @@ def scrape_link_fields(sender, instance, created, *args, **kwargs):
                 try:
                     instance.text = soup.find('meta', {'name': 'description'}).get('content')
                 except:
-                    pass
-                try:
-                    instance.text = soup.find('p').string
-                except:
-                    pass
+                    instance.text = soup.p
                 # Look for the favicon
                 try:
                     href = soup.find('link',  attrs={'rel':'shortcut icon'}).get('href')
