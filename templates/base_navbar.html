@@ -12,15 +12,15 @@
           {% include 'base_nav_objects_dropdown.html' %}
         </li>
         <li class="nav-item">
+          <a class="nav-link nav-font" href="{% url 'members:studio' %}">Studio</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">Documentation</a>
         </li>
       </ul>
       <span class="nav-text">
         <a class="" href="{% url 'members:member_profile' request.user.username %}">
           <button class="btn btn-sm btn-dark">Profile</button>
-        </a>
-        <a href="{% url 'members:studio' %}">
-          <button class="btn btn-sm btn-dark">Studio</button>
         </a>
         <a href="{% url 'logout' %}">
           <button class="btn btn-sm btn-danger">Logout</button>

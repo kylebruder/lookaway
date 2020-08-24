@@ -1,6 +1,6 @@
 <div class="documentation-section">
   {% include './section_detail_button_bar.html' %}
-  <p>{{ section.text }}</p>
+  <p>{{ section.text|linebreaks }}</p>
   {% if section.images.count > 0 %}
     {% for image in section.images.all %}
       <div class="documentation-seciton-image">
@@ -12,7 +12,6 @@
         <br>
       </div>
     {% endfor %}
-    <br>
   {% endif %}
   {% if section.sounds.count > 0 %}
     {% for sound in section.sounds.all %}
@@ -21,11 +20,12 @@
         {% include 'audio_mime_types.html' %}
       </audio>
       <br>
+      {% if sound.credit %}
+        <i>{{ sound.credit }}</i>
+      {% endif %}
       <br>
-      <i>{{ sound.credit }}</i>
       <br>
     {% endfor %}
-    <br>
   {% endif %}
   {% if section.videos.count > 0  %}
     {% for video in section.videos.all %}
@@ -34,8 +34,10 @@
         {% include 'video_mime_types.html' %}
       </video>
       <br>
+      {% if sound.credit %}
+        <i>{{ video.credit }}</i>
+      {% endif %}
       <br>
-      <i>{{ video.credit }}</i>
       <br>
     {% endfor %}
     <br>
@@ -69,8 +71,6 @@
         <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
       {% endif %}
       <a href="{{ link.url }}" class="links-list-link"><p class="links-list-link">{{ link.url }}</p></a>
-      <br>
     {% endfor %}
-    <br>
   {% endif %}
 </div>
