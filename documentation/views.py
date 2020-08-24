@@ -256,7 +256,17 @@ class SectionUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
         return kwargs
 
     def form_valid(self, form):
+        # Update last modified date for the Section
         form.instance.last_modified = timezone.now()
+        # Update last modified date for the parent SupportDocument too
+        print(SupportDocument.objects.get(
+            pk=form.instance.support_document.pk
+        ) )
+        s = SupportDocument.objects.get(
+            pk=form.instance.support_document.pk
+        )
+        s.last_modified = timezone.now()
+        s.save()
         return super().form_valid(form)
 
     def get_success_url(self):
