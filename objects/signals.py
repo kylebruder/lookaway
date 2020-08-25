@@ -22,13 +22,11 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
     '''
     if created:
         image = img.open(instance.image_file.path)
-        # Resize the original if it is bigger than 2500 by 2500
         # Transpose Exif tags if the image has them
-        try:
-            image = ImageOps.exif_transpose(image)
-            image.save(q)
-        except:
-            print("no EXIF tags found")
+        image = ImageOps.exif_transpose(image)
+        image.save(instance.image_file.path)
+        print("transposed exif tags")
+        # Resize the original if it is bigger than 2500 by 2500
         if image.width > 2500 or image.height > 2500:
             max_size = (2500, 2500)
             image.thumbnail(max_size)
