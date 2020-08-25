@@ -9,11 +9,11 @@ class SupportDocument(MetaDataMixin, MarshmallowMixin):
 
     numbered = models.BooleanField(default=False)
     title = models.CharField(
-        max_length=64,
+        max_length=255,
     )
     slug = models.SlugField()
-    intro = models.TextField(max_length=2048)
-    outro = models.TextField(max_length=2048)
+    intro = models.TextField(max_length=65535)
+    outro = models.TextField(max_length=65535)
     image = models.ForeignKey(
         'objects.image',
         on_delete=models.SET_NULL,
@@ -40,9 +40,9 @@ class Section(MetaDataMixin):
         decimal_places=4,
     )
     title = models.CharField(
-        max_length=64,
+        max_length=255,
     )
-    text = models.TextField(max_length=2048)
+    text = models.TextField(max_length=65535)
     support_document = models.ForeignKey(
         SupportDocument,
         on_delete=models.CASCADE,
