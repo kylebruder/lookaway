@@ -25,7 +25,6 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
         # Transpose Exif tags if the image has them
         image = ImageOps.exif_transpose(image)
         image.save(instance.image_file.path)
-        print("transposed exif tags")
         # Resize the original if it is bigger than 2500 by 2500
         if image.width > 2500 or image.height > 2500:
             max_size = (2500, 2500)
@@ -98,7 +97,6 @@ def scrape_link_fields(sender, instance, created, *args, **kwargs):
                     # Ensure HTTPS in URI and FQDN
                     if o[0] == 'https' and o[1]:
                         instance.favicon_href = href
-                        print(instance.favicon_href)
                     # If no FQDN append the relative path to the FQDN
                     else:
                         url = urlparse(instance.url)
@@ -106,7 +104,6 @@ def scrape_link_fields(sender, instance, created, *args, **kwargs):
                         if url[0] == 'https':
                             href = url[0] + '://' + url[1] + href
                             instance.favicon_href = href
-                            print(instance.favicon_href)
                 post_save.disconnect(scrape_link_fields, sender=Link)
                 try:
                     instance.save()

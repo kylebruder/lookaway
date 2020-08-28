@@ -945,7 +945,10 @@ class TagDetailView(DetailView):
         context['documents'] = SupportDocument.objects.filter(tags__slug__exact=slug)
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
-            context['can_add_marshmallow'] = member.check_can_allocate()
+            if member.check_can_allocate() and not member.check_is_new():
+                context['can_add_marshmallow'] = True
+            else:
+                context['can_add_marshmallow'] = False
             context['images'] = Image.objects.filter(tags__slug__exact=slug)
             context['videos'] = Video.objects.filter(tags__slug__exact=slug)
             context['sounds'] = Sound.objects.filter(tags__slug__exact=slug)
