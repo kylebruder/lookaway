@@ -10,10 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-import os
-from django.contrib.messages import constants as messages
-from django.urls import reverse_lazy
-
 ### Site variables
 
 # When a new member is created, set the limit for number of bytes they
@@ -23,6 +19,10 @@ from django.urls import reverse_lazy
 # to prevent the disk from getting too full.
 DEFAULT_MEMBER_STORAGE = 10**10
 
+### Be careful changing things under this line ###
+import os
+from django.contrib.messages import constants as messages
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -32,13 +32,13 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '&4@))prkf4ivdxj1jl@uzramuz#-y*s46*q&p5)4@p-_b@28m0'
 
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'lookaway.dev.kbruder.info',
+    '192.168.0.110',
     'testserver',
     ]
 
@@ -161,4 +161,3 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_FROM_EMAIL = 'help@kbruder.info'
-

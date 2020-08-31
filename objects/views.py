@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import(
     LoginRequiredMixin,
     PermissionRequiredMixin,
     )
+from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import loader
@@ -902,6 +903,13 @@ class TagCreateView(LoginRequiredMixin, CreateView):
     template_name_suffix = '_form'
 
     def form_valid(self, form):
+        if form.instance.value == None and Tag.objects.filter(key=form.instance.key, value=None).count() >= 1:
+            messages.add_message(
+                self.request,
+                messages.WARNING,
+                'Tag with Key "{}" and no Value already exists'.format(form.instance.key),
+            )
+            return HttpResponseRedirect(self.request.path_info)
         if form.instance.value:
             form.instance.slug = text.slugify(
                 "{}-{}".format(form.instance.key, form.instance.value)
@@ -945,10 +953,7 @@ class TagDetailView(DetailView):
         context['documents'] = SupportDocument.objects.filter(tags__slug__exact=slug)
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
-            if member.check_can_allocate() and not member.check_is_new():
-                context['can_add_marshmallow'] = True
-            else:
-                context['can_add_marshmallow'] = False
+            context['can_add_marshmallow'] = member.check_can_allocate()
             context['images'] = Image.objects.filter(tags__slug__exact=slug)
             context['videos'] = Video.objects.filter(tags__slug__exact=slug)
             context['sounds'] = Sound.objects.filter(tags__slug__exact=slug)
@@ -979,9 +984,13 @@ class TagUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
-class TagDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class TagDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
     model = Tag
+    permission_required = 'objects:delete_tag'
 
     def get_success_url(self):
         return reverse('members:studio')
@@ -1105,3 +1114,4 @@ class LinkByTag(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
         return context
+
