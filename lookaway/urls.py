@@ -35,6 +35,10 @@ urlpatterns = [
         include('documentation.urls'),
     ),
     path(
+        'posts/',
+        include('posts.urls'),
+    ),
+    path(
         '',
         include('home.urls'),
     ),

@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'members',
     'objects',
     'documentation',
+    'posts',
 ]
 
 MIDDLEWARE = [
@@ -161,3 +162,4 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_FROM_EMAIL = 'help@kbruder.info'
+

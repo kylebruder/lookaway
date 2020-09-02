@@ -1,0 +1,163 @@
+.posts-bg {
+  background-color: #222222;
+  color: #eeeeee;
+  border-radius: 0px 0px 25px 25px;
+  margin-bottom: 40px;
+}
+
+.post-image-matrix {
+  max-height: 600px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.post-title {
+  font-family: 'Ibarra Real Nova', serif;
+}
+
+.post-caption {
+  text-align: left;
+  margin: 5px;
+}
+
+.post-card {
+  display: block;
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
+.post-card-container {
+  display: block;
+}
+
+.post-card-title {
+  font-size: 0.75em;
+  color: #eeeeee;
+  background: #222222;
+  padding: 5px;
+}
+
+.post-credit {
+  text-align: right;
+  margin: 5px;
+}
+
+.post-form-selector {
+  scrollbar-color: dark;
+  overflow-y: scroll;
+  max-height: 400px;
+} 
+
+.post-gallery-bg {
+  background-color: #222222;
+  color: #ffffff;
+  border-radius: 0px 0px 25px 25px;
+  margin-bottom: 40px;
+}
+
+.post-gallery-carousel {
+  width: 100%;
+  height: 700px;
+}
+
+.post-gallery-credit {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.post-gallery-image {
+  max-width: 100%;
+  max-height: 650px;
+  display: block;
+  margin: auto;
+  border-radius: 5px;
+}
+
+.post-gallery-li {
+  background-color: #222222;
+  color: #ffffff;
+  padding: 20px;
+  border-bottom: solid 2px #111111;
+}
+
+.post-gallery-list-image {
+  max-width: 100%;
+  max-height: 650px;
+  display: block;
+  margin: auto;
+  border-radius: 5px;
+}
+
+.post-gallery-thumbnail {
+  display: block;
+  max-width: 100%;
+  max-height: 100px;
+  border-radius: 10px;
+  margin-right: 20px;
+}
+
+.post-image {
+  max-width: 100%;
+  max-height: 750px;
+  border-radius: 5px;
+}
+
+.post-list-li {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+.post-piece-card {
+  display: block;
+  width: 160px;
+  height: 160px;
+  background-color: #222222;
+  background-size: cover;
+  padding: 5px;
+  margin: 10px;
+}
+
+.post-piece-description {
+  max-width: 500px;
+  text-align: left;
+  margin: 5px;
+}
+
+.post-piece-card-title {
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.75em;
+  color: #eeeeee;
+  background: #222222;
+  padding: 5px;
+}
+
+.post-section {
+  display: block;
+  max-width: 100%;
+}
+
+.post-section-li {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+.post-section-title {
+  font-family: 'Ibarra Real Nova', serif;
+}
+
+.post-thumbnail {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 15px;
+  padding: 10px;
+  margin: auto;
+}
+
+.post-title {
+  font-family: 'Ibarra Real Nova', serif;
+}
