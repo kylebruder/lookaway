@@ -106,9 +106,21 @@
   border-radius: 5px;
 }
 
+.post-list-image {
+  display: block;
+  width: 175px;
+  height: 175px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
 .post-list-li {
   background-color: #222222;
   color: #ffffff;
+  border-style: solid;
+  border-width: 0px 5px 5px 5px;
+  border-color: #111111;
 }
 
 .post-piece-card {
@@ -159,5 +171,5 @@
 }
 
 .post-title {
-  font-family: 'Ibarra Real Nova', serif;
+  font-family: 'Averia Serif Libre', serif; 
 }

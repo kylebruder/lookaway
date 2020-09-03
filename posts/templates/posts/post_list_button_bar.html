@@ -1,19 +1,19 @@
 <div class="row">
   <div class="col">
     {% if user_only %}
-      <h3 class="documentation-title">{{ member }}'s Documentation</h3>
+      <h3 class="documentation-title">{{ member }}'s Posts</h3>
     {% elif tag %}
-      <h3 class="documentation-title">Documentation</h3>
+      <h3 class="documentation-title">Posts</h3>
       <p><span class="badge badge-secondary">{{ tag }}</span></p>
     {% else %}
-      <h3 class="documentation-title">Documentation</h3>
+      <h3 class="documentation-title">Posts</h3>
     {% endif %}
   </div>
   {% if request.user.is_authenticated and request.user.is_staff %}
     <div class="col-">
       <div class="container">
-        <a href="{% url 'documentation:support_document_create' %}">
-          <button type="button" class="btn btn-sm btn-primary">New Support Document</button>
+        <a href="{% url 'posts:post_create' %}">
+          <button type="button" class="btn btn-sm btn-primary">New Post</button>
         </a>
       </div>
     </div>

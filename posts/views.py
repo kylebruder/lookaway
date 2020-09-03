@@ -55,8 +55,7 @@ class PostListView(ListView):
         return Post.objects.filter(
             is_public=True,
         ).order_by(
-            '-weight',
-            '-creation_date',
+            '-publication_date',
         )
     
 class MemberPostView(LoginRequiredMixin, ListView):
@@ -94,11 +93,16 @@ class PostDetailView(DetailView):
                 context['can_add_marshmallow'] = True
             else:
                 context['can_add_marshmallow'] = False
+        # Get the posts that are a response to this post
         context['responses'] = Post.objects.filter(
             re=self.object,
         ).filter(
             is_public=True,
         ).order_by('weight', '-publication_date')
+        # Check if any responses can be seen by non-members
+        for re in context['responses']:
+            if not re.members_only:
+                context['public_response'] = True
         return context
 
 class PostUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
