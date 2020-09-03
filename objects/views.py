@@ -17,6 +17,7 @@ from documentation.models import SupportDocument
 from lookaway.settings import BASE_DIR
 from members.models import Member
 from members.mixins import MemberOwnershipView, MemberDeleteView
+from posts.models import Post
 from .forms import (ImageCreateForm, ImageUpdateForm, SoundCreateForm,
     SoundUpdateForm, VideoCreateForm, VideoUpdateForm, CodeForm, LinkForm, TagForm)
 from .models import Tag, Image, Sound, Video, Code, Link
@@ -931,7 +932,7 @@ class TagCreateView(LoginRequiredMixin, CreateView):
         else:
             return reverse('objects:tag_detail', kwargs={'slug': self.object.slug})
 
-class TagListView(ListView):
+class TagListView(ListView, LoginRequiredMixin):
 
     model = Tag
     paginate_by = 32
@@ -950,15 +951,23 @@ class TagDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         slug = self.object.slug
+        context['posts'] = Post.objects.filter(tags__slug__exact=slug)
         context['documents'] = SupportDocument.objects.filter(tags__slug__exact=slug)
+        # Tell the template if there are no objects to show non-members
+        if context['posts'].filter(members_only=False).count() + context['documents'].count() <= 0 and not self.request.user.is_authenticated:
+            context['no_public_objects'] = True
+        # Member only stuff under here
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
-            context['can_add_marshmallow'] = member.check_can_allocate()
-            context['images'] = Image.objects.filter(tags__slug__exact=slug)
-            context['videos'] = Video.objects.filter(tags__slug__exact=slug)
-            context['sounds'] = Sound.objects.filter(tags__slug__exact=slug)
-            context['codes'] = Code.objects.filter(tags__slug__exact=slug)
-            context['links'] = Link.objects.filter(tags__slug__exact=slug)
+            if member.check_can_allocate() and not member.check_is_new():
+                context['can_add_marshmallow'] = True
+            context['images'] = Image.objects.filter(tags__slug__exact=slug).filter(is_public=True)
+            context['videos'] = Video.objects.filter(tags__slug__exact=slug).filter(is_public=True)
+            context['sounds'] = Sound.objects.filter(tags__slug__exact=slug).filter(is_public=True)
+            context['codes'] = Code.objects.filter(tags__slug__exact=slug).filter(is_public=True)
+            context['links'] = Link.objects.filter(tags__slug__exact=slug).filter(is_public=True)
+            if context['images'].count() + context['videos'].count() + context['sounds'].count() + context['codes'].count() + context['links'].count() <= 0:
+                context['no_member_objects'] = True
         return context
 
 class TagUpdateView(LoginRequiredMixin, UpdateView):

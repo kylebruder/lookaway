@@ -11,6 +11,11 @@ urlpatterns = [
         name='public_posts',
     ),
     path(
+        'top/', 
+        views.TopPostListView.as_view(),
+        name='top_posts',
+    ),
+    path(
         '<slug:slug>/', 
         views.PostDetailView.as_view(),
         name='post_detail',

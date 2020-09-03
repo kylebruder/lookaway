@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col">
-    <h4 class="documentation-section-title">{{ section.title }}</h4>
+    <h4 class="documentation-title">{{ section.title }}</h4>
       {% if not document %}
         <p>
           from <a href="{% url 'documentation:support_document_detail' section.support_document.slug %}">

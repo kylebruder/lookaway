@@ -45,7 +45,7 @@
       <h4 class="documentation-title">Reference and Further Reading</h4>
       {% for link in document.links.all %}
         {% if link.title %}
-          <h6 class="documentation-title">{{ link.title }}</h6>
+          <h5 class="link-title">{{ link.title }}</h5>
         {% endif %}
       {% if link.favicon_href %}
         <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
@@ -63,8 +63,10 @@
       Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<br>
       <br>
     {% endif %}
+    <br>
   {% else %}
     <p>This Support Document has not been published yet.</p>
+    <br>
   {% endif %}
 </div>  
 {% endblock %}

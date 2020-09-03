@@ -58,6 +58,20 @@ class PostListView(ListView):
             '-publication_date',
         )
     
+class TopPostListView(ListView):
+
+    model = Post
+    paginate_by = 20
+    context_object_name = 'posts'
+
+    def get_queryset(self, *args, **kwargs):
+        return Post.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-weight',
+            '-publication_date',
+        )
+    
 class MemberPostView(LoginRequiredMixin, ListView):
 
     model = Post

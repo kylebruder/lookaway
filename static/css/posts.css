@@ -108,11 +108,15 @@
 
 .post-list-image {
   display: block;
-  width: 175px;
-  height: 175px;
+  width: 150px;
+  height: 150px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #222222;
+}
+
+.post-link {
+  color: #ffffff;
 }
 
 .post-list-li {
@@ -123,28 +127,8 @@
   border-color: #111111;
 }
 
-.post-piece-card {
-  display: block;
-  width: 160px;
-  height: 160px;
-  background-color: #222222;
-  background-size: cover;
-  padding: 5px;
-  margin: 10px;
-}
-
-.post-piece-description {
-  max-width: 500px;
-  text-align: left;
-  margin: 5px;
-}
-
-.post-piece-card-title {
-  font-family: 'Tajawal', sans-serif;
-  font-size: 0.75em;
-  color: #eeeeee;
-  background: #222222;
-  padding: 5px;
+.post-meta {
+  font-size: 0.8em;
 }
 
 .post-section {

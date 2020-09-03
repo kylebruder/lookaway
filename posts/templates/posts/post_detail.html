@@ -7,7 +7,7 @@
     {% include './post_detail_button_bar.html' %}
     <!-- Response -->
     {% if post.re %}
-      <p>Re: <a href="{% url 'posts:post_detail' post.re.slug %}">{{ post.re.title }}</a></p>
+      <p class="post-meta">Re: <a href="{% url 'posts:post_detail' post.re.slug %}">{{ post.re.title }}</a></p>
     {% endif %}
     <!-- Main content -->
     <p>{{ post.text|linebreaks }}</p>
@@ -23,7 +23,7 @@
         <span>{{ post.image.text }}</span><br>
       {% endif %}
       {% if post.image.credit %}
-        <span><i>{{ post.image.credit }}</i></span>
+        <span class="post-meta"><i>{{ post.image.credit }}</i></span>
         <br>
         <br>
       {% endif %}
@@ -33,7 +33,7 @@
       {% with post.sound as sound %}
         <h5 class="post-title">{{ sound.title }}</h5>
         {% if sound.credit %}
-          <span><i>{{ sound.credit }}</i></span>
+          <span class="post-meta"><i>{{ sound.credit }}</i></span>
           <br>
           <br>
         {% endif %}
@@ -50,7 +50,7 @@
       {% with post.video as video %}
         <h5 class="post-title">{{ video.title }}</h5>
         {% if video.credit %}
-          <span><i>{{ video.credit }}</i></span>
+          <span class="post-meta"><i>{{ video.credit }}</i></span>
           <br>
           <br>
         {% endif %}
@@ -68,13 +68,13 @@
     {% if post.code %}
       <h5 class="post-title">{{ post.code.title }}</h5>
       {% if post.code.file_path %}
-        <span class="code-block">{{ post.code.file_path }}</span>
+        <span class="code-block post-meta">{{ post.code.file_path }}</span>
       {% endif %}
       <pre class="code-block">{{ post.code.code }}</pre>
       {% if post.code.source_url %}
-        <p>Source: <a href="{{ post.code.source_url }}">{{ post.code.source }}</a></p>
+        <p class="post-meta">Source: <a href="{{ post.code.source_url }}">{{ post.code.source }}</a></p>
       {% else %}
-        <p>Source: {{ post.code.source }}</p>
+        <p class="post-meta">Source: {{ post.code.source }}</p>
       {% endif %}
     {% endif %}
     <!-- Link -->
@@ -90,19 +90,20 @@
       {% endif %}
       <a href="{{ link.url }}" class="links-list-link"><p class="links-list-link">{{ post.link.url }}</p></a>
     {% endif %}
+    <!-- Credits -->
+    {% if post.is_public %}
+      <p>Posted by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> {% if post.publication_date %} on {{ post.publication_date }}{% endif %}{% if post.location %} from {{ post.location }}{% endif %}
+      {% if object.last_modified > object.creation_date %}
+        <br>Last updated on {{ object.last_modified }}
+      {% endif %}
+      </p>
+    {% else %}
+      <p class="post-meta">Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
+    {% endif %}
     <!-- Tags -->
     {% if post.tags.count > 0 %}
       {% include './object_tags.html' %}
       <br>
-    {% endif %}
-    <!-- Credits -->
-    {% if post.is_public %}
-      <p>Posted by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> {% if post.publication_date %} on {{ post.publication_date }}{% endif %}{% if post.location %} from {{ post.location }}{% endif %}</p>
-      {% if object.last_modified > object.creation_date %}
-        <p>Last updated on {{ object.last_modified }}</p>
-      {% endif %}
-    {% else %}
-      <p>Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
     {% endif %}
     <!-- Responses -->
     {% if responses.count > 0 %}

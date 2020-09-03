@@ -12,14 +12,17 @@
   <ul class="list-group">
     {% for document in documents %}
       <li class="list-group-item documentation-list-li">
-        <h5 class="documentation-title">
+        <p>
           <a href="{% url 'documentation:support_document_detail' document.slug %}">
             {{ document.title }}
           </a>
-          {% if not document.is_public %}
-            <span class="badge badge-secondary">Unpublished</span>
-          {% endif %}
-        </h5>
+        </p>
+        {% if not document.is_public %}
+          <span class="badge badge-secondary">Unpublished</span>
+        {% endif %}
+        {% if document.members_only %}
+          <span class="badge badge-warning">Members Only</span>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>

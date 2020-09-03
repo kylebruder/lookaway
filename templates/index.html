@@ -2,11 +2,30 @@
 {% load static %}
 {% block body_block %}
 <div class="container">
-  <!-- ROW 1 -->
+  <!-- Heading -->
   <div class="row">
-      <div class="col-md">
-        {% include "index_update.html" %}
-      </div>
+    <div class="col-md">
+      {% include "index_update.html" %}
+    </div>
   </div>
+  <!-- Newest public Posts -->
+  <div class="row">
+    <div class="col">
+      <h3 class="index-post-title">Recent Posts</h3>
+    </div>
+    <div class="col">
+      <p class="float-right">
+        <a href="{% url 'posts:public_posts' %}">All Posts</a> | 
+        <a href="{% url 'posts:top_posts' %}">Member Favorites</a> 
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md">
+      {% if posts %}
+        <ul class="list-group">
+          {% include "index_post_list_item.html" %}
+        </ul>
+      {% endif %}
 </div>
 {% endblock %}
