@@ -2,17 +2,26 @@
 {% block body_block %}
 <div class="container-fluid studio-bg">
   <h3 class="studio-title">{{ member }}'s Digital Studio</h3>
+  <button class="btn btn-sm btn-light studio-button" type="button" data-toggle="collapse" data-target="#posts" aria-expanded="false" aria-controls="postss">Posts</button>
   {% if member.is_staff %}
-    <button class="btn btn-sm btn-dark" type="button" data-toggle="collapse" data-target="#documentation" aria-expanded="false" aria-controls="images">Documentation</button>&nbsp;
+    <button class="btn btn-sm btn-light studio-button" type="button" data-toggle="collapse" data-target="#documentation" aria-expanded="false" aria-controls="images">Documentation</button>
   {% endif %}
-  <button class="btn btn-sm btn-dark" type="button" data-toggle="collapse" data-target="#images" aria-expanded="false" aria-controls="images">Images</button>&nbsp;
-  <button class="btn btn-sm btn-dark" type="button" data-toggle="collapse" data-target="#videos" aria-expanded="false" aria-controls="videos">Videos</button>&nbsp;
-  <button class="btn btn-sm btn-dark" type="button" data-toggle="collapse" data-target="#sounds" aria-expanded="false" aria-controls="images">Sounds</button>&nbsp;
-  <button class="btn btn-sm btn-dark" type="button" data-toggle="collapse" data-target="#code" aria-expanded="false" aria-controls="code">Code</button>&nbsp;
-  <button class="btn btn-sm btn-dark" type="button" data-toggle="collapse" data-target="#links" aria-expanded="false" aria-controls="links">Links</button>&nbsp;
+  <button class="btn btn-sm btn-light studio-button" type="button" data-toggle="collapse" data-target="#images" aria-expanded="false" aria-controls="images">Images</button>
+  <button class="btn btn-sm btn-light studio-button" type="button" data-toggle="collapse" data-target="#videos" aria-expanded="false" aria-controls="videos">Videos</button>
+  <button class="btn btn-sm btn-light studio-button" type="button" data-toggle="collapse" data-target="#sounds" aria-expanded="false" aria-controls="images">Sounds</button>
+  <button class="btn btn-sm btn-light studio-button" type="button" data-toggle="collapse" data-target="#code" aria-expanded="false" aria-controls="code">Code</button>
+  <button class="btn btn-sm btn-light studio-button" type="button" data-toggle="collapse" data-target="#links" aria-expanded="false" aria-controls="links">Links</button>
   <br>
   <br>
   <div class="row">
+    <!-- Member Posts -->
+    <div class="col-sm-">
+      <div class="collapse" id="posts">
+        <div class="container">
+          {% include './studio_posts.html' %}
+        </div>
+      </div>
+    </div>
     <!-- Staff Documentation -->
     {% if member.is_staff %}
       <div class="col-sm-">

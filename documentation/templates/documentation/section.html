@@ -9,7 +9,6 @@
         </a>
         <br>
         <p>{{ image.text }}{% if image.credit %} - <i>{{ image.credit }}{% endif %}</i></p>
-        <br>
       </div>
     {% endfor %}
   {% endif %}
@@ -65,7 +64,7 @@
   {% if section.links.count > 0  %}
     {% for link in section.links.all %}
       {% if link.title %}
-        <p class="documentation-title">{{ link.title }}</p>
+        <p class="link-title">{{ link.title }}</p>
       {% endif %}
       {% if link.favicon_href %}
         <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>

@@ -14,6 +14,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
 from documentation.models import SupportDocument
 from objects.models import Image, Sound, Video, Code, Link
+from posts.models import Post
 from .forms import ProfileForm
 from .models import Member, Profile, InviteLink
 # Create your views here.
@@ -27,6 +28,10 @@ class StudioView(LoginRequiredMixin, TemplateView):
         member = Member.objects.get(pk=self.request.user.pk)
 
         context['member'] = member
+        # Posts
+        context['posts'] = Post.objects.filter(
+            owner=member
+        ).order_by('is_public', '-creation_date')[:16]
         # Documentation
         context['documents'] = SupportDocument.objects.filter(
             owner=member

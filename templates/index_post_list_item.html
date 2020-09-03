@@ -1,0 +1,32 @@
+{% for post in posts %}
+  {% if post.is_public and not post.members_only or post.is_public and request.user.is_authenticated or post.owner.pk == request.user.pk %}
+    <li class="list-group-item index-post-list-li">
+      <div class="row">
+        <div class="col-sm-8">
+          <h4 class="index-post-title">
+            <a href="{% url 'posts:post_detail' post.slug %}">
+              {{ post.title }}
+            </a>
+            {% if not post.is_public %}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+          </h4>
+          <p class="index-post-meta">
+            Posted by <a href="{% url 'members:member_profile' post.owner.username %}">{{ post.owner }}</a>
+            {% if post.publication_date %} on {{ post.publication_date }}{% endif %}
+            {% if post.location %} from {{ post.location }}{% endif %}
+          </p>
+        </div>
+        <div class="col-sm-4">
+          {% if post.image %}
+            <div class="float-right index-post-list-image" style="background-image:url('/media/{{ post.image.thumbnail_file }}')">
+          {% elif post.owner.profile.image %}
+            <div class="float-right index-post-list-image" style="background-image:url('/media/{{ post.owner.profile.image.thumbnail_file }}')">
+          {% else %}
+            <div class="float-right index-post-list-image" style="background-image:url('/static/favicon.ico')">
+          {% endif %}
+        </div>
+      </div>
+    </li>
+  {% endif %}
+{% endfor %}

@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'members',
     'objects',
     'documentation',
+    'posts',
 ]
 
 MIDDLEWARE = [
