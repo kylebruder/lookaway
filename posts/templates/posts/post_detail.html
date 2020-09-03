@@ -88,7 +88,7 @@
       {% if post.link.favicon_href %}
         <div class="link-list-card float-left" style="background-image:url('{{ post.link.favicon_href }}')"></div>
       {% endif %}
-      <a href="{{ link.url }}" class="links-list-link"><p class="links-list-link">{{ post.link.url }}</p></a>
+      <a href="{{ post.link.url }}" class="links-list-link"><p class="links-list-link">{{ post.link.url }}</p></a>
     {% endif %}
     <!-- Credits -->
     {% if post.is_public %}
