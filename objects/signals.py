@@ -23,8 +23,16 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
     if created:
         image = img.open(instance.image_file.path)
         # Transpose Exif tags if the image has them
-        image = ImageOps.exif_transpose(image)
-        image.save(instance.image_file.path)
+        try:
+            image = ImageOps.exif_transpose(image)
+            image.save(instance.image_file.path)
+        except:
+            logger.error(
+                'exif tag tranposition failed for image {} with pk {}'.format(
+                    instance,
+                    instance.pk,
+                )
+            )
         # Resize the original if it is bigger than 2500 by 2500
         if image.width > 2500 or image.height > 2500:
             max_size = (2500, 2500)
