@@ -68,35 +68,41 @@ class MemberProfileView(DetailView):
         context = super().get_context_data(**kwargs)
         member = self.object.member
         context['member'] = member
+        # Posts
+        context['posts'] = Post.objects.filter(
+            owner=member,
+            is_public=True,
+        ).order_by('-publication_date')[:5]
         # Documentation
         context['documents'] = SupportDocument.objects.filter(
-            owner=member
-        ).order_by('is_public', '-creation_date')[:5]
+            owner=member,
+            is_public=True,
+        ).order_by('-publication_date')[:5]
         # Images
         context['images'] = Image.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('is_public', '-creation_date')[:16]
+        ).order_by('-publication_date')[:16]
         # Videos
         context['videos'] = Video.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('is_public', '-creation_date')[:5]
+        ).order_by('-publication_date')[:5]
         # Sounds
         context['sounds'] = Sound.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('is_public', '-creation_date')[:5]
+        ).order_by('-publication_date')[:5]
         # Code
         context['codes'] = Code.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('is_public', '-creation_date')[:5]
+        ).order_by('-publication_date')[:5]
         # Links
         context['links'] = Link.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by( '-creation_date')[:5]
+        ).order_by('-publication_date')[:5]
     
         return context
 
