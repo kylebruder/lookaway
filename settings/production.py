@@ -21,7 +21,7 @@ from django.urls import reverse_lazy
 # If you dont need space on your media storage for backups,
 # then the default should be < total storage capacity / n members
 # to prevent the disk from getting too full.
-DEFAULT_MEMBER_STORAGE = 10**10
+DEFAULT_MEMBER_STORAGE = 10**9*4
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -37,7 +37,6 @@ SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'lookaway.dev.kbruder.info',
     'testserver',
     ]
 

@@ -17,7 +17,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 # If you dont need space on your media storage for backups,
 # then the default should be < total storage capacity / n members
 # to prevent the disk from getting too full.
-DEFAULT_MEMBER_STORAGE = 10**10
+DEFAULT_MEMBER_STORAGE = 10**9*4
 
 ### Be careful changing things under this line ###
 import os
@@ -38,7 +38,6 @@ SECRET_KEY = '&4@))prkf4ivdxj1jl@uzramuz#-y*s46*q&p5)4@p-_b@28m0'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '192.168.0.110',
     'testserver',
     ]
 
