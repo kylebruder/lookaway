@@ -1,10 +1,10 @@
 <div class="row">
   <div class="col">
-    <h4 class="studio-title">Your Support Documents</h4>
+    <h4 class="studio-title">Your Documents</h4>
   </div>
   <div class="col-">
     <a href="{% url 'documentation:support_document_create' %}">
-      <button class="btn btn-sm btn-primary">New Support Document</button>
+      <button class="btn btn-sm btn-primary">New Document</button>
     </a>
   </div>
 </div>
@@ -29,9 +29,4 @@
   <p>
     <a href="{% url 'documentation:member_support_documents' member=documents.0.owner.username %}">more ...</a>
   </p>
-{% else %}
-  <p>You have not uploaded any documentation yet</p>
-  <a href="{% url 'documentation:support_document_create' %}">
-    <button class="btn btn-success">New Support Document</button>
-  </a>
 {% endif %}

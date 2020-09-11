@@ -12,13 +12,17 @@
     </div>
   </div>
   <br>
-  {% for tag in tags %}
-    <span class="badge badge-secondary">
-      <a href="{% url 'objects:tag_detail' tag.slug %}" class="tag-font">
-        {{ tag.key }} {% if tag.value %}: {{ tag.value }}{% endif %}
-      </a>
-    </span>
-  {% endfor %}
+  {% if tags.count > 0 %}
+    {% for tag in tags %}
+      <span class="badge badge-secondary">
+        <a href="{% url 'objects:tag_detail' tag.slug %}" class="tag-font">
+          {{ tag.key }} {% if tag.value %}: {{ tag.value }}{% endif %}
+        </a>
+      </span>
+    {% endfor %}
+  {% else %}
+    <p>There are no tags yet. Check back soon!</p>
+  {% endif %}
   <br>
   <br>
 </div>

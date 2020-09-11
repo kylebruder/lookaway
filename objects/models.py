@@ -348,7 +348,13 @@ class Link(MetaDataMixin, MarshmallowMixin):
         ordering = ['-creation_date']
         
     def __str__(self):
-        return self.url
+        if self.title:
+            return self.title
+        else:
+            if len(self.url) > 64:
+                return self.url[0:64] + "..."
+            else:
+                return self.url
 
     def get_absolute_url(self):
         return reverse('objects:link_detail', kwargs={'pk': self.pk})

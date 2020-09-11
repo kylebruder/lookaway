@@ -15,7 +15,7 @@
       <div class="container">
         <form action="{% url 'objects:link_create' %}" method="post" enctype="multipart/form-data">
           {% csrf_token %}
-          <input type="url" name="url" maxlength="256" required id="id_url">&nbsp;
+          <input class="link-list-field" type="url" name="url" maxlength="256" required id="id_url">&nbsp;
           <input type="submit" class="btn btn-sm btn-primary float-right" value="Add Link">
         </form>
         </a>

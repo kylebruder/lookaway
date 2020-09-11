@@ -2,7 +2,7 @@
 {% block body_block %}
 <div class ="container create-bg">
   <div class="container">
-    <h2 class="documentation-title">Post</h2>
+    <h2 class="post-title">Post</h2>
     <br>
     <div class="row">
       <div class="col">
@@ -32,15 +32,19 @@
           <h5 class="form-label">{{ form.image.label_tag }}</h5>
         </div>
         <div class="col-sm-10 form-image-selection">
-          {{ form.image.errors }}
-          </p>{{ form.image.help_text }}</p>
-          {% for value in form.image.field.choices %}
-            {% if value|first != '' %}
-              <div class="form-image-card float-left" style="background-image:url('/media/{{ value.2.thumbnail_file }}')">
-                <p>&nbsp;<input type="radio" value="{{ value|first }}" name="image" {% if object.image.pk == value|first %}checked{% endif %}></p>
-              </div>
-            {% endif %}
-          {% endfor %}
+          {% if form.image.field.choices.queryset.count > 0 %}
+            {{ form.image.errors }}
+            </p>{{ form.image.help_text }}</p>
+            {% for value in form.image.field.choices %}
+              {% if value|first != '' %}
+                <div class="form-image-card float-left" style="background-image:url('/media/{{ value.2.thumbnail_file }}')">
+                  <p>&nbsp;<input type="radio" value="{{ value|first }}" name="image" {% if object.image.pk == value|first %}checked{% endif %}></p>
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <p>You have not uploaded any Images yet.</p>
+          {% endif %}
         </div>
       </div>
       <br>

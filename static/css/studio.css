@@ -2,6 +2,10 @@
   margin: 3px;
 }
 
+.studio-col {
+  width: auto;
+}
+
 .studio-image-card {
   display: block;
   width: 100px;

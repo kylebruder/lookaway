@@ -30,6 +30,27 @@ class CustomModelMultipleChoiceField(forms.models.ModelMultipleChoiceField):
 
 class ImageCreateForm(forms.ModelForm):
 
+    title = forms.CharField(
+        help_text="Give the image a memorable and unique title that will be easy to reference later.",
+        max_length=64,
+    )
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="The text may appear on pages that include Images or other objects that use Images",
+        max_length=1024,
+    )
+    credit = forms.CharField(
+        help_text="Give credit to the original creator of the image file. Obtain expressed permission before uploading images with exclusive rights.",
+        max_length=256,
+    )
+
+    title.widget.attrs.update({'class': 'form-text-field'})
+    credit.widget.attrs.update({'class': 'form-text-field'})
+
     class Meta:
         model = Image
         fields = [
@@ -52,6 +73,27 @@ class ImageCreateForm(forms.ModelForm):
 
 class ImageUpdateForm(forms.ModelForm):
 
+    title = forms.CharField(
+        help_text="Give the image a memorable and unique title that will be easy to reference later.",
+        max_length=64,
+    )
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="The text may appear on pages that include Images or other objects that use Images",
+        max_length=1024,
+    )
+    credit = forms.CharField(
+        help_text="Give credit to the original creator of the image file. Obtain expressed permission before uploading images with exclusive rights.",
+        max_length=256,
+    )
+
+    title.widget.attrs.update({'class': 'form-text-field'})
+    credit.widget.attrs.update({'class': 'form-text-field'})
+
     class Meta:
         model = Image
         fields = [
@@ -61,14 +103,31 @@ class ImageUpdateForm(forms.ModelForm):
             'tags',
         ]
         help_texts = {
-            'title': "Give the image a memorable and unique title that will be easy to reference later.",
-            'text': "The text may appear on pages that include Images or other objects that use Images",
-            'credit': "Give credit to the original creator of the image file. Obtain expressed permission before uploading images with exclusive rights.",
             'tags': "Choose one or more tags that relate to the Image.",
         }
 
 class SoundCreateForm(forms.ModelForm):
 
+    title = forms.CharField(
+        help_text="Give the sound a memorable and unique title that will be easy to reference later.",
+        max_length=64,
+    )
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="The text may appear on pages that include Images or other objects that use Images",
+        max_length=1024,
+    )
+    credit = forms.CharField(
+        help_text="Give credit to the original creator of the sound file. Obtain expressed permission before uploading sounds with exclusive rights.",
+        max_length=256,
+    )
+
+    title.widget.attrs.update({'class': 'form-text-field'})
+    credit.widget.attrs.update({'class': 'form-text-field'})
     class Meta:
         model = Sound
         fields = [
@@ -82,14 +141,32 @@ class SoundCreateForm(forms.ModelForm):
             'sound_file': SoundPreviewWidget
         }
         help_texts = {
-            'title': "Give the sound a memorable and unique title that will be easy to reference later.",
             'sound_file': "Obtain permission before uploading depicitons of private persons or places. Sound Preview will appear when successfully uploaded.",
-            'text': "The text may appear on pages that include Sounds or other objects that use Sounds",
-            'credit': "Give credit to the original creator of the sound file. Obtain expressed permission before uploading sounds with exclusive rights.",
             'tags': "Choose one or more tags that relate to the Sound.",
         }
 
 class SoundUpdateForm(forms.ModelForm):
+
+    title = forms.CharField(
+        help_text="Give the sound a memorable and unique title that will be easy to reference later.",
+        max_length=64,
+    )
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="The text may appear on pages that include Images or other objects that use Images",
+        max_length=1024,
+    )
+    credit = forms.CharField(
+        help_text="Give credit to the original creator of the sound file. Obtain expressed permission before uploading soundss with exclusive rights.",
+        max_length=256,
+    )
+
+    title.widget.attrs.update({'class': 'form-text-field'})
+    credit.widget.attrs.update({'class': 'form-text-field'})
 
     class Meta:
         model = Sound
@@ -100,13 +177,31 @@ class SoundUpdateForm(forms.ModelForm):
             'tags',
         ]
         help_texts = {
-            'title': "Give the sound a memorable and unique title that will be easy to reference later.",
-            'text': "The text may appear on pages that include Sounds or other objects that use Sounds",
-            'credit': "Give credit to the original creator of the sound file. Obtain expressed permission before uploading sounds with exclusive rights.",
             'tags': "Choose one or more tags that relate to the Sound.",
         }
 
 class VideoCreateForm(forms.ModelForm):
+
+    title = forms.CharField(
+        help_text="Give the video a memorable and unique title that will be easy to reference later.",
+        max_length=64,
+    )
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="The text may appear on pages that include Images or other objects that use Images",
+        max_length=1024,
+    )
+    credit = forms.CharField(
+        help_text="Give credit to the original creator of the video file. Obtain expressed permission before uploading videos with exclusive rights.",
+        max_length=256,
+    )
+
+    title.widget.attrs.update({'class': 'form-text-field'})
+    credit.widget.attrs.update({'class': 'form-text-field'})
 
     class Meta:
         model = Video
@@ -122,14 +217,33 @@ class VideoCreateForm(forms.ModelForm):
         }
 
         help_texts = {
-            'title': "Give the video a memorable and unique title that will be easy to reference later.",
             'video_file': "Obtain permission before uploading depicitons of private persons or places. Video Preview will appear when successfully uploaded.",
-            'text': "The text may appear on pages that include Videos or other objects that use Videos",
-            'credit': "Give credit to the original creator of the video file. Obtain expressed permission before uploading videos with exclusive rights.",
             'tags': "Choose one or more tags that relate to the Video.",
         }
 
 class VideoUpdateForm(forms.ModelForm):
+
+    title = forms.CharField(
+        help_text="Give the video a memorable and unique title that will be easy to reference later.",
+        max_length=64,
+    )
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="The text may appear on pages that include Images or other objects that use Images",
+        max_length=1024,
+    )
+    credit = forms.CharField(
+        help_text="Give credit to the original creator of the video file. Obtain expressed permission before uploading videos with exclusive rights.",
+        max_length=256,
+    )
+
+    title.widget.attrs.update({'class': 'form-text-field'})
+    credit.widget.attrs.update({'class': 'form-text-field'})
+
 
     class Meta:
         model = Video
@@ -140,14 +254,56 @@ class VideoUpdateForm(forms.ModelForm):
             'tags',
         ]
         help_texts = {
-            'title': "Give the video a memorable and unique title that will be easy to reference later.",
-            'text': "The text may appear on pages that include Videos or other objects that use Videos",
-            'credit': "Give credit to the original creator of the video file. Obtain expressed permission before uploading videos with exclusive rights.",
             'tags': "Choose one or more tags that relate to the Video.",
         }
 
 
 class CodeForm(forms.ModelForm):
+
+    title = forms.CharField(
+        help_text="Give the code sample a memorable and unique title that will be easy to reference later.",
+        max_length=256,
+    )
+    code = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'wrap': 'off',
+                'class': 'code-box',
+            }
+        ),
+        help_text="Enter the code here.",
+        max_length=1024,
+    )
+    language= forms.CharField(
+        help_text="For which language is the code written?",
+        max_length=64,
+    )
+    language_version= forms.CharField(
+        help_text="For which version or versions of the language is the code written?",
+        max_length=64,
+    )
+    file_path = forms.CharField(
+        help_text="In which file does this code belong?",
+        max_length=256,
+        required=False,
+    )
+    source = forms.CharField(
+        help_text="From where does the code originate? Please credit yourself or your source.",
+        max_length=64,
+        required=False,
+    )
+    source_url = forms.CharField(
+        help_text="Does the source have a website or webpage? If so enter it here.",
+        max_length=256,
+        required=False,
+    )
+
+    language.widget.attrs.update({'class': 'form-text-field'})
+    language_version.widget.attrs.update({'class': 'form-text-field'})
+    file_path.widget.attrs.update({'class': 'form-text-field'})
+    source.widget.attrs.update({'class': 'form-text-field'})
+    source_url.widget.attrs.update({'class': 'form-text-field'})
+    title.widget.attrs.update({'class': 'form-text-field'})
 
     class Meta:
         model = Code
@@ -168,17 +324,36 @@ class CodeForm(forms.ModelForm):
             }),
         }
         help_texts = {
-            'title': "Give the code sample a memorable and unique title that will be easy to reference later.",
-            'code': "Enter the code here.",
-            'language': "For which language is the code written?",
-            'language_version': "For which version or versions of the language is the code written?",
-            'file_path': "In which file does this code belong?",
-            'source': "From where does the code originate? Please credit yourself or your source.",
-            'source_url': "Does the source have a website or webpage? If so enter it here.",
             'tags': "Choose one or more tags that relate to the Code.",
         }
 
 class LinkForm(forms.ModelForm):
+
+    title = forms.CharField(
+        help_text="Give the code sample a memorable and unique title that will be easy to reference later.",
+        max_length=256,
+    )
+    url = forms.CharField(
+        help_text="Enter the URL here.",
+        max_length=256,
+    )
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'wrap': 'off',
+                'class': 'code-box',
+            }
+        ),
+        help_text="The text may appear on pages that include Links or other objects that use Links.",
+        max_length=512,
+    )
+    favicon_href = forms.CharField(
+        help_text="Enter a URL for the webpage image.",
+        max_length=256,
+    )
+    title.widget.attrs.update({'class': 'form-text-field'})
+    url.widget.attrs.update({'class': 'form-text-field'})
+    favicon_href.widget.attrs.update({'class': 'form-text-field'})
 
     class Meta:
         model = Link
@@ -190,14 +365,21 @@ class LinkForm(forms.ModelForm):
             'tags',
         ]
         help_texts = {
-            'title': "Give the tag a memorable and unique title that will be easy to reference later.",
-            'url': "Enter the URL here.",
-            'text': "The text may appear on pages that include Links or other objects that use Links.",
-            'favicon_href': "Enter a URL for the webpage image.",
             'tags': "Choose one or more tags that relate to the Link.",
         }
 
 class TagForm(forms.ModelForm):
+
+    key = forms.CharField(
+        help_text="Enter a word or words that describe a category.",
+        max_length=64,
+    )
+    value = forms.CharField(
+        help_text="Enter words or numbers that describe a qualitative or quantitative value.",
+        max_length=64,
+    )
+    key.widget.attrs.update({'class': 'form-text-field'})
+    value.widget.attrs.update({'class': 'form-text-field'})
 
     class Meta:
         model = Tag
@@ -205,7 +387,3 @@ class TagForm(forms.ModelForm):
             'key',
             'value',
         ]
-        help_texts = {
-            'key': "Enter a word or words that describe a category",
-            'value': "Enter words or numbers that describe a qualative or quantative value",
-        }

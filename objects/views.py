@@ -138,6 +138,13 @@ class ImageUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('objects:image_detail', kwargs={'pk': self.object.pk})
+
 class ImageDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     model = Image
@@ -324,6 +331,13 @@ class SoundUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('objects:sound_detail', kwargs={'pk': self.object.pk})
 
 class SoundDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
@@ -512,6 +526,13 @@ class VideoUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('objects:video_detail', kwargs={'pk': self.object.pk})
+
 class VideoDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     model = Video
@@ -668,6 +689,13 @@ class CodeUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('objects:code_detail', kwargs={'pk': self.object.pk})
+
 class CodeDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
     model = Code
@@ -821,6 +849,13 @@ class LinkUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('objects:link_detail', kwargs={'pk': self.object.pk})
 
 class LinkDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 

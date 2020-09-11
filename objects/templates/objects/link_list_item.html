@@ -6,7 +6,7 @@
     <a href="{% url 'objects:link_detail' link.pk %}">
       <h5 class="link-title">{{ link.title }}</h5>
     </a>
-    <p class="link-list-link">{{ link.url }}</p>
+    <p class="link-list-link">{{ link.url|truncatechars:128 }}</p>
     {% if not link.is_public %}
       <span class="badge badge-secondary">Unpublished</span>
     {% endif %}

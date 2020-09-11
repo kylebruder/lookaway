@@ -25,14 +25,42 @@ class PostForm(forms.ModelForm):
         queryset=Image.objects.all(),
         required=False, 
     )
+    title = forms.CharField(
+        help_text="The Post title will appear on the site and is used to create the permanent URL for this Post. It will also appear on search engine results pages (SERPs) and can impact search engine optimization (SEO). The optimal format is 'Primary Keyword - Secondary Keyword | Brand Name'.",
+        max_length=128,
+    )
+    meta_description = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="Add a short description of this post. This description will be used by Search Engines and will impact SEO. Include key words used in the title. Keep it less than 155 characters.",
+        max_length=155,
+    )
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="Your message to the world goes here.",
+        max_length=65535,
+    )
+    location = forms.CharField(
+        help_text="Where are you posting from? (optional)",
+        max_length=128,
+    )
+    title.widget.attrs.update({'class': 'form-text-field'})
+    location.widget.attrs.update({'class': 'form-text-field'})
 
     class Meta:
         model = Post
         fields = (
             'title',
             'meta_description',
-            'location',
             'text',
+            'location',
             'image',
             'sound',
             'video',
@@ -43,10 +71,6 @@ class PostForm(forms.ModelForm):
             'members_only',
         )
         help_texts = {
-            'title': "Get attention with one clever and consise sentence. The headline will be displayed on search engine results pages (SERPs) and will improve search engine optimization (SEO). The optimal format is 'Primary Keyword - Secondary Keyword | Brand Name'.",
-            'meta_description': "Add a short description of this post. This description will be used by Search Engines and will improve optimization. Include key words used in the title. Keep it less than 155 characters.",
-            'location': "Where are you posting from? (optional)",
-            'text': "Here is where you type your message.",
             'image': "Add an Image (optional)",
             'sound': "Add a Sound (optional)",
             'video': "Add a Video (optional)",

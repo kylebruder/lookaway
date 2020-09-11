@@ -15,6 +15,13 @@
   margin-right: 5px;
 }
 
+.link-list-field {
+  color: #eeeeee;
+  background-color: #222222;
+  border-color: #eeeeee;
+  max-width: 300px;
+}
+
 .link-list-li {
   background-color: #222222;
   color: #ffffff;
@@ -23,9 +30,13 @@
 .link-list-link {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.75em;
+  overflow-wrap: break-word;
 }
 
 .link-title {
   font-family: 'Ibarra Real Nova', serif;
 }
 
+.link-url {
+  overflow-wrap: break-word;
+}

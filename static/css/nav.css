@@ -4,7 +4,10 @@
 }
 
 .nav-font {
-   font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Averia Serif Libre', serif;
+  color: #333333;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .nav-pad {
   padding-left: 20px;

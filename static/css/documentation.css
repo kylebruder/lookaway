@@ -135,7 +135,6 @@
 }
 
 .documentation-section {
-  display: block;
   max-width: 100%;
 }
 
@@ -158,5 +157,5 @@
 }
 
 .documentation-title {
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Averia Serif Libre', serif;
 }

@@ -63,14 +63,9 @@
 ol {
   list-style: none;
   counter-reset: my-awesome-counter;
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0;
-  padding: 0;
 }
 ol li {
   counter-increment: my-awesome-counter;
-  display: flex;
   margin-bottom: 0.5rem;
 }
 ol li::before {
@@ -78,6 +73,10 @@ ol li::before {
   font-weight: bold;
   font-size: 3rem;
   margin-right: 0.5rem;
-  font-family: 'Abril Fatface', serif;
+  font-family: 'Averia Serif Libre', serif;
   line-height: 1;
+}
+
+p {
+  overflow-wrap: break-word;
 }
