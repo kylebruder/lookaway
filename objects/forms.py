@@ -85,10 +85,12 @@ class ImageUpdateForm(forms.ModelForm):
         ),
         help_text="The text may appear on pages that include Images or other objects that use Images",
         max_length=1024,
+        required=False,
     )
     credit = forms.CharField(
         help_text="Give credit to the original creator of the image file. Obtain expressed permission before uploading images with exclusive rights.",
         max_length=256,
+        required=False,
     )
 
     title.widget.attrs.update({'class': 'form-text-field'})
@@ -120,10 +122,12 @@ class SoundCreateForm(forms.ModelForm):
         ),
         help_text="The text may appear on pages that include Images or other objects that use Images",
         max_length=1024,
+        required=False,
     )
     credit = forms.CharField(
         help_text="Give credit to the original creator of the sound file. Obtain expressed permission before uploading sounds with exclusive rights.",
         max_length=256,
+        required=False,
     )
 
     title.widget.attrs.update({'class': 'form-text-field'})
@@ -159,10 +163,12 @@ class SoundUpdateForm(forms.ModelForm):
         ),
         help_text="The text may appear on pages that include Images or other objects that use Images",
         max_length=1024,
+        required=False,
     )
     credit = forms.CharField(
         help_text="Give credit to the original creator of the sound file. Obtain expressed permission before uploading soundss with exclusive rights.",
         max_length=256,
+        required=False,
     )
 
     title.widget.attrs.update({'class': 'form-text-field'})
@@ -194,10 +200,12 @@ class VideoCreateForm(forms.ModelForm):
         ),
         help_text="The text may appear on pages that include Images or other objects that use Images",
         max_length=1024,
+        required=False,
     )
     credit = forms.CharField(
         help_text="Give credit to the original creator of the video file. Obtain expressed permission before uploading videos with exclusive rights.",
         max_length=256,
+        required=False,
     )
 
     title.widget.attrs.update({'class': 'form-text-field'})
@@ -235,10 +243,12 @@ class VideoUpdateForm(forms.ModelForm):
         ),
         help_text="The text may appear on pages that include Images or other objects that use Images",
         max_length=1024,
+        required=False,
     )
     credit = forms.CharField(
         help_text="Give credit to the original creator of the video file. Obtain expressed permission before uploading videos with exclusive rights.",
         max_length=256,
+        required=False,
     )
 
     title.widget.attrs.update({'class': 'form-text-field'})
@@ -346,10 +356,12 @@ class LinkForm(forms.ModelForm):
         ),
         help_text="The text may appear on pages that include Links or other objects that use Links.",
         max_length=512,
+        required=False,
     )
     favicon_href = forms.CharField(
         help_text="Enter a URL for the webpage image.",
         max_length=256,
+        required=False,
     )
     title.widget.attrs.update({'class': 'form-text-field'})
     url.widget.attrs.update({'class': 'form-text-field'})
@@ -377,6 +389,7 @@ class TagForm(forms.ModelForm):
     value = forms.CharField(
         help_text="Enter words or numbers that describe a qualitative or quantitative value.",
         max_length=64,
+        required=False,
     )
     key.widget.attrs.update({'class': 'form-text-field'})
     value.widget.attrs.update({'class': 'form-text-field'})

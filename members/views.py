@@ -15,7 +15,7 @@ from django.views.generic.detail import DetailView
 from documentation.models import SupportDocument
 from objects.models import Image, Sound, Video, Code, Link
 from posts.models import Post
-from .forms import ProfileForm
+from .forms import MemberForm, ProfileForm
 from .models import Member, Profile, InviteLink
 # Create your views here.
 
@@ -125,10 +125,10 @@ class MemberProfileUpdateView(LoginRequiredMixin, UpdateView):
                 kwargs={'slug': self.object.slug}
             )
 
-class MemberEmailChangeView(LoginRequiredMixin, UpdateView):
+class MemberUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Member
-    fields = ['first_name', 'last_name', 'email']
+    form_class = MemberForm 
 
     def form_valid(self, form):
         if self.request.user.pk == self.object.pk:

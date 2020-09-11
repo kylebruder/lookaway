@@ -58,6 +58,9 @@
   margin-bottom: 40px;
 }
 
+.edit-button {
+  border-radius: 100%;
+}
 /* Custom orderd list */
 /* https://css-tricks.com/custom-list-number-styling/ */
 ol {

@@ -26,13 +26,45 @@ class CustomModelMultipleChoiceField(forms.models.ModelMultipleChoiceField):
 
     choices = property(_get_choices, forms.MultipleChoiceField._set_choices)
 
+class MemberForm(forms.ModelForm):
+
+    first_name = forms.CharField(
+        required=False,
+    )
+    last_name = forms.CharField(
+        required=False,
+    )
+    email = forms.CharField(
+        required=False,
+    )
+    first_name.widget.attrs.update({'class': 'form-text-field'})
+    last_name.widget.attrs.update({'class': 'form-text-field'})
+    email.widget.attrs.update({'class': 'form-text-field'})
+
+    class Meta:
+        model = Member
+        fields = (
+            'first_name',
+            'last_name',
+            'email',
+        )
+
 class ProfileForm(forms.ModelForm):
 
     image = CustomModelChoiceField(
         queryset=Image.objects.all(),
+        help_text="Choose your Profile Image. (optional)",
         required=False, 
     )
-
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="Explain yourself here.",
+        required=False, 
+    )
     class Meta:
         model = Profile
         fields = (

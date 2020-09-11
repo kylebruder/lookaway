@@ -8,7 +8,7 @@
           <img class="documentation-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
         </a>
         <a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}">
-          <button class="btn btn-sm btn-warning">&#9998;</button>
+          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
         </a>
         <br>
         <p>{{ image.text }}{% if image.credit %} - <i>{{ image.credit }}{% endif %}</i></p>
@@ -22,7 +22,7 @@
         {% include 'audio_mime_types.html' %}
       </audio>
       <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
-        <button class="btn btn-sm btn-warning">&#9998;</button>
+        <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
       </a>
       <br>
       {% if sound.credit %}
@@ -39,7 +39,7 @@
         {% include 'video_mime_types.html' %}
       </video>
       <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
-        <button class="btn btn-sm btn-warning">&#9998;</button>
+        <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
       </a>
       <br>
       {% if video.credit %}
@@ -53,12 +53,12 @@
   {% if section.code.count > 0  %}
     {% for code in section.code.all %}
       {% if code.file_path %}
-        {{ code.file_path }}
+        <span class="code-block">{{ code.file_path }}</span>
       {% endif %}
       <pre class="code-block">{{ code.code }}</pre>
-      <a href="{% url 'objects:code_update' code.pk %}?next={{ request.path }}">
-        <button class="btn btn-sm btn-warning">&#9998;</button>
-      </a>
+        <a href="{% url 'objects:code_update' code.pk %}?next={{ request.path }}">
+          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+        </a>
       {% if code.source and code.source_url %}
         <p>Source: <a href="{{ code.source_url }}">{{ code.source }}</a></p>
       {% elif code.source %}
@@ -77,17 +77,14 @@
   {% endif %}
   {% if section.links.count > 0  %}
     {% for link in section.links.all %}
-      {% if link.title %}
-        <h5 class="link-title">{{ link.title }}</h5>
-      {% endif %}
       {% if link.favicon_href %}
         <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
       {% endif %}
       <a href="{{ link.url }}" class="links-list-link">
         <p class="link-url">
-          {{ link.url }}
+          {{ link }}
           <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
-            <button class="btn btn-sm btn-warning">&#9998;</button>
+            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
           </a>
         </p>
       </a>

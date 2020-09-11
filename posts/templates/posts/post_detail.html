@@ -21,6 +21,9 @@
       <a href="{{ post.image.image_file.url }}">
         <img class="post-image" src="{{ post.image.image_file.url }}" alt="{{ post.image.title }}">
       </a>
+      <a href="{% url 'objects:image_update' post.image.pk %}?next={{ request.path }}">
+        <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+      </a>
       <br>
       {% if post.image.text %}
         <span>{{ post.image.text }}</span><br>
@@ -34,36 +37,65 @@
     <!-- Sound -->
     {% if post.sound %}
       {% with post.sound as sound %}
-        <h5 class="post-title">{{ sound.title }}</h5>
-        {% if sound.credit %}
-          <span class="post-meta"><i>{{ sound.credit }}</i></span>
-          <br>
-          <br>
-        {% endif %}
-        <audio controls="controls">
-          {% include 'audio_mime_types.html' %}
-        </audio>
+        <div class="row">
+          <div class="col-">
+            <div class="container">
+              <h5 class="post-title">{{ sound.title }}</h5>
+              {% if sound.credit %}
+                <span class="post-meta"><i>{{ sound.credit }}</i></span>
+                <br>
+                <br>
+              {% endif %}
+              <audio controls="controls">
+                {% include 'audio_mime_types.html' %}
+              </audio>
+              <br>
+            </div>
+          </div>
+          <div class="col">
+            <p>
+              {{ sound.text }}
+              <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
+                <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+              </a>
+            </p>
+          </div>
+        </div>
         <br>
-        <p>{{ sound.text }}</p>
         <br>
       {% endwith %}
     {% endif %}
     <!-- Video -->
     {% if post.video %}
       {% with post.video as video %}
-        <h5 class="post-title">{{ video.title }}</h5>
-        {% if video.credit %}
-          <span class="post-meta"><i>{{ video.credit }}</i></span>
-          <br>
-          <br>
-        {% endif %}
-        <video class="video-player" preload="auto" controls>
-          {% include 'video_mime_types.html' %}
-        </video>
+        <div class="row">
+          <div class="col-sm">
+            <div class="container">
+              <video class="video-player" preload="auto" controls>
+                {% include 'video_mime_types.html' %}
+              </video>
+            </div>
+          </div>
+          <div class="col">
+            <div class="container">
+              <h5 class="post-title">{{ video.title }}</h5>
+              {% if video.credit %}
+                <span class="post-meta"><i>{{ video.credit }}</i></span>
+                <br>
+                <br>
+              {% endif %}
+              <p>
+                {% if video.text %}
+                  {{ video.text }}
+                {% endif %}
+                <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
+                  <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
         <br>
-        {% if video.text %}
-          <p>{{ video.text }}</p>
-        {% endif %}
         <br>
       {% endwith %}
     {% endif %}
@@ -74,6 +106,9 @@
         <span class="code-block post-meta">{{ post.code.file_path }}</span>
       {% endif %}
       <pre class="code-block">{{ post.code.code }}</pre>
+      <a href="{% url 'objects:code_update' post.code.pk %}?next={{ request.path }}">
+        <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+      </a>
       {% if post.code.source_url %}
         <p class="post-meta">Source: <a href="{{ post.code.source_url }}">{{ post.code.source }}</a></p>
       {% else %}
@@ -91,7 +126,12 @@
       {% if post.link.favicon_href %}
         <div class="link-list-card float-left" style="background-image:url('{{ post.link.favicon_href }}')"></div>
       {% endif %}
-      <a href="{{ post.link.url }}" class="links-list-link"><p class="link-url">{{ post.link.url }}</p></a>
+      <p class="link-url">
+        <a href="{{ post.link.url }}" class="links-list-link">{{ post.link.url|truncatechars:128 }}</a>
+        <a href="{% url 'objects:link_update' post.link.pk %}?next={{ request.path }}">
+          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+        </a>
+      </p>
     {% endif %}
     <!-- Credits -->
     {% if post.is_public %}
