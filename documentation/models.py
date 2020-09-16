@@ -4,10 +4,48 @@ from members.mixins import MarshmallowMixin
 
 # Create your models here.
 
+class Section(MetaDataMixin):
 
-class SupportDocument(MetaDataMixin, MarshmallowMixin):
+    class Meta:
+        abstract = True
 
-    numbered = models.BooleanField(default=False)
+    order = models.DecimalField(
+        max_digits=8,
+        decimal_places=4,
+    )
+    title = models.CharField(
+        max_length=255,
+    )
+    text = models.TextField(max_length=65535)
+    images = models.ManyToManyField(
+        'objects.image',
+        blank=True,
+    )
+    sounds = models.ManyToManyField(
+        'objects.sound',
+        blank=True,
+    )
+    videos = models.ManyToManyField(
+        'objects.video',
+        blank=True,
+    )
+    code = models.ManyToManyField(
+        'objects.code',
+        blank=True,
+    )
+    links = models.ManyToManyField(
+        'objects.link',
+        blank=True,
+    )
+
+    def __str__(self):
+        return self.title
+
+class Doc(MetaDataMixin, MarshmallowMixin):
+
+    class Meta:
+        abstract = True
+
     title = models.CharField(
         max_length=255,
     )
@@ -33,16 +71,34 @@ class SupportDocument(MetaDataMixin, MarshmallowMixin):
     def __str__(self):
         return self.title
 
-class Section(MetaDataMixin):
+class Document(Doc):
 
-    order = models.DecimalField(
-        max_digits=8,
-        decimal_places=4,
+    pass
+
+class DocumentSection(Section):
+
+    document = models.ForeignKey(
+        Document,
+        on_delete=models.CASCADE,
+        related_name='parent_doc',
     )
-    title = models.CharField(
-        max_length=255,
+
+class SupportDocument(Doc):
+
+    numbered = models.BooleanField(default=False)
+    tip = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
     )
-    text = models.TextField(max_length=65535)
+    warning = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+
+class SupportDocSection(Section):
+
     support_document = models.ForeignKey(
         SupportDocument,
         on_delete=models.CASCADE,
@@ -55,26 +111,4 @@ class Section(MetaDataMixin):
         blank=True,
         null=True,
     )
-    images = models.ManyToManyField(
-        'objects.image',
-        blank=True,
-    )
-    sounds = models.ManyToManyField(
-        'objects.sound',
-        blank=True,
-    )
-    videos = models.ManyToManyField(
-        'objects.video',
-        blank=True,
-    )
-    code = models.ManyToManyField(
-        'objects.code',
-        blank=True,
-    )
-    links = models.ManyToManyField(
-        'objects.link',
-        blank=True,
-    )
 
-    def __str__(self):
-        return self.title

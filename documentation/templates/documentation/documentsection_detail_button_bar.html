@@ -1,24 +1,24 @@
 <div class="row">
   <div class="col">
     <h4 class="documentation-title">{{ section.title }}</h4>
-      {% if not document %}
-        <p>
-          from <a href="{% url 'documentation:support_document_detail' section.support_document.slug %}">
-            {{ section.support_document }}
-          </a>
-        </p>
-      {% endif %}
+    {% if not document %}
+      <p>
+        from <a href="{% url 'documentation:document_detail' section.document.slug %}">
+        {{ section.document }}
+        </a>
+    {% endif %}
+    </p>
   </div>
   <div class="col-">
     {% if section.owner.pk == request.user.pk %}
-      <a href="{% url 'documentation:section_delete' section.pk %}">
+      <a href="{% url 'documentation:document_section_delete' section.pk %}">
         <button type="button" class="btn btn-sm  btn-danger float-right">Delete</button>
       </a>
-      <a href="{% url 'documentation:section_update' section.pk %}">
+      <a href="{% url 'documentation:document_section_update' section.pk %}">
         <button type="button" class="btn btn-sm btn-warning float-right">Edit</button>
       </a>
       {% if not document %}
-        <a href="{% url 'documentation:section_create' %}">
+        <a href="{% url 'documentation:document_section_create' %}">
           <button type="button" class="btn btn-sm btn-primary float-right">Add Section</button>
         </a>
       {% endif %}

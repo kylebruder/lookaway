@@ -1,0 +1,12 @@
+{% for section in sections %}
+  {% if section.is_public or section.owner.pk == request.user.pk %}
+    <li class="list-group-item documentation-list-li">
+      <h5 class="documentation-title">
+        <a href="{% url 'documentation:support_doc_section_detail' section.pk %}">
+          {{ section.order }} - {{ section.title }}
+        </a>
+        {% if section.support_document %} - {{ section.support_document.title }}{% endif %}
+      </h5>
+    </li>
+  {% endif %}
+{% endfor %}

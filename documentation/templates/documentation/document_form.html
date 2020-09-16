@@ -2,15 +2,15 @@
 {% block body_block %}
 <div class ="container create-bg">
   <div class="container">
-    {% if object.title %} 
-      <h2 class="documentation-title">Support Document: {{ object.title }}</h2>
+    {% if object.title %}
+      <h3 class="documentation-title">Document: {{ object.title }}</h3>
     {% else %}
-      <h2 class="documentation-title">New Support Document</h2>
+      <h2 class="documentation-title">New Document</h2>
     {% endif %}
     <br>
     <div class="row">
       <div class="col">
-        {% include './document_button_bar.html' %}
+        {% include './supportdocument_button_bar.html' %}
       </div>
     </div>
     <form method="post" enctype="multipart/form-data">

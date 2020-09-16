@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col">
+    {% if user_only %}
+      <h3 class="documentation-title">{{ member }}'s Support Document Sections</h3>
+    {% else %}
+      <h3 class="documentation-title">Support Document Sections</h3>
+    {% endif %}
+  </div>
+  {% if request.user.is_authenticated and request.user.is_staff %}
+    <div class="col-">
+      <div class="container">
+        <a href="{% url 'documentation:support_doc_section_create' %}">
+          <button type="button" class="btn btn-sm btn-primary">New Section</button>
+        </a>
+      </div>
+    </div>
+  {% endif %}
+</div>

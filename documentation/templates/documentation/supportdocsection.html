@@ -1,0 +1,93 @@
+<div class="documentation-section">
+  {% include './supportdocsection_detail_button_bar.html' %}
+  <p>{{ section.text|linebreaks }}</p>
+  {% if section.images.count > 0 %}
+    {% for image in section.images.all %}
+      <div class="documentation-seciton-image">
+        <a href="{{ image.image_file.url }}">
+          <img class="documentation-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
+        </a>
+        <a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}">
+          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+        </a>
+        <br>
+        <p>{{ image.text }}{% if image.credit %} - <i>{{ image.credit }}{% endif %}</i></p>
+      </div>
+    {% endfor %}
+  {% endif %}
+  {% if section.sounds.count > 0 %}
+    {% for sound in section.sounds.all %}
+      <p>{{ sound.text }}</p>
+      <audio controls="controls">
+        {% include 'audio_mime_types.html' %}
+      </audio>
+      <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
+        <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+      </a>
+      <br>
+      {% if sound.credit %}
+        <i>{{ sound.credit }}</i>
+      {% endif %}
+      <br>
+      <br>
+    {% endfor %}
+  {% endif %}
+  {% if section.videos.count > 0  %}
+    {% for video in section.videos.all %}
+      <p>{{ video.text }}</p>
+      <video class="video-player" preload="auto" controls="controls">
+        {% include 'video_mime_types.html' %}
+      </video>
+      <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
+        <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+      </a>
+      <br>
+      {% if video.credit %}
+        <i>{{ video.credit }}</i>
+      {% endif %}
+      <br>
+      <br>
+    {% endfor %}
+    <br>
+  {% endif %}
+  {% if section.code.count > 0  %}
+    {% for code in section.code.all %}
+      {% if code.file_path %}
+        <span class="code-block">{{ code.file_path }}</span>
+      {% endif %}
+      <pre class="code-block">{{ code.code }}</pre>
+        <a href="{% url 'objects:code_update' code.pk %}?next={{ request.path }}">
+          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+        </a>
+      {% if code.source and code.source_url %}
+        <p>Source: <a href="{{ code.source_url }}">{{ code.source }}</a></p>
+      {% elif code.source %}
+          <p>Source: {{ code.source }}</p>
+      {% elif code.source_url %}
+        <p>Source: <a href="{{ code.source_url }}">{{ code.source_url }}</a></p>
+      {% endif %}
+    {% endfor %}
+    <br>
+  {% endif %}
+  {% if section.support_reference %}
+    <a href="{% url 'documentation:support_document_detail' section.support_reference.slug %}">
+      <h5 class="documentation-title">{{ section.support_reference.title }}</h5>
+    </a>
+    <br>
+  {% endif %}
+  {% if section.links.count > 0  %}
+    {% for link in section.links.all %}
+      {% if link.favicon_href %}
+        <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
+      {% endif %}
+      <a href="{{ link.url }}" class="links-list-link">
+        <p class="link-url">
+          {{ link }}
+          <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
+            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+          </a>
+        </p>
+      </a>
+    {% endfor %}
+  {% endif %}
+</div>

@@ -2,7 +2,7 @@
 {% block body_block %}
 <div class="container documentation-bg">
   {% if document.is_public or document.owner.pk == request.user.pk %}
-    {% include './supportdocument_detail_button_bar.html' %}
+    {% include './document_detail_button_bar.html' %}
     {% if document.is_public %}
       <p>by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></p>
     {% else %}
@@ -21,23 +21,9 @@
     <p>{{ document.intro|linebreaks }}</p>
     <br>
     {% if sections %}
-      {% if document.numbered %}
-        <ol class="list-group">
-          {% for section in sections %}
-            <li class="list-group-item documentation-section documentation-section-li">
-              {% include './supportdocsection.html' %}
-            </li>
-          {% endfor %}
-        </ol>
-      {% else %}
-        <ul class="list-group">
-          {% for section in sections %}
-            <li class="list-group-item documentation-section documentation-section-li">
-              {% include './supportdocsection.html' %}
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
+      {% for section in sections %}
+        {% include './documentsection.html' %}
+      {% endfor %}
     {% endif %}
     <p>{{ document.outro|linebreaks }}</p>
     {% if document.tags.count > 0 %}

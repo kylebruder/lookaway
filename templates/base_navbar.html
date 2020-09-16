@@ -18,7 +18,10 @@
           <a class="nav-link nav-font" href="{% url 'posts:top_posts' %}">Posts</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">Documents</a>
+          <a class="nav-link nav-font" href="{% url 'documentation:public_documents' %}">Documents</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">Support</a>
         </li>
       </ul>
       <span class="nav-text">
@@ -34,7 +37,7 @@
           <a class="nav-link nav-font" href="{% url 'posts:top_posts' %}">Posts</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">Documents</a>
+          <a class="nav-link nav-font" href="{% url 'documentation:public_documents' %}">Documents</a>
         </li>
       {% endif %}
     </ul>

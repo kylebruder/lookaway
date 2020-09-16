@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container documentation-bg">
+  {% include "./document_list_button_bar.html" %}
+  {{ object }}
+  {% if documents %}
+    {% include "page_control.html" %}
+    <ul class="list-group">
+      {% include "./document_list_item.html" %}
+    </ul>
+    {% include "page_control.html" %}
+  {% else %}
+    <p>No documentation has been published yet. Check back soon!</p>
+    <br>
+  {% endif %}
+</div>
+{% endblock %}

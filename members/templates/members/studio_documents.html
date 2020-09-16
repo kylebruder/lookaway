@@ -13,7 +13,7 @@
     {% for document in documents %}
       <li class="list-group-item documentation-list-li">
         <p>
-          <a href="{% url 'documentation:support_document_detail' document.slug %}">
+          <a href="{% url 'documentation:document_detail' document.slug %}">
             {{ document.title }}
           </a>
         </p>
@@ -27,6 +27,6 @@
     {% endfor %}
   </ul>
   <p>
-    <a href="{% url 'documentation:member_support_documents' member=documents.0.owner.username %}">more ...</a>
+    <a href="{% url 'documentation:member_documents' member=documents.0.owner.username %}">more ...</a>
   </p>
 {% endif %}
