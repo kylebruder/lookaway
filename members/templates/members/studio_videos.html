@@ -8,7 +8,7 @@
     </a>
   </div>
 </div>
-{% if videos %}
+{% if videos.all.count > 0 %}
   <ul class="list-group">
     {% for video in videos %}
       <li class="list-group-item video-list-li">
@@ -28,5 +28,5 @@
     <a href="{% url 'objects:member_videos' member=videos.0.owner.username %}">more ...</a>
   </p>
 {% else %}
-  <p>You have not uploaded any Videos yet</p>
+  <p>You have not uploaded any Videos yet.</p>
 {% endif %}

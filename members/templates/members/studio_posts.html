@@ -8,7 +8,7 @@
     </a>
   </div>
 </div>
-{% if posts %}
+{% if posts.all.count > 0 %}
   <ul class="list-group">
     {% for post in posts %}
       <li class="list-group-item post-list-li">
@@ -30,5 +30,5 @@
     <a href="{% url 'posts:member_posts' member=posts.0.owner.username %}">more ...</a>
   </p>
 {% else %}
-  <p>You have not posted anything yet</p>
+  <p>You have not posted anything yet.</p>
 {% endif %}

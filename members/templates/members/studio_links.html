@@ -8,7 +8,7 @@
     </a>
   </div>
 </div>
-{% if links %}
+{% if links.all.count > 0 %}
   <ul class="list-group">
     {% for link in links %}
       <li class="list-group-item link-list-li">
@@ -22,7 +22,7 @@
         {% if link.favicon_href %}
             <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
         {% endif %}
-        <p class="link-list-link">{{ link.url }}</p>
+        <p class="link-list-link">{{ link.url|truncatechars:128 }}</p>
         {% if not link.is_public %}
           <span class="badge badge-secondary">Unpublished</span>
         {% endif %}
@@ -33,5 +33,5 @@
     <a href="{% url 'objects:member_links' member=links.0.owner.username %}">more ...</a>
   </p>
 {% else %}
-  <p>You have not added any links yet</p>
+  <p>You have not added any links yet.</p>
 {% endif %}

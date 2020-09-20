@@ -8,7 +8,7 @@
     </a>
   </div>
 </div>
-{% if support_documents %}
+{% if support_documents.all.count > 0 %}
   <ul class="list-group">
     {% for document in support_documents %}
       <li class="list-group-item documentation-list-li">
@@ -29,4 +29,6 @@
   <p>
     <a href="{% url 'documentation:member_support_documents' member=documents.0.owner.username %}">more ...</a>
   </p>
+{% else %}
+  <p>You have not contributed any Support Documents yet.</p>
 {% endif %}

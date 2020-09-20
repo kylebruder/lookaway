@@ -8,7 +8,7 @@
     </a>
   </div>
 </div>
-{% if images %}
+{% if images.all.count > 0 %}
   <div class="studio-image-matrix">
     {% for i in images %}
       <a href="{% url 'objects:image_detail' i.pk %}">
@@ -25,5 +25,5 @@
     <a href="{% url 'objects:member_images' member=images.0.owner.username %}">more ...</a>
   </p>
 {% else %}
-  <p>You have not contributed any images yet</p>
+  <p>You have not contributed any images yet.</p>
 {% endif %}

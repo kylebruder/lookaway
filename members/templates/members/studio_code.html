@@ -8,7 +8,7 @@
     </a>
   </div>
 </div>
-{% if codes %}
+{% if codes.all.count > 0 %}
   <ul class="list-group">
     {% for code in codes %}
       <li class="list-group-item code-list-li">
@@ -27,5 +27,5 @@
     <a href="{% url 'objects:member_code' member=codes.0.owner.username %}">more ...</a>
   </p>
 {% else %}
-  <p>You have not uploaded any code yet</p>
+  <p>You have not uploaded any code yet.</p>
 {% endif %}
