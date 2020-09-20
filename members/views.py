@@ -10,12 +10,12 @@ from django.shortcuts import render, reverse
 from django.urls import reverse_lazy
 from django.utils import timezone, text
 from django.views.generic import TemplateView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, FormMixin, UpdateView
 from django.views.generic.detail import DetailView
 from documentation.models import Document, SupportDocument
 from objects.models import Image, Sound, Video, Code, Link
 from posts.models import Post
-from .forms import MemberForm, ProfileForm
+from .forms import MemberForm, ProfileForm, UserRegistrationForm
 from .models import Member, Profile, InviteLink
 # Create your views here.
 
@@ -201,12 +201,40 @@ class InviteLinkCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
             kwargs={'slug': self.object.slug}
         )
 
-class InviteLinkDetailView(DetailView):
+class InviteLinkDetailView(FormMixin, DetailView):
 
     model = InviteLink
     template_name = 'member_registration.html'
+    form_class = UserRegistrationForm
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            invite = InviteLink.objects.get(
+                pk=self.object.pk,
+            )
+            if invite.expiration_date > timezone.now():
+                form.save()
+                messages.success(
+                    request,
+                    "Welcome! You are now a member of the site. Please authenticate using your provided credentials.",
+                )
+                invite.delete()
+                return self.form_valid(form)
+            else:
+                messages.error(
+                    request,
+                    "This invite link has expired! Please request a new one from the site administrator.",
+                )
+                invite.delete()
+                return reverse('home:index')
+        else:
+            return self.form_invalid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = UserCreationForm() 
         return context
+
+    def get_success_url(self):
+        return reverse('login')

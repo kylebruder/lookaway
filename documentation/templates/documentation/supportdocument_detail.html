@@ -11,9 +11,11 @@
     {% if document.image %}
       <div class="container">
         <img class="documentation-image" src="{{ document.image.image_file.url }}" alt="{{ document.image.title }}">
-        <a href="{% url 'objects:image_update' document.image.pk %}?next={{ request.path }}">
-          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-        </a>
+        {% if document.image.owner.pk == request.user.pk %}
+          <a href="{% url 'objects:image_update' document.image.pk %}?next={{ request.path }}">
+            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+          </a>
+        {% endif %}
         <br>
         <br>
       </div>
@@ -50,16 +52,18 @@
         {% if link.title %}
           <h5 class="link-title">{{ link.title }}</h5>
         {% endif %}
-      {% if link.favicon_href %}
-        <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
-      {% endif %}
-      <p class="link-url">
-        <a href="{{ link.url }}" class="links-list-link">{{ link.url|truncatechars:128 }}</a>
-        <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
-          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-        </a>
-        <br>
-      </p>
+        {% if link.favicon_href %}
+          <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
+        {% endif %}
+        <p class="link-url">
+          <a href="{{ link.url }}" class="links-list-link">{{ link.url|truncatechars:128 }}</a>
+          {% if link.owner.pk == request.user.pk %}
+            <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
+              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+            </a>
+          {% endif %}
+          <br>
+        </p>
       {% endfor %}
     {% endif %}
     {% if document.is_public %}

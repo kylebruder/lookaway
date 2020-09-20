@@ -9,7 +9,7 @@
       <h3 class="post-title">Posts</h3>
     {% endif %}
   </div>
-  {% if request.user.is_authenticated and request.user.is_staff %}
+  {% if request.user.is_authenticated %}
     <div class="col-">
       <div class="container">
         <a href="{% url 'posts:post_create' %}">

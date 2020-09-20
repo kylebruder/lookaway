@@ -20,12 +20,12 @@ urlpatterns = [
         name='member_profile_update',
     ),
     path(
-        'join-us/<slug:slug>', 
+        'join-us/<slug:slug>/', 
         InviteLinkDetailView.as_view(),
         name='invite_link_detail',
     ),
     path(
-        'register/<slug:invite>', 
+        'register/<slug:invite>/', 
         member_registration,
         name='member_registration',
     ),

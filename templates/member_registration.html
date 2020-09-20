@@ -7,20 +7,10 @@
   {% endif %}
   <p>Expires: {{ object.expiration_date }}</p>
   <p>{{ object.note }}</p>
-    <form action="{% url 'members:member_registration' object.slug %}" method="post">
+    <form method="post">
     {% csrf_token %}
     {% include 'form_fields.html' %}
-    <div class="row">
-      <div class="col-sm-2">
-        <h5 class="form-label">Recovery Email:</h5>
-      </div>
-      <div class="col-sm-10">
-        <p>The recovery email is optional, however, if you do not supply one, you will be unable to recover your password.</p>
-        <input type="email" name="email" id="id_email">
-      </div>
-    </div>
-    <input type="hidden" name="invite" value="{{ object.pk}}">
-    <input type="submit" class="btn btn-sm btn-primary float-right" value="Submit">
+    <input type="submit" class="btn btn-sm btn-primary" value="Submit">
   </form>
 </div>
 {% endblock %}

@@ -2,7 +2,7 @@ from django import forms
 from django.forms import Textarea
 from templates.widgets import ImagePreviewWidget, SoundPreviewWidget, VideoPreviewWidget
 from members.models import Member
-from objects.models import Image
+from objects.models import Image, Sound, Video, Code
 from .models import Post
 
 class CustomModelChoiceIterator(forms.models.ModelChoiceIterator):
@@ -84,6 +84,21 @@ class PostForm(forms.ModelForm):
         user = kwargs.pop('user')
         super(PostForm, self).__init__(*args, **kwargs)
         self.fields['image'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
+        self.fields['sound'].queryset = Sound.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
+        self.fields['video'].queryset = Video.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
+        self.fields['code'].queryset = Code.objects.filter(
             owner=user.pk,
         ).order_by(
             '-creation_date',

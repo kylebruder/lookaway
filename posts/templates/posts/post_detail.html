@@ -21,9 +21,11 @@
       <a href="{{ post.image.image_file.url }}">
         <img class="post-image" src="{{ post.image.image_file.url }}" alt="{{ post.image.title }}">
       </a>
-      <a href="{% url 'objects:image_update' post.image.pk %}?next={{ request.path }}">
-        <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-      </a>
+      {% if post.image.owner.pk == request.user.pk %}
+        <a href="{% url 'objects:image_update' post.image.pk %}?next={{ request.path }}">
+          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+        </a>
+      {% endif %}
       <br>
       {% if post.image.text %}
         <span>{{ post.image.text }}</span><br>
@@ -55,9 +57,11 @@
           <div class="col">
             <p>
               {{ sound.text }}
-              <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
-                <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-              </a>
+              {% if post.sound.owner.pk == request.user.pk %}
+                <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
+                  <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+                </a>
+              {% endif %}
             </p>
           </div>
         </div>
@@ -88,9 +92,11 @@
                 {% if video.text %}
                   {{ video.text }}
                 {% endif %}
-                <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
-                  <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-                </a>
+                {% if post.video.owner.pk == request.user.pk %}
+                  <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
+                    <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+                  </a>
+                {% endif %}
               </p>
             </div>
           </div>
@@ -106,9 +112,11 @@
         <span class="code-block post-meta">{{ post.code.file_path }}</span>
       {% endif %}
       <pre class="code-block">{{ post.code.code }}</pre>
-      <a href="{% url 'objects:code_update' post.code.pk %}?next={{ request.path }}">
-        <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-      </a>
+      {% if post.code.owner.pk == request.user.pk %}
+        <a href="{% url 'objects:code_update' post.code.pk %}?next={{ request.path }}">
+          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+        </a>
+      {% endif %}
       {% if post.code.source_url %}
         <p class="post-meta">Source: <a href="{{ post.code.source_url }}">{{ post.code.source }}</a></p>
       {% else %}
@@ -128,9 +136,11 @@
       {% endif %}
       <p class="link-url">
         <a href="{{ post.link.url }}" class="links-list-link">{{ post.link.url|truncatechars:128 }}</a>
-        <a href="{% url 'objects:link_update' post.link.pk %}?next={{ request.path }}">
-          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-        </a>
+        {% if post.owner.link.pk == request.user.pk %}
+          <a href="{% url 'objects:link_update' post.link.pk %}?next={{ request.path }}">
+            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+          </a>
+        {% endif %}
       </p>
     {% endif %}
     <!-- Credits -->

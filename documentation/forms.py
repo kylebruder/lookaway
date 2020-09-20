@@ -2,7 +2,7 @@ from django import forms
 from django.forms import Textarea
 from templates.widgets import ImagePreviewWidget, SoundPreviewWidget, VideoPreviewWidget
 from members.models import Member
-from objects.models import Image
+from objects.models import Image, Sound, Video, Code, Link
 from .models import Document, DocumentSection, SupportDocument, SupportDocSection
 
 class CustomModelChoiceIterator(forms.models.ModelChoiceIterator):
@@ -148,6 +148,21 @@ class DocumentSectionForm(forms.ModelForm):
         ).order_by(
             '-creation_date',
         )
+        self.fields['sounds'].queryset = Sound.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
+        self.fields['videos'].queryset = Video.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
+        self.fields['code'].queryset = Code.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
 
 class SupportDocumentForm(forms.ModelForm):
 
@@ -269,6 +284,21 @@ class SupportDocSectionForm(forms.ModelForm):
         user = kwargs.pop('user')
         super(SupportDocSectionForm, self).__init__(*args, **kwargs)
         self.fields['images'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
+        self.fields['sounds'].queryset = Sound.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
+        self.fields['videos'].queryset = Video.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
+        self.fields['code'].queryset = Code.objects.filter(
             owner=user.pk,
         ).order_by(
             '-creation_date',
