@@ -27,7 +27,7 @@
     {% endfor %}
   </ul>
   <p>
-    <a href="{% url 'posts:member_posts' member=posts.0.owner.username %}">more ...</a>
+    <a href="{% url 'posts:member_posts' request.user.username %}">more ...</a>
   </p>
 {% else %}
   <p>You have not posted anything yet.</p>

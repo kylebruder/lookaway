@@ -22,7 +22,7 @@
   </div>
   <div class="clear"></div>
   <p>
-    <a href="{% url 'objects:member_images' member=images.0.owner.username %}">more ...</a>
+    <a href="{% url 'objects:member_images' request.user.username %}">more ...</a>
   </p>
 {% else %}
   <p>You have not contributed any images yet.</p>

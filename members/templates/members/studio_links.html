@@ -30,7 +30,7 @@
     {% endfor %}
   </ul>
   <p>
-    <a href="{% url 'objects:member_links' member=links.0.owner.username %}">more ...</a>
+    <a href="{% url 'objects:member_links' request.user.username %}">more ...</a>
   </p>
 {% else %}
   <p>You have not added any links yet.</p>

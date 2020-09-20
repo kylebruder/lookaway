@@ -25,7 +25,7 @@
     {% endfor %}
   </ul>
   <p>
-    <a href="{% url 'objects:member_videos' member=videos.0.owner.username %}">more ...</a>
+    <a href="{% url 'objects:member_videos' request.user.username %}">more ...</a>
   </p>
 {% else %}
   <p>You have not uploaded any Videos yet.</p>

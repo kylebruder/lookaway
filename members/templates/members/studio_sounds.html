@@ -25,7 +25,7 @@
     {% endfor %}
   </ul>
   <p>
-    <a href="{% url 'objects:member_sounds' member=sounds.0.owner.username %}">more ...</a>
+    <a href="{% url 'objects:member_sounds' request.user.username %}">more ...</a>
   </p>
 {% else %}
   <p>You have not uploaded any Sounds yet.</p>

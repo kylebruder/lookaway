@@ -27,7 +27,7 @@
     {% endfor %}
   </ul>
   <p>
-    <a href="{% url 'documentation:member_documents' member=documents.0.owner.username %}">more ...</a>
+    <a href="{% url 'documentation:member_documents' request.user.username %}">more ...</a>
   </p>
 {% else %}
   <p>You have not contributed any Documents yet.</p>

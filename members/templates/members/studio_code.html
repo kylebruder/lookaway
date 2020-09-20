@@ -24,7 +24,7 @@
     {% endfor %}
   </ul>
   <p>
-    <a href="{% url 'objects:member_code' member=codes.0.owner.username %}">more ...</a>
+    <a href="{% url 'objects:member_code' request.user.username %}">more ...</a>
   </p>
 {% else %}
   <p>You have not uploaded any code yet.</p>
