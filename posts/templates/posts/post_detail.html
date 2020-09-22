@@ -12,12 +12,8 @@
     {% if post.re %}
       <p class="post-meta">Re: <a href="{% url 'posts:post_detail' post.re.slug %}">{{ post.re.title }}</a></p>
     {% endif %}
-    <!-- Main content -->
-    <p>{{ post.text|linebreaks }}</p>
-    <br>
     <!-- Image -->
     {% if post.image %}
-      <h5 class="post-title">{{ post.image.title }}</h5>
       <a href="{{ post.image.image_file.url }}">
         <img class="post-image" src="{{ post.image.image_file.url }}" alt="{{ post.image.title }}">
       </a>
@@ -27,6 +23,7 @@
         </a>
       {% endif %}
       <br>
+      <h5 class="post-title">{{ post.image.title }}</h5>
       {% if post.image.text %}
         <span>{{ post.image.text }}</span><br>
       {% endif %}
@@ -36,6 +33,9 @@
         <br>
       {% endif %}
     {% endif %}
+    <!-- Main content -->
+    <p>{{ post.text|linebreaks }}</p>
+    <br>
     <!-- Sound -->
     {% if post.sound %}
       {% with post.sound as sound %}

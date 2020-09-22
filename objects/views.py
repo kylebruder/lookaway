@@ -19,7 +19,8 @@ from members.models import Member
 from members.mixins import MemberOwnershipView, MemberDeleteView
 from posts.models import Post
 from .forms import (ImageCreateForm, ImageUpdateForm, SoundCreateForm,
-    SoundUpdateForm, VideoCreateForm, VideoUpdateForm, CodeForm, LinkForm, TagForm)
+    SoundUpdateForm, VideoCreateForm, VideoUpdateForm, CodeForm, LinkCreateForm, 
+    LinkForm, TagForm)
 from .models import Tag, Image, Sound, Video, Code, Link
 # Create your views here.
 
@@ -774,7 +775,7 @@ def publish_code_view(request, pk):
 class LinkCreateView(LoginRequiredMixin, CreateView):
 
     model = Link
-    fields = ['url',]
+    form_class = LinkCreateForm
     template_name_suffix = '_form'
 
     def form_valid(self, form):

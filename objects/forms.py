@@ -337,6 +337,20 @@ class CodeForm(forms.ModelForm):
             'tags': "Choose one or more tags that relate to the Code.",
         }
 
+class LinkCreateForm(forms.ModelForm):
+
+    url = forms.CharField(
+        help_text="Enter the URL here.",
+        max_length=256,
+    )
+    url.widget.attrs.update({'class': 'form-text-field'})
+
+    class Meta:
+        model = Link
+        fields = [
+            'url',
+        ]
+  
 class LinkForm(forms.ModelForm):
 
     title = forms.CharField(
