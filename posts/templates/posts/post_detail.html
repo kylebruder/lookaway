@@ -12,6 +12,7 @@
     {% if post.re %}
       <p class="post-meta">Re: <a href="{% url 'posts:post_detail' post.re.slug %}">{{ post.re.title }}</a></p>
     {% endif %}
+    <br>
     <!-- Image -->
     {% if post.image %}
       <a href="{{ post.image.image_file.url }}">
@@ -23,13 +24,11 @@
         </a>
       {% endif %}
       <br>
-      <h5 class="post-title">{{ post.image.title }}</h5>
       {% if post.image.text %}
         <span>{{ post.image.text }}</span><br>
       {% endif %}
       {% if post.image.credit %}
         <span class="post-meta"><i>{{ post.image.credit }}</i></span>
-        <br>
         <br>
       {% endif %}
     {% endif %}
