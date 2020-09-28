@@ -83,6 +83,9 @@ class DocumentSection(Section):
         related_name='parent_doc',
     )
 
+    class Meta:
+        ordering = ['order']
+
 class SupportDocument(Doc):
 
     numbered = models.BooleanField(default=False)
@@ -112,3 +115,5 @@ class SupportDocSection(Section):
         null=True,
     )
 
+    class Meta:
+        ordering = ['order']

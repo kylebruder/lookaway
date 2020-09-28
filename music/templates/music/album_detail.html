@@ -9,7 +9,7 @@
       <p><i>This Album is only avaialble for Members of the site.</i></p>
     {% endif %}
     <div class="row">
-      <div class="col-sm">
+      <div class="col-sm-8">
         {% if album.cover %}
           <!-- Image -->
           <img class="float-left music-album-image" src="{{ album.cover.image_file.url }}" alt="{{ album.cover.title }}">   
@@ -18,20 +18,22 @@
           <p class="music-album-blurb">{{ album.text|linebreaks }}</p>
         {% endif %}
       </div>
-      <div class="col-sm-">
+      <div class="col-sm-4">
         <div class="container music-album-info">
-          {% if album.artist %}
-            <span>Artist: {{ album.artist }}</span><br>
-          {% endif %}
-          {% if album.genre %}
-            <span>Genre: {{ album.genre }}</span><br>
-          {% endif %}
-          {% if album.year %}
-            <span>Year: {{ album.year }}</span><br>
-          {% endif %}
-          {% if album.label %}
-            <span>Label: {{ album.label }}</span><br>
-          {% endif %}
+          <p>
+            {% if album.artist %}
+              <span>Artist: {{ album.artist }}</span><br>
+            {% endif %}
+            {% if album.genre %}
+              <span>Genre: {{ album.genre }}</span><br>
+            {% endif %}
+            {% if album.year %}
+              <span>Year: {{ album.year }}</span><br>
+            {% endif %}
+            {% if album.label %}
+              <span>Label: {{ album.label }}</span><br>
+           {% endif %}
+          </p>
         </div>
       </div>
     </div>

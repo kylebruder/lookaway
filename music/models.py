@@ -69,6 +69,9 @@ class Track(MetaDataMixin, MusicMetaData, MarshmallowMixin):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ['order']
+
 class Album(MetaDataMixin, MusicMetaData, MarshmallowMixin):
 
     cover = models.ForeignKey(
