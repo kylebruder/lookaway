@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class ="container create-bg">
+  <div class="container">
+    {% if track.title %}
+      <h3 class="documentation-title">Track: {{ object.title }}</h3>
+    {% else %}
+      <h2 class="documentation-title">New Track</h2>
+    {% endif %}
+    <br>
+    <div class="row">
+      <div class="col">
+        {% include './track_button_bar.html' %}
+      </div>
+    </div>
+    <form method="post">
+      {% csrf_token %}
+      {% for field in form %}
+        {% if field != form.image %}
+          {{ field.errors }}
+          <div class="row">
+            <div class="col-2">
+              <h5 class="form-label">{{ field.label_tag }}</h5>
+            </div>
+            <div class="col-sm-10">
+              <p>{{ field.help_text }}</p>
+              {{ field }}
+            </div>
+          </div>
+          <br>
+          <br>
+        {% endif %}
+      {% endfor %}
+      <div class="row">
+        <div class="col-2">
+          <h5 class="form-label">{{ form.image.label_tag }}</h5>
+        </div>
+        <div class="col-sm-10 form-image-selection">
+          {% if form.image.field.choices.queryset.count > 0 %}
+            {{ form.image.errors }}
+            </p>{{ form.image.help_text }}</p>
+            {% for value in form.image.field.choices %}
+              {% if value|first != '' %}
+                <div class="form-image-card float-left" style="background-image:url('{{ value.2.thumbnail_file.url }}')">
+                  <p>&nbsp;<input type="radio" value="{{ value|first }}" name="image" {% if object.image.pk == value|first %}checked{% endif %}></p>
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <p>You have not uploaded any Images yet.</p>
+          {% endif %}
+        </div>
+      </div>
+      <br>
+      <br>
+      <input type="submit" value="Submit" class="btn btn-success">
+    </form>
+  </div>
+  <br>
+</div>
+{% endblock %}

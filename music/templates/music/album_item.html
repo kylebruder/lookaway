@@ -1,0 +1,51 @@
+<li class="list-group-item music-list-li">
+  <div class="row">
+    <div class="col-sm-">
+      <div class="container-fluid">
+        <h4 class="music-title">
+          <a href="{% url 'music:album_detail' album.slug %}">
+            {{ album.title }}
+          </a>
+        </h4>
+        {% if album.artist %}
+          <span>Artist: {{ album.artist }}</span><br>
+        {% endif %}
+        {% if album.genre %}
+          <span>Genre: {{ album.genre }}</span><br>
+        {% endif %}
+        {% if album.year %}
+          <span>Year: {{ album.year }}</span><br>
+        {% endif %}
+        {% if album.label %}
+          <span>Label: {{ album.label }}</span><br>
+        {% endif %}
+        <br>
+      </div>
+    </div>
+    <div class="col-sm">
+      {% if album.members_only %}
+        <span class="badge badge-warning">Members Only</span>
+      {% endif %}
+      {% if not album.is_public %}
+        <span class="badge badge-secondary">Unpublished</span><br>
+      {% endif %}
+      {% if album.tags.count > 0 %}
+        {% with album as object %}
+          {% include './object_tags.html' %}
+          <br>
+        {% endwith %}
+      {% endif %}
+    </div>
+    <div class="col-sm-">
+      <div class="container-fluid">
+        {% if album.cover %}
+          <div class="float-right music-list-image" style="background-image:url('{{album.cover.thumbnail_file.url }}')">
+        {% elif album.owner.profile.image %}
+          <div class="float-right music-list-image" style="background-image:url('{{ album.owner.profile.image.thumbnail_file.url }}')">
+        {% else %}
+          <div class="float-right music-list-image" style="background-image:url('/static/favicon.ico')">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</li>

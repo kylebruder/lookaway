@@ -1,16 +1,5 @@
 {% for document in documents %}
   {% if document.is_public or document.owner.pk == request.user.pk %}
-    <li class="list-group-item documentation-list-li">
-      <h5 class="documentation-title">
-        <a href="{% url 'documentation:document_detail' document.slug %}">
-          {{ document.title }}
-        </a>
-      </h5>
-      <p>By {{ document.owner }}</p>
-      {% if not document.is_public %}
-        <span class="badge badge-secondary">Unpublished</span>
-        <br>
-      {% endif %}
-    </li>
+    {% include './document_item.html' %}
   {% endif %}
 {% endfor %}

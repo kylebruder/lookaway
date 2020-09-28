@@ -41,7 +41,7 @@
             </p>{{ form.image.help_text }}</p>
             {% for value in form.image.field.choices %}
               {% if value|first != '' %}
-                <div class="form-image-card float-left" style="background-image:url('/media/{{ value.2.thumbnail_file }}')">
+                <div class="form-image-card float-left" style="background-image:url('{{ value.2.thumbnail_file.url }}')">
                   <p>&nbsp;<input type="radio" value="{{ value|first }}" name="image" {% if object.image.pk == value|first %}checked{% endif %}></p>
                 </div>
               {% endif %}

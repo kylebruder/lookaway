@@ -68,7 +68,7 @@
         {% if image.is_public or image.owner.pk == request.user.pk %}
           <div class="container">
             <a href="{% url 'objects:image_detail' image.pk %}">
-              <div class="studio-image-card float-left" style="background-image:url('/media/{{ image.thumbnail_file }}')">
+              <div class="studio-image-card float-left" style="background-image:url('{{ image.thumbnail_file.url }}')">
                 {% if not image.is_public %}
                   <span class="badge badge-secondary">Unpublished</span>
                 {% endif %}

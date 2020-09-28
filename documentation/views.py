@@ -188,7 +188,7 @@ def publish_document_view(request, pk):
             )
             return HttpResponseRedirect(
                 reverse(
-                'members:document_detail',
+                'documentation:document_detail',
                 kwargs={'pk': instance.pk}
             )
         )
@@ -456,7 +456,7 @@ def publish_support_document_view(request, pk):
             )
             return HttpResponseRedirect(
                 reverse(
-                'members:support_document_detail',
+                'documentation:support_document_detail',
                 kwargs={'pk': instance.pk}
             )
         )

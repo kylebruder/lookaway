@@ -3,6 +3,7 @@
 <div class="container documentation-bg">
   {% include "./post_list_button_bar.html" %}
   {% if posts %}
+    <p><a href="{% url 'posts:top_posts' %}">top posts</a> | <a href="{% url 'posts:public_posts' %}">new posts</a></p>
     {% include "page_control.html" %}
     <ul class="list-group">
       {% include "./post_list_item.html" %}

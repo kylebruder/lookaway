@@ -39,7 +39,7 @@
           {% else %}
             {% for value, label, obj in form.images.field.choices %}
               {% if value != '' %}
-                <div class="form-image-card float-left" style="background-image:url('/media/{{ obj.thumbnail_file }}')">
+                <div class="form-image-card float-left" style="background-image:url('{{ obj.thumbnail_file.url }}')">
                   <p>&nbsp;<input type="checkbox" value="{{ value }}" name="images" {% if obj in object.images.all %}checked{% endif %}></p>
                 </div>
               {% endif %}

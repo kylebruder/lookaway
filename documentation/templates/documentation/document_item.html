@@ -1,0 +1,14 @@
+<li class="list-group-item documentation-list-li">
+  <h5 class="documentation-title">
+    <a href="{% url 'documentation:document_detail' document.slug %}">
+      {{ document.title }}
+    </a>
+  </h5>
+  <p>By {{ document.owner }}</p>
+  {% if document.members_only %}
+    <span class="badge badge-warning">Members Only</span>
+  {% endif %}
+  {% if not document.is_public %}
+    <span class="badge badge-secondary">Unpublished</span>
+  {% endif %}
+</li>

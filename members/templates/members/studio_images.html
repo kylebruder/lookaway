@@ -12,7 +12,7 @@
   <div class="studio-image-matrix">
     {% for i in images %}
       <a href="{% url 'objects:image_detail' i.pk %}">
-        <div class="studio-image-card float-left" style="background-image:url('/media/{{ i.thumbnail_file }}')">
+        <div class="studio-image-card float-left" style="background-image:url('{{ i.thumbnail_file.url }}')">
           {% if not i.is_public %}
             <span class="badge badge-secondary">Unpublished</span>
           {% endif %}

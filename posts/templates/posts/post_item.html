@@ -1,0 +1,38 @@
+<li class="list-group-item post-list-li">
+  <div class="row">
+    <div class="col-sm-8">
+      <h4 class="post-title">
+        <a href="{% url 'posts:post_detail' post.slug %}">
+          {{ post.title }}
+        </a>
+      </h4>
+      {% if post.re %}<span>Re: <a href="{% url 'posts:post_detail' post.re.slug %}">{{ post.re.title }}</a></span><br>{% endif %}
+      <p>
+        Posted by <a href="{% url 'members:member_profile' post.owner.username %}">{{ post.owner }}</a>
+        {% if post.publication_date %} on {{ post.publication_date }}{% endif %}
+        {% if post.location %} from {{ post.location }}{% endif %}
+      </p>
+      {% if post.members_only %}
+        <span class="badge badge-warning">Members Only</span>
+      {% endif %}
+      {% if not post.is_public %}
+        <span class="badge badge-secondary">Unpublished</span>
+      {% endif %}
+      {% if post.tags.count > 0 %}
+        {% with post as object %}
+          {% include './object_tags.html' %}
+          <br>
+        {% endwith %}
+      {% endif %}
+    </div>
+    <div class="col-sm-4">
+      {% if post.image %}
+        <div class="float-right post-list-image" style="background-image:url('{{ post.image.thumbnail_file.url }}')">
+      {% elif post.owner.profile.image %}
+        <div class="float-right post-list-image" style="background-image:url('{{ post.owner.profile.image.thumbnail_file.url }}')">
+      {% else %}
+        <div class="float-right post-list-image" style="background-image:url('/static/favicon.ico')">
+      {% endif %}
+    </div>
+  </div>
+</li>

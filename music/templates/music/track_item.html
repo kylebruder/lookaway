@@ -1,0 +1,51 @@
+<li class="list-group-item music-list-li">
+  <div class="row">
+    <div class="col-sm-">
+      <div class="container-fluid">
+        <h4 class="music-title">
+          <a href="{% url 'music:track_detail' track.slug %}">
+            {{ track.title }}
+          </a>
+        </h4>
+        {% if track.artist %}
+          <span>Artist: {{ track.artist }}</span><br>
+        {% endif %}
+        {% if track.genre %}
+          <span>Genre: {{ track.genre }}</span><br>
+        {% endif %}
+        {% if track.year %}
+          <span>Year: {{ track.year }}</span><br>
+        {% endif %}
+        {% if track.label %}
+          <span>Label: {{ track.label }}</span><br>
+        {% endif %}
+        <br>
+      </div>
+    </div>
+    <div class="col-sm">
+      {% if track.members_only %}
+        <span class="badge badge-warning">Members Only</span><br>
+      {% endif %}
+      {% if not track.is_public %}
+        <span class="badge badge-secondary">Unpublished</span><br>
+      {% endif %}
+      {% if track.tags.count > 0 %}
+        {% with track as object %}
+          {% include './object_tags.html' %}
+        {% endwith %}
+      {% endif %}
+      <br>
+    </div>
+    <div class="col-sm-">
+      <div class="container-fluid">
+        {% if track.image %}
+          <div class="float-right music-list-image" style="background-image:url('{{track.image.thumbnail_file.url }}')">
+        {% elif track.owner.profile.image %}
+          <div class="float-right music-list-image" style="background-image:url('{{ track.owner.profile.image.thumbnail_file.url }}')">
+        {% else %}
+          <div class="float-right music-list-image" style="background-image:url('/static/favicon.ico')">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</li>

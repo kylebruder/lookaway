@@ -13,6 +13,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormMixin, UpdateView
 from django.views.generic.detail import DetailView
 from documentation.models import Document, SupportDocument
+from music.models import Album, Track
 from objects.models import Image, Sound, Video, Code, Link
 from posts.models import Post
 from .forms import MemberForm, ProfileForm, UserRegistrationForm
@@ -29,6 +30,12 @@ class StudioView(LoginRequiredMixin, TemplateView):
 
         context['member'] = member
         # Posts
+        context['tracks'] = Track.objects.filter(
+            owner=member
+        ).order_by('is_public', '-creation_date')[:16]
+        context['albums'] = Album.objects.filter(
+            owner=member
+        ).order_by('is_public', '-creation_date')[:16]
         context['posts'] = Post.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:16]

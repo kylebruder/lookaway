@@ -1,0 +1,5 @@
+{% for album in albums %}
+  {% if album.is_public and not album.members_only or album.is_public and request.user.is_authenticated or album.owner.pk == request.user.pk %}
+    {% include './album_item.html' %}
+  {% endif %}
+{% endfor %}

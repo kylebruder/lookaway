@@ -3,7 +3,7 @@
 }
 
 .studio-col {
-  width: auto;
+  max-width: auto;
 }
 
 .studio-image-card {

@@ -39,6 +39,10 @@ urlpatterns = [
         include('posts.urls'),
     ),
     path(
+        'music/',
+        include('music.urls'),
+    ),
+    path(
         '',
         include('home.urls'),
     ),

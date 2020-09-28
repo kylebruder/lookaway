@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container music-bg">
+  {% include "./track_list_button_bar.html" %}
+  {% if tracks %}
+    <p><a href="{% url 'music:top_tracks' %}">top tracks</a> | <a href="{% url 'music:new_tracks' %}">new tracks</a></p>
+    {% include "page_control.html" %}
+    <ul class="list-group">
+      {% include "./track_list_item.html" %}
+    </ul>
+    {% include "page_control.html" %}
+  {% else %}
+    <p>No tracks have been published yet. Check back soon!</p>
+    <br>
+  {% endif %}
+</div>
+{% endblock %}

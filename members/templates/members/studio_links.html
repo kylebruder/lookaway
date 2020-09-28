@@ -12,17 +12,19 @@
   <ul class="list-group">
     {% for link in links %}
       <li class="list-group-item link-list-li">
-        <a href="{% url 'objects:link_detail' link.pk %}">
-          {% if link.title %}
-            <p>{{ link.title }}</p>
-          {% else %}
-            <p>Untitled Link</p>
-          {% endif %}
-        </a>
+        <p>
+          <a href="{% url 'objects:link_detail' link.pk %}">
+            {% if link.title %}
+              <p>{{ link.title }}</p>
+            {% else %}
+              <p>Untitled Link</p>
+            {% endif %}
+          </a>
+        </p>
         {% if link.favicon_href %}
             <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
         {% endif %}
-        <p class="link-list-link">{{ link.url|truncatechars:128 }}</p>
+        <p class="link-list-link">{{ link.url|truncatechars:64 }}</p>
         {% if not link.is_public %}
           <span class="badge badge-secondary">Unpublished</span>
         {% endif %}

@@ -19,9 +19,9 @@
         </div>
         <div class="col-sm-4">
           {% if post.image %}
-            <div class="float-right index-post-list-image" style="background-image:url('/media/{{ post.image.thumbnail_file }}')">
+            <div class="float-right index-post-list-image" style="background-image:url('{{ post.image.thumbnail_file.url }}')">
           {% elif post.owner.profile.image %}
-            <div class="float-right index-post-list-image" style="background-image:url('/media/{{ post.owner.profile.image.thumbnail_file }}')">
+            <div class="float-right index-post-list-image" style="background-image:url('{{ post.owner.profile.image.thumbnail_file.url }}')">
           {% else %}
             <div class="float-right index-post-list-image" style="background-image:url('/static/favicon.ico')">
           {% endif %}
