@@ -232,7 +232,7 @@ class AlbumDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
     def get_success_url(self):
         return reverse('members:studio')
 
-def add_marshmallow_to_document_view(request, pk):
+def add_marshmallow_to_album_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Album, pk=pk)
     if instance.is_public:
@@ -442,7 +442,7 @@ class TrackDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
     def get_success_url(self):
         return reverse('members:studio')
 
-def add_marshmallow_to_document_view(request, pk):
+def add_marshmallow_to_track_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Track, pk=pk)
     if instance.is_public:

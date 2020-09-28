@@ -14,26 +14,29 @@
     {% endif %}
     <br>
     <!-- Image -->
-    {% if post.image %}
-      <a href="{{ post.image.image_file.url }}">
-        <img class="post-image" src="{{ post.image.image_file.url }}" alt="{{ post.image.title }}">
-      </a>
-      {% if post.image.owner.pk == request.user.pk %}
-        <a href="{% url 'objects:image_update' post.image.pk %}?next={{ request.path }}">
-          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+    <div class="float-left post-image-container">
+      {% if post.image %}
+        <a href="{{ post.image.image_file.url }}">
+          <img class="post-image" src="{{ post.image.image_file.url }}" alt="{{ post.image.title }}">
         </a>
+        <p class="post-image-container post-image-text">
+          {% if post.image.text %}
+            {{ post.image.text }}<br>
+          {% endif %}
+          {% if post.image.credit %}
+            <i>{{ post.image.credit }}</i>
+          {% endif %}
+          {% if post.image.owner.pk == request.user.pk %}
+            <a href="{% url 'objects:image_update' post.image.pk %}?next={{ request.path }}">
+              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+            </a>
+          {% endif %}
+        </p>
       {% endif %}
-      <br>
-      {% if post.image.text %}
-        <span>{{ post.image.text }}</span><br>
-      {% endif %}
-      {% if post.image.credit %}
-        <span class="post-meta"><i>{{ post.image.credit }}</i></span>
-        <br>
-      {% endif %}
-    {% endif %}
+    </div>
     <!-- Main content -->
-    <p>{{ post.text|linebreaks }}</p>
+    <p class="post-text">{{ post.text|linebreaks }}</p>
+    <div class="clear"></div>
     <br>
     <!-- Sound -->
     {% if post.sound %}

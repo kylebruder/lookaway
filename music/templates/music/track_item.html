@@ -1,6 +1,6 @@
 <li class="list-group-item music-list-li">
   <div class="row">
-    <div class="col-sm-">
+    <div class="col-md-">
       <div class="container-fluid">
         <h4 class="music-title">
           <a href="{% url 'music:track_detail' track.slug %}">
@@ -37,7 +37,7 @@
       <br>
     </div>
     <div class="col-sm-">
-      <div class="container-fluid">
+      <div class="container">
         {% if track.image %}
           <div class="float-right music-list-image" style="background-image:url('{{track.image.thumbnail_file.url }}')">
         {% elif track.owner.profile.image %}
