@@ -20,7 +20,7 @@ class Tag(models.Model):
         blank=True,
         null=True,
     )
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=255, unique=True)
     marshmallows = models.ManyToManyField('members.marshmallow', blank=True)
     weight = models.FloatField(default=0)
    

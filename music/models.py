@@ -13,7 +13,7 @@ class MusicMetaData(models.Model):
         max_length=128,
         unique=True,
     )
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True)
     members_only = models.BooleanField(default=True)
     artist = models.CharField(max_length=128)
     text = models.TextField(

@@ -7,7 +7,7 @@ from objects.models import MetaDataMixin
 class Post(MetaDataMixin, MarshmallowMixin):
 
     title = models.CharField(max_length=128)
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True)
     members_only = models.BooleanField(default=True)
     text = models.TextField(max_length=65535)
     location = models.CharField(

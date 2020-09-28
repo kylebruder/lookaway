@@ -49,7 +49,7 @@ class Doc(MetaDataMixin, MarshmallowMixin):
     title = models.CharField(
         max_length=255,
     )
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=255, unique=True)
     intro = models.TextField(max_length=65535)
     outro = models.TextField(max_length=65535)
     image = models.ForeignKey(

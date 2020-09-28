@@ -166,7 +166,7 @@ class Member(User):
 class Profile(models.Model):
 
     member = models.OneToOneField(Member, on_delete=models.CASCADE)
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=255, unique=True)
     last_marshmallow_allocation = models.DateTimeField(default=timezone.now)
     media_capacity = models.BigIntegerField(default=DEFAULT_MEMBER_STORAGE)
     text = models.TextField(
