@@ -43,17 +43,23 @@
       <h4 class="music-title">Track List</h4>
       <ol>
         {% for track in album.tracks.all %}
-          <div class="row">
-            <div class="col-sm">
-          <li><a class="music-title music-album-track" href="{% url 'music:track_detail' track.slug %}">{{ track.title }}</a></li>
-        <!-- Sound -->
-          {% with track.sound as sound %}
-            <audio controls="controls">
-              {% include 'audio_mime_types.html' %}
-            </audio>
-            <br>
-            <br>
-          {% endwith %}
+          {% if track.is_public %}
+            <div class="row">
+              <div class="col-sm">
+                <li>
+                  <a class="music-title music-album-track" href="{% url 'music:track_detail' track.slug %}">{{ track.title }}</a>
+                </li>
+                <!-- Sound -->
+                {% with track.sound as sound %}
+                  <audio controls="controls">
+                    {% include 'audio_mime_types.html' %}
+                  </audio>
+                  <br>
+                  <br>
+                {% endwith %}
+              </div>
+            </div>
+          {% endif %}
         {% endfor %}
       </ol>
     {% endif %}
