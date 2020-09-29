@@ -14,12 +14,12 @@
     {% endif %}
     <br>
     <!-- Image -->
-    <div class="float-left post-image-container">
+    <div class="post-image-container">
       {% if post.image %}
         <a href="{{ post.image.image_file.url }}">
           <img class="post-image" src="{{ post.image.image_file.url }}" alt="{{ post.image.title }}">
         </a>
-        <p class="post-image-container post-image-text">
+        <p class="post-image-text">
           {% if post.image.text %}
             {{ post.image.text }}<br>
           {% endif %}
@@ -36,7 +36,6 @@
     </div>
     <!-- Main content -->
     <p class="post-text">{{ post.text|linebreaks }}</p>
-    <div class="clear"></div>
     <br>
     <!-- Sound -->
     {% if post.sound %}
