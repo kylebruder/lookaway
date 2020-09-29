@@ -14,7 +14,7 @@
     {% endif %}
     <br>
     <!-- Image -->
-    <div class="post-image-container">
+    <div class="col-sm-6 float-right">
       {% if post.image %}
         <a href="{{ post.image.image_file.url }}">
           <img class="post-image" src="{{ post.image.image_file.url }}" alt="{{ post.image.title }}">

@@ -1,6 +1,6 @@
 <li class="list-group-item music-list-li">
   <div class="row">
-    <div class="col-md-">
+    <div class="col-sm">
       <div class="container-fluid">
         <h4 class="music-title">
           <a href="{% url 'music:album_detail' album.slug %}">
@@ -8,33 +8,9 @@
           </a>
         </h4>
         {% if album.artist %}
-          <span>Artist: {{ album.artist }}</span><br>
+          <span>{{ album.artist }}</span><br>
         {% endif %}
-        {% if album.genre %}
-          <span>Genre: {{ album.genre }}</span><br>
-        {% endif %}
-        {% if album.year %}
-          <span>Year: {{ album.year }}</span><br>
-        {% endif %}
-        {% if album.label %}
-          <span>Label: {{ album.label }}</span><br>
-        {% endif %}
-        <br>
       </div>
-    </div>
-    <div class="col-sm">
-      {% if album.members_only %}
-        <span class="badge badge-warning">Members Only</span>
-      {% endif %}
-      {% if not album.is_public %}
-        <span class="badge badge-secondary">Unpublished</span><br>
-      {% endif %}
-      {% if album.tags.count > 0 %}
-        {% with album as object %}
-          {% include './object_tags.html' %}
-          <br>
-        {% endwith %}
-      {% endif %}
     </div>
     <div class="col-sm-">
       <div class="container-fluid">

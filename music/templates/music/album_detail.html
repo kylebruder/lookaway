@@ -9,7 +9,7 @@
       <p><i>This Album is only avaialble for Members of the site.</i></p>
     {% endif %}
     <div class="row">
-      <div class="col-sm-8">
+      <div class="col-sm">
         {% if album.cover %}
           <!-- Image -->
           <img class="float-left music-album-image" src="{{ album.cover.image_file.url }}" alt="{{ album.cover.title }}">   
@@ -18,7 +18,37 @@
           <p class="music-album-blurb">{{ album.text|linebreaks }}</p>
         {% endif %}
       </div>
-      <div class="col-sm-4">
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm">
+        <!-- Track list -->
+        {% if album.tracks.all.count > 0 %}
+          <h4 class="music-title">Track List</h4>
+          <ol>
+            {% for track in album.tracks.all %}
+              {% if track.is_public %}
+                <div class="row">
+                  <div class="col-sm">
+                    <li>
+                      <a class="music-title music-album-track" href="{% url 'music:track_detail' track.slug %}">{{ track.title }}</a>
+                    </li>
+                    <!-- Sound -->
+                    {% with track.sound as sound %}
+                      <audio controls="controls">
+                        {% include 'audio_mime_types.html' %}
+                      </audio>
+                      <br>
+                      <br>
+                    {% endwith %}
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </ol>
+        {% endif %}
+      </div>
+      <div class="col-sm">
         <div class="container music-album-info">
           <p>
             {% if album.artist %}
@@ -37,32 +67,6 @@
         </div>
       </div>
     </div>
-    <br>
-    <!-- Track list -->
-    {% if album.tracks.all.count > 0 %}
-      <h4 class="music-title">Track List</h4>
-      <ol>
-        {% for track in album.tracks.all %}
-          {% if track.is_public %}
-            <div class="row">
-              <div class="col-sm">
-                <li>
-                  <a class="music-title music-album-track" href="{% url 'music:track_detail' track.slug %}">{{ track.title }}</a>
-                </li>
-                <!-- Sound -->
-                {% with track.sound as sound %}
-                  <audio controls="controls">
-                    {% include 'audio_mime_types.html' %}
-                  </audio>
-                  <br>
-                  <br>
-                {% endwith %}
-              </div>
-            </div>
-          {% endif %}
-        {% endfor %}
-      </ol>
-    {% endif %}
     <!--Album links -->
     {% if album.links.count > 0 %}
       <h4 class="music-title">Links</h4>

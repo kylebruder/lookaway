@@ -5,9 +5,12 @@
   <!-- Heading -->
   <div class="row">
     <div class="col-md">
-      <h1 class="music-title">Music</h1>
+      <h3 class="music-title">Music</h3>
     </div>
   </div>
+  <p>
+    <a href="{% url 'music:top_tracks' %}">top tracks</a> | <a href="{% url 'music:top_albums' %}">top albums</a> | <a href="{% url 'music:new_tracks' %}">new tracks</a> | <a href="{% url 'music:new_tracks' %}">new albums</a>
+  </p>
   <div class="row">
     <div class="col-sm">
       <h4 class="music-title">New Tracks</h4>
@@ -57,7 +60,7 @@
             {% include "./album_item.html" %}
           {% endfor %}
         </ul>
-        <p><a href="{% url 'music:top_albums' %}">more top albums</a></p>
+        <p><a href="{% url 'music:top_albums' %}">all top albums</a></p>
       </div>
     {% endif %}
   </div>
