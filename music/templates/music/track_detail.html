@@ -18,17 +18,16 @@
         <br>
       {% endwith %}
     {% endif %}
-    <div class="row">
-      <div class="col-sm">
-        {% if track.image %}
-          <!-- Image -->
-          <img class="float-left music-track-image" src="{{ track.image.image_file.url }}" alt="{{ track.image.title }}">   
-        {% endif %}
-        {% if track.text %}
-          <p class="music-track-blurb">{{ track.text|linebreaks }}</p>
-        {% endif %}
-      </div>
+    <div class="col-sm-6 float-left">
+      {% if track.image %}
+        <!-- Image -->
+        <img class="music-track-image" src="{{ track.image.image_file.url }}" alt="{{ track.image.title }}">   
+      {% endif %}
     </div>
+    {% if track.text %}
+      <p class="music-track-blurb">{{ track.text|linebreaks }}</p>
+    {% endif %}
+    <div class="clear"></div>
     <br>
     <div class="row">
       <div class="col-sm-4">
