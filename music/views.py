@@ -251,7 +251,7 @@ def add_marshmallow_to_album_view(request, pk):
                 messages.ERROR,
                 'You failed to give a marshmallow to {}'.format(instance)
             )
-    return HttpResponseRedirect(reverse('music:public_albums'))
+    return HttpResponseRedirect(reverse('music:top_albums'))
 
 def publish_album_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -461,7 +461,7 @@ def add_marshmallow_to_track_view(request, pk):
                 messages.ERROR,
                 'You failed to give a marshmallow to {}'.format(instance)
             )
-    return HttpResponseRedirect(reverse('music:public_tracks'))
+    return HttpResponseRedirect(reverse('music:top_tracks'))
 
 def publish_track_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
