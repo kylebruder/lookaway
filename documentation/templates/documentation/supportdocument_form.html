@@ -2,59 +2,58 @@
 {% block body_block %}
 <div class ="container create-bg">
   <div class="container">
-    {% if object.title %} 
-      <h2 class="documentation-title">Support Document: {{ object.title }}</h2>
-    {% else %}
-      <h2 class="documentation-title">New Support Document</h2>
-    {% endif %}
+    <div class="row">
+      {% if object.title %}
+        <div class=col">
+          <div class="container">
+            <h3 class="documentation-title">Edit Support Document: {{ object.title }}</h3>
+            <br>
+            {% include './supportdocument_button_bar.html' %}
+          </div>
+        </div>
+      {% else %}
+        <div class="col-sm-8">
+          <h3 class="documentation-title">New Support Document</h3>
+          <p>Support Documents are used to help members and visitors understand how to use the site. Create a Support Document using this form then edit the Document and add one or more Sections.</p>
+        </div>
+        <div class="col-sm-4">
+          {% include './supportdocument_button_bar.html' %}
+        </div>
+      {% endif %}
+    </div>
     <br>
     <div class="row">
-      <div class="col">
-        {% include './document_button_bar.html' %}
-      </div>
-    </div>
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% for field in form %}
-        {% if field != form.image %}
-          {{ field.errors }}
-          <div class="row">
-            <div class="col-2">
-              <h5 class="form-label">{{ field.label_tag }}</h5>
-            </div>
-            <div class="col-sm-10">
-              <p>{{ field.help_text }}</p>
-              {{ field }}
-            </div>
-          </div>
-          <br>
-          <br>
-        {% endif %}
-      {% endfor %}
-      <div class="row">
-        <div class="col-2">
-          <h5 class="form-label">{{ form.image.label_tag }}</h5>
-        </div>
-        <div class="col-sm-10 form-image-selection">
-          {{ form.image.errors }}
+      <div class="col-sm">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
           {% if form.image.field.choices.queryset.count > 0 %}
-            </p>{{ form.image.help_text }}</p>
-            {% for value in form.image.field.choices %}
-              {% if value|first != '' %}
-                <div class="form-image-card float-left" style="background-image:url('{{ value.2.thumbnail_file.url }}')">
-                  <p>&nbsp;<input type="radio" value="{{ value|first }}" name="image" {% if object.image.pk == value|first %}checked{% endif %}></p>
-                </div>
-              {% endif %}
-            {% endfor %}
+            <h5 class="form-label">{{ form.image.label }}</h5>
+            <p>{{ form.image.help_text }}</p>
+            <p>{{ form.image.errors }}</p>
+            <div class="form-image-selection">
+              {% for value in form.image.field.choices %}
+                {% if value|first != '' %}
+                  <div class="form-image-card float-left" style="background-image:url('{{ value.2.thumbnail_file.url }}')">
+                    <p>&nbsp;<input type="radio" value="{{ value|first }}" name="image" {% if object.image.pk == value|first %}checked{% endif %}></p>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
           {% else %}
             <p>You have not uploaded any Images yet.</p>
           {% endif %}
-        </div>
+          <br>
+          <br>
+          {% for field in form %}
+            {% if field != form.image %}
+              {% include 'form_field.html' %}
+            {% endif %}
+          {% endfor %}
+          <br>
+          <input type="submit" value="Submit" class="btn btn-success">
+        </form>
       </div>
-      <br>
-      <br>
-      <input type="submit" value="Submit" class="btn btn-success">
-    </form>
+    </div>
   </div>
   <br>
 </div>

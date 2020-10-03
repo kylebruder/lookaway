@@ -190,15 +190,22 @@ class MemberAlbumView(ListView):
 
     model = Album
     paginate_by = 6
+    context_object_name = 'albums'
+
+    def get_queryset(self, *args, **kwargs):
+        member = Member.objects.get(username=self.kwargs['member'])
+        return Album.objects.filter(
+            owner=member
+        ).order_by(
+            'is_public',
+            '-creation_date',
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            member = Member.objects.get(pk=self.request.user.pk)
-            if member.check_can_allocate() and not member.check_is_new():
-                context['can_add_marshmallow'] = True
-            else:
-                context['can_add_marshmallow'] = False
+        member = Member.objects.get(username=self.kwargs['member'])
+        context['user_only'] = True
+        context['member'] = member
         return context
 
 class AlbumUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
@@ -385,31 +392,23 @@ class MemberTrackView(ListView):
 
     model = Track
     paginate_by = 6
+    context_object_name = 'tracks'
+
+    def get_queryset(self, *args, **kwargs):
+        member = Member.objects.get(username=self.kwargs['member'])
+        return Track.objects.filter(
+            owner=member
+        ).order_by(
+            'is_public',
+            '-creation_date',
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            member = Member.objects.get(pk=self.request.user.pk)
-            if member.check_can_allocate() and not member.check_is_new():
-                context['can_add_marshmallow'] = True
-            else:
-                context['can_add_marshmallow'] = False
+        member = Member.objects.get(username=self.kwargs['member'])
+        context['user_only'] = True
+        context['member'] = member
         return context
-
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Track.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-creation_date',
-            )
-        else:
-            return Track.objects.filter(
-                is_public=True,
-                members_only=False,
-            ).order_by(
-                '-creation_date',
-            )
 
 class TrackUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
 

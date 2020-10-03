@@ -12,16 +12,13 @@
           {% include 'base_nav_objects_dropdown.html' %}
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'posts:top_posts' %}">Posts</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link nav-font" href="{% url 'music:music_page' %}">Music</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'documentation:public_documents' %}">Documents</a>
+          <a class="nav-link nav-font" href="{% url 'documentation:public_documents' %}">Info</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">Support</a>
+          <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">About</a>
         </li>
       </ul>
       <span class="nav-text">
@@ -37,13 +34,13 @@
       </span>
       {% else %}
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'posts:top_posts' %}">Posts</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link nav-font" href="{% url 'music:music_page' %}">Music</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'documentation:public_documents' %}">Documents</a>
+          <a class="nav-link nav-font" href="{% url 'documentation:public_documents' %}">Info</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">About</a>
         </li>
       {% endif %}
     </ul>

@@ -79,12 +79,22 @@ class MemberProfileView(DetailView):
         member = self.object.member
         context['member'] = member
         # Posts
+        context['tracks'] = Track.objects.filter(
+            owner=member,
+            is_public=True,
+        ).order_by('-publication_date')[:5]
+        # Posts
+        context['albums'] = Album.objects.filter(
+            owner=member,
+            is_public=True,
+        ).order_by('-publication_date')[:3]
+        # Posts
         context['posts'] = Post.objects.filter(
             owner=member,
             is_public=True,
         ).order_by('-publication_date')[:5]
         # Documentation
-        context['documents'] = SupportDocument.objects.filter(
+        context['documents'] = Document.objects.filter(
             owner=member,
             is_public=True,
         ).order_by('-publication_date')[:5]

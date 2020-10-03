@@ -1,3 +1,22 @@
+/* Defualt form background */
+.create-bg {
+  background-color: #222222;
+  color: #eeeeee;
+  max-width: 750px;
+  border-radius: 0px 0px 25px 25px;
+  padding: 10px;
+  margin-bottom: 40px;
+}
+
+.edit-bg {
+  background-color: #222222;
+  color: #eeeeee;
+  max-width: 750px;
+  border-radius: 0px 0px 25px 25px;
+  padding: 10px;
+  margin-bottom: 40px;
+}
+
 .form-code {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.75em;
@@ -24,7 +43,7 @@
 }
 
 .form-label {
-  font-family: 'Ibarra Real Nova', serif;
+  font-family: 'Averia Serif Libre', serif;
 }
 
 
