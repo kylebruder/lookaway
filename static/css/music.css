@@ -36,6 +36,24 @@
   border-color: #111111;
 }
 
+.music-page-header {
+  font-size: 1.25em;
+  margin: auto;
+  display: block;
+}
+
+.music-page-section {
+  border-style: solid;
+  border-width: 5px;
+  border-radius: 5px;
+  border-color: #eeeeee;
+  padding: 5px;
+  margin: 5px;
+}
+
+.music-page-title {
+  font-family: 'Permanent Marker', sans-serif;
+}
 .music-title {
   font-family: 'Averia Serif Libre', serif;
 }

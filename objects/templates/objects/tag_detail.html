@@ -11,59 +11,131 @@
     {% include './tag_detail_button_bar.html' %}
     <!-- Posts -->
     {% if posts %}
-      <h4 class="tag-title">Posts</h4>
+      <h5 class="tag-title">Posts</h5>
       {% for post in posts %}
         {% if post.is_public and not post.members_only or post.is_public and request.user.is_authenticated or post.owner.pk == request.user.pk %}
           <div class="container">
             <p>
-              <a href="{% url 'posts:post_detail' post.slug %}">
-                {{ post.title }}
-              </a>
-              <br>
-              By <a href="{% url 'members:member_profile' post.owner.username %}">{{ post.owner }}</a>
+              <a href="{% url 'posts:post_detail' post.slug %}">{{ post.title }}</a> posted by <a href="{% url 'members:member_profile' post.owner.username %}">{{ post.owner }}</a>{% if post.is_public %} on {{ post.publication_date }}{% endif %} 
+              {% if post.members_only %}
+                &nbsp;<span class="badge badge-warning">Members Only</span>
+              {% endif %}
+              {% if not post.is_public %}
+                &nbsp;<span class="badge badge-secondary">Unpublished</span>
+              {% endif %}
             </p>
-            {% if post.members_only %}
-              <span class="badge badge-warning">Members Only</span>
-            {% endif %}
-            {% if not post.is_public %}
-              <span class="badge badge-secondary">Unpublished</span>
-            {% endif %}
           </div>
         {% endif %}
       {% endfor %}
+      <div class="container">
+        <p>
+          all posts tagged with <a href="{% url 'objects:post_tag' tag.slug %}">"{{ tag }}"</a>
+        </p>
+      </div>
       <br>
-      <p>
-        <a href="{% url 'objects:support_document_tag' tag.slug %}">more documentation tagged with "{{ tag }}" ...</a>
-      </p>
+    {% endif %}
+    <!-- Albums -->
+    {% if tracks %}
+      <h5 class="tag-title">Tracks</h5>
+      {% for track in tracks %}
+        {% if track.is_public and not track.members_only or track.is_public and request.user.is_authenticated or track.owner.pk == request.user.pk %}
+          <div class="container">
+            <p>
+              <a href="{% url 'music:track_detail' track.slug %}">{{ track.title }}</a> released by <a href="{% url 'members:member_profile' track.owner.username %}">{{ track.owner }}</a>{% if track.is_public %} on {{ track.publication_date }}{% endif %}
+              {% if track.members_only %}
+                &nbsp;<span class="badge badge-warning">Members Only</span>
+              {% endif %}
+              {% if not track.is_public %}
+                &nbsp;<span class="badge badge-secondary">Unpublished</span>
+              {% endif %}
+            </p>
+          </div>
+        {% endif %}
+      {% endfor %}
+      <div class="container">
+        <p>
+          all tracks tagged with <a href="{% url 'objects:track_tag' tag.slug %}">"{{ tag }}"</a>
+        </p>
+      </div>
+      <br>
+    {% endif %}
+    <!-- Albums -->
+    {% if albums %}
+      <h5 class="tag-title">Albums</h5>
+      {% for album in albums %}
+        {% if album.is_public and not album.members_only or album.is_public and request.user.is_authenticated or album.owner.pk == request.user.pk %}
+          <div class="container">
+            <p>
+              <a href="{% url 'music:album_detail' album.slug %}">{{ album.title }}</a> released by <a href="{% url 'members:member_profile' album.owner.username %}">{{ album.owner }}</a>{% if album.is_public %} on {{ album.publication_date }}{% endif %}
+              {% if album.members_only %}
+                &nbsp;<span class="badge badge-warning">Members Only</span>
+              {% endif %}
+              {% if not album.is_public %}
+                &nbsp;<span class="badge badge-secondary">Unpublished</span>
+              {% endif %}
+            </p>
+          </div>
+        {% endif %}
+      {% endfor %}
+      <div class="container">
+        <p>
+          all albums tagged with <a href="{% url 'objects:album_tag' tag.slug %}">"{{ tag }}"</a>
+        </p>
+      </div>
       <br>
     {% endif %}
     <!-- Documents -->
     {% if documents %}
-      <h4 class="tag-title">Documentation</h4>
+      <h5 class="tag-title">Information</h5>
       {% for document in documents %}
-        {% if document.is_public or document.owner.pk == request.user.pk %}
+        {% if document.is_public and not document.members_only or document.is_public and request.user.is_authenticated or document.owner.pk == request.user.pk %}
           <div class="container">
             <p>
-              <a href="{% url 'documentation:support_document_detail' document.slug %}">
-                {{ document.title }}
-              </a>
-              <br>
-              By <a href="{% url 'members:member_profile' document.owner.username %}">{{ document.owner }}
+              <a href="{% url 'documentation:document_detail' document.slug %}">{{ document.title }}</a> contributed by <a href="{% url 'members:member_profile' document.owner.username %}">{{ document.owner }}</a>{% if document.is_public %} on {{ document.publication_date }}{% endif %}
+              {% if document.members_only %}
+                &nbsp;<span class="badge badge-warning">Members Only</span>
+              {% endif %}
+              {% if not document.is_public %}
+                &nbsp;<span class="badge badge-secondary">Unpublished</span>
+              {% endif %}
             </p>
-            {% if not document.is_public %}
-              <span class="badge badge-secondary">Unpublished</span>
-            {% endif %}
           </div>
         {% endif %}
       {% endfor %}
+      <div class="container">
+        <p>
+          all documents tagged with <a href="{% url 'objects:document_tag' tag.slug %}">"{{ tag }}"</a>
+        </p>
+      </div>
       <br>
-      <p>
-        <a href="{% url 'objects:support_document_tag' tag.slug %}">more documentation tagged with "{{ tag }}" ...</a>
-      </p>
+    {% endif %}
+    <!-- Support Documents -->
+    {% if support_documents %}
+      <h5 class="tag-title">Support Documentation</h5>
+      {% for support_document in support_documents %}
+        {% if support_document.is_public and not support_document.members_only or support_document.is_public and request.user.is_authenticated or support_document.owner.pk == request.user.pk %}
+          <div class="container">
+            <p>
+              <a href="{% url 'documentation:support_document_detail' support_document.slug %}">{{ support_document.title }}</a> contributed by <a href="{% url 'members:member_profile' support_document.owner.username %}">{{ support_document.owner }}</a>{% if support_document.is_public %} on {{ support_document.publication_date }}{% endif %}
+              {% if support_document.members_only %}
+                &nbsp;<span class="badge badge-warning">Members Only</span>
+              {% endif %}
+              {% if not support_document.is_public %}
+                &nbsp;<span class="badge badge-secondary">Unpublished</span>
+              {% endif %}
+            </p>
+          </div>
+        {% endif %}
+      {% endfor %}
+      <div class="container">
+        <p>
+          all support documents tagged with <a href="{% url 'objects:support_document_tag' tag.slug %}">"{{ tag }}"</a>
+        </p>
+      </div>
       <br>
     {% endif %}
     {% if images %}
-      <h4 class="tag-title">Images</h4>
+      <h5 class="tag-title">Images</h5>
       {% for image in images %}
         {% if image.is_public or image.owner.pk == request.user.pk %}
           <div class="container">
@@ -79,81 +151,89 @@
       {% endfor %}
       <div class="clear"></div>
       <br>
-      <p>
-        <a href="{% url 'objects:image_tag' tag.slug %}">more images tagged with "{{ tag }}" ...</a>
-      </p>
+      <div class="container">
+        <p>
+          all images tagged with <a href="{% url 'objects:image_tag' tag.slug %}">"{{ tag }}"</a>
+        </p>
+      </div>
       <br>
     {% endif %}
     {% if videos %}
-      <h4 class="tag-title">Videos</h4>
+      <h5 class="tag-title">Videos</h5>
       {% for video in videos %}
         {% if video.is_public or video.owner.pk == request.user.pk %}
           <div class="container">
             <p>
               <a href="{% url 'objects:video_detail' video.pk %}">
                 {{ video.title }}
-              </a><br>
-              {{ video.credit }}
+              </a> - 
+              <i>{{ video.credit }}</i>
               {% if not video.is_public %}
-                <div class="container">
-                  <span class="badge badge-secondary">Unpublished</span>
-                </div>
+                &nbsp;<span class="badge badge-secondary">Unpublished</span>
               {% endif %}
             </p>
           </div>
         {% endif %}
       {% endfor %}
-      <p>
-        <a href="{% url 'objects:video_tag' tag.slug %}">more videos tagged with "{{ tag }}"...</a>
-      </p>
+      <div class="container">
+        <p>
+          all videos tagged with <a href="{% url 'objects:video_tag' tag.slug %}">"{{ tag }}"</a>
+        </p>
+      </div>
       <br>
     {% endif %}
     {% if sounds %}
-      <h4 class="tag-title">Sounds</h4>
+      <h5 class="tag-title">Sounds</h5>
       {% for sound in sounds %}
         {% if sound.is_public or sound.owner.pk == request.user.pk %}
           <div class="container">
             <p>
               <a href="{% url 'objects:sound_detail' sound.pk %}">
                 {{ sound.title }}
-              </a><br>
-              {{ sound.credit }}
+              </a> - 
+              <i>{{ sound.credit }}</i>
               {% if not sound.is_public %}
                 <div class="container">
-                  <span class="badge badge-secondary">Unpublished</span>
+                  &nbsp;<span class="badge badge-secondary">Unpublished</span>
                 </div>
               {% endif %}
             </p>
           </div>
         {% endif %}
       {% endfor %}
-      <p>
-        <a href="{% url 'objects:sound_tag' tag.slug %}">more sounds tagged with "{{ tag }}"...</a>
-      </p>
+      <div class="container">
+        <p>
+          all sounds tagged with <a href="{% url 'objects:sound_tag' tag.slug %}">"{{ tag }}"</a>
+        </p>
+      </div>
       <br>
     {% endif %}
     {% if codes %}
-      <h4 class="tag-title">Code</span></h4>
+      <h5 class="tag-title">Code</span></h5>
       {% for code in codes %}
         {% if code.is_public or code.owner.pk == request.user.pk %}
-          <div class="container float-left">
-            <a href="{% url 'objects:code_detail' code.pk %}">
-              {{ code.title }}
-            </a>
-            <p>{{ code.language }} {{ code.language_version }}</p>
-            {% if code.owner.pk == request.user.pk and not code.is_public%}
-              <span class="badge badge-secondary">Unpublished</span>
-            {% endif %}
+          <div class="container">
+            <p>
+              <a href="{% url 'objects:code_detail' code.pk %}">
+                {{ code.title }}
+              </a> - 
+              {{ code.language }} {{ code.language_version }}
+              {% if code.owner.pk == request.user.pk and not code.is_public%}
+                &nbsp;<span class="badge badge-secondary">Unpublished</span>
+              {% endif %}
+            </p>
           </div>
         {% endif %}
       {% endfor %}
-      <p>
-        <a href="{% url 'objects:code_tag' tag.slug %}">more code tagged with "{{ tag }}"...</a>
-      </p>
+      <div class="container">
+        <p>
+          all code tagged with <a href="{% url 'objects:code_tag' tag.slug %}">"{{ tag }}"</a>
+        </p>
+      </div>
       <br>
     {% endif %}
     {% if links %}
-      <h4 class="tag-title">Links</span></h4>
+      <h5 class="tag-title">Links</span></h5>
       {% for link in links %}
         {% if link.is_public or link.owner.pk == request.user.pk %}
           <div class="container">
@@ -167,16 +247,18 @@
             {% if link.favicon_href %}
               <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
             {% endif %}
-            <p class="link-list-link">{{ link.url }}</p>
+            <p class="link-list-link">{{ link.url|truncatechars:128 }}</p>
             {% if not link.is_public %}
               <span class="badge badge-secondary">Unpublished</span>
             {% endif %}
           </div>
         {% endif %}
       {% endfor %}
-      <p>
-        <a href="{% url 'objects:link_tag' tag.slug %}">more links tagged with "{{ tag }}"...</a>
-      </p>
+      <div class="container">
+        <p>
+          all links tagged with<a href="{% url 'objects:link_tag' tag.slug %}">"{{ tag }}"</a>
+        </p>
+      </div>
       <br>
     {% endif %}
   {% endif %}

@@ -213,7 +213,27 @@ urlpatterns = [
     ),
     # Tag Views
     path(
-        'tags/documentation/<slug:slug>',
+        'tags/albums/<slug:slug>',
+        views.AlbumByTag.as_view(),
+        name='album_tag',
+    ),
+    path(
+        'tags/tracks/<slug:slug>',
+        views.TrackByTag.as_view(),
+        name='track_tag',
+    ),
+    path(
+        'tags/posts/<slug:slug>',
+        views.PostByTag.as_view(),
+        name='post_tag',
+    ),
+    path(
+        'tags/documents/<slug:slug>',
+        views.DocumentByTag.as_view(),
+        name='document_tag',
+    ),
+    path(
+        'tags/support-documents/<slug:slug>',
         views.SupportDocumentByTag.as_view(),
         name='support_document_tag',
     ),

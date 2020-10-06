@@ -46,6 +46,11 @@
 .edit-button {
   border-radius: 100%;
 }
+
+.title-button {
+  margin: 3px;
+}
+
 /* Custom orderd list */
 /* https://css-tricks.com/custom-list-number-styling/ */
 ol {

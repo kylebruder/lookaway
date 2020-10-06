@@ -4,7 +4,9 @@
       {{ document.title }}
     </a>
   </h5>
-  <p>By {{ document.owner }}</p>
+  <p>
+    Contributed by <a href="{% url 'members:member_profile' document.owner %}">{{ document.owner }}</a>, last updated on {{ document.last_modified }}
+  </p>
   {% if document.members_only %}
     <span class="badge badge-warning">Members Only</span>
   {% endif %}

@@ -2,7 +2,14 @@
 {% block body_block %}
   <div class ="container edit-bg">
     <div class="container">
-      <h2 class="video-title">Edit "{{ video }}"</h2>
+      <div class="row">
+        <div class="col">
+          <h4 class="images-title">Edit "{{ video }}"</h4>
+        </div>
+        <div class="col-">
+          {% include './new_tag.html' %}
+        </div>
+      </div>
     </div>
     <br>
     <div class="container">
@@ -10,8 +17,6 @@
         {% include 'video_mime_types.html' %}
       </video>
       <br>
-      <br>
-      {% include './new_tag.html' %}
       <br>
       <form  method="post" enctype="multipart/form-data">
         {% csrf_token %}

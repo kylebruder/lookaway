@@ -33,9 +33,16 @@ class AlbumForm(forms.ModelForm):
     cover = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
+        help_text="Choose an iconic image as the cover for the Album",
+        label="Cover Image",
     )
     title = forms.CharField(
-        help_text="The Album title will appear on the site and is used to create the permanent URL for the Album. It will also appear on search engine results pages (SERPs) and can impact search engine optimization (SEO). The optimal format is 'Primary Keyword - Secondary Keyword | Brand Name'.",
+        help_text="""The Album title will appear on the site and is used to \
+            create the permanent URL for the Album  
+            It will also appear on search engine results pages (SERPs) and \
+            can impact search engine optimization (SEO)
+            The optimal format is 'Primary Keyword - Secondary Keyword | \
+            Brand Name'""",
         max_length=128,
     )
     meta_description = forms.CharField(
@@ -44,7 +51,11 @@ class AlbumForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Add a short description of the Album. The description will be used by Search Engines and will impact SEO. Include key words used in the title. Keep it less than 155 characters.",
+        help_text="""Add a short description of the Album 
+            The description will be used by Search Engines and will impact \
+            SEO
+            Include key words used in the title
+            Keep it less than 155 characters""",
         max_length=155,
         required=False, 
     )
@@ -54,7 +65,7 @@ class AlbumForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Provide some information and context about the Album.",
+        help_text="Provide some information and context about the Album",
         max_length=65535,
     )
     artist = forms.CharField(
@@ -67,7 +78,7 @@ class AlbumForm(forms.ModelForm):
         required=False, 
     )
     year = forms.DecimalField(
-        help_text="Which year was this Album released? (optional).",
+        help_text="Which year was this Album released? (optional)",
         max_digits=4,
         required=False, 
     )
@@ -95,12 +106,16 @@ class AlbumForm(forms.ModelForm):
             'year',
             'label',
             'links',
-            'members_only',
             'tags',
         )
         help_texts = {
-            'cover': "Choose an image to represent the Album cover. For best results use an image with a 1:1 aspect ratio. (optional)",
-            'links': "Add one or more links related the this Album. Example: label website/band website/purchase options. (optional)",
+            'cover': """Choose an image to represent the Album cover
+                For best results use an image with a 1:1 aspect ratio \
+                (optional)""",
+            'links': """Add one or more links related the this Album
+                Example: label website/band website/purchase options \
+                (optional)""",
+            'tags': "Add one or more tags",
         }
 
     def __init__(self, *args, **kwargs):
@@ -116,10 +131,16 @@ class TrackForm(forms.ModelForm):
 
     image = CustomModelChoiceField(
         queryset=Image.objects.all(),
+        help_text="Choose an Image that represents the Track (optional)",
         required=False,
     )
     title = forms.CharField(
-        help_text="The Track title will appear on the site and is used to create the permanent URL for the Track. It will also appear on search engine results pages (SERPs) and can impact search engine optimization (SEO). The optimal format is 'Primary Keyword - Secondary Keyword | Brand Name'.",
+        help_text="""The Track title will appear on the site and is used to \
+            create the permanent URL for the Track
+            It will also appear on search engine results pages (SERPs) and can \
+            impact search engine optimization (SEO)
+            The optimal format is 'Primary Keyword - Secondary Keyword | Brand \
+            Name'""",
         max_length=128,
     )
     meta_description = forms.CharField(
@@ -128,7 +149,10 @@ class TrackForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Add a short description of the Track. The description will be used by Search Engines and will impact SEO. Include key words used in the title. Keep it less than 155 characters.",
+        help_text="""Add a short description of the Track
+            The description will be used by Search Engines and will impact SEO
+            Include key words used in the title
+            Keep it less than 155 characters""",
         max_length=155,
         required=False,
     )
@@ -138,11 +162,13 @@ class TrackForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Provide some information and context about the Track.",
+        help_text="Provide some information and context about the Track",
         max_length=65535,
     )
     order = forms.DecimalField(
-        help_text="Choose the order in which the Track will appear in Albums. Decimals are allowed.",
+        help_text="""Choose the order in which the Track will appear in Track \
+            lists on Albums
+            Lower order values will appear first""",
         max_digits=8,
         required=False,
     )
@@ -156,7 +182,7 @@ class TrackForm(forms.ModelForm):
         required=False,
     )
     year = forms.DecimalField(
-        help_text="Which year was this Track released? (optional).",
+        help_text="Which year was this Track released? (optional)",
         max_digits=4,
         required=False, 
     )
@@ -188,12 +214,18 @@ class TrackForm(forms.ModelForm):
             'label',
             'video',
             'links',
-            'members_only',
             'tags',
         )
         help_texts = {
-            'cover': "Choose an image to represent the Album cover. For best results use an image with a 1:1 aspect ratio. (optional)",
-            'links': "Add one or more links related the this Album. Example: label website/band website/purchase options. (optional)",
+            'cover': """Choose an image to represent the Album cover
+                For best results use an image with a 1:1 aspect ratio \
+                (optional)""",
+            'sound': "Select the Sound file for the Track",
+            'video': "Add a music video for the Track (optional)",
+            'links': """Add one or more links related the this Album
+                Example: label website/band website/purchase options \
+                (optional)""",
+            'tags': "Add one or more tags (optional)",
         }
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')

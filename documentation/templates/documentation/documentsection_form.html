@@ -2,56 +2,35 @@
 {% block body_block %}
 <div class ="container create-bg">
   <div class="container">
-    {% if object.title %}
-      <h3 class="documentation-title">Document Section: {{ object.title }}</h3>
-    {% else %}
-      <h2 class="documentation-title">New Document Section</h2>
-    {% endif %}
-    <br>
     <div class="row">
       <div class="col">
-        {% include './documentsection_button_bar.html' %}
+        {% include './documentsection_form_button_bar.html' %}
       </div>
     </div>
+    <br>
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {% for field in form %}
         {% if field != form.images %}
-          <div class="row">
-            <div class="col-2">
-              <h5 class="form-label">{{ field.label_tag }}</h5>
-            </div>
-            <div class="col-sm-10">
-              <p>{{ field.help_text }}</p>
-              {{ field.errors }}
-              {{ field }}
-            </div>
-          </div>
-          <br>
-          <br>
+          {% include 'form_field.html' %}
         {% endif %}
       {% endfor %}
-      <div class="row">
-        <div class="col-2">
-          <h5 class="form-label">{{ form.images.label_tag }}</h5>
+      <h5 class="documentation-title">{{ form.images.label }}</h5>
+      <p>{{ form.images.help_text}}</p>
+      <p>{{ form.images.errors }}</p>
+      {% if form.images.field.choices.queryset.all|length == 0 %}
+        <p><i>No images found.</i></p>
+      {% else %}
+        <div class="form-image-selection">
+          {% for value, label, obj in form.images.field.choices %}
+            {% if value != '' %}
+              <div class="form-image-card float-left" style="background-image:url('{{ obj.thumbnail_file.url }}')">
+                <p>&nbsp;<input type="checkbox" value="{{ value }}" name="images" {% if obj in object.images.all %}checked{% endif %}></p>
+              </div>
+            {% endif %}
+          {% endfor %}
         </div>
-        <div class="col-sm-10 form-image-selection">
-          {{ form.images.errors }}
-          <p>{{ form.images.help_text}}</p>
-          {% if form.images.field.choices.queryset.all|length == 0 %}
-            <p><i>No images found.</i></p>
-          {% else %}
-            {% for value, label, obj in form.images.field.choices %}
-              {% if value != '' %}
-                <div class="form-image-card float-left" style="background-image:url('{{ obj.thumbnail_file.url }}')">
-                  <p>&nbsp;<input type="checkbox" value="{{ value }}" name="images" {% if obj in object.images.all %}checked{% endif %}></p>
-                </div>
-              {% endif %}
-            {% endfor %}
-          {% endif %}
-        </div>
-      </div>
-      <br>
+      {% endif %}
       <br>
       <input type="submit" value="Submit" class="btn btn-success">
     </form>

@@ -26,7 +26,12 @@ class PostForm(forms.ModelForm):
         required=False, 
     )
     title = forms.CharField(
-        help_text="The Post title will appear on the site and is used to create the permanent URL for this Post. It will also appear on search engine results pages (SERPs) and can impact search engine optimization (SEO). The optimal format is 'Primary Keyword - Secondary Keyword | Brand Name'.",
+        help_text="""The Post title will appear on the site and is used to \
+            create the permanent URL for this Post
+            It will also appear on search engine results pages (SERPs) and can \
+            impact search engine optimization (SEO)
+            The optimal format is 'Primary Keyword - Secondary Keyword | \
+            Brand Name'""",
         max_length=128,
     )
     meta_description = forms.CharField(
@@ -35,7 +40,10 @@ class PostForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Add a short description of this post. This description will be used by Search Engines and will impact SEO. Include key words used in the title. Keep it less than 155 characters.",
+        help_text="""Add a short description of this post
+            This description will be used by search engines and will impact SEO
+            Include key words used in the title
+            Keep it less than 155 characters""",
         max_length=155,
     )
     text = forms.CharField(
@@ -44,12 +52,13 @@ class PostForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Your message to the world goes here.",
+        help_text="Your message to the world goes here",
         max_length=65535,
     )
     location = forms.CharField(
         help_text="Where are you posting from? (optional)",
         max_length=128,
+        required=False,
     )
     title.widget.attrs.update({'class': 'form-text-field'})
     location.widget.attrs.update({'class': 'form-text-field'})
@@ -76,8 +85,12 @@ class PostForm(forms.ModelForm):
             'video': "Add a Video (optional)",
             'code': "Add Code (optional)",
             'link': "Add a Link (optional)",
-            're': "Is this post a response to another post? If so select a post here.",
-            'members_only': "If this option is checked only other members will be able to view your post after publication.",
+            're': """Is this post a response to another post?
+                If so select a post here""",
+            'members_only': """If this option is checked only Members will \
+                be able to view your post after publication
+                Unchecking this option will make your post public to the \
+                world""",
         }
 
     def __init__(self, *args, **kwargs):

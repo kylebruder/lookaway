@@ -1,38 +1,32 @@
 {% extends 'base.html' %}
 {% block body_block %}
-  <div class ="container create-bg">
-    <div class="container">
-      <h2 class="link-title">Upload Link</h2>
-      <p>
-        Share a link to another website or other online resource.
-      </p>
-      <br>
-      {% include './new_tag.html' %}
-      <br>
-      <form  method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <!-- Standard field iterator -->
-        {% for field in form %}
-          {% if field != form.image %}
-            {{ field.errors }}
-            <div class="row">
-              <div class="col-2">
-                <h5 class="form-label">{{ field.label_tag }}</h5>
-              </div>
-              <div class="col-sm-10">
-                <p>{{ field.help_text }}</p>
-                {{ field }}
-              </div>
-            </div>
-            <br>
-            <br>
-          {% endif %}
-        {% endfor %}
+<div class ="container create-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        {% if object.title %}
+          <h4 class="images-title">Edit "{{ object.title }}"</h4>
+        {% else %}
+          <h2 class="images-title">Add a Link</h2>
+        {% endif %}
         <br>
-        <br>
-        <input type="submit" value="Submit" class="btn btn-success">
-      </form>
-      <br>
+      </div>
+      <div class="col-">
+        {% include './new_tag.html' %}
+      </div>
     </div>
   </div>
+  <div class="container">
+    <form  method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <!-- Standard field iterator -->
+      {% for field in form %}
+        {% include 'form_field.html' %}
+      {% endfor %}
+      <br>
+      <input type="submit" value="Submit" class="btn btn-success">
+    </form>
+    <br>
+  </div>
+</div>
 {% endblock %}

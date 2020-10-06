@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-">
+    <h2 class="music-title">Music</h2>
+  </div>
+  <div class="col">
+    <div class="container">
+      <p class="music-page-header">
+        <a href="{% url 'music:top_tracks' %}">top tracks</a> | <a href="{% url 'music:top_albums' %}">top albums</a> | <a href="{% url 'music:new_tracks' %}">new tracks</a> | <a href="{% url 'music:new_albums' %}">new albums</a>
+      </p>
+    </div>
+  </div>
+  {% if request.user.is_authenticated %}
+    <div class="col-">
+      <div class="container">
+        <p>
+          <a class="btn btn-sm btn-primary" href="{% url 'music:track_create' %}?next={{ request.path }}">+Track</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'music:album_create' %}?next={{ request.path }}">+Album</a>
+        </p>
+      </div>
+    </div>
+  {% endif %}
+</div>

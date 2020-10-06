@@ -11,7 +11,7 @@
         <button type="button" class="btn btn-sm btn-warning float-right">Edit</button>
       </a>
       <a href="{% url 'documentation:support_doc_section_create' %}">
-        <button type="button" class="btn btn-sm btn-primary float-right">Add Section</button>
+        <button type="button" class="btn btn-sm btn-primary float-right">+Section</button>
       </a>
       {% if not document.is_public %}
         <a href="{% url 'documentation:publish_support_document' document.pk %}">

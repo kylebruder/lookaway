@@ -1,22 +1,23 @@
 <div class="row">
   <div class="col">
-      {% if user_only %}
-        <h3 class="images-title">{{ member }}'s Images</h3>
-      {% elif tag %}
-        <h3 class="images-title">Images</h3>
-        <a href="{% url 'objects:tag_detail' tag.slug %}">
-          <p><span class="badge badge-secondary">{{ tag }}</span></p>
+    {% if user_only %}
+      <h3 class="images-title">{{ member }}'s Images</h3>
+    {% elif tag %}
+      <h3 class="images-title">Images</h3>
+      <p>
+        tagged with <a href="{% url 'objects:tag_detail' tag.slug %}">
+          <span class="badge badge-secondary">{{ tag }}</span>
         </a>
-      {% else %}
-        <h3 class="images-title">Images</h3>
-      {% endif %}
-    </h3>
+      </p>
+    {% else %}
+      <h3 class="images-title">Images</h3>
+    {% endif %}
   </div>
   {% if request.user.is_authenticated %}
     <div class="col-">
       <div class="container">
         <a href="{% url 'objects:image_create' %}">
-          <button type="button" class="btn btn-sm btn-primary">Upload Image</button>
+          <button type="button" class="btn btn-sm btn-primary">+Image</button>
         </a>
       </div>
     </div>

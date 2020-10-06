@@ -5,10 +5,12 @@
   {% if tracks %}
     <p><a href="{% url 'music:top_tracks' %}">top tracks</a> | <a href="{% url 'music:new_tracks' %}">new tracks</a></p>
     {% include "page_control.html" %}
+    <br>
     <ul class="list-group">
       {% include "./track_list_item.html" %}
     </ul>
     {% include "page_control.html" %}
+    <br>
   {% else %}
     <p>No tracks have been published yet. Check back soon!</p>
     <br>

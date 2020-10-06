@@ -13,10 +13,11 @@ from django.utils import timezone, text
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from documentation.models import SupportDocument
+from documentation.models import Document, SupportDocument
 from lookaway.settings import BASE_DIR
 from members.models import Member
 from members.mixins import MemberOwnershipView, MemberDeleteView
+from music.models import Album, Track
 from posts.models import Post
 from .forms import (ImageCreateForm, ImageUpdateForm, SoundCreateForm,
     SoundUpdateForm, VideoCreateForm, VideoUpdateForm, CodeForm, LinkCreateForm, 
@@ -988,9 +989,16 @@ class TagDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         slug = self.object.slug
         context['posts'] = Post.objects.filter(tags__slug__exact=slug)
-        context['documents'] = SupportDocument.objects.filter(tags__slug__exact=slug)
+        context['albums'] = Album.objects.filter(tags__slug__exact=slug)
+        context['tracks'] = Track.objects.filter(tags__slug__exact=slug)
+        context['documents'] = Document.objects.filter(tags__slug__exact=slug)
+        context['support_documents'] = SupportDocument.objects.filter(tags__slug__exact=slug)
         # Tell the template if there are no objects to show non-members
-        if context['posts'].filter(members_only=False).count() + context['documents'].count() <= 0 and not self.request.user.is_authenticated:
+        public_object_count = context['posts'].filter(members_only=False).count() + \
+            context['albums'].filter(members_only=False).count() + \
+            context['tracks'].filter(members_only=False).count() + \
+            context['documents'].count()
+        if public_object_count <= 0 and not self.request.user.is_authenticated:
             context['no_public_objects'] = True
         # Member only stuff under here
         if self.request.user.is_authenticated:
@@ -1065,10 +1073,70 @@ def add_marshmallow_to_tag_view(request, pk):
     return HttpResponseRedirect(reverse('objects:tags'))
 
 # By Tag Views
+class AlbumByTag(ListView):
+
+    model = Album
+    context_object_name = 'albums'
+    paginate_by = 32
+    ordering = ['-weight', '-creation_date']
+
+    def get_queryset(self, *args, **kwargs):
+        return Album.objects.filter(tags__slug__exact=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
+        return context
+
+class TrackByTag(ListView):
+
+    model = Track
+    context_object_name = 'tracks'
+    paginate_by = 32
+    ordering = ['-weight', '-creation_date']
+
+    def get_queryset(self, *args, **kwargs):
+        return Track.objects.filter(tags__slug__exact=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
+        return context
+
+class PostByTag(ListView):
+
+    model = Post
+    context_object_name = 'posts'
+    paginate_by = 32
+    ordering = ['-weight', '-creation_date']
+
+    def get_queryset(self, *args, **kwargs):
+        return Post.objects.filter(tags__slug__exact=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
+        return context
+
+class DocumentByTag(ListView):
+
+    model = Document
+    context_object_name = 'documents'
+    paginate_by = 32
+    ordering = ['-weight', '-creation_date']
+
+    def get_queryset(self, *args, **kwargs):
+        return Document.objects.filter(tags__slug__exact=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
+        return context
+
 class SupportDocumentByTag(ListView):
     
     model = SupportDocument
-    context_object_name = 'documents'
+    context_object_name = 'support_documents'
     paginate_by = 32
     ordering = ['-weight', '-creation_date']
 

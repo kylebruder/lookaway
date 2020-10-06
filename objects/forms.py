@@ -31,7 +31,8 @@ class CustomModelMultipleChoiceField(forms.models.ModelMultipleChoiceField):
 class ImageCreateForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="Give the image a memorable and unique title that will be easy to reference later.",
+        help_text="""Give the Image a memorable and unique title that will be \
+            easy to reference later""",
         max_length=64,
     )
     text = forms.CharField(
@@ -40,12 +41,16 @@ class ImageCreateForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="The text may appear on pages that include Images or other objects that use Images",
+        help_text="""The Image text may appear on pages that include Images""",
         max_length=1024,
+        required=False,
     )
     credit = forms.CharField(
-        help_text="Give credit to the original creator of the image file. Obtain expressed permission before uploading images with exclusive rights.",
+        help_text="""Give credit to the original creator of the image file\
+            Obtain expressed permission before uploading images with exclusive \
+            rights""",
         max_length=256,
+        required=False,
     )
 
     title.widget.attrs.update({'class': 'form-text-field'})
@@ -64,17 +69,24 @@ class ImageCreateForm(forms.ModelForm):
             'image_file': ImagePreviewWidget
         }
         help_texts = {
-            'title': "Give the image a memorable and unique title that will be easy to reference later.",
-            'image_file': "Obtain permission before uploading depicitons of private persons or places. Image Preview will appear when successfully uploaded.",
-            'text': "The text may appear on pages that include Images or other objects that use Images",
-            'credit': "Give credit to the original creator of the image file. Obtain expressed permission before uploading images with exclusive rights.",
-            'tags': "Choose one or more tags that relate to the Image.",
+            'title': """Give the image a memorable and unique title that will \
+                be easy to reference later""",
+            'image_file': """Obtain permission before uploading depicitons of \
+                private persons or places
+                Image Preview will appear when successfully uploaded""",
+            'text': """The text may appear on pages that include Images or \
+                other objects that use Images""",
+            'credit': """Give credit to the original creator of the image file
+                Obtain expressed permission before uploading images with \
+                exclusive rights""",
+            'tags': "Choose one or more tags",
         }
 
 class ImageUpdateForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="Give the image a memorable and unique title that will be easy to reference later.",
+        help_text="""Give the Image a memorable and unique title that will be \
+            easy to reference later""",
         max_length=64,
     )
     text = forms.CharField(
@@ -83,13 +95,15 @@ class ImageUpdateForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="The text may appear on pages that include Images or other objects that use Images",
+        help_text="""The Image text may appear on pages that include Images""",
         max_length=1024,
         required=False,
     )
     credit = forms.CharField(
-        help_text="Give credit to the original creator of the image file. Obtain expressed permission before uploading images with exclusive rights.",
         max_length=256,
+        help_text="""Give credit to the original creator of the image file\
+            Obtain expressed permission before uploading images with exclusive \
+            rights""",
         required=False,
     )
 
@@ -105,13 +119,14 @@ class ImageUpdateForm(forms.ModelForm):
             'tags',
         ]
         help_texts = {
-            'tags': "Choose one or more tags that relate to the Image.",
+            'tags': "Choose one or more tags",
         }
 
 class SoundCreateForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="Give the sound a memorable and unique title that will be easy to reference later.",
+        help_text="""Give the Sound a memorable and unique title that will be \
+            easy to reference later""",
         max_length=64,
     )
     text = forms.CharField(
@@ -120,12 +135,14 @@ class SoundCreateForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="The text may appear on pages that include Images or other objects that use Images",
+        help_text="The text may appear on pages that include Images",
         max_length=1024,
         required=False,
     )
     credit = forms.CharField(
-        help_text="Give credit to the original creator of the sound file. Obtain expressed permission before uploading sounds with exclusive rights.",
+        help_text="""Give credit to the original creator of the Sound file
+            Obtain expressed permission before uploading sounds with exclusive \
+            rights""",
         max_length=256,
         required=False,
     )
@@ -145,14 +162,17 @@ class SoundCreateForm(forms.ModelForm):
             'sound_file': SoundPreviewWidget
         }
         help_texts = {
-            'sound_file': "Obtain permission before uploading depicitons of private persons or places. Sound Preview will appear when successfully uploaded.",
-            'tags': "Choose one or more tags that relate to the Sound.",
+            'sound_file': """Obtain permission before uploading depicitons of \
+                private persons or places
+                Sound Preview will appear when successfully uploaded""",
+            'tags': "Choose one or more tags",
         }
 
 class SoundUpdateForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="Give the sound a memorable and unique title that will be easy to reference later.",
+        help_text="""Give the Sound a memorable and unique title that will be \
+            easy to reference later""",
         max_length=64,
     )
     text = forms.CharField(
@@ -161,12 +181,14 @@ class SoundUpdateForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="The text may appear on pages that include Images or other objects that use Images",
+        help_text="The text may appear on pages that include Images",
         max_length=1024,
         required=False,
     )
     credit = forms.CharField(
-        help_text="Give credit to the original creator of the sound file. Obtain expressed permission before uploading soundss with exclusive rights.",
+        help_text="""Give credit to the original creator of the Sound file
+            Obtain expressed permission before uploading sounds with exclusive \
+            rights""",
         max_length=256,
         required=False,
     )
@@ -183,13 +205,14 @@ class SoundUpdateForm(forms.ModelForm):
             'tags',
         ]
         help_texts = {
-            'tags': "Choose one or more tags that relate to the Sound.",
+            'tags': "Choose one or more tags",
         }
 
 class VideoCreateForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="Give the video a memorable and unique title that will be easy to reference later.",
+        help_text="""Give the Video memorable and unique title that will be easy \
+            to reference later""",
         max_length=64,
     )
     text = forms.CharField(
@@ -198,12 +221,14 @@ class VideoCreateForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="The text may appear on pages that include Images or other objects that use Images",
+        help_text="The text may appear on pages that include Images",
         max_length=1024,
         required=False,
     )
     credit = forms.CharField(
-        help_text="Give credit to the original creator of the video file. Obtain expressed permission before uploading videos with exclusive rights.",
+        help_text="""Give credit to the original creator of the Video file
+            Obtain expressed permission before uploading videos with exclusive \
+            rights.""",
         max_length=256,
         required=False,
     )
@@ -225,14 +250,17 @@ class VideoCreateForm(forms.ModelForm):
         }
 
         help_texts = {
-            'video_file': "Obtain permission before uploading depicitons of private persons or places. Video Preview will appear when successfully uploaded.",
-            'tags': "Choose one or more tags that relate to the Video.",
+            'video_file': """Obtain permission before uploading depicitons of \
+                private persons or places
+                Video Preview will appear when successfully uploaded""",
+            'tags': "Choose one or more tags",
         }
 
 class VideoUpdateForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="Give the video a memorable and unique title that will be easy to reference later.",
+        help_text="""Give the Video memorable and unique title that will be easy \
+            to reference later""",
         max_length=64,
     )
     text = forms.CharField(
@@ -241,12 +269,14 @@ class VideoUpdateForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="The text may appear on pages that include Images or other objects that use Images",
+        help_text="The text may appear on pages that include Videos",
         max_length=1024,
         required=False,
     )
     credit = forms.CharField(
-        help_text="Give credit to the original creator of the video file. Obtain expressed permission before uploading videos with exclusive rights.",
+        help_text="""Give credit to the original creator of the Video file
+            Obtain expressed permission before uploading videos with exclusive \
+            rights.""",
         max_length=256,
         required=False,
     )
@@ -264,14 +294,15 @@ class VideoUpdateForm(forms.ModelForm):
             'tags',
         ]
         help_texts = {
-            'tags': "Choose one or more tags that relate to the Video.",
+            'tags': "Choose one or more tags",
         }
 
 
 class CodeForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="Give the code sample a memorable and unique title that will be easy to reference later.",
+        help_text="""Give the Code sample a memorable and unique title that will \
+            be easy to reference later""",
         max_length=256,
     )
     code = forms.CharField(
@@ -281,7 +312,7 @@ class CodeForm(forms.ModelForm):
                 'class': 'code-box',
             }
         ),
-        help_text="Enter the code here.",
+        help_text="Enter the code here",
         max_length=1024,
     )
     language= forms.CharField(
@@ -289,7 +320,8 @@ class CodeForm(forms.ModelForm):
         max_length=64,
     )
     language_version= forms.CharField(
-        help_text="For which version or versions of the language is the code written?",
+        help_text="""For which version or versions of the language is the code \
+            written?""",
         max_length=64,
     )
     file_path = forms.CharField(
@@ -298,12 +330,14 @@ class CodeForm(forms.ModelForm):
         required=False,
     )
     source = forms.CharField(
-        help_text="From where does the code originate? Please credit yourself or your source.",
+        help_text="""From where does the code originate?
+            Please credit yourself or your source""",
         max_length=64,
         required=False,
     )
     source_url = forms.CharField(
-        help_text="Does the source have a website or webpage? If so enter it here.",
+        help_text="""Does the source have a website or webpage?
+            If so enter it here""",
         max_length=256,
         required=False,
     )
@@ -334,13 +368,13 @@ class CodeForm(forms.ModelForm):
             }),
         }
         help_texts = {
-            'tags': "Choose one or more tags that relate to the Code.",
+            'tags': "Choose one or more tags",
         }
 
 class LinkCreateForm(forms.ModelForm):
 
     url = forms.CharField(
-        help_text="Enter the URL here.",
+        help_text="Enter the URL here",
         max_length=256,
     )
     url.widget.attrs.update({'class': 'form-text-field'})
@@ -354,30 +388,27 @@ class LinkCreateForm(forms.ModelForm):
 class LinkForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="Give the code sample a memorable and unique title that will be easy to reference later.",
+        help_text="""Give the Link a memorable and unique title that will be \
+            easy to reference later""",
         max_length=256,
+        required=False,
     )
     url = forms.CharField(
-        help_text="Enter the URL here.",
+        help_text="Enter the URL here",
         max_length=256,
     )
     text = forms.CharField(
-        widget=forms.Textarea(
-            attrs={
-                'wrap': 'off',
-                'class': 'code-box',
-            }
-        ),
-        help_text="The text may appear on pages that include Links or other objects that use Links.",
+        help_text="The text may appear on pages that include Links",
         max_length=512,
         required=False,
     )
     favicon_href = forms.CharField(
-        help_text="Enter a URL for the webpage image.",
+        help_text="Enter a URL for the webpage image",
         max_length=256,
         required=False,
     )
     title.widget.attrs.update({'class': 'form-text-field'})
+    text.widget.attrs.update({'class': 'form-text-field'})
     url.widget.attrs.update({'class': 'form-text-field'})
     favicon_href.widget.attrs.update({'class': 'form-text-field'})
 
@@ -391,17 +422,18 @@ class LinkForm(forms.ModelForm):
             'tags',
         ]
         help_texts = {
-            'tags': "Choose one or more tags that relate to the Link.",
+            'tags': "Choose one or more tags",
         }
 
 class TagForm(forms.ModelForm):
 
     key = forms.CharField(
-        help_text="Enter a word or words that describe a category.",
+        help_text="Enter a word or words that describe a category",
         max_length=64,
     )
     value = forms.CharField(
-        help_text="Enter words or numbers that describe a qualitative or quantitative value.",
+        help_text="""Enter words or numbers that describe a qualitative or \
+            quantitative value""",
         max_length=64,
         required=False,
     )

@@ -2,56 +2,34 @@
 {% block body_block %}
 <div class ="container create-bg">
   <div class="container">
-    {% if album.title %}
-      <h3 class="documentation-title">Album: {{ object.title }}</h3>
-    {% else %}
-      <h2 class="documentation-title">New Album</h2>
-    {% endif %}
-    <br>
-    <div class="row">
-      <div class="col">
-        {% include './album_button_bar.html' %}
-      </div>
-    </div>
+    {% include './album_form_button_bar.html' %}
+  </div>
+  <br>
+  <div class="container">
     <form method="post">
       {% csrf_token %}
+      {% if form.cover.field.choices.queryset.count > 0 %}
+        <h5 class="form-label">{{ form.cover.label }}</h5>
+        <p>{{ form.cover.help_text }}</p>
+        <p>{{ form.cover.errors }}</p>
+        <div class="form-image-selection">
+          {% for value in form.cover.field.choices %}
+            {% if value|first != '' %}
+              <div class="form-image-card float-left" style="background-image:url('{{ value.2.thumbnail_file.url }}')">
+                <p>&nbsp;<input type="radio" value="{{ value|first }}" name="cover" {% if object.cover.pk == value|first %}checked{% endif %}></p>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>You have not uploaded any Images yet.</p>
+      {% endif %}
+      <br>
       {% for field in form %}
         {% if field != form.cover %}
-          {{ field.errors }}
-          <div class="row">
-            <div class="col-2">
-              <h5 class="form-label">{{ field.label_tag }}</h5>
-            </div>
-            <div class="col-sm-10">
-              <p>{{ field.help_text }}</p>
-              {{ field }}
-            </div>
-          </div>
-          <br>
-          <br>
+          {% include 'form_field.html' %}
         {% endif %}
       {% endfor %}
-      <div class="row">
-        <div class="col-2">
-          <h5 class="form-label">{{ form.cover.label_tag }}</h5>
-        </div>
-        <div class="col-sm-10 form.cover-selection">
-          {% if form.cover.field.choices.queryset.count > 0 %}
-            {{ form.cover.errors }}
-            </p>{{ form.cover.help_text }}</p>
-            {% for value in form.cover.field.choices %}
-              {% if value|first != '' %}
-                <div class="form-image-card float-left" style="background-image:url('{{ value.2.thumbnail_file.url }}')">
-                  <p>&nbsp;<input type="radio" value="{{ value|first }}" name="cover" {% if object.cover.pk == value|first %}checked{% endif %}></p>
-                </div>
-              {% endif %}
-            {% endfor %}
-          {% else %}
-            <p>You have not uploaded any Images yet.</p>
-          {% endif %}
-        </div>
-      </div>
-      <br>
       <br>
       <input type="submit" value="Submit" class="btn btn-success">
     </form>

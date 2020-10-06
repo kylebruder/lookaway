@@ -2,26 +2,10 @@
 {% block body_block %}
 <div class ="container create-bg">
   <div class="container">
-    <div class="row">
-      {% if object.title %}
-        <div class=col-sm">
-          <div class="container">
-            <h3 class="documentation-title">Edit Document: {{ object.title }}</h3>
-            <br>
-            {% include './document_button_bar.html' %}
-          </div>
-        </div>
-      {% else %}
-        <div class="col-sm-8">
-          <h3 class="documentation-title">New Document</h3>
-          <p>Submit a Document you wish to publish. Documents are open ended and can contain your contributed media. Create a Document using this form then edit the Document and add one or more Sections.</p>
-        </div>
-        <div class="col-sm-4">
-          {% include './document_button_bar.html' %}
-        </div>
-      {% endif %}
-    </div>
-    <br>
+    {% include './document_form_button_bar.html' %}
+  </div>
+  <br>
+  <div class="container">
     <div class="row">
       <div class="col-sm">
         <form method="post" enctype="multipart/form-data">

@@ -2,15 +2,24 @@
 {% block body_block %}
   <div class ="container edit-bg">
     <div class="container">
-      <h2 class="images-title">Edit "{{ image }}"</h2>
-      <br>
+      <div class="row">
+        <div class="col">
+          <h4 class="images-title">Edit "{{ image }}"</h4>
+        </div>
+        <div class="col-">
+          {% include './new_tag.html' %}
+        </div>
+      </div>
+    </div>
+    <div class="container">
       <img class="form-preview-image" src="{{ image.image_file.url }}" alt="{{ image.title }}"><br>
       <br>
-      {% include './new_tag.html' %}
       <br>
       <form  method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% include 'form_fields.html' %}
+        {% for field in form %}
+          {% include 'form_field.html' %}
+        {% endfor %}
         <input type="submit" value="Submit" class="btn btn-success">
       </form>
       <br>

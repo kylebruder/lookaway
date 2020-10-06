@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block body_block %}
-<div class="container">
+<div class="container index-bg">
   <!-- Heading -->
   <div class="row">
     <div class="col-md">
@@ -10,22 +10,35 @@
   </div>
   {% if posts.count > 0 %}
     <!-- Newest public Posts -->
-    <div class="row">
-      <div class="col">
-        <h3 class="index-post-title">Recent Posts</h3>
+    <div class="">
+      <div class="row">
+        <div class="col-">
+          <div class="container">
+            <h3 class="index-page-title">Recent Posts</h3>
+          </div>
+        </div>
+        <div class="col">
+          <div class="container">
+            <p class="index-page-header">
+              <a href="{% url 'posts:public_posts' %}">all posts</a> | 
+              <a href="{% url 'posts:top_posts' %}">top posts</a> 
+            </p>
+          </div>
+        </div>
+        {% if request.user.is_authenticated %}
+          <div class="col-">
+            <div class="container">
+              <a href="{% url 'posts:post_create' %}"><button class="btn btn-sm btn-primary">+Post</button></a>
+            </div>
+          </div>
+        {% endif %}
       </div>
-      <div class="col">
-        <p class="float-right">
-          <a href="{% url 'posts:public_posts' %}">all posts</a> | 
-          <a href="{% url 'posts:top_posts' %}">top posts</a> 
-        </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md">
-        <ul class="list-group">
-          {% include "index_post_list_item.html" %}
-        </ul>
+      <div class="row">
+        <div class="col-md">
+          <ul class="list-group">
+            {% include "index_post_list_item.html" %}
+          </ul>
+        </div>
       </div>
     </div>
   {% endif %}

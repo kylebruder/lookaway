@@ -2,13 +2,23 @@
 {% block body_block %}
 <div class ="container create-bg">
   <div class="container">
-    <h2 class="images-title">Upload an Image</h2>
-    <br>
-    {% include './new_tag.html' %}
-    <br>
+    <div class="row">
+      <div class="col">
+        <h2 class="images-title">Upload an Image</h2>
+        <br>
+      </div>
+      <div class="col-">
+        {% include './new_tag.html' %}
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="container">
     <form  method="post" enctype="multipart/form-data">
       {% csrf_token %}
-      {% include 'form_fields.html' %}
+      {% for field in form %}
+        {% include 'form_field.html' %}
+      {% endfor %}
       <input type="submit" value="Submit" class="btn btn-success">
     </form>
   </div>
