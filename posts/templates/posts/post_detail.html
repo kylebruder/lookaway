@@ -117,11 +117,11 @@
       {% else %}
         <p class="post-meta">Source: {{ post.code.source }}</p>
       {% endif %}
-    {% endif %}
-    {% if post.code.owner.pk == request.user.pk %}
-      <a href="{% url 'objects:code_update' post.code.pk %}?next={{ request.path }}">
-        <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-      </a><br><br>
+      {% if post.code.owner.pk == request.user.pk %}
+        <a href="{% url 'objects:code_update' post.code.pk %}?next={{ request.path }}">
+          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+        </a><br><br>
+      {% endif %}
     {% endif %}
     <!-- Link -->
     {% if post.link %}
