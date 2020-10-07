@@ -98,12 +98,12 @@ urlpatterns = [
     ),
     # Marshmallow Views
     path(
-        'track/<int:pk>/add-marshmallow', 
+        'albums/<int:pk>/add-marshmallow', 
         views.add_marshmallow_to_album_view,
         name='album_marshmallow',
     ),
     path(
-        'track/<int:pk>/add-marshmallow', 
+        'tracks/<int:pk>/add-marshmallow', 
         views.add_marshmallow_to_track_view,
         name='track_marshmallow',
     ),
