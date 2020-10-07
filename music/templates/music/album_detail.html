@@ -2,34 +2,36 @@
 {% block body_block %}
 <div class="container music-bg">
   {% if album.is_public and album.members_only and not request.user.is_authenticated %}
-    <p>This Album is only avaialble for Members of the site.</p>
+    <p class="music-meta">This Album is only avaialble for Members of the site.</p>
   {% elif album.is_public or album.owner.pk == request.user.pk %}
     {% include './album_detail_button_bar.html' %}
     {% if album.members_only %}
-      <p><i>This Album is only avaialble for Members of the site.</i></p>
+      <p class="music-meta"><i>This Album is only avaialble for Members of the site.</i></p>
     {% endif %}
-    <div class="col-sm-6">
+    <div class="col-sm-4 float-left">
       {% if album.cover %}
         <!-- Image -->
         <img class="float-left music-album-image" src="{{ album.cover.image_file.url }}" alt="{{ album.cover.title }}">   
       {% endif %}
     </div>
     {% if album.text %}
-      <p class="music-album-blurb">{{ album.text|linebreaks }}</p>
+      <div class="container">
+        <p class="music-album-blurb">{{ album.text|linebreaks }}</p>
+      </div>
     {% endif %}
     <div class="clear">
     <br>
     <div class="row">
-      <div class="col-sm">
+      <div class="col-sm-4">
         <!-- Track list -->
         {% if album.tracks.all.count > 0 %}
           <h4 class="music-title">Track List</h4>
-          <ol>
+          <ol class="group-list">
             {% for track in album.tracks.all %}
               {% if track.is_public %}
                 <div class="row">
                   <div class="col-sm">
-                    <li>
+                    <li class="group-list-item">
                       <a class="music-title music-album-track" href="{% url 'music:track_detail' track.slug %}">{{ track.title }}</a>
                     </li>
                     <!-- Sound -->
@@ -51,17 +53,17 @@
         <div class="container music-album-info">
           <p>
             {% if album.artist %}
-              <span>Artist: {{ album.artist }}</span><br>
-            {% endif %}
-            {% if album.genre %}
-              <span>Genre: {{ album.genre }}</span><br>
+              <span>{{ album.artist }}</span><br>
             {% endif %}
             {% if album.year %}
-              <span>Year: {{ album.year }}</span><br>
+              <span>{{ album.year }}</span><br>
             {% endif %}
             {% if album.label %}
-              <span>Label: {{ album.label }}</span><br>
+              <span>{{ album.label }}</span><br>
            {% endif %}
+            {% if album.genre %}
+              <span>{{ album.genre }}</span><br>
+            {% endif %}
           </p>
         </div>
       </div>

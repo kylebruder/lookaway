@@ -48,7 +48,7 @@
 
 
 .form-preview-image {
-  max-width: auto;
+  max-width: 100%;
   max-height: 250px;
 }
 

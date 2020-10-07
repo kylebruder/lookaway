@@ -12,18 +12,8 @@
     <!-- Newest public Posts -->
     <div class="">
       <div class="row">
-        <div class="col-">
-          <div class="container">
-            <h3 class="index-page-title">Recent Posts</h3>
-          </div>
-        </div>
-        <div class="col">
-          <div class="container">
-            <p class="index-page-header">
-              <a href="{% url 'posts:public_posts' %}">all posts</a> | 
-              <a href="{% url 'posts:top_posts' %}">top posts</a> 
-            </p>
-          </div>
+        <div class="col-sm">
+          <h3 class="index-page-title">Recent Posts</h3>
         </div>
         {% if request.user.is_authenticated %}
           <div class="col-">
@@ -40,6 +30,10 @@
           </ul>
         </div>
       </div>
+      <p class="">
+        <a href="{% url 'posts:public_posts' %}">all posts</a> | 
+        <a href="{% url 'posts:top_posts' %}">top posts</a> 
+      </p>
     </div>
   {% endif %}
 </div>

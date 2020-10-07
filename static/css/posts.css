@@ -104,7 +104,10 @@
   display: inherit;
   max-width: 100%;
   max-height: auto;
+  margin-right: auto;
+  margin-left: auto;
   border-radius: 5px;
+  display: block;
 }
 
 .post-image-container {
@@ -118,8 +121,11 @@
 .post-image-text {
   display: block;
   font-size: 0.8em;
+  text-align: center;
   margin-right: 15px;
   max-width: 100%;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .post-list-image {

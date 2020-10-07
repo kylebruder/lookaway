@@ -1,25 +1,23 @@
 <li class="list-group-item music-list-li">
   <div class="row">
     <div class="col-sm">
-      <div class="container-fluid">
-        <h4 class="music-title">
-          <a href="{% url 'music:album_detail' album.slug %}">
-            {{ album.title }}
-          </a>
-        </h4>
-        {% if album.artist %}
-          <span>{{ album.artist }}</span><br>
-        {% endif %}
-      </div>
+      <h4 class="music-title">
+        <a href="{% url 'music:album_detail' album.slug %}">
+          {{ album.title }}
+        </a>
+      </h4>
+      {% if album.artist %}
+        <p class="music-meta">{{ album.artist }}</p>
+      {% endif %}
     </div>
-    <div class="col-sm-">
-      <div class="container-fluid">
+    <div class="col-">
+      <div class="container float-right">
         {% if album.cover %}
-          <div class="float-right music-list-image" style="background-image:url('{{album.cover.thumbnail_file.url }}')">
+          <div class="music-list-image" style="background-image:url('{{album.cover.thumbnail_file.url }}')">
         {% elif album.owner.profile.image %}
-          <div class="float-right music-list-image" style="background-image:url('{{ album.owner.profile.image.thumbnail_file.url }}')">
+          <div class="music-list-image" style="background-image:url('{{ album.owner.profile.image.thumbnail_file.url }}')">
         {% else %}
-          <div class="float-right music-list-image" style="background-image:url('/static/favicon.ico')">
+          <div class="music-list-image" style="background-image:url('/static/favicon.ico')">
         {% endif %}
       </div>
     </div>

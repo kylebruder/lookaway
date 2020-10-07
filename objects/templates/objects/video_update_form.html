@@ -20,7 +20,9 @@
       <br>
       <form  method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% include 'form_fields.html' %}
+        {% for field in form %}
+          {% include 'form_field.html' %}
+        {% endfor %}
         <input type="submit" value="Submit" class="btn btn-success">
       </form>
       <br>
