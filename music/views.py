@@ -161,6 +161,7 @@ class TopAlbumListView(ListView):
             return Album.objects.filter(
                 is_public=True,
             ).order_by(
+                '-weight',
                 '-creation_date',
             )
         else:
@@ -168,6 +169,7 @@ class TopAlbumListView(ListView):
                 is_public=True,
                 members_only=False,
             ).order_by(
+                '-weight',
                 '-creation_date',
             )
 
@@ -363,6 +365,7 @@ class TopTrackListView(ListView):
             return Track.objects.filter(
                 is_public=True,
             ).order_by(
+                '-weight',
                 '-creation_date',
             )
         else:
@@ -370,6 +373,7 @@ class TopTrackListView(ListView):
                 is_public=True,
                 members_only=False,
             ).order_by(
+                '-weight',
                 '-creation_date',
             )
 
