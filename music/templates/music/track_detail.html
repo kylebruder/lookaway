@@ -5,55 +5,42 @@
     <p class="music-meta">This Track is only avaialble for Members of the site.</p>
   {% elif track.is_public or track.owner.pk == request.user.pk %}
     {% include './track_detail_button_bar.html' %}
-    <br>
     {% if track.members_only %}
       <p class="music-meta"><i>This Track is only avaialble for Members of the site.</i></p>
     {% endif %}
-    <!-- Sound -->
-    <div class="music-track-info">
-      <div class="row">
-        <div class="col-sm-">
-          <div class="container">
-            {% if track.sound %}
-              {% with track.sound as sound %}
-                <audio controls="controls">
-                  {% include 'audio_mime_types.html' %}
-                </audio>
-                <br>
-                <br>
-              {% endwith %}
-            {% endif %}
-          </div>
-        </div>
-        <div class="col-sm">
-          <p>
-            {% if track.artist %}
-              {{ track.artist }}<br>
-            {% endif %}
-            {% if track.year %}
-              {{ track.year }}<br>
-            {% endif %}
-            {% if track.label %}
-              {{ track.label }}<br>
-            {% endif %}
-            {% if track.genre %}
-              {{ track.genre }}<br>
-            {% endif %}
-          </p>
-        </div>
-      </div>
-    </div>
-    <br>
-    <div class="col-sm-3 float-left">
+    <div class="col-sm-6 float-right">
       {% if track.image %}
         <!-- Image -->
         <img class="music-track-image" src="{{ track.image.image_file.url }}" alt="{{ track.image.title }}">   
       {% endif %}
     </div>
+    <!-- Sound -->
+    <div class="music-track-info">
+      <p>
+        {% if track.artist %}
+          {{ track.artist }}<br>
+        {% endif %}
+        {% if track.year %}
+          {{ track.year }}<br>
+        {% endif %}
+        {% if track.label %}
+          {{ track.label }}<br>
+        {% endif %}
+        {% if track.genre %}
+          {{ track.genre }}<br>
+        {% endif %}
+      </p>
+      {% if track.sound %}
+        {% with track.sound as sound %}
+          <audio controls="controls">
+            {% include 'audio_mime_types.html' %}
+          </audio>
+          <br>
+        {% endwith %}
+      {% endif %}
+    </div>
     {% if track.text %}
-      <div class="container">
         <p class="music-track-blurb">{{ track.text|linebreaks }}</p>
-      </div>
     {% endif %}
     <div class="clear"></div>
     <br>

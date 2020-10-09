@@ -8,32 +8,33 @@
     {% if album.members_only %}
       <p class="music-meta"><i>This Album is only avaialble for Members of the site.</i></p>
     {% endif %}
-    <div class="col-sm-4 float-left">
-      {% if album.cover %}
-        <!-- Image -->
-        <img class="float-left music-album-image" src="{{ album.cover.image_file.url }}" alt="{{ album.cover.title }}">   
-      {% endif %}
-    </div>
-    {% if album.text %}
-      <div class="container">
-        <p class="music-album-blurb">{{ album.text|linebreaks }}</p>
-      </div>
-    {% endif %}
-    <div class="clear">
-    <br>
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-6">
+        <p class="music-album-info">
+          {% if album.artist %}
+            <span>{{ album.artist }}</span><br>
+          {% endif %}
+          {% if album.year %}
+            <span>{{ album.year }}</span><br>
+          {% endif %}
+          {% if album.label %}
+            <span>{{ album.label }}</span><br>
+          {% endif %}
+          {% if album.genre %}
+            <span>{{ album.genre }}</span><br>
+          {% endif %}
+        </p>
+        <br>
         <!-- Track list -->
         {% if album.tracks.all.count > 0 %}
-          <h4 class="music-title">Track List</h4>
-          <ol class="group-list">
-            {% for track in album.tracks.all %}
-              {% if track.is_public %}
-                <div class="row">
-                  <div class="col-sm">
-                    <li class="group-list-item">
-                      <a class="music-title music-album-track" href="{% url 'music:track_detail' track.slug %}">{{ track.title }}</a>
-                    </li>
+          {% for track in album.tracks.all %}
+            {% if track.is_public %}
+              <div class="row">
+                <div class="col-sm">
+                  <a class="music-title music-album-track" href="{% url 'music:track_detail' track.slug %}">{{ track.title }}</a>
+                </div>
+                <div class="col-sm">
+                  <div class="container">
                     <!-- Sound -->
                     {% with track.sound as sound %}
                       <audio controls="controls">
@@ -44,31 +45,23 @@
                     {% endwith %}
                   </div>
                 </div>
-              {% endif %}
-            {% endfor %}
-          </ol>
+              </div>
+            {% endif %}
+          {% endfor %}
         {% endif %}
       </div>
-      <div class="col-sm">
-        <div class="container music-album-info">
-          <p>
-            {% if album.artist %}
-              <span>{{ album.artist }}</span><br>
-            {% endif %}
-            {% if album.year %}
-              <span>{{ album.year }}</span><br>
-            {% endif %}
-            {% if album.label %}
-              <span>{{ album.label }}</span><br>
-           {% endif %}
-            {% if album.genre %}
-              <span>{{ album.genre }}</span><br>
-            {% endif %}
-          </p>
+      <!!-- Cover -->
+      {% if album.cover %}
+        <div class="col-sm-6">
+          <img class="music-album-image float-right" src="{{ album.cover.image_file.url }}" alt="{{ album.cover.title }}">   
         </div>
-      </div>
+      {% endif %}
     </div>
-    <!--Album links -->
+    <!-- Blurb -->
+    {% if album.text %}
+      <p class="music-album-blurb">{{ album.text|linebreaks }}</p>
+    {% endif %}
+    <!-- Links -->
     {% if album.links.count > 0 %}
       <h4 class="music-title">Links</h4>
       {% for link in album.links.all %}
@@ -89,6 +82,7 @@
         </p>
       {% endfor %}
     {% endif %}
+    <div class="clear"></div>
     <!-- Credits -->
     {% if album.is_public %}
       <p>Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> {% if album.publication_date %} on {{ album.publication_date }}{% endif %}{% if album.location %} from {{ album.location }}{% endif %}

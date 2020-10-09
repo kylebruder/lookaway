@@ -12,7 +12,6 @@
     {% if post.re %}
       <p class="post-meta">Re: <a href="{% url 'posts:post_detail' post.re.slug %}">{{ post.re.title }}</a></p>
     {% endif %}
-    <br>
     <!-- Image -->
     <div class="col-sm-6 float-right">
       {% if post.image %}
@@ -36,8 +35,9 @@
       {% endif %}
     </div>
     <!-- Main content -->
-    <p class="post-text">{{ post.text|linebreaks }}</p>
-    <br>
+    <div class="container">
+      <p class="post-text">{{ post.text|linebreaks }}</p>
+    </div>
     <!-- Sound -->
     {% if post.sound %}
       {% with post.sound as sound %}
@@ -107,41 +107,45 @@
     {% endif %}
     <!-- Code -->
     {% if post.code %}
-      <h5 class="post-title">{{ post.code.title }}</h5>
-      {% if post.code.file_path %}
-        <span class="code-block post-meta">{{ post.code.file_path }}</span>
-      {% endif %}
-      <pre class="code-block">{{ post.code.code }}</pre>
-      {% if post.code.source_url %}
-        <p class="post-meta">Source: <a href="{{ post.code.source_url }}">{{ post.code.source }}</a></p>
-      {% else %}
-        <p class="post-meta">Source: {{ post.code.source }}</p>
-      {% endif %}
-      {% if post.code.owner.pk == request.user.pk %}
-        <a href="{% url 'objects:code_update' post.code.pk %}?next={{ request.path }}">
-          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-        </a><br><br>
-      {% endif %}
+      <div class="container">
+        <h5 class="post-title">{{ post.code.title }}</h5>
+        {% if post.code.file_path %}
+          <span class="code-block post-meta">{{ post.code.file_path }}</span>
+        {% endif %}
+        <pre class="code-block">{{ post.code.code }}</pre>
+        {% if post.code.source_url %}
+          <p class="post-meta">Source: <a href="{{ post.code.source_url }}">{{ post.code.source }}</a></p>
+        {% else %}
+          <p class="post-meta">Source: {{ post.code.source }}</p>
+        {% endif %}
+        {% if post.code.owner.pk == request.user.pk %}
+          <a href="{% url 'objects:code_update' post.code.pk %}?next={{ request.path }}">
+            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+          </a><br><br>
+        {% endif %}
+      </div>
     {% endif %}
     <!-- Link -->
     {% if post.link %}
-      {% if post.link.title %}
-        <h5 class="post-title">{{ post.link.title }}</h5>
-      {% endif %}
-      {% if post.link.text %}
-        <p>{{ post.link.text }}</p>
-      {% endif %}
-      {% if post.link.favicon_href %}
-        <div class="link-list-card float-left" style="background-image:url('{{ post.link.favicon_href }}')"></div>
-      {% endif %}
-      <p class="link-url">
-        <a href="{{ post.link.url }}" class="links-list-link">{{ post.link.url|truncatechars:128 }}</a>
-        {% if post.owner.link.pk == request.user.pk %}
-          <a href="{% url 'objects:link_update' post.link.pk %}?next={{ request.path }}">
-            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-          </a>
+      <div class="container">
+        {% if post.link.title %}
+          <h5 class="post-title">{{ post.link.title }}</h5>
         {% endif %}
-      </p>
+        {% if post.link.text %}
+          <p>{{ post.link.text }}</p>
+        {% endif %}
+        {% if post.link.favicon_href %}
+          <div class="link-list-card float-left" style="background-image:url('{{ post.link.favicon_href }}')"></div>
+        {% endif %}
+        <p class="link-url">
+          <a href="{{ post.link.url }}" class="links-list-link">{{ post.link.url|truncatechars:128 }}</a>
+          {% if post.owner.link.pk == request.user.pk %}
+            <a href="{% url 'objects:link_update' post.link.pk %}?next={{ request.path }}">
+              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+            </a>
+          {% endif %}
+        </p>
+      </div>
     {% endif %}
     <div class="clear"></div>
     <!-- Credits -->

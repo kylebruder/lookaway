@@ -20,7 +20,9 @@
         <br>
       </div>
     {% endif %}
-    <p>{{ document.intro|linebreaks }}</p>
+    <div class="container">
+      <p>{{ document.intro|linebreaks }}</p>
+    </div>
     <br>
     {% if sections %}
       {% if document.numbered %}
@@ -41,13 +43,33 @@
         </ul>
       {% endif %}
     {% endif %}
-    <p>{{ document.outro|linebreaks }}</p>
+    <div class="container">
+      <p>{{ document.outro|linebreaks }}</p>
+    </div>
+    <br>
+    {% if document.is_public %}
+      Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}<br>
+      {% if object.last_modified > object.creation_date %}
+        Last updated on {{ object.last_modified }}<br>
+      {% endif %}
+    {% else %}
+      Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<br>
+      <br>
+    {% endif %}
+    <br>
     {% if document.tags.count > 0 %}
       {% include './object_tags.html' %}
       <br>
     {% endif %}
+    {% if refs|length > 0 %}
+      <h4 class="documentation-title">Referred by</h4>
+      {% for ref in refs %}
+        <h5><a class="documentation-title" href="{% url 'documentation:support_document_detail' ref.slug %}">{{ ref }}</a></h5>
+        <br>
+      {% endfor %}
+    {% endif %}
     {% if document.links.count > 0 %}
-      <h4 class="documentation-title">Reference and Further Reading</h4>
+      <h4 class="documentation-title">Further Reading</h4>
       {% for link in document.links.all %}
         {% if link.title %}
           <h5 class="link-title">{{ link.title }}</h5>
@@ -65,17 +87,8 @@
           <br>
         </p>
       {% endfor %}
-    {% endif %}
-    {% if document.is_public %}
-      Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}<br>
-      {% if object.last_modified > object.creation_date %}
-        Last updated on {{ object.last_modified }}<br>
-      {% endif %}
-    {% else %}
-      Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<br>
       <br>
     {% endif %}
-    <br>
   {% else %}
     <p>This Support Document has not been published yet.</p>
     <br>

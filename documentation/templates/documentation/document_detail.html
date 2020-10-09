@@ -33,7 +33,7 @@
       <br>
     {% endif %}
     {% if document.links.count > 0 %}
-      <h4 class="documentation-title">Reference and Further Reading</h4>
+      <h4 class="documentation-title">Further Reading</h4>
       {% for link in document.links.all %}
         {% if link.title %}
           <h5 class="link-title">{{ link.title }}</h5>

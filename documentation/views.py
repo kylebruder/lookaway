@@ -358,6 +358,12 @@ class SupportDocumentDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        sections = SupportDocSection.objects.filter(support_reference=self.object.pk)
+        context['refs'] = ()
+        for s in sections:
+            if s.support_document not in context['refs']:
+                context['refs'] += (s.support_document,)
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
             if member.check_can_allocate() and not member.check_is_new():
