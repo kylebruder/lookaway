@@ -33,6 +33,10 @@
             <br>
           {% endwith %}
         {% endif %}
+        <!-- Blurb -->
+        {% if track.text %}
+          <p class="music-track-blurb">{{ track.text|linebreaks }}</p>
+        {% endif %}
       </div>
       <!-- Image -->
       {% if track.image %}
@@ -41,11 +45,6 @@
         </div>
       {% endif %}
     </div>
-    <!-- Blurb -->
-    {% if track.text %}
-        <p class="music-track-blurb">{{ track.text|linebreaks }}</p>
-    {% endif %}
-    <div class="clear"></div>
     <br>
     <!-- Video -->
     {% if track.video %}
