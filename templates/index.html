@@ -12,17 +12,21 @@
     <!-- Newest public Posts -->
     <div class="">
       <div class="row">
-        <div class="col-sm">
-          <h3 class="index-page-title">Recent Posts</h3>
+        <div class="col">
+          <h3 class="index-page-title">Posts</h3>
         </div>
         {% if request.user.is_authenticated %}
           <div class="col-">
             <div class="container">
-              <a href="{% url 'posts:post_create' %}"><button class="btn btn-sm btn-primary">+Post</button></a>
+              <a href="{% url 'posts:post_create' %}"><button class="btn btn-sm btn-primary create-button"><strong>+</strong></button></a>
             </div>
           </div>
         {% endif %}
       </div>
+      <p class="">
+        <a href="{% url 'posts:public_posts' %}">all posts</a> | 
+        <a href="{% url 'posts:top_posts' %}">top posts</a> 
+      </p>
       <div class="row">
         <div class="col-md">
           <ul class="list-group">
@@ -30,10 +34,6 @@
           </ul>
         </div>
       </div>
-      <p class="">
-        <a href="{% url 'posts:public_posts' %}">all posts</a> | 
-        <a href="{% url 'posts:top_posts' %}">top posts</a> 
-      </p>
     </div>
   {% endif %}
 </div>

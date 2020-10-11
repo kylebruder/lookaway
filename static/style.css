@@ -47,6 +47,10 @@
   border-radius: 100%;
 }
 
+.create-button {
+  border-radius: 100%;
+}
+
 .title-button {
   margin: 3px;
 }

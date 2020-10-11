@@ -1,11 +1,13 @@
-<div class="row">
-  <div class="col">
-    <h4 class="studio-title">Your Links</h4>
-  </div>
-  <div class="col-">
-    <a href="{% url 'objects:link_create' %}">
-      <button class="btn btn-sm btn-primary">New Link</button>
-    </a>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h4 class="studio-title">Your Links</h4>
+    </div>
+    <div class="col-">
+      <a href="{% url 'objects:link_create' %}">
+        <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+      </a>
+    </div>
   </div>
 </div>
 {% if links.all.count > 0 %}

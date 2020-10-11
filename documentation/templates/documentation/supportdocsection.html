@@ -31,14 +31,14 @@
       </audio>
       <p>
         {{ sound.text }}
+        <br>
+        {% if sound.credit %}
+          <i>{{ sound.credit }}</i><br>
+        {% endif %}
         {% if sound.owner.pk == request.user.pk %}
           <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
             <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
           </a>
-        {% endif %}
-        <br>
-        {% if sound.credit %}
-          <i>{{ sound.credit }}</i><br>
         {% endif %}
       </p>
       <br>
@@ -83,10 +83,9 @@
         {% if code.owner.pk == request.user.pk %}
           <a href="{% url 'objects:code_update' code.pk %}?next={{ request.path }}">
             <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-          </a><br>
+          </a>
         {% endif %}
       </p>
-      <br>
     {% endfor %}
     <br>
   {% endif %}

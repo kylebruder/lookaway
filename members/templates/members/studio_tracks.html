@@ -1,11 +1,13 @@
-<div class="row">
-  <div class="col">
-    <h4 class="studio-title">Your Tracks</h4>
-  </div>
-  <div class="col-">
-    <a href="{% url 'music:track_create' %}">
-      <button class="btn btn-sm btn-primary">New Track</button>
-    </a>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <h4 class="studio-title">Your Tracks</h4>
+    </div>
+    <div class="col-">
+      <a href="{% url 'music:track_create' %}">
+        <button class="btn btn-sm btn-primary create-button">+</button>
+      </a>
+    </div>
   </div>
 </div>
 {% if tracks.all.count > 0 %}

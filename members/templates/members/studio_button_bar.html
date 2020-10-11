@@ -1,0 +1,25 @@
+<div class="bg-light">
+  <div class="row">
+    <div class="col-sm">
+      <div class="container">
+        <h3 class="studio-title text-muted">{{ member }}'s Digital Studio</h3>
+      </div>
+    </div>
+    <div class-"col-sm">
+      <div class="container">
+        <button class="btn btn-sm btn-primary studio-button" type="button" data-toggle="collapse" data-target="#tracks" aria-expanded="false" aria-controls="Tracks">Tracks</button>
+        <button class="btn btn-sm btn-primary studio-button" type="button" data-toggle="collapse" data-target="#albums" aria-expanded="false" aria-controls="albums">Albums</button>
+        <button class="btn btn-sm btn-primary studio-button" type="button" data-toggle="collapse" data-target="#posts" aria-expanded="false" aria-controls="posts">Posts</button>
+        {% if member.is_staff %}
+          <button class="btn btn-sm btn-primary studio-button" type="button" data-toggle="collapse" data-target="#support_documents" aria-expanded="false" aria-controls="images">Support</button>
+        {% endif %}
+        <button class="btn btn-sm btn-primary studio-button" type="button" data-toggle="collapse" data-target="#documents" aria-expanded="false" aria-controls="images">Documents</button>
+        <button class="btn btn-sm btn-primary studio-button" type="button" data-toggle="collapse" data-target="#images" aria-expanded="false" aria-controls="images">Images</button>
+        <button class="btn btn-sm btn-primary studio-button" type="button" data-toggle="collapse" data-target="#videos" aria-expanded="false" aria-controls="videos">Videos</button>
+        <button class="btn btn-sm btn-primary studio-button" type="button" data-toggle="collapse" data-target="#sounds" aria-expanded="false" aria-controls="images">Sounds</button>
+        <button class="btn btn-sm btn-primary studio-button" type="button" data-toggle="collapse" data-target="#code" aria-expanded="false" aria-controls="code">Code</button>
+        <button class="btn btn-sm btn-primary studio-button" type="button" data-toggle="collapse" data-target="#links" aria-expanded="false" aria-controls="links">Links</button>
+      </div>
+    </div>
+  </div>
+</div>

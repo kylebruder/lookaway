@@ -1,3 +1,7 @@
+.studio-bg {
+  background-color: #333333;
+  border-radius: 0px 0px 25px 25px;
+}
 .studio-button {
   margin: 3px;
 }
@@ -21,5 +25,5 @@
 }
 
 .studio-title {
-  font-family: 'Ibarra Real Nova', serif;
+  font-family: 'Averia Serif Libre', serif;
 }

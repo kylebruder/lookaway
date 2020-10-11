@@ -9,16 +9,9 @@
       <p>Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}</p>
     {% endif %}
     {% if document.image %}
-      <div class="container">
-        <img class="documentation-image" src="{{ document.image.image_file.url }}" alt="{{ document.image.title }}">
-        {% if document.image.owner.pk == request.user.pk %}
-          <a href="{% url 'objects:image_update' document.image.pk %}?next={{ request.path }}">
-            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-          </a>
-        {% endif %}
-        <br>
-        <br>
-      </div>
+      <img class="documentation-image" src="{{ document.image.image_file.url }}" alt="{{ document.image.title }}">
+      <br>
+      <br>
     {% endif %}
     <p>{{ document.intro|linebreaks }}</p>
     <br>

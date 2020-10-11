@@ -4,6 +4,9 @@
 <div class="container music-bg">
   <!-- Heading -->
   {% include './music_page_button_bar.html' %}
+  <p>
+    <a href="{% url 'music:top_tracks' %}">top tracks</a> | <a href="{% url 'music:top_albums' %}">top albums</a> | <a href="{% url 'music:new_tracks' %}">new tracks</a> | <a href="{% url 'music:new_albums' %}">new albums</a>
+  </p>
   <div class="row">
     <div class="col-sm music-page-section">
       <div class="container">
@@ -72,9 +75,5 @@
       </div>
     {% endif %}
   </div>
-  <p class="music-page-header">
-    <a href="{% url 'music:top_tracks' %}">top tracks</a> | <a href="{% url 'music:top_albums' %}">top albums</a> | <a href="{% url 'music:new_tracks' %}">new tracks</a> | <a href="{% url 'music:new_albums' %}">new albums</a>
-  </p>
-  <br>
 </div>
 {% endblock %}

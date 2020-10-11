@@ -1,11 +1,13 @@
-<div class="row">
-  <div class="col">
-    <h4 class="studio-title">Your Support Docs</h4>
-  </div>
-  <div class="col-">
-    <a href="{% url 'documentation:support_document_create' %}">
-      <button class="btn btn-sm btn-primary">New Support Doc</button>
-    </a>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h4 class="studio-title">Your Support Docs</h4>
+    </div>
+    <div class="col-">
+      <a href="{% url 'documentation:support_document_create' %}">
+        <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+      </a>
+    </div>
   </div>
 </div>
 {% if support_documents.all.count > 0 %}
