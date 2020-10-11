@@ -8,37 +8,40 @@
     {% if track.members_only %}
       <p class="music-meta"><i>This Track is only avaialble for Members of the site.</i></p>
     {% endif %}
-    <div class="col-sm-6 float-right">
+    <div class="row">
+      <!-- Sound -->
+      <div class="col-sm-6 ">
+        <p class="music-track-info">
+          {% if track.artist %}
+            {{ track.artist }}<br>
+          {% endif %}
+          {% if track.year %}
+            {{ track.year }}<br>
+          {% endif %}
+          {% if track.label %}
+            {{ track.label }}<br>
+          {% endif %}
+          {% if track.genre %}
+            {{ track.genre }}<br>
+          {% endif %}
+        </p>
+        {% if track.sound %}
+          {% with track.sound as sound %}
+            <audio controls="controls">
+              {% include 'audio_mime_types.html' %}
+            </audio>
+            <br>
+          {% endwith %}
+        {% endif %}
+      </div>
+      <!-- Image -->
       {% if track.image %}
-        <!-- Image -->
-        <img class="music-track-image" src="{{ track.image.image_file.url }}" alt="{{ track.image.title }}">   
+        <div class="col-sm-6">
+          <img class="music-track-image float-right" src="{{ track.image.image_file.url }}" alt="{{ track.image.title }}">   
+        </div>
       {% endif %}
     </div>
-    <!-- Sound -->
-    <div class="music-track-info">
-      <p>
-        {% if track.artist %}
-          {{ track.artist }}<br>
-        {% endif %}
-        {% if track.year %}
-          {{ track.year }}<br>
-        {% endif %}
-        {% if track.label %}
-          {{ track.label }}<br>
-        {% endif %}
-        {% if track.genre %}
-          {{ track.genre }}<br>
-        {% endif %}
-      </p>
-      {% if track.sound %}
-        {% with track.sound as sound %}
-          <audio controls="controls">
-            {% include 'audio_mime_types.html' %}
-          </audio>
-          <br>
-        {% endwith %}
-      {% endif %}
-    </div>
+    <!-- Blurb -->
     {% if track.text %}
         <p class="music-track-blurb">{{ track.text|linebreaks }}</p>
     {% endif %}
