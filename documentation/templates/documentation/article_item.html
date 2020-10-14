@@ -1,0 +1,16 @@
+<li class="list-group-item documentation-list-li">
+  <h5 class="documentation-title">
+    <a href="{% url 'documentation:article_detail' article.slug %}">
+      {{ article.title }}
+    </a>
+  </h5>
+  <p>
+    Contributed by <a href="{% url 'members:member_profile' article.owner.username %}">{{ article.owner }}</a>, last updated on {{ article.last_modified }}
+  </p>
+  {% if article.members_only %}
+    <span class="badge badge-warning">Members Only</span>
+  {% endif %}
+  {% if not article.is_public %}
+    <span class="badge badge-secondary">Unpublished</span>
+  {% endif %}
+</li>

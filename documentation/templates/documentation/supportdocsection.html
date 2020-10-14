@@ -1,6 +1,12 @@
 <div class="documentation-section">
   {% include './supportdocsection_detail_button_bar.html' %}
   <p>{{ section.text|linebreaks }}</p>
+  {% if section.tip %}
+    <div class="alert alert-primary"><strong>Tip:</strong> {{ section.tip }}</div>
+  {% endif %}
+  {% if section.warning %}
+    <div class="alert alert-warning"><strong>Caution:</strong> {{ section.warning }}</div>
+  {% endif %}
   {% if section.images.count > 0 %}
     {% for image in section.images.all %}
       <div class="documentation-seciton-image">

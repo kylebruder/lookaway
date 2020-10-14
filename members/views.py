@@ -12,7 +12,7 @@ from django.utils import timezone, text
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormMixin, UpdateView
 from django.views.generic.detail import DetailView
-from documentation.models import Document, SupportDocument
+from documentation.models import Article, SupportDocument
 from music.models import Album, Track
 from objects.models import Image, Sound, Video, Code, Link
 from posts.models import Post
@@ -39,8 +39,8 @@ class StudioView(LoginRequiredMixin, TemplateView):
         context['posts'] = Post.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:16]
-        # Documentation
-        context['documents'] = Document.objects.filter(
+        # Articleation
+        context['articles'] = Article.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:16]
         context['support_documents'] = SupportDocument.objects.filter(
@@ -93,8 +93,8 @@ class MemberProfileView(DetailView):
             owner=member,
             is_public=True,
         ).order_by('-publication_date')[:5]
-        # Documentation
-        context['documents'] = Document.objects.filter(
+        # Articleation
+        context['articles'] = Article.objects.filter(
             owner=member,
             is_public=True,
         ).order_by('-publication_date')[:5]

@@ -13,7 +13,7 @@ from django.utils import timezone, text
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from documentation.models import Document, SupportDocument
+from documentation.models import Article, SupportDocument
 from lookaway.settings import BASE_DIR
 from members.models import Member
 from members.mixins import MemberOwnershipView, MemberDeleteView
@@ -35,6 +35,7 @@ class ImageCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         
         member = Member.objects.get(pk=self.request.user.pk)
+        # CHeck disk space before uploading
         has_free_space, free, used = member.check_free_media_capacity(
             BASE_DIR + '/media/member_{}/'.format(member.pk),
         )
@@ -45,13 +46,18 @@ class ImageCreateView(LoginRequiredMixin, CreateView):
                 messages.add_message(
                     self.request,
                     messages.INFO,
-                    'Upload Successful. Your media directory has {} MB of free capicity.'.format(
+                    '''Upload Successful. Your media directory has {} MB of \
+                    free capicity.'''.format(
                         round(free*10**-6),
                     )
                 )
                 form.instance.creation_date = timezone.now()
                 form.instance.owner = member
-                return super().form_valid(form)
+                # Set default image URLs in case the post_save signal
+                # fails for any reason. Missing URLs will break the template
+                form.image_file = "#"
+                form.thumbnail_file= "#"       
+                return super().form_valid(form) 
             else:
                 messages.add_message(
                     self.request,
@@ -991,13 +997,13 @@ class TagDetailView(DetailView):
         context['posts'] = Post.objects.filter(tags__slug__exact=slug)
         context['albums'] = Album.objects.filter(tags__slug__exact=slug)
         context['tracks'] = Track.objects.filter(tags__slug__exact=slug)
-        context['documents'] = Document.objects.filter(tags__slug__exact=slug)
+        context['articles'] = Article.objects.filter(tags__slug__exact=slug)
         context['support_documents'] = SupportDocument.objects.filter(tags__slug__exact=slug)
         # Tell the template if there are no objects to show non-members
         public_object_count = context['posts'].filter(members_only=False).count() + \
             context['albums'].filter(members_only=False).count() + \
             context['tracks'].filter(members_only=False).count() + \
-            context['documents'].count()
+            context['articles'].count()
         if public_object_count <= 0 and not self.request.user.is_authenticated:
             context['no_public_objects'] = True
         # Member only stuff under here
@@ -1118,15 +1124,15 @@ class PostByTag(ListView):
         context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
         return context
 
-class DocumentByTag(ListView):
+class ArticleByTag(ListView):
 
-    model = Document
-    context_object_name = 'documents'
+    model = Article
+    context_object_name = 'articles'
     paginate_by = 32
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
-        return Document.objects.filter(tags__slug__exact=self.kwargs['slug'])
+        return Article.objects.filter(tags__slug__exact=self.kwargs['slug'])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

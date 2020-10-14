@@ -228,9 +228,9 @@ urlpatterns = [
         name='post_tag',
     ),
     path(
-        'tags/documents/<slug:slug>',
-        views.DocumentByTag.as_view(),
-        name='document_tag',
+        'tags/articles/<slug:slug>',
+        views.ArticleByTag.as_view(),
+        name='article_tag',
     ),
     path(
         'tags/support-documents/<slug:slug>',

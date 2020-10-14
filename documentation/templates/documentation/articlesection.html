@@ -1,5 +1,5 @@
 <div class="documentation-section">
-  {% include './documentsection_detail_button_bar.html' %}
+  {% include './articlesection_detail_button_bar.html' %}
   <p>{{ section.text|linebreaks }}</p>
   {% if section.images.count > 0 %}
     {% for image in section.images.all %}
@@ -87,12 +87,6 @@
         {% endif %}
       </p>
     {% endfor %}
-    <br>
-  {% endif %}
-  {% if section.support_reference %}
-    <a href="{% url 'documentation:support_document_detail' section.support_reference.slug %}">
-      <h5 class="documentation-title">{{ section.support_reference.title }}</h5>
-    </a>
     <br>
   {% endif %}
   {% if section.links.count > 0  %}

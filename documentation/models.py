@@ -16,7 +16,11 @@ class Section(MetaDataMixin):
     title = models.CharField(
         max_length=255,
     )
-    text = models.TextField(max_length=65535)
+    text = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
     images = models.ManyToManyField(
         'objects.image',
         blank=True,
@@ -50,8 +54,16 @@ class Doc(MetaDataMixin, MarshmallowMixin):
         max_length=255,
     )
     slug = models.SlugField(max_length=255, unique=True)
-    intro = models.TextField(max_length=65535)
-    outro = models.TextField(max_length=65535)
+    intro = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+        )
+    outro = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+)
     image = models.ForeignKey(
         'objects.image',
         on_delete=models.SET_NULL,
@@ -71,16 +83,16 @@ class Doc(MetaDataMixin, MarshmallowMixin):
     def __str__(self):
         return self.title
 
-class Document(Doc):
+class Article(Doc):
 
     pass
 
-class DocumentSection(Section):
+class ArticleSection(Section):
 
-    document = models.ForeignKey(
-        Document,
+    article = models.ForeignKey(
+        Article,
         on_delete=models.CASCADE,
-        related_name='parent_doc',
+        related_name='parent_article',
     )
 
     class Meta:
@@ -89,6 +101,9 @@ class DocumentSection(Section):
 class SupportDocument(Doc):
 
     numbered = models.BooleanField(default=False)
+
+class SupportDocSection(Section):
+
     tip = models.TextField(
         max_length=65535,
         blank=True,
@@ -99,9 +114,6 @@ class SupportDocument(Doc):
         blank=True,
         null=True,
     )
-
-class SupportDocSection(Section):
-
     support_document = models.ForeignKey(
         SupportDocument,
         on_delete=models.CASCADE,

@@ -84,18 +84,18 @@
       </div>
       <br>
     {% endif %}
-    <!-- Documents -->
+    <!-- Articles -->
     {% if documents %}
       <h5 class="tag-title">Information</h5>
       {% for document in documents %}
-        {% if document.is_public and not document.members_only or document.is_public and request.user.is_authenticated or document.owner.pk == request.user.pk %}
+        {% if article.is_public and not article.members_only or article.is_public and request.user.is_authenticated or article.owner.pk == request.user.pk %}
           <div class="container">
             <p>
-              <a href="{% url 'documentation:document_detail' document.slug %}">{{ document.title }}</a> contributed by <a href="{% url 'members:member_profile' document.owner.username %}">{{ document.owner }}</a>{% if document.is_public %} on {{ document.publication_date }}{% endif %}
-              {% if document.members_only %}
+              <a href="{% url 'documentation:document_detail' article.slug %}">{{ article.title }}</a> contributed by <a href="{% url 'members:member_profile' article.owner.username %}">{{ article.owner }}</a>{% if article.is_public %} on {{ article.publication_date }}{% endif %}
+              {% if article.members_only %}
                 &nbsp;<span class="badge badge-warning">Members Only</span>
               {% endif %}
-              {% if not document.is_public %}
+              {% if not article.is_public %}
                 &nbsp;<span class="badge badge-secondary">Unpublished</span>
               {% endif %}
             </p>
@@ -104,7 +104,7 @@
       {% endfor %}
       <div class="container">
         <p>
-          all documents tagged with <a href="{% url 'objects:document_tag' tag.slug %}">"{{ tag }}"</a>
+          all articles tagged with <a href="{% url 'objects:article_tag' tag.slug %}">"{{ tag }}"</a>
         </p>
       </div>
       <br>

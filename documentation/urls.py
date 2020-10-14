@@ -7,18 +7,18 @@ urlpatterns = [
     # Read Views
     path(
         '', 
-        views.DocumentListView.as_view(),
-        name='public_documents',
+        views.ArticleListView.as_view(),
+        name='public_articles',
     ),
     path(
-        'documents/<slug:slug>/', 
-        views.DocumentDetailView.as_view(),
-        name='document_detail',
+        'articles/<slug:slug>/', 
+        views.ArticleDetailView.as_view(),
+        name='article_detail',
     ),
     path(
-        'document-section/<int:pk>/', 
-        views.DocumentSectionDetailView.as_view(),
-        name='document_section_detail',
+        'article-section/<int:pk>/', 
+        views.ArticleSectionDetailView.as_view(),
+        name='article_section_detail',
     ),
     path(
         'support/', 
@@ -37,14 +37,14 @@ urlpatterns = [
     ),
     # Member Specific Views
     path(
-        'member/<slug:member>/documents/', 
-        views.MemberDocumentView.as_view(),
-        name='member_documents',
+        'member/<slug:member>/articles/', 
+        views.MemberArticleView.as_view(),
+        name='member_articles',
     ),
     path(
-        'member/<slug:member>/document-sections/', 
-        views.MemberDocumentSectionView.as_view(),
-        name='member_support_doc_section',
+        'member/<slug:member>/article-sections/', 
+        views.MemberArticleSectionView.as_view(),
+        name='member_article_sections',
     ),
     path(
         'member/<slug:member>/support-documents/', 
@@ -54,18 +54,18 @@ urlpatterns = [
     path(
         'member/<slug:member>/support-doc-sections/', 
         views.MemberSupportDocSectionView.as_view(),
-        name='member_support_doc_section',
+        name='member_support_doc_sections',
     ),
     # Create Views
     path(
-        'add/document/', 
-        views.DocumentCreateView.as_view(),
-        name='document_create',
+        'add/article/', 
+        views.ArticleCreateView.as_view(),
+        name='article_create',
     ),
     path(
-        'add/document-section/', 
-        views.DocumentSectionCreateView.as_view(),
-        name='document_section_create',
+        'add/article-section/', 
+        views.ArticleSectionCreateView.as_view(),
+        name='article_section_create',
     ),
     path(
         'add/support-document/', 
@@ -79,14 +79,14 @@ urlpatterns = [
     ),
     # Update Views
     path(
-        'modify/document/<slug:slug>/', 
-        views.DocumentUpdateView.as_view(),
-        name='document_update',
+        'modify/article/<slug:slug>/', 
+        views.ArticleUpdateView.as_view(),
+        name='article_update',
     ),
     path(
-        'modify/document-section/<int:pk>/', 
-        views.DocumentSectionUpdateView.as_view(),
-        name='document_section_update',
+        'modify/article-section/<int:pk>/', 
+        views.ArticleSectionUpdateView.as_view(),
+        name='article_section_update',
     ),
     path(
         'modify/support-document/<slug:slug>/', 
@@ -100,14 +100,14 @@ urlpatterns = [
     ),
     # Delete Views
     path(
-        'delete/document/<int:pk>/', 
-        views.DocumentDeleteView.as_view(),
-        name='document_delete',
+        'delete/article/<int:pk>/', 
+        views.ArticleDeleteView.as_view(),
+        name='article_delete',
     ),
     path(
-        'delete/document-section/<int:pk>/', 
-        views.DocumentSectionDeleteView.as_view(),
-        name='document_section_delete',
+        'delete/article-section/<int:pk>/', 
+        views.ArticleSectionDeleteView.as_view(),
+        name='article_section_delete',
     ),
     path(
         'delete/support-document/<int:pk>/', 
@@ -121,9 +121,9 @@ urlpatterns = [
     ),
     # Publish Views
     path(
-        'publish/document/<int:pk>/', 
-        views.publish_document_view,
-        name='publish_document',
+        'publish/article/<int:pk>/', 
+        views.publish_article_view,
+        name='publish_article',
     ),
     path(
         'publish/support-document/<int:pk>/', 
@@ -132,9 +132,9 @@ urlpatterns = [
     ),
     # Marshmallow Views
     path(
-        'document/<int:pk>/add-marshmallow', 
-        views.add_marshmallow_to_document_view,
-        name='document_marshmallow',
+        'article/<int:pk>/add-marshmallow', 
+        views.add_marshmallow_to_article_view,
+        name='article_marshmallow',
     ),
     path(
         'support-document/<int:pk>/add-marshmallow', 

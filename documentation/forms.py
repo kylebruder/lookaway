@@ -3,7 +3,7 @@ from django.forms import Textarea
 from templates.widgets import ImagePreviewWidget, SoundPreviewWidget, VideoPreviewWidget
 from members.models import Member
 from objects.models import Image, Sound, Video, Code, Link
-from .models import Document, DocumentSection, SupportDocument, SupportDocSection
+from .models import Article, ArticleSection, SupportDocument, SupportDocSection
 
 class CustomModelChoiceIterator(forms.models.ModelChoiceIterator):
 
@@ -28,16 +28,16 @@ class CustomModelMultipleChoiceField(forms.models.ModelMultipleChoiceField):
 
     choices = property(_get_choices, forms.MultipleChoiceField._set_choices)
 
-class DocumentForm(forms.ModelForm):
+class ArticleForm(forms.ModelForm):
 
     image = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="Choose an image that represents the Document",
+        help_text="Choose an image that represents the Article",
     )
     title = forms.CharField(
-        help_text="""The Document title will appear on the site and is used to \
-            create the permanent URL for the Document
+        help_text="""The Article title will appear on the site and is used to \
+            create the permanent URL for the Article
             It will also appear on search engine results pages (SERPs) and can \
             impact search engine optimization (SEO)
             The optimal format is 'Primary Keyword - Secondary Keyword | Brand \
@@ -50,7 +50,7 @@ class DocumentForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description of the Document
+        help_text="""Add a short description of the Article
             The description will be used by Search Engines and will impact SEO
             Include key words used in the title
             Keep it less than 155 characters""",
@@ -63,8 +63,7 @@ class DocumentForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Introduce the topic and context of the information you \
-            are sharing in this document""",
+        help_text="""Introduce the topic and context of the Article""",
         label="Introduction",
         max_length=65535,
     )
@@ -81,7 +80,7 @@ class DocumentForm(forms.ModelForm):
     )
     title.widget.attrs.update({'class': 'form-text-field'})
     class Meta:
-        model = Document
+        model = Article
         fields = (
             'title',
             'meta_description',
@@ -93,31 +92,31 @@ class DocumentForm(forms.ModelForm):
         )
         help_texts = {
             'image': """Choose an image that represents the topic of the \
-                Document (optional)""",
+                Article (optional)""",
             'links': "Add one or more links (optional)",
             'tags': "Add one or more tags (optional)",
         }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
-        super(DocumentForm, self).__init__(*args, **kwargs)
+        super(ArticleForm, self).__init__(*args, **kwargs)
         self.fields['image'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
             '-creation_date',
         )
 
-class DocumentSectionForm(forms.ModelForm):
+class ArticleSectionForm(forms.ModelForm):
 
     images = CustomModelMultipleChoiceField(
         queryset = Image.objects.all(),
         required=False,
-        help_text="""Choose one or more images that support your information \
+        help_text="""Choose one or more images to include in this Section \
         (optional)""",
     )
     title = forms.CharField(
-        help_text="""The Section title will appear as the header of the \
-            Section in the Document""",
+        help_text="""The Section title will appear as the heading of the \
+            Section in the Article""",
         max_length=255,
     )
     text = forms.CharField(
@@ -126,12 +125,12 @@ class DocumentSectionForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Enter the Section information here",
+        help_text="Enter the Article Section text here",
         max_length=65535,
     )
     order = forms.DecimalField(
         help_text="""Choose the order in which the Section will appear in the \
-            Support Document
+            Articleation
             Lower values will appear first""",
         max_digits=8,
     )
@@ -139,9 +138,9 @@ class DocumentSectionForm(forms.ModelForm):
     title.widget.attrs.update({'class': 'form-text-field'})
 
     class Meta:
-        model = DocumentSection
+        model = ArticleSection
         fields = (
-            'document',
+            'article',
             'title',
             'order',
             'text',
@@ -152,7 +151,7 @@ class DocumentSectionForm(forms.ModelForm):
             'links',
         )
         help_texts = {
-            'document': """Choose the Document in which this Section \
+            'article': """Choose the Article in which this Section \
                 will appear""",
             'images': """Choose one or more Images that support your \
                 information (optional)""",
@@ -168,7 +167,7 @@ class DocumentSectionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
-        super(DocumentSectionForm, self).__init__(*args, **kwargs)
+        super(ArticleSectionForm, self).__init__(*args, **kwargs)
         self.fields['images'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
@@ -199,7 +198,7 @@ class SupportDocumentForm(forms.ModelForm):
     )
     title = forms.CharField(
         help_text="""The title will appear on the site and is used to \
-            create the permanent URL for the Document page
+            create the permanent URL for the Support Document page
             It will also appear on search engine results pages and \
             may impact search engine optimization
             The optimal format is 'Primary Keyword - Secondary Keyword | Brand \
@@ -213,7 +212,7 @@ class SupportDocumentForm(forms.ModelForm):
             }
         ),
         help_text="""Add a short description of the Support Document
-            The meta description is used by Search Engines and will impact SEO
+            The meta description is used by Search Engines
             Include key words used in the title
             Keep it less than 155 characters""",
         max_length=155,
@@ -235,8 +234,8 @@ class SupportDocumentForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Restate your direcitons and what has been accomplished by \
-            following the Support Document""",
+        help_text="""Restate the key points in your Information and anything \
+            supporting the validity and source.""",
         label="Conclusion",
         max_length=65535,
     )
@@ -255,7 +254,7 @@ class SupportDocumentForm(forms.ModelForm):
         )
         help_texts = {
             'image': """Choose an image that represents the topic of the \
-                Support Documenti (optional)""",
+                Support Document (optional)""",
             'links': "Add one or more reference links (optional)",
             'tags': "Add one or more tags (optional)",
             'numbered': """Check this box if you would like the Sections of the \
@@ -280,7 +279,7 @@ class SupportDocSectionForm(forms.ModelForm):
     )
     title = forms.CharField(
         help_text="""The Section title will appear as the header of the \
-            Section in the Support Document""",
+            Section in the Document""",
         max_length=255,
     )
     text = forms.CharField(
@@ -289,8 +288,29 @@ class SupportDocSectionForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Enter the Section instructions here",
+        help_text="Enter the Section text here",
         max_length=65535,
+        required=False,
+    )
+    tip = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="Provide a useful tip that will be helpful for this Section",
+        max_length=65535,
+        required=False,
+    )
+    warning = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="Warn your readers of any pitfalls related to this Section",
+        max_length=65535,
+        required=False,
     )
     order = forms.DecimalField(
         help_text="""Choose the order in which the Section will appear in the \
@@ -308,6 +328,8 @@ class SupportDocSectionForm(forms.ModelForm):
             'title',
             'order',
             'text',
+            'tip',
+            'warning',
             'images',
             'sounds',
             'videos',
@@ -322,15 +344,15 @@ class SupportDocSectionForm(forms.ModelForm):
                 Document?
                 Add one here (optional)""",
             'images': """Choose one or more Images that support your \
-                instructions (optional)""",
+                Information (optional)""",
             'sounds': """Choose one or more Sounds that support your \
-                instructions (optional)""",
+                Information (optional)""",
             'videos': """Choose one or more Videos that support your \
-                instructions (optional)""",
+                Information (optional)""",
             'code': """Choose one or more Code samples that support your \
-                instructions (optional)""",
+                Information (optional)""",
             'links': """Choose one or more Links that provide reference to your \
-                instructions (optional)""",
+                Information (optional)""",
         }
 
     def __init__(self, *args, **kwargs):

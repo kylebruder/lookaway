@@ -1,5 +1,0 @@
-{% for document in documents %}
-  {% if document.is_public or document.owner.pk == request.user.pk %}
-    {% include './document_item.html' %}
-  {% endif %}
-{% endfor %}

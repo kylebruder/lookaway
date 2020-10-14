@@ -13,20 +13,20 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from members.models import Member
 from members.mixins import MemberOwnershipView, MemberDeleteView
-from .forms import DocumentForm, DocumentSectionForm, SupportDocumentForm, SupportDocSectionForm
-from .models import Document, DocumentSection, SupportDocument, SupportDocSection
+from .forms import ArticleForm, ArticleSectionForm, SupportDocumentForm, SupportDocSectionForm
+from .models import Article, ArticleSection, SupportDocument, SupportDocSection
 
 # Create your views here.
 
-# Support Document Views
+# Support Article Views
 
-class DocumentCreateView(LoginRequiredMixin, CreateView):
+class ArticleCreateView(LoginRequiredMixin, CreateView):
 
-    model = Document
-    form_class = DocumentForm
+    model = Article
+    form_class = ArticleForm
 
     def get_form_kwargs(self):
-        kwargs = super(DocumentCreateView, self).get_form_kwargs()
+        kwargs = super(ArticleCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
 
@@ -43,33 +43,33 @@ class DocumentCreateView(LoginRequiredMixin, CreateView):
             return next_url
         else:
             return reverse(
-                'documentation:document_detail',
+                'documentation:article_detail',
                 kwargs={'slug': self.object.slug},
             )
 
-class DocumentListView(ListView):
+class ArticleListView(ListView):
 
-    model = Document
+    model = Article
     paginate_by = 20
-    context_object_name = 'documents'
+    context_object_name = 'articles'
 
     def get_queryset(self, *args, **kwargs):
-        return Document.objects.filter(
+        return Article.objects.filter(
             is_public=True,
         ).order_by(
             '-weight',
             '-creation_date',
         )
     
-class MemberDocumentView(LoginRequiredMixin, ListView):
+class MemberArticleView(LoginRequiredMixin, ListView):
 
-    model = Document
+    model = Article
     paginate_by = 20
-    context_object_name = 'documents'
+    context_object_name = 'articles'
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        return Document.objects.filter(
+        return Article.objects.filter(
             owner=member
         ).order_by(
             'is_public', 
@@ -83,10 +83,10 @@ class MemberDocumentView(LoginRequiredMixin, ListView):
         context['member'] = member
         return context
 
-class DocumentDetailView(DetailView):
+class ArticleDetailView(DetailView):
 
-    model = Document
-    context_object_name = 'document'
+    model = Article
+    context_object_name = 'article'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -96,18 +96,18 @@ class DocumentDetailView(DetailView):
                 context['can_add_marshmallow'] = True
             else:
                 context['can_add_marshmallow'] = False
-        context['sections'] = DocumentSection.objects.filter(
-            document=self.get_object(),
+        context['sections'] = ArticleSection.objects.filter(
+            article=self.get_object(),
         ).order_by('order')
         return context
 
-class DocumentUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class ArticleUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
 
-    model = Document
-    form_class = DocumentForm
+    model = Article
+    form_class = ArticleForm
 
     def get_form_kwargs(self):
-        kwargs = super(DocumentUpdateView, self).get_form_kwargs()
+        kwargs = super(ArticleUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
 
@@ -121,22 +121,22 @@ class DocumentUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
             return next_url
         else:
             return reverse(
-                'documentation:document_detail',
+                'documentation:article_detail',
                 kwargs={'slug': self.object.slug},
             )
 
-class DocumentDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class ArticleDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
-    model = Document
+    model = Article
 
     def get_success_url(self):
         return reverse('members:studio')
 
-def add_marshmallow_to_document_view(request, pk):
+def add_marshmallow_to_article_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
-    instance = get_object_or_404(Document, pk=pk)
+    instance = get_object_or_404(Article, pk=pk)
     if instance.is_public:
-        successful, instance, weight = member.allocate_marshmallow(instance, model=Document)
+        successful, instance, weight = member.allocate_marshmallow(instance, model=Article)
         if successful:
             messages.add_message(
                 request, messages.INFO,
@@ -151,11 +151,11 @@ def add_marshmallow_to_document_view(request, pk):
                 messages.ERROR,
                 'You failed to give a marshmallow to {}'.format(instance)
             )
-    return HttpResponseRedirect(reverse('documentation:public_documents'))
+    return HttpResponseRedirect(reverse('documentation:public_articles'))
 
-def publish_document_view(request, pk):
+def publish_article_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
-    instance = get_object_or_404(Document, pk=pk)
+    instance = get_object_or_404(Article, pk=pk)
     if request.method == 'GET':
         template = loader.get_template('publish.html')
         context = {'object': instance}
@@ -172,7 +172,7 @@ def publish_document_view(request, pk):
             )
             return HttpResponseRedirect(
                 reverse(
-                    'documentation:document_detail',
+                    'documentation:article_detail',
                     kwargs={
                         'slug': instance.slug,
                     }
@@ -188,22 +188,22 @@ def publish_document_view(request, pk):
             )
             return HttpResponseRedirect(
                 reverse(
-                'documentation:document_detail',
+                'documentation:article_detail',
                 kwargs={'pk': instance.pk}
             )
         )
     else:
         return HttpResponseRedirect(reverse('member:studio'))
 
-# DocumentSection Views
+# ArticleSection Views
 
-class DocumentSectionCreateView(LoginRequiredMixin, CreateView):
+class ArticleSectionCreateView(LoginRequiredMixin, CreateView):
 
-    model = DocumentSection
-    form_class = DocumentSectionForm
+    model = ArticleSection
+    form_class = ArticleSectionForm
 
     def get_form_kwargs(self):
-        kwargs = super(DocumentSectionCreateView, self).get_form_kwargs()
+        kwargs = super(ArticleSectionCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
 
@@ -219,19 +219,19 @@ class DocumentSectionCreateView(LoginRequiredMixin, CreateView):
             return next_url
         else:
             return reverse(
-                'documentation:document_section_detail',
+                'documentation:article_section_detail',
                 kwargs={'pk': self.object.pk},
             )
 
-class MemberDocumentSectionView(LoginRequiredMixin, ListView):
+class MemberArticleSectionView(LoginRequiredMixin, ListView):
 
-    model = DocumentSection
+    model = ArticleSection
     paginate_by = 20
     context_object_name = 'sections'
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        return DocumentSection.objects.filter(owner=member)
+        return ArticleSection.objects.filter(owner=member)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -240,30 +240,30 @@ class MemberDocumentSectionView(LoginRequiredMixin, ListView):
         context['member'] = member
         return context
 
-class DocumentSectionDetailView(LoginRequiredMixin, DetailView):
+class ArticleSectionDetailView(LoginRequiredMixin, DetailView):
 
-    model = DocumentSection
+    model = ArticleSection
     context_object_name = 'section'
 
-class DocumentSectionUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class ArticleSectionUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
 
-    model = DocumentSection
-    form_class = DocumentSectionForm
+    model = ArticleSection
+    form_class = ArticleSectionForm
 
     def get_form_kwargs(self):
-        kwargs = super(DocumentSectionUpdateView, self).get_form_kwargs()
+        kwargs = super(ArticleSectionUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
 
     def form_valid(self, form):
-        # Update last modified date for the DocumentSection
+        # Update last modified date for the ArticleSection
         form.instance.last_modified = timezone.now()
-        # Update last modified date for the parent Document too
-        print(Document.objects.get(
-            pk=form.instance.document.pk
+        # Update last modified date for the parent Article too
+        print(Article.objects.get(
+            pk=form.instance.article.pk
         ) )
-        s = Document.objects.get(
-            pk=form.instance.document.pk
+        s = Article.objects.get(
+            pk=form.instance.article.pk
         )
         s.last_modified = timezone.now()
         s.save()
@@ -275,13 +275,13 @@ class DocumentSectionUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateV
             return next_url
         else:
             return reverse(
-                'documentation:document_section_detail',
+                'documentation:article_section_detail',
                 kwargs={'pk': self.object.pk},
             )
 
-class DocumentSectionDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class ArticleSectionDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
 
-    model = DocumentSection
+    model = ArticleSection
 
     def get_success_url(self):
         return reverse('members:studio')
