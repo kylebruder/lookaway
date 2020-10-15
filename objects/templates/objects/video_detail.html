@@ -3,16 +3,18 @@
 <div class="container video-bg">
   {% if video.is_public or video.owner.pk == request.user.pk %}
     {% include './video_detail_button_bar.html' %}
-    <p>{{ video.text }}</p>
     <video class="video-player" preload="auto" controls>
       {% include 'video_mime_types.html' %}
     </video>
     <br>
     <br>
-    {% include './object_tags.html' %}
-    <br>
-    <p>Credit: <i>{{ video.credit }}</i></p>
-    <p>Video file: <a href="{{ video.video_file.url }}">{{ video.video_file.url }}</a></p>
+    <p>{{ video.text }}</p>
+    <p>Video file: <a href="{{ video.video_file.url }}">{{ video.video_file.url }}</a><br>
+    Credit: {{ video.credit }}</p>
+    {% if video.tags.all.count > 0 %}
+      {% include './object_tags.html' %}
+      <br>
+    {% endif %}
     {% include './object_meta_data.html' %}
     <br>
   {% else %}

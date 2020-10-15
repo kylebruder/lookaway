@@ -276,8 +276,13 @@ class Code(MetaDataMixin, MarshmallowMixin):
     title = models.CharField(
         max_length=256,
     )
+    text = models.TextField(
+        max_length=1024,
+        blank = True,
+        null = True,
+    )
     code = models.TextField(
-        max_length=4092,
+        max_length=65535,
     )
     language = models.CharField(
         max_length=64,

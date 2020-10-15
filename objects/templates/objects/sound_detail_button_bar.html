@@ -15,11 +15,11 @@
           <button type="button" class="btn btn-sm btn-success float-right">Publish</button>
         </a>
       {% endif %}
-    {% endif %}
-    {% if sound.is_public and can_add_marshmallow %}
-      <a href="{% url 'objects:sound_marshmallow' sound.pk %}">
-        <button type="button" class="btn btn-sm btn-light marshmallow-button float-right">M</button>
-      </a>
+      {% if sound.is_public and can_add_marshmallow %}
+        <a href="{% url 'objects:sound_marshmallow' sound.pk %}">
+          <button type="button" class="btn btn-sm btn-light marshmallow-button float-right">M</button>
+        </a>
+      {% endif %}
     {% endif %}
   </div>
 </div>

@@ -305,6 +305,17 @@ class CodeForm(forms.ModelForm):
             be easy to reference later""",
         max_length=256,
     )
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="Include comments with your Code (optional)",
+        label="Comments",
+        max_length=65535,
+        required=False,
+    )
     code = forms.CharField(
         widget=forms.Textarea(
             attrs={
@@ -325,19 +336,19 @@ class CodeForm(forms.ModelForm):
         max_length=64,
     )
     file_path = forms.CharField(
-        help_text="In which file does this code belong?",
+        help_text="In which file does this code belong? (optional)",
         max_length=256,
         required=False,
     )
     source = forms.CharField(
         help_text="""From where does the code originate?
-            Please credit yourself or your source""",
+            Please credit yourself or your source (optional)""",
         max_length=64,
         required=False,
     )
     source_url = forms.CharField(
         help_text="""Does the source have a website or webpage?
-            If so enter it here""",
+            If so enter it here (optional)""",
         max_length=256,
         required=False,
     )
@@ -356,6 +367,7 @@ class CodeForm(forms.ModelForm):
             'code',
             'language',
             'language_version',
+            'text',
             'file_path',
             'source',
             'source_url',

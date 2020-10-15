@@ -4,16 +4,19 @@
   {% if code.is_public or code.owner.pk == request.user.pk %}
     {% include './code_detail_button_bar.html' %}
     {% if code.file_path %}
-      <p><i>{{ code.file_path }}</i></p>
+      <span class="code-block"><strong>{{ code.file_path }}</strong></span><br>
     {% endif %}
     <pre class="code-block">{{ code.code }}</pre>
-    {% include './object_tags.html' %}
-    <br>
-    <p>Source: {{ code.source }}</p>
+    <p>{{ code.text }}</p>
+    <p>Source: {{ code.source }}<br>
     {% if code.source_url %}
-      <p>Source URL: <a href="{{ code.source_url }}">{{ code.source_url }}</a></p>
+      Source URL: <a href="{{ code.source_url }}">{{ code.source_url }}</a><br>
     {% endif %}
-    <p>MD5 hash: {{ code.md5 }}</p>
+    MD5 hash: {{ code.md5 }}</p>
+    {% if code.tags.all.count > 0 %}
+      {% include './object_tags.html' %}
+      <br>
+    {% endif %}
     {% include './object_meta_data.html' %}
     <br>
   {% else %}

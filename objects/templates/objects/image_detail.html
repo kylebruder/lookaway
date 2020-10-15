@@ -8,11 +8,13 @@
   <br>
   <br>
   <p>{{ image.text }}</p>
-  {% include './object_tags.html' %}
-  <br>
-  <p>Image file: <a href="{{ image.image_file.url }}">{{ image.image_file.url }}</a>
-  <p>Thumbnail file: <a href="{{ image.thumbnail_file.url }}">{{ image.thumbnail_file.url }}</a>
-  <p>Credit: {{ image.credit }}</p>
+  <p>Image file: <a href="{{ image.image_file.url }}">{{ image.image_file.url }}</a><br>
+  Thumbnail file: <a href="{{ image.thumbnail_file.url }}">{{ image.thumbnail_file.url }}</a><br>
+  Credit: {{ image.credit }}</p>
+  {% if image.tags.all.count > 0 %}
+    {% include './object_tags.html' %}
+    <br>
+  {% endif %}
   {% include './object_meta_data.html' %}
   <br>
 </div>

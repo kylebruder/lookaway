@@ -3,16 +3,18 @@
 <div class="container sound-bg">
   {% if sound.is_public or sound.owner.pk == request.user.pk %}
     {% include './sound_detail_button_bar.html %}
-    <p>{{ sound.text }}</p>
     <audio controls="controls">
       {% include 'audio_mime_types.html' %}
     </audio>
     <br>
     <br>
-    {% include './object_tags.html' %}
-    <br>
-    <p>Credit: <i>{{ sound.credit }}</i></p>
-    <p>Sound file: <a href="{{ sound.sound_file.url }}">{{ sound.sound_file.url }}</a></p>
+    <p>{{ sound.text }}</p>
+    <p>Sound file: <a href="{{ sound.sound_file.url }}">{{ sound.sound_file.url }}</a><br>
+    Credit: <i>{{ sound.credit }}</i></p>
+    {% if sound.tags.all.count > 0 %}
+      {% include './object_tags.html' %}
+      <br>
+    {% endif %}
     {% include './object_meta_data.html' %}
     <br>
   {% else %}
