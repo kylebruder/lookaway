@@ -43,6 +43,10 @@ urlpatterns = [
         include('music.urls'),
     ),
     path(
+        'art/',
+        include('art.urls'),
+    ),
+    path(
         '',
         include('home.urls'),
     ),

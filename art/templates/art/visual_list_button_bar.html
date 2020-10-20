@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col">
+    {% if user_only %}
+      <h3 class="post-title">{{ member }}'s Tracks</h3>
+    {% elif tag %}
+      <h3 class="post-title">Tracks</h3>
+      <p><span class="badge badge-secondary">{{ tag }}</span></p>
+    {% else %}
+      <h3 class="post-title">Tracks</h3>
+    {% endif %}
+  </div>
+  {% if request.user.is_authenticated %}
+    <div class="col-">
+      <div class="container">
+        <a href="{% url 'music:track_create' %}">
+          <button type="button" class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+        </a>
+      </div>
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block body_block %}
+<div class="container art-bg">
+  {% if visual.is_public and visual.members_only and not request.user.is_authenticated %}
+    <p class="art-meta">This Visual is only avaialble for Members of the site.</p>
+  {% elif visual.is_public or visual.owner.pk == request.user.pk %}
+    {% include './visual_detail_button_bar.html' %}
+    {% if visual.members_only %}
+      <p class="art-meta"><i>This Visual is only avaialble for Members of the site.</i></p>
+    {% endif %}
+    <div class="row">
+      <!-- Sound -->
+      <div class="col-sm-6 ">
+        <p class="art-visual-info">
+          {% if visual.artist %}
+            {{ visual.artist }}<br>
+          {% endif %}
+          {% if visual.year %}
+            {{ visual.year }}<br>
+          {% endif %}
+          {% if visual.label %}
+            {{ visual.label }}<br>
+          {% endif %}
+          {% if visual.genre %}
+            {{ visual.genre }}<br>
+          {% endif %}
+        </p>
+        {% if visual.sound %}
+          {% with visual.sound as sound %}
+            <audio controls="controls">
+              {% include 'audio_mime_types.html' %}
+            </audio>
+            <br>
+          {% endwith %}
+        {% endif %}
+        <!-- Blurb -->
+        {% if visual.text %}
+          <p class="art-visual-blurb">{{ visual.text|linebreaks }}</p>
+        {% endif %}
+      </div>
+      <!-- Image -->
+      {% if visual.image %}
+        <div class="col-sm-6">
+          <img class="art-visual-image" src="{{ visual.image.image_file.url }}" alt="{{ visual.image.title }}">   
+        </div>
+      {% endif %}
+    </div>
+    <br>
+    <!-- Video -->
+    {% if visual.video %}
+      <h4 class="art-title">{{ visual.video.title }}</h4>
+      {% with visual.video as video %}
+        <video class="art-video-md video-player" preload="auto" controls>
+          {% include 'video_mime_types.html' %}
+        </video>
+        {% if video.credit %}
+          <span class="visual-meta"><i>{{ video.credit }}</i></span>
+          {% if visual.owner.pk == request.user.pk %}
+            <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
+              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+            </a>
+          {% endif %}
+          <br>
+        {% endif %}
+        <br>
+      {% endwith %}
+    {% endif %}
+    <!-- Links -->
+    {% if visual.links.count > 0 %}
+      <h4 class="art-title">Links</h4>
+      {% for link in visual.links.all %}
+        {% if link.title %}
+          <h5 class="link-title">{{ link.title }}</h5>
+        {% endif %}
+        {% if link.favicon_href %}
+          <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
+        {% endif %}
+        <p class="link-url">
+          <a href="{{ link.url }}" class="links-list-link">{{ link.url|truncatechars:128 }}</a>
+          {% if link.owner.pk == request.user.pk %}
+            <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
+              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+            </a>
+          {% endif %}
+          <br>
+        </p>
+      {% endfor %}
+    {% endif %}
+    <!-- Credits -->
+    {% if visual.is_public %}
+      <p>Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> {% if visual.publication_date %} on {{ visual.publication_date }}{% endif %}{% if visual.location %} from {{ visual.location }}{% endif %}
+      {% if object.last_modified > object.creation_date %}
+        <br>Last updated on {{ object.last_modified }}
+      {% endif %}
+      </p>
+    {% else %}
+      <p class="visual-meta">Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
+      <br>
+    {% endif %}
+    <!-- Tags -->
+    {% if visual.tags.count > 0 %}
+      {% include './object_tags.html' %}
+      <br>
+    {% endif %}
+  {% else %}
+    <p>This Visual has not been published yet.</p>
+    <br>
+    <br>
+  {% endif %}
+  <br>
+</div>
+{% endblock %}

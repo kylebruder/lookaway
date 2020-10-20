@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block body_block %}
+<div class="container art-bg">
+  {% if gallery.is_public and gallery.members_only and not request.user.is_authenticated %}
+    <p class="art-meta">This Gallery is only avaialble for Members of the site.</p>
+  {% elif gallery.is_public or gallery.owner.pk == request.user.pk %}
+    {% include './gallery_detail_button_bar.html' %}
+    {% if gallery.members_only %}
+      <p class="art-meta"><i>This Gallery is only avaialble for Members of the site.</i></p>
+    {% endif %}
+    <div class="row">
+      <div class="col-sm-6">
+        <p class="art-gallery-info">
+          {% if gallery.artist %}
+            <span>{{ gallery.artist }}</span><br>
+          {% endif %}
+          {% if gallery.year %}
+            <span>{{ gallery.year }}</span><br>
+          {% endif %}
+          {% if gallery.label %}
+            <span>{{ gallery.label }}</span><br>
+          {% endif %}
+          {% if gallery.genre %}
+            <span>{{ gallery.genre }}</span><br>
+          {% endif %}
+        </p>
+        <br>
+        <!-- Visual list -->
+        {% if gallery.visuals.all.count > 0 %}
+          {% for visual in gallery.visuals.all %}
+            {% if visual.is_public %}
+              <div class="row">
+                <div class="col-sm">
+                  <a class="art-title art-gallery-visual" href="{% url 'art:visual_detail' visual.slug %}">{{ visual.title }}</a>
+                </div>
+                <div class="col-sm">
+                  <div class="container">
+                    <!-- Sound -->
+                    {% with visual.image as image %}
+                      <br>
+                    {% endwith %}
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <!-- Blurb -->
+    {% if gallery.text %}
+      <p class="art-gallery-blurb">{{ gallery.text|linebreaks }}</p>
+    {% endif %}
+    <!-- Links -->
+    {% if gallery.links.count > 0 %}
+      <h4 class="art-title">Links</h4>
+      {% for link in gallery.links.all %}
+        {% if link.title %}
+          <h5 class="link-title">{{ link.title }}</h5>
+        {% endif %}
+        {% if link.favicon_href %}
+          <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
+        {% endif %}
+        <p class="link-url">
+          <a href="{{ link.url }}" class="links-list-link">{{ link.url|truncatechars:128 }}</a>
+          {% if link.owner.pk == request.user.pk %}
+            <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
+              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+            </a>
+          {% endif %}
+          <br>
+        </p>
+      {% endfor %}
+    {% endif %}
+    <div class="clear"></div>
+    <!-- Credits -->
+    {% if gallery.is_public %}
+      <p>Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> {% if gallery.publication_date %} on {{ gallery.publication_date }}{% endif %}{% if gallery.location %} from {{ gallery.location }}{% endif %}
+      {% if object.last_modified > object.creation_date %}
+        <br>Last updated on {{ object.last_modified }}
+      {% endif %}
+      </p>
+    {% else %}
+      <p class="gallery-meta">Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
+      <br>
+    {% endif %}
+    <!-- Tags -->
+    {% if gallery.tags.count > 0 %}
+      {% include './object_tags.html' %}
+      <br>
+    {% endif %}
+  {% else %}
+    <p>This Gallery has not been published yet.</p>
+    <br>
+    <br>
+  {% endif %}
+  <br>
+</div>
+{% endblock %}
