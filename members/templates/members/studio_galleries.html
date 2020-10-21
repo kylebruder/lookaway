@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h4 class="studio-title">Your Galleries</h4>
+    </div>
+    <div class="col-">
+      <a href="{% url 'art:gallery_create' %}">
+        <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+      </a>
+    </div>
+  </div>
+</div>
+{% if galleries.all.count > 0 %}
+  <ul class="list-group">
+    {% for gallery in galleries %}
+      <li class="list-group-item art-list-li">
+        <p>
+          <a href="{% url 'art:gallery_detail' gallery.slug %}">
+            {{ gallery.title }}
+          </a>
+        </p>
+        {% if not gallery.is_public %}
+          <span class="badge badge-secondary">Unpublished</span>
+        {% endif %}
+        {% if gallery.members_only %}
+          <span class="badge badge-warning">Members Only</span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  <p>
+    <a href="{% url 'art:member_galleries' request.user.username %}">more ...</a>
+  </p>
+{% else %}
+  <p>You have not contributed any Galleries yet.</p>
+{% endif %}

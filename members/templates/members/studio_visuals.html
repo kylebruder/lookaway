@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h4 class="studio-title">Your Visuals</h4>
+    </div>
+    <div class="col-">
+      <a href="{% url 'art:visual_create' %}">
+        <button class="btn btn-sm btn-primary create-button">+</button>
+      </a>
+    </div>
+  </div>
+</div>
+{% if visuals.all.count > 0 %}
+  <ul class="list-group">
+    {% for visual in visuals %}
+      <li class="list-group-item art-list-li">
+        <p>
+          <a href="{% url 'art:visual_detail' visual.slug %}">
+            {{ visual.title }}
+          </a>
+        </p>
+        {% if not visual.is_public %}
+          <span class="badge badge-secondary">Unpublished</span>
+        {% endif %}
+        {% if visual.members_only %}
+          <span class="badge badge-warning">Members Only</span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  <p>
+    <a href="{% url 'art:member_visuals' request.user.username %}">more ...</a>
+  </p>
+{% else %}
+  <p>You have not contributed any Visuals yet.</p>
+{% endif %}

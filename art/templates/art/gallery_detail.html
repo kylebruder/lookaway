@@ -8,49 +8,54 @@
     {% if gallery.members_only %}
       <p class="art-meta"><i>This Gallery is only avaialble for Members of the site.</i></p>
     {% endif %}
-    <div class="row">
-      <div class="col-sm-6">
-        <p class="art-gallery-info">
-          {% if gallery.artist %}
-            <span>{{ gallery.artist }}</span><br>
-          {% endif %}
-          {% if gallery.year %}
-            <span>{{ gallery.year }}</span><br>
-          {% endif %}
-          {% if gallery.label %}
-            <span>{{ gallery.label }}</span><br>
-          {% endif %}
-          {% if gallery.genre %}
-            <span>{{ gallery.genre }}</span><br>
-          {% endif %}
-        </p>
-        <br>
-        <!-- Visual list -->
-        {% if gallery.visuals.all.count > 0 %}
+    <!-- Visual list -->
+    {% if gallery.visuals.all.count > 0 %}
+      <div id="visual_gallery" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
           {% for visual in gallery.visuals.all %}
             {% if visual.is_public %}
-              <div class="row">
-                <div class="col-sm">
-                  <a class="art-title art-gallery-visual" href="{% url 'art:visual_detail' visual.slug %}">{{ visual.title }}</a>
+              {% if visual.pk == gallery.visuals.all.0.pk %}
+                <div class="carousel-item active">
+                  <a href="{% url 'art:visual_detail' visual.slug %}">
+                    <div class="art-gallery-image">
+                      <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
+                    </div>
+                  </a>
                 </div>
-                <div class="col-sm">
-                  <div class="container">
-                    <!-- Sound -->
-                    {% with visual.image as image %}
-                      <br>
-                    {% endwith %}
-                  </div>
+              {% else %}
+                <div class="carousel-item">
+                  <a href="{% url 'art:visual_detail' visual.slug %}">
+                    <div class="art-gallery-image">
+                      <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
+                    </div>
+                  </a>
                 </div>
-              </div>
+              {% endif %}
             {% endif %}
           {% endfor %}
-        {% endif %}
+        </div>
+        <a class="carousel-control-prev" href="#visual_gallery" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#visual_gallery" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
       </div>
-    </div>
+    {% endif %}
     <!-- Blurb -->
     {% if gallery.text %}
       <p class="art-gallery-blurb">{{ gallery.text|linebreaks }}</p>
     {% endif %}
+    <p class="art-gallery-info">
+      {% if gallery.artist %}
+        <span>{{ gallery.artist }}</span><br>
+      {% endif %}
+      {% if gallery.year %}
+        <span>{{ gallery.year }}</span><br>
+      {% endif %}
+    </p>
     <!-- Links -->
     {% if gallery.links.count > 0 %}
       <h4 class="art-title">Links</h4>

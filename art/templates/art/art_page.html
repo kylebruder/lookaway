@@ -13,11 +13,12 @@
         <h4 class="art-page-title">New Visuals</h4>
       </div>
       {% if new_visuals.all.count > 0 %}
-        <ul class="list-group">
+        <div class="container">
           {% for visual in new_visuals %}
             {% include "./visual_item.html" %}
           {% endfor %}
-        </ul>
+        </div>
+        <div class="clear"></div>
         <div class="container">
           <p><a href="{% url 'art:new_visuals' %}">all new visuals</a></p>
         </div>
@@ -75,5 +76,6 @@
       </div>
     {% endif %}
   </div>
+  <br>
 </div>
 {% endblock %}

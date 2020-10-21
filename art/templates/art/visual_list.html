@@ -1,18 +1,19 @@
 {% extends 'base.html' %}
 {% block body_block %}
-<div class="container music-bg">
-  {% include "./track_list_button_bar.html" %}
-  {% if tracks %}
-    <p><a href="{% url 'music:top_tracks' %}">top tracks</a> | <a href="{% url 'music:new_tracks' %}">new tracks</a></p>
+<div class="container art-bg">
+  {% include "./visual_list_button_bar.html" %}
+  {% if visuals %}
+    <p><a href="{% url 'art:top_visuals' %}">top visuals</a> | <a href="{% url 'art:new_visuals' %}">new visuals</a></p>
     {% include "page_control.html" %}
     <br>
-    <ul class="list-group">
-      {% include "./track_list_item.html" %}
-    </ul>
+    <div class="art-visual-matrix">
+      {% include "./visual_list_item.html" %}
+      <div class="clear"></div>
+    </div>
     {% include "page_control.html" %}
     <br>
   {% else %}
-    <p>No tracks have been published yet. Check back soon!</p>
+    <p>No Visuals have been published yet. Check back soon!</p>
     <br>
   {% endif %}
 </div>

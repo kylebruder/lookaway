@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block body_block %}
-<div class="container documentation-bg">
+<div class="container posts-bg">
   {% include "./post_list_button_bar.html" %}
   {% if posts %}
     <p><a href="{% url 'posts:top_posts' %}">top posts</a> | <a href="{% url 'posts:public_posts' %}">new posts</a></p>

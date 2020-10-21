@@ -1,5 +1,5 @@
-{% for track in tracks %}
-  {% if track.is_public and not track.members_only or track.is_public and request.user.is_authenticated or track.owner.pk == request.user.pk %}
-    {% include './track_item.html' %}
+{% for visual in visuals %}
+  {% if visual.is_public and not visual.members_only or visual.is_public and request.user.is_authenticated or visual.owner.pk == request.user.pk %}
+    {% include './visual_item.html' %}
   {% endif %}
 {% endfor %}

@@ -13,6 +13,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormMixin, UpdateView
 from django.views.generic.detail import DetailView
 from documentation.models import Article, SupportDocument
+from art.models import Gallery, Visual
 from music.models import Album, Track
 from objects.models import Image, Sound, Video, Code, Link
 from posts.models import Post
@@ -30,6 +31,12 @@ class StudioView(LoginRequiredMixin, TemplateView):
 
         context['member'] = member
         # Posts
+        context['visuals'] = Visual.objects.filter(
+            owner=member
+        ).order_by('is_public', '-creation_date')[:16]
+        context['galleries'] = Gallery.objects.filter(
+            owner=member
+        ).order_by('is_public', '-creation_date')[:16]
         context['tracks'] = Track.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:16]
@@ -78,12 +85,22 @@ class MemberProfileView(DetailView):
         context = super().get_context_data(**kwargs)
         member = self.object.member
         context['member'] = member
-        # Posts
+        # Visuals
+        context['visuals'] = Visual.objects.filter(
+            owner=member,
+            is_public=True,
+        ).order_by('-publication_date')[:5]
+        # Galleries
+        context['galleries'] = Gallery.objects.filter(
+            owner=member,
+            is_public=True,
+        ).order_by('-publication_date')[:3]
+        # Tracks
         context['tracks'] = Track.objects.filter(
             owner=member,
             is_public=True,
         ).order_by('-publication_date')[:5]
-        # Posts
+        # Albums
         context['albums'] = Album.objects.filter(
             owner=member,
             is_public=True,

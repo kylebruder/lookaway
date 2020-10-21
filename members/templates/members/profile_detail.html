@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% block body_block %}
-<div class="container member-bg">
+<div class="container members-bg">
   <div class="row">
     {% if profile.image %}
       <div class="col-">
-        <img src="{{ profile.image.thumbnail_file.url }}">
+        <div class="container">
+          <img src="{{ profile.image.thumbnail_file.url }}">
+        </div>
       </div>
     {% endif %}
     <div class="col">
@@ -63,32 +65,53 @@
       {% endfor %}
     </ul>
     <p>
-      <a href="{% url 'posts:member_posts' member=profile.member.username %}">more ...</a>
+      <a href="{% url 'posts:member_posts' profile.member.username %}">more ...</a>
     </p>
   {% endif %}
   <div class="row">
-    {% if albums %}
+    {% if visuals %}
+      <div class="col-sm-6">
+        <h4 class="studio-title">Visuals</h4>
+        <div class="profile-image-matrix">
+          {% for i in visuals %}
+            <a href="{% url 'art:visual_detail' i.slug %}">
+              <div class="profile-image-card float-left" style="background-image:url('{{ i.image.thumbnail_file.url }}')">
+                {% if not i.is_public %}
+                  <span class="badge badge-secondary">Unpublished</span>
+                {% endif %}
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+        <div class="clear"></div>
+        <p>
+          <a href="{% url 'art:member_visuals' profile.member.username %}">more ...</a>
+        </p>
+      </div>
+    {% endif %}
+    {% if galleries %}
       <div class="col-sm">
-        <h4 class="studio-title">Albums</h4>
+        <h4 class="studio-title">Galleries</h4>
         <ul class="list-group">
-          {% for album in albums %}
-            {% if album.is_public and not album.members_only or album.is_public and request.user.is_authenticated or album.owner.pk == request.user.pk %}
-              <li class="list-group-item music-list-li">
+          {% for gallery in galleries %}
+            {% if gallery.is_public and not gallery.members_only or gallery.is_public and request.user.is_authenticated or gallery.owner.pk == request.user.pk %}
+              <li class="list-group-item art-list-li">
                 <div class="row">
                   <div class="col">
                     <p>
-                      <a href="{% url 'music:album_detail' album.slug %}">
-                        {{ album.title }}
+                      <a href="{% url 'art:gallery_detail' gallery.slug %}">
+                        {{ gallery.title }}
                       </a>
                       <br>
-                      {{ album.artist }}
-                      {% if not album.is_public %}
+                      {{ gallery.artist }}
+                      {% if not gallery.is_public %}
                         <span class="badge badge-secondary">Unpublished</span>
                       {% endif %}
                     </p>
                   </div>
                   <div class="col-">
-                    <img src="{{ album.cover.image_file.url }}" class="music-list-image">
+                    <div class="profile-image-card float-left" style="background-image:url('{{ gallery.visuals.all.0.image.thumbnail_file.url }}')">
+                    </div>
                   </div>
                 </div>
               </li>
@@ -96,10 +119,12 @@
           {% endfor %}
         </ul>
         <p>
-          <a href="{% url 'music:member_albums' member=profile.member.username %}">more ...</a>
+          <a href="{% url 'art:member_galleries' profile.member.username %}">more ...</a>
         </p>
       </div>
     {% endif %}
+  </div>
+  <div class="row">
     {% if tracks %}
       <div class="col-sm">
         <h4 class="studio-title">Tracks</h4>
@@ -124,23 +149,57 @@
           {% endfor %}
         </ul>
         <p>
-          <a href="{% url 'music:member_tracks' member=tracks.0.owner.username %}">more ...</a>
+          <a href="{% url 'music:member_tracks' profile.member.username %}">more ...</a>
+        </p>
+      </div>
+    {% endif %}
+    {% if albums %}
+      <div class="col-sm">
+        <h4 class="studio-title">Albums</h4>
+        <ul class="list-group">
+          {% for album in albums %}
+            {% if album.is_public and not album.members_only or album.is_public and request.user.is_authenticated or album.owner.pk == request.user.pk %}
+              <li class="list-group-item music-list-li">
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <a href="{% url 'music:album_detail' album.slug %}">
+                        {{ album.title }}
+                      </a>
+                      <br>
+                      {{ album.artist }}
+                      {% if not album.is_public %}
+                        <span class="badge badge-secondary">Unpublished</span>
+                      {% endif %}
+                    </p>
+                  </div>
+                  <div class="col-">
+                    <div class="profile-image-card float-left" style="background-image:url('{{ album.cover.image_file.url }}')">
+                    </div>
+                  </div>
+                </div>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+        <p>
+          <a href="{% url 'music:member_albums' profile.member.username %}">more ...</a>
         </p>
       </div>
     {% endif %}
   </div>
   <div class="row">
-    {% if documents %}
+    {% if articles %}
       <div class="col-sm">
         <h4 class="studio-title">Information</h4>
         <ul class="list-group">
-          {% for document in documents %}
+          {% for article in articles %}
             <li class="list-group-item documentation-list-li">
               <p>
-                <a href="{% url 'documentation:document_detail' document.slug %}">
-                  {{ document.title }}
+                <a href="{% url 'documentation:article_detail' article.slug %}">
+                  {{ article.title }}
                 </a>
-                {% if not document.is_public %}
+                {% if not article.is_public %}
                   <span class="badge badge-secondary">Unpublished</span>
                 {% endif %}
               </p>
@@ -148,7 +207,7 @@
           {% endfor %}
         </ul>
         <p>
-          <a href="{% url 'documentation:member_documents' member=documents.0.owner.username %}">more ...</a>
+          <a href="{% url 'documentation:member_articles' profile.member.username %}">more ...</a>
         </p>
       </div>
     {% endif %}
@@ -193,7 +252,7 @@
           </div>
           <div class="clear"></div>
           <p>
-            <a href="{% url 'objects:member_images' member=images.0.owner.username %}">more ...</a>
+            <a href="{% url 'objects:member_images' profile.member.username %}">more ...</a>
           </p>
         </div>
       {% endif %}
@@ -215,7 +274,7 @@
             {% endfor %}
           </ul>
           <p>
-            <a href="{% url 'objects:member_videos' member=videos.0.owner.username %}">more ...</a>
+            <a href="{% url 'objects:member_videos' profile.member.username %}">more ...</a>
           </p>
         </div>
       {% endif %}
@@ -237,7 +296,7 @@
             {% endfor %}
           </ul>
           <p>
-            <a href="{% url 'objects:member_sounds' member=sounds.0.owner.username %}">more ...</a>
+            <a href="{% url 'objects:member_sounds' profile.member.username %}">more ...</a>
           </p>
         </div>
       {% endif %}
@@ -257,7 +316,7 @@
             {% endfor %}
           </ul>
           <p>
-            <a href="{% url 'objects:member_code' member=codes.0.owner.username %}">more ...</a>
+            <a href="{% url 'objects:member_code' profile.member.username %}">more ...</a>
           </p>
         </div>
       {% endif %}
@@ -285,7 +344,7 @@
         {% endfor %}
       </ul>
       <p>
-        <a href="{% url 'objects:member_links' member=links.0.owner.username %}">more ...</a>
+        <a href="{% url 'objects:member_links' profile.member.username %}">more ...</a>
       </p>
     {% endif %}
   {% endif %}

@@ -67,38 +67,38 @@ class ArtPageView(TemplateView):
             print(context['new_galleries'])
         # Visuals
         if self.request.user.is_authenticated:
-            public_tracks = Visual.objects.filter(is_public=True)
+            public_visuals = Visual.objects.filter(is_public=True)
         # Do not send member only Galleries to non members
         else:
-            public_tracks = Visual.objects.filter(
+            public_visuals = Visual.objects.filter(
                 is_public=True,
                 members_only=False,
             )
-        if public_tracks.count() >= n:
+        if public_visuals.count() >= n*5:
             print("There are {} or more published Visuals".format(n))
             # Get the date of the nth newest Visual
             # if there are n or more Visuals
-            last_new_track_date = public_tracks.order_by(
+            last_new_visual_date = public_visuals.order_by(
                 '-publication_date',
             )[n-1].publication_date
-            context['new_tracks'] = public_tracks.order_by(
+            context['new_visuals'] = public_visuals.order_by(
                 '-publication_date',
-            )[:n]
-            print("New Visuals: ", context['new_tracks'])
+            )[:n*6]
+            print("New Visuals: ", context['new_visuals'])
             # Exclude any Gallery that appears in the new releases list
             # from the top Visual list
-            context['top_tracks'] = public_tracks.order_by(
+            context['top_visuals'] = public_visuals.order_by(
                 '-weight',
             ).exclude(
-                publication_date__gte=last_new_track_date,
-            )[:n]
-            print("Top Visuals: ", context['top_tracks'])
+                publication_date__gte=last_new_visual_date,
+            )[:n*6]
+            print("Top Visuals: ", context['top_visuals'])
         else:
             print("There are less than {} published Visuals".format(n))
-            context['new_tracks'] = public_tracks.order_by(
+            context['new_visuals'] = public_visuals.order_by(
                 '-publication_date',
-            )[:n]
-            print(context['new_tracks'])
+            )[:n*6]
+            print(context['new_visuals'])
         return context
 
 class GalleryCreateView(LoginRequiredMixin, CreateView):

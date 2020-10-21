@@ -1,4 +1,4 @@
-<nav class="container-fluid navbar fixed-top navbar-expand-lg navbar-light bg-light nav-pad">
+<nav class="container-fluid navbar sticky-top navbar-expand-lg navbar-light bg-light">
   {% load static %}
   <a class="nav-item navbar-brand" href="/"><img src="{% static 'favicon.ico' %}" class="nav-logo" alt="Lookaway CMS(dev)"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,42 +7,34 @@
   <!-- NAVBAR -->
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav mr-auto">
-      {% if user.is_authenticated %}
-        <li class="nav-item dropdown">
-          {% include 'base_nav_objects_dropdown.html' %}
-        </li>
-        <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'music:music_page' %}">Music</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'documentation:public_articles' %}">Articles</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">Documentation</a>
-        </li>
-      </ul>
+      <li class="nav-item">
+        <a class="nav-link nav-font" href="{% url 'posts:public_posts' %}">Posts</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link nav-font" href="{% url 'documentation:public_articles' %}">Articles</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link nav-font" href="{% url 'art:art_page' %}">Artwork</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link nav-font" href="{% url 'music:music_page' %}">Music</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">Docs</a>
+      </li>
+    </ul>
+    {% if request.user.is_authenticated %}
       <span class="nav-text">
         <a class="" href="{% url 'members:studio' %}">
-          <button class="btn btn-sm btn-primary">Studio</button>
+          <button class="btn btn-sm btn-primary float-left">Studio</button>
         </a>
         <a class="" href="{% url 'members:member_profile' request.user.username %}">
-          <button class="btn btn-sm btn-dark">Profile</button>
+          <button class="btn btn-sm btn-dark float-left">Profile</button>
         </a>
         <a href="{% url 'logout' %}">
           <button class="btn btn-sm btn-danger">Logout</button>
         </a>
       </span>
-      {% else %}
-        <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'music:music_page' %}">Music</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'documentation:public_articles' %}">Articles</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">Documentation</a>
-        </li>
-      {% endif %}
-    </ul>
+    {% endif %}
   </div>
 </nav>

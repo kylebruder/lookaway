@@ -1,25 +1,14 @@
-<li class="list-group-item music-list-li">
-  <div class="row">
-    <div class="col-sm">
-      <h4 class="music-title">
-        <a href="{% url 'music:track_detail' track.slug %}">
-          {{ track.title }}
-        </a>
-      </h4>
-      {% if track.artist %}
-        <p class="music-meta">{{ track.artist }}</p>
-      {% endif %}
-    </div>
-    <div class="col-">
-      <div class="container float-right">
-        {% if track.image %}
-          <div class="music-list-image" style="background-image:url('{{track.image.thumbnail_file.url }}')">
-        {% elif track.owner.profile.image %}
-          <div class="music-list-image" style="background-image:url('{{ track.owner.profile.image.thumbnail_file.url }}')">
-        {% else %}
-          <div class="music-list-image" style="background-image:url('/static/favicon.ico')">
+<div class="visuals-card float-left">
+  <a href="{% url 'art:visual_detail' visual.slug %}">
+    {% if visual.image.thumbnail_file %}
+      <div class="float-left art-visual-card" style="background-image:url('{{ visual.image.thumbnail_file.url }}">
+        {% if not visual.is_public %}
+          <span class="badge badge-secondary">Unpublished</span>
         {% endif %}
       </div>
-    </div>
-  </div>
-</li>
+    {% else %}
+      <span class="visuals-piece-card-title">{{ visual.title }}</span>
+      <span class="visuals-piece-card-title">Click here to see the Visual</span>
+    {% endif %}
+  </a>
+</div>

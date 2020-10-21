@@ -1,4 +1,4 @@
-.music-bg {
+.art-bg {
   background-color: #222222;
   color: #eeeeee;
   border-radius: 0px 0px 25px 25px;
@@ -6,20 +6,23 @@
   margin-bottom: 40px;
 }
 
-.music-album-image {
-  max-width: 100%;
-  max-height: 350px;
+.art-gallery-image {
+  max-width: auto;
+  max-height: 700px;
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
 }
 
-.music-album-info {
+.art-gallery-info {
   font-size: 1.25em;
 }
 
-.music-album-track {
+.art-gallery-visual {
   font-size: 1.25em;
 }
 
-.music-list-image {
+.art-list-image {
   display: block;
   width: 100px;
   height: 100px;
@@ -28,7 +31,7 @@
   background-color: #222222;
 }
 
-.music-list-li {
+.art-list-li {
   background-color: #222222;
   color: #ffffff;
   border-style: solid;
@@ -36,16 +39,16 @@
   border-color: #111111;
 }
 
-.music-meta {
+.art-meta {
   font-size: 0.8em;
 }
 
-.music-page-header {
+.art-page-header {
   margin: auto;
   display: block;
 }
 
-.music-page-section {
+.art-page-section {
   border-style: solid;
   border-width: 5px;
   border-radius: 5px;
@@ -54,43 +57,50 @@
   margin: 5px;
 }
 
-.music-page-title {
+.art-page-title {
   font-family: 'Permanent Marker', sans-serif;
 }
-.music-title {
+.art-title {
   font-family: 'Averia Serif Libre', serif;
 }
-.music-track-blurb {
+.art-visual-blurb {
   margin-left: 15px;
 }
 
-.music-track-card {
-  width: 250px;
-  height: 250px;
+.art-visual-card {
+  width: 100px;
+  height: 100px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #222222;
 }
 
-.music-track-info {
-  font-size: 1.25em;
+.art-visual-info {
 }
 
-.music-track-image {
+.art-visual-image {
   max-width: 100%;
-  max-height: 350px;
   margin-left: auto;
   margin-right: auto;
   display: block;
 }
 
-.music-track-card-container {
+.art-visual-card-container {
   display: block;
 }
 
-.music-video-md {
+.art-visual-matrix {
+  max-height: 600px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+.art-video-md {
   max-width: auto;
   max-height: auto;
+  margin-left: auto;
+  margin-right: auto;
   display: block;
 }
 

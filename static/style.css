@@ -11,9 +11,11 @@
 @import "css/profile.css";
 @import "css/videos.css";
 @import "css/marshmallows.css";
+@import "css/members.css";
 @import "css/documentation.css";
 @import "css/posts.css";
 @import "css/music.css";
+@import "css/art.css";
 
 .clear {
   clear: both;
@@ -24,11 +26,9 @@
   /*background-image: url("/static/hexagon-pattern-2657990_960_720.jpg");*/
   color: #dddddd;
   background-size: 200px;
-  padding-top: 50px;
 }
 
 .base-body {
-  padding-top: 55px;
 }
 
 .base-footer {
@@ -48,7 +48,7 @@
 }
 
 .create-button {
-  border-radius: 100%;
+  border-radius: 48%;
 }
 
 .title-button {

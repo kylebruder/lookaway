@@ -1,5 +1,5 @@
-{% for album in albums %}
-  {% if album.is_public and not album.members_only or album.is_public and request.user.is_authenticated or album.owner.pk == request.user.pk %}
-    {% include './album_item.html' %}
+{% for gallery in galleries %}
+  {% if gallery.is_public and not gallery.members_only or gallery.is_public and request.user.is_authenticated or gallery.owner.pk == request.user.pk %}
+    {% include './gallery_item.html' %}
   {% endif %}
 {% endfor %}

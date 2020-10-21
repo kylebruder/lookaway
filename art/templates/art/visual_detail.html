@@ -8,66 +8,36 @@
     {% if visual.members_only %}
       <p class="art-meta"><i>This Visual is only avaialble for Members of the site.</i></p>
     {% endif %}
-    <div class="row">
-      <!-- Sound -->
-      <div class="col-sm-6 ">
-        <p class="art-visual-info">
-          {% if visual.artist %}
-            {{ visual.artist }}<br>
-          {% endif %}
-          {% if visual.year %}
-            {{ visual.year }}<br>
-          {% endif %}
-          {% if visual.label %}
-            {{ visual.label }}<br>
-          {% endif %}
-          {% if visual.genre %}
-            {{ visual.genre }}<br>
-          {% endif %}
-        </p>
-        {% if visual.sound %}
-          {% with visual.sound as sound %}
-            <audio controls="controls">
-              {% include 'audio_mime_types.html' %}
-            </audio>
-            <br>
-          {% endwith %}
-        {% endif %}
-        <!-- Blurb -->
-        {% if visual.text %}
-          <p class="art-visual-blurb">{{ visual.text|linebreaks }}</p>
-        {% endif %}
-      </div>
-      <!-- Image -->
-      {% if visual.image %}
-        <div class="col-sm-6">
-          <img class="art-visual-image" src="{{ visual.image.image_file.url }}" alt="{{ visual.image.title }}">   
-        </div>
-      {% endif %}
-    </div>
-    <br>
+    <!-- Image -->
+    {% if not visual.video %}
+      <img class="art-visual-image" src="{{ visual.image.image_file.url }}" alt="{{ visual.image.title }}"><br>
+    {% endif %}
     <!-- Video -->
     {% if visual.video %}
-      <h4 class="art-title">{{ visual.video.title }}</h4>
       {% with visual.video as video %}
         <video class="art-video-md video-player" preload="auto" controls>
           {% include 'video_mime_types.html' %}
         </video>
-        {% if video.credit %}
-          <span class="visual-meta"><i>{{ video.credit }}</i></span>
-          {% if visual.owner.pk == request.user.pk %}
-            <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
-              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-            </a>
-          {% endif %}
-          <br>
-        {% endif %}
-        <br>
       {% endwith %}
     {% endif %}
+    <!-- Blurb -->
+    {% if visual.text %}
+      <p class="art-visual-blurb">{{ visual.text|linebreaks }}</p>
+    {% endif %}
+    <!-- Info -->
+    <p class="art-visual-info">
+      {% if visual.artist %}
+        {{ visual.artist }}<br>
+      {% endif %}
+      {% if visual.medium %}
+        {{ visual.medium }}<br>
+      {% endif %}
+      {% if visual.year %}
+        {{ visual.year }}<br>
+      {% endif %}
+    </p>
     <!-- Links -->
     {% if visual.links.count > 0 %}
-      <h4 class="art-title">Links</h4>
       {% for link in visual.links.all %}
         {% if link.title %}
           <h5 class="link-title">{{ link.title }}</h5>

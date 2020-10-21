@@ -180,11 +180,11 @@ class VisualForm(forms.ModelForm):
     class Meta:
         model = Visual
         fields = (
-            'title',
             'image',
+            'video',
+            'title',
             'order',
             'artist',
-            'video',
             'meta_description',
             'text',
             'medium',
