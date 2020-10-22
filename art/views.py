@@ -157,7 +157,6 @@ class TopGalleryListView(ListView):
         else:
             return Gallery.objects.filter(
                 is_public=True,
-                members_only=False,
             ).order_by(
                 '-weight',
                 '-creation_date',
@@ -370,7 +369,6 @@ class TopVisualListView(ListView):
         else:
             return Visual.objects.filter(
                 is_public=True,
-                members_only=False,
             ).order_by(
                 '-weight',
                 '-creation_date',
