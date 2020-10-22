@@ -29,14 +29,7 @@ class ArtPageView(TemplateView):
         n = 5
         context = super().get_context_data(**kwargs)
         # Galleries
-        if self.request.user.is_authenticated:
-            public_galleries = Gallery.objects.filter(is_public=True)
-        # Do not send member only Galleries to non members
-        else:
-            public_galleries = Gallery.objects.filter(
-                is_public=True,
-                members_only=False,
-            )
+        public_galleries = Gallery.objects.filter(is_public=True)
         if public_galleries.count() >= n:
             print("There are {} or more published Galleries".format(n))
             # Get the date of the 5th newest Gallery
@@ -65,22 +58,16 @@ class ArtPageView(TemplateView):
                 '-publication_date',
             )
             print(context['new_galleries'])
+
         # Visuals
-        if self.request.user.is_authenticated:
-            public_visuals = Visual.objects.filter(is_public=True)
-        # Do not send member only Galleries to non members
-        else:
-            public_visuals = Visual.objects.filter(
-                is_public=True,
-                members_only=False,
-            )
-        if public_visuals.count() >= n*5:
+        public_visuals = Visual.objects.filter(is_public=True)
+        if public_visuals.count() >= n*6:
             print("There are {} or more published Visuals".format(n))
             # Get the date of the nth newest Visual
-            # if there are n or more Visuals
+            # if there are n*6 or more Visuals
             last_new_visual_date = public_visuals.order_by(
                 '-publication_date',
-            )[n-1].publication_date
+            )[n*6-1].publication_date
             context['new_visuals'] = public_visuals.order_by(
                 '-publication_date',
             )[:n*6]

@@ -125,21 +125,11 @@
       </p>
     {% endif %}
     <div class="clear"></div>
+    <!-- Tags -->
     {% if post.tags.count > 0 %}
       {% include './object_tags.html' %}
       <br>
     {% endif %}
-    <!-- Credits -->
-    {% if post.is_public %}
-      <p>Posted by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> {% if post.publication_date %} on {{ post.publication_date }}{% endif %}{% if post.location %} from {{ post.location }}{% endif %}
-      {% if object.last_modified > object.creation_date %}
-        <br>Last updated on {{ object.last_modified }}
-      {% endif %}
-      </p>
-    {% else %}
-      <p class="post-meta">Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
-    {% endif %}
-    <!-- Tags -->
     <!-- Responses -->
     {% if responses.count > 0 %}
       {% if request.user.is_authenticated or True in responses.all.members_only or public_response %}
@@ -151,11 +141,21 @@
         {% endif %}
       {% endfor %}
     {% endif %}
-    <br>
+    <!-- Credits -->
+    {% if post.is_public %}
+      <p>Posted by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> {% if post.publication_date %} on {{ post.publication_date }}{% endif %}{% if post.location %} from {{ post.location }}{% endif %}
+      {% if object.last_modified > object.creation_date %}
+        <br>Last updated on {{ object.last_modified }}
+      {% endif %}
+      </p>
+    {% else %}
+      <p class="post-meta">Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
+    {% endif %}
   {% else %}
     <p>This Post has not been published yet.</p>
     <br>
     <br>
   {% endif %}
+  <br>
 </div>  
 {% endblock %}
