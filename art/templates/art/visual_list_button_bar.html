@@ -6,7 +6,11 @@
       <h3 class="art-title">Visuals</h3>
       <p><span class="badge badge-secondary">{{ tag }}</span></p>
     {% else %}
-      <h3 class="art-title">Visuals</h3>
+      <h3 class="art-title">
+        {% if new %}New 
+        {% elif top %}Top {% endif %}
+        Visuals
+      </h3>
     {% endif %}
   </div>
   {% if request.user.is_authenticated %}

@@ -3,7 +3,7 @@
 <div class="container music-bg">
   {% include "./album_list_button_bar.html" %}
   {% if albums %}
-    <p><a href="{% url 'music:top_albums' %}">top albums</a> | <a href="{% url 'music:new_albums' %}">new albums</a></p>
+    <p><a href="{% url 'music:top_albums' %}">top albums</a> | <a href="{% url 'music:new_albums' %}">new albums</a> | <a href="{% url 'music:top_tracks' %}">top tracks</a> | <a href="{% url 'music:new_tracks' %}">new tracks</a></p>
     {% include "page_control.html" %}
     <ul class="list-group">
       {% include "./album_list_item.html" %}

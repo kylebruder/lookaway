@@ -127,6 +127,7 @@ class ArticleSectionForm(forms.ModelForm):
         ),
         help_text="Enter the Article Section text here",
         max_length=65535,
+        required=False,
     )
     order = forms.DecimalField(
         help_text="""Choose the order in which the Section will appear in the \

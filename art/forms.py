@@ -86,6 +86,7 @@ class GalleryForm(forms.ModelForm):
             'meta_description',
             'text',
             'links',
+            'tags',
         )
         help_texts = {
             'video': "Add a Video for the Gallery (optional)",
@@ -100,6 +101,7 @@ class GalleryForm(forms.ModelForm):
         super(GalleryForm, self).__init__(*args, **kwargs)
         self.fields['visuals'].queryset = Visual.objects.filter(
             owner=user.pk,
+            is_public=True,
         ).order_by(
             '-creation_date',
         )
@@ -191,6 +193,7 @@ class VisualForm(forms.ModelForm):
             'credits',
             'year',
             'links',
+            'tags',
         )
         help_texts = {
             'video': "Add a video (optional)",

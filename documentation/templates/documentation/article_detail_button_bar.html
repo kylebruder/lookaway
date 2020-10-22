@@ -21,7 +21,7 @@
     {% endif %}
     {% if article.is_public and can_add_marshmallow %}
       <a href="{% url 'documentation:article_marshmallow' article.pk %}">
-        <button type="button" class="btn btn-sm btn-light marshmallow-button float-right"><strong>+</strong></button>
+        <button type="button" class="btn btn-sm btn-light marshmallow-button float-right">M</button>
       </a>
     {% endif %}
   </div>

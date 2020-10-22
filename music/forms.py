@@ -121,6 +121,12 @@ class AlbumForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super(AlbumForm, self).__init__(*args, **kwargs)
+        self.fields['tracks'].queryset = Track.objects.filter(
+            owner=user.pk,
+            is_public=True,
+        ).order_by(
+            '-creation_date',
+        )
         self.fields['cover'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(

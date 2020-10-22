@@ -76,12 +76,12 @@ urlpatterns = [
     ),
     # Delete Views
     path(
-        'delete/gallery/<slug:slug>/',
+        'delete/gallery/<int:pk>/',
         views.GalleryDeleteView.as_view(),
         name='gallery_delete',
     ),
     path(
-        'delete/visual/<slug:slug>/',
+        'delete/visual/<int:pk>/',
         views.VisualDeleteView.as_view(),
         name='visual_delete',
     ),

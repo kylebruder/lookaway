@@ -6,7 +6,12 @@
       <h3 class="post-title">Posts</h3>
       <p><span class="badge badge-secondary">{{ tag }}</span></p>
     {% else %}
-      <h3 class="post-title">Posts</h3>
+      <h3 class="post-title">
+        {% if new %}New 
+        {% elif top %}Top 
+        {% endif %}
+        Posts
+      </h3>
     {% endif %}
   </div>
   {% if request.user.is_authenticated %}

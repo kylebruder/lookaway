@@ -57,6 +57,11 @@ class PostListView(ListView):
         ).order_by(
             '-publication_date',
         )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['new'] = True
+        return context
     
 class TopPostListView(ListView):
 
@@ -71,6 +76,11 @@ class TopPostListView(ListView):
             '-weight',
             '-publication_date',
         )
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['top'] = True
+        return context
     
 class MemberPostView(LoginRequiredMixin, ListView):
 

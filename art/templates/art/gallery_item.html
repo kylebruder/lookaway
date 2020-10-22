@@ -12,8 +12,8 @@
     </div>
     <div class="col-">
       <div class="container float-right">
-        {% if gallery.cover %}
-          <div class="art-list-image" style="background-image:url('{{gallery.visual.0.image.thumbnail_file.url }}')">
+        {% if gallery.visuals %}
+          <div class="art-list-image" style="background-image:url('{{ gallery.visuals.all.0.image.thumbnail_file.url }}')">
         {% elif gallery.owner.profile.image %}
           <div class="art-list-image" style="background-image:url('{{ gallery.owner.profile.image.thumbnail_file.url }}')">
         {% else %}

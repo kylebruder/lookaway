@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block body_block %}
-<div class="container art-bg">
+<div class="container-fluid art-bg">
   {% if visual.is_public and visual.members_only and not request.user.is_authenticated %}
     <p class="art-meta">This Visual is only avaialble for Members of the site.</p>
   {% elif visual.is_public or visual.owner.pk == request.user.pk %}
@@ -10,7 +10,9 @@
     {% endif %}
     <!-- Image -->
     {% if not visual.video %}
-      <img class="art-visual-image" src="{{ visual.image.image_file.url }}" alt="{{ visual.image.title }}"><br>
+      <a href="{{ visual.image.image_file.url }}">
+        <img class="art-visual-image" src="{{ visual.image.image_file.url }}" alt="{{ visual.image.title }}"><br>
+      </a>
     {% endif %}
     <!-- Video -->
     {% if visual.video %}

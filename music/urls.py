@@ -76,12 +76,12 @@ urlpatterns = [
     ),
     # Delete Views
     path(
-        'delete/album/<slug:slug>/',
+        'delete/album/<int:pk>/',
         views.AlbumDeleteView.as_view(),
         name='album_delete',
     ),
     path(
-        'delete/track/<slug:slug>/',
+        'delete/track/<int:pk>/',
         views.TrackDeleteView.as_view(),
         name='track_delete',
     ),

@@ -150,6 +150,11 @@ class AlbumListView(ListView):
                 '-creation_date',
             )
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['new'] = True
+        return context
+
 class TopAlbumListView(ListView):
 
     model = Album
@@ -172,6 +177,11 @@ class TopAlbumListView(ListView):
                 '-weight',
                 '-creation_date',
             )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['top'] = True
+        return context
 
 class AlbumDetailView(DetailView):
 
@@ -354,6 +364,11 @@ class TrackListView(ListView):
                 '-creation_date',
             )
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['new'] = True
+        return context
+
 class TopTrackListView(ListView):
 
     model = Track
@@ -376,6 +391,11 @@ class TopTrackListView(ListView):
                 '-weight',
                 '-creation_date',
             )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['top'] = True
+        return context
 
 class TrackDetailView(DetailView):
 

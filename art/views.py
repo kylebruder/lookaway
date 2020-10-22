@@ -149,6 +149,11 @@ class GalleryListView(ListView):
                 '-creation_date',
             )
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['new'] = True
+        return context
+
 class TopGalleryListView(ListView):
 
     model = Gallery
@@ -171,6 +176,11 @@ class TopGalleryListView(ListView):
                 '-weight',
                 '-creation_date',
             )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['top'] = True
+        return context
 
 class GalleryDetailView(DetailView):
 
@@ -335,7 +345,7 @@ class VisualCreateView(LoginRequiredMixin, CreateView):
 class VisualListView(ListView):
 
     model = Visual
-    paginate_by = 6
+    paginate_by = 36
     context_object_name = 'visuals'
 
     def get_queryset(self, *args, **kwargs):
@@ -352,11 +362,16 @@ class VisualListView(ListView):
             ).order_by(
                 '-creation_date',
             )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['new'] = True
+        return context
 
 class TopVisualListView(ListView):
 
     model = Visual
-    paginate_by = 6
+    paginate_by = 36
     context_object_name = 'visuals'
 
     def get_queryset(self, *args, **kwargs):
@@ -375,6 +390,11 @@ class TopVisualListView(ListView):
                 '-weight',
                 '-creation_date',
             )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['top'] = True
+        return context
 
 class VisualDetailView(DetailView):
 

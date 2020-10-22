@@ -2,9 +2,14 @@
 {% block body_block %}
 <div class="container art-bg">
   {% if gallery.is_public and gallery.members_only and not request.user.is_authenticated %}
-    <p class="art-meta">This Gallery is only avaialble for Members of the site.</p>
+    <div class="container">
+      <p class="art-meta">This Gallery is only avaialble for Members of the site.</p>
+    </div>
   {% elif gallery.is_public or gallery.owner.pk == request.user.pk %}
     {% include './gallery_detail_button_bar.html' %}
+    {% if gallery.artist %}
+      <p>A collection of works by {{ gallery.artist }}</p>
+    {% endif %}
     {% if gallery.members_only %}
       <p class="art-meta"><i>This Gallery is only avaialble for Members of the site.</i></p>
     {% endif %}
@@ -48,17 +53,13 @@
     {% if gallery.text %}
       <p class="art-gallery-blurb">{{ gallery.text|linebreaks }}</p>
     {% endif %}
-    <p class="art-gallery-info">
-      {% if gallery.artist %}
-        <span>{{ gallery.artist }}</span><br>
-      {% endif %}
-      {% if gallery.year %}
-        <span>{{ gallery.year }}</span><br>
-      {% endif %}
-    </p>
+    <!-- Tags -->
+    {% if gallery.tags.count > 0 %}
+      {% include './object_tags.html' %}
+      <br>
+    {% endif %}
     <!-- Links -->
     {% if gallery.links.count > 0 %}
-      <h4 class="art-title">Links</h4>
       {% for link in gallery.links.all %}
         {% if link.title %}
           <h5 class="link-title">{{ link.title }}</h5>
@@ -87,11 +88,6 @@
       </p>
     {% else %}
       <p class="gallery-meta">Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
-      <br>
-    {% endif %}
-    <!-- Tags -->
-    {% if gallery.tags.count > 0 %}
-      {% include './object_tags.html' %}
       <br>
     {% endif %}
   {% else %}
