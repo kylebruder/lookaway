@@ -131,7 +131,6 @@ class GalleryListView(ListView):
         else:
             return Gallery.objects.filter(
                 is_public=True,
-                members_only=False,
             ).order_by(
                 '-creation_date',
             )
@@ -345,7 +344,6 @@ class VisualListView(ListView):
         else:
             return Visual.objects.filter(
                 is_public=True,
-                members_only=False,
             ).order_by(
                 '-creation_date',
             )
