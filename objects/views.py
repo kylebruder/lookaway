@@ -15,6 +15,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from documentation.models import Article, SupportDocument
 from lookaway.settings import BASE_DIR
+from art.models import Gallery, Visual
 from members.models import Member
 from members.mixins import MemberOwnershipView, MemberDeleteView
 from music.models import Album, Track
@@ -995,14 +996,19 @@ class TagDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         slug = self.object.slug
         context['posts'] = Post.objects.filter(tags__slug__exact=slug)
+        context['galleries'] = Gallery.objects.filter(tags__slug__exact=slug)
+        context['visuals'] = Visual.objects.filter(tags__slug__exact=slug)
         context['albums'] = Album.objects.filter(tags__slug__exact=slug)
         context['tracks'] = Track.objects.filter(tags__slug__exact=slug)
         context['articles'] = Article.objects.filter(tags__slug__exact=slug)
-        context['support_documents'] = SupportDocument.objects.filter(tags__slug__exact=slug)
+        context['documents'] = SupportDocument.objects.filter(tags__slug__exact=slug)
         # Tell the template if there are no objects to show non-members
         public_object_count = context['posts'].filter(members_only=False).count() + \
-            context['albums'].filter(members_only=False).count() + \
-            context['tracks'].filter(members_only=False).count() + \
+            context['galleries'].count() + \
+            context['visuals'].count() + \
+            context['albums'].count() + \
+            context['tracks'].count() + \
+            context['documents'].count() + \
             context['articles'].count()
         if public_object_count <= 0 and not self.request.user.is_authenticated:
             context['no_public_objects'] = True
@@ -1079,6 +1085,36 @@ def add_marshmallow_to_tag_view(request, pk):
     return HttpResponseRedirect(reverse('objects:tags'))
 
 # By Tag Views
+class VisualByTag(ListView):
+
+    model = Visual
+    context_object_name = 'visuals'
+    paginate_by = 32
+    ordering = ['-weight', '-creation_date']
+
+    def get_queryset(self, *args, **kwargs):
+        return Visual.objects.filter(tags__slug__exact=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
+        return context
+
+class GalleryByTag(ListView):
+
+    model = Gallery
+    context_object_name = 'galleries'
+    paginate_by = 32
+    ordering = ['-weight', '-creation_date']
+
+    def get_queryset(self, *args, **kwargs):
+        return Gallery.objects.filter(tags__slug__exact=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
+        return context
+
 class AlbumByTag(ListView):
 
     model = Album
@@ -1142,7 +1178,7 @@ class ArticleByTag(ListView):
 class SupportDocumentByTag(ListView):
     
     model = SupportDocument
-    context_object_name = 'support_documents'
+    context_object_name = 'documents'
     paginate_by = 32
     ordering = ['-weight', '-creation_date']
 

@@ -2,6 +2,7 @@
   background-color: #222222;
   color: #eeeeee;
   border-radius: 0px 0px 25px 25px;
+  padding-top: 15px;
   margin-bottom: 40px;
 }
 
@@ -34,7 +35,7 @@
 }
 
 .link-title {
-  font-family: 'Ibarra Real Nova', serif;
+  font-family: inherit;
 }
 
 .link-url {

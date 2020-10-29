@@ -3,7 +3,8 @@
   font-family: 'Tajawal', sans-serif;
   color: #eeeeee;
   border-radius: 0px 0px 25px 25px;
-  padding-bottom: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   margin-bottom: 40px;
 }
 
@@ -59,6 +60,7 @@
 
 .index-title {
   /* font-family: 'Playfair Display SC', serif; */
-  /* font-family: 'Averia Serif Libre', serif; */
-  font-family: 'Ibarra Real Nova', serif;
+  font-family: 'Averia Serif Libre', serif;
+  /* font-family: 'Ibarra Real Nova', serif; */
+  /* font-family: 'Permanent Marker', sans-serif; */
 }

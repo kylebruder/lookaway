@@ -8,9 +8,11 @@
   <br>
   <br>
   <p>{{ image.text }}</p>
-  <p>Image file: <a href="{{ image.image_file.url }}">{{ image.image_file.url }}</a><br>
-  Thumbnail file: <a href="{{ image.thumbnail_file.url }}">{{ image.thumbnail_file.url }}</a><br>
-  Credit: {{ image.credit }}</p>
+  <p>
+    Image file: <a href="{{ image.image_file.url }}">{{ image.image_file.url }}</a><br>
+    Thumbnail file: <a href="{{ image.thumbnail_file.url }}">{{ image.thumbnail_file.url }}</a><br>
+    {% if image.credit %}Credit: {{ image.credit }}{% endif %}
+  </p>
   {% if image.tags.all.count > 0 %}
     {% include './object_tags.html' %}
     <br>

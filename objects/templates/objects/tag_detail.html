@@ -34,7 +34,54 @@
       </div>
       <br>
     {% endif %}
-    <!-- Albums -->
+    <!-- Visuals -->
+    {% if visuals %}
+      <h5 class="tag-title">Visuals</h5>
+      {% for visual in visuals %}
+        {% if visual.is_public or visual.owner.pk == request.user.pk %}
+          <div class="container">
+            <a href="{% url 'art:visual_detail' visual.slug %}">
+              <div class="art-visual-card float-left" style="background-image:url('{{ visual.image.thumbnail_file.url }}')">
+                {% if not visual.is_public %}
+                  <span class="badge badge-secondary">Unpublished</span>
+                {% endif %}
+              </div>
+            </a>
+          </div>
+        {% endif %}
+      {% endfor %}
+      <div class="clear"></div>
+      <br>
+      <div class="container">
+        <p>
+          all visuals tagged with <a href="{% url 'objects:visual_tag' tag.slug %}">"{{ tag }}"</a>
+        </p>
+      </div>
+      <br>
+    {% endif %}
+    <!-- Galleries -->
+    {% if galleries %}
+      <h5 class="tag-title">Galleries</h5>
+      {% for gallery in galleries %}
+        {% if gallery.is_public and not gallery.members_only or gallery.is_public and request.user.is_authenticated or gallery.owner.pk == request.user.pk %}
+          <div class="container">
+            <p>
+              <a href="{% url 'art:gallery_detail' gallery.slug %}">{{ gallery.title }}</a> released by <a href="{% url 'members:member_profile' gallery.owner.username %}">{{ gallery.owner }}</a>{% if gallery.is_public %} on {{ gallery.publication_date }}{% endif %}
+              {% if not gallery.is_public %}
+                &nbsp;<span class="badge badge-secondary">Unpublished</span>
+              {% endif %}
+            </p>
+          </div>
+        {% endif %}
+      {% endfor %}
+      <div class="container">
+        <p>
+          all galleries tagged with <a href="{% url 'objects:gallery_tag' tag.slug %}">"{{ tag }}"</a>
+        </p>
+      </div>
+      <br>
+    {% endif %}
+    <!-- Tracks -->
     {% if tracks %}
       <h5 class="tag-title">Tracks</h5>
       {% for track in tracks %}
@@ -85,13 +132,13 @@
       <br>
     {% endif %}
     <!-- Articles -->
-    {% if documents %}
-      <h5 class="tag-title">Information</h5>
-      {% for document in documents %}
+    {% if articles %}
+      <h5 class="tag-title">Articles</h5>
+      {% for article in articles %}
         {% if article.is_public and not article.members_only or article.is_public and request.user.is_authenticated or article.owner.pk == request.user.pk %}
           <div class="container">
             <p>
-              <a href="{% url 'documentation:document_detail' article.slug %}">{{ article.title }}</a> contributed by <a href="{% url 'members:member_profile' article.owner.username %}">{{ article.owner }}</a>{% if article.is_public %} on {{ article.publication_date }}{% endif %}
+              <a href="{% url 'documentation:article_detail' article.slug %}">{{ article.title }}</a> contributed by <a href="{% url 'members:member_profile' article.owner.username %}">{{ article.owner }}</a>{% if article.is_public %} on {{ article.publication_date }}{% endif %}
               {% if article.members_only %}
                 &nbsp;<span class="badge badge-warning">Members Only</span>
               {% endif %}
@@ -110,17 +157,17 @@
       <br>
     {% endif %}
     <!-- Support Documents -->
-    {% if support_documents %}
-      <h5 class="tag-title">Support Documentation</h5>
-      {% for support_document in support_documents %}
-        {% if support_document.is_public and not support_document.members_only or support_document.is_public and request.user.is_authenticated or support_document.owner.pk == request.user.pk %}
+    {% if documents %}
+      <h5 class="tag-title">Documentation</h5>
+      {% for document in documents %}
+        {% if document.is_public and not document.members_only or document.is_public and request.user.is_authenticated or document.owner.pk == request.user.pk %}
           <div class="container">
             <p>
-              <a href="{% url 'documentation:support_document_detail' support_document.slug %}">{{ support_document.title }}</a> contributed by <a href="{% url 'members:member_profile' support_document.owner.username %}">{{ support_document.owner }}</a>{% if support_document.is_public %} on {{ support_document.publication_date }}{% endif %}
-              {% if support_document.members_only %}
+              <a href="{% url 'documentation:support_document_detail' document.slug %}">{{ document.title }}</a> contributed by <a href="{% url 'members:member_profile' document.owner.username %}">{{ document.owner }}</a>{% if document.is_public %} on {{ document.publication_date }}{% endif %}
+              {% if document.members_only %}
                 &nbsp;<span class="badge badge-warning">Members Only</span>
               {% endif %}
-              {% if not support_document.is_public %}
+              {% if not document.is_public %}
                 &nbsp;<span class="badge badge-secondary">Unpublished</span>
               {% endif %}
             </p>
@@ -129,7 +176,7 @@
       {% endfor %}
       <div class="container">
         <p>
-          all support documents tagged with <a href="{% url 'objects:support_document_tag' tag.slug %}">"{{ tag }}"</a>
+          all documents tagged with <a href="{% url 'objects:support_document_tag' tag.slug %}">"{{ tag }}"</a>
         </p>
       </div>
       <br>

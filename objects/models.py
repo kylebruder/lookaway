@@ -31,7 +31,18 @@ class Tag(models.Model):
                 name='key-value pair',
             )
         ]
-        ordering = ['key', 'value']
+
+    def get_tags_from_public(model):
+        '''
+        Returns a set of tags related to instances of a given model
+        for which "is_public" boolean field True.
+        '''
+        tags = Tag.objects.none()
+        objects = model.objects.filter(is_public=True).prefetch_related('tags')
+        for o in objects:
+            if o.tags.count() > 0:
+                tags = tags.union(o.tags.all())
+        return tags
 
     def __str__(self):
         if self.value:

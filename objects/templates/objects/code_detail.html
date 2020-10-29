@@ -7,8 +7,12 @@
       <span class="code-block"><strong>{{ code.file_path }}</strong></span><br>
     {% endif %}
     <pre class="code-block">{{ code.code }}</pre>
-    <p>{{ code.text }}</p>
-    <p>Source: {{ code.source }}<br>
+    {% if code.text %}
+      <p>{{ code.text }}</p>
+    {% endif %}
+    {% if code.source %}
+      <p>Source: {{ code.source }}<br>
+    {% endif %}
     {% if code.source_url %}
       Source URL: <a href="{{ code.source_url }}">{{ code.source_url }}</a><br>
     {% endif %}

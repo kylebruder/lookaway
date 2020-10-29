@@ -213,6 +213,16 @@ urlpatterns = [
     ),
     # Tag Views
     path(
+        'tags/galleries/<slug:slug>',
+        views.GalleryByTag.as_view(),
+        name='gallery_tag',
+    ),
+    path(
+        'tags/visuals/<slug:slug>',
+        views.VisualByTag.as_view(),
+        name='visual_tag',
+    ),
+    path(
         'tags/albums/<slug:slug>',
         views.AlbumByTag.as_view(),
         name='album_tag',

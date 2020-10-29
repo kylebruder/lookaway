@@ -9,8 +9,10 @@
     <br>
     <br>
     <p>{{ video.text }}</p>
-    <p>Video file: <a href="{{ video.video_file.url }}">{{ video.video_file.url }}</a><br>
-    Credit: {{ video.credit }}</p>
+    <p>
+      Video file: <a href="{{ video.video_file.url }}">{{ video.video_file.url }}</a><br>
+      {% if video.credit %}Credit: {{ video.credit }}{% endif %}
+    </p>
     {% if video.tags.all.count > 0 %}
       {% include './object_tags.html' %}
       <br>

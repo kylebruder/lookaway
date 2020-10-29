@@ -7,6 +7,11 @@
   <!-- NAVBAR -->
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav mr-auto">
+      {% if request.user.is_authenticated %}
+        <li class="nav-item dropdown">
+          {% include 'base_nav_objects_dropdown.html' %}
+        </li>
+      {% endif %}
       <li class="nav-item">
         <a class="nav-link nav-font" href="{% url 'posts:public_posts' %}">Posts</a>
       </li>
@@ -14,13 +19,13 @@
         <a class="nav-link nav-font" href="{% url 'documentation:public_articles' %}">Articles</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'art:art_page' %}">Artwork</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link nav-font" href="{% url 'music:music_page' %}">Music</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">Docs</a>
+        <a class="nav-link nav-font" href="{% url 'art:art_page' %}">Art</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">Documentation</a>
       </li>
     </ul>
     {% if request.user.is_authenticated %}

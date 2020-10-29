@@ -9,8 +9,10 @@
     <br>
     <br>
     <p>{{ sound.text }}</p>
-    <p>Sound file: <a href="{{ sound.sound_file.url }}">{{ sound.sound_file.url }}</a><br>
-    Credit: <i>{{ sound.credit }}</i></p>
+    <p>
+      Sound file: <a href="{{ sound.sound_file.url }}">{{ sound.sound_file.url }}</a><br>
+      {% if sound.credit %}Credit: {{ sound.credit }}{% endif %}
+    </p>
     {% if sound.tags.all.count > 0 %}
       {% include './object_tags.html' %}
       <br>
