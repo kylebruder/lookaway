@@ -16,7 +16,7 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         # Create a public object tags context
         public_tags = Tag.objects.none()
-        tag_models = {Gallery, Visual, Album, Track, Article, SupportDocument}
+        tag_models = {Post, Gallery, Visual, Album, Track, Article, SupportDocument}
         for model in tag_models:
             public_tags = public_tags.union(Tag.get_tags_from_public(model))
         context['tags'] = public_tags.order_by('-weight')
