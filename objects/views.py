@@ -1003,7 +1003,7 @@ class TagDetailView(DetailView):
         context['articles'] = Article.objects.filter(tags__slug__exact=slug)
         context['documents'] = SupportDocument.objects.filter(tags__slug__exact=slug)
         # Tell the template if there are no objects to show non-members
-        public_object_count = context['posts'].filter(members_only=False).count() + \
+        public_object_count = context['posts'].count() + \
             context['galleries'].count() + \
             context['visuals'].count() + \
             context['albums'].count() + \
