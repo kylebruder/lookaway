@@ -995,7 +995,10 @@ class TagDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         slug = self.object.slug
-        context['posts'] = Post.objects.filter(tags__slug__exact=slug)
+        context['posts'] = Post.objects.filter(
+            tags__slug__exact=slug,
+            members_only=False,
+        )
         context['galleries'] = Gallery.objects.filter(tags__slug__exact=slug)
         context['visuals'] = Visual.objects.filter(tags__slug__exact=slug)
         context['albums'] = Album.objects.filter(tags__slug__exact=slug)
