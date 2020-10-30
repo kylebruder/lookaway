@@ -1,5 +1,5 @@
 .index-bg {
-  background-color: #222222;
+  background-color: #111111;
   font-family: 'Tajawal', sans-serif;
   color: #eeeeee;
   border-radius: 0px 0px 25px 25px;
@@ -8,13 +8,22 @@
   margin-bottom: 40px;
 }
 
+.index-col {
+  margin-bottom: 40px;
+}
+
+.index-image-martix {
+  max-width: 520px;
+  max-height: 520px;
+}
+
 .index-page-header {
   font-size: 1.25em;
   margin: auto;
   display: block;
 }
 
-.index-page-section {
+.index-section {
   border-style: solid;
   border-width: 5px;
   border-radius: 5px;
@@ -23,25 +32,22 @@
   margin: 5px;
 }
 
-.index-page-title {
-  font-family: 'Ibarra Real Nova', serif;
-
-}
-
-.index-post-link {
+.index-link {
   color: #eeeeee;
 }
 
-.index-post-list-image {
+.index-list-image {
   display: block;
   width: 100px;
   height: 100px;
+  margin: 10px;
+  border-radius: 100%;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #222222;
 }
 
-.index-post-list-li {
+.index-list-li {
   background-color: #222222;
   color: #ffffff;
   border-style: solid;
@@ -50,17 +56,29 @@
   border-radius: 10px;
 }
 
-.index-post-meta {
+.index-meta {
   font-size: 0.8em;
 }
 
-.index-post-title {
+.index-title {
   font-family: 'Averia Serif Libre', serif;
 }
 
-.index-title {
+.index-brand-name {
   /* font-family: 'Playfair Display SC', serif; */
-  font-family: 'Averia Serif Libre', serif;
+  /*font-family: 'Averia Serif Libre', serif;*/
   /* font-family: 'Ibarra Real Nova', serif; */
   /* font-family: 'Permanent Marker', sans-serif; */
+  font-family: 'Baloo Paaji 2', cursive;
+  font-size: 3.5em;
+}
+
+.index-visual-card {
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+  margin: 5px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
 }

@@ -1,20 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block body_block %}
-<div class="container index-bg">
+<div class="container-fluid index-bg">
   <!-- Heading -->
   {% include "index_button_bar.html" %}
   <br>
   <div class="">
     <div class="row">
-      <!-- Newest public Posts -->
-      {% if posts.count > 0 %}
-        <div class="col-sm">
-          <ul class="list-group">
-            {% include "index_post_list_item.html" %}
-          </ul>
-        </div>
-      {% endif %}
+      {% include 'index_posts.html' %}
+      {% include 'index_articles.html' %}
+      {% include 'index_art.html' %}
+      {% include 'index_music.html' %}
     </div>
   </div>
 </div>

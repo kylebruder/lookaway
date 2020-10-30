@@ -1,0 +1,66 @@
+{% if tracks.count > 0 or albums.count > 0 %}
+  <!-- Newest Tracks -->
+  <div class="col-sm">
+    {% if tracks.count > 0 %}
+      {% for track in tracks %}
+        {% if track.is_public and not track.members_only or track.is_public and request.user.is_authenticated or track.owner.pk == request.user.pk %}
+          <div class="row">
+            <div class="col">
+              <h5 class="index-title">
+                <a href="{% url 'music:track_detail' track.slug %}">
+                  {{ track.title }}
+                </a>
+                {% if not track.is_public %}
+                  <span class="badge badge-secondary">Unpublished</span>
+                {% endif %}
+              </h5>
+              <p class="index-meta">
+                 New Track by {{ track.artist }}
+              </p>
+            </div>
+            <div class="col">
+              {% if track.image %}
+                <div class="index-list-image" style="background-image:url('{{ track.image.thumbnail_file.url }}')"></div>
+              {% elif track.owner.profile.image %}
+                <div class="index-list-image" style="background-image:url('{{ track.owner.profile.image.thumbnail_file.url }}')"></div>
+              {% else %}
+                <div class="index-list-image" style="background-image:url('/static/favicon.ico')"></div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    <!-- Newest Albums -->
+    {% if albums.count > 0 %}
+      {% for album in albums %}
+        {% if album.is_public and not album.members_only or album.is_public and request.user.is_authenticated or album.owner.pk == request.user.pk %}
+          <div class="row">
+            <div class="col">
+              <h5 class="index-title">
+                <a href="{% url 'music:album_detail' album.slug %}">
+                  {{ album.title }}
+                </a>
+                {% if not album.is_public %}
+                  <span class="badge badge-secondary">Unpublished</span>
+                {% endif %}
+              </h5>
+              <p class="index-meta">
+                 New Album by {{ album.artist }}
+              </p>
+            </div>
+            <div class="col">
+              {% if album.cover %}
+                <div class="index-list-image" style="background-image:url('{{ album.cover.thumbnail_file.url }}')"></div>
+              {% elif album.owner.profile.image %}
+                <div class="index-list-image" style="background-image:url('{{ album.owner.profile.image.thumbnail_file.url }}')"></div>
+              {% else %}
+                <div class="index-list-image" style="background-image:url('/static/favicon.ico')"></div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endif %}

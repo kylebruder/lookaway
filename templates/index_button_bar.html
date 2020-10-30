@@ -1,20 +1,20 @@
 <div class="row">
-  <div class="col-sm-3">
-    <h1 class="index-title">L<i>oo</i>kaway</h1>
-    <span>Free, open and independent media</span>
+  <div class="col-sm-">
+    <div class="container">
+      <h1 class="index-brand-name">Lookaway</h1>
+      <p>Free, Open and Independent Media</p>
+    </div>
   </div>
   <!-- Top public tags -->
   {% if tags.count > 0 %}
-    <div class="col-sm-9">
-      <center>
-        <p>
-          {% for tag in tags %}
-            <a href="{% url 'objects:tag_detail' tag.slug %}">
-              <span class="badge badge-secondary">{{ tag }}</span>
-            </a>
-          {% endfor %}
-        </p>
-      </center>
+    <div class="col-sm">
+      <p>
+        {% for tag in tags %}
+          <a href="{% url 'objects:tag_detail' tag.slug %}">
+            <span class="badge badge-secondary">{{ tag }}</span>
+          </a>
+        {% endfor %}
+      </p>
     </div>
   {% endif %}
 </div>

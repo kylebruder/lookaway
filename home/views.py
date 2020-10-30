@@ -24,5 +24,32 @@ class IndexView(TemplateView):
             is_public=True,
             members_only=False,
             re=None,
-        )[:10]
+        ).order_by(
+            '-publication_date',
+        )[:6]
+        context['articles'] = Article.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-publication_date',
+        )[:6]
+        context['visuals'] = Visual.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-publication_date',
+        )[:15]
+        context['galleries'] = Gallery.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-publication_date',
+        )[:6]
+        context['tracks'] = Track.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-publication_date',
+        )[:3]
+        context['albums'] = Album.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-publication_date',
+        )[:3]
         return context
