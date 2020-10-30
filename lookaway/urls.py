@@ -27,7 +27,7 @@ urlpatterns = [
         include('members.urls'),
     ),
     path(
-        'media/',
+        'multimedia/',
         include('objects.urls'),
     ),
     path(
