@@ -4,9 +4,6 @@
   {% if no_public_objects %}
     <p>Nothing has been tagged with "{{ tag }}" yet. Check back soon!</p>
     <br>
-  {% elif no_member_objects %}
-    <p>Nothing tagged with "{{ tag }}" has been published yet. Check back soon!</p>
-    <br>
   {% else %}
     {% include './tag_detail_button_bar.html' %}
     <!-- Posts -->
