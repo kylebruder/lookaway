@@ -80,6 +80,9 @@ class MemberListView(ListView):
     model = Member
     context_object_name = 'members'
 
+    class Meta:
+        ordering = ['date_joined']    
+
 class MemberProfileView(DetailView):
 
     model = Profile
