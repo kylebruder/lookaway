@@ -1,6 +1,7 @@
 .code-bg {
   background-color: #222222;
   color: #eeeeee;
+  max-width: auto;
   border-radius: 0px 0px 15px 15px;
   padding-top: 15px;
   margin-bottom: 40px;
@@ -20,7 +21,7 @@
   color: #eeeeee;
   background-color: #222222;
   border-color: #eeeeee;
-  max-width: 100%;
+  width: 100%;
   height: 200px;
   overflow-x: auto;
   overflow-y: auto;

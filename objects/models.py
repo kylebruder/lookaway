@@ -2,7 +2,7 @@ import hashlib
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-from members.mixins import MarshmallowMixin, MemberOwnershipModel
+from members.mixins import MarshmallowMixin
 
 
 # Create your models here.

@@ -1,5 +1,5 @@
 from django.db import models
-from members.mixins import MarshmallowMixin, MemberOwnershipModel
+from members.mixins import MarshmallowMixin
 from objects.models import MetaDataMixin
 
 # Create your models here.

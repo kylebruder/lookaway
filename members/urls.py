@@ -1,13 +1,18 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import StudioView, MemberProfileView, MemberProfileUpdateView, InviteLinkDetailView, member_registration
+from .views import StudioView, MemberListView, MemberProfileView, MemberProfileUpdateView, InviteLinkDetailView, member_registration
 
 app_name = "members"
 urlpatterns = [
     path(
+        '', 
+        MemberListView.as_view(),
+        name='member_list',
+    ),
+    path(
         'studio/',
-         StudioView.as_view(),
-         name='studio',
+        StudioView.as_view(),
+        name='studio',
     ),
     path(
         '<slug:slug>/', 

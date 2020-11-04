@@ -1,0 +1,5 @@
+{% for member in members %}
+  {% if member.is_active %}
+    {% include './member_item.html' %}
+  {% endif %}
+{% endfor %}

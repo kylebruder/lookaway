@@ -126,6 +126,7 @@ class VisualForm(forms.ModelForm):
             Galleries
             Lower order values will appear first""",
         max_digits=8,
+        initial=0,
     )
     artist = forms.CharField(
         help_text="""Which artist or artists produced the Visual?""",

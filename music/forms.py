@@ -170,13 +170,14 @@ class TrackForm(forms.ModelForm):
         ),
         help_text="Provide some information and context about the Track",
         max_length=65535,
+        required=False,
     )
     order = forms.DecimalField(
         help_text="""Choose the order in which the Track will appear in Track \
             lists on Albums
             Lower order values will appear first""",
         max_digits=8,
-        required=False,
+        initial=0,
     )
     artist = forms.CharField(
         help_text="Which artist or artists performed the music on this Track?",

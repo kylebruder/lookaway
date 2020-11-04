@@ -12,13 +12,13 @@ from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteVi
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from members.models import Member
-from members.mixins import MemberOwnershipView, MemberDeleteView
+from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from .forms import PostForm
 from .models import Post
 
 # Create your views here.
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = Post
     form_class = PostForm
@@ -129,7 +129,7 @@ class PostDetailView(DetailView):
                 context['public_response'] = True
         return context
 
-class PostUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class PostUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Post
     form_class = PostForm
@@ -153,7 +153,7 @@ class PostUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class PostDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class PostDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Post
 
@@ -164,20 +164,21 @@ def add_marshmallow_to_post_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Post, pk=pk)
     if instance.is_public:
-        successful, instance, weight = member.allocate_marshmallow(instance, model=Post)
+        successful, weight, amount = member.allocate_marshmallow(instance, model=Post)
         if successful:
             messages.add_message(
                 request, messages.INFO,
-                'You gave a marshmallow to {} weighing {}'.format(
+                'You gave {} to the {} "{}"'.format(
+                    amount,
+                    Post.__name__,
                     instance,
-                    round(weight, 2)
                 )
            )
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
-                'You failed to give a marshmallow to {}'.format(instance)
+                'You are not allowed to give marshmallows at this time'
             )
     return HttpResponseRedirect(reverse('posts:public_posts'))
 

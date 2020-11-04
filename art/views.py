@@ -13,7 +13,7 @@ from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteVi
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from members.models import Member
-from members.mixins import MemberOwnershipView, MemberDeleteView
+from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from .forms import GalleryForm, VisualForm
 from .models import Gallery, Visual
 # Create your views here.
@@ -88,7 +88,7 @@ class ArtPageView(TemplateView):
             print(context['new_visuals'])
         return context
 
-class GalleryCreateView(LoginRequiredMixin, CreateView):
+class GalleryCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = Gallery
     form_class = GalleryForm
@@ -204,7 +204,7 @@ class MemberGalleryView(ListView):
         context['member'] = member
         return context
 
-class GalleryUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class GalleryUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Gallery
     form_class = GalleryForm
@@ -228,7 +228,7 @@ class GalleryUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class GalleryDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class GalleryDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Gallery
 
@@ -239,20 +239,21 @@ def add_marshmallow_to_gallery_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Gallery, pk=pk)
     if instance.is_public:
-        successful, instance, weight = member.allocate_marshmallow(instance, model=Gallery)
+        successful, weight, amount = member.allocate_marshmallow(instance, model=Gallery)
         if successful:
             messages.add_message(
                 request, messages.INFO,
-                'You gave a marshmallow to {} weighing {}'.format(
+                'You gave {} to the {} "{}"'.format(
+                    amount,
+                    Gallery.__name__,
                     instance,
-                    round(weight, 2)
                 )
            )
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
-                'You failed to give a marshmallow to {}'.format(instance)
+                'You are not allowed to give marshmallows at this time'
             )
     return HttpResponseRedirect(reverse('art:top_galleries'))
 
@@ -300,7 +301,7 @@ def publish_gallery_view(request, pk):
 
 # Visual Views
 
-class VisualCreateView(LoginRequiredMixin, CreateView):
+class VisualCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = Visual
     form_class = VisualForm
@@ -416,7 +417,7 @@ class MemberVisualView(ListView):
         context['member'] = member
         return context
 
-class VisualUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class VisualUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Visual
     form_class = VisualForm
@@ -440,7 +441,7 @@ class VisualUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class VisualDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class VisualDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Visual
 
@@ -451,20 +452,21 @@ def add_marshmallow_to_visual_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Visual, pk=pk)
     if instance.is_public:
-        successful, instance, weight = member.allocate_marshmallow(instance, model=Visual)
+        successful, weight, amount = member.allocate_marshmallow(instance, model=Visual)
         if successful:
             messages.add_message(
                 request, messages.INFO,
-                'You gave a marshmallow to {} weighing {}'.format(
+                'You gave {} to the {} "{}"'.format(
+                    amount,
+                    Visual.__name__,
                     instance,
-                    round(weight, 2)
                 )
            )
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
-                'You failed to give a marshmallow to {}'.format(instance)
+                'You are not allowed to give marshmallows at this time'
             )
     return HttpResponseRedirect(reverse('art:top_visuals'))
 

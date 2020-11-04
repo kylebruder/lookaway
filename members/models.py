@@ -3,6 +3,7 @@ import os
 from hashlib import md5
 from random import randrange
 from django.db import models
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils import timezone
 from lookaway.settings import DEFAULT_MEMBER_STORAGE
@@ -148,14 +149,30 @@ class Member(User):
             instance.marshmallows.add(m)
             instance.weight += m.weight
             instance.save()
-            print('{} allocated a marshmallow weighing {} to {}'.format(self, m.weight, instance))
+            print('{} gave a {} marshmallows to {}'.format(self, m.weight, instance))
+            if m.weight > 100:
+                amount = "a shipment of marshmallows"
+            elif m.weight > 50:
+                amount = "several bags of marshmallows"
+            elif m.weight > 10:
+                amount = "a grip of marshmallows"
+            elif m.weight > 5:
+                amount = "a handful of marshmallows"
+            elif m.weight > 1:
+                amount = "a few marshmallows"
+            elif m.weight == 1:
+                amount = "a marshmallow"
+            elif m.weight < 1 and m.weight > 0.05 :
+                amount = "a piece of marshmallow"
+            else:
+                amount = "a spec of marshmallow"
             p = Profile.objects.select_related('member').get(member=self)
             p.last_marshmallow_allocation = timezone.now()
             p.save()
-            return True, instance, m.weight
+            return True, m.weight, amount
         else:
             print("could not allocate weight")
-            return False, instance, 0
+            return False, 0
         
     def __str__(self):
         if self.first_name and self.last_name:

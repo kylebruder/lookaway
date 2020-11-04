@@ -13,7 +13,7 @@ from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteVi
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from members.models import Member
-from members.mixins import MemberOwnershipView, MemberDeleteView
+from members.mixins import MemberUpdateMixin, MemberDeleteMixin
 from .forms import AlbumForm, TrackForm
 from .models import Album, Track
 
@@ -220,7 +220,7 @@ class MemberAlbumView(ListView):
         context['member'] = member
         return context
 
-class AlbumUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class AlbumUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Album
     form_class = AlbumForm
@@ -244,7 +244,7 @@ class AlbumUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class AlbumDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class AlbumDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Album
 
@@ -255,20 +255,21 @@ def add_marshmallow_to_album_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Album, pk=pk)
     if instance.is_public:
-        successful, instance, weight = member.allocate_marshmallow(instance, model=Album)
+        successful, weight, amount = member.allocate_marshmallow(instance, model=Album)
         if successful:
             messages.add_message(
                 request, messages.INFO,
-                'You gave a marshmallow to {} weighing {}'.format(
+                'You gave {} to the {} "{}"'.format(
+                    amount,
+                    Album.__name__,
                     instance,
-                    round(weight, 2)
                 )
            )
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
-                'You failed to give a marshmallow to {}'.format(instance)
+                'You are not allowed to give marshmallows at this time'
             )
     return HttpResponseRedirect(reverse('music:top_albums'))
 
@@ -434,7 +435,7 @@ class MemberTrackView(ListView):
         context['member'] = member
         return context
 
-class TrackUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class TrackUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Track
     form_class = TrackForm
@@ -458,7 +459,7 @@ class TrackUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class TrackDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class TrackDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Track
 
@@ -469,20 +470,21 @@ def add_marshmallow_to_track_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Track, pk=pk)
     if instance.is_public:
-        successful, instance, weight = member.allocate_marshmallow(instance, model=Track)
+        successful, weight, amount = member.allocate_marshmallow(instance, model=Track)
         if successful:
             messages.add_message(
                 request, messages.INFO,
-                'You gave a marshmallow to {} weighing {}'.format(
+                'You gave {} to the {} "{}"'.format(
+                    amount,
+                    Track.__name__,
                     instance,
-                    round(weight, 2)
                 )
            )
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
-                'You failed to give a marshmallow to {}'.format(instance)
+                'You are not allowed to give marshmallows at this time'
             )
     return HttpResponseRedirect(reverse('music:top_tracks'))
 

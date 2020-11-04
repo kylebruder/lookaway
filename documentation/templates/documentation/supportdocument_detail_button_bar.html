@@ -10,7 +10,7 @@
       <a href="{% url 'documentation:support_document_update' document.slug %}">
         <button type="button" class="btn btn-sm btn-warning float-right">Edit</button>
       </a>
-      <a href="{% url 'documentation:support_doc_section_create' %}">
+      <a href="{% url 'documentation:support_doc_section_create' %}?support_document={{ document.pk }}">
         <button type="button" class="btn btn-sm btn-primary float-right">+Section</button>
       </a>
       {% if not document.is_public %}

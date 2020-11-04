@@ -17,7 +17,7 @@ from documentation.models import Article, SupportDocument
 from lookaway.settings import BASE_DIR
 from art.models import Gallery, Visual
 from members.models import Member
-from members.mixins import MemberOwnershipView, MemberDeleteView
+from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from music.models import Album, Track
 from posts.models import Post
 from .forms import (ImageCreateForm, ImageUpdateForm, SoundCreateForm,
@@ -47,7 +47,7 @@ class ImageCreateView(LoginRequiredMixin, CreateView):
                 messages.add_message(
                     self.request,
                     messages.INFO,
-                    '''Upload Successful. Your media directory has {} MB of \
+                    '''Image upload successful. Your media directory has {} MB of \
                     free capicity.'''.format(
                         round(free*10**-6),
                     )
@@ -88,7 +88,7 @@ class ImageCreateView(LoginRequiredMixin, CreateView):
         if next_url:
             return next_url
         else:
-            return reverse('objects:image_detail', kwargs={'pk': self.object.pk})
+            return reverse_lazy('objects:image_detail', kwargs={'pk': self.object.pk})
 
 class ImageListView(LoginRequiredMixin, ListView):
 
@@ -133,7 +133,7 @@ class ImageDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = False
         return context
 
-class ImageUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class ImageUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Image
     form_class = ImageUpdateForm    
@@ -154,7 +154,7 @@ class ImageUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
         else:
             return reverse('objects:image_detail', kwargs={'pk': self.object.pk})
 
-class ImageDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class ImageDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Image
 
@@ -169,20 +169,21 @@ def add_marshmallow_to_image_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Image, pk=pk)
     if instance.is_public:
-        successful, instance, weight = member.allocate_marshmallow(instance, model=Image)
+        successful, weight, amount = member.allocate_marshmallow(instance, model=Image)
         if successful:
             messages.add_message(
                 request, messages.INFO,
-                'You gave a marshmallow to {} weighing {}'.format(
+                'You gave {} to the {} "{}"'.format(
+                    amount,
+                    Image.__name__,
                     instance,
-                    round(weight, 2)
                 )
            )
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
-                'You failed to give a marshmallow to {}'.format(instance)
+                'You are not allowed to give marshmallows at this time'
             )
     return HttpResponseRedirect(reverse('objects:public_images'))
 
@@ -247,7 +248,7 @@ class SoundCreateView(LoginRequiredMixin, CreateView):
                 messages.add_message(
                     self.request,
                     messages.INFO,
-                    'Submission accepted. Your media directory has {} MB of free capicity.'.format(
+                    'Sound upload was successful. Your media directory has {} MB of free capicity.'.format(
                         round(free*10**-6),
                     )
                 )
@@ -327,7 +328,7 @@ class SoundDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = False
         return context
 
-class SoundUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class SoundUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Sound
     form_class = SoundUpdateForm
@@ -348,7 +349,7 @@ class SoundUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
         else:
             return reverse('objects:sound_detail', kwargs={'pk': self.object.pk})
 
-class SoundDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class SoundDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Sound
 
@@ -363,20 +364,21 @@ def add_marshmallow_to_sound_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Sound, pk=pk)
     if instance.is_public:
-        successful, instance, weight = member.allocate_marshmallow(instance, model=Sound)
+        successful, weight, amount = member.allocate_marshmallow(instance, model=Sound)
         if successful:
             messages.add_message(
                 request, messages.INFO,
-                'You gave a marshmallow to {} weighing {}'.format(
+                'You gave {} to the {} "{}"'.format(
+                    amount,
+                    Sound.__name__,
                     instance,
-                    round(weight, 2)
                 )
-            )
+           )
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
-                'You failed to give a marshmallow to {}'.format(instance)
+                'You are not allowed to give marshmallows at this time'
             )
     return HttpResponseRedirect(reverse('objects:public_sounds'))
 
@@ -441,7 +443,7 @@ class VideoCreateView(LoginRequiredMixin, CreateView):
                 messages.add_message(
                     self.request,
                     messages.INFO,
-                    'Submission accepted. Your media directory has {} MB of free capicity.'.format(
+                    'Video upload was successful. Your media directory has {} MB of free capicity.'.format(
                         round(free*10**-6),
                     )
                 )
@@ -521,7 +523,7 @@ class VideoDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = False
         return context
 
-class VideoUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class VideoUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Video
     form_class = VideoUpdateForm
@@ -542,7 +544,7 @@ class VideoUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
         else:
             return reverse('objects:video_detail', kwargs={'pk': self.object.pk})
 
-class VideoDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class VideoDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Video
 
@@ -557,20 +559,21 @@ def add_marshmallow_to_video_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Video, pk=pk)
     if instance.is_public:
-        successful, instance, weight = member.allocate_marshmallow(instance, model=Video)
+        successful, weight, amount = member.allocate_marshmallow(instance, model=Video)
         if successful:
             messages.add_message(
                 request, messages.INFO,
-                'You gave a marshmallow to {} weighing {}'.format(
+                'You gave {} to the {} "{}"'.format(
+                    amount,
+                    Video.__name__,
                     instance,
-                    round(weight, 2)
                 )
-            )
+           )
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
-                'You failed to give a marshmallow to {}'.format(instance)
+                'You are not allowed to give marshmallows at this time'
             )
     return HttpResponseRedirect(reverse('objects:public_videos'))
 
@@ -617,7 +620,7 @@ def publish_video_view(request, pk):
         return HttpResponseRedirect(reverse('member:studio'))
 
 # Code Views
-class CodeCreateView(LoginRequiredMixin, CreateView):
+class CodeCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = Code
     form_class = CodeForm
@@ -683,7 +686,7 @@ class CodeDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = False
         return context
 
-class CodeUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class CodeUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Code
     form_class = CodeForm
@@ -705,7 +708,7 @@ class CodeUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
         else:
             return reverse('objects:code_detail', kwargs={'pk': self.object.pk})
 
-class CodeDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class CodeDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Code
 
@@ -720,20 +723,21 @@ def add_marshmallow_to_code_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Code, pk=pk)
     if instance.is_public:
-        successful, instance, weight = member.allocate_marshmallow(instance, model=Code)
+        successful, weight, amount = member.allocate_marshmallow(instance, model=Code)
         if successful:
             messages.add_message(
                 request, messages.INFO,
-                'You gave a marshmallow to {} weighing {}'.format(
+                'You gave {} to the {} "{}"'.format(
+                    amount,
+                    Code.__name__,
                     instance,
-                    round(weight, 2)
                 )
-            )
+           )
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
-                'You failed to give a marshmallow to {}'.format(instance)
+                'You are not allowed to give marshmallows at this time'
             )
     return HttpResponseRedirect(reverse('objects:public_code'))
 
@@ -780,7 +784,7 @@ def publish_code_view(request, pk):
         return HttpResponseRedirect(reverse('member:studio'))
 
 # Link Views
-class LinkCreateView(LoginRequiredMixin, CreateView):
+class LinkCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = Link
     form_class = LinkCreateForm
@@ -845,7 +849,7 @@ class LinkDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = False
         return context
 
-class LinkUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class LinkUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Link
     form_class = LinkForm
@@ -866,7 +870,7 @@ class LinkUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
         else:
             return reverse('objects:link_detail', kwargs={'pk': self.object.pk})
 
-class LinkDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class LinkDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Link
 
@@ -881,20 +885,21 @@ def add_marshmallow_to_link_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Link, pk=pk)
     if instance.is_public:
-        successful, instance, weight = member.allocate_marshmallow(instance, model=Link)
+        successful, weight, amount = member.allocate_marshmallow(instance, model=Link)
         if successful:
             messages.add_message(
                 request, messages.INFO,
-                'You gave a marshmallow to {} weighing {}'.format(
+                'You gave {} to the {} "{}"'.format(
+                    amount,
+                    Link.__name__,
                     instance,
-                    round(weight, 2)
                 )
-            )
+           )
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
-                'You failed to give a marshmallow to {}'.format(instance)
+                'You are not allowed to give marshmallows at this time'
             )
     return HttpResponseRedirect(reverse('objects:public_links'))
 
@@ -941,7 +946,7 @@ def publish_link_view(request, pk):
         return HttpResponseRedirect(reverse('member:studio'))
 
 # Tag Views
-class TagCreateView(LoginRequiredMixin, CreateView):
+class TagCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = Tag
     form_class = TagForm
@@ -1070,20 +1075,21 @@ class TagDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 def add_marshmallow_to_tag_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Tag, pk=pk)
-    successful, instance, weight = member.allocate_marshmallow(instance, model=Tag)
+    successful, weight, amount = member.allocate_marshmallow(instance, model=Image)
     if successful:
         messages.add_message(
             request, messages.INFO,
-            'You gave a marshmallow to {} weighing {}'.format(
+            'You gave {} to the {} "{}"'.format(
+                amount,
+                Image.__name__,
                 instance,
-                round(weight, 2)
             )
-        )
+       )
     else:
         messages.add_message(
             request,
             messages.ERROR,
-            'You failed to give a marshmallow to {}'.format(instance)
+            'You are not allowed to give marshmallows at this time'
         )
     return HttpResponseRedirect(reverse('objects:tags'))
 

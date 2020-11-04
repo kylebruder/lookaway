@@ -12,7 +12,7 @@ from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteVi
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from members.models import Member
-from members.mixins import MemberOwnershipView, MemberDeleteView
+from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from .forms import ArticleForm, ArticleSectionForm, SupportDocumentForm, SupportDocSectionForm
 from .models import Article, ArticleSection, SupportDocument, SupportDocSection
 
@@ -20,7 +20,7 @@ from .models import Article, ArticleSection, SupportDocument, SupportDocSection
 
 # Support Article Views
 
-class ArticleCreateView(LoginRequiredMixin, CreateView):
+class ArticleCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = Article
     form_class = ArticleForm
@@ -101,7 +101,7 @@ class ArticleDetailView(DetailView):
         ).order_by('order')
         return context
 
-class ArticleUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class ArticleUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Article
     form_class = ArticleForm
@@ -125,7 +125,7 @@ class ArticleUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class ArticleDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class ArticleDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Article
 
@@ -136,20 +136,21 @@ def add_marshmallow_to_article_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(Article, pk=pk)
     if instance.is_public:
-        successful, instance, weight = member.allocate_marshmallow(instance, model=Article)
+        successful, weight, amount = member.allocate_marshmallow(instance, model=Article)
         if successful:
             messages.add_message(
                 request, messages.INFO,
-                'You gave a marshmallow to {} weighing {}'.format(
+                'You gave {} to the {} "{}"'.format(
+                    amount,
+                    Article.__name__,
                     instance,
-                    round(weight, 2)
                 )
            )
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
-                'You failed to give a marshmallow to {}'.format(instance)
+                'You are not allowed to give marshmallows at this time'
             )
     return HttpResponseRedirect(reverse('documentation:public_articles'))
 
@@ -197,7 +198,7 @@ def publish_article_view(request, pk):
 
 # ArticleSection Views
 
-class ArticleSectionCreateView(LoginRequiredMixin, CreateView):
+class ArticleSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = ArticleSection
     form_class = ArticleSectionForm
@@ -205,6 +206,7 @@ class ArticleSectionCreateView(LoginRequiredMixin, CreateView):
     def get_form_kwargs(self):
         kwargs = super(ArticleSectionCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
+        kwargs['article'] = self.request.GET.get('article')
         return kwargs
 
     def form_valid(self, form):
@@ -245,7 +247,7 @@ class ArticleSectionDetailView(LoginRequiredMixin, DetailView):
     model = ArticleSection
     context_object_name = 'section'
 
-class ArticleSectionUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class ArticleSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = ArticleSection
     form_class = ArticleSectionForm
@@ -279,7 +281,7 @@ class ArticleSectionUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateVi
                 kwargs={'pk': self.object.pk},
             )
 
-class ArticleSectionDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class ArticleSectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = ArticleSection
 
@@ -288,7 +290,7 @@ class ArticleSectionDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView)
 
 # Support Document Views
 
-class SupportDocumentCreateView(LoginRequiredMixin, CreateView):
+class SupportDocumentCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = SupportDocument
     form_class = SupportDocumentForm
@@ -375,7 +377,7 @@ class SupportDocumentDetailView(DetailView):
         ).order_by('order')
         return context
 
-class SupportDocumentUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class SupportDocumentUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = SupportDocument
     form_class = SupportDocumentForm
@@ -399,7 +401,7 @@ class SupportDocumentUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateV
                 kwargs={'slug': self.object.slug},
             )
 
-class SupportDocumentDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class SupportDocumentDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = SupportDocument
 
@@ -410,20 +412,21 @@ def add_marshmallow_to_support_document_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
     instance = get_object_or_404(SupportDocument, pk=pk)
     if instance.is_public:
-        successful, instance, weight = member.allocate_marshmallow(instance, model=SupportDocument)
+        successful, weight, amount = member.allocate_marshmallow(instance, model=SupportDocument)
         if successful:
             messages.add_message(
                 request, messages.INFO,
-                'You gave a marshmallow to {} weighing {}'.format(
+                'You gave {} to the {} "{}"'.format(
+                    amount,
+                    SupportDocument.__name__,
                     instance,
-                    round(weight, 2)
                 )
            )
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
-                'You failed to give a marshmallow to {}'.format(instance)
+                'You are not allowed to give marshmallows at this time'
             )
     return HttpResponseRedirect(reverse('documentation:public_support_documents'))
 
@@ -471,7 +474,7 @@ def publish_support_document_view(request, pk):
 
 # SupportDocSection Views
 
-class SupportDocSectionCreateView(LoginRequiredMixin, CreateView):
+class SupportDocSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = SupportDocSection
     form_class = SupportDocSectionForm
@@ -479,6 +482,7 @@ class SupportDocSectionCreateView(LoginRequiredMixin, CreateView):
     def get_form_kwargs(self):
         kwargs = super(SupportDocSectionCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
+        kwargs['support_document'] = self.request.GET.get('support_document')
         return kwargs
 
     def form_valid(self, form):
@@ -519,7 +523,7 @@ class SupportDocSectionDetailView(LoginRequiredMixin, DetailView):
     model = SupportDocSection
     context_object_name = 'section'
 
-class SupportDocSectionUpdateView(LoginRequiredMixin, MemberOwnershipView, UpdateView):
+class SupportDocSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = SupportDocSection
     form_class = SupportDocSectionForm
@@ -553,7 +557,7 @@ class SupportDocSectionUpdateView(LoginRequiredMixin, MemberOwnershipView, Updat
                 kwargs={'pk': self.object.pk},
             )
 
-class SupportDocSectionDeleteView(LoginRequiredMixin, MemberDeleteView, DeleteView):
+class SupportDocSectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = SupportDocSection
 

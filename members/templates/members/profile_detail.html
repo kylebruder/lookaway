@@ -12,15 +12,9 @@
     <div class="col">
       <h1 class="profile-title">{{ profile.member }}</h1>
       <p>
-        {% if profile.member.check_is_new %}
-          <span class="badge badge-success">New Member</span>
-        {% endif %}
-        {% if profile.member.is_staff %}
-          <span class="badge badge-info">Staff</span>
-        {% endif %}
-        {% if profile.member.is_superuser %}
-          <span class="badge badge-light">Admin</span>
-        {% endif %}
+        {% with profile.member as member %}
+          {% include './member_badges.html' %}
+        {% endwith %}
       </p>
       <p>Date Joined: {{ profile.member.date_joined }}</p>
     </div>

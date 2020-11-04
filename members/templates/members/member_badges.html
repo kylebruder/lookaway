@@ -1,0 +1,11 @@
+{% if member.check_is_new %}
+  <span class="badge badge-success">New Member</span>
+{% else %}
+  <span class="badge badge-primary">Contributing Member</span>
+{% endif %}
+{% if member.is_staff %}
+  <span class="badge badge-info">Staff Member</span>
+{% endif %}
+{% if member.is_superuser %}
+  <span class="badge badge-light">Administrator</span>
+{% endif %}

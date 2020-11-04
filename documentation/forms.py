@@ -134,6 +134,7 @@ class ArticleSectionForm(forms.ModelForm):
             Articleation
             Lower values will appear first""",
         max_digits=8,
+        initial=0,
     )
     order.widget.attrs.update({'class': 'form-text-field'})
     title.widget.attrs.update({'class': 'form-text-field'})
@@ -168,7 +169,18 @@ class ArticleSectionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
+        # Populate Article field
+        if 'article' in kwargs:
+            article = kwargs.pop('article')
+            kwargs.update(initial={
+                'article': article
+            })
         super(ArticleSectionForm, self).__init__(*args, **kwargs)
+        self.fields['article'].queryset = Article.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
         self.fields['images'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
@@ -318,6 +330,7 @@ class SupportDocSectionForm(forms.ModelForm):
             Support Document
             Lower values will appear first""",
         max_digits=8,
+        initial=0,
     )
     order.widget.attrs.update({'class': 'form-text-field'})
     title.widget.attrs.update({'class': 'form-text-field'})
@@ -358,7 +371,18 @@ class SupportDocSectionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
+        # Populate Article field
+        if 'support_document' in kwargs:
+            support_document = kwargs.pop('support_document')
+            kwargs.update(initial={
+                'support_document': support_document
+            })
         super(SupportDocSectionForm, self).__init__(*args, **kwargs)
+        self.fields['support_document'].queryset = SupportDocument.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
         self.fields['images'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(

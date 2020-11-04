@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
 from django.urls import reverse_lazy
 from django.utils import timezone, text
-from django.views.generic import TemplateView
+from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, FormMixin, UpdateView
 from django.views.generic.detail import DetailView
 from documentation.models import Article, SupportDocument
@@ -74,6 +74,11 @@ class StudioView(LoginRequiredMixin, TemplateView):
             owner=member
         ).order_by( '-creation_date')[:10]
         return context
+
+class MemberListView(ListView):
+
+    model = Member
+    context_object_name = 'members'
 
 class MemberProfileView(DetailView):
 
