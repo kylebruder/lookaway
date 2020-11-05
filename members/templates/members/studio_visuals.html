@@ -11,23 +11,18 @@
   </div>
 </div>
 {% if visuals.all.count > 0 %}
-  <ul class="list-group">
-    {% for visual in visuals %}
-      <li class="list-group-item art-list-li">
-        <p>
-          <a href="{% url 'art:visual_detail' visual.slug %}">
-            {{ visual.title }}
-          </a>
-        </p>
-        {% if not visual.is_public %}
-          <span class="badge badge-secondary">Unpublished</span>
-        {% endif %}
-        {% if visual.members_only %}
-          <span class="badge badge-warning">Members Only</span>
-        {% endif %}
-      </li>
+  <div class="profile-image-matrix">
+    {% for i in visuals %}
+      <a href="{% url 'art:visual_detail' i.slug %}">
+        <div class="profile-image-card float-left" style="background-image:url('{{ i.image.thumbnail_file.url }}')">
+          {% if not i.is_public %}
+            <span class="badge badge-secondary">Unpublished</span>
+          {% endif %}
+        </div>
+      </a>
     {% endfor %}
-  </ul>
+  </div>
+  <div class="clear"></div>
   <p>
     <a href="{% url 'art:member_visuals' request.user.username %}">more ...</a>
   </p>

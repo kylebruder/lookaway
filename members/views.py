@@ -97,7 +97,7 @@ class MemberProfileView(DetailView):
         context['visuals'] = Visual.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('-publication_date')[:5]
+        ).order_by('-publication_date')[:16]
         # Galleries
         context['galleries'] = Gallery.objects.filter(
             owner=member,

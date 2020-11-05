@@ -398,7 +398,7 @@ class VisualDetailView(DetailView):
 class MemberVisualView(ListView):
 
     model = Visual
-    paginate_by = 6
+    paginate_by = 36
     context_object_name = 'visuals'
 
     def get_queryset(self, *args, **kwargs):
