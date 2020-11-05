@@ -81,7 +81,7 @@ class MemberListView(ListView):
     context_object_name = 'members'
 
     class Meta:
-        ordering = ['date_joined']    
+        ordering = ['pk']    
 
 class MemberProfileView(DetailView):
 
