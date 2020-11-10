@@ -162,6 +162,12 @@ class VisualForm(forms.ModelForm):
         max_length=1028,
         required=False
     )
+    dimensions = forms.CharField(
+        help_text="""Provide measurements such as length, width, diameter or \
+            weight.""",
+        max_length=1028,
+        required=False
+    )
     credits = forms.CharField(
         help_text="""List any additional people that contributed to the \
             production of the Visual (optional)""",
@@ -177,6 +183,7 @@ class VisualForm(forms.ModelForm):
     order.widget.attrs.update({'class': 'form-text-field'})
     artist.widget.attrs.update({'class': 'form-text-field'})
     medium.widget.attrs.update({'class': 'form-text-field'})
+    dimensions.widget.attrs.update({'class': 'form-text-field'})
     credits.widget.attrs.update({'class': 'form-text-field'})
     year.widget.attrs.update({'class': 'form-text-field'})
 
@@ -191,6 +198,7 @@ class VisualForm(forms.ModelForm):
             'meta_description',
             'text',
             'medium',
+            'dimensions',
             'credits',
             'year',
             'links',

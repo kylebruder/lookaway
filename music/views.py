@@ -405,6 +405,9 @@ class TrackDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Albums that have the Track on their list
+        context['albums'] = Album.objects.filter(tracks__title=self.object.title)
+        # Check whether or not to display the Marshmallow button
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
             if member.check_can_allocate() and not member.check_is_new():

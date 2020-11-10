@@ -36,7 +36,7 @@
     </div>
     <!-- Main content -->
     {% if post.text %}
-      <div class="container">
+      <div>
         <p class="post-text">{{ post.text|linebreaks }}</p>
       </div>
       <br>
@@ -44,44 +44,48 @@
     <!-- Sound -->
     {% if post.sound %}
       {% with post.sound as sound %}
-        <h5 class="post-title">{{ sound.title }}</h5>
-        <audio controls="controls">
-          {% include 'audio_mime_types.html' %}
-        </audio>
-        <p>
-          {{ sound.text }}
-          {% if sound.owner.pk == request.user.pk %}
-            <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
-              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-            </a>
-          {% endif %}
-          <br>
-          {% if sound.credit %}
-            <i>{{ sound.credit }}</i><br>
-          {% endif %}
-        </p>
+        <div>
+          <h5 class="post-title">{{ sound.title }}</h5>
+          <audio controls="controls">
+            {% include 'audio_mime_types.html' %}
+          </audio>
+          <p>
+            {{ sound.text }}
+            {% if sound.owner.pk == request.user.pk %}
+              <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
+                <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+              </a>
+            {% endif %}
+            <br>
+            {% if sound.credit %}
+              <i>{{ sound.credit }}</i><br>
+            {% endif %}
+          </p>
+        </div>
         <br>
       {% endwith %}
     {% endif %}
     <!-- Video -->
     {% if post.video %}
       {% with post.video as video %}
-        <h5 class="post-title">{{ video.title }}</h5>
-        <video class="video-player" preload="auto" controls="controls">
-          {% include 'video_mime_types.html' %}
-        </video>
-        <br>
-        <p>
-          {{ video.text }}<br>
-          {% if video.credit %}
-            <i>{{ video.credit }}</i><br>
-          {% endif %}
-          {% if video.owner.pk == request.user.pk %}
-            <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
-              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-            </a>
-          {% endif %}
-        </p>
+        <div>
+          <h5 class="post-title">{{ video.title }}</h5>
+          <video class="video-player" preload="auto" controls="controls">
+            {% include 'video_mime_types.html' %}
+          </video>
+          <br>
+          <p>
+            {{ video.text }}<br>
+            {% if video.credit %}
+              <i>{{ video.credit }}</i><br>
+            {% endif %}
+            {% if video.owner.pk == request.user.pk %}
+              <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
+                <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+              </a>
+            {% endif %}
+          </p>
+        </div>
         <br>
       {% endwith %}
     {% endif %}

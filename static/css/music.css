@@ -8,7 +8,7 @@
 
 .music-album-image {
   max-width: 100%;
-  max-height: 350px;
+  max-height: 500px;
 }
 
 .music-album-info {
@@ -78,7 +78,7 @@
 
 .music-track-image {
   max-width: 100%;
-  max-height: 350px;
+  max-height: 500px;
   margin-left: auto;
   margin-right: auto;
   display: block;

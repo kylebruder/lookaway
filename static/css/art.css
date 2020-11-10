@@ -9,9 +9,16 @@
 .art-gallery-image {
   width: auto;
   height: 650px;
-  margin-right: auto;
-  margin-left: auto;
+  margin-right: 10%;
+  margin-left: 10%;
   display: block;
+}
+
+.art-image-gallery-blurb {
+  height: 650px;
+  padding: 10%;
+  display: block;
+  text-align: center;
 }
 
 .art-gallery-info {
@@ -20,6 +27,11 @@
 
 .art-gallery-visual {
   font-size: 1.25em;
+}
+
+.art-gallery-message {
+  font-size: 1.25em;
+  text-align: center;
 }
 
 .art-list-image {

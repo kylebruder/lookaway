@@ -33,6 +33,11 @@ class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(
         label="Member Login",
         max_length=32,
+        help_text="""Use letters and numbers in your Member Login \
+            Name. Your login name is used to create a permanent URL for \
+            your Profile page. Your Member Login name is also used to credit \
+            your contributions unless you choose a display name or provide \
+            a first and last name.""",
     )
     password1 = forms.CharField(
         widget=forms.PasswordInput(),
@@ -42,15 +47,32 @@ class UserRegistrationForm(UserCreationForm):
         widget=forms.PasswordInput(),
         label="Verify Password",
         )
+    first_name = forms.CharField(
+        widget=forms.PasswordInput(),
+        label="First Name",
+        help_text="""You may use your real name or an alias or completely fake \
+            name. (optional)""",
+    )
+    last_name = forms.CharField(
+        widget=forms.PasswordInput(),
+        label="Last Name",
+        help_text="""If you provide a first AND last name, they will be used  \
+            to credit your contributions unless you have chosen a display \
+            name. (optional)""",
+    )
     email = forms.CharField(
         widget=forms.EmailInput(),
         label="Recovery Email",
-        help_text="If you provide an email contact, your email address will only be used to recover your password in the event you no longer know you password. (optional)",
+        help_text="""If you provide an email contact, your email address will \
+            only be used to recover your password in the event you no longer \
+            know you password. (optional)""",
         required=False,
     )
     username.widget.attrs.update({'class': 'form-text-field'})
     password1.widget.attrs.update({'class': 'form-text-field'})
     password2.widget.attrs.update({'class': 'form-text-field'})
+    first_name.widget.attrs.update({'class': 'form-text-field'})
+    last_name.widget.attrs.update({'class': 'form-text-field'})
     email.widget.attrs.update({'class': 'form-text-field'})
 
     class Meta:
@@ -59,6 +81,8 @@ class UserRegistrationForm(UserCreationForm):
             'username',
             'password1',
             'password2',
+            'first_name',
+            'last_name',
             'email',
         )
 

@@ -49,6 +49,10 @@ class Visual(MetaDataMixin, ArtMetaData, MarshmallowMixin):
         max_length=1028,
         blank=True,
     )
+    dimensions = models.CharField(
+        max_length=1028,
+        blank=True,
+    )
     credits = models.CharField(
         max_length=1028,
         blank=True,
