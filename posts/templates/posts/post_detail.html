@@ -31,7 +31,6 @@
             </a>
           {% endif %}
         </span>
-        <br>
       {% endif %}
     </div>
     <!-- Main content -->
@@ -70,7 +69,7 @@
       {% with post.video as video %}
         <div>
           <h5 class="post-title">{{ video.title }}</h5>
-          <video class="video-player" preload="auto" controls="controls">
+          <video class="video-player-sm" preload="metadata" controls="controls">
             {% include 'video_mime_types.html' %}
           </video>
           <br>

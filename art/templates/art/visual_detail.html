@@ -17,7 +17,7 @@
     <!-- Video -->
     {% if visual.video %}
       {% with visual.video as video %}
-        <video class="art-video-md video-player" preload="auto" controls>
+        <video class="art-video-md video-player" preload="metadata" poster="{{ visual.image.image_file.url }}" controls>
           {% include 'video_mime_types.html' %}
         </video>
       {% endwith %}

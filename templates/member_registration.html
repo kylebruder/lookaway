@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block body_block %}
-<div class="container member-bg">
+<div class="container members-bg">
   <h3>Join us</h3>
   {% if request.user.is_authenticated %}
     <pre class="code-block">{{ request.get_host }}/members/join-us/{{ object.slug }}</pre>
@@ -9,8 +9,11 @@
   <p>{{ object.note }}</p>
     <form method="post">
     {% csrf_token %}
-    {% include 'form_fields.html' %}
-    <input type="submit" class="btn btn-sm btn-primary" value="Submit">
+    {% for field in form %}
+      {% include 'form_field.html' %}
+    {% endfor %}
+    <input type="submit" class="btn btn-sm btn-success" value="Submit">
   </form>
+  <br>
 </div>
 {% endblock %}

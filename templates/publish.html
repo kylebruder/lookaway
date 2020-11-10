@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% block body_block %}
-<div class="container">
+<div class="container edit-bg">
   <div class="container">
     <form method="post">{% csrf_token %}
-      <p>Are you sure you want to publish "{{ object.title }}"? This action cannot be reversed.</p>
+      <h5>Are you sure you want to publish "{{ object.title }}"?</h3>
+      <p>Once it is published, anyone will be able to access it. This action cannot be reversed, however, you can always delete it later.</p>
       <input type="submit" value="Confirm" class="btn btn-success">
     </form>
   </div>

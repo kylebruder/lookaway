@@ -33,9 +33,9 @@ class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(
         label="Member Login",
         max_length=32,
-        help_text="""Use letters and numbers in your Member Login \
-            Name. Your login name is used to create a permanent URL for \
-            your Profile page. Your Member Login name is also used to credit \
+        help_text="""Use only lower case letters in your Member Login \
+            Name. Your Member Login name is used to create a permanent URL for \
+            your Profile page and is also used to credit \
             your contributions unless you choose a display name or provide \
             a first and last name.""",
     )
@@ -49,23 +49,30 @@ class UserRegistrationForm(UserCreationForm):
         )
     first_name = forms.CharField(
         widget=forms.PasswordInput(),
-        label="First Name",
+        label="First Name (optional)",
         help_text="""You may use your real name or an alias or completely fake \
-            name. (optional)""",
+            name.""",
+        required=False,
     )
     last_name = forms.CharField(
         widget=forms.PasswordInput(),
-        label="Last Name",
+        label="Last Name (optional)",
         help_text="""If you provide a first AND last name, they will be used  \
-            to credit your contributions unless you have chosen a display \
-            name. (optional)""",
+            to credit your contributions unless you choose a display name for \
+            your Profile after creating your Member account.""",
+        required=False,
     )
     email = forms.CharField(
         widget=forms.EmailInput(),
-        label="Recovery Email",
+        label="Recovery Email (optional)",
         help_text="""If you provide an email contact, your email address will \
             only be used to recover your password in the event you no longer \
-            know you password. (optional)""",
+            know you password. IMPORTANT! If you do not provide an valid \
+            email address, you will be unable to use the Password Recovery \
+            Service. We do not confirm whether or not your recovery email \
+            address is valid so be sure you have can access the email address \
+            you provide. The recovery email can be changed any time as long \
+            as you are authenticated to the site.""",
         required=False,
     )
     username.widget.attrs.update({'class': 'form-text-field'})
@@ -110,9 +117,11 @@ class UserRegistrationForm(UserCreationForm):
 class MemberForm(forms.ModelForm):
 
     first_name = forms.CharField(
+        max_length=30,
         required=False,
     )
     last_name = forms.CharField(
+        max_length=30,
         required=False,
     )
     email = forms.CharField(
@@ -134,8 +143,16 @@ class ProfileForm(forms.ModelForm):
 
     image = CustomModelChoiceField(
         queryset=Image.objects.all(),
-        help_text="Choose your Profile Image. (optional)",
+        help_text="Choose your Profile Image.",
         required=False, 
+        label="Profile Image (optional)",
+    )
+    display_name = forms.CharField(
+        max_length=64,
+        help_text="""Your Display Name is shown on your Profile page and is \
+            used to credit your contributions.""",
+        required=False,
+        label="Display Name (optional)",
     )
     text = forms.CharField(
         widget=forms.Textarea(
@@ -145,11 +162,14 @@ class ProfileForm(forms.ModelForm):
         ),
         help_text="Explain yourself here.",
         required=False, 
+        label="Blurb (optional)",
     )
+    display_name.widget.attrs.update({'class': 'form-text-field'})
     class Meta:
         model = Profile
         fields = (
             'image',
+            'display_name',
             'text',
         )
 

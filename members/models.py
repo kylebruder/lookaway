@@ -177,12 +177,20 @@ class Member(User):
     def __str__(self):
         if self.first_name and self.last_name:
             return '{} {}'.format(self.first_name, self.last_name)
+        elif self.profile.display_name:
+            return self.profile.display_name
         else:
             return self.username
 
 class Profile(models.Model):
 
     member = models.OneToOneField(Member, on_delete=models.CASCADE)
+    display_name = models.CharField(
+        max_length=64,
+        unique=True,
+        blank=True,
+        null=True,
+    )
     slug = models.SlugField(max_length=255, unique=True)
     last_marshmallow_allocation = models.DateTimeField(default=timezone.now)
     media_capacity = models.BigIntegerField(default=DEFAULT_MEMBER_STORAGE)

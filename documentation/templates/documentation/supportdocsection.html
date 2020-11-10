@@ -27,12 +27,11 @@
           {% endif %}
         </p>
       </div>
-      <br>
     {% endfor %}
   {% endif %}
   {% if section.sounds.count > 0 %}
     {% for sound in section.sounds.all %}
-      <audio controls="controls">
+      <audio controls="controls" preload="none">
         {% include 'audio_mime_types.html' %}
       </audio>
       <p>
@@ -47,13 +46,11 @@
           </a>
         {% endif %}
       </p>
-      <br>
     {% endfor %}
-    <br>
   {% endif %}
   {% if section.videos.count > 0  %}
     {% for video in section.videos.all %}
-      <video class="video-player" preload="auto" controls="controls">
+      <video class="video-player" preload="none" controls="controls">
         {% include 'video_mime_types.html' %}
       </video>
       <br>
@@ -68,9 +65,7 @@
           </a>
         {% endif %}
       </p>
-      <br>
     {% endfor %}
-    <br>
   {% endif %}
   {% if section.code.count > 0  %}
     {% for code in section.code.all %}
@@ -93,25 +88,16 @@
         {% endif %}
       </p>
     {% endfor %}
-    <br>
   {% endif %}
   {% if section.support_reference %}
     <a href="{% url 'documentation:support_document_detail' section.support_reference.slug %}">
       <h5 class="documentation-title">{{ section.support_reference.title }}</h5>
     </a>
-    <br>
+    <p>{{ section.support_reference.meta_description }}</p>
   {% endif %}
   {% if section.links.count > 0  %}
-    {% for link in section.links.all %}
-      <p class="link-url">
-        <a href="{{ link.url }}" class="links-list-link">{{ link }}</a>
-        {% if link.owner.pk == request.user.pk %}
-          <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
-            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-          </a>
-        {% endif %}
-      </p>
-    {% endfor %}
-    <br>
+    {% with section.links.all as links %}
+      {% include 'object_links.html' %}
+    {% endwith %}
   {% endif %}
 </div>
