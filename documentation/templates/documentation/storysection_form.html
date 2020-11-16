@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class ="container create-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        {% include './articlesection_form_button_bar.html' %}
+      </div>
+    </div>
+    <br>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% for field in form %}
+        {% if field != form.images %}
+          {% include 'form_field.html' %}
+        {% endif %}
+      {% endfor %}
+      <h5 class="documentation-title">{{ form.images.label }}</h5>
+      <p>{{ form.images.help_text}}</p>
+      <p>{{ form.images.errors }}</p>
+      {% if form.images.field.choices.queryset.all|length == 0 %}
+        <p><i>No images found.</i></p>
+      {% else %}
+        <div class="form-image-selection">
+          {% for value, label, obj in form.images.field.choices %}
+            {% if value != '' %}
+              <div class="form-image-card float-left" style="background-image:url('{{ obj.thumbnail_file.url }}')">
+                <p>&nbsp;<input type="checkbox" value="{{ value }}" name="images" {% if obj in object.images.all %}checked{% endif %}></p>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+      <br>
+      <input type="submit" value="Submit" class="btn btn-success">
+    </form>
+  </div>
+  <br>
+</div>
+{% endblock %}

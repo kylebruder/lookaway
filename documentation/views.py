@@ -13,8 +13,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
-from .forms import ArticleForm, ArticleSectionForm, SupportDocumentForm, SupportDocSectionForm
-from .models import Article, ArticleSection, SupportDocument, SupportDocSection
+from .forms import ArticleForm, ArticleSectionForm, StoryForm, StorySectionForm, SupportDocumentForm, SupportDocSectionForm
+from .models import Article, ArticleSection, Story, StorySection, SupportDocument, SupportDocSection
 
 # Create your views here.
 
@@ -563,3 +563,275 @@ class SupportDocSectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteV
 
     def get_success_url(self):
         return reverse('members:studio')
+
+# Story Views
+
+class StoryCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+
+    model = Story
+    form_class = StoryForm
+
+    def get_form_kwargs(self):
+        kwargs = super(StoryCreateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        member = Member.objects.get(pk=self.request.user.pk)
+        form.instance.creation_date = timezone.now()
+        form.instance.owner = member
+        form.instance.slug = text.slugify(form.instance.title)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse(
+                'documentation:story_detail',
+                kwargs={'slug': self.object.slug},
+            )
+
+class StoryListView(ListView):
+
+    model = Story
+    paginate_by = 20
+    context_object_name = 'stories'
+
+    def get_queryset(self, *args, **kwargs):
+        return Story.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-weight',
+            '-creation_date',
+        )
+
+class MemberStoryView(LoginRequiredMixin, ListView):
+
+    model = Story
+    paginate_by = 20
+    context_object_name = 'stories'
+
+    def get_queryset(self, *args, **kwargs):
+        member = Member.objects.get(username=self.kwargs['member'])
+        return Story.objects.filter(
+            owner=member
+        ).order_by(
+            'is_public',
+            '-creation_date',
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = Member.objects.get(username=self.kwargs['member'])
+        context['user_only'] = True
+        context['member'] = member
+        return context
+
+class StoryDetailView(DetailView):
+
+    model = Story
+    context_object_name = 'story'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            member = Member.objects.get(pk=self.request.user.pk)
+            if member.check_can_allocate() and not member.check_is_new():
+                context['can_add_marshmallow'] = True
+            else:
+                context['can_add_marshmallow'] = False
+        context['sections'] = StorySection.objects.filter(
+            story=self.get_object(),
+        ).order_by('order')
+        return context
+
+class StoryUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+
+    model = Story
+    form_class = StoryForm
+
+    def get_form_kwargs(self):
+        kwargs = super(StoryUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        form.instance.last_modified = timezone.now()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse(
+                'documentation:story_detail',
+                kwargs={'slug': self.object.slug},
+            )
+
+class StoryDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+
+    model = Story
+
+    def get_success_url(self):
+        return reverse('members:studio')
+
+def add_marshmallow_to_story_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(Story, pk=pk)
+    if instance.is_public:
+        successful, weight, amount = member.allocate_marshmallow(instance, model=Story)
+        if successful:
+            messages.add_message(
+                request, messages.INFO,
+                'You gave {} to the {} "{}"'.format(
+                    amount,
+                    Story.__name__,
+                    instance,
+                )
+           )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                'You are not allowed to give marshmallows at this time'
+            )
+    return HttpResponseRedirect(reverse('documentation:public_stories'))
+
+def publish_story_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(Story, pk=pk)
+    if request.method == 'GET':
+        template = loader.get_template('publish.html')
+        context = {'object': instance}
+        return render(request, 'publish.html', context)
+    elif request.method == 'POST':
+        successful = instance.publish(instance, member)
+        if successful:
+            messages.add_message(
+                request,
+                messages.INFO,
+                '{} has been published'.format(
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                    'documentation:story_detail',
+                    kwargs={
+                        'slug': instance.slug,
+                    }
+                )
+            )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                '{} could not be published'.format(
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                'documentation:story_detail',
+                kwargs={'pk': instance.pk}
+            )
+        )
+    else:
+        return HttpResponseRedirect(reverse('member:studio'))
+
+# StorySection Views
+
+class StorySectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+
+    model = StorySection
+    form_class = StorySectionForm
+
+    def get_form_kwargs(self):
+        kwargs = super(StorySectionCreateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        kwargs['story'] = self.request.GET.get('story')
+        return kwargs
+
+    def form_valid(self, form):
+        member = Member.objects.get(pk=self.request.user.pk)
+        form.instance.creation_date = timezone.now()
+        form.instance.owner = member
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse(
+                'documentation:story_section_detail',
+                kwargs={'pk': self.object.pk},
+            )
+
+class MemberStorySectionView(LoginRequiredMixin, ListView):
+
+    model = StorySection
+    paginate_by = 20
+    context_object_name = 'sections'
+
+    def get_queryset(self, *args, **kwargs):
+        member = Member.objects.get(username=self.kwargs['member'])
+        return StorySection.objects.filter(owner=member)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = Member.objects.get(username=self.kwargs['member'])
+        context['user_only'] = True
+        context['member'] = member
+        return context
+
+class StorySectionDetailView(LoginRequiredMixin, DetailView):
+
+    model = StorySection
+    context_object_name = 'section'
+
+class StorySectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+
+    model = StorySection
+    form_class = StorySectionForm
+
+    def get_form_kwargs(self):
+        kwargs = super(StorySectionUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        # Update last modified date for the StorySection
+        form.instance.last_modified = timezone.now()
+        # Update last modified date for the parent Story too
+        print(Story.objects.get(
+            pk=form.instance.story.pk
+        ) )
+        s = Story.objects.get(
+            pk=form.instance.story.pk
+        )
+        s.last_modified = timezone.now()
+        s.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse(
+                'documentation:story_section_detail',
+                kwargs={'pk': self.object.pk},
+            )
+
+class StorySectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+
+    model = StorySection
+
+    def get_success_url(self):
+        return reverse('documentation:story_detail',
+            kwargs={'slug': self.object.story.slug},
+        )

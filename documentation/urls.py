@@ -6,7 +6,7 @@ app_name= "documentation"
 urlpatterns = [
     # Read Views
     path(
-        '', 
+        'articles', 
         views.ArticleListView.as_view(),
         name='public_articles',
     ),
@@ -19,6 +19,21 @@ urlpatterns = [
         'article-section/<int:pk>/', 
         views.ArticleSectionDetailView.as_view(),
         name='article_section_detail',
+    ),
+    path(
+        'stories/', 
+        views.StoryListView.as_view(),
+        name='public_support_documents',
+    ),
+    path(
+        'stories/<slug:slug>/', 
+        views.StoryDetailView.as_view(),
+        name='story_detail',
+    ),
+    path(
+        'stories/story-section/<int:pk>/', 
+        views.StorySectionDetailView.as_view(),
+        name='story_section_detail',
     ),
     path(
         'support/', 
@@ -47,6 +62,16 @@ urlpatterns = [
         name='member_article_sections',
     ),
     path(
+        'member/<slug:member>/stories/', 
+        views.MemberStoryView.as_view(),
+        name='member_stories',
+    ),
+    path(
+        'member/<slug:member>/story-sections/', 
+        views.MemberStorySectionView.as_view(),
+        name='member_story_sections',
+    ),
+    path(
         'member/<slug:member>/support-documents/', 
         views.MemberSupportDocumentView.as_view(),
         name='member_support_documents',
@@ -66,6 +91,16 @@ urlpatterns = [
         'add/article-section/', 
         views.ArticleSectionCreateView.as_view(),
         name='article_section_create',
+    ),
+    path(
+        'add/story/', 
+        views.StoryCreateView.as_view(),
+        name='story_create',
+    ),
+    path(
+        'add/story-section/', 
+        views.StorySectionCreateView.as_view(),
+        name='story_section_create',
     ),
     path(
         'add/support-document/', 
@@ -89,6 +124,16 @@ urlpatterns = [
         name='article_section_update',
     ),
     path(
+        'modify/story/<slug:slug>/', 
+        views.StoryUpdateView.as_view(),
+        name='story_update',
+    ),
+    path(
+        'modify/story-section/<int:pk>/', 
+        views.StorySectionUpdateView.as_view(),
+        name='story_section_update',
+    ),
+    path(
         'modify/support-document/<slug:slug>/', 
         views.SupportDocumentUpdateView.as_view(),
         name='support_document_update',
@@ -110,6 +155,16 @@ urlpatterns = [
         name='article_section_delete',
     ),
     path(
+        'delete/story/<int:pk>/', 
+        views.StoryDeleteView.as_view(),
+        name='story_delete',
+    ),
+    path(
+        'delete/story-section/<int:pk>/', 
+        views.StorySectionDeleteView.as_view(),
+        name='story_section_delete',
+    ),
+    path(
         'delete/support-document/<int:pk>/', 
         views.SupportDocumentDeleteView.as_view(),
         name='support_document_delete',
@@ -126,6 +181,11 @@ urlpatterns = [
         name='publish_article',
     ),
     path(
+        'publish/story/<int:pk>/', 
+        views.publish_story_view,
+        name='publish_story',
+    ),
+    path(
         'publish/support-document/<int:pk>/', 
         views.publish_support_document_view,
         name='publish_support_document',
@@ -135,6 +195,11 @@ urlpatterns = [
         'article/<int:pk>/add-marshmallow', 
         views.add_marshmallow_to_article_view,
         name='article_marshmallow',
+    ),
+    path(
+        'story/<int:pk>/add-marshmallow', 
+        views.add_marshmallow_to_article_view,
+        name='story_marshmallow',
     ),
     path(
         'support-document/<int:pk>/add-marshmallow', 

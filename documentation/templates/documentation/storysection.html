@@ -1,0 +1,26 @@
+<div class="documentation-section">
+  {% include './storysection_detail_button_bar.html' %}
+  {% if section.images.count > 0 %}
+    {% for image in section.images.all %}
+      <div class="documentation-story-section-image float-right">
+        <a href="{{ image.image_file.url }}">
+          <img class="documentation-image" src="{{ image.thumbnail_file.url }}" alt="{{ image.title }}">
+        </a>
+        <p>
+          {% if image.text %}
+            {{ image.text }}<br>
+          {% endif %}
+          {% if image.credit %}
+            <i>{{ image.credit }}</i><br>
+          {% endif %}
+          {% if image.owner.pk == request.user.pk %}
+            <a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}">
+              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+            </a>
+          {% endif %}
+        </p>
+      </div>
+    {% endfor %}
+  {{ section.text|linebreaks }}
+  {% endif %}
+</div>

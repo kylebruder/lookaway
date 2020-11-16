@@ -13,6 +13,7 @@ class Section(MetaDataMixin):
         max_digits=8,
         decimal_places=4,
     )
+    hide_title = models.BooleanField(default=False)
     title = models.CharField(
         max_length=255,
     )
@@ -93,6 +94,39 @@ class ArticleSection(Section):
         Article,
         on_delete=models.CASCADE,
         related_name='parent_article',
+    )
+
+    class Meta:
+        ordering = ['order']
+
+class Story(Doc):
+
+    is_fiction = models.BooleanField(default=True)
+    author = models.CharField(
+        max_length=255,
+    )
+    audio_reading = models.ForeignKey(
+        'objects.sound',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+    original_publisher = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+    )
+    original_publication_year = models.PositiveSmallIntegerField(
+        blank=True,
+        null=True,
+    )
+
+class StorySection(Section):
+
+    story = models.ForeignKey(
+        Story,
+        on_delete=models.CASCADE,
+        related_name='parent_story',
     )
 
     class Meta:

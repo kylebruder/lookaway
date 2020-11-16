@@ -1,9 +1,9 @@
 from django import forms
 from django.forms import Textarea
-from templates.widgets import ImagePreviewWidget, SoundPreviewWidget, VideoPreviewWidget
+from templates.widgets import ImagePreviewWidget, SoundPreviewWidget, VideoPreviewWidget, FictionWidget
 from members.models import Member
 from objects.models import Image, Sound, Video, Code, Link
-from .models import Article, ArticleSection, SupportDocument, SupportDocSection
+from .models import Article, ArticleSection, Story, StorySection, SupportDocument, SupportDocSection
 
 class CustomModelChoiceIterator(forms.models.ModelChoiceIterator):
 
@@ -66,6 +66,7 @@ class ArticleForm(forms.ModelForm):
         help_text="""Introduce the topic and context of the Article""",
         label="Introduction",
         max_length=65535,
+        required=False,
     )
     outro = forms.CharField(
         widget=forms.Textarea(
@@ -77,6 +78,7 @@ class ArticleForm(forms.ModelForm):
             details and tie it all together""",
         label="Conclusion",
         max_length=65535,
+        required=False,
     )
     title.widget.attrs.update({'class': 'form-text-field'})
     class Meta:
@@ -240,6 +242,7 @@ class SupportDocumentForm(forms.ModelForm):
         help_text="Introduce the topic of the Support Document",
         label="Introduciton",
         max_length=65535,
+        required=False,
     )
     outro = forms.CharField(
         widget=forms.Textarea(
@@ -251,6 +254,7 @@ class SupportDocumentForm(forms.ModelForm):
             supporting the validity and source.""",
         label="Conclusion",
         max_length=65535,
+        required=False,
     )
     title.widget.attrs.update({'class': 'form-text-field'})
     class Meta:
@@ -399,6 +403,170 @@ class SupportDocSectionForm(forms.ModelForm):
             '-creation_date',
         )
         self.fields['code'].queryset = Code.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
+
+class StoryForm(forms.ModelForm):
+
+    image = CustomModelChoiceField(
+        queryset=Image.objects.all(),
+        required=False,
+        help_text="Choose an image that represents the Story",
+    )
+    title = forms.CharField(
+        help_text="""The Story title will appear on the site and is used to \
+            create the permanent URL for the Story
+            It will also appear on search engine results pages (SERPs) and can \
+            impact search engine optimization (SEO)
+            The optimal format is 'Primary Keyword - Secondary Keyword | Brand \
+            Name'""",
+        max_length=128,
+    )
+    is_fiction = forms.BooleanField(
+        widget=FictionWidget(),
+        help_text=  "Is this a true story or a work of fiction?",
+        label="Non-Fiction/Fiction",
+        required=False,
+    )    
+    meta_description = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="""Add a short description of the Story
+            The description will be used by Search Engines and will impact SEO
+            Include key words used in the title
+            Keep it less than 155 characters""",
+        max_length=155,
+        required=False,
+    )
+    intro = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="""Introduce the topic and context of the Story""",
+        label="Preface",
+        max_length=65535,
+        required=False,
+    )
+    outro = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="""Restate any information, observations, evidence or other \
+            details and tie it all together""",
+        label="Afterward",
+        max_length=65535,
+        required=False,
+    )
+    title.widget.attrs.update({'class': 'form-text-field'})
+    class Meta:
+        model = Story
+        fields = (
+            'title',
+            'is_fiction',
+            'meta_description',
+            'intro',
+            'outro',
+            'image',
+            'links',
+            'tags',
+        )
+        help_texts = {
+            'image': """Choose an image that represents the topic of the \
+                Story (optional)""",
+            'links': "Add one or more links (optional)",
+            'tags': "Add one or more tags (optional)",
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(StoryForm, self).__init__(*args, **kwargs)
+        self.fields['image'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
+
+class StorySectionForm(forms.ModelForm):
+
+    images = CustomModelMultipleChoiceField(
+        queryset = Image.objects.all(),
+        required=False,
+        help_text="""Choose one or more images to include in this Section \
+        (optional)""",
+    )
+    title = forms.CharField(
+        help_text="""The Section title will appear as the heading of the \
+            Section in the Story""",
+        max_length=255,
+    )
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="Enter the Section text here",
+        max_length=65535,
+        required=False,
+    )
+    order = forms.DecimalField(
+        help_text="""Choose the order in which the Section will appear in the \
+            Story
+            Lower values will appear first""",
+        max_digits=8,
+        initial=0,
+    )
+    hide_title = forms.BooleanField(
+        help_text =  """Choose this option if you do not want \
+            the title of this section to be displayed on the Story page""",
+        required=False,
+    )    
+    order.widget.attrs.update({'class': 'form-text-field'})
+    title.widget.attrs.update({'class': 'form-text-field'})
+
+    class Meta:
+        model = StorySection
+        fields = (
+            'story',
+            'title',
+            'hide_title',
+            'order',
+            'text',
+            'images',
+        )
+        help_texts = {
+            'story': """Choose the Story in which this Section \
+                will appear""",
+            'hide_title': """Choose this option if you do not want \
+                the title of this section to be displayed on the Story page""",
+            'images': """Choose one or more Images that complement \
+                this section of the story (optional)""",
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        # Populate Story field
+        if 'story' in kwargs:
+            story = kwargs.pop('story')
+            kwargs.update(initial={
+                'story': story
+            })
+        super(StorySectionForm, self).__init__(*args, **kwargs)
+        self.fields['story'].queryset = Story.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
+        self.fields['images'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
             '-creation_date',

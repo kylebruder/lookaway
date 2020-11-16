@@ -139,6 +139,13 @@
   max-width: 100%;
 }
 
+.documentation-story-section-image {
+  max-width: 250px;
+  padding: 10px;
+  font-size: 0.75em;
+  display: block;
+}
+
 .documentation-section-li {
   background-color: #222222;
   color: #ffffff;

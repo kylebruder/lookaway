@@ -54,3 +54,20 @@ class CodeWidget(Textarea):
         template = '''<textarea wrap="off" class="code-box" name="code">\
         </textarea>'''
         return mark_safe(template)
+
+class FictionWidget(CheckboxInput):
+
+    def render(self, name, value, attrs=None, renderer=None):
+        if value == None:
+          checked = "checked"
+        else:
+          checked = ''
+
+        template = '''<div class="custom-control custom-switch" style="padding-left: 0px;">\
+          <span class="float-left" style="padding-right: 50px;">Non-Fiction</span>
+          <input type="checkbox" class="custom-control-input" id="customSwitch1" name="{name}" {checked}>\
+          <label class="custom-control-label" for="customSwitch1">\
+          Fiction
+          </label>
+        </div>'''.format(name=name, checked=checked)
+        return mark_safe(template)

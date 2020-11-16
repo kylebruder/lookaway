@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block body_block %}
+<div class="container documentation-bg">
+  {% if story.is_public or story.owner.pk == request.user.pk %}
+    {% include './story_detail_button_bar.html' %}
+    {% if story.is_public %}
+      <p>by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></p>
+    {% else %}
+      <p>Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}</p>
+    {% endif %}
+    {% if story.image %}
+      <img class="documentation-image" src="{{ story.image.image_file.url }}" alt="{{ story.image.title }}">
+      <br>
+      <br>
+    {% endif %}
+    <p>{{ story.intro|linebreaks }}</p>
+    {% if sections %}
+      {% for section in sections %}
+        {% include './storysection.html' %}
+      {% endfor %}
+    {% endif %}
+    <p>{{ story.outro|linebreaks }}</p>
+    {% if story.links.count > 0 %}
+      <h4 class="documentation-title">Links</h4>
+      {% with story.links.all as links %}
+        {% include 'object_links.html' %}
+      {% endwith %}
+    {% endif %}
+    {% if story.tags.count > 0 %}
+      {% include './object_tags.html' %}
+      <br>
+    {% endif %}
+    {% if story.is_public %}
+      Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}<br>
+      {% if object.last_modified > object.creation_date %}
+        Last updated on {{ object.last_modified }}<br>
+      {% endif %}
+    {% else %}
+      Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<br>
+      <br>
+    {% endif %}
+    <br>
+  {% else %}
+    <p>This Story has not been published yet.</p>
+    <br>
+  {% endif %}
+</div>  
+{% endblock %}

@@ -1,0 +1,5 @@
+{% for story in stories %}
+  {% if story.is_public or story.owner.pk == request.user.pk %}
+    {% include './story_item.html' %}
+  {% endif %}
+{% endfor %}

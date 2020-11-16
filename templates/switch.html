@@ -1,0 +1,4 @@
+<div class="custom-control custom-switch">
+  <input type="{{ widget.type }}" name="{{ widget.name }}"{% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}{% include "django/forms/widgets/attrs.html" %}>
+  <label class="custom-control-label" for="customSwitch1">{{ field.help_text }}</label>
+</div>
