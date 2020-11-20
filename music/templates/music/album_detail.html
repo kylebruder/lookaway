@@ -10,6 +10,11 @@
     {% endif %}
     <div class="row">
       <div class="col-sm-6">
+        <!!-- Cover -->
+        {% if album.cover %}
+          <div class="col- music-album-image" style="background-image: url('{{ album.cover.image_file.url }}')"></div>   
+          <br>
+        {% endif %}
         <p class="music-album-info">
           {% if album.artist %}
             <span>{{ album.artist }}</span><br>
@@ -24,16 +29,21 @@
             <span>{{ album.genre }}</span><br>
           {% endif %}
         </p>
-        <br>
+        <!-- Blurb -->
+        {% if album.text %}
+          <p class="music-album-blurb">{{ album.text|linebreaks }}</p>
+          <br>
+        {% endif %}
+      </div>
+      <div class="col-sm-6">
         <!-- Track list -->
         {% if album.tracks.all.count > 0 %}
-          <ol>
+            <h4 class="music-title">Track List</h4>
             {% for track in album.tracks.all %}
               {% if track.is_public %}
-                <li>
-                  <h3 class="music-title music-album-track">
+                  <h5 class="music-title">
                     <a href="{% url 'music:track_detail' track.slug %}">{{ track.title }}</a>
-                  </h3>
+                  </h5>
                   <!-- Sound -->
                   {% with track.sound as sound %}
                     <audio controls="controls">
@@ -42,24 +52,11 @@
                     <br>
                     <br>
                   {% endwith %}
-                </li>
               {% endif %}
             {% endfor %}
-          </ol>
         {% endif %}
       </div>
-      <!!-- Cover -->
-      {% if album.cover %}
-        <div class="col-sm-6">
-          <img class="music-album-image float-right" src="{{ album.cover.image_file.url }}" alt="{{ album.cover.title }}">   
-        </div>
-      {% endif %}
     </div>
-    <!-- Blurb -->
-    {% if album.text %}
-      <p class="music-album-blurb">{{ album.text|linebreaks }}</p>
-      <br>
-    {% endif %}
     <!-- Links -->
     {% if album.links.count > 0 %}
       <h4 class="music-title">Links</h4>

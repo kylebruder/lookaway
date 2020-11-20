@@ -1,0 +1,34 @@
+<!-- Newest Tracks -->
+{% if tracks.count > 0 %}
+  <div class="index-col">
+    {% for track in tracks %}
+      {% if track.is_public and not track.members_only or track.is_public and request.user.is_authenticated or track.owner.pk == request.user.pk %}
+        <div class="row">
+          <div class="col-sm">
+            <h5 class="index-title">
+              <a href="{% url 'music:track_detail' track.slug %}">
+                {{ track.title }}
+              </a>
+              {% if not track.is_public %}
+                <span class="badge badge-secondary">Unpublished</span>
+              {% endif %}
+            </h5>
+          </div>
+          <div class="col-sm">
+            {% with track.sound as sound %}
+              <audio controls="controls">
+                {% include 'audio_mime_types.html' %}
+              </audio>
+              <br>
+            {% endwith %} 
+          </div>
+          <div class="col-sm">
+            <p class="index-meta">
+               New Track by {{ track.artist }}
+            </p>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}

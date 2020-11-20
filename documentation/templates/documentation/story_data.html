@@ -1,0 +1,18 @@
+<h4 class="documentation-title">Acknowledgements</h4>
+<p>
+  {% if story.author %}
+    <i>{{ story.title }}</i> was written by {{ story.author }}
+  {% endif %} 
+  {% if story.editor %}
+    and edited by {{ story.editor }}
+  {% endif %} 
+  {% if story.translator %}
+    and translated by {{ story.translator }}
+  {% endif %} 
+ {% if story.original_publisher %}
+    and was originally published by {{ story.original_publisher }} 
+ {% endif %} 
+ {% if story.original_publication_year %}
+   in the year {{ story.original_publication_year }}
+ {% endif %}.
+</p> 

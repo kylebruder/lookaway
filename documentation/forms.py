@@ -417,11 +417,15 @@ class StoryForm(forms.ModelForm):
     )
     title = forms.CharField(
         help_text="""The Story title will appear on the site and is used to \
-            create the permanent URL for the Story
+            create the permanent URL for the Story. \
             It will also appear on search engine results pages (SERPs) and can \
-            impact search engine optimization (SEO)
+            impact search engine optimization (SEO). \
             The optimal format is 'Primary Keyword - Secondary Keyword | Brand \
-            Name'""",
+            Name'.""",
+        max_length=128,
+    )
+    author = forms.CharField(
+        help_text="""Who originally told or wrote this story?""",
         max_length=128,
     )
     is_fiction = forms.BooleanField(
@@ -436,11 +440,23 @@ class StoryForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description of the Story
-            The description will be used by Search Engines and will impact SEO
-            Include key words used in the title
-            Keep it less than 155 characters""",
+        help_text="""Add a short description of the Story. \
+            The description will be used by Search Engines and will impact SEO. \
+            Include key words used in the title.\
+            Keep it less than 155 characters.""",
         max_length=155,
+        label="Meta Description",
+    )
+    editor = forms.CharField(
+        help_text="""Who edited this story?""",
+        max_length=128,
+        label="Editor(s) (optional)",
+        required=False,
+    )
+    translator = forms.CharField(
+        help_text="""Who translated this story?""",
+        max_length=128,
+        label="Translator(s) (optional)",
         required=False,
     )
     intro = forms.CharField(
@@ -450,7 +466,7 @@ class StoryForm(forms.ModelForm):
             }
         ),
         help_text="""Introduce the topic and context of the Story""",
-        label="Preface",
+        label="Preface (optional)",
         max_length=65535,
         required=False,
     )
@@ -462,17 +478,40 @@ class StoryForm(forms.ModelForm):
         ),
         help_text="""Restate any information, observations, evidence or other \
             details and tie it all together""",
-        label="Afterward",
+        label="Afterward (optional)",
         max_length=65535,
         required=False,
     )
+    original_publisher = forms.CharField(
+        help_text="""Who originally published this story?""",
+        max_length=128,
+        label="Orignal Publisher (optional)",
+        required=False,
+    )
+    original_publication_year = forms.DecimalField(
+        help_text="Which year was this Story originally published? (optional)",
+        max_digits=4,
+        label="Original Year of Publication (optional)",
+        required=False,
+    )
     title.widget.attrs.update({'class': 'form-text-field'})
+    author.widget.attrs.update({'class': 'form-text-field'})
+    editor.widget.attrs.update({'class': 'form-text-field'})
+    translator.widget.attrs.update({'class': 'form-text-field'})
+    original_publisher.widget.attrs.update({'class': 'form-text-field'})
+    original_publication_year.widget.attrs.update({'class': 'form-text-field'})
+
     class Meta:
         model = Story
         fields = (
             'title',
+            'author',
             'is_fiction',
             'meta_description',
+            'translator',
+            'editor',
+            'original_publisher',
+            'original_publication_year',
             'intro',
             'outro',
             'image',

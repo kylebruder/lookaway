@@ -105,6 +105,16 @@ class Story(Doc):
     author = models.CharField(
         max_length=255,
     )
+    translator = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+    )
+    editor = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+    )
     audio_reading = models.ForeignKey(
         'objects.sound',
         on_delete=models.SET_NULL,

@@ -1,25 +1,28 @@
 {% extends "base.html" %}
 {% block body_block %}
-<div class="container documentation-bg">
+<div class="container documentation-story-bg">
   {% if story.is_public or story.owner.pk == request.user.pk %}
     {% include './story_detail_button_bar.html' %}
-    {% if story.is_public %}
-      <p>by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></p>
-    {% else %}
-      <p>Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}</p>
-    {% endif %}
+    <p>by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ story.author }}</a></p>
     {% if story.image %}
       <img class="documentation-image" src="{{ story.image.image_file.url }}" alt="{{ story.image.title }}">
       <br>
       <br>
     {% endif %}
-    <p>{{ story.intro|linebreaks }}</p>
+    {% if story.intro %}
+      <h4 class="documentation-title">Foreward</h4>
+      <p>{{ story.intro|linebreaks }}</p>
+    {% endif %}
     {% if sections %}
       {% for section in sections %}
         {% include './storysection.html' %}
       {% endfor %}
     {% endif %}
-    <p>{{ story.outro|linebreaks }}</p>
+    {% if story.outro %}
+      <h4 class="documentation-title">Afterward</h4>
+      <p>{{ story.outro|linebreaks }}</p>
+    {% endif %}
+    {% include './story_data.html' %}
     {% if story.links.count > 0 %}
       <h4 class="documentation-title">Links</h4>
       {% with story.links.all as links %}

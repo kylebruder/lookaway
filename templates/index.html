@@ -3,15 +3,14 @@
 {% block body_block %}
 <div class="container-fluid index-bg">
   <!-- Heading -->
-  {% include "index_button_bar.html" %}
-  <br>
-  <div class="">
-    <div class="row">
-      {% include 'index_posts.html' %}
-      {% include 'index_articles.html' %}
-      {% include 'index_art.html' %}
-      {% include 'index_music.html' %}
-    </div>
-  </div>
+  {% include 'index_button_bar.html' %}
+  {% include 'index_posts.html' %}
+  {% include 'index_articles.html' %}
+  {% include 'index_stories.html' %}
+  {% include 'index_visuals.html' %}
+  {% include 'index_galleries.html' %}
+  {% include 'index_tracks.html' %}
+  {% include 'index_albums.html' %}
+  <div class="clear"></div>
 </div>
 {% endblock %}

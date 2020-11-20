@@ -10,9 +10,6 @@
     {% if gallery.artist %}
       <p>A collection of works by {{ gallery.artist }}</p>
     {% endif %}
-    {% if gallery.members_only %}
-      <p class="art-meta"><i>This Gallery is only avaialble for Members of the site.</i></p>
-    {% endif %}
     <!-- Visual list -->
     {% if gallery.visuals.all.count > 0 %}
       <div id="visual_gallery" class="carousel slide" data-ride="carousel">
@@ -31,8 +28,9 @@
             </div>
             {% for visual in gallery.visuals.all %}
               <div class="carousel-item">
-                <a href="{% url 'art:visual_detail' visual.slug %}">
+                <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
                   <div class="art-gallery-image">
+                    <p class="art-gallery-message"><i>Click the image for more detail</i></p> 
                     <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
                   </div>
                 </a>
@@ -43,16 +41,18 @@
           {% for visual in gallery.visuals.all %}
             {% if visual.pk == gallery.visuals.all.0.pk %}
               <div class="carousel-item active">
-                <a href="{% url 'art:visual_detail' visual.slug %}">
+                <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
                   <div class="art-gallery-image">
+                    <p class="art-gallery-message"><i>Click the image for more information</i></p> 
                     <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
                   </div>
                 </a>
               </div>
             {% else %}
               <div class="carousel-item">
-                <a href="{% url 'art:visual_detail' visual.slug %}">
+                <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
                   <div class="art-gallery-image">
+                    <p class="art-gallery-message"><i>Click the image for more information</i></p> 
                     <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
                   </div>
                 </a>
@@ -69,7 +69,7 @@
           <span class="sr-only">Next</span>
         </a>
       </div>
-      <p class="art-gallery-message"><i>Click an image for more information</i></p> 
+      <br>
     {% endif %}
     <!-- Links -->
     {% if gallery.links.count > 0 %}

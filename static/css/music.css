@@ -7,15 +7,14 @@
 }
 
 .music-album-image {
-  max-width: 100%;
-  max-height: 500px;
+  width: 350px;
+  height: 350px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
 }
 
 .music-album-info {
-  font-size: 1.25em;
-}
-
-.music-album-track {
   font-size: 1.25em;
 }
 

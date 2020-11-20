@@ -9,7 +9,65 @@
 }
 
 .index-col {
-  margin-bottom: 40px;
+  width: 350px;
+  margin-bottom: 10px;
+  float: left;
+}
+
+.index-album {
+  width: 325px;
+  height: 325px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  display: block;
+  float: left;
+}
+
+.index-album-link {
+  font-color: #eeeeee;
+}
+
+.index-album-meta {
+  font-color: #eeeeee;
+  font-size: 0.75em;
+  background-color: #222222;
+  margin: 3px;
+  padding: 3px;
+}
+
+.index-album-title {
+  font-color: #eeeeee;
+  font-family: 'Averia Serif Libre', serif;
+  background-color: #222222;
+  margin: 3px;
+  padding: 3px;
+}
+
+.index-gallery-li {
+  min-height: 100px;
+  margin-bottom: 10px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
+.index-gallery-meta {
+  font-color: #eeeeee;
+  font-size: 0.75em;
+  background-color: #222222;
+  margin: 3px;
+  padding: 3px;
+}
+
+.index-gallery-title {
+  font-color: #eeeeee;
+  font-family: 'Averia Serif Libre', serif;
+  background-color: #222222;
+  margin: 3px;
+  padding: 3px;
 }
 
 .index-image-martix {
@@ -23,24 +81,11 @@
   display: block;
 }
 
-.index-section {
-  border-style: solid;
-  border-width: 5px;
-  border-radius: 5px;
-  border-color: #eeeeee;
-  padding: 5px;
-  margin: 5px;
-}
-
-.index-link {
-  color: #eeeeee;
-}
-
 .index-list-image {
   display: block;
   width: 100px;
   height: 100px;
-  margin: 10px;
+  margin: 5px;
   border-radius: 100%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -73,7 +118,7 @@
   width: 100px;
   height: 100px;
   border-radius: 5px;
-  margin: 5px;
+  margin: 3px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #222222;

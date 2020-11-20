@@ -23,7 +23,7 @@ urlpatterns = [
     path(
         'stories/', 
         views.StoryListView.as_view(),
-        name='public_support_documents',
+        name='public_stories',
     ),
     path(
         'stories/<slug:slug>/', 

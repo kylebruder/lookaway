@@ -1,0 +1,23 @@
+<!-- Newest Galleries -->
+{% if galleries.count > 0 %}
+  <div class="index-col">
+    {% for gallery in galleries %}
+      {% if gallery.is_public and not gallery.members_only or gallery.is_public and request.user.is_authenticated or gallery.owner.pk == request.user.pk %}
+        <a class="text-light" href="{% url 'art:gallery_detail' gallery.slug %}">
+          <div class="index-gallery-li" style="background-image: url('{{ gallery.visuals.all.first.image.image_file.url }}')">
+            <span class="index-gallery-title">
+                {{ gallery.title }}
+              {% if not gallery.is_public %}
+                <span class="badge badge-secondary">Unpublished</span>
+              {% endif %}
+            </span>
+            <br>
+            <span class="index-gallery-meta">
+               New Gallery by {{ gallery.artist }}
+            </span>
+          </div>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}

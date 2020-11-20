@@ -3,7 +3,7 @@ from django.views.generic.base import TemplateView
 from art.models import Gallery, Visual
 from music.models import Album, Track
 from objects.models import Tag
-from documentation.models import Article, SupportDocument
+from documentation.models import Article, Story, SupportDocument
 from posts.models import Post
 
 # Create your views here.
@@ -31,17 +31,22 @@ class IndexView(TemplateView):
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:6]
+        )[:3]
+        context['stories'] = Story.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-publication_date',
+        )[:3]
         context['visuals'] = Visual.objects.filter(
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:15]
+        )[:9]
         context['galleries'] = Gallery.objects.filter(
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:6]
+        )[:3]
         context['tracks'] = Track.objects.filter(
             is_public=True,
         ).order_by(

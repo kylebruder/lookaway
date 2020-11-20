@@ -5,6 +5,7 @@
     <p class="art-meta">This Visual is only avaialble for Members of the site.</p>
   {% elif visual.is_public or visual.owner.pk == request.user.pk %}
     {% include './visual_detail_button_bar.html' %}
+    <br>
     {% if visual.members_only %}
       <p class="art-meta"><i>This Visual is only avaialble for Members of the site.</i></p>
     {% endif %}

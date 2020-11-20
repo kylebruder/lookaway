@@ -16,15 +16,17 @@
 
 .art-image-gallery-blurb {
   height: 650px;
+  width: 100%;
   padding: 10%;
-  display: block;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 
 .art-gallery-info {
   font-size: 1.25em;
 }
-
 .art-gallery-visual {
   font-size: 1.25em;
 }
