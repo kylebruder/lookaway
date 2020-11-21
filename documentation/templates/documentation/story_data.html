@@ -1,18 +1,5 @@
 <h4 class="documentation-title">Acknowledgements</h4>
 <p>
-  {% if story.author %}
-    <i>{{ story.title }}</i> was written by {{ story.author }}
-  {% endif %} 
-  {% if story.editor %}
-    and edited by {{ story.editor }}
-  {% endif %} 
-  {% if story.translator %}
-    and translated by {{ story.translator }}
-  {% endif %} 
- {% if story.original_publisher %}
-    and was originally published by {{ story.original_publisher }} 
- {% endif %} 
- {% if story.original_publication_year %}
-   in the year {{ story.original_publication_year }}
- {% endif %}.
-</p> 
+  <i>{{ story.title }}</i>{% if story.is_fiction %} is a fictional story{% else %} is a true story{% endif %} written by {{ story.author }}{% if story.editor %} and edited by{{ story.editor }}{% endif %}{% if story.translator %} and translated by {{ story.translator }}{% endif %}{% if story.original_publisher %} and was originally published by {{ story.original_publisher }}{% endif %}{% if story.original_publication_year %} in the year {{ story.original_publication_year }}{% endif %}.
+  {% if story.is_fiction %}Any resemblance to actual persons, places or events, is purely coincidental.{% else %}Some names of people and places from the story may have been changed in order to protect the privacy of real persons living or dead.{% endif %}
+</p>

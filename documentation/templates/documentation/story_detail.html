@@ -3,7 +3,7 @@
 <div class="container documentation-story-bg">
   {% if story.is_public or story.owner.pk == request.user.pk %}
     {% include './story_detail_button_bar.html' %}
-    <p>by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ story.author }}</a></p>
+    <p>by {{ story.author }}</p>
     {% if story.image %}
       <img class="documentation-image" src="{{ story.image.image_file.url }}" alt="{{ story.image.title }}">
       <br>
@@ -33,15 +33,7 @@
       {% include './object_tags.html' %}
       <br>
     {% endif %}
-    {% if story.is_public %}
-      Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}<br>
-      {% if object.last_modified > object.creation_date %}
-        Last updated on {{ object.last_modified }}<br>
-      {% endif %}
-    {% else %}
-      Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<br>
-      <br>
-    {% endif %}
+    {% include 'object_meta_data.html' %}
     <br>
   {% else %}
     <p>This Story has not been published yet.</p>

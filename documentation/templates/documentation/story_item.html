@@ -1,16 +1,34 @@
 <li class="list-group-item documentation-list-li">
-  <h5 class="documentation-title">
-    <a href="{% url 'documentation:story_detail' story.slug %}">
-      {{ story.title }}
-    </a>
-  </h5>
-  <p>
-    Contributed by <a href="{% url 'members:member_profile' story.owner.username %}">{{ story.owner }}</a>, last updated on {{ story.last_modified }}
-  </p>
-  {% if story.members_only %}
-    <span class="badge badge-warning">Members Only</span>
-  {% endif %}
-  {% if not story.is_public %}
-    <span class="badge badge-secondary">Unpublished</span>
-  {% endif %}
+  <div class="row">
+    <div class="col-">
+      {% if story.image %}
+        <div class="float-right documentation-list-image" style="background-image:url('{{ story.image.thumbnail_file.url }}')"></div>
+      {% elif story.owner.profile.image %}
+        <div class="float-right documentation-list-image" style="background-image:url('{{ story.owner.profile.image.thumbnail_file.url }}')"></div>
+      {% else %}
+        <div class="float-right documentation-list-image" style="background-image:url('/static/favicon.ico')"></div>
+      {% endif %}
+    </div>
+    <div class="col-sm">
+      <h5 class="documentation-title">
+        <a href="{% url 'documentation:story_detail' story.slug %}">
+          {{ story.title }}
+        </a>
+      </h5>
+      <p>
+        Written by {{ story.author }}</a>, published on {{ story.creation_date|date:"M d, Y" }}
+      </p>
+      {% if story.members_only %}
+        <span class="badge badge-warning">Members Only</span>
+      {% endif %}
+      {% if not story.is_public %}
+        <span class="badge badge-dark">Unpublished</span>
+      {% endif %}
+      {% if story.tags.all.count > 0 %}
+        {% with story as object %}
+          {% include 'object_tags.html' %}
+        {% endwith %}
+      {% endif %}
+    </div>
+  </div>
 </li>

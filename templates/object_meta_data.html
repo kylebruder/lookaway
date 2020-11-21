@@ -1,0 +1,12 @@
+{% if object.is_public %}
+  <p>
+    Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}
+    {% if object.last_modified > object.creation_date %}
+      <br>Last updated on {{ object.last_modified }}
+    {% endif %}
+  </p>
+{% else %}
+  <p>
+    Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}
+  </p>
+  {% endif %}

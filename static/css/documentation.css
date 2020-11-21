@@ -111,6 +111,17 @@
   border-radius: 5px;
 }
 
+.documentation-list-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
 .documentation-list-li {
   background-color: #222222;
   color: #ffffff;
