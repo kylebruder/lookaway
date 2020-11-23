@@ -1,6 +1,8 @@
 <!-- Newest Tracks -->
 {% if tracks.count > 0 %}
-  <div class="index-col">
+  <div class="profile-col">
+    <h4 class="member-title">Music</h4>
+    <br>
     {% for track in tracks %}
       {% if track.is_public and not track.members_only or track.is_public and request.user.is_authenticated or track.owner.pk == request.user.pk %}
         <div class="row">
@@ -11,8 +13,9 @@
               </a>
             </h6>
             <p class="index-meta">
-              New Track by {{ track.artist }}
+              Music by {{ track.artist }}
             </p>
+            <br>
           </div>
           <div class="col">
             {% with track.sound as sound %}
@@ -26,5 +29,8 @@
         </div>
       {% endif %}
     {% endfor %}
+    <p>
+      <a href="{% url 'music:member_tracks' profile.member.username %}">all Tracks contributed by {{ profile.member }}...</a>
+    </p>
   </div>
 {% endif %}

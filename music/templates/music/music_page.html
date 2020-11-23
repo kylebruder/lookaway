@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block body_block %}
-<div class="container music-bg">
+<div class="container-fluid music-bg">
   <!-- Heading -->
   {% include './music_page_button_bar.html' %}
   <p>
@@ -10,9 +10,7 @@
   <div class="row">
     {% if top_tracks.all.count > 0 %}
       <div class="col-sm music-page-section">
-      <div class="container">
         <h4 class="music-page-title">Top Tracks</h4>
-      </div>
         <ul class="list-group">
           {% for track in top_tracks %}
             {% include "./track_item.html" %}
@@ -25,14 +23,11 @@
     {% endif %}
     {% if top_albums.count > 0 %}
       <div class="col-sm music-page-section">
-      <div class="container">
         <h4 class="music-page-title">Top Albums</h4>
-      </div>
-        <ul class="list-group">
-          {% for album in top_albums %}
-            {% include "./album_item.html" %}
-          {% endfor %}
-        </ul>
+        {% for album in top_albums %}
+          {% include "./album_item.html" %}
+        {% endfor %}
+        <div class="clear"></div>
         <div class="container">
           <p><a href="{% url 'music:top_albums' %}">all top albums</a></p>
         </div>
@@ -41,9 +36,7 @@
   </div>
   <div class="row">
     <div class="col-sm music-page-section">
-      <div class="container">
-        <h4 class="music-page-title">New Tracks</h4>
-      </div>
+      <h4 class="music-page-title">New Tracks</h4>
       {% if new_tracks.all.count > 0 %}
         <ul class="list-group">
           {% for track in new_tracks %}
@@ -58,15 +51,12 @@
       {% endif %}
     </div>
     <div class="col-sm music-page-section">
-      <div class="container">
-        <h4 class="music-page-title">New Albums</h4>
-      </div>
+      <h4 class="music-page-title">New Albums</h4>
       {% if new_albums.all.count > 0 %}
-        <ul class="list-group">
-          {% for album in new_albums %}
-            {% include "./album_item.html" %}
-          {% endfor %}
-        </ul>
+        {% for album in new_albums %}
+          {% include "./album_item.html" %}
+        {% endfor %}
+        <div class="clear"></div>
         <div class="container">
           <p><a href="{% url 'music:new_albums' %}">all new albums</a></p>
         </div>

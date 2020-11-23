@@ -7,11 +7,6 @@
   <!-- NAVBAR -->
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav mr-auto">
-      {% if request.user.is_authenticated %}
-        <li class="nav-item dropdown">
-          {% include 'base_nav_objects_dropdown.html' %}
-        </li>
-      {% endif %}
       <li class="nav-item">
         <a class="nav-link nav-font" href="{% url 'posts:public_posts' %}">Posts</a>
       </li>
@@ -36,6 +31,9 @@
     </ul>
     {% if request.user.is_authenticated %}
       <span class="nav-text">
+        <div class="nav-item dropdown float-left">
+          {% include 'base_nav_objects_dropdown.html' %}
+        </div>
         <a class="" href="{% url 'members:studio' %}">
           <button class="btn btn-sm btn-primary float-left">Studio</button>
         </a>

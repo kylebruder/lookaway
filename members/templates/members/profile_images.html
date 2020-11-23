@@ -1,0 +1,18 @@
+<div class="profile-col">
+  {% if images %}
+    <h4 class="profile-title">Image Files</h4>
+    {% for i in images %}
+      <a href="{% url 'objects:image_detail' i.pk %}">
+        <div class="profile-image-card float-left" style="background-image:url('{{ i.thumbnail_file.url }}')">
+          {% if not i.is_public %}
+            <span class="badge badge-secondary">Unpublished</span>
+          {% endif %}
+        </div>
+      </a>
+    {% endfor %}
+    <div class="clear"></div>
+    <p>
+      <a href="{% url 'objects:member_images' profile.member.username %}">more ...</a>
+    </p>
+  {% endif %}
+</div>

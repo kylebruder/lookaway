@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block body_block %}
-<div class="container members-bg">
+<div class="container-fluid members-bg">
   <div class="row">
     {% if profile.image %}
       <div class="col-">
@@ -9,338 +9,56 @@
         </div>
       </div>
     {% endif %}
-    <div class="col">
+    <div class="col-">
       <h1 class="profile-title">{{ profile.member }}</h1>
       <p>
         {% with profile.member as member %}
           {% include './member_badges.html' %}
         {% endwith %}
       </p>
-      <p>Date Joined: {{ profile.member.date_joined }}</p>
     </div>
-    {% if request.user.pk == member.pk %}
-      <div class="col-">
-        {% if profile.member.is_superuser %}
-          <a href="{% url 'invite' %}">
-            <button class="btn btn-sm btn-primary">Invite</button>
+    <div class="col-sm">
+      <p>Member since {{ profile.member.date_joined|date:"M d, Y" }}</p>
+      {% if profile.text %}
+        <p>{{ profile.text }}</p>
+      {% endif %}
+    </div>
+    <div class="col-">
+      <div class="container">
+        {% if request.user.pk == member.pk %}
+          {% if profile.member.is_superuser %}
+            <a href="{% url 'invite' %}">
+              <button class="btn btn-sm btn-primary float-right">Invite</button>
+            </a>
+          {% endif %}
+          <a href="{% url 'members:member_profile_update' request.user.username %}">
+            <button class="btn btn-sm btn-warning float-right">Edit Profile</button>
           </a>
-        {% endif %}
-        <a href="{% url 'members:member_profile_update' request.user.username %}">
-          <button class="btn btn-sm btn-warning">Edit Profile</button>
-        </a>
-      </div>
-    {% endif %}
-  </div>
-  <br>
-  {% if profile.text %}
-    <p>{{ profile.text }}</p>
-  {% endif %}
-  <br>
-  {% if posts %}
-    <h4 class="studio-title">Posts</h4>
-    <ul class="list-group">
-      {% for post in posts %}
-        {% if post.is_public and not post.members_only or post.is_public and request.user.is_authenticated or post.owner.pk == request.user.pk %}
-          <li class="list-group-item post-list-li">
-            <p>
-              <a href="{% url 'posts:post_detail' post.slug %}">
-                {{ post.title }}
-              </a>
-              {% if post.publication_date %}
-                <br>
-                {{ post.publication_date }}
-              {% endif %}
-              {% if not post.is_public %}
-                <span class="badge badge-secondary">Unpublished</span>
-              {% endif %}
-            </p>
-          </li>
-        {% endif %}
-      {% endfor %}
-    </ul>
-    <p>
-      <a href="{% url 'posts:member_posts' profile.member.username %}">more ...</a>
-    </p>
-  {% endif %}
-  <div class="row">
-    {% if visuals %}
-      <div class="col-sm-6">
-        <h4 class="studio-title">Visuals</h4>
-        <div class="profile-image-matrix">
-          {% for i in visuals %}
-            <a href="{% url 'art:visual_detail' i.slug %}">
-              <div class="profile-image-card float-left" style="background-image:url('{{ i.image.thumbnail_file.url }}')">
-                {% if not i.is_public %}
-                  <span class="badge badge-secondary">Unpublished</span>
-                {% endif %}
-              </div>
-            </a>
-          {% endfor %}
-        </div>
-        <div class="clear"></div>
-        <p>
-          <a href="{% url 'art:member_visuals' profile.member.username %}">more ...</a>
-        </p>
-      </div>
-    {% endif %}
-    {% if galleries %}
-      <div class="col-sm">
-        <h4 class="studio-title">Galleries</h4>
-        <ul class="list-group">
-          {% for gallery in galleries %}
-            {% if gallery.is_public and not gallery.members_only or gallery.is_public and request.user.is_authenticated or gallery.owner.pk == request.user.pk %}
-              <li class="list-group-item art-list-li">
-                <div class="row">
-                  <div class="col">
-                    <p>
-                      <a href="{% url 'art:gallery_detail' gallery.slug %}">
-                        {{ gallery.title }}
-                      </a>
-                      <br>
-                      {{ gallery.artist }}
-                      {% if not gallery.is_public %}
-                        <span class="badge badge-secondary">Unpublished</span>
-                      {% endif %}
-                    </p>
-                  </div>
-                  <div class="col-">
-                    <div class="profile-image-card float-left" style="background-image:url('{{ gallery.visuals.all.0.image.thumbnail_file.url }}')">
-                    </div>
-                  </div>
-                </div>
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-        <p>
-          <a href="{% url 'art:member_galleries' profile.member.username %}">more ...</a>
-        </p>
-      </div>
-    {% endif %}
-  </div>
-  <div class="row">
-    {% if tracks %}
-      <div class="col-sm">
-        <h4 class="studio-title">Tracks</h4>
-        <ul class="list-group">
-          {% for track in tracks %}
-            {% if track.is_public and not track.members_only or track.is_public and request.user.is_authenticated or track.owner.pk == request.user.pk %}
-              <li class="list-group-item music-list-li">
-                <p>
-                  <a href="{% url 'music:track_detail' track.slug %}">
-                    {{ track.title }}
-                  </a>
-                  {% if track.artist %}
-                    <br>
-                    {{ track.artist }}
-                  {% endif %}
-                  {% if not track.is_public %}
-                    <span class="badge badge-secondary">Unpublished</span>
-                  {% endif %}
-                </p>
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-        <p>
-          <a href="{% url 'music:member_tracks' profile.member.username %}">more ...</a>
-        </p>
-      </div>
-    {% endif %}
-    {% if albums %}
-      <div class="col-sm">
-        <h4 class="studio-title">Albums</h4>
-        <ul class="list-group">
-          {% for album in albums %}
-            {% if album.is_public and not album.members_only or album.is_public and request.user.is_authenticated or album.owner.pk == request.user.pk %}
-              <li class="list-group-item music-list-li">
-                <div class="row">
-                  <div class="col">
-                    <p>
-                      <a href="{% url 'music:album_detail' album.slug %}">
-                        {{ album.title }}
-                      </a>
-                      <br>
-                      {{ album.artist }}
-                      {% if not album.is_public %}
-                        <span class="badge badge-secondary">Unpublished</span>
-                      {% endif %}
-                    </p>
-                  </div>
-                  <div class="col-">
-                    <div class="profile-image-card float-left" style="background-image:url('{{ album.cover.image_file.url }}')">
-                    </div>
-                  </div>
-                </div>
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-        <p>
-          <a href="{% url 'music:member_albums' profile.member.username %}">more ...</a>
-        </p>
-      </div>
-    {% endif %}
-  </div>
-  <div class="row">
-    {% if articles %}
-      <div class="col-sm">
-        <h4 class="studio-title">Articles</h4>
-        <ul class="list-group">
-          {% for article in articles %}
-            <li class="list-group-item documentation-list-li">
-              <p>
-                <a href="{% url 'documentation:article_detail' article.slug %}">
-                  {{ article.title }}
-                </a>
-                {% if not article.is_public %}
-                  <span class="badge badge-secondary">Unpublished</span>
-                {% endif %}
-              </p>
-            </li>
-          {% endfor %}
-        </ul>
-        <p>
-          <a href="{% url 'documentation:member_articles' profile.member.username %}">more ...</a>
-        </p>
-      </div>
-    {% endif %}
-    {% if support_documents %}
-      <div class="col-sm">
-        <h4 class="studio-title">Documentation</h4>
-        <ul class="list-group">
-          {% for document in support_documents %}
-            <li class="list-group-item documentation-list-li">
-              <p>
-                <a href="{% url 'documentation:support_document_detail' document.slug %}">
-                  {{ document.title }}
-                </a>
-                {% if not document.is_public %}
-                  <span class="badge badge-secondary">Unpublished</span>
-                {% endif %}
-              </p>
-            </li>
-          {% endfor %}
-        </ul>
-        <p>
-          <a href="{% url 'documentation:member_support_documents' profile.member.username %}">more ...</a>
-        </p>
-      </div>
-    {% endif %}
-  </div>
-  {% if request.user.is_authenticated %}
-    <div class="row">
-      {% if images %}
-        <div class="col-sm-6">
-          <h4 class="profile-title">Images</h4>
-          <div class="profile-image-matrix">
-            {% for i in images %}
-              <a href="{% url 'objects:image_detail' i.pk %}">
-                <div class="profile-image-card float-left" style="background-image:url('{{ i.thumbnail_file.url }}')">
-                  {% if not i.is_public %}
-                    <span class="badge badge-secondary">Unpublished</span>
-                  {% endif %}
-                </div>
-              </a>
-            {% endfor %}
-          </div>
           <div class="clear"></div>
-          <p>
-            <a href="{% url 'objects:member_images' profile.member.username %}">more ...</a>
-          </p>
-        </div>
-      {% endif %}
-      {% if videos %}
-        <div class="col-sm-6">
-          <h4 class="profile-title">Videos</h4>
-          <ul class="list-group">
-            {% for video in videos %}
-              <li class="list-group-item video-list-li">
-                <a href="{% url 'objects:video_detail' pk=video.pk %}">
-                  {{ video.title }}
-                </a>
-                {% if not video.is_public %}
-                  <div class="container">
-                    <span class="badge badge-secondary">Unpublished</span>
-                  </div>
-                {% endif %}
-              </li>
-            {% endfor %}
-          </ul>
-          <p>
-            <a href="{% url 'objects:member_videos' profile.member.username %}">more ...</a>
-          </p>
-        </div>
-      {% endif %}
-      {% if sounds %}
-        <div class="col-sm-6">
-          <h4 class="profile-title">Sounds</h4>
-          <ul class="list-group">
-            {% for sound in sounds %}
-              <li class="list-group-item sound-list-li">
-                <a href="{% url 'objects:sound_detail' pk=sound.pk %}">
-                  {{ sound.title }}
-                </a>
-                {% if not sound.is_public %}
-                  <div class="container">
-                    <span class="badge badge-secondary">Unpublished</span>
-                  </div>
-                {% endif %}
-              </li>
-            {% endfor %}
-          </ul>
-          <p>
-            <a href="{% url 'objects:member_sounds' profile.member.username %}">more ...</a>
-          </p>
-        </div>
-      {% endif %}
-      {% if codes %}
-        <div class="col-sm-6">
-          <h4 class="profile-title">Code</h4>
-          <ul class="list-group">
-            {% for code in codes %}
-              <li class="list-group-item code-list-li">
-                <a href="{% url 'objects:code_detail' code.pk %}">
-                  {{ code.title }}
-                </a>
-                {% if code.owner.pk == request.user.pk and not code.is_public%}
-                  <span class="badge badge-secondary">Unpublished</span>
-                {% endif %}
-              </li>
-            {% endfor %}
-          </ul>
-          <p>
-            <a href="{% url 'objects:member_code' profile.member.username %}">more ...</a>
-          </p>
-        </div>
-      {% endif %}
+        {% endif %}
+      </div>
     </div>
-    {% if links %}
-      <h4 class="profile-title">Links</h4>
-      <ul class="list-group">
-        {% for link in links %}
-          <li class="list-group-item link-list-li">
-            {% if link.favicon_href %}
-              <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
-            {% endif %}
-            <a href="{% url 'objects:link_detail' link.pk %}">
-              {% if link.title %}
-                {{ link.title }}
-              {% else %}
-                <p>Untitled Link</p>
-              {% endif %}
-            </a>
-            <br>
-            {% if not link.is_public %}
-              <span class="badge badge-secondary">Unpublished</span>
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ul>
-      <p>
-        <a href="{% url 'objects:member_links' profile.member.username %}">more ...</a>
-      </p>
-    {% endif %}
+  </div>
+  <br>
+  <br>
+  {% include './profile_posts.html' %}
+  {% include './profile_articles.html' %}
+  {% include './profile_supportdocuments.html' %}
+  {% include './profile_stories.html' %}
+  <div class="clear"></div>
+  {% include './profile_visuals.html' %}
+  {% include './profile_galleries.html' %}
+  <div class="clear"></div>
+  {% include './profile_tracks.html' %}
+  {% include './profile_albums.html' %}
+  <div class="clear"></div>
+  {% if request.user.is_authenticated %}
+    {% include './profile_images.html' %}
+    {% include './profile_videos.html' %}
+    {% include './profile_sounds.html' %}
+    {% include './profile_code.html' %}
+    {% include './profile_links.html' %}
+  <div class="clear"></div>
   {% endif %}
   <br>
 </div>

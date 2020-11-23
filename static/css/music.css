@@ -6,6 +6,21 @@
   margin-bottom: 40px;
 }
 
+.music-album {
+  width: 300px;
+  height: 300px;
+  padding: 10px;
+  margin: 10px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  float: left;
+}
+
+.music-brand-name {
+  font-family: 'Baloo Paaji 2', sans-serif;
+}
+
 .music-album-image {
   width: 350px;
   height: 350px;
@@ -16,6 +31,22 @@
 
 .music-album-info {
   font-size: 1.25em;
+}
+
+.music-album-meta {
+  font-color: #eeeeee;
+  font-size: 0.75em;
+  background-color: #222222;
+  margin: 3px;
+  padding: 3px; 
+}
+
+.music-album-title {
+  font-color: #eeeeee;
+  font-family: 'Averia Serif Libre', serif;
+  background-color: #222222;
+  margin: 3px;
+  padding: 3px;
 }
 
 .music-list-image {
@@ -45,10 +76,6 @@
 }
 
 .music-page-section {
-  border-style: solid;
-  border-width: 5px;
-  border-radius: 5px;
-  border-color: #eeeeee;
   padding: 5px;
   margin: 5px;
 }

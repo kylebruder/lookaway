@@ -1,0 +1,20 @@
+{% if albums.count > 0 %}
+  {% for album in albums %}
+    <a class="text-light" href="{% url 'music:album_detail' album.slug %}">
+      <div class="index-album" style="background-image:url('{{ album.cover.image_file.url }}')" >
+        {% if album.is_public and not album.members_only or album.is_public and request.user.is_authenticated or album.owner.pk == request.user.pk %}
+            <span class="index-album-title">
+                {{ album.title }}
+              {% if not album.is_public %}
+                <span class="badge badge-secondary">Unpublished</span>
+              {% endif %}
+            </span>
+            <br>
+            <span class="index-album-meta">
+               Music by {{ album.artist }}
+            </span>
+        {% endif %}
+      </div>
+    </a>
+  {% endfor %}
+{% endif %}

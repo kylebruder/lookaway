@@ -17,11 +17,16 @@
 .index-album {
   width: 325px;
   height: 325px;
-  margin-right: 20px;
+  margin-right: 10px;
   margin-bottom: 10px;
+  padding: 10px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #222222;
+  border-style: solid;
+  border-width: 5px;
+  border-radius: 10px;
+  border-color: #111111;
   display: block;
   float: left;
 }
@@ -46,12 +51,26 @@
   padding: 3px;
 }
 
-.index-gallery-li {
-  min-height: 100px;
+.index-audio-player {
+  width: 100px;
+  margin-right: 10px;
+}
+
+.index-gallery {
+  height: 325px;
+  width: 325px;
+  margin-right: 10px;
   margin-bottom: 10px;
+  padding: 10px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #222222;
+  border-style: solid;
+  border-width: 5px;
+  border-radius: 10px;
+  border-color: #111111;
+  display: block;
+  float: left;
 }
 
 .index-gallery-meta {
@@ -85,7 +104,7 @@
   display: block;
   width: 100px;
   height: 100px;
-  margin: 5px;
+  margin-bottom: 10px;
   border-radius: 100%;
   background-repeat: no-repeat;
   background-size: cover;

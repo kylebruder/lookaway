@@ -1,6 +1,6 @@
 <!-- Newest Visuals -->
 {% if visuals.count > 0 %}
-  <div class="col-md index-col">
+  <div class="index-col">
     {% for visual in visuals %}
       {% if visual.is_public and not visual.members_only or visual.is_public and request.user.is_authenticated or visual.owner.pk == request.user.pk %}
         <div class="index-image-matrix">

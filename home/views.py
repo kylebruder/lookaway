@@ -26,7 +26,7 @@ class IndexView(TemplateView):
             re=None,
         ).order_by(
             '-publication_date',
-        )[:6]
+        )[:3]
         context['articles'] = Article.objects.filter(
             is_public=True,
         ).order_by(
@@ -51,7 +51,7 @@ class IndexView(TemplateView):
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:3]
+        )[:4]
         context['albums'] = Album.objects.filter(
             is_public=True,
         ).order_by(

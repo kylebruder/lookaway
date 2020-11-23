@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h4 class="studio-title">Your Stories</h4>
+    </div>
+    <div class="col-">
+      <a href="{% url 'documentation:story_create' %}">
+        <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+      </a>
+    </div>
+  </div>
+</div>
+{% if storys.all.count > 0 %}
+  <ul class="list-group">
+    {% for story in stories %}
+      <li class="list-group-item story-list-li">
+        <p>
+          <a href="{% url 'storys:story_detail' story.slug %}">
+            {{ story.title }}
+          </a><br>
+          {{ post.author }}
+        </p>
+        {% if not story.is_public %}
+          <span class="badge badge-secondary">Unpublished</span>
+        {% endif %}
+        {% if story.members_only %}
+          <span class="badge badge-warning">Members Only</span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  <p>
+    <a href="{% url 'documentation:member_stories' request.user.username %}">more ...</a>
+  </p>
+{% else %}
+  <p>You have not storyed anything yet.</p>
+{% endif %}

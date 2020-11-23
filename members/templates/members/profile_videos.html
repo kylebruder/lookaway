@@ -1,0 +1,23 @@
+<div class="profile-col">
+  {% if videos %}
+      <h4 class="profile-title">Video Files</h4>
+      <ul class="list-group">
+        {% for video in videos %}
+          <li class="list-group-item video-list-li">
+            <a href="{% url 'objects:video_detail' pk=video.pk %}">
+              {{ video.title }}
+            </a><br>
+            {% if not video.is_public %}
+              <div class="container">
+                <span class="badge badge-secondary">Unpublished</span>
+              </div><br>
+            {% endif %}
+            Uploaded on {{ video.creation_date|date:"M d, Y" }}
+          </li>
+        {% endfor %}
+      </ul>
+      <p>
+        <a href="{% url 'objects:member_videos' profile.member.username %}">more ...</a>
+      </p>
+  {% endif %}
+</div>

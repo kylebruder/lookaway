@@ -5,14 +5,14 @@
       {% if article.is_public and not article.members_only or article.is_public and request.user.is_authenticated or article.owner.pk == request.user.pk %}
         <div class="row">
           <div class="col">
-            <h5 class="index-title">
+            <h6 class="index-title">
               <a href="{% url 'documentation:article_detail' article.slug %}">
                 {{ article.title }}
               </a>
               {% if not article.is_public %}
                 <span class="badge badge-secondary">Unpublished</span>
               {% endif %}
-            </h5>
+            </h6>
             <p class="index-meta">
                Published by <a href="{% url 'members:member_profile' article.owner.username %}">{{ article.owner }}</a>
             {% if article.publication_date %} on {{ article.publication_date|date:"M d, Y" }}{% endif %}

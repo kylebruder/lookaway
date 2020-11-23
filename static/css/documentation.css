@@ -14,6 +14,10 @@
   margin-bottom: 40px;
 }
 
+.documentation-alert {
+  display: inline-block;
+}
+
 .documentation-image-matrix {
   max-height: 600px;
   max-width: 600px;
@@ -160,7 +164,8 @@
 
 .documentation-story-section-image {
   max-width: 250px;
-  padding: 10px;
+  margin-left: 15px;
+  margin-right: 40px;
   font-size: 0.75em;
   display: inline-block;
 }

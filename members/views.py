@@ -12,7 +12,7 @@ from django.utils import timezone, text
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, FormMixin, UpdateView
 from django.views.generic.detail import DetailView
-from documentation.models import Article, SupportDocument
+from documentation.models import Article, Story, SupportDocument
 from art.models import Gallery, Visual
 from music.models import Album, Track
 from objects.models import Image, Sound, Video, Code, Link
@@ -30,26 +30,35 @@ class StudioView(LoginRequiredMixin, TemplateView):
         member = Member.objects.get(pk=self.request.user.pk)
 
         context['member'] = member
-        # Posts
+        # Visuals
         context['visuals'] = Visual.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:16]
+        # Galleries
         context['galleries'] = Gallery.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:16]
+        # Tracks
         context['tracks'] = Track.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:16]
+        # Albums
         context['albums'] = Album.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:16]
+        # Posts
         context['posts'] = Post.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:16]
-        # Articleation
+        # Stories
+        context['stories'] = Story.objects.filter(
+            owner=member
+        ).order_by('is_public', '-creation_date')[:16]
+        # Articles
         context['articles'] = Article.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:16]
+        #Documents
         context['support_documents'] = SupportDocument.objects.filter(
             owner=member
         ).order_by('is_public', '-creation_date')[:16]
@@ -97,7 +106,7 @@ class MemberProfileView(DetailView):
         context['visuals'] = Visual.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('-publication_date')[:16]
+        ).order_by('-publication_date')[:9]
         # Galleries
         context['galleries'] = Gallery.objects.filter(
             owner=member,
@@ -107,7 +116,7 @@ class MemberProfileView(DetailView):
         context['tracks'] = Track.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('-publication_date')[:5]
+        ).order_by('-publication_date')[:3]
         # Albums
         context['albums'] = Album.objects.filter(
             owner=member,
@@ -117,41 +126,47 @@ class MemberProfileView(DetailView):
         context['posts'] = Post.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('-publication_date')[:5]
-        # Articleation
+        ).order_by('-publication_date')[:3]
+        # Stories
+        context['stories'] = Story.objects.filter(
+            owner=member,
+            is_public=True,
+        ).order_by('-publication_date')[:3]
+        # Articles
         context['articles'] = Article.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('-publication_date')[:5]
+        ).order_by('-publication_date')[:3]
+        # Documents
         context['support_documents'] = SupportDocument.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('-publication_date')[:5]
+        ).order_by('-publication_date')[:3]
         # Images
         context['images'] = Image.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('-publication_date')[:16]
+        ).order_by('-publication_date')[:9]
         # Videos
         context['videos'] = Video.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('-publication_date')[:5]
+        ).order_by('-publication_date')[:3]
         # Sounds
         context['sounds'] = Sound.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('-publication_date')[:5]
+        ).order_by('-publication_date')[:3]
         # Code
         context['codes'] = Code.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('-publication_date')[:5]
+        ).order_by('-publication_date')[:3]
         # Links
         context['links'] = Link.objects.filter(
             owner=member,
             is_public=True,
-        ).order_by('-publication_date')[:5]
+        ).order_by('-publication_date')[:3]
     
         return context
 
