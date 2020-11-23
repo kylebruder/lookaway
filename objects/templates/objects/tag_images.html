@@ -1,0 +1,22 @@
+{% if images %}
+  <h5 class="object-title">Image Files</h5>
+  {% for image in images %}
+    {% if image.is_public or image.owner.pk == request.user.pk %}
+      <a href="{% url 'objects:image_detail' image.pk %}">
+        <div class="studio-image-card float-left" style="background-image:url('{{ image.thumbnail_file.url }}')">
+          {% if not image.is_public %}
+            <span class="badge badge-secondary">Unpublished</span>
+          {% endif %}
+          </div>
+        </a>
+    {% endif %}
+  {% endfor %}
+  <div class="clear"></div>
+  <br>
+  {% if total_images > list_length %}
+    <p>
+      all image files tagged with <a href="{% url 'objects:image_tag' tag.slug %}">"{{ tag }}"</a>
+    </p>
+  {% endif %}
+  <br>
+{% endif %}

@@ -1,0 +1,23 @@
+<!-- Visuals -->
+{% if visuals %}
+  <h5 class="tag-title">Visuals</h5>
+  {% for visual in visuals %}
+    {% if visual.is_public or visual.owner.pk == request.user.pk %}
+      <a href="{% url 'art:visual_detail' visual.slug %}">
+        <div class="art-visual-card float-left" style="background-image:url('{{ visual.image.thumbnail_file.url }}')">
+          {% if not visual.is_public %}
+            <span class="badge badge-secondary">Unpublished</span>
+          {% endif %}
+        </div>
+      </a>
+    {% endif %}
+  {% endfor %}
+  <div class="clear"></div>
+  <br>
+  {% if total_visuals > list_length %}
+    <p>
+      all visuals tagged with <a href="{% url 'objects:visual_tag' tag.slug %}">"{{ tag }}"</a>
+    </p>
+  {% endif %}
+  <br>
+{% endif %}

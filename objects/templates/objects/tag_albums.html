@@ -1,0 +1,31 @@
+{% if albums %}
+  <h5 class="tag-title">Albums</h5>
+  {% for album in albums %}
+    {% if album.is_public %}
+      <div class="row">
+        <div class="col-">
+          {% if album.cover %}
+            <div class="tag-list-image" style="background-image:url('{{ album.cover.thumbnail_file.url }}')"></div>
+          {% elif album.owner.profile.image %}
+            <div class="tag-list-image" style="background-image:url('{{ album.owner.profile.image.thumbnail_file.url }}')"></div>
+          {% else %}
+            <div class="tag-list-image" style="background-image:url('/static/favicon.ico')"></div>
+          {% endif %}      
+        </div>
+        <div class="col-sm">
+          <p>
+            <a class="tag-title" href="{% url 'music:album_detail' album.slug %}">{{ album.title }}</a><br>
+            Music collection by {{ album.artist }}, released by <a href="{% url 'members:member_profile' album.owner.username %}">{{ album.owner }}</a>{% if album.is_public %} on {{ album.publication_date|date:"M d, Y" }}{% endif %}.<br>
+            {{ album.meta_description }}
+          </p>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+  {% if total_albums > list_length %}
+    <p>
+      all albums tagged with <a href="{% url 'objects:album_tag' tag.slug %}">"{{ tag }}"</a>
+    </p>
+  {% endif %}
+  <br>
+{% endif %}

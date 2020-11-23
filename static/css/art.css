@@ -14,15 +14,16 @@
   display: block;
 }
 
-.art-image-gallery-blurb {
+.art-gallery-blurb {
   height: 650px;
   width: 100%;
   padding: 10%;
+  font-size: 0.75em;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
 }
-
 
 .art-gallery-info {
   font-size: 1.25em;
@@ -32,7 +33,7 @@
 }
 
 .art-gallery-message {
-  font-size: 1.25em;
+  font-size: 0.75em;
   text-align: center;
 }
 
@@ -74,9 +75,11 @@
 .art-page-title {
   font-family: 'Permanent Marker', sans-serif;
 }
+
 .art-title {
   font-family: 'Averia Serif Libre', serif;
 }
+
 .art-visual-blurb {
   margin-left: 15px;
 }

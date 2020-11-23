@@ -1,0 +1,17 @@
+{% if videos %}
+  <h5 class="object-title">Video Files</h5>
+  {% for video in videos %}
+    {% if video.is_public or video.owner.pk %}
+      <p>
+        <a href="{% url 'objects:video_detail' video.pk %}">{{ video.title }}</a><br>
+        Uploaded by <a href="{% url 'members:member_profile' video.owner.username %}">{{ video.owner }}</a> on {{ video.creation_date|date:"M d, Y" }}.
+      </p>
+    {% endif %}
+  {% endfor %}
+  {% if total_videos > list_length %}
+    <p>
+      all video files tagged with <a href="{% url 'objects:video_tag' tag.slug %}">"{{ tag }}"</a>
+    </p>
+  {% endif %}
+  <br>
+{% endif %}

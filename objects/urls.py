@@ -233,6 +233,11 @@ urlpatterns = [
         name='track_tag',
     ),
     path(
+        'tags/stories/<slug:slug>',
+        views.StoryByTag.as_view(),
+        name='story_tag',
+    ),
+    path(
         'tags/posts/<slug:slug>',
         views.PostByTag.as_view(),
         name='post_tag',

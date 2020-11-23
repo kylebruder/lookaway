@@ -1,0 +1,31 @@
+{% if galleries %}
+  <h5 class="tag-title">Galleries</h5>
+  {% for gallery in galleries %}
+    {% if gallery.is_public %}
+      <div class="row">
+        <div class="col-">
+          {% if gallery.visuals.all.count > 0 %}
+            <div class="tag-list-image" style="background-image:url('{{ gallery.visuals.first.image.thumbnail_file.url }}')"></div>
+          {% elif gallery.owner.profile.image %}
+            <div class="tag-list-image" style="background-image:url('{{ post.owner.profile.image.thumbnail_file.url }}')"></div>
+          {% else %}
+            <div class="tag-list-image" style="background-image:url('/static/favicon.ico')"></div>
+          {% endif %}      
+        </div>
+        <div class="col-sm">
+          <p>
+            <a class="tag-title" href="{% url 'art:gallery_detail' gallery.slug %}">{{ gallery.title }}</a><br>
+            Works by {{ gallery.artist }}, curated by <a href="{% url 'members:member_profile' gallery.owner.username %}">{{ gallery.owner }}</a>{% if gallery.is_public %} on {{ gallery.publication_date|date:"M d, Y" }}{% endif %}.<br>
+            {{ gallery.meta_description }}
+          </p>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+  {% if total_galleries > list_length %}
+    <p>
+      all galleries tagged with <a href="{% url 'objects:gallery_tag' tag.slug %}">"{{ tag }}"</a>
+    </p>
+  {% endif %}
+  <br>
+{% endif %}

@@ -13,7 +13,7 @@ from django.utils import timezone, text
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from documentation.models import Article, SupportDocument
+from documentation.models import Article, Story, SupportDocument
 from lookaway.settings import BASE_DIR
 from art.models import Gallery, Visual
 from members.models import Member
@@ -996,22 +996,84 @@ class TagDetailView(DetailView):
 
     model = Tag
     context_object_name = 'tag'
+    list_length = 3 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         slug = self.object.slug
+        # Send the desired list length
+        context['list_length'] = self.list_length
+        ## Send object lists with totals
+        # Posts
         context['posts'] = Post.objects.filter(
             tags__slug__exact=slug,
-            members_only=False,
-        )
-        context['galleries'] = Gallery.objects.filter(tags__slug__exact=slug)
-        context['visuals'] = Visual.objects.filter(tags__slug__exact=slug)
-        context['albums'] = Album.objects.filter(tags__slug__exact=slug)
-        context['tracks'] = Track.objects.filter(tags__slug__exact=slug)
-        context['articles'] = Article.objects.filter(tags__slug__exact=slug)
-        context['documents'] = SupportDocument.objects.filter(tags__slug__exact=slug)
+            is_public=True,
+        ).order_by('-weight')[:self.list_length]
+        context['total_posts'] = Post.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).count()
+        # Art
+        context['galleries'] = Gallery.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).order_by('-weight')[:self.list_length]
+        context['total_galleries'] = Gallery.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).count()
+        context['visuals'] = Visual.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).order_by('-weight')[:self.list_length]
+        context['total_visuals'] = Visual.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).count()
+        # Music
+        context['albums'] = Album.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).order_by('-weight')[:self.list_length]
+        context['total_albums'] = Album.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).count()
+        context['tracks'] = Track.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).order_by('-weight')[:self.list_length]
+        context['total_visuals'] = Visual.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).count()
+        context['stories'] = Story.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).order_by('-weight')[:self.list_length]
+        context['total_stories'] = Story.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).count()
+        context['articles'] = Article.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).order_by('-weight')[:self.list_length]
+        context['total_articles'] = Article.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).count()
+        context['documents'] = SupportDocument.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).order_by('-weight')[:self.list_length]
+        context['total_documents'] = SupportDocument.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).count()
         # Tell the template if there are no objects to show non-members
         public_object_count = context['posts'].count() + \
+            context['stories'].count() + \
             context['galleries'].count() + \
             context['visuals'].count() + \
             context['albums'].count() + \
@@ -1025,12 +1087,51 @@ class TagDetailView(DetailView):
             member = Member.objects.get(pk=self.request.user.pk)
             if member.check_can_allocate() and not member.check_is_new():
                 context['can_add_marshmallow'] = True
-            context['images'] = Image.objects.filter(tags__slug__exact=slug).filter(is_public=True)
-            context['videos'] = Video.objects.filter(tags__slug__exact=slug).filter(is_public=True)
-            context['sounds'] = Sound.objects.filter(tags__slug__exact=slug).filter(is_public=True)
-            context['codes'] = Code.objects.filter(tags__slug__exact=slug).filter(is_public=True)
-            context['links'] = Link.objects.filter(tags__slug__exact=slug).filter(is_public=True)
-            if context['images'].count() + context['videos'].count() + context['sounds'].count() + context['codes'].count() + context['links'].count() <= 0:
+            context['images'] = Image.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).order_by('-weight')[:self.list_length]
+            context['total_images'] = Image.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).count()
+            context['videos'] = Video.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).order_by('-weight')[:self.list_length]
+            context['total_videos'] = Video.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).count()
+            context['sounds'] = Sound.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).order_by('-weight')[:self.list_length]
+            context['total_sounds'] = Sound.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).count()
+            context['codes'] = Code.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).order_by('-weight')[:self.list_length]
+            context['total_codes'] = Code.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).count()
+            context['links'] = Link.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+                ).order_by('-weight')[:self.list_length]
+            context['total_links'] = Link.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).count()
+            if context['images'].count() + \
+                context['videos'].count() + \
+                context['sounds'].count() + \
+                context['codes'].count() + \
+                context['links'].count() <= 0:
                 context['no_member_objects'] = True
         return context
 
@@ -1148,6 +1249,36 @@ class TrackByTag(ListView):
 
     def get_queryset(self, *args, **kwargs):
         return Track.objects.filter(tags__slug__exact=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
+        return context
+
+class StoryByTag(ListView):
+
+    model = Story
+    context_object_name = 'stories'
+    paginate_by = 32
+    ordering = ['-weight', '-creation_date']
+
+    def get_queryset(self, *args, **kwargs):
+        return Story.objects.filter(tags__slug__exact=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
+        return context
+
+class PostByTag(ListView):
+
+    model = Post
+    context_object_name = 'posts'
+    paginate_by = 32
+    ordering = ['-weight',]
+
+    def get_queryset(self, *args, **kwargs):
+        return Post.objects.filter(tags__slug__exact=self.kwargs['slug'])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

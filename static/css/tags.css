@@ -24,6 +24,18 @@
   border-bottom: solid 2px #111111;
 }
 
+.tag-list-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-left: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
 .tag-list-link {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.75em;
@@ -35,6 +47,6 @@
 }
 
 .tag-title {
-  font-family: inherit;
+  font-family: 'Averia Serif Libre', serif;
 }
 

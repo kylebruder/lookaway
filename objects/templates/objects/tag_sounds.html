@@ -1,0 +1,17 @@
+{% if sounds %}
+  <h5 class="object-title">Sound Files</h5>
+  {% for sound in sounds %}
+    {% if sound.is_public or sound.owner.pk %}
+      <p>
+        <a href="{% url 'objects:sound_detail' sound.pk %}">{{ sound.title }}</a><br>
+        Uploaded by <a href="{% url 'members:member_profile' sound.owner.username %}">{{ sound.owner }}</a> on {{ sound.creation_date|date:"M d, Y" }}.
+      </p>
+    {% endif %}
+  {% endfor %}
+  {% if total_sounds > list_length %}
+    <p>
+      all sound files tagged with <a href="{% url 'objects:sound_tag' tag.slug %}">"{{ tag }}"</a>
+    </p>
+  {% endif %}
+  <br>
+{% endif %}

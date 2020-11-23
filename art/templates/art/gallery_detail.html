@@ -19,7 +19,7 @@
               <div class="art-gallery-image">
                   <div class="art-gallery-image">
                     <div class="d-block w-100">
-                      <p class="art-image-gallery-blurb">{{ gallery.text }}</p>
+                      <p class="art-gallery-blurb">{{ gallery.text }}</p>
                     </div>
                   </div>
                   <div class="carousel-caption d-none d-md-block">
@@ -30,7 +30,7 @@
               <div class="carousel-item">
                 <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
                   <div class="art-gallery-image">
-                    <p class="art-gallery-message"><i>Click the image for more detail</i></p> 
+                    <p class="art-gallery-message"><i>Tap the image for more detail</i></p> 
                     <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
                   </div>
                 </a>

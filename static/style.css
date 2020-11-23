@@ -51,6 +51,10 @@
   border-radius: 48%;
 }
 
+.object-title {
+  font-family: 'Ibarra Real Nova', serif;
+}
+
 .title-button {
   margin: 3px;
 }

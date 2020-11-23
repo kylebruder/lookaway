@@ -1,0 +1,31 @@
+{% if stories %}
+  <h5 class="tag-title">Stories</h5>
+  {% for story in stories %}
+    {% if story.is_public %}
+      <div class="row">
+        <div class="col-">
+          {% if story.image %}
+            <div class="tag-list-image" style="background-image:url('{{ story.image.thumbnail_file.url }}')"></div>
+          {% elif story.owner.profile.image %}
+            <div class="tag-list-image" style="background-image:url('{{ story.owner.profile.image.thumbnail_file.url }}')"></div>
+          {% else %}
+            <div class="tag-list-image" style="background-image:url('/static/favicon.ico')"></div>
+          {% endif %}      
+        </div>
+        <div class="col-sm">
+          <p>
+            <a class="tag-title" href="{% url 'documentation:story_detail' story.slug %}">{{ story.title }}</a><br>
+            Written by {{ story.author }}, published by <a href="{% url 'members:member_profile' story.owner.username %}">{{ story.owner }}</a>{% if story.is_public %} on {{ story.publication_date|date:"M d, Y" }}{% endif %}.<br>
+            {{ story.meta_description }}
+          </p>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+  {% if total_stories > list_length %}
+    <p>
+      all stories tagged with <a href="{% url 'objects:story_tag' tag.slug %}">"{{ tag }}"</a>
+    </p>
+  {% endif %}
+  <br>
+{% endif %}

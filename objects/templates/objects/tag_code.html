@@ -1,0 +1,17 @@
+{% if codes %}
+  <h5 class="object-title">Code Samples</h5>
+  {% for code in codes %}
+    {% if code.is_public or code.owner.pk %}
+      <p>
+        <a href="{% url 'objects:code_detail' code.pk %}">{{ code.title }}</a><br>
+        Uploaded by <a href="{% url 'members:member_profile' code.owner.username %}">{{ code.owner }}</a> on {{ code.creation_date|date:"M d, Y" }}.
+      </p>
+    {% endif %}
+  {% endfor %}
+  {% if total_codes > list_length %}
+    <p>
+      all code samples tagged with <a href="{% url 'objects:code_tag' tag.slug %}">"{{ tag }}"</a>
+    </p>
+  {% endif %}
+  <br>
+{% endif %}

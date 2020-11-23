@@ -1,0 +1,17 @@
+{% if links %}
+  <h5 class="object-title">Links</h5>
+  {% for link in links %}
+    {% if link.is_public or link.owner.pk %}
+      <p>
+        <a href="{% url 'objects:link_detail' link.pk %}">{{ link.title }}</a><br>
+        Uploaded by <a href="{% url 'members:member_profile' link.owner.username %}">{{ link.owner }}</a> on {{ link.creation_date|date:"M d, Y" }}.
+      </p>
+    {% endif %}
+  {% endfor %}
+  {% if total_links > list_length %}
+    <p>
+      all link files tagged with <a href="{% url 'objects:link_tag' tag.slug %}">"{{ tag }}"</a>
+    </p>
+  {% endif %}
+  <br>
+{% endif %}
