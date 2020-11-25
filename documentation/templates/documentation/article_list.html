@@ -3,7 +3,8 @@
 <div class="container documentation-bg">
   {% include "./article_list_button_bar.html" %}
   {% if articles %}
-    {% include "page_control.html" %}
+    {% include './documentation_page_navbar.html' %}
+    {% include 'page_control.html' %}
     <ul class="list-group">
       {% include "./article_list_item.html" %}
     </ul>

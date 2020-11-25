@@ -1,6 +1,6 @@
-<a class="text-light" href="{% url 'music:album_detail' album.slug %}">
-  <div class="music-album" style="background-image:url('{{ album.cover.image_file.url }}')" >
-    {% if album.is_public and not album.members_only or album.is_public and request.user.is_authenticated or album.owner.pk == request.user.pk %}
+{% if album.is_public and not album.members_only or album.is_public and request.user.is_authenticated or album.owner.pk == request.user.pk %}
+  <a class="text-light" href="{% url 'music:album_detail' album.slug %}">
+    <div class="music-album" style="background-image:url('{{ album.cover.image_file.url }}')" >
       <span class="music-album-title">
         {{ album.title }}
       </span>
@@ -11,7 +11,6 @@
       <span class="music-album-meta">
         {{ album.artist }}
       </span>
-    {% endif %}
-  </div>
-</a>
-
+    </div>
+  </a>
+{% endif %}

@@ -1,3 +1,4 @@
+import math
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.mixins import(
@@ -25,21 +26,16 @@ class MusicPageView(TemplateView):
 
     template_name = 'music/music_page.html'
 
+    def calculate_album_list_length(self, n):
+        return round(math.ceil((n/1.5)/2) * 2)
+
     def get_context_data(self, **kwargs):
         # Number of items to show in each list
         n = 5
         context = super().get_context_data(**kwargs)
         # Albums
-        if self.request.user.is_authenticated:
-            public_albums = Album.objects.filter(is_public=True)
-        # Do not send member only Albums to non members
-        else:
-            public_albums = Album.objects.filter(
-                is_public=True,
-                members_only=False,
-            )
+        public_albums = Album.objects.filter(is_public=True)
         if public_albums.count() >= n:
-            print("There are {} or more published Albums".format(n))
             # Get the date of the 5th newest Album 
             # if there are 5 or more Albums.
             last_new_album_date = public_albums.order_by(
@@ -48,24 +44,21 @@ class MusicPageView(TemplateView):
             # Get the 5 newest Albums.
             context['new_albums'] = public_albums.order_by(
                 '-publication_date',
-            )[:n]
+            )[:self.calculate_album_list_length(n)]
+            print(math.ceil(n / 2.) * 2)
             # Exclude any Album that appears in the new albums list
             # from the top Album list.
             context['top_albums'] = public_albums.order_by(
                 '-weight',
             ).exclude(
                 publication_date__gte=last_new_album_date,
-            )[:n]
-            print("New Albums: {}".format(context['new_albums']))
-            print("Top Albums: {}".format(context['top_albums']))
+            )[:self.calculate_album_list_length(n)]
         # If there are less than 5 Albums, 
         # include all of them in the new Album list.
         else:
-            print("There are less than 5 published Albums")
             context['new_albums'] = public_albums.order_by(
                 '-publication_date',
             )
-            print(context['new_albums'])
         # Tracks
         if self.request.user.is_authenticated:
             public_tracks = Track.objects.filter(is_public=True)
@@ -76,7 +69,6 @@ class MusicPageView(TemplateView):
                 members_only=False,
             )
         if public_tracks.count() >= n:
-            print("There are {} or more published Tracks".format(n))
             # Get the date of the nth newest Track
             # if there are n or more Tracks
             last_new_track_date = public_tracks.order_by(
@@ -85,7 +77,6 @@ class MusicPageView(TemplateView):
             context['new_tracks'] = public_tracks.order_by(
                 '-publication_date',
             )[:n]
-            print("New Tracks: ", context['new_tracks'])
             # Exclude any Album that appears in the new releases list
             # from the top Track list
             context['top_tracks'] = public_tracks.order_by(
@@ -93,13 +84,10 @@ class MusicPageView(TemplateView):
             ).exclude(
                 publication_date__gte=last_new_track_date,
             )[:n]
-            print("Top Tracks: ", context['top_tracks'])
         else:
-            print("There are less than {} published Tracks".format(n))
             context['new_tracks'] = public_tracks.order_by(
                 '-publication_date',
             )[:n]
-            print(context['new_tracks'])
         return context
 
 class AlbumCreateView(LoginRequiredMixin, CreateView):
@@ -347,7 +335,7 @@ class TrackCreateView(LoginRequiredMixin, CreateView):
 class TrackListView(ListView):
 
     model = Track
-    paginate_by = 6
+    paginate_by = 5
     context_object_name = 'tracks'
 
     def get_queryset(self, *args, **kwargs):
@@ -373,7 +361,7 @@ class TrackListView(ListView):
 class TopTrackListView(ListView):
 
     model = Track
-    paginate_by = 6
+    paginate_by = 5
     context_object_name = 'tracks'
 
     def get_queryset(self, *args, **kwargs):
@@ -419,7 +407,7 @@ class TrackDetailView(DetailView):
 class MemberTrackView(ListView):
 
     model = Track
-    paginate_by = 6
+    paginate_by = 5
     context_object_name = 'tracks'
 
     def get_queryset(self, *args, **kwargs):

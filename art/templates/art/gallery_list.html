@@ -5,9 +5,7 @@
   {% if galleries %}
     <p><a href="{% url 'art:top_galleries' %}">top galleries</a> | <a href="{% url 'art:new_galleries' %}">new galleries</a> | <a href="{% url 'art:top_visuals' %}">top visuals</a> | <a href="{% url 'art:new_visuals' %}">new visuals</a></p>
     {% include "page_control.html" %}
-    <ul class="list-group">
-      {% include "./gallery_list_item.html" %}
-    </ul>
+    {% include "./gallery_list_item.html" %}
     {% include "page_control.html" %}
     <br>
   {% else %}

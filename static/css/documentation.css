@@ -6,6 +6,12 @@
   margin-bottom: 40px;
 }
 
+.documentation-col {
+  width: 350px;
+  margin-bottom: 10px;
+  float: left;  
+}
+
 .documentation-story-bg {
   background-color: #222222;
   color: #eeeeee;
@@ -132,6 +138,16 @@
   border-style: solid;
   border-width: 0px 5px 5px 5px;
   border-color: #111111;
+}
+
+.documentation-meta {
+  font-size: 0.8em;
+}
+
+.documentation-page-section {
+  width: 350px;
+  margin-bottom: 10px;
+  float: left;
 }
 
 .documentation-piece-card {

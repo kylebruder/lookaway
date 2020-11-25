@@ -24,7 +24,7 @@
       {% endif %}
     {% endfor %}
     <p>
-      <a href="{% url 'documentation:member_articles' profile.member.username %}">all Documents by {{ profile.member }}...</a>
+      <a href="{% url 'documentation:member_support_documents' profile.member.username %}">all Documents by {{ profile.member }}...</a>
     </p>
   </div>
 {% endif %}

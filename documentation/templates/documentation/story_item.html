@@ -15,20 +15,21 @@
           {{ story.title }}
         </a>
       </h5>
-      <p>
-        Written by {{ story.author }}</a>, published on {{ story.creation_date|date:"M d, Y" }}
+      <p class="documentation-meta">
+        Written by {{ story.author }}</a>, published on {{ story.creation_date|date:"M d, Y" }}<br>
+        {{ story.meta_description }}<br>
+        {% if story.members_only %}
+          <span class="badge badge-warning">Members Only</span>
+        {% endif %}
+        {% if not story.is_public %}
+          <span class="badge badge-dark">Unpublished</span>
+        {% endif %}
+        {% if story.tags.all.count > 0 %}
+          {% with story as object %}
+            {% include 'object_tags.html' %}
+          {% endwith %}
+        {% endif %}
       </p>
-      {% if story.members_only %}
-        <span class="badge badge-warning">Members Only</span>
-      {% endif %}
-      {% if not story.is_public %}
-        <span class="badge badge-dark">Unpublished</span>
-      {% endif %}
-      {% if story.tags.all.count > 0 %}
-        {% with story as object %}
-          {% include 'object_tags.html' %}
-        {% endwith %}
-      {% endif %}
     </div>
   </div>
 </li>

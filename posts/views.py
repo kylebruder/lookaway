@@ -48,7 +48,7 @@ class PostCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 class PostListView(ListView):
 
     model = Post
-    paginate_by = 20
+    paginate_by = 5
     context_object_name = 'posts'
 
     def get_queryset(self, *args, **kwargs):
@@ -66,7 +66,7 @@ class PostListView(ListView):
 class TopPostListView(ListView):
 
     model = Post
-    paginate_by = 20
+    paginate_by = 5
     context_object_name = 'posts'
 
     def get_queryset(self, *args, **kwargs):
@@ -85,7 +85,7 @@ class TopPostListView(ListView):
 class MemberPostView(LoginRequiredMixin, ListView):
 
     model = Post
-    paginate_by = 20
+    paginate_by = 5
     context_object_name = 'posts'
 
     def get_queryset(self, *args, **kwargs):

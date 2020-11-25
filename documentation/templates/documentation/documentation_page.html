@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body_block %}
+<div class="container-fluid index-bg">
+  <!-- Heading -->
+  {% include './documentation_page_button_bar.html' %}
+  {% include './documentation_page_navbar.html' %}
+  <div class="row">
+    {% if top_articles.all.count > 0 %}
+      <div class="col-sm documentation-page-section">
+        <h4 class="documentation-title">Top Articles</h4>
+        <ul class="list-group">
+          {% for article in top_articles %}
+            {% include "./article_item.html" %}
+          {% endfor %}
+        </ul>
+        <p><a href="{% url 'documentation:top_articles' %}">all top articles</a></p>
+      </div>
+    {% endif %}
+    {% if top_stories.count > 0 %}
+      <div class="col-sm documentation-page-section">
+        <h4 class="documentation-title">Top Stories</h4>
+        {% for story in top_stories %}
+          {% include "./story_item.html" %}
+        {% endfor %}
+        <div class="clear"></div>
+        <p><a href="{% url 'documentation:top_stories' %}">all top stories</a></p>
+      </div>
+    {% endif %}
+    {% if top_documents.count > 0 %}
+      <div class="col-sm documentation-page-section">
+        <h4 class="documentation-title">Top Information</h4>
+        {% for document in top_documents %}
+          {% include "./supportdocument_item.html" %}
+        {% endfor %}
+        <div class="clear"></div>
+        <p><a href="{% url 'documentation:top_support_documents' %}">all top information</a></p>
+      </div>
+    {% endif %}
+  </div>
+  <div class="row">
+    <div class="col-sm documentation-page-section">
+      <h4 class="documentation-title">New Articles</h4>
+      {% if new_articles.all.count > 0 %}
+        <ul class="list-group">
+          {% for article in new_articles %}
+            {% include "./article_item.html" %}
+          {% endfor %}
+        </ul>
+        <div class="container">
+          <p><a href="{% url 'documentation:new_articles' %}">all new articles</a></p>
+        </div>
+      {% else %}
+        <p>There are no Articles yet. Please check back soon.</p>
+      {% endif %}
+    </div>
+    <div class="col-sm documentation-page-section">
+      <h4 class="documentation-title">New Stories</h4>
+      {% if new_stories.all.count > 0 %}
+        {% for story in new_stories %}
+          {% include "./story_item.html" %}
+        {% endfor %}
+        <div class="clear"></div>
+        <div class="container">
+          <p><a href="{% url 'documentation:new_stories' %}">all new stories</a></p>
+        </div>
+      {% else %}
+        <p>There are no Stories yet. Please check back soon.</p>
+      {% endif %}
+    </div>
+    <div class="col-sm documentation-page-section">
+      <h4 class="documentation-title">New Information</h4>
+      {% if new_documents.all.count > 0 %}
+        {% for document in new_documents %}
+          {% include "./supportdocument_item.html" %}
+        {% endfor %}
+        <div class="clear"></div>
+        <div class="container">
+          <p><a href="{% url 'documentation:new_support_documents' %}">all new information</a></p>
+        </div>
+      {% else %}
+        <p>There are no Documents yet. Please check back soon.</p>
+      {% endif %}
+    </div>
+  </div>
+  <br>
+</div>
+  {% include './documentation_articles.html' %}
+  {% include './documentation_stories.html' %}
+  {% include './documentation_support_documents.html' %}
+  <div class="clear"></div>
+</div>
+{% endblock %}

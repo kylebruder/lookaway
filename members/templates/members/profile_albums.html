@@ -17,4 +17,9 @@
       </div>
     </a>
   {% endfor %}
+  <div class="clear"></div>
+  <p class="index-link">
+    <a href="{% url 'music:member_albums' profile.member.username %}">all Albums by {{ profile.member }}...</a>
+  </p>
+  <br>
 {% endif %}

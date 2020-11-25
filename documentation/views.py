@@ -8,8 +8,9 @@ from django.http import HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone, text
-from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
+from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
@@ -18,6 +19,103 @@ from .models import Article, ArticleSection, Story, StorySection, SupportDocumen
 
 # Create your views here.
 
+# Documentation Landing Page
+class DocumentationPageView(TemplateView):
+
+    template_name = 'documentation/documentation_page.html'
+
+    def calculate_document_list_length(self, n):
+        return round(math.ceil((n/1.5)/2) * 2)
+
+    def get_context_data(self, **kwargs):
+        # Number of items to show in each list
+        n = 5
+        context = super().get_context_data(**kwargs)
+        # Articles
+        public_articles = Article.objects.filter(is_public=True)
+        if public_articles.count() >= n:
+            # Get the date of the 5th newest Article
+            # if there are 5 or more Articles.
+            last_new_article_date = public_articles.order_by(
+                '-publication_date',
+            )[n-1].publication_date
+            # Get the 5 newest Articles.
+            context['new_articles'] = public_articles.order_by(
+                '-publication_date',
+            )[:self.calculate_article_list_length(n)]
+            print(math.ceil(n / 2.) * 2)
+            # Exclude any Article that appears in the new articles list
+            # from the top Article list.
+            context['top_articles'] = public_articles.order_by(
+                '-weight',
+            ).exclude(
+                publication_date__gte=last_new_article_date,
+            )[:self.calculate_article_list_length(n)]
+        # If there are less than 5 Articles,
+        # include all of them in the new Article list.
+        else:
+            context['new_articles'] = public_articles.order_by(
+                '-publication_date',
+            )
+        # Stories
+        if self.request.user.is_authenticated:
+            public_stories = Story.objects.filter(is_public=True)
+        # Do not send member only Articles to non members
+        else:
+            public_stories = Story.objects.filter(
+                is_public=True,
+                members_only=False,
+            )
+        if public_stories.count() >= n:
+            # Get the date of the nth newest Story
+            # if there are n or more Storys
+            last_new_story_date = public_stories.order_by(
+                '-publication_date',
+            )[n-1].publication_date
+            context['new_stories'] = public_stories.order_by(
+                '-publication_date',
+            )[:n]
+            # Exclude any Article that appears in the new releases list
+            # from the top Story list
+            context['top_stories'] = public_stories.order_by(
+                '-weight',
+            ).exclude(
+                publication_date__gte=last_new_story_date,
+            )[:n]
+        else:
+            context['new_stories'] = public_stories.order_by(
+                '-publication_date',
+            )[:n]
+        # Documents
+        if self.request.user.is_authenticated:
+            public_documents = SupportDocument.objects.filter(is_public=True)
+        # Do not send member only Articles to non members
+        else:
+            public_documents = SupportDocument.objects.filter(
+                is_public=True,
+                members_only=False,
+            )
+        if public_documents.count() >= n:
+            # Get the date of the nth newest Document
+            # if there are n or more Documents
+            last_new_document_date = public_documents.order_by(
+                '-publication_date',
+            )[n-1].publication_date
+            context['new_documents'] = public_documents.order_by(
+                '-publication_date',
+            )[:n]
+            # Exclude any Article that appears in the new releases list
+            # from the top Document list
+            context['top_documents'] = public_documents.order_by(
+                '-weight',
+            ).exclude(
+                publication_date__gte=last_new_document_date,
+            )[:n]
+        else:
+            context['new_documents'] = public_documents.order_by(
+                '-publication_date',
+            )[:n]
+        return context
 # Support Article Views
 
 class ArticleCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
@@ -50,21 +148,44 @@ class ArticleCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 class ArticleListView(ListView):
 
     model = Article
-    paginate_by = 20
+    paginate_by = 5
     context_object_name = 'articles'
 
     def get_queryset(self, *args, **kwargs):
         return Article.objects.filter(
             is_public=True,
         ).order_by(
-            '-weight',
-            '-creation_date',
+            '-publication_date',
         )
-    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['new'] = True
+        return context   
+
+class TopArticleListView(ListView):
+
+    model = Article
+    paginate_by = 5
+    context_object_name = 'articles'
+
+    def get_queryset(self, *args, **kwargs):
+        return Article.objects.filter(
+                is_public=True,
+            ).order_by(
+                '-weight',
+                '-publication_date',
+            )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['top'] = True
+        return context   
+
 class MemberArticleView(LoginRequiredMixin, ListView):
 
     model = Article
-    paginate_by = 20
+    paginate_by = 5
     context_object_name = 'articles'
 
     def get_queryset(self, *args, **kwargs):
@@ -228,7 +349,7 @@ class ArticleSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView
 class MemberArticleSectionView(LoginRequiredMixin, ListView):
 
     model = ArticleSection
-    paginate_by = 20
+    paginate_by = 5
     context_object_name = 'sections'
 
     def get_queryset(self, *args, **kwargs):
@@ -320,7 +441,25 @@ class SupportDocumentCreateView(LoginRequiredMixin, MemberCreateMixin, CreateVie
 class SupportDocumentListView(ListView):
 
     model = SupportDocument
-    paginate_by = 20
+    paginate_by = 5
+    context_object_name = 'documents'
+
+    def get_queryset(self, *args, **kwargs):
+        return SupportDocument.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-publication_date',
+        )
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['new'] = True
+        return context   
+
+class TopSupportDocumentListView(ListView):
+
+    model = SupportDocument
+    paginate_by = 5
     context_object_name = 'documents'
 
     def get_queryset(self, *args, **kwargs):
@@ -328,13 +467,18 @@ class SupportDocumentListView(ListView):
             is_public=True,
         ).order_by(
             '-weight',
-            '-creation_date',
+            '-publication_date',
         )
-    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['top'] = True
+        return context
+
 class MemberSupportDocumentView(LoginRequiredMixin, ListView):
 
     model = SupportDocument
-    paginate_by = 20
+    paginate_by = 5
     context_object_name = 'documents'
 
     def get_queryset(self, *args, **kwargs):
@@ -504,7 +648,7 @@ class SupportDocSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateV
 class MemberSupportDocSectionView(LoginRequiredMixin, ListView):
 
     model = SupportDocSection
-    paginate_by = 20
+    paginate_by = 5
     context_object_name = 'sections'
 
     def get_queryset(self, *args, **kwargs):
@@ -596,7 +740,25 @@ class StoryCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 class StoryListView(ListView):
 
     model = Story
-    paginate_by = 20
+    paginate_by = 5
+    context_object_name = 'stories'
+
+    def get_queryset(self, *args, **kwargs):
+        return Story.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-publication_date',
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['new'] = True
+        return context   
+
+class TopStoryListView(ListView):
+
+    model = Story
+    paginate_by = 5
     context_object_name = 'stories'
 
     def get_queryset(self, *args, **kwargs):
@@ -604,13 +766,18 @@ class StoryListView(ListView):
             is_public=True,
         ).order_by(
             '-weight',
-            '-creation_date',
+            '-publication_date',
         )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['top'] = True
+        return context
 
 class MemberStoryView(LoginRequiredMixin, ListView):
 
     model = Story
-    paginate_by = 20
+    paginate_by = 5
     context_object_name = 'stories'
 
     def get_queryset(self, *args, **kwargs):
@@ -774,7 +941,7 @@ class StorySectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 class MemberStorySectionView(LoginRequiredMixin, ListView):
 
     model = StorySection
-    paginate_by = 20
+    paginate_by = 5
     context_object_name = 'sections'
 
     def get_queryset(self, *args, **kwargs):

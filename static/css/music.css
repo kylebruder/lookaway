@@ -8,9 +8,13 @@
 
 .music-album {
   width: 300px;
-  height: 300px;
+  height: 275px;
   padding: 10px;
   margin: 10px;
+  border-style: solid;
+  border-width: 5px 5px 5px 20px;
+  border-radius: 5px;
+  border-color: #eeeeee;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #222222;
@@ -53,6 +57,8 @@
   display: block;
   width: 100px;
   height: 100px;
+  margin-left: 15px;
+  margin-bottom: 15px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #222222;

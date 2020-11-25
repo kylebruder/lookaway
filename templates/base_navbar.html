@@ -11,10 +11,7 @@
         <a class="nav-link nav-font" href="{% url 'posts:public_posts' %}">Posts</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'documentation:public_articles' %}">Articles</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'documentation:public_stories' %}">Stories</a>
+        <a class="nav-link nav-font" href="{% url 'documentation:documentation_page' %}">Zine</a>
       </li>
       <li class="nav-item">
         <a class="nav-link nav-font" href="{% url 'music:music_page' %}">Music</a>
@@ -24,9 +21,6 @@
       </li>
       <li class="nav-item">
         <a class="nav-link nav-font" href="{% url 'members:member_list' %}">Members</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'documentation:public_support_documents' %}">Documentation</a>
       </li>
     </ul>
     {% if request.user.is_authenticated %}

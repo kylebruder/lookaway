@@ -1,0 +1,34 @@
+<!-- Newest public Documents -->
+{% if documents.count > 0 %}
+  <div class=" index-col">
+    {% for document in documents %}
+      {% if document.is_public and not document.members_only or document.is_public and request.user.is_authenticated or document.owner.pk == request.user.pk %}
+        <div class="row">
+          <div class="col">
+            <h6 class="index-title">
+              <a href="{% url 'documentation:support_document_detail' document.slug %}">
+                {{ document.title }}
+              </a>
+              {% if not document.is_public %}
+                <span class="badge badge-secondary">Unpublished</span>
+              {% endif %}
+            </h6>
+            <p class="index-meta">
+               Published by <a href="{% url 'members:member_profile' document.owner.username %}">{{ document.owner }}</a>
+            {% if document.publication_date %} on {{ document.publication_date|date:"M d, Y" }}{% endif %}
+            </p>
+          </div>
+          <div class="col">
+            {% if document.image %}
+              <div class="index-list-image" style="background-image:url('{{ document.image.thumbnail_file.url }}')"></div>
+            {% elif document.owner.profile.image %}
+              <div class="index-list-image" style="background-image:url('{{ document.owner.profile.image.thumbnail_file.url }}')"></div>
+            {% else %}
+              <div class="index-list-image" style="background-image:url('/static/favicon.ico')"></div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}

@@ -43,6 +43,9 @@
   padding: 5px;
 } 
 
+.brand-title {
+  font-family: 'Baloo Paaji 2', sans-serif;
+}
 .edit-button {
   border-radius: 100%;
 }

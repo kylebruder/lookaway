@@ -31,7 +31,7 @@ urlpatterns = [
         include('objects.urls'),
     ),
     path(
-        'documentation/',
+        'zine/',
         include('documentation.urls'),
     ),
     path(

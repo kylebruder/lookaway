@@ -20,6 +20,7 @@
           </p>
         </div>
       </div>
+      <br>
     {% endif %}
   {% endfor %}
   {% if total_tracks > list_length %}
@@ -27,5 +28,4 @@
       all tracks tagged with <a href="{% url 'objects:track_tag' tag.slug %}">"{{ tag }}"</a>
     </p>
   {% endif %}
-  <br>
 {% endif %}

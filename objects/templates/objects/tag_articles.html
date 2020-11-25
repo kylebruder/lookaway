@@ -20,6 +20,7 @@
           </p>
         </div>
       </div>
+      <br>
     {% endif %}
   {% endfor %}
   {% if total_articles > list_length %}
@@ -27,5 +28,4 @@
       all articles tagged with <a href="{% url 'objects:article_tag' tag.slug %}">"{{ tag }}"</a>
     </p>
   {% endif %}
-  <br>
 {% endif %}

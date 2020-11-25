@@ -6,9 +6,19 @@ app_name= "documentation"
 urlpatterns = [
     # Read Views
     path(
-        'articles', 
+        '', 
+        views.DocumentationPageView.as_view(),
+        name='documentation_page',
+    ),
+    path(
+        'articles/new/', 
         views.ArticleListView.as_view(),
-        name='public_articles',
+        name='new_articles',
+    ),
+    path(
+        'articles', 
+        views.TopArticleListView.as_view(),
+        name='top_articles',
     ),
     path(
         'articles/<slug:slug>/', 
@@ -21,9 +31,14 @@ urlpatterns = [
         name='article_section_detail',
     ),
     path(
-        'stories/', 
+        'stories/new/', 
         views.StoryListView.as_view(),
-        name='public_stories',
+        name='new_stories',
+    ),
+    path(
+        'stories/', 
+        views.TopStoryListView.as_view(),
+        name='top_stories',
     ),
     path(
         'stories/<slug:slug>/', 
@@ -36,12 +51,17 @@ urlpatterns = [
         name='story_section_detail',
     ),
     path(
-        'support/', 
+        'information/new', 
         views.SupportDocumentListView.as_view(),
-        name='public_support_documents',
+        name='new_support_documents',
     ),
     path(
-        'support/<slug:slug>/', 
+        'information/', 
+        views.TopSupportDocumentListView.as_view(),
+        name='top_support_documents',
+    ),
+    path(
+        'information/<slug:slug>/', 
         views.SupportDocumentDetailView.as_view(),
         name='support_document_detail',
     ),
@@ -72,7 +92,7 @@ urlpatterns = [
         name='member_story_sections',
     ),
     path(
-        'member/<slug:member>/support-documents/', 
+        'member/<slug:member>/information/', 
         views.MemberSupportDocumentView.as_view(),
         name='member_support_documents',
     ),

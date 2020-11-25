@@ -18,4 +18,9 @@
         </a>
       {% endif %}
     {% endfor %}
+    <div class="clear"></div>
+    <p class="index-link">
+      <a href="{% url 'art:member_galleries' profile.member.username %}">all Galleries by {{ profile.member }}...</a>
+    </p>    
+    <br>
 {% endif %}

@@ -15,20 +15,21 @@
           {{ document.title }}
         </a>
       </h5>
-      <p>
-        Written by <a href="{% url 'members:member_profile' document.owner.username %}">{{ document.owner }}</a>, published on {{ document.creation_date|date:"M d, Y" }}
+      <p class="documentation-meta">
+        Written by <a href="{% url 'members:member_profile' document.owner.username %}">{{ document.owner }}</a>, published on {{ document.creation_date|date:"M d, Y" }}<br>
+        {{ document.meta_description }}<br>
+        {% if document.members_only %}
+          <span class="badge badge-warning">Members Only</span>
+        {% endif %}
+        {% if not document.is_public %}
+          <span class="badge badge-dark">Unpublished</span>
+        {% endif %}
+        {% if document.tags.all.count > 0 %}
+          {% with document as object %}
+            {% include 'object_tags.html' %}
+          {% endwith %}
+        {% endif %}
       </p>
-      {% if document.members_only %}
-        <span class="badge badge-warning">Members Only</span>
-      {% endif %}
-      {% if not document.is_public %}
-        <span class="badge badge-dark">Unpublished</span>
-      {% endif %}
-      {% if document.tags.all.count > 0 %}
-        {% with document as object %}
-          {% include 'object_tags.html' %}
-        {% endwith %}
-      {% endif %}
     </div>
   </div>
 </li>

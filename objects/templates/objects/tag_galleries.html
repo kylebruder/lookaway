@@ -20,6 +20,7 @@
           </p>
         </div>
       </div>
+      <br>
     {% endif %}
   {% endfor %}
   {% if total_galleries > list_length %}
@@ -27,5 +28,4 @@
       all galleries tagged with <a href="{% url 'objects:gallery_tag' tag.slug %}">"{{ tag }}"</a>
     </p>
   {% endif %}
-  <br>
 {% endif %}

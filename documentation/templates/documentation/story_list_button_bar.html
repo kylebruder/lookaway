@@ -1,12 +1,18 @@
 <div class="row">
   <div class="col">
     {% if user_only %}
-      <h3 class="documentation-title">{{ member }}'s Stories</h3>
+      <h3 class="brand-title">{{ member }}'s Stories</h3>
     {% elif tag %}
-      <h3 class="documentation-title">Stories</h3>
-      <p><span class="badge badge-secondary">{{ tag }}</span></p>
+      <h3 class="brand-title">
+        Lookaway Stories tagged with <span class="badge badge-secondary">{{ tag }}</span>
+      </h3>
     {% else %}
-      <h3 class="documentation-title">Stories</h3>
+      <h3 class="brand-title">
+        {% if new %}New
+        {% elif top %}Top
+        {% endif %}
+        Lookaway Stories
+      </h3>
     {% endif %}
   </div>
   {% if request.user.is_authenticated %}

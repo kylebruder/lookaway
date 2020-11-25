@@ -37,6 +37,11 @@ class IndexView(TemplateView):
         ).order_by(
             '-publication_date',
         )[:3]
+        context['documents'] = SupportDocument.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-publication_date',
+        )[:3]
         context['visuals'] = Visual.objects.filter(
             is_public=True,
         ).order_by(
@@ -46,7 +51,7 @@ class IndexView(TemplateView):
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:3]
+        )[:4]
         context['tracks'] = Track.objects.filter(
             is_public=True,
         ).order_by(
@@ -56,5 +61,5 @@ class IndexView(TemplateView):
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:3]
+        )[:4]
         return context
