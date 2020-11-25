@@ -43,7 +43,6 @@ class DocumentationPageView(TemplateView):
             context['new_articles'] = public_articles.order_by(
                 '-publication_date',
             )[:self.calculate_article_list_length(n)]
-            print(math.ceil(n / 2.) * 2)
             # Exclude any Article that appears in the new articles list
             # from the top Article list.
             context['top_articles'] = public_articles.order_by(
@@ -64,7 +63,6 @@ class DocumentationPageView(TemplateView):
         else:
             public_stories = Story.objects.filter(
                 is_public=True,
-                members_only=False,
             )
         if public_stories.count() >= n:
             # Get the date of the nth newest Story
@@ -93,7 +91,6 @@ class DocumentationPageView(TemplateView):
         else:
             public_documents = SupportDocument.objects.filter(
                 is_public=True,
-                members_only=False,
             )
         if public_documents.count() >= n:
             # Get the date of the nth newest Document

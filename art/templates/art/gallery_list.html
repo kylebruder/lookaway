@@ -2,8 +2,8 @@
 {% block body_block %}
 <div class="container art-bg">
   {% include "./gallery_list_button_bar.html" %}
+  {% include './art_page_navbar.html' %}
   {% if galleries %}
-    <p><a href="{% url 'art:top_galleries' %}">top galleries</a> | <a href="{% url 'art:new_galleries' %}">new galleries</a> | <a href="{% url 'art:top_visuals' %}">top visuals</a> | <a href="{% url 'art:new_visuals' %}">new visuals</a></p>
     {% include "page_control.html" %}
     {% include "./gallery_list_item.html" %}
     {% include "page_control.html" %}

@@ -12,53 +12,50 @@
     {% endif %}
     <!-- Visual list -->
     {% if gallery.visuals.all.count > 0 %}
-      <div id="visual_gallery" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-          {% if gallery.text %}
-            <div class="carousel-item active">
-              <div class="art-gallery-image">
-                  <div class="art-gallery-image">
-                    <div class="d-block w-100">
-                      <p class="art-gallery-blurb">{{ gallery.text }}</p>
-                    </div>
+      <div class="art-gallery-container">
+        <div id="visual_gallery" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            {% if gallery.text %}
+              <div class="carousel-item active">
+                <div class="art-gallery-image">
+                  <div class="d-block w-100">
+                    <p class="art-gallery-blurb">{{ gallery.text }}</p>
                   </div>
-                  <div class="carousel-caption d-none d-md-block">
-                  </div>
+                </div>
               </div>
+              {% for visual in gallery.visuals.all %}
+                <div class="carousel-item">
+                  <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
+                      <p class="art-gallery-message"><i>Tap the image for more detail</i></p>
+                      <img class="art-gallery-image" src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
+                  </a>
+                </div>
+              {% endfor %}
             </div>
+          </div>
+          {% else %}
             {% for visual in gallery.visuals.all %}
-              <div class="carousel-item">
-                <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
-                  <div class="art-gallery-image">
-                    <p class="art-gallery-message"><i>Tap the image for more detail</i></p> 
-                    <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
-                  </div>
-                </a>
-              </div>
+              {% if visual.pk == gallery.visuals.all.0.pk %}
+                <div class="carousel-item active">
+                  <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
+                    <div class="art-gallery-image">
+                      <p class="art-gallery-message"><i>Tap the image for more detail</i></p>
+                      <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
+                    </div>
+                  </a>
+                </div>
+              {% else %}
+                <div class="carousel-item">
+                  <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
+                    <div class="art-gallery-image">
+                      <p class="art-gallery-message"><i>Tap the image for more detail</i></p>
+                      <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
+                    </div>
+                  </a>
+                </div>
+              {% endif %}
             {% endfor %}
           </div>
-        {% else %}
-          {% for visual in gallery.visuals.all %}
-            {% if visual.pk == gallery.visuals.all.0.pk %}
-              <div class="carousel-item active">
-                <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
-                  <div class="art-gallery-image">
-                    <p class="art-gallery-message"><i>Click the image for more information</i></p> 
-                    <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
-                  </div>
-                </a>
-              </div>
-            {% else %}
-              <div class="carousel-item">
-                <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
-                  <div class="art-gallery-image">
-                    <p class="art-gallery-message"><i>Click the image for more information</i></p> 
-                    <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
-                  </div>
-                </a>
-              </div>
-            {% endif %}
-          {% endfor %}
         {% endif %}
         <a class="carousel-control-prev" href="#visual_gallery" role="button" data-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>

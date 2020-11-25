@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block body_block %}
 <div class="container art-bg">
-  {% include "./visual_list_button_bar.html" %}
+  {% include './visual_list_button_bar.html' %}
+  {% include './art_page_navbar.html' %}
   {% if visuals %}
-    <p><a href="{% url 'art:top_visuals' %}">top visuals</a> | <a href="{% url 'art:new_visuals' %}">new visuals</a> | <a href="{% url 'art:top_galleries' %}">top galleries</a> | <a href="{% url 'art:new_galleries' %}">new galleries</a></p>
     {% include "page_control.html" %}
     <br>
     <div class="art-visual-matrix">

@@ -4,38 +4,12 @@
 <div class="container-fluid art-bg">
   <!-- Heading -->
   {% include './art_page_button_bar.html' %}
-  <p>
-    <a href="{% url 'art:top_visuals' %}">top visuals</a> | <a href="{% url 'art:top_galleries' %}">top galleries</a> | <a href="{% url 'art:new_visuals' %}">new visuals</a> | <a href="{% url 'art:new_galleries' %}">new galleries</a>
-  </p>
-  <div class="row">
-    {% if top_visuals.all.count > 0 %}
-      <div class="col-sm art-page-section">
-        <h4 class="art-page-title">Top Visuals</h4>
-        <div class="art-visual-matrix">
-          {% for visual in top_visuals %}
-            {% include "./visual_item.html" %}
-          {% endfor %}
-          <div class="clear"></div>
-          <p><a href="{% url 'art:top_visuals' %}">all top visuals</a></p>
-        </div>
-      </div>
-    {% endif %}
-    {% if top_galleries.count > 0 %}
-      <div class="col-sm art-page-section">
-        <h4 class="art-page-title">Top Galleries</h4>
-        {% for gallery in top_galleries %}
-          {% include "./gallery_item.html" %}
-        {% endfor %}
-        <div class="clear"></div>
-        <p><a href="{% url 'art:top_galleries' %}">all top galleries</a></p>
-      </div>
-    {% endif %}
-  </div>
+  {% include './art_page_navbar.html' %}
   <div class="row">
     <div class="col-sm art-page-section">
       <h4 class="art-page-title">New Visuals</h4>
       {% if new_visuals.all.count > 0 %}
-        <div class="art-visual-matrix">
+        <div class="art-page-visual-matrix">
           {% for visual in new_visuals %}
             {% include "./visual_item.html" %}
           {% endfor %}
@@ -58,6 +32,30 @@
         <p>There are no Galleries yet. Please check back soon.</p>
       {% endif %}
     </div>
+  </div>
+  <div class="row">
+    {% if top_visuals.all.count > 0 %}
+      <div class="col-sm art-page-section">
+        <h4 class="art-page-title">Top Visuals</h4>
+        <div class="art-page-visual-matrix">
+          {% for visual in top_visuals %}
+            {% include "./visual_item.html" %}
+          {% endfor %}
+          <div class="clear"></div>
+          <p><a href="{% url 'art:top_visuals' %}">all top visuals</a></p>
+        </div>
+      </div>
+    {% endif %}
+    {% if top_galleries.count > 0 %}
+      <div class="col-sm art-page-section">
+        <h4 class="art-page-title">Top Galleries</h4>
+        {% for gallery in top_galleries %}
+          {% include "./gallery_item.html" %}
+        {% endfor %}
+        <div class="clear"></div>
+        <p><a href="{% url 'art:top_galleries' %}">all top galleries</a></p>
+      </div>
+    {% endif %}
   </div>
   <br>
 </div>
