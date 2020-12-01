@@ -20,8 +20,8 @@
         <button type="button" class="btn btn-sm btn-warning float-right">Edit</button>
       </a>
       {% if not story %}
-        <a href="{% url 'documentation:story_section_create' %}">
-          <button type="button" class="btn btn-sm btn-primary float-right">Add Section</button>
+        <a href="{% url 'documentation:story_section_create' %}?story={{ section.story.pk }}">
+          <button type="button" class="btn btn-sm btn-primary float-right">+Section</button>
         </a>
       {% endif %}
     {% endif %}

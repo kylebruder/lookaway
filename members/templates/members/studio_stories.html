@@ -10,21 +10,18 @@
     </div>
   </div>
 </div>
-{% if storys.all.count > 0 %}
+{% if stories.all.count > 0 %}
   <ul class="list-group">
     {% for story in stories %}
-      <li class="list-group-item story-list-li">
+      <li class="list-group-item documentation-list-li">
         <p>
-          <a href="{% url 'storys:story_detail' story.slug %}">
+          <a href="{% url 'documentation:story_detail' story.slug %}">
             {{ story.title }}
           </a><br>
-          {{ post.author }}
+          {{ story.author }}
         </p>
         {% if not story.is_public %}
           <span class="badge badge-secondary">Unpublished</span>
-        {% endif %}
-        {% if story.members_only %}
-          <span class="badge badge-warning">Members Only</span>
         {% endif %}
       </li>
     {% endfor %}
@@ -33,5 +30,5 @@
     <a href="{% url 'documentation:member_stories' request.user.username %}">more ...</a>
   </p>
 {% else %}
-  <p>You have not storyed anything yet.</p>
+  <p>You have not created any stories yet.</p>
 {% endif %}

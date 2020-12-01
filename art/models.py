@@ -62,6 +62,9 @@ class Visual(MetaDataMixin, ArtMetaData, MarshmallowMixin):
         blank=True,
     )
 
+    class Meta:
+        ordering = ('order',)
+
     def __str__(self):
         return self.title
 

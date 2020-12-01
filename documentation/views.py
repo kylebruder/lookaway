@@ -996,6 +996,4 @@ class StorySectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
     model = StorySection
 
     def get_success_url(self):
-        return reverse('documentation:story_detail',
-            kwargs={'slug': self.object.story.slug},
-        )
+        return reverse('members:studio')
