@@ -5,64 +5,56 @@
   <!-- Heading -->
   {% include './music_page_button_bar.html' %}
   {% include './music_page_navbar.html' %}
-  <div class="row">
-    <div class="col-sm music-page-section">
-      <h4 class="music-page-title">New Tracks</h4>
+  {% if new_tracks.all.count < 1 and new_albums.all.count < 1 %}
+    <p><i>Coming Soon...</i></p>
+  {% else %} 
+    <div class="row">
       {% if new_tracks.all.count > 0 %}
-        <ul class="list-group">
-          {% for track in new_tracks %}
-            {% include "./track_item.html" %}
-          {% endfor %}
-        </ul>
-        <div class="container">
+        <div class="col-sm music-page-section">
+          <h4 class="music-page-title">New Tracks</h4>
+          <ul class="list-group">
+            {% for track in new_tracks %}
+              {% include "./track_item.html" %}
+            {% endfor %}
+          </ul>
           <p><a href="{% url 'music:new_tracks' %}">all new tracks</a></p>
         </div>
-      {% else %}
-        <p>There are no Tracks yet. Please check back soon.</p>
       {% endif %}
-    </div>
-    <div class="col-sm music-page-section">
-      <h4 class="music-page-title">New Albums</h4>
       {% if new_albums.all.count > 0 %}
-        {% for album in new_albums %}
-          {% include "./album_item.html" %}
-        {% endfor %}
-        <div class="clear"></div>
-        <div class="container">
+        <div class="col-sm music-page-section">
+          <h4 class="music-page-title">New Albums</h4>
+          {% for album in new_albums %}
+            {% include "./album_item.html" %}
+          {% endfor %}
+          <div class="clear"></div>
           <p><a href="{% url 'music:new_albums' %}">all new albums</a></p>
         </div>
-      {% else %}
-        <p>There are no Albums yet. Please check back soon.</p>
       {% endif %}
     </div>
-  </div>
-  <div class="row">
-    {% if top_tracks.all.count > 0 %}
-      <div class="col-sm music-page-section">
-        <h4 class="music-page-title">Top Tracks</h4>
-        <ul class="list-group">
-          {% for track in top_tracks %}
-            {% include "./track_item.html" %}
-          {% endfor %}
-        </ul>
-        <div class="container">
+    <div class="row">
+      {% if top_tracks.all.count > 0 %}
+        <div class="col-sm music-page-section">
+          <h4 class="music-page-title">Top Tracks</h4>
+          <ul class="list-group">
+            {% for track in top_tracks %}
+              {% include "./track_item.html" %}
+            {% endfor %}
+          </ul>
           <p><a href="{% url 'music:top_tracks' %}">all top tracks</a></p>
         </div>
-      </div>
-    {% endif %}
-    {% if top_albums.count > 0 %}
-      <div class="col-sm music-page-section">
-        <h4 class="music-page-title">Top Albums</h4>
-        {% for album in top_albums %}
-          {% include "./album_item.html" %}
-        {% endfor %}
-        <div class="clear"></div>
-        <div class="container">
+      {% endif %}
+      {% if top_albums.count > 0 %}
+        <div class="col-sm music-page-section">
+          <h4 class="music-page-title">Top Albums</h4>
+          {% for album in top_albums %}
+            {% include "./album_item.html" %}
+          {% endfor %}
+          <div class="clear"></div>
           <p><a href="{% url 'music:top_albums' %}">all top albums</a></p>
         </div>
-      </div>
-    {% endif %}
-  </div>
-  <br>
+      {% endif %}
+    </div>
+    <br>
+  {% endif %}
 </div>
 {% endblock %}
