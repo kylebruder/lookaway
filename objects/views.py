@@ -996,7 +996,7 @@ class TagDetailView(DetailView):
 
     model = Tag
     context_object_name = 'tag'
-    list_length = 3 
+    list_length = 6
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1043,6 +1043,10 @@ class TagDetailView(DetailView):
             tags__slug__exact=slug,
             is_public=True,
         ).order_by('-weight')[:self.list_length]
+        context['total_tracks'] = Track.objects.filter(
+            tags__slug__exact=slug,
+            is_public=True,
+        ).count()
         context['total_visuals'] = Visual.objects.filter(
             tags__slug__exact=slug,
             is_public=True,
