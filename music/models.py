@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from members.mixins import MarshmallowMixin
 from objects.models import MetaDataMixin
 
@@ -66,6 +67,9 @@ class Track(MetaDataMixin, MusicMetaData, MarshmallowMixin):
         blank=True,
     )
 
+    def get_absolute_url(self):
+        return reverse('music:track_detail', kwargs={'slug': self.slug})
+
     def __str__(self):
         return self.title
 
@@ -88,6 +92,9 @@ class Album(MetaDataMixin, MusicMetaData, MarshmallowMixin):
         'objects.link',
         blank=True,
     )
+
+    def get_absolute_url(self):
+        return reverse('music:album_detail', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.title

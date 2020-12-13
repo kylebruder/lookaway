@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from objects.models import MetaDataMixin
 from members.mixins import MarshmallowMixin
 
@@ -86,7 +87,8 @@ class Doc(MetaDataMixin, MarshmallowMixin):
 
 class Article(Doc):
 
-    pass
+    def get_absolute_url(self):
+        return reverse('documentation:article_detail', kwargs={'slug': self.slug})
 
 class ArticleSection(Section):
 
@@ -131,6 +133,9 @@ class Story(Doc):
         null=True,
     )
 
+    def get_absolute_url(self):
+        return reverse('documentation:story_detail', kwargs={'slug': self.slug})
+
 class StorySection(Section):
 
     story = models.ForeignKey(
@@ -145,6 +150,9 @@ class StorySection(Section):
 class SupportDocument(Doc):
 
     numbered = models.BooleanField(default=False)
+
+    def get_absolute_url(self):
+        return reverse('documentation:support_document_detail', kwargs={'slug': self.slug})
 
 class SupportDocSection(Section):
 

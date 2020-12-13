@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from members.mixins import MarshmallowMixin
 from objects.models import MetaDataMixin
 
@@ -62,6 +63,9 @@ class Visual(MetaDataMixin, ArtMetaData, MarshmallowMixin):
         blank=True,
     )
 
+    def get_absolute_url(self):
+        return reverse('art:visual_detail', kwargs={'slug': self.slug})
+
     class Meta:
         ordering = ('order',)
 
@@ -88,6 +92,9 @@ class Gallery(MetaDataMixin, ArtMetaData, MarshmallowMixin):
         max_length=128,
         blank=True,
     )
+
+    def get_absolute_url(self):
+        return reverse('art:gallery_detail', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.title

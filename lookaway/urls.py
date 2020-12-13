@@ -15,12 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.contrib.sitemaps.views import sitemap
 from django.contrib.staticfiles.urls import static, staticfiles_urlpatterns
 from django.urls import include, path
+from home.sitemaps import whole_site
 from members.views import InviteLinkCreateView, InviteLinkDetailView, MemberUpdateView
 from . import settings
 
 urlpatterns = [
+    path('sitemap.xml', sitemap, {'sitemaps': whole_site},
+        name='django.contrib.sitemaps.views.sitemap'
+    ),
     path('admin/', admin.site.urls),
     path(
         'members/',
