@@ -125,12 +125,12 @@ class AlbumForm(forms.ModelForm):
             owner=user.pk,
             is_public=True,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
         self.fields['cover'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
 
 class TrackForm(forms.ModelForm):
@@ -240,5 +240,5 @@ class TrackForm(forms.ModelForm):
         self.fields['image'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )

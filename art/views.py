@@ -195,12 +195,19 @@ class MemberGalleryView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        return Gallery.objects.filter(
-            owner=member
-        ).order_by(
-            'is_public',
-            '-creation_date',
-        )
+        if self.request.user.pk == member.pk:
+            return Gallery.objects.filter(
+                owner=member
+            ).order_by(
+                '-last_modified',
+            )
+        else:
+            return Gallery.objects.filter(
+                owner=member,
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -411,12 +418,19 @@ class MemberVisualView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        return Visual.objects.filter(
-            owner=member
-        ).order_by(
-            'is_public',
-            '-creation_date',
-        )
+        if self.request.user.pk == member.pk:
+            return Visual.objects.filter(
+                owner=member
+            ).order_by(
+                '-last_modified',
+            )
+        else:
+            return Visual.objects.filter(
+                owner=member,
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -99,20 +99,20 @@ class PostForm(forms.ModelForm):
         self.fields['image'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
         self.fields['sound'].queryset = Sound.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
         self.fields['video'].queryset = Video.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
         self.fields['code'].queryset = Code.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )

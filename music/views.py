@@ -194,12 +194,20 @@ class MemberAlbumView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        return Album.objects.filter(
-            owner=member
-        ).order_by(
-            'is_public',
-            '-creation_date',
-        )
+        if self.request.user.pk == member.pk:
+            return Album.objects.filter(
+                owner=member
+            ).order_by(
+                '-last_modified',
+            )
+        else:
+            return Album.objects.filter(
+                owner=member,
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -412,12 +420,19 @@ class MemberTrackView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        return Track.objects.filter(
-            owner=member
-        ).order_by(
-            'is_public',
-            '-creation_date',
-        )
+        if self.request.user.pk == member.pk:
+            return Track.objects.filter(
+                owner=member
+            ).order_by(
+                '-last_modified',
+            )
+        else:
+            return Track.objects.filter(
+                owner=member,
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

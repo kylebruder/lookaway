@@ -99,11 +99,16 @@ class GalleryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super(GalleryForm, self).__init__(*args, **kwargs)
+        self.fields['video'].queryset = Video.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-creation_date',
+        )
         self.fields['visuals'].queryset = Visual.objects.filter(
             owner=user.pk,
             is_public=True,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
 
 class VisualForm(forms.ModelForm):
@@ -218,5 +223,5 @@ class VisualForm(forms.ModelForm):
         self.fields['image'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )

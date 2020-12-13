@@ -105,7 +105,7 @@ class ArticleForm(forms.ModelForm):
         self.fields['image'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
 
 class ArticleSectionForm(forms.ModelForm):
@@ -181,27 +181,27 @@ class ArticleSectionForm(forms.ModelForm):
         self.fields['article'].queryset = Article.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
         self.fields['images'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
         self.fields['sounds'].queryset = Sound.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
         self.fields['videos'].queryset = Video.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
         self.fields['code'].queryset = Code.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
 
 class SupportDocumentForm(forms.ModelForm):
@@ -284,7 +284,7 @@ class SupportDocumentForm(forms.ModelForm):
         self.fields['image'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
 
 class SupportDocSectionForm(forms.ModelForm):
@@ -385,27 +385,27 @@ class SupportDocSectionForm(forms.ModelForm):
         self.fields['support_document'].queryset = SupportDocument.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
         self.fields['images'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
         self.fields['sounds'].queryset = Sound.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
         self.fields['videos'].queryset = Video.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
         self.fields['code'].queryset = Code.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
 
 class StoryForm(forms.ModelForm):
@@ -531,7 +531,7 @@ class StoryForm(forms.ModelForm):
         self.fields['image'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
 
 class StorySectionForm(forms.ModelForm):
@@ -603,10 +603,10 @@ class StorySectionForm(forms.ModelForm):
         self.fields['story'].queryset = Story.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )
         self.fields['images'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )

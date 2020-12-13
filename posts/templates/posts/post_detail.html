@@ -120,7 +120,7 @@
       {% endif %}
       <p class="link-url">
         <a href="{{ post.link.url }}" class="links-list-link">{{ post.link.url|truncatechars:128 }}</a>
-        {% if post.owner.link.pk == request.user.pk %}
+        {% if post.link.owner.pk == request.user.pk %}
           <a href="{% url 'objects:link_update' post.link.pk %}?next={{ request.path }}">
             <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
           </a>

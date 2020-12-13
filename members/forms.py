@@ -179,5 +179,5 @@ class ProfileForm(forms.ModelForm):
         self.fields['image'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
-            '-creation_date',
+            '-last_modified',
         )

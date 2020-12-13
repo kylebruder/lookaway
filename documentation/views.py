@@ -179,7 +179,7 @@ class TopArticleListView(ListView):
         context['top'] = True
         return context   
 
-class MemberArticleView(LoginRequiredMixin, ListView):
+class MemberArticleView(ListView):
 
     model = Article
     paginate_by = 5
@@ -187,12 +187,19 @@ class MemberArticleView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        return Article.objects.filter(
-            owner=member
-        ).order_by(
-            'is_public', 
-            '-creation_date',
-        )
+        if self.request.user.pk == member.pk:
+            return Article.objects.filter(
+                owner=member
+            ).order_by(
+                '-last_modified',
+            )
+        else:
+            return Article.objects.filter(
+                owner=member,
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -472,7 +479,7 @@ class TopSupportDocumentListView(ListView):
         context['top'] = True
         return context
 
-class MemberSupportDocumentView(LoginRequiredMixin, ListView):
+class MemberSupportDocumentView(ListView):
 
     model = SupportDocument
     paginate_by = 5
@@ -480,12 +487,19 @@ class MemberSupportDocumentView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        return SupportDocument.objects.filter(
-            owner=member
-        ).order_by(
-            'is_public', 
-            '-creation_date',
-        )
+        if self.request.user.pk == member.pk:
+            return SupportDocument.objects.filter(
+                owner=member
+            ).order_by(
+                '-last_modified',
+            )
+        else:
+            return SupportDocument.objects.filter(
+                owner=member,
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -771,7 +785,7 @@ class TopStoryListView(ListView):
         context['top'] = True
         return context
 
-class MemberStoryView(LoginRequiredMixin, ListView):
+class MemberStoryView(ListView):
 
     model = Story
     paginate_by = 5
@@ -779,12 +793,19 @@ class MemberStoryView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        return Story.objects.filter(
-            owner=member
-        ).order_by(
-            'is_public',
-            '-creation_date',
-        )
+        if self.request.user.pk == member.pk:
+            return Story.objects.filter(
+                owner=member
+            ).order_by(
+                '-last_modified',
+            )
+        else:
+            return Story.objects.filter(
+                owner=member,
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
