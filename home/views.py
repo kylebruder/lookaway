@@ -26,22 +26,22 @@ class IndexView(TemplateView):
             re=None,
         ).order_by(
             '-publication_date',
-        )[:20]
+        )[:10]
         context['articles'] = Article.objects.filter(
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:20]
+        )[:10]
         context['stories'] = Story.objects.filter(
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:20]
+        )[:10]
         context['documents'] = SupportDocument.objects.filter(
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:20]
+        )[:10]
         context['visuals'] = Visual.objects.filter(
             is_public=True,
         ).order_by(
