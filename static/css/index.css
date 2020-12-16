@@ -135,7 +135,7 @@
 }
 
 .index-visual-box {
-  width: 500px;
+  max-width: 500px;
   margin-left: 10px;;
   margin-bottom: 10px;
   float: left;
