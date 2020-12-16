@@ -1,4 +1,5 @@
 import hashlib
+from itertools import chain
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -34,15 +35,16 @@ class Tag(models.Model):
 
     def get_tags_from_public(model):
         '''
-        Returns a set of tags related to instances of a given model
+        Returns a queryset of tags related to instances of a given model
         for which "is_public" boolean field True.
         '''
         tags = Tag.objects.none()
         objects = model.objects.filter(is_public=True).prefetch_related('tags')
         for o in objects:
             if o.tags.count() > 0:
-                tags = tags.union(o.tags.all())
-        return tags
+                # Merge tags into queryset
+                tags = tags | o.tags.all()
+        return tags.distinct()
 
     def __str__(self):
         if self.value:

@@ -18,40 +18,40 @@ class IndexView(TemplateView):
         public_tags = Tag.objects.none()
         tag_models = {Post, Gallery, Visual, Album, Track, Article, SupportDocument}
         for model in tag_models:
-            public_tags = public_tags.union(Tag.get_tags_from_public(model))
-        context['tags'] = public_tags.order_by('-weight')
+            public_tags = public_tags | Tag.get_tags_from_public(model)
+        context['tags'] = public_tags.order_by('-weight')[:50]
         context['posts'] = Post.objects.filter(
             is_public=True,
             members_only=False,
             re=None,
         ).order_by(
             '-publication_date',
-        )[:3]
+        )[:20]
         context['articles'] = Article.objects.filter(
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:3]
+        )[:20]
         context['stories'] = Story.objects.filter(
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:3]
+        )[:20]
         context['documents'] = SupportDocument.objects.filter(
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:3]
+        )[:20]
         context['visuals'] = Visual.objects.filter(
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:9]
+        )[:16]
         context['galleries'] = Gallery.objects.filter(
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:4]
+        )[:5]
         context['tracks'] = Track.objects.filter(
             is_public=True,
         ).order_by(
@@ -61,5 +61,5 @@ class IndexView(TemplateView):
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:4]
+        )[:5]
         return context

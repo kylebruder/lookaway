@@ -29,7 +29,6 @@
   border-radius: 5px;
   border-color: #eeeeee;
   display: block;
-  float: left;
 }
 
 .index-album-link {
@@ -133,6 +132,13 @@
 .index-brand-name {
   font-family: 'Baloo Paaji 2', sans-serif;
   font-size: 3.5em;
+}
+
+.index-visual-box {
+  width: 500px;
+  margin-left: 10px;;
+  margin-bottom: 10px;
+  float: left;
 }
 
 .index-visual-card {
