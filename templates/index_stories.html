@@ -5,7 +5,7 @@
       {% for story in stories %}
         {% if story.is_public and not story.members_only or story.is_public and request.user.is_authenticated or story.owner.pk == request.user.pk %}
             <a href="{% url 'documentation:story_detail' story.slug %}">
-              {{ story.title }}
+              <span class="index-heading-span">{{ story.title }}</span>
             </a> &squf;
         {% endif %}
       {% endfor %}

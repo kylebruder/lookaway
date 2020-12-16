@@ -5,7 +5,7 @@
       {% for article in articles %}
         {% if article.is_public and not article.members_only or article.is_public and request.user.is_authenticated or article.owner.pk == request.user.pk %}
             <a href="{% url 'documentation:article_detail' article.slug %}">
-              {{ article.title }}
+              <span class="index-heading-span">{{ article.title }}</span>
             </a> &squf;
         {% endif %}
       {% endfor %}

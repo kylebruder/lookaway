@@ -5,7 +5,7 @@
       {% for document in documents %}
         {% if document.is_public and not document.members_only or document.is_public and request.user.is_authenticated or document.owner.pk == request.user.pk %}
             <a href="{% url 'documentation:support_document_detail' document.slug %}">
-              {{ document.title }}
+              <span class="index-heading-span">{{ document.title }}</span>
             </a> &squf;
         {% endif %}
       {% endfor %}

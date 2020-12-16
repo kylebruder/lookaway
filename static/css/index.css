@@ -86,6 +86,11 @@
   padding: 3px;
 }
 
+.index-heading-span {
+  display: inline-block;
+  whitespace: nowrap;
+}
+
 .index-image-martix {
   max-width: 520px;
   max-height: 520px;

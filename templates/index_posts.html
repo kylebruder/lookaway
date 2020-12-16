@@ -5,7 +5,7 @@
       {% for post in posts %}
         {% if post.is_public and not post.members_only or post.is_public and request.user.is_authenticated or post.owner.pk == request.user.pk %}
             <a href="{% url 'posts:post_detail' post.slug %}">
-              {{ post.title }}
+              <span class="index-heading-span">{{ post.title }}</span>
             </a> &squf; 
         {% endif %}
       {% endfor %}
