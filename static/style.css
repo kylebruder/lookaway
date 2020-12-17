@@ -62,6 +62,10 @@
   margin: 3px;
 }
 
+/* Changing the default link color */
+a {color: #03d7fc;}
+a:hover {color: #03fcfc;}
+
 /* Custom orderd list */
 /* https://css-tricks.com/custom-list-number-styling/ */
 ol {
