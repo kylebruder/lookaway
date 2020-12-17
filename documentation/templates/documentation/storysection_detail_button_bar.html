@@ -1,3 +1,6 @@
+{% if not section.hide_title and section.pk != sections.first.pk %}
+  <br>
+{% endif %}
 <div class="row">
   <div class="col">
     {% if not section.hide_title %}

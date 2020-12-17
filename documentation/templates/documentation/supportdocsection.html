@@ -1,6 +1,6 @@
 <div class="documentation-section">
   {% include './supportdocsection_detail_button_bar.html' %}
-  <p>{{ section.text|linebreaks }}</p>
+  {{ section.text|linebreaks }}
   {% if section.tip %}
     <div class="alert alert-primary documentation-alert"><strong>Tip:</strong> {{ section.tip }}</div><br>
   {% endif %}

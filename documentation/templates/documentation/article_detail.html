@@ -13,14 +13,15 @@
       <br>
       <br>
     {% endif %}
-    <p>{{ article.intro|linebreaks }}</p>
+    {{ article.intro|linebreaks }}
     <br>
     {% if sections %}
       {% for section in sections %}
         {% include './articlesection.html' %}
+        <br>
       {% endfor %}
     {% endif %}
-    <p>{{ article.outro|linebreaks }}</p>
+    {{ article.outro|linebreaks }}
     {% if article.links.count > 0 %}
       <h4 class="documentation-title">Links</h4>
       {% with article.links.all as links %}

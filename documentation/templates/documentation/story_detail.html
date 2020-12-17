@@ -11,17 +11,20 @@
     {% endif %}
     {% if story.intro %}
       <h4 class="documentation-title">Foreward</h4>
-      <p>{{ story.intro|linebreaks }}</p>
+      {{ story.intro|linebreaks }}
+      <br>
     {% endif %}
     {% if sections %}
       {% for section in sections %}
         {% include './storysection.html' %}
       {% endfor %}
       <div class="clear"></div>
+      <br>
     {% endif %}
     {% if story.outro %}
       <h4 class="documentation-title">Afterward</h4>
-      <p>{{ story.outro|linebreaks }}</p>
+      {{ story.outro|linebreaks }}
+      <br>
     {% endif %}
     {% include './story_data.html' %}
     {% if story.links.count > 0 %}

@@ -1,6 +1,6 @@
 <div class="documentation-section">
   {% include './articlesection_detail_button_bar.html' %}
-  <p>{{ section.text|linebreaks }}</p>
+  {{ section.text|linebreaks }}
   {% if section.images.count > 0 %}
     {% for image in section.images.all %}
       <div class="documentation-section-image">

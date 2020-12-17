@@ -17,23 +17,27 @@
       {% endif %}
       <br>
     {% endif %}
-    <p>{{ document.intro|linebreaks }}</p>
+    {{ document.intro|linebreaks }}
+    <br>
     {% if sections %}
       {% if document.numbered %}
         <ol class="list-group">
           {% for section in sections %}
             <li class="list-group-item documentation-section documentation-section-li">
               {% include './supportdocsection.html' %}
+              <br>
             </li>
           {% endfor %}
         </ol>
       {% else %}
         {% for section in sections %}
           {% include './supportdocsection.html' %}
+          <br>
         {% endfor %}
       {% endif %}
     {% endif %}
-    <p>{{ document.outro|linebreaks }}</p>
+    {{ document.outro|linebreaks }}
+    <br>
     {% if refs|length > 0 %}
       <h4 class="documentation-title">Referenced by</h4>
       {% for ref in refs %}
