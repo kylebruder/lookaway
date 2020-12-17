@@ -35,17 +35,17 @@ class MusicPageView(TemplateView):
         context = super().get_context_data(**kwargs)
         # Albums
         public_albums = Album.objects.filter(is_public=True)
-        if public_albums.count() >= n:
-            # Get the date of the 5th newest Album 
-            # if there are 5 or more Albums.
+        album_list_length = self.calculate_album_list_length(n)
+        if public_albums.count() >= album_list_length:
+            # Get the date of the nth newest Album 
+            # if there are enough Albums.
             last_new_album_date = public_albums.order_by(
                 '-publication_date',
-            )[n-1].publication_date
+            )[album_list_length - 1].publication_date
             # Get the 5 newest Albums.
             context['new_albums'] = public_albums.order_by(
                 '-publication_date',
             )[:self.calculate_album_list_length(n)]
-            print(math.ceil(n / 2.) * 2)
             # Exclude any Album that appears in the new albums list
             # from the top Album list.
             context['top_albums'] = public_albums.order_by(

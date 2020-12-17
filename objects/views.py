@@ -288,7 +288,7 @@ class SoundCreateView(LoginRequiredMixin, CreateView):
 class SoundListView(LoginRequiredMixin, ListView):
 
     model = Sound
-    paginate_by = 30
+    paginate_by = 6
     queryset = Sound.objects.filter(is_public=True)
     context_object_name = 'sounds'
     ordering = ['-weight', '-creation_date']
@@ -300,7 +300,7 @@ class SoundListView(LoginRequiredMixin, ListView):
 class MemberSoundView(LoginRequiredMixin, ListView):
 
     model = Sound
-    paginate_by = 30
+    paginate_by = 6
     context_object_name = 'sounds'
 
     def get_queryset(self, *args, **kwargs):
@@ -483,7 +483,7 @@ class VideoCreateView(LoginRequiredMixin, CreateView):
 class VideoListView(LoginRequiredMixin, ListView):
 
     model = Video
-    paginate_by = 30
+    paginate_by = 6
     queryset = Video.objects.filter(is_public=True)
     context_object_name = 'videos'
     ordering = ['-weight', '-creation_date']
@@ -495,7 +495,7 @@ class VideoListView(LoginRequiredMixin, ListView):
 class MemberVideoView(LoginRequiredMixin, ListView):
 
     model = Video
-    paginate_by = 30
+    paginate_by = 6
     context_object_name = 'videos'
 
     def get_queryset(self, *args, **kwargs):
@@ -646,7 +646,7 @@ class CodeCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 class CodeListView(LoginRequiredMixin, ListView):
 
     model = Code
-    paginate_by = 12
+    paginate_by = 6
     queryset = Code.objects.filter(is_public=True)
     context_object_name = 'codes'
     ordering = ['-weight', '-creation_date']
@@ -658,7 +658,7 @@ class CodeListView(LoginRequiredMixin, ListView):
 class MemberCodeView(LoginRequiredMixin, ListView):
 
     model = Code
-    paginate_by = 12
+    paginate_by = 6
     context_object_name = 'codes'
 
     def get_queryset(self, *args, **kwargs):
@@ -809,7 +809,7 @@ class LinkCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 class LinkListView(LoginRequiredMixin, ListView):
 
     model = Link
-    paginate_by = 32
+    paginate_by = 6
     queryset = Link.objects.filter(is_public=True)
     context_object_name = 'links'
     ordering = ['-weight', '-creation_date']
@@ -821,7 +821,7 @@ class LinkListView(LoginRequiredMixin, ListView):
 class MemberLinkView(LoginRequiredMixin, ListView):
 
     model = Link
-    paginate_by = 12
+    paginate_by = 6
     context_object_name = 'links'
 
     def get_queryset(self, *args, **kwargs):
@@ -1218,7 +1218,7 @@ class GalleryByTag(ListView):
 
     model = Gallery
     context_object_name = 'galleries'
-    paginate_by = 32
+    paginate_by = 6
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
@@ -1233,7 +1233,7 @@ class AlbumByTag(ListView):
 
     model = Album
     context_object_name = 'albums'
-    paginate_by = 32
+    paginate_by = 6
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
@@ -1248,7 +1248,7 @@ class TrackByTag(ListView):
 
     model = Track
     context_object_name = 'tracks'
-    paginate_by = 32
+    paginate_by = 6
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
@@ -1263,7 +1263,7 @@ class StoryByTag(ListView):
 
     model = Story
     context_object_name = 'stories'
-    paginate_by = 32
+    paginate_by = 6
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
@@ -1278,7 +1278,7 @@ class PostByTag(ListView):
 
     model = Post
     context_object_name = 'posts'
-    paginate_by = 32
+    paginate_by = 6
     ordering = ['-weight',]
 
     def get_queryset(self, *args, **kwargs):
@@ -1293,7 +1293,7 @@ class PostByTag(ListView):
 
     model = Post
     context_object_name = 'posts'
-    paginate_by = 32
+    paginate_by = 6
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
@@ -1308,7 +1308,7 @@ class ArticleByTag(ListView):
 
     model = Article
     context_object_name = 'articles'
-    paginate_by = 32
+    paginate_by = 6
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
@@ -1323,7 +1323,7 @@ class SupportDocumentByTag(ListView):
     
     model = SupportDocument
     context_object_name = 'documents'
-    paginate_by = 32
+    paginate_by = 6
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
@@ -1354,7 +1354,7 @@ class SoundByTag(LoginRequiredMixin, ListView):
     
     model = Sound
     context_object_name = 'sounds'
-    paginate_by = 32
+    paginate_by = 6
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
@@ -1370,7 +1370,7 @@ class VideoByTag(LoginRequiredMixin, ListView):
     
     model = Video
     context_object_name = 'videos'
-    paginate_by = 32
+    paginate_by = 6
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
@@ -1386,7 +1386,7 @@ class CodeByTag(LoginRequiredMixin, ListView):
     
     model = Code
     context_object_name = 'codes'
-    paginate_by = 32
+    paginate_by = 6
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
@@ -1402,7 +1402,7 @@ class LinkByTag(LoginRequiredMixin, ListView):
     
     model = Link
     context_object_name = 'links'
-    paginate_by = 32
+    paginate_by = 6
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):

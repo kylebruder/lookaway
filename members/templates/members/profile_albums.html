@@ -1,7 +1,7 @@
 {% if albums.count > 0 %}
   {% for album in albums %}
     <a class="text-light" href="{% url 'music:album_detail' album.slug %}">
-      <div class="index-album" style="background-image:url('{{ album.cover.image_file.url }}')" >
+      <div class="profile-album float-left" style="background-image:url('{{ album.cover.image_file.url }}')" >
         {% if album.is_public and not album.members_only or album.is_public and request.user.is_authenticated or album.owner.pk == request.user.pk %}
             <span class="index-album-title">
                 {{ album.title }}
