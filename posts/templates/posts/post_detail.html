@@ -35,9 +35,7 @@
     </div>
     <!-- Main content -->
     {% if post.text %}
-      <div>
-        <p class="post-text">{{ post.text|linebreaks }}</p>
-      </div>
+      {{ post.text|linebreaks }}
       <br>
     {% endif %}
     <!-- Sound -->
