@@ -38,22 +38,21 @@
       <div class="col-sm-6">
         <!-- Track list -->
         {% if album.tracks.all.count > 0 %}
-            <h4 class="music-title">Track List</h4>
-            {% for track in album.tracks.all %}
-              {% if track.is_public %}
-                  <h5 class="music-title">
-                    <a href="{% url 'music:track_detail' track.slug %}">{{ track.title }}</a>
-                  </h5>
-                  <!-- Sound -->
-                  {% with track.sound as sound %}
-                    <audio controls="controls">
-                      {% include 'audio_mime_types.html' %}
-                    </audio>
-                    <br>
-                    <br>
-                  {% endwith %}
-              {% endif %}
-            {% endfor %}
+          {% for track in album.tracks.all %}
+            {% if track.is_public %}
+              <h5 class="music-title">
+                <a href="{% url 'music:track_detail' track.slug %}">{{ track.title }}</a>
+              </h5>
+              <!-- Sound -->
+              {% with track.sound as sound %}
+                <audio controls="controls">
+                  {% include 'audio_mime_types.html' %}
+                </audio>
+                <br>
+                <br>
+              {% endwith %}
+            {% endif %}
+          {% endfor %}
         {% endif %}
       </div>
     </div>

@@ -38,37 +38,36 @@
           <p class="music-track-blurb">{{ track.text|linebreaks }}</p>
         {% endif %}
       </div>
-      <!-- Image -->
-      {% if track.image %}
+      {% if track.video %}
+        <!-- Video -->
+        {% with track.video as video %}
+          <div class="col-sm-6">
+            <video class="music-video-md video-player" style="background:transparent url('{{ track.image.image_file.url }}') no-repeat 0 0;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;" preload="metadata" controls>
+              {% include 'video_mime_types.html' %}
+            </video>
+            <p class="track-meta">
+              {% if video.text %}
+                {{ video.text }}<br>
+              {% endif %}
+              {% if video.credit %}
+                <i>{{ video.credit }}</i>
+              {% endif %}
+              {% if track.video.owner.pk == request.user.pk %}
+                <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
+                  <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+                </a>
+              {% endif %}
+            </p>
+          </div>
+        {% endwith %}
+      {% elif track.image %}
+        <!-- Image -->
         <div class="col-sm-6">
           <img class="float-right music-track-image" src="{{ track.image.image_file.url }}" alt="{{ track.image.title }}">   
         </div>
       {% endif %}
     </div>
     <br>
-    <!-- Video -->
-    {% if track.video %}
-      <h4 class="music-title">{{ track.video.title }}</h4>
-      {% with track.video as video %}
-        <video class="music-video-md video-player" preload="metadata" poster="{{ track.image.image_file.url }}" controls>
-          {% include 'video_mime_types.html' %}
-        </video>
-        <p class="track-meta">
-          {% if video.text %}
-            {{ video.text }}<br>
-          {% endif %}
-          {% if video.credit %}
-            <i>{{ video.credit }}</i>
-          {% endif %}
-          {% if track.video.owner.pk == request.user.pk %}
-            <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
-              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-            </a>
-          {% endif %}
-        </p>
-      {% endwith %}
-      <br>
-    {% endif %}
     <!-- Albums -->
     {% if albums.all.count > 0 %}
       <h4 class="music-title">Album{% if albums.all.count > 1 %}s{% endif %}</h4>

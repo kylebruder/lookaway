@@ -121,7 +121,7 @@
 }
 
 .music-video-md {
-  max-width: auto;
+  width: 100%;
   max-height: auto;
   display: block;
 }
