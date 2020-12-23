@@ -3,6 +3,12 @@
     <div class="col-sm-4">
       <div class="container">
         <h3 class="studio-title text-muted">{{ member }}'s Digital Studio</h3>
+        <p class="text-muted">
+          Currently using {{ media_used }} MB / {{ media_capacity }} MB
+          <div class="progress">
+            <div class="progress-bar bg-dark" role="progressbar" style="width: {{ media_percent_used }}%" aria-valuenow="{{ media_percent_used }}%" aria-valuemin="0" aria-valuemax="100">{{ media_percent_used }}%</div>
+          </div>
+        </p>
       </div>
     </div>
     <div class="col-md-8">

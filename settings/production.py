@@ -10,18 +10,34 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-import os
-from django.contrib.messages import constants as messages
-from django.urls import reverse_lazy
-
 ### Site variables
 
 # When a new member is created, set the limit for number of bytes they
-# can use in the media directory. 10**10 = 10 gigabytes.
-# If you dont need space on your media storage for backups,
-# then the default should be < total storage capacity / n members
+# can use in the media directory. 10**9 = 1 gigabyte.
+# If you need space on your media storage for backups,
+# then the default should be < total storage capacity / n members / 2
 # to prevent the disk from getting too full.
-DEFAULT_MEMBER_STORAGE = 10**9*4
+# Example:
+# You have a media directory on a filesystem with 500GB available.
+# You have 10 members total.
+# 500GB / 10 / 2 = 25GB or 10**9*25
+# If all 10 members are using 100% of their storage then
+# you are using 250GB and have 250GB of space reserved for creating a backup.
+
+DEFAULT_MEMBER_STORAGE = 10**9*2 # 2GB
+
+# Any member that joined before the FOUNDER_CUTOFF date
+# will be considered a founder.
+                       # year, mo, day
+from datetime import datetime
+FOUNDER_CUTOFF = datetime(2021, 1, 1)
+
+###############################################################################
+### Be careful changing things under this line ###
+
+import os
+from django.contrib.messages import constants as messages
+from django.urls import reverse_lazy
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

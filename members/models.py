@@ -1,12 +1,13 @@
 import datetime
 import os
+import pytz
 from hashlib import md5
 from random import randrange
 from django.db import models
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils import timezone
-from lookaway.settings import DEFAULT_MEMBER_STORAGE
+from lookaway.settings import DEFAULT_MEMBER_STORAGE, FOUNDER_CUTOFF
 from objects.models import Image
 
 
@@ -14,6 +15,18 @@ class Member(User):
 
     class Meta:
         proxy = True
+
+    def check_is_founder(self):
+        '''
+        Checks to see if the Member joined before the FOUNDER_CUTOFF date
+        variable from settings.py.
+        '''
+        utc = pytz.UTC
+        cutoff = utc.localize(FOUNDER_CUTOFF)
+        if cutoff > self.date_joined:
+            return True
+        else:
+            return False
 
     def check_is_new(self, n=30):
         '''

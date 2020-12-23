@@ -1,6 +1,15 @@
 <div class="col-sm-4 member-card">
   <div class="row">
     <div class="col">
+      <div class="container">
+        {% if member.profile.image %}
+          <img class="member-list-image" src="{{ member.profile.image.thumbnail_file.url }}">
+        {% else %}
+          <img class="member-list-image" src="/static/favicon.ico">
+        {% endif %}
+      </div>
+    </div>
+    <div class="col">
       <h4>
         <a href="{% url 'members:member_profile' member.username %}">
           <h4 class="member-badge">
@@ -11,15 +20,6 @@
       <p>
         {% include './member_badges.html' %}
       </p>
-    </div>
-    <div class="col">
-      <div class="container">
-        {% if member.profile.image %}
-          <img class="member-list-image" src="{{ member.profile.image.thumbnail_file.url }}">
-        {% else %}
-          <img class="member-list-image" src="/static/favicon.ico">
-        {% endif %}
-      </div>
     </div>
   </div>
 </div>

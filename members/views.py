@@ -82,6 +82,17 @@ class StudioView(LoginRequiredMixin, TemplateView):
         context['links'] = Link.objects.filter(
             owner=member
         ).order_by( '-last_modified')[:10]
+        # Check media storage
+        has_free, free, used = member.check_free_media_capacity(
+            directory='media/member_' + str(member.pk),
+        )
+        capacity = member.profile.media_capacity
+        context['media_capacity'] = round(capacity / 10**6) # In MB
+        context['media_used'] = round(used / 10**6) # In MB
+        if has_free:
+            context['media_percent_used'] = round(used / capacity * 100) # As a %
+        else:
+            context['media_percent_used'] = 100
         return context
 
 class MemberListView(ListView):
