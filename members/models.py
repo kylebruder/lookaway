@@ -7,7 +7,7 @@ from django.db import models
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils import timezone
-from lookaway.settings import DEFAULT_MEMBER_STORAGE, FOUNDER_CUTOFF
+from lookaway.settings import BASE_DIR, DEFAULT_MEMBER_STORAGE, FOUNDER_CUTOFF
 from objects.models import Image
 
 
@@ -77,7 +77,8 @@ class Member(User):
         indicated bt the models .
 
         Arguments
-        directory   - A string that indicates the directory path to check.
+        directory   - A string that indicates the relative directory path to check.
+                      Uses BASE_DIR as the working directory.
 
         Returns
         Boolean     - True if the bytes used is less than the given capacity.
@@ -86,7 +87,9 @@ class Member(User):
         used        - The total bytes used.
         '''
         try:
-            bytes_used = self.get_dir_size(directory)
+            bytes_used = self.get_dir_size(
+                os.path.join(BASE_DIR, directory),
+            )
         except:
             bytes_used = 0
         capacity = self.profile.media_capacity
