@@ -1,6 +1,6 @@
 <!-- Newest Tracks -->
 {% if tracks.count > 0 %}
-  <div class="col-sm">
+  <div class="index-col">
     {% for track in tracks %}
       {% if track.is_public and not track.members_only or track.is_public and request.user.is_authenticated or track.owner.pk == request.user.pk %}
         <div class="row">

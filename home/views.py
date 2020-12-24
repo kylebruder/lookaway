@@ -46,20 +46,20 @@ class IndexView(TemplateView):
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:16]
+        )[:9]
         context['galleries'] = Gallery.objects.filter(
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:5]
+        )[:3]
         context['tracks'] = Track.objects.filter(
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:4]
+        )[:3]
         context['albums'] = Album.objects.filter(
             is_public=True,
         ).order_by(
             '-publication_date',
-        )[:5]
+        )[:3]
         return context
