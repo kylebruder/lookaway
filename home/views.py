@@ -26,7 +26,7 @@ class IndexView(TemplateView):
             re=None,
         ).order_by(
             '-publication_date',
-        )[:10]
+        )[:50]
         context['articles'] = Article.objects.filter(
             is_public=True,
         ).order_by(

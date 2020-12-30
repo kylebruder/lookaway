@@ -1,6 +1,6 @@
 <!-- Newest public Posts -->
 {% if posts.count > 0 %}
-  <p class="index-title">
+  <p>
     {% for post in posts %}
       {% if post.is_public and not post.members_only or post.is_public and request.user.is_authenticated or post.owner.pk == request.user.pk %}
         <span class="index-heading-span">
