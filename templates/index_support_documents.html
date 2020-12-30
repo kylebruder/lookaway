@@ -1,15 +1,15 @@
 <!-- Newest public Articles -->
 {% if documents.count > 0 %}
-    <h5 class="index-title">
-      New Info: 
-      {% for document in documents %}
-        {% if document.is_public and not document.members_only or document.is_public and request.user.is_authenticated or document.owner.pk == request.user.pk %}
-          <span class="index-heading-span">
-            <a href="{% url 'documentation:support_document_detail' document.slug %}">{{ document.title }}</a> &squf;
-          </span>
-        {% endif %}
-      {% endfor %}
-      <a href="{% url 'documentation:new_support_documents' %}">more...</a>
-    </h5>
-    <br>
+  <h5 class="index-title">
+    Information: 
+    {% for document in documents %}
+      {% if document.is_public and not document.members_only or document.is_public and request.user.is_authenticated or document.owner.pk == request.user.pk %}
+        <span class="index-heading-span">
+          <a href="{% url 'documentation:support_document_detail' document.slug %}">{{ document.title }}</a> &squf;
+        </span>
+      {% endif %}
+    {% endfor %}
+    <a href="{% url 'documentation:new_support_documents' %}">more...</a>
+  </h5>
+  <br>
 {% endif %}

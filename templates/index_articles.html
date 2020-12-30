@@ -1,15 +1,14 @@
 <!-- Newest public Articles -->
 {% if articles.count > 0 %}
-    <h5 class="index-title">
-      Recent Articles: 
-      {% for article in articles %}
-        {% if article.is_public and not article.members_only or article.is_public and request.user.is_authenticated or article.owner.pk == request.user.pk %}
-          <span class="index-heading-span">
-            <a href="{% url 'documentation:article_detail' article.slug %}">{{ article.title }}</a> &squf;
-          </span>
-        {% endif %}
-      {% endfor %}
-      <a href="{% url 'documentation:new_articles' %}">more...</a>
-    </h5>
-    <br>
+  <h5 class="index-title">
+    {% for article in articles %}
+      {% if article.is_public and not article.members_only or article.is_public and request.user.is_authenticated or article.owner.pk == request.user.pk %}
+        <span class="index-heading-span">
+          <a href="{% url 'documentation:article_detail' article.slug %}">{{ article.title }}</a> &squf;
+        </span>
+      {% endif %}
+    {% endfor %}
+    <a href="{% url 'documentation:new_articles' %}">more articles...</a>
+  </h5>
+  <br>
 {% endif %}

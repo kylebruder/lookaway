@@ -1,15 +1,14 @@
 <!-- Newest public Stories -->
 {% if stories.count > 0 %}
-    <h5 class="index-title">
-      Latest Stories: 
-      {% for story in stories %}
-        {% if story.is_public and not story.members_only or story.is_public and request.user.is_authenticated or story.owner.pk == request.user.pk %}
-            <a href="{% url 'documentation:story_detail' story.slug %}">
-              <span class="index-heading-span">{{ story.title }}</span>
-            </a> &squf;
-        {% endif %}
-      {% endfor %}
-      <a href="{% url 'documentation:new_stories' %}">more...</a>
-    </h5>
-    <br>
+  <h5 class="index-title">
+    {% for story in stories %}
+      {% if story.is_public and not story.members_only or story.is_public and request.user.is_authenticated or story.owner.pk == request.user.pk %}
+          <a href="{% url 'documentation:story_detail' story.slug %}">
+            <span class="index-heading-span">{{ story.title }}</span>
+          </a> &squf;
+      {% endif %}
+    {% endfor %}
+    <a href="{% url 'documentation:new_stories' %}">more stories...</a>
+  </h5>
+  <br>
 {% endif %}

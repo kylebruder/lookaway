@@ -31,9 +31,11 @@
       {% if visual.medium %}{{ visual.medium }}<br>{% endif %}
       {% if visual.dimensions %}{{ visual.dimensions }}<br>{% endif %}
     </p>
+    <br>
     <!-- Blurb -->
     {% if visual.text %}
       <p class="art-visual-blurb">{{ visual.text|linebreaks }}</p>
+      <br>
     {% endif %}
     <!-- Galleries-->
     {% if galleries.all.count > 0 %}
@@ -50,6 +52,7 @@
           </p>
         {% endfor %}
       </p>
+      <br>
     {% endif %}
     <!-- Links -->
     {% if visual.links.count > 0 %}
