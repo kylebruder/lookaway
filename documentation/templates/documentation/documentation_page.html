@@ -9,6 +9,16 @@
     <p><i>Coming Soon...</i></p> 
   {% else %}
     <div class="row">
+      {% if new_posts.all.count > 0 %}
+        <div class="col-sm documentation-page-section">
+          <h4 class="documentation-title">New Posts</h4>
+          {% for post in new_posts %}
+            {% include "./post_item.html" %}
+          {% endfor %}
+          <div class="clear"></div>
+          <p><a href="{% url 'posts:public_posts' %}">all new posts</a></p>
+        </div>
+      {% endif %}
       {% if new_articles.all.count > 0 %}
         <div class="col-sm documentation-page-section">
           <h4 class="documentation-title">New Articles</h4>
@@ -30,18 +40,18 @@
           <p><a href="{% url 'documentation:new_stories' %}">all new stories</a></p>
         </div>
       {% endif %}
-      {% if new_documents.all.count > 0 %}
-        <div class="col-sm documentation-page-section">
-          <h4 class="documentation-title">New Information</h4>
-          {% for document in new_documents %}
-            {% include "./supportdocument_item.html" %}
-          {% endfor %}
-          <div class="clear"></div>
-          <p><a href="{% url 'documentation:new_support_documents' %}">all new information</a></p>
-        </div>
-      {% endif %}
     </div>
     <div class="row">
+      {% if top_posts.count > 0 %}
+        <div class="col-sm documentation-page-section">
+          <h4 class="documentation-title">Top Posts</h4>
+          {% for post in top_posts %}
+            {% include "./post_item.html" %}
+          {% endfor %}
+          <div class="clear"></div>
+          <p><a href="{% url 'posts:top_posts' %}">all top posts</a></p>
+        </div>
+      {% endif %}
       {% if top_articles.all.count > 0 %}
         <div class="col-sm documentation-page-section">
           <h4 class="documentation-title">Top Articles</h4>
@@ -61,16 +71,6 @@
           {% endfor %}
           <div class="clear"></div>
           <p><a href="{% url 'documentation:top_stories' %}">all top stories</a></p>
-        </div>
-      {% endif %}
-      {% if top_documents.count > 0 %}
-        <div class="col-sm documentation-page-section">
-          <h4 class="documentation-title">Top Information</h4>
-          {% for document in top_documents %}
-            {% include "./supportdocument_item.html" %}
-          {% endfor %}
-          <div class="clear"></div>
-          <p><a href="{% url 'documentation:top_support_documents' %}">all top information</a></p>
         </div>
       {% endif %}
     </div>
