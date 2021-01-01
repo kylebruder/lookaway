@@ -86,10 +86,10 @@ class DocumentationPageView(TemplateView):
             )[:n]
         # Posts
         if self.request.user.is_authenticated:
-            public_posts = SupportDocument.objects.filter(is_public=True)
+            public_posts = Post.objects.filter(is_public=True)
         # Do not send member only Articles to non members
         else:
-            public_posts = SupportDocument.objects.filter(
+            public_posts = Post.objects.filter(
                 is_public=True,
                 members_only=False,
             )
