@@ -14,6 +14,7 @@ from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteVi
 from django.views.generic.list import ListView
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
+from posts.models import Post
 from .forms import ArticleForm, ArticleSectionForm, StoryForm, StorySectionForm, SupportDocumentForm, SupportDocSectionForm
 from .models import Article, ArticleSection, Story, StorySection, SupportDocument, SupportDocSection
 
