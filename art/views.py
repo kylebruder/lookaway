@@ -400,7 +400,10 @@ class VisualDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Galleries that have the Track on their list
-        context['galleries'] = Gallery.objects.filter(visuals__title=self.object.title)
+        context['galleries'] = Gallery.objects.filter(
+            visuals__title=self.object.title,
+            is_public=True,
+        )
         # Check whether or not to display the Marshmallow button
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)

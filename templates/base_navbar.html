@@ -1,6 +1,6 @@
 <nav class="container-fluid navbar sticky-top navbar-expand-lg navbar-light bg-light">
   {% load static %}
-  <a class="nav-item navbar-brand" href="/"><img src="{% static 'favicon.ico' %}" class="nav-logo" alt="Lookaway CMS(dev)"></a>
+  <a class="nav-item navbar-brand" href="/"><img src="{% static 'icon.webp' %}" class="nav-logo" alt="Lookaway CMS(dev)"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -8,26 +8,49 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'posts:public_posts' %}">Posts</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link nav-font" href="{% url 'documentation:documentation_page' %}">Zine</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'music:music_page' %}">Music</a>
+        <a class="nav-link nav-font" href="{% url 'music:music_page' %}">Audio</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'art:art_page' %}">Artwork</a>
+        <a class="nav-link nav-font" href="{% url 'art:art_page' %}">Visual</a>
       </li>
       <li class="nav-item">
         <a class="nav-link nav-font" href="{% url 'members:member_list' %}">Members</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link nav-font" href="{% url 'documentation:top_support_documents' %}">Info</a>
+      </li>
+      {% if request.user.is_authenticated %}
+        <li class="nav-item nav-link nav-font">  </li>
+        <li class="nav-item">
+          <a class="nav-link nav-font" href="{% url 'objects:public_images' %}">&#11036;</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-font" href="{% url 'objects:public_videos' %}">&#x1F4FA;</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-font" href="{% url 'objects:public_sounds' %}">&#x1F50A;</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-font" href="{% url 'objects:public_links' %}">&#x1F517;</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-font" href="{% url 'objects:public_code' %}"><></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-font" href="{% url 'objects:tags' %}">&#x26FF;</a>
+        </li>
+      {% endif %}
     </ul>
     {% if request.user.is_authenticated %}
       <span class="nav-text">
-        <div class="nav-item dropdown float-left">
-          {% include 'base_nav_objects_dropdown.html' %}
-        </div>
+        {% if request.user.is_superuser %}
+          <a class="" href="{% url 'admin:index' %}">
+            <button class="btn btn-sm btn-warning float-left">Admin</button>
+          </a>
+        {% endif %}
         <a class="" href="{% url 'members:studio' %}">
           <button class="btn btn-sm btn-primary float-left">Studio</button>
         </a>
