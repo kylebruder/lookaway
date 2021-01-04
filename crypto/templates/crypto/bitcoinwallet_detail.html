@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block body_block %}
+<div class="container crypto-bg">
+  {% include './bitcoinwallet_detail_button_bar.html' %}
+  <div class="row">
+    <div class="col-sm-">
+      <img class="crypto-qr-lg" src="{{ bitcoin_wallet.qr_code_lg.url }}" alt="bitcoin:{{ bitcoin_wallet.public_address }}">
+    </div>
+    <div class="col-sm">
+      <pre class="crypto-address-block">{{ bitcoin_wallet.public_address }}</pre><br>
+      {% if bitcoin_wallet.text %}
+        <p>{{ bitcoin_wallet.text }}</p>
+      {% endif %}
+    </div>
+  </div>
+  {% if bitcoin_wallet.tags.all.count > 0 %}
+    {% include './object_tags.html' %}
+    <br>
+  {% endif %}
+  {% include './object_meta_data.html' %}
+  <br>
+</div>
+{% endblock %}

@@ -20,12 +20,14 @@ def make_bitcoin_qr(sender, instance, *args, **kwargs):
     if instance.qr_code_lg:
         fsop = FileSystemOps()
         fsop._delete_file(instance.qr_code_lg.path)
-    file_name = instance.public_address + "_btc.jpg"
+    file_name = instance.public_address + "_btc.webp"
     img = instance.make_lg_qr(address=instance.public_address)
     p = Path('media')
     relative_path = member_crypto_dir(instance, file_name)
     qr_path = BASE_DIR / p / relative_path
-    img.save(qr_path, "webp",) 
+    absolute_dir = qr_path.parents[1]
+    absolute_dir.mkdir(parents=True, exist_ok=True)
+    img.save(qr_path, "webp") 
     instance.qr_code_lg = str(relative_path)
 
 @receiver(post_delete, sender=BitcoinWallet)
@@ -53,7 +55,8 @@ def make_litecoin_qr(sender, instance, *args, **kwargs):
     p = Path('media')
     relative_path = member_crypto_dir(instance, file_name)
     qr_path = BASE_DIR / p / relative_path
-    img.save(qr_path, "webp",)
+    Path.mkdir(qr_path, parents=True, exist_ok=True)
+    img.save(qr_path, "webp")
     instance.qr_code_lg = str(relative_path)
 
 @receiver(post_delete, sender=LitecoinWallet)

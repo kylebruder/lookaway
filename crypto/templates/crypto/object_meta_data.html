@@ -1,0 +1,7 @@
+<p>Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<br>
+{% if object.publication_date %}
+  Published on {{ object.publication_date }}<br>
+  {% if object.publication_date < object.last_modified %}
+    Last modified on {{ object.last_modified }}
+  {% endif %}
+{% endif %}</p>

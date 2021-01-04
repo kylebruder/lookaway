@@ -52,6 +52,10 @@ urlpatterns = [
         include('art.urls'),
     ),
     path(
+        'crypto/',
+        include('crypto.urls'),
+    ),
+    path(
         '',
         include('home.urls'),
     ),
