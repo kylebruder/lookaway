@@ -38,14 +38,17 @@ class BitcoinWalletCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView)
         if next_url:
             return next_url
         else:
-            return reverse('crypto:bitcoin_wallet_detail', kwargs={'pk': self.object.pk})
+            return reverse(
+                'crypto:bitcoinwallet_detail',
+                kwargs={'pk': self.object.pk},
+            )
 
 class BitcoinWalletListView(LoginRequiredMixin, ListView):
 
     model = BitcoinWallet
     paginate_by = 6
     queryset = BitcoinWallet.objects.filter(is_public=True)
-    context_object_name = 'bitcoin_wallets'
+    context_object_name = 'bitcoinwallets'
     ordering = ['-creation_date']
 
     def get_context_data(self, **kwargs):
@@ -56,7 +59,7 @@ class MemberBitcoinWalletView(LoginRequiredMixin, ListView):
 
     model = BitcoinWallet
     paginate_by = 6
-    context_object_name = 'bitcoin_wallets'
+    context_object_name = 'bitcoinwallets'
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
@@ -72,7 +75,7 @@ class MemberBitcoinWalletView(LoginRequiredMixin, ListView):
 class BitcoinWalletDetailView(LoginRequiredMixin, DetailView):
 
     model = BitcoinWallet
-    context_object_name = 'bitcoin_wallet'
+    context_object_name = 'bitcoinwallet'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -102,14 +105,20 @@ class BitcoinWalletUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView)
         if next_url:
             return next_url
         else:
-            return reverse('crypto:bitcoin_wallet_detail', kwargs={'pk': self.object.pk})
+            return reverse(
+                'crypto:bitcoinwallet_detail',
+                kwargs={'pk': self.object.pk},
+            )
 
 class BitcoinWalletDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = BitcoinWallet
 
     def get_success_url(self):
-        return reverse('members:studio')
+        return reverse(
+            'crypto:member_bitcoinwallets',
+            args=[self.request.user.username],
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -136,14 +145,17 @@ class LitecoinWalletCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView
         if next_url:
             return next_url
         else:
-            return reverse('crypto:litecoin_address_detail', kwargs={'pk': self.object.pk})
+            return reverse(
+                'crypto:litecoinwallet_detail',
+                kwargs={'pk': self.object.pk},
+            )
 
 class LitecoinWalletListView(LoginRequiredMixin, ListView):
 
     model = LitecoinWallet
     paginate_by = 6
     queryset = LitecoinWallet.objects.filter(is_public=True)
-    context_object_name = 'litecoin_addresses'
+    context_object_name = 'litecoinwallets'
     ordering = ['-creation_date']
 
     def get_context_data(self, **kwargs):
@@ -154,7 +166,7 @@ class MemberLitecoinWalletView(LoginRequiredMixin, ListView):
 
     model = LitecoinWallet
     paginate_by = 6
-    context_object_name = 'litecoin_addresses'
+    context_object_name = 'litecoinwallets'
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
@@ -170,7 +182,7 @@ class MemberLitecoinWalletView(LoginRequiredMixin, ListView):
 class LitecoinWalletDetailView(LoginRequiredMixin, DetailView):
 
     model = LitecoinWallet
-    context_object_name = 'litecoin_address'
+    context_object_name = 'litecoinwallet'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -200,14 +212,20 @@ class LitecoinWalletUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView
         if next_url:
             return next_url
         else:
-            return reverse('crypto:litecoin_address_detail', kwargs={'pk': self.object.pk})
-
+            return reverse(
+                'crypto:litecoinwallet_detail',
+                kwargs={'pk': self.object.pk},
+            )
+            
 class LitecoinWalletDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = LitecoinWallet
 
     def get_success_url(self):
-        return reverse('members:studio')
+        return reverse(
+            'crypto:member_litecoinwallets',
+            args=[self.request.user.username],
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

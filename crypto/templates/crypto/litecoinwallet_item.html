@@ -1,0 +1,29 @@
+<li class="list-group-item crypto-list-li">
+  <div class="row">
+    <div class="col-">
+      {% if litecoinwallet.qr_code_lg %}
+        <div class="crypto-list-image" style="background-image:url('{{ litecoinwallet.qr_code_lg.url }}')"></div>
+      {% else %}
+        <div class="crypto-list-image" style="background-image:url('/static/favicon.ico')"></div>
+      {% endif %}
+    </div>
+    <div class="col-sm">
+      <h5 class="crypto-title">
+        <a href="{% url 'crypto:litecoinwallet_detail' litecoinwallet.pk %}">
+          {{ litecoinwallet.title }}
+        </a>
+      </h5>
+      <p class="crypto-meta">
+        Added on {{ litecoinwallet.creation_date|date:"M d, Y" }}<br>
+        Public Address: {{ litecoinwallet.public_address }}<br>
+        {{ litecoinwallet.text }}<br>
+        {% if litecoinwallet.tags.all.count > 0 %}
+          {% with litecoinwallet as object %}
+            {% include 'object_tags.html' %}
+          {% endwith %}
+        {% endif %}
+      </p>
+    </div>
+  </div>
+</li>
+

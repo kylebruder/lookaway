@@ -17,19 +17,25 @@
         {% endwith %}
       </p>
       <p>Member since {{ profile.member.date_joined|date:"M d, Y" }}</p>
+      <p>
+      </p>
     </div>
     <div class="col-">
       <div class="container">
         {% if request.user.pk == member.pk %}
+          <a href="{% url 'members:member_profile_update' request.user.username %}">
+            <button class="btn btn-sm btn-warning btn-margin float-right">Edit Profile</button>
+          </a>
           {% if profile.member.is_superuser %}
             <a href="{% url 'invite' %}">
-              <button class="btn btn-sm btn-primary float-right">Invite</button>
+              <button class="btn btn-sm btn-primary btn-margin float-right">+Invite Link</button>
             </a>
           {% endif %}
-          <a href="{% url 'members:member_profile_update' request.user.username %}">
-            <button class="btn btn-sm btn-warning float-right">Edit Profile</button>
-          </a>
-          <div class="clear"></div>
+          <br>
+          {% load static %}
+          <a href="{% url 'crypto:member_bitcoinwallets' request.user.username %}"><button class="btn btn-sm btn-dark btn-margin"><img src="{% static 'bitcoin_logo_sm.webp' %}" alt="Bitecoin Wallet"> Bitcoin Donation Wallets</button></a>
+          <br>
+          <a href="{% url 'crypto:member_litecoinwallets' request.user.username %}"><button class="btn btn-sm btn-dark"><img src="{% static 'litecoin_logo_sm.webp' %}" alt="Litecoin Wallet"> Litecoin Donation Wallets</button></a>
         {% endif %}
       </div>
     </div>

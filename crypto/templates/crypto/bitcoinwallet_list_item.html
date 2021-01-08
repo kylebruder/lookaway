@@ -1,0 +1,5 @@
+{% for bitcoinwallet in bitcoinwallets %}
+  {% if bitcoinwallet.owner.pk == request.user.pk %}
+    {% include './bitcoinwallet_item.html' %}
+  {% endif %}
+{% endfor %}

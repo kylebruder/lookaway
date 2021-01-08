@@ -1,0 +1,29 @@
+<li class="list-group-item crypto-list-li">
+  <div class="row">
+    <div class="col-">
+      {% if bitcoinwallet.qr_code_lg %}
+        <div class="crypto-list-image" style="background-image:url('{{ bitcoinwallet.qr_code_lg.url }}')"></div>
+      {% else %}
+        <div class="crypto-list-image" style="background-image:url('/static/favicon.ico')"></div>
+      {% endif %}
+    </div>
+    <div class="col-sm">
+      <h5 class="crypto-title">
+        <a href="{% url 'crypto:bitcoinwallet_detail' bitcoinwallet.pk %}">
+          {{ bitcoinwallet.title }}
+        </a>
+      </h5>
+      <p class="crypto-meta">
+        Added on {{ bitcoinwallet.creation_date|date:"M d, Y" }}<br>
+        Public Address: {{ bitcoinwallet.public_address }}<br>
+        {{ bitcoinwallet.text }}<br>
+        {% if bitcoinwallet.tags.all.count > 0 %}
+          {% with bitcoinwallet as object %}
+            {% include 'object_tags.html' %}
+          {% endwith %}
+        {% endif %}
+      </p>
+    </div>
+  </div>
+</li>
+

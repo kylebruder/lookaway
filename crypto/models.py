@@ -25,14 +25,13 @@ class CryptoWallet(MetaDataMixin):
     class Meta:
         abstract = True
 
-    
     title = models.CharField(
         max_length=64,
     )
     text = models.TextField(
         max_length=1024,
-        blank = True,
-        null = True,
+        blank=True,
+        null=True,
     )
     public_address = models.CharField(
         max_length=64,
@@ -40,8 +39,8 @@ class CryptoWallet(MetaDataMixin):
     qr_code_lg = models.ImageField(
         upload_to=member_crypto_dir,
         max_length=255,
-        blank = True,
-        null = True,
+        blank=True,
+        null=True,
     )
 
     def validate_public_address(self, address):
@@ -60,6 +59,9 @@ class CryptoWallet(MetaDataMixin):
             return True
         else:
             return False
+
+    def __str__(self):
+        return self.title
 
 class BitcoinWallet(CryptoWallet):
 

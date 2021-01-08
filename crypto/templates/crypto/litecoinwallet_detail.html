@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block body_block %}
+<div class="container crypto-bg">
+  {% include './litecoinwallet_detail_button_bar.html' %}
+  {% load static %}
+  <p>
+    <img src="{% static 'litecoin_logo_sm.webp' %}">
+  </p>
+  <span class="crypto-address-block">{{ litecoinwallet.public_address }}</span><br><br>
+  <img class="crypto-qr-lg" src="{{ litecoinwallet.qr_code_lg.url }}" alt="litecoin:{{ litecoinwallet.public_address }}">
+  <br>
+  {% if litecoinwallet.text %}
+    <p>{{ litecoinwallet.text }}</p>
+  {% endif %}
+  <br>
+  <p>
+  </p>
+  {% if litecoinwallet.tags.all.count > 0 %}
+    {% include './object_tags.html' %}
+    <br>
+  {% endif %}
+  {% include './object_meta_data.html' %}
+  <br>
+</div>
+{% endblock %}

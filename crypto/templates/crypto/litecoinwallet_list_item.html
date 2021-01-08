@@ -1,0 +1,5 @@
+{% for litecoinwallet in litecoinwallets %}
+  {% if litecoinwallet.owner.pk == request.user.pk %}
+    {% include './litecoinwallet_item.html' %}
+  {% endif %}
+{% endfor %}

@@ -1,15 +1,15 @@
 <div class="row">
   <div class="col">
     <h3 class="crypto-title">
-     {{ bitcoinwallet.title }}
+     {{ litecoinwallet.title }}
     </h3>
   </div>
   <div class="col-">
-    {% if bitcoinwallet.owner.pk == request.user.pk %}
-      <a href="{% url 'crypto:bitcoinwallet_delete' bitcoinwallet.pk %}">
+    {% if litecoinwallet.owner.pk == request.user.pk %}
+      <a href="{% url 'crypto:litecoinwallet_delete' litecoinwallet.pk %}">
         <button type="button" class="btn btn-sm  btn-danger float-right">Delete</button>
       </a>
-      <a href="{% url 'crypto:bitcoinwallet_update' bitcoinwallet.pk %}">
+      <a href="{% url 'crypto:litecoinwallet_update' litecoinwallet.pk %}">
         <button type="button" class="btn btn-sm btn-warning float-right">Edit</button>
       </a>
     {% endif %}

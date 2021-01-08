@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col">
+    <h3 class="brand-title">
+      Your Bitcoin Wallets
+    </h3>
+  </div>
+  {% if request.user.is_authenticated %}
+    <div class="col-">
+      <div class="container">
+        <a href="{% url 'crypto:bitcoinwallet_create' %}">
+          <button type="button" class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+        </a>
+      </div>
+    </div>
+  {% endif %}
+</div>

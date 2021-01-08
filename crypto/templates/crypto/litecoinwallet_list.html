@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container crypto-bg">
+  {% include "./litecoinwallet_list_button_bar.html" %}
+  {% if litecoinwallets %}
+    {% include "page_control.html" %}
+    <ul class="list-group">
+      {% include "./litecoinwallet_list_item.html" %}
+    </ul>
+    {% include "page_control.html" %}
+    <br>
+  {% else %}
+    <p>No Litecoin wallet addresses are known yet. Check back soon!</p>
+    <br>
+  {% endif %}
+</div>
+{% endblock %}

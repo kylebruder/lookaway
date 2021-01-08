@@ -25,7 +25,7 @@ def make_bitcoin_qr(sender, instance, *args, **kwargs):
     p = Path('media')
     relative_path = member_crypto_dir(instance, file_name)
     qr_path = BASE_DIR / p / relative_path
-    absolute_dir = qr_path.parents[1]
+    absolute_dir = qr_path.parents[0]
     absolute_dir.mkdir(parents=True, exist_ok=True)
     img.save(qr_path, "webp") 
     instance.qr_code_lg = str(relative_path)
@@ -55,8 +55,9 @@ def make_litecoin_qr(sender, instance, *args, **kwargs):
     p = Path('media')
     relative_path = member_crypto_dir(instance, file_name)
     qr_path = BASE_DIR / p / relative_path
-    Path.mkdir(qr_path, parents=True, exist_ok=True)
-    img.save(qr_path, "webp")
+    absolute_dir = qr_path.parents[0]
+    absolute_dir.mkdir(parents=True, exist_ok=True)
+    img.save(qr_path, "webp") 
     instance.qr_code_lg = str(relative_path)
 
 @receiver(post_delete, sender=LitecoinWallet)
