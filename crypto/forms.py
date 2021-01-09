@@ -32,6 +32,15 @@ class BitcoinWalletForm(forms.ModelForm):
             'tags',
         ]
 
+    def clean(self):
+        cleaned_data = super().clean()
+        error_msg = "Please Enter a valid Bitcoin Address"
+        if BitcoinWallet.validate_public_address(self, cleaned_data.get('public_address')):
+            pass
+        else:
+            self.add_error('public_address', error_msg)
+            raise forms.ValidationError(error_msg, code=1)
+
 class LitecoinWalletForm(forms.ModelForm):
 
     title = forms.CharField(
@@ -61,3 +70,13 @@ class LitecoinWalletForm(forms.ModelForm):
             'text',
             'tags',
         ]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        error_msg = "Please Enter a valid Litecoin Address"
+        if LitecoinWallet.validate_public_address(self, cleaned_data.get('public_address')):
+            pass
+        else:
+            self.add_error('public_address', error_msg)
+            raise forms.ValidationError(error_msg, code=1)
+

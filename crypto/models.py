@@ -1,4 +1,5 @@
 import qrcode, hashlib, base58, binascii
+import uuid
 from sys import argv
 from django.db import models
 from objects.models import MetaDataMixin
@@ -35,6 +36,8 @@ class CryptoWallet(MetaDataMixin):
     )
     public_address = models.CharField(
         max_length=64,
+        unique=True,
+        default=uuid.uuid4
     )
     qr_code_lg = models.ImageField(
         upload_to=member_crypto_dir,
