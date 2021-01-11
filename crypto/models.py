@@ -86,3 +86,20 @@ class LitecoinWallet(CryptoWallet):
 
     pass
 
+class CryptoWalletsMixin(models.Model):
+
+    class Meta:
+        abstract = True
+
+    bitcoin_wallet = models.ForeignKey(
+        'crypto.BitcoinWallet',
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+    litecoin_wallet = models.ForeignKey(
+        'crypto.LitecoinWallet',
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+    )

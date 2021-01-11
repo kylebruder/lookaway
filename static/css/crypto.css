@@ -4,6 +4,8 @@
   background-color: #000000;
   padding: 5px;
   max-width: auto;
+  display: inline-block;
+  whitespace: nowrap;
 }
 
 .crypto-bg {
@@ -36,6 +38,13 @@
 .crypto-qr-lg {
   display: inherit;
   max-width: 100%;
+  max-height: auto;
+  display: block;
+}
+
+.crypto-qr-md {
+  display: inherit;
+  max-width: 300px;
   max-height: auto;
   display: block;
 }

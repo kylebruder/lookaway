@@ -76,6 +76,8 @@ class PostForm(forms.ModelForm):
             'code',
             'link',
             'tags',
+            'bitcoin_wallet',
+            'litecoin_wallet',
             're',
             'members_only',
         )

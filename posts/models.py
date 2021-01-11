@@ -1,10 +1,11 @@
 from django.db import models
+from crypto.models import CryptoWalletsMixin
 from members.mixins import MarshmallowMixin
 from objects.models import MetaDataMixin
 
 # Create your models here.
 
-class Post(MetaDataMixin, MarshmallowMixin):
+class Post(MetaDataMixin, MarshmallowMixin, CryptoWalletsMixin):
 
     title = models.CharField(max_length=128)
     slug = models.SlugField(max_length=255, unique=True)
