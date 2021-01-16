@@ -85,33 +85,32 @@ class DocumentationPageView(TemplateView):
             context['new_stories'] = public_stories.order_by(
                 '-publication_date',
             )[:n]
-        # Posts
+        # SupportDocuments
         if self.request.user.is_authenticated:
-            public_posts = Post.objects.filter(is_public=True)
+            public_documents = SupportDocument.objects.filter(is_public=True)
         # Do not send member only Articles to non members
         else:
-            public_posts = Post.objects.filter(
+            public_documents = SupportDocument.objects.filter(
                 is_public=True,
-                members_only=False,
             )
-        if public_posts.count() >= n:
+        if public_documents.count() >= n:
             # Get the date of the nth newest Document
             # if there are n or more Documents
-            last_new_post_date = public_posts.order_by(
+            last_new_document_date = public_documents.order_by(
                 '-publication_date',
             )[n-1].publication_date
-            context['new_posts'] = public_posts.order_by(
+            context['new_documents'] = public_documents.order_by(
                 '-publication_date',
             )[:n]
             # Exclude any Article that appears in the new releases list
             # from the top Document list
-            context['top_posts'] = public_posts.order_by(
+            context['top_documents'] = public_documents.order_by(
                 '-weight',
             ).exclude(
-                publication_date__gte=last_new_post_date,
+                publication_date__gte=last_new_document_date,
             )[:n]
         else:
-            context['new_posts'] = public_posts.order_by(
+            context['new_documents'] = public_documents.order_by(
                 '-publication_date',
             )[:n]
         return context

@@ -52,11 +52,19 @@ class PostListView(ListView):
     context_object_name = 'posts'
 
     def get_queryset(self, *args, **kwargs):
-        return Post.objects.filter(
-            is_public=True,
-        ).order_by(
-            '-publication_date',
-        )
+        if self.request.user.is_authenticated:
+            return Post.objects.filter(
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
+        else:
+            return Post.objects.filter(
+                is_public=True,
+                members_only=False,
+            ).order_by(
+                '-publication_date',
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -90,7 +98,7 @@ class MemberPostView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.pk == member.pk:
+        if self.request.user.is_authenticated:
             return Post.objects.filter(
                 owner=member
             ).order_by(

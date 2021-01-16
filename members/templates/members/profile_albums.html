@@ -1,25 +1,34 @@
 {% if albums.count > 0 %}
-  {% for album in albums %}
-    <a class="text-light" href="{% url 'music:album_detail' album.slug %}">
-      <div class="profile-album float-left" style="background-image:url('{{ album.cover.image_file.url }}')" >
-        {% if album.is_public and not album.members_only or album.is_public and request.user.is_authenticated or album.owner.pk == request.user.pk %}
-            <span class="index-album-title">
-                {{ album.title }}
-              {% if not album.is_public %}
-                <span class="badge badge-secondary">Unpublished</span>
-              {% endif %}
-            </span>
-            <br>
-            <span class="index-album-meta">
-               Music by {{ album.artist }}
-            </span>
-        {% endif %}
+  <div class="col-sm">
+    <h4 class="studio-title">Albums</h4>
+    {% for album in albums %}
+      <div class="row">
+        <div class="col-">
+          <div class="container">
+            {% if album.cover %}
+              <div class="index-album-list-image" style="background-image:url('{{ album.cover.thumbnail_file.url }}')"></div>
+            {% elif track.owner.profile.image %}
+              <div class="index-album-list-image" style="background-image:url('{{ album.owner.profile.image.thumbnail_file.url }}')"></div>
+            {% else %}
+              <div class="index-album-list-image" style="background-image:url('/static/icon.webp')"></div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col">
+          <h6 class="index-title">
+            <a href="{% url 'music:album_detail' album.slug %}">
+              {{ album.title }}
+            </a>
+          </h6>
+          <p class="index-meta">
+            New Album by {{ album.artist }}
+          </p>
+        </div>
       </div>
-    </a>
-  {% endfor %}
-  <div class="clear"></div>
-  <p class="index-link">
-    <a href="{% url 'music:member_albums' profile.member.username %}">all Albums by {{ profile.member }}...</a>
-  </p>
-  <br>
+    {% endfor %}
+    <p class="index-link">
+      <a href="{% url 'music:member_albums' profile.member.username %}">all Albums by {{ profile.member }}...</a>
+    </p>
+    <br>
+  </div>
 {% endif %}

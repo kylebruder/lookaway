@@ -1,16 +1,30 @@
-{% if album.is_public and not album.members_only or album.is_public and request.user.is_authenticated or album.owner.pk == request.user.pk %}
-  <a class="text-light" href="{% url 'music:album_detail' album.slug %}">
-    <div class="music-album" style="background-image:url('{{ album.cover.image_file.url }}')" >
-      <span class="music-album-title">
-        {{ album.title }}
-      </span>
-      {% if not album.is_public %}
-        <span class="badge badge-secondary">Unpublished</span>
+<li class="list-group-item music-list-li">
+  <div class="row">
+    <div class="col-">
+      {% if album.cover %}
+        <div class="float-right music-album-list-image" style="background-image:url('{{ album.cover.thumbnail_file.url }}')"></div>
+      {% else %}
+        <div class="float-right music-album-list-image" style="background-image:url('/static/icon.webp')"></div>
       {% endif %}
-      <br>
-      <span class="music-album-meta">
-        {{ album.artist }}
-      </span>
     </div>
-  </a>
-{% endif %}
+    <div class="col-sm">
+      <h5 class="music-title">
+        <a href="{% url 'music:album_detail' album.slug %}">
+          {{ album.title }}
+        </a>
+      </h5>
+      <p>
+        Performed by {{ album.artist }}, released by <a href="{% url 'members:member_profile' album.owner.username %}">{{ album.owner }}</a> on {{ album.creation_date|date:"M d, Y" }}
+      </p>
+      {% if not album.is_public %}
+        <span class="badge badge-dark">Unpublished</span>
+      {% endif %}
+      {% if album.tags.all.count > 0 %}
+        {% with album as object %}
+          {% include 'object_tags.html' %}
+        {% endwith %}
+      {% endif %}
+    </div>
+  </div>
+</li>
+

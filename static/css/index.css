@@ -8,6 +8,11 @@
   margin-bottom: 40px;
 }
 
+.index-brand-name {
+  font-family: 'Baloo Paaji 2', sans-serif;
+  font-size: 3.5em;
+}
+
 .index-col {
   width: 350px;
   margin-left: 10px;;
@@ -15,9 +20,9 @@
   float: left;
 }
 
-.index-album {
-  width: 350px;
-  height: 325px;
+.index-album-list-image {
+  width: 100px;
+  height: 100px;
   margin-right: 10px;
   margin-bottom: 10px;
   padding: 10px;
@@ -25,7 +30,7 @@
   background-size: cover;
   background-color: #222222;
   border-style: solid;
-  border-width: 5px 5px 5px 20px;
+  border-width: 2px 2px 2px 5px;
   border-radius: 5px;
   border-color: #eeeeee;
   display: block;
@@ -56,18 +61,17 @@
   margin-right: 10px;
 }
 
-.index-gallery {
-  height: 325px;
-  width: 325px;
-  margin-right: 10px;
+.index-gallery-list-image {
+  display: block;
+  width: 100px;
+  height: 100px;
   margin-bottom: 10px;
-  padding: 10px;
+  border-style: solid;
+  border-width: 5px;
+  border-color: #000000; 
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #222222;
-  border-radius: 5px;
-  display: block;
-  float: left;
 }
 
 .index-gallery-meta {
@@ -134,10 +138,19 @@
   font-family: 'Averia Serif Libre', serif;
 }
 
-.index-brand-name {
-  font-family: 'Baloo Paaji 2', sans-serif;
-  font-size: 3.5em;
-}
+.index-track-list-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #eeeeee; 
+  border-radius: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+} 
 
 .index-visual-box {
   max-width: 500px;

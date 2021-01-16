@@ -110,7 +110,13 @@ class MemberImageView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        return Image.objects.filter(owner=member)
+        if self.request.user.pk == member.pk:
+            return Image.objects.filter(owner=member)
+        else:
+            return Image.objects.filter(
+                is_public=True,
+                owner=member,
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -305,7 +311,13 @@ class MemberSoundView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        return Sound.objects.filter(owner=member)
+        if self.request.user.pk == member.pk:
+            return Sound.objects.filter(owner=member)
+        else:
+            return Sound.objects.filter(
+                is_public=True,
+                owner=member,
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -500,7 +512,13 @@ class MemberVideoView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        return Video.objects.filter(owner=member)
+        if self.request.user.pk == member.pk:
+            return Video.objects.filter(owner=member)
+        else:
+            return Video.objects.filter(
+                is_public=True,
+                owner=member,
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -663,7 +681,13 @@ class MemberCodeView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        return Code.objects.filter(owner=member)
+        if self.request.user.pk == member.pk:
+            return Code.objects.filter(owner=member)
+        else:
+            return Code.objects.filter(
+                is_public=True,
+                owner=member,
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -826,7 +850,13 @@ class MemberLinkView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
-        return Link.objects.filter(owner=member)
+        if self.request.user.pk == member.pk:
+            return Sound.objects.filter(owner=member)
+        else:
+            return Link.objects.filter(
+                is_public=True,
+                owner=member,
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

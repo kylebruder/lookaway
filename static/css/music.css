@@ -37,6 +37,20 @@
   font-size: 1.25em;
 }
 
+.music-album-list-image {
+  display: block;
+  width: 107px;
+  height: 100px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  border-style: solid;
+  border-width: 3px 3px 3px 7px;
+  border-radius: 5px;
+ }
+
 .music-album-meta {
   font-color: #eeeeee;
   font-size: 0.75em;
@@ -119,6 +133,20 @@
 .music-track-card-container {
   display: block;
 }
+
+.music-track-list-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 100%;
+ }
 
 .music-video-md {
   width: 100%;

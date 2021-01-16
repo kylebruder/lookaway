@@ -4,11 +4,13 @@
 <div class="container-fluid index-bg">
   <!-- Heading -->
   {% include 'index_button_bar.html' %}
+  <br>
   <div class="row">
     <div class="col-sm">
-      {% include 'index_posts.html' %}
       {% include 'index_articles.html' %}
       {% include 'index_stories.html' %}
+      {% include 'index_support_documents.html' %}
+      {% include 'index_posts.html' %}
       <div class="clear"></div><br>
     </div>
   </div>
@@ -16,20 +18,19 @@
   <div class="row">
     <div class="col-sm">
       {% include 'index_visuals.html' %}
+    </div>
+    <div class="col-sm">
       {% include 'index_galleries.html' %}
       <div class="clear"></div>
     </div>
     <div class="col-sm">
-      {% include 'index_tracks.html' %}<br><br>
+      {% include 'index_tracks.html' %}
+    </div>
+    <div class="col-sm">
       {% include 'index_albums.html' %}
       <div class="clear"></div>
     </div>
   </div>
   <br>
-  <div class="row">
-    <div class="col-sm">
-      {% include 'index_support_documents.html' %}
-    </div>
-  </div>
 </div>
 {% endblock %}

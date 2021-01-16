@@ -2,22 +2,31 @@
 {% if galleries.count > 0 %}
   <div class="col-sm">
     {% for gallery in galleries %}
-      {% if gallery.is_public and not gallery.members_only or gallery.is_public and request.user.is_authenticated or gallery.owner.pk == request.user.pk %}
-          <a class="text-light" href="{% url 'art:gallery_detail' gallery.slug %}">
-            <div class="index-gallery" style="background-image: url('{{ gallery.visuals.all.first.image.image_file.url }}')">
-              <span class="index-gallery-title">
-                {{ gallery.title }}
-                {% if not gallery.is_public %}
-                  <span class="badge badge-secondary">Unpublished</span>
-                {% endif %}
-              </span>
-              <br>
-              <span class="index-gallery-meta">
-                New Gallery by {{ gallery.artist }}
-              </span>
-            </div>
-          </a>
-      {% endif %}
+      <div class="row">
+        <div class="col-">
+          <div class="container">
+            {% if gallery.visuals %}
+              <div class="index-gallery-list-image" style="background-image:url('{{ gallery.visuals.first.image.thumbnail_file.url }}')"></div>
+            {% elif track.owner.profile.image %}
+              <div class="index-gallery-list-image" style="background-image:url('{{ gallery.owner.profile.image.thumbnail_file.url }}')"></div>
+            {% else %}
+              <div class="index-gallery-list-image" style="background-image:url('/static/icon.webp')"></div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col">
+          <h6 class="index-title">
+            <a href="{% url 'art:gallery_detail' gallery.slug %}">
+              {{ gallery.title }}
+            </a>
+          </h6>
+          <p class="index-meta">
+            New Gallery by {{ gallery.artist }}
+          </p>
+        </div>
+      </div>
     {% endfor %}
+    <p><a href="{% url 'art:top_galleries' %}">more galleries...</a></p>
+    <br>
   </div>
 {% endif %}

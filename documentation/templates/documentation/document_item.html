@@ -1,0 +1,34 @@
+<li class="list-group-item documentation-list-li">
+  <div class="row">
+    <div class="col-">
+      {% if document.image %}
+        <div class="documentation-list-image" style="background-image:url('{{ document.image.thumbnail_file.url }}')"></div>
+      {% elif document.owner.profile.image %}
+        <div class="documentation-list-image" style="background-image:url('{{ document.owner.profile.image.thumbnail_file.url }}')"></div>
+      {% else %}
+        <div class="documentation-list-image" style="background-image:url('/static/favicon.ico')"></div>
+      {% endif %}
+    </div>
+    <div class="col-sm">
+      <h5 class="documentation-title">
+        <a href="{% url 'documentation:support_document_detail' document.slug %}">
+          {{ document.title }}
+        </a>
+      </h5>
+      <p class="documentation-meta">
+        {% if document.re %}re: <a href="{% url 'documentation:support_document_detail' document.re.slug %}"> {{ document.re.title }}</a><br>{% endif %}
+        Documented by <a href="{% url 'members:member_profile' document.owner.username %}">{{ document.owner }}</a> on {{ document.creation_date|date:"M d, Y" }}<br>
+        {{ document.meta_description }}<br>
+        {% if not document.is_public %}
+          <span class="badge badge-dark">Unpublished</span>
+        {% endif %}
+        {% if document.tags.all.count > 0 %}
+          {% with document as object %}
+            {% include 'object_tags.html' %}
+          {% endwith %}
+        {% endif %}
+      </p>
+    </div>
+  </div>
+</li>
+

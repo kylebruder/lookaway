@@ -9,6 +9,15 @@
   padding-left: 5px;
   padding-right: 5px;
 }
+
+.nav-font-objects {
+  font-family: 'IBM Plex Mono', sans-serif;
+  font-size: 0.8em;
+  color: #222222;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
 .nav-pad {
   padding-left: 20px;
   padding-right: 20px;

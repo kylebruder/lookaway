@@ -47,6 +47,18 @@
 .art-gallery-info {
   font-size: 1.25em;
 }
+
+.art-gallery-list-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #000000;
+}
 .art-gallery-visual {
   font-size: 1.25em;
 }

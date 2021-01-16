@@ -8,55 +8,55 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
+        <a class="nav-link nav-font" href="{% url 'posts:public_posts' %}">Posts</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link nav-font" href="{% url 'documentation:documentation_page' %}">Zine</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'music:music_page' %}">Audio</a>
+        <a class="nav-link nav-font" href="{% url 'music:music_page' %}">Music</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'art:art_page' %}">Visual</a>
+        <a class="nav-link nav-font" href="{% url 'art:art_page' %}">Art</a>
       </li>
       <li class="nav-item">
         <a class="nav-link nav-font" href="{% url 'members:member_list' %}">Members</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'documentation:top_support_documents' %}">Info</a>
-      </li>
       {% if request.user.is_authenticated %}
-        <li class="nav-item nav-link nav-font">  </li>
+        <li class="nav-item">  </li>
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'objects:public_images' %}">&#11036;</a>
+          <a class="nav-link nav-font-objects" href="{% url 'objects:public_images' %}">Image Files</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'objects:public_videos' %}">&#x1F4FA;</a>
+          <a class="nav-link nav-font-objects" href="{% url 'objects:public_videos' %}">Video Files</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'objects:public_sounds' %}">&#x1F50A;</a>
+          <a class="nav-link nav-font-objects" href="{% url 'objects:public_sounds' %}">Sound Files</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'objects:public_links' %}">&#x1F517;</a>
+          <a class="nav-link nav-font-objects" href="{% url 'objects:public_links' %}">External Links</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'objects:public_code' %}"><></a>
+          <a class="nav-link nav-font-objects" href="{% url 'objects:public_code' %}">Code Samples</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'objects:tags' %}">&#x26FF;</a>
+          <a class="nav-link nav-font-objects" href="{% url 'objects:tags' %}">Tags</a>
         </li>
       {% endif %}
     </ul>
     {% if request.user.is_authenticated %}
       <span class="nav-text">
+        <a class="" href="{% url 'members:member_profile' request.user.username %}">
+          <button class="btn btn-sm btn-dark float-left">Profile</button>
+        </a>
+        <a class="" href="{% url 'members:studio' %}">
+          <button class="btn btn-sm btn-primary float-left">Studio</button>
+        </a>
         {% if request.user.is_superuser %}
           <a class="" href="{% url 'admin:index' %}">
             <button class="btn btn-sm btn-warning float-left">Admin</button>
           </a>
         {% endif %}
-        <a class="" href="{% url 'members:studio' %}">
-          <button class="btn btn-sm btn-primary float-left">Studio</button>
-        </a>
-        <a class="" href="{% url 'members:member_profile' request.user.username %}">
-          <button class="btn btn-sm btn-dark float-left">Profile</button>
-        </a>
         <a href="{% url 'logout' %}">
           <button class="btn btn-sm btn-danger">Logout</button>
         </a>

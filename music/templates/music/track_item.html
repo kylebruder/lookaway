@@ -2,11 +2,11 @@
   <div class="row">
     <div class="col-">
       {% if track.image %}
-        <div class="float-right music-list-image" style="background-image:url('{{ track.image.thumbnail_file.url }}')"></div>
+        <div class="float-right music-track-list-image" style="background-image:url('{{ track.image.thumbnail_file.url }}')"></div>
       {% elif track.owner.profile.image %}
-        <div class="float-right music-list-image" style="background-image:url('{{ track.owner.profile.image.thumbnail_file.url }}')"></div>
+        <div class="float-right music-track-list-image" style="background-image:url('{{ track.owner.profile.image.thumbnail_file.url }}')"></div>
       {% else %}
-        <div class="float-right music-list-image" style="background-image:url('/static/favicon.ico')"></div>
+        <div class="float-right music-tracks-list-image" style="background-image:url('/static/favicon.ico')"></div>
       {% endif %}
     </div>
     <div class="col-sm">

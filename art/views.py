@@ -1,4 +1,3 @@
-import math
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.mixins import(
@@ -25,9 +24,6 @@ class ArtPageView(TemplateView):
 
     template_name = 'art/art_page.html'
 
-    def calculate_gallery_list_length(self, n):
-        return round(math.ceil((n/1.5)/2) * 2)
-
     def get_context_data(self, **kwargs):
         # Number of items to show in each list
         n = 5
@@ -35,38 +31,32 @@ class ArtPageView(TemplateView):
         # Galleries
         public_galleries = Gallery.objects.filter(is_public=True)
         if public_galleries.count() >= n:
-            print("There are {} or more published Galleries".format(n))
             # Get the date of the 5th newest Gallery
             # if there are 5 or more Galleries.
             last_new_gallery_date = public_galleries.order_by(
                 '-publication_date',
-            )[self.calculate_gallery_list_length(n)-1].publication_date
+            )[n-1].publication_date
             # Get the 5 newest Galleries.
             context['new_galleries'] = public_galleries.order_by(
                 '-publication_date',
-            )[:self.calculate_gallery_list_length(n)]
+            )[:n]
             # Exclude any Gallery that appears in the new galleries list
             # from the top Gallery list.
             context['top_galleries'] = public_galleries.order_by(
                 '-weight',
             ).exclude(
                 publication_date__gte=last_new_gallery_date,
-            )[:self.calculate_gallery_list_length(n)]
-            print("New Galleries: {}".format(context['new_galleries']))
-            print("Top Galleries: {}".format(context['top_galleries']))
+            )[:n]
         # If there are less than 5 Galleries,
         # include all of them in the new Gallery list.
         else:
-            print("There are less than 5 published Galleries")
             context['new_galleries'] = public_galleries.order_by(
                 '-publication_date',
             )
-            print(context['new_galleries'])
 
         # Visuals
         public_visuals = Visual.objects.filter(is_public=True)
         if public_visuals.count() >= n*6:
-            print("There are {} or more published Visuals".format(n))
             # Get the date of the nth newest Visual
             # if there are n*6 or more Visuals
             last_new_visual_date = public_visuals.order_by(
@@ -76,7 +66,6 @@ class ArtPageView(TemplateView):
             context['new_visuals'] = public_visuals.order_by(
                 '-publication_date',
             )[:n*6]
-            print("New Visuals: ", context['new_visuals'])
             # Exclude any Gallery that appears in the new releases list
             # from the top Visual list
             context['top_visuals'] = public_visuals.order_by(
@@ -84,13 +73,10 @@ class ArtPageView(TemplateView):
             ).exclude(
                 publication_date__gte=last_new_visual_date,
             )[:n*6]
-            print("Top Visuals: ", context['top_visuals'])
         else:
-            print("There are less than {} published Visuals".format(n))
             context['new_visuals'] = public_visuals.order_by(
                 '-publication_date',
             )[:n*6]
-            print(context['new_visuals'])
         return context
 
 class GalleryCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
@@ -127,18 +113,11 @@ class GalleryListView(ListView):
     context_object_name = 'galleries'
 
     def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Gallery.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-creation_date',
-            )
-        else:
-            return Gallery.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-creation_date',
-            )
+        return Gallery.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-publication_date',
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -152,20 +131,12 @@ class TopGalleryListView(ListView):
     context_object_name = 'galleries'
 
     def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Gallery.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-weight',
-                '-creation_date',
-            )
-        else:
-            return Gallery.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-weight',
-                '-creation_date',
-            )
+        return Gallery.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-weight',
+            '-publication_date',
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -347,18 +318,11 @@ class VisualListView(ListView):
     context_object_name = 'visuals'
 
     def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Visual.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-creation_date',
-            )
-        else:
-            return Visual.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-creation_date',
-            )
+        return Visual.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-publication_date',
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -372,20 +336,12 @@ class TopVisualListView(ListView):
     context_object_name = 'visuals'
 
     def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Visual.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-weight',
-                '-creation_date',
-            )
-        else:
-            return Visual.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-weight',
-                '-creation_date',
-            )
+        return Visual.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-weight',
+            '-publication_date',
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

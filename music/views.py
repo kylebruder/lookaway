@@ -1,4 +1,3 @@
-import math
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.mixins import(
@@ -26,16 +25,13 @@ class MusicPageView(TemplateView):
 
     template_name = 'music/music_page.html'
 
-    def calculate_album_list_length(self, n):
-        return round(math.ceil((n/1.5)/2) * 2)
-
     def get_context_data(self, **kwargs):
         # Number of items to show in each list
         n = 5
         context = super().get_context_data(**kwargs)
         # Albums
         public_albums = Album.objects.filter(is_public=True)
-        album_list_length = self.calculate_album_list_length(n)
+        album_list_length = 5
         if public_albums.count() >= album_list_length:
             # Get the date of the nth newest Album 
             # if there are enough Albums.
@@ -45,14 +41,14 @@ class MusicPageView(TemplateView):
             # Get the 5 newest Albums.
             context['new_albums'] = public_albums.order_by(
                 '-publication_date',
-            )[:self.calculate_album_list_length(n)]
+            )[:n]
             # Exclude any Album that appears in the new albums list
             # from the top Album list.
             context['top_albums'] = public_albums.order_by(
                 '-weight',
             ).exclude(
                 publication_date__gte=last_new_album_date,
-            )[:self.calculate_album_list_length(n)]
+            )[:n]
         # If there are less than 5 Albums, 
         # include all of them in the new Album list.
         else:
@@ -120,23 +116,15 @@ class AlbumCreateView(LoginRequiredMixin, CreateView):
 class AlbumListView(ListView):
 
     model = Album
-    paginate_by = 6
+    paginate_by = 5
     context_object_name = 'albums'
 
     def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Album.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-creation_date',
-            )
-        else:
-            return Album.objects.filter(
-                is_public=True,
-                members_only=False,
-            ).order_by(
-                '-creation_date',
-            )
+        return Album.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-publication_date',
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -146,25 +134,16 @@ class AlbumListView(ListView):
 class TopAlbumListView(ListView):
 
     model = Album
-    paginate_by = 6
+    paginate_by = 5
     context_object_name = 'albums'
 
     def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Album.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-weight',
-                '-creation_date',
-            )
-        else:
-            return Album.objects.filter(
-                is_public=True,
-                members_only=False,
-            ).order_by(
-                '-weight',
-                '-creation_date',
-            )
+        return Album.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-weight',
+            '-publication_date',
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -189,7 +168,7 @@ class AlbumDetailView(DetailView):
 class MemberAlbumView(ListView):
 
     model = Album
-    paginate_by = 6
+    paginate_by = 5
     context_object_name = 'albums'
 
     def get_queryset(self, *args, **kwargs):
@@ -347,19 +326,11 @@ class TrackListView(ListView):
     context_object_name = 'tracks'
 
     def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Track.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-creation_date',
-            )
-        else:
-            return Track.objects.filter(
-                is_public=True,
-                members_only=False,
-            ).order_by(
-                '-creation_date',
-            )
+        return Track.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-publication_date',
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -373,21 +344,12 @@ class TopTrackListView(ListView):
     context_object_name = 'tracks'
 
     def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Track.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-weight',
-                '-creation_date',
-            )
-        else:
-            return Track.objects.filter(
-                is_public=True,
-                members_only=False,
-            ).order_by(
-                '-weight',
-                '-creation_date',
-            )
+        return Track.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-weight',
+            '-publication_date',
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

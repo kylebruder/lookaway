@@ -1,17 +1,34 @@
-{% if gallery.is_public and not gallery.members_only or gallery.is_public and request.user.is_authenticated or gallery.owner.pk == request.user.pk %}
-  <a class="text-light" href="{% url 'art:gallery_detail' gallery.slug %}">
-    <div class="art-gallery" style="background-image:url('{{ gallery.visuals.first.image.image_file.url }}')" >
-      <span class="art-gallery-title">
-        {{ gallery.title }}
-      </span>
-      {% if not gallery.is_public %}
-        <span class="badge badge-secondary">Unpublished</span>
-      {% endif %}
-      <br>
-      <span class="art-gallery-meta">
-        {{ gallery.artist }}
-      </span>
+<li class="list-group-item music-list-li">
+  <div class="row">
+    <div class="col-">
+      <div class="container">
+        {% if gallery.visuals.all.count > 0 %}
+          <div class="art-gallery-list-image" style="background-image:url('{{ gallery.visuals.first.image.thumbnail_file.url }}')"></div>
+        {% elif gallery.owner.profile.image %}
+          <div class="art-gallery-list-image" style="background-image:url('{{ gallery.owner.profile.image.thumbnail_file.url }}')"></div>
+        {% else %}
+          <div class="art-gallery-list-image" style="background-image:url('/static/favicon.ico')"></div>
+        {% endif %}
+      </div>
     </div>
-  </a>
-{% endif %}
+    <div class="col-sm">
+      <h5 class="music-title">
+        <a href="{% url 'art:gallery_detail' gallery.slug %}">
+          {{ gallery.title }}
+        </a>
+      </h5>
+      <p>
+        Works by {{ gallery.artist }}, curated by <a href="{% url 'members:member_profile' gallery.owner.username %}">{{ gallery.owner }}</a> on {{ gallery.creation_date|date:"M d, Y" }}
+      </p>
+      {% if not gallery.is_public %}
+        <span class="badge badge-dark">Unpublished</span>
+      {% endif %}
+      {% if gallery.tags.all.count > 0 %}
+        {% with gallery as object %}
+          {% include 'object_tags.html' %}
+        {% endwith %}
+      {% endif %}
+    </div>
+  </div>
+</li>
 

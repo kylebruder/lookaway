@@ -1,33 +1,32 @@
 <!-- Newest Tracks -->
 {% if tracks.count > 0 %}
-  <div class="profile-col">
+  <div class="col-sm">
     <h4 class="member-title">Music</h4>
     <br>
     {% for track in tracks %}
-      {% if track.is_public and not track.members_only or track.is_public and request.user.is_authenticated or track.owner.pk == request.user.pk %}
-        <div class="row">
-          <div class="col">
-            <h6 class="index-title">
-              <a href="{% url 'music:track_detail' track.slug %}">
-                {{ track.title }}
-              </a>
-            </h6>
-            <p class="index-meta">
-              Music by {{ track.artist }}
-            </p>
-            <br>
-          </div>
-          <div class="col">
-            {% with track.sound as sound %}
-              <audio class="index-audio-player" controls="controls">
-                {% include 'audio_mime_types.html' %}
-              </audio>
-              <br>
-              <br>
-            {% endwith %} 
+      <div class="row">
+        <div class="col-">
+          <div class="container">
+            {% if track.image %}
+              <div class="index-track-list-image" style="background-image:url('{{ track.image.thumbnail_file.url }}')"></div>
+            {% elif track.owner.profile.image %}
+              <div class="index-track-list-image" style="background-image:url('{{ track.owner.profile.image.thumbnail_file.url }}')"></div>
+            {% else %}
+              <div class="index-track-list-image" style="background-image:url('/static/icon.webp')"></div>
+            {% endif %}
           </div>
         </div>
-      {% endif %}
+        <div class="col">
+          <h6 class="index-title">
+            <a href="{% url 'music:track_detail' track.slug %}">
+              {{ track.title }}
+            </a>
+          </h6>
+          <p class="index-meta">
+            New Track by {{ track.artist }}
+          </p>
+        </div>
+      </div>
     {% endfor %}
     <p>
       <a href="{% url 'music:member_tracks' profile.member.username %}">all Tracks contributed by {{ profile.member }}...</a>

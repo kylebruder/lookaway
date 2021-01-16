@@ -1,18 +1,21 @@
-<div class="profile-col">
-  {% if visuals %}
-    <h4 class="studio-title">Visuals</h4>
-      {% for i in visuals %}
-        <a href="{% url 'art:visual_detail' i.slug %}">
-          <div class="profile-image-card float-left" style="background-image:url('{{ i.image.thumbnail_file.url }}')">
-            {% if not i.is_public %}
-              <span class="badge badge-secondary">Unpublished</span>
-            {% endif %}
-          </div>
-        </a>
-      {% endfor %}
-    <div class="clear"></div>
-    <p>
-      <a href="{% url 'art:member_visuals' profile.member.username %}">all Visuals by {{ profile.member }}...</a>
-    </p>
-  {% endif %}
-</div>
+{% if visuals %}
+  <div class="col-sm">
+    <div class="profile-col">
+      <h4 class="studio-title">Visuals</h4>
+        {% for i in visuals %}
+          <a href="{% url 'art:visual_detail' i.slug %}">
+            <div class="profile-image-card float-left" style="background-image:url('{{ i.image.thumbnail_file.url }}')">
+              {% if not i.is_public %}
+                <span class="badge badge-secondary">Unpublished</span>
+              {% endif %}
+            </div>
+          </a>
+        {% endfor %}
+      <div class="clear"></div>
+      <p>
+        <a href="{% url 'art:member_visuals' profile.member.username %}">all Visuals by {{ profile.member }}...</a>
+      </p>
+      <div class="clear"></div>
+    </div>
+  </div>
+{% endif %}
