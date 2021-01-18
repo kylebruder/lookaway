@@ -3,12 +3,13 @@
   <h5 class="index-title">
     {% for document in documents %}
       {% if document.is_public and not document.members_only or document.is_public and request.user.is_authenticated or document.owner.pk == request.user.pk %}
-        <span class="index-heading-span">
-          <a href="{% url 'documentation:support_document_detail' document.slug %}">{{ document.title }}</a> &squf;
+        <span class="index-heading-span">&squf;
+          <a href="{% url 'documentation:support_document_detail' document.slug %}">{{ document.title }}</a>
         </span>
       {% endif %}
     {% endfor %}
-    <a href="{% url 'documentation:new_support_documents' %}">more information...</a>
   </h5>
-  <br>
+  <p>
+    <a href="{% url 'documentation:new_support_documents' %}">more information...</a>
+  </p>
 {% endif %}

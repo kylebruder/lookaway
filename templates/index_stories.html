@@ -2,9 +2,12 @@
 {% if stories.count > 0 %}
   <h5 class="index-title">
     {% for story in stories %}
-      <a href="{% url 'documentation:story_detail' story.slug %}"><span class="index-heading-span">{{ story.title }}</span></a> &squf;
+      <span class="index-heading-span">&squf;
+        <a href="{% url 'documentation:story_detail' story.slug %}">{{ story.title }}</a>
+      </span>
     {% endfor %}
-    <a href="{% url 'documentation:new_stories' %}">more stories...</a>
   </h5>
-  <br>
+  <p>
+    <a href="{% url 'documentation:new_stories' %}">more stories...</a>
+  </p>
 {% endif %}

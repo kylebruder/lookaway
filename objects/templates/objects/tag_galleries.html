@@ -5,11 +5,11 @@
       <div class="row">
         <div class="col-">
           {% if gallery.visuals.all.count > 0 %}
-            <div class="tag-list-image" style="background-image:url('{{ gallery.visuals.first.image.thumbnail_file.url }}')"></div>
+            <div class="art-gallery-list-image" style="background-image:url('{{ gallery.visuals.first.image.thumbnail_file.url }}')"></div>
           {% elif gallery.owner.profile.image %}
-            <div class="tag-list-image" style="background-image:url('{{ post.owner.profile.image.thumbnail_file.url }}')"></div>
+            <div class="art-gallery-list-image" style="background-image:url('{{ post.owner.profile.image.thumbnail_file.url }}')"></div>
           {% else %}
-            <div class="tag-list-image" style="background-image:url('/static/favicon.ico')"></div>
+            <div class="art-gallery-list-image" style="background-image:url('/static/icon.webp')"></div>
           {% endif %}      
         </div>
         <div class="col-sm">

@@ -21,7 +21,7 @@
 }
 
 .index-album-list-image {
-  width: 100px;
+  width: 105px;
   height: 100px;
   margin-right: 10px;
   margin-bottom: 10px;
@@ -134,6 +134,11 @@
   font-size: 0.8em;
 }
 
+.index-post-title {
+  font-family: 'Averia Serif Libre', serif;
+  font-size: 1.1em;
+}
+
 .index-title {
   font-family: 'Averia Serif Libre', serif;
 }
@@ -162,7 +167,6 @@
 .index-visual-card {
   width: 100px;
   height: 100px;
-  border-radius: 5px;
   margin: 3px;
   background-repeat: no-repeat;
   background-size: cover;

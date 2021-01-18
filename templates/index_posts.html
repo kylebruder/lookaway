@@ -3,12 +3,12 @@
   <p>
     {% for post in posts %}
       {% if post.is_public and not post.members_only or post.is_public and request.user.is_authenticated or post.owner.pk == request.user.pk %}
-        <span class="index-heading-span">
-          <a href="{% url 'posts:post_detail' post.slug %}">{{ post.title }}</a> &squf; 
+        <span class="index-heading-span index-post-title">&squf;
+          <a href="{% url 'posts:post_detail' post.slug %}">{{ post.title }}</a> 
         </span>
       {% endif %}
     {% endfor %}
+    <br>
     <a href="{% url 'posts:public_posts' %}">more posts...</a>
   </p>
-  <br>
 {% endif %}
