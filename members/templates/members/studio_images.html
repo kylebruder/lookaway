@@ -1,16 +1,14 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Images</h4>
-    </div>
-    <div class="col-">
-      <a href="{% url 'objects:image_create' %}">
-        <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-      </a>
+      <h4 class="studio-title">Your Image Files
+        <a href="{% url 'objects:image_create' %}">
+          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+        </a>
+      </h4>
     </div>
   </div>
-</div>
-{% if images.all.count > 0 %}
+  {% if images.all.count > 0 %}
   <div class="studio-image-matrix">
     {% for i in images %}
       <a href="{% url 'objects:image_detail' i.pk %}">
@@ -26,6 +24,7 @@
   <p>
     <a href="{% url 'objects:member_images' request.user.username %}">more ...</a>
   </p>
-{% else %}
-  <p>You have not contributed any images yet.</p>
-{% endif %}
+  {% else %}
+    <p>You have not contributed any images yet.</p>
+  {% endif %}
+</div>

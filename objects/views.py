@@ -851,7 +851,7 @@ class MemberLinkView(LoginRequiredMixin, ListView):
     def get_queryset(self, *args, **kwargs):
         member = Member.objects.get(username=self.kwargs['member'])
         if self.request.user.pk == member.pk:
-            return Sound.objects.filter(owner=member)
+            return Link.objects.filter(owner=member)
         else:
             return Link.objects.filter(
                 is_public=True,

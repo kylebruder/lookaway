@@ -1,36 +1,32 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Albums</h4>
-    </div>
-    <div class="col-">
-      <a href="{% url 'music:album_create' %}">
-        <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-      </a>
+      <h4 class="studio-title">Your Albums
+        <a href="{% url 'music:album_create' %}">
+          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+        </a>
+      </h4>
     </div>
   </div>
+  {% if albums.all.count > 0 %}
+    <ul class="list-group">
+      {% for album in albums %}
+        <li class="list-group-item music-list-li">
+          <p>
+            <a href="{% url 'music:album_detail' album.slug %}">
+              {{ album.title }}
+            </a>
+            {% if not album.is_public %}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+    <p>
+      <a href="{% url 'music:member_albums' request.user.username %}">more ...</a>
+    </p>
+  {% else %}
+    <p>You have not contributed any Albums yet.</p>
+  {% endif %}
 </div>
-{% if albums.all.count > 0 %}
-  <ul class="list-group">
-    {% for album in albums %}
-      <li class="list-group-item music-list-li">
-        <p>
-          <a href="{% url 'music:album_detail' album.slug %}">
-            {{ album.title }}
-          </a>
-        </p>
-        {% if not album.is_public %}
-          <span class="badge badge-secondary">Unpublished</span>
-        {% endif %}
-        {% if album.members_only %}
-          <span class="badge badge-warning">Members Only</span>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-  <p>
-    <a href="{% url 'music:member_albums' request.user.username %}">more ...</a>
-  </p>
-{% else %}
-  <p>You have not contributed any Albums yet.</p>
-{% endif %}

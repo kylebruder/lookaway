@@ -1,36 +1,35 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Support Docs</h4>
-    </div>
-    <div class="col-">
-      <a href="{% url 'documentation:support_document_create' %}">
-        <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-      </a>
+      <h4 class="studio-title">Your Support Docs
+        <a href="{% url 'documentation:support_document_create' %}">
+          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+        </a>
+      </h4>
     </div>
   </div>
+  {% if support_documents.all.count > 0 %}
+    <ul class="list-group">
+      {% for document in support_documents %}
+        <li class="list-group-item documentation-list-li">
+          <p>
+            <a href="{% url 'documentation:support_document_detail' document.slug %}">
+              {{ document.title }}
+            </a>
+            {% if not document.is_public %}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+            {% if document.members_only %}
+              <span class="badge badge-warning">Members Only</span>
+            {% endif %}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+    <p>
+      <a href="{% url 'documentation:member_support_documents' request.user.username %}">more ...</a>
+    </p>
+  {% else %}
+    <p>You have not contributed any Support Documents yet.</p>
+  {% endif %}
 </div>
-{% if support_documents.all.count > 0 %}
-  <ul class="list-group">
-    {% for document in support_documents %}
-      <li class="list-group-item documentation-list-li">
-        <p>
-          <a href="{% url 'documentation:support_document_detail' document.slug %}">
-            {{ document.title }}
-          </a>
-        </p>
-        {% if not document.is_public %}
-          <span class="badge badge-secondary">Unpublished</span>
-        {% endif %}
-        {% if document.members_only %}
-          <span class="badge badge-warning">Members Only</span>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-  <p>
-    <a href="{% url 'documentation:member_support_documents' request.user.username %}">more ...</a>
-  </p>
-{% else %}
-  <p>You have not contributed any Support Documents yet.</p>
-{% endif %}

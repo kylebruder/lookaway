@@ -13,7 +13,7 @@
           {{ album.title }}
         </a>
       </h5>
-      <p>
+      <p class="music-meta">
         Performed by {{ album.artist }}, released by <a href="{% url 'members:member_profile' album.owner.username %}">{{ album.owner }}</a> on {{ album.creation_date|date:"M d, Y" }}
       </p>
       {% if not album.is_public %}

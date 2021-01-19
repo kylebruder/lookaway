@@ -1,15 +1,13 @@
 <li class="list-group-item music-list-li">
   <div class="row">
     <div class="col-">
-      <div class="container">
-        {% if gallery.visuals.all.count > 0 %}
-          <div class="art-gallery-list-image" style="background-image:url('{{ gallery.visuals.first.image.thumbnail_file.url }}')"></div>
-        {% elif gallery.owner.profile.image %}
-          <div class="art-gallery-list-image" style="background-image:url('{{ gallery.owner.profile.image.thumbnail_file.url }}')"></div>
-        {% else %}
-          <div class="art-gallery-list-image" style="background-image:url('/static/icon.webp')"></div>
-        {% endif %}
-      </div>
+      {% if gallery.visuals.all.count > 0 %}
+        <div class="art-gallery-list-image" style="background-image:url('{{ gallery.visuals.first.image.thumbnail_file.url }}')"></div>
+      {% elif gallery.owner.profile.image %}
+        <div class="art-gallery-list-image" style="background-image:url('{{ gallery.owner.profile.image.thumbnail_file.url }}')"></div>
+      {% else %}
+        <div class="art-gallery-list-image" style="background-image:url('/static/icon.webp')"></div>
+      {% endif %}
     </div>
     <div class="col-sm">
       <h5 class="music-title">
@@ -17,7 +15,7 @@
           {{ gallery.title }}
         </a>
       </h5>
-      <p>
+      <p class="art-meta">
         Works by {{ gallery.artist }}, curated by <a href="{% url 'members:member_profile' gallery.owner.username %}">{{ gallery.owner }}</a> on {{ gallery.creation_date|date:"M d, Y" }}
       </p>
       {% if not gallery.is_public %}

@@ -1,34 +1,32 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Sounds</h4>
-    </div>
-    <div class="col-">
-      <a href="{% url 'objects:sound_create' %}">
-        <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-      </a>
+      <h4 class="studio-title">Your Sounds
+        <a href="{% url 'objects:sound_create' %}">
+          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+        </a>
+      </h4>
     </div>
   </div>
+  {% if sounds.all.count > 0 %}
+    <ul class="list-group">
+      {% for sound in sounds %}
+        <li class="list-group-item sound-list-li">
+          <a href="{% url 'objects:sound_detail' pk=sound.pk %}">
+            {{ sound.title }}
+          </a>
+          {% if not sound.is_public %}
+            <div class="container">
+              <span class="badge badge-secondary">Unpublished</span>
+            </div>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    <p>
+      <a href="{% url 'objects:member_sounds' request.user.username %}">more ...</a>
+    </p>
+  {% else %}
+    <p>You have not uploaded any Sounds yet.</p>
+  {% endif %}
 </div>
-{% if sounds.all.count > 0 %}
-  <ul class="list-group">
-    {% for sound in sounds %}
-      <li class="list-group-item sound-list-li">
-        <a href="{% url 'objects:sound_detail' pk=sound.pk %}">
-          {{ sound.title }}
-        </a><br>
-        {{ sound.credit }}
-        {% if not sound.is_public %}
-          <div class="container">
-            <span class="badge badge-secondary">Unpublished</span>
-          </div>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-  <p>
-    <a href="{% url 'objects:member_sounds' request.user.username %}">more ...</a>
-  </p>
-{% else %}
-  <p>You have not uploaded any Sounds yet.</p>
-{% endif %}

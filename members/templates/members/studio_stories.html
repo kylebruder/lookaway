@@ -1,34 +1,32 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Stories</h4>
-    </div>
-    <div class="col-">
-      <a href="{% url 'documentation:story_create' %}">
-        <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-      </a>
+      <h4 class="studio-title">Your Stories
+        <a href="{% url 'documentation:story_create' %}">
+          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+        </a>
+      </h4>
     </div>
   </div>
+  {% if stories.all.count > 0 %}
+    <ul class="list-group">
+      {% for story in stories %}
+        <li class="list-group-item documentation-list-li">
+          <p>
+            <a href="{% url 'documentation:story_detail' story.slug %}">
+              {{ story.title }}
+            </a>
+            {% if not story.is_public %}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+    <p>
+      <a href="{% url 'documentation:member_stories' request.user.username %}">more ...</a>
+    </p>
+  {% else %}
+    <p>You have not created any stories yet.</p>
+  {% endif %}
 </div>
-{% if stories.all.count > 0 %}
-  <ul class="list-group">
-    {% for story in stories %}
-      <li class="list-group-item documentation-list-li">
-        <p>
-          <a href="{% url 'documentation:story_detail' story.slug %}">
-            {{ story.title }}
-          </a><br>
-          {{ story.author }}
-        </p>
-        {% if not story.is_public %}
-          <span class="badge badge-secondary">Unpublished</span>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-  <p>
-    <a href="{% url 'documentation:member_stories' request.user.username %}">more ...</a>
-  </p>
-{% else %}
-  <p>You have not created any stories yet.</p>
-{% endif %}

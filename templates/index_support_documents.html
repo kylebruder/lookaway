@@ -1,6 +1,6 @@
 <!-- Newest public Articles -->
 {% if documents.count > 0 %}
-  <h5 class="index-title">
+  <h5 class="documentation-title">
     {% for document in documents %}
       {% if document.is_public and not document.members_only or document.is_public and request.user.is_authenticated or document.owner.pk == request.user.pk %}
         <span class="index-heading-span">&squf;

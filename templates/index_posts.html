@@ -1,14 +1,15 @@
 <!-- Newest public Posts -->
 {% if posts.count > 0 %}
-  <p>
+  <h5 class="post-title">
     {% for post in posts %}
       {% if post.is_public and not post.members_only or post.is_public and request.user.is_authenticated or post.owner.pk == request.user.pk %}
-        <span class="index-heading-span index-post-title">&squf;
+        <span class="index-heading-span">&squf;
           <a href="{% url 'posts:post_detail' post.slug %}">{{ post.title }}</a> 
         </span>
       {% endif %}
     {% endfor %}
-    <br>
+  </h5>
+  <p>
     <a href="{% url 'posts:public_posts' %}">more posts...</a>
   </p>
 {% endif %}

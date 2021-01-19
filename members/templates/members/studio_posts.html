@@ -1,36 +1,35 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Posts</h4>
-    </div>
-    <div class="col-">
-      <a href="{% url 'posts:post_create' %}">
-        <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-      </a>
+      <h4 class="studio-title">Your Posts
+        <a href="{% url 'posts:post_create' %}">
+          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+        </a>
+      </h4>
     </div>
   </div>
+  {% if posts.all.count > 0 %}
+    <ul class="list-group">
+      {% for post in posts %}
+        <li class="list-group-item music-list-li">
+          <p>
+            <a href="{% url 'posts:post_detail' post.slug %}">
+              {{ post.title }}
+            </a>
+            {% if not post.is_public %}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+            {% if post.members_only %}
+              <span class="badge badge-warning">Members Only</span>
+            {% endif %}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+    <p>
+      <a href="{% url 'posts:member_posts' request.user.username %}">more ...</a>
+    </p>
+  {% else %}
+    <p>You have not contributed any Posts yet.</p>
+  {% endif %}
 </div>
-{% if posts.all.count > 0 %}
-  <ul class="list-group">
-    {% for post in posts %}
-      <li class="list-group-item post-list-li">
-        <p>
-          <a href="{% url 'posts:post_detail' post.slug %}">
-            {{ post.title }}
-          </a>
-        </p>
-        {% if not post.is_public %}
-          <span class="badge badge-secondary">Unpublished</span>
-        {% endif %}
-        {% if post.members_only %}
-          <span class="badge badge-warning">Members Only</span>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-  <p>
-    <a href="{% url 'posts:member_posts' request.user.username %}">more ...</a>
-  </p>
-{% else %}
-  <p>You have not posted anything yet.</p>
-{% endif %}

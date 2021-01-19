@@ -1,33 +1,30 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Code</h4>
-    </div>
-    <div class="col-">
-      <a href="{% url 'objects:code_create' %}">
-        <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-      </a>
+      <h4 class="studio-title">Your Code
+        <a href="{% url 'objects:code_create' %}">
+          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+        </a>
+      </h4>
     </div>
   </div>
+  {% if codes.all.count > 0 %}
+    <ul class="list-group">
+      {% for code in codes %}
+        <li class="list-group-item code-list-li">
+          <a href="{% url 'objects:code_detail' code.pk %}">
+            {{ code.title }}
+          </a>
+          {% if code.owner.pk == request.user.pk and not code.is_public%}
+            <span class="badge badge-secondary">Unpublished</span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    <p>
+      <a href="{% url 'objects:member_code' request.user.username %}">more ...</a>
+    </p>
+  {% else %}
+    <p>You have not uploaded any code yet.</p>
+  {% endif %}
 </div>
-{% if codes.all.count > 0 %}
-  <ul class="list-group">
-    {% for code in codes %}
-      <li class="list-group-item code-list-li">
-        <a href="{% url 'objects:code_detail' code.pk %}">
-          {{ code.title }}
-        </a>
-        <br>
-        {{ code.language }} {{ code.language_version }}
-        {% if code.owner.pk == request.user.pk and not code.is_public%}
-          <span class="badge badge-secondary">Unpublished</span>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-  <p>
-    <a href="{% url 'objects:member_code' request.user.username %}">more ...</a>
-  </p>
-{% else %}
-  <p>You have not uploaded any code yet.</p>
-{% endif %}

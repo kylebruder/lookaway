@@ -1,44 +1,35 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Galleries</h4>
-    </div>
-    <div class="col-">
-      <a href="{% url 'art:gallery_create' %}">
-        <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-      </a>
+      <h4 class="studio-title">Your Galleries
+        <a href="{% url 'art:gallery_create' %}">
+          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+        </a>
+      </h4>
     </div>
   </div>
-</div>
-{% if galleries.all.count > 0 %}
-  {% for gallery in galleries %}
-    <div class="row">
-      <div class="col-">
-        <div class="container">
-          {% if gallery.visuals %}
-            <div class="index-gallery-list-image" style="background-image:url('{{ gallery.visuals.first.image.thumbnail_file.url }}')"></div>
-          {% elif track.owner.profile.image %}
-            <div class="index-gallery-list-image" style="background-image:url('{{ gallery.owner.profile.image.thumbnail_file.url }}')"></div>
-          {% else %}
-            <div class="index-gallery-list-image" style="background-image:url('/static/icon.webp')"></div>
-          {% endif %}
-        </div>
-      </div>
-      <div class="col">
-        <h6 class="index-title">
-          <a href="{% url 'art:gallery_detail' gallery.slug %}">
-            {{ gallery.title }}
-          </a>
-        </h6>
-        <p class="index-meta">
-          New Gallery by {{ gallery.artist }}
-        </p>
-      </div>
-    </div>
-  {% endfor %}
-  <p>
-    <a href="{% url 'art:member_galleries' request.user.username %}">more ...</a>
-  </p>
+  {% if galleries.all.count > 0 %}
+    <ul class="list-group">
+      {% for gallery in galleries %}
+        <li class="list-group-item music-list-li">
+          <p>
+            <a href="{% url 'art:gallery_detail' gallery.slug %}">
+              {{ gallery.title }}
+            </a>
+            {% if not gallery.is_public %}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+            {% if gallery.members_only %}
+              <span class="badge badge-warning">Members Only</span>
+            {% endif %}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+    <p>
+      <a href="{% url 'art:member_galleries' request.user.username %}">more ...</a>
+    </p>
 {% else %}
   <p>You have not contributed any Galleries yet.</p>
 {% endif %}
+</div>

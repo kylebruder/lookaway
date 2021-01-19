@@ -1,31 +1,30 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Visuals</h4>
-    </div>
-    <div class="col-">
-      <a href="{% url 'art:visual_create' %}">
-        <button class="btn btn-sm btn-primary create-button">+</button>
-      </a>
+      <h4 class="studio-title">Your Visuals
+        <a href="{% url 'art:visual_create' %}">
+          <button class="btn btn-sm btn-primary create-button">+</button>
+        </a>
+      </h4>
     </div>
   </div>
+  {% if visuals.all.count > 0 %}
+    <div class="profile-image-matrix">
+      {% for i in visuals %}
+        <a href="{% url 'art:visual_detail' i.slug %}">
+          <div class="profile-image-card float-left" style="background-image:url('{{ i.image.thumbnail_file.url }}')">
+            {% if not i.is_public %}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+    <div class="clear"></div>
+    <p>
+      <a href="{% url 'art:member_visuals' request.user.username %}">more ...</a>
+    </p>
+  {% else %}
+    <p>You have not contributed any Visuals yet.</p>
+  {% endif %}
 </div>
-{% if visuals.all.count > 0 %}
-  <div class="profile-image-matrix">
-    {% for i in visuals %}
-      <a href="{% url 'art:visual_detail' i.slug %}">
-        <div class="profile-image-card float-left" style="background-image:url('{{ i.image.thumbnail_file.url }}')">
-          {% if not i.is_public %}
-            <span class="badge badge-secondary">Unpublished</span>
-          {% endif %}
-        </div>
-      </a>
-    {% endfor %}
-  </div>
-  <div class="clear"></div>
-  <p>
-    <a href="{% url 'art:member_visuals' request.user.username %}">more ...</a>
-  </p>
-{% else %}
-  <p>You have not contributed any Visuals yet.</p>
-{% endif %}

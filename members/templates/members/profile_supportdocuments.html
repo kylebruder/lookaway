@@ -7,7 +7,7 @@
       {% if document.is_public and not document.members_only or document.is_public and request.user.is_authenticated or document.owner.pk == request.user.pk %}
         <div class="row">
           <div class="col">
-            <h6 class="index-title">
+            <h6 class="documentation-title">
               <a href="{% url 'documentation:support_document_detail' document.slug %}">
                 {{ document.title }}
               </a>

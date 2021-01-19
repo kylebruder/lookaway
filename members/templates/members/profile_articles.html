@@ -7,7 +7,7 @@
       {% if article.is_public and not article.members_only or article.is_public and request.user.is_authenticated or article.owner.pk == request.user.pk %}
         <div class="row">
           <div class="col">
-            <h6 class="index-title">
+            <h6 class="documentation-title">
               <a href="{% url 'documentation:article_detail' article.slug %}">
                 {{ article.title }}
               </a>

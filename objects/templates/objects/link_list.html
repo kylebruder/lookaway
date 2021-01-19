@@ -5,7 +5,7 @@
   {% if links %}
     {% include "page_control.html" %}
     <ul class="list-group">
-      {% for link in object_list %}
+      {% for link in links %}
         {% include "./link_list_item.html" %}
       {% endfor %}
     </ul>

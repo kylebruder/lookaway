@@ -1,36 +1,35 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Articles</h4>
-    </div>
-    <div class="col-">
-      <a href="{% url 'documentation:article_create' %}">
-        <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-      </a>
+      <h4 class="studio-title">Your Articles
+        <a href="{% url 'documentation:article_create' %}">
+          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+        </a>
+      </h4>
     </div>
   </div>
-</div>
-{% if articles.all.count > 0 %}
-  <ul class="list-group">
-    {% for article in articles %}
-      <li class="list-group-item documentation-list-li">
-        <p>
-          <a href="{% url 'documentation:article_detail' article.slug %}">
-            {{ article.title }}
-          </a>
-        </p>
-        {% if not article.is_public %}
-          <span class="badge badge-secondary">Unpublished</span>
-        {% endif %}
-        {% if document.members_only %}
-          <span class="badge badge-warning">Members Only</span>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-  <p>
-    <a href="{% url 'documentation:member_articles' request.user.username %}">more ...</a>
-  </p>
+  {% if articles.all.count > 0 %}
+    <ul class="list-group">
+      {% for article in articles %}
+        <li class="list-group-item documentation-list-li">
+          <p>
+            <a href="{% url 'documentation:article_detail' article.slug %}">
+              {{ article.title }}
+            </a>
+            {% if not article.is_public %}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+            {% if document.members_only %}
+              <span class="badge badge-warning">Members Only</span>
+            {% endif %}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+    <p>
+      <a href="{% url 'documentation:member_articles' request.user.username %}">more ...</a>
+    </p>
 {% else %}
   <p>You have not contributed any Articles yet.</p>
 {% endif %}
+</div>
