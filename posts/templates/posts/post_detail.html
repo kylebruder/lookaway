@@ -19,17 +19,19 @@
           <img class="post-image" src="{{ post.image.image_file.url }}" alt="{{ post.image.title }}">
         </a>
         <span class="post-image-text">
-          {% if post.image.text %}
-            {{ post.image.text }}<br>
-          {% endif %}
-          {% if post.image.credit %}
-            <i>{{ post.image.credit }}</i><br>
-          {% endif %}
-          {% if post.image.owner.pk == request.user.pk %}
-            <a href="{% url 'objects:image_update' post.image.pk %}?next={{ request.path }}">
-              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-            </a>
-          {% endif %}
+          <p>
+            {% if post.image.text %}
+              {{ post.image.text }}<br>
+            {% endif %}
+            {% if post.image.credit %}
+              <i>{{ post.image.credit }}</i><br>
+            {% endif %}
+            {% if post.image.owner.pk == request.user.pk %}
+             <a href="{% url 'objects:image_update' post.image.pk %}?next={{ request.path }}">
+               <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+             </a><br>
+            {% endif %}
+          </p>
         </span>
       {% endif %}
     </div>

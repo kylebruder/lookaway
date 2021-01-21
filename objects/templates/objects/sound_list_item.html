@@ -1,7 +1,7 @@
 {% if sound.is_public or sound.owner.pk == request.user.pk %}
   <li class="list-group-item sound-list-li">
     <a href="{% url 'objects:sound_detail' sound.pk %}">
-      <h5 class="sound-title">{{ sound.title }}</h5>
+      <p class="sound-title">{{ sound.title }}</p>
     </a>
     <p>{{ sound.credit }}</p>
     {% if not sound.is_public %}

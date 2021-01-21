@@ -1,18 +1,18 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Sounds
+      <h5 class="sound-title">Your Sounds
         <a href="{% url 'objects:sound_create' %}">
           <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
         </a>
-      </h4>
+      </h5>
     </div>
   </div>
   {% if sounds.all.count > 0 %}
     <ul class="list-group">
       {% for sound in sounds %}
         <li class="list-group-item sound-list-li">
-          <a href="{% url 'objects:sound_detail' pk=sound.pk %}">
+          <a class="sound-title" href="{% url 'objects:sound_detail' pk=sound.pk %}">
             {{ sound.title }}
           </a>
           {% if not sound.is_public %}

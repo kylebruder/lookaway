@@ -3,7 +3,7 @@
       <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
   {% endif %}
   <a href="{% url 'objects:link_detail' link.pk %}">
-    <h5 class="link-title">{{ link.title }}</h5>
+    <p class="link-title">{{ link.title }}</p>
   </a>
   <p class="link-list-link">{{ link.url|truncatechars:128 }}</p>
   {% if not link.is_public %}

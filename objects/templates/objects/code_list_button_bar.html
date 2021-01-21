@@ -1,12 +1,12 @@
 <div class="row">
   <div class="col">
     {% if user_only %}
-      <h3 class="images-title">{{ member }}'s Code</h3>
+      <h3 class="code-title">{{ member }}'s Code Samples</h3>
       {% elif tag %}
-        <h3 class="images-title">Code</h3>
+        <h3 class="code-title">Code Samples</h3>
         <p><span class="badge badge-secondary">{{ tag }}</span></p>
       {% else %}
-        <h3 class="images-title">Code</h3>
+        <h3 class="code-title">Code Samples</h3>
       {% endif %}
     </h3>
   </div>

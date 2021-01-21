@@ -140,6 +140,6 @@
   margin: auto;
 }
 
-.images-title {
-  font-family: inherit;
+.image-title {
+  font-family: 'IBM Plex Mono', monospace;
 }
