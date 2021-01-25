@@ -30,6 +30,8 @@ class CustomModelMultipleChoiceField(forms.models.ModelMultipleChoiceField):
 
 class ImageCreateForm(forms.ModelForm):
 
+    # Remove comment lines to allow adding these fields on creation form.
+    '''
     title = forms.CharField(
         help_text="""Give the Image a memorable and unique title that will be \
             easy to reference later""",
@@ -55,30 +57,24 @@ class ImageCreateForm(forms.ModelForm):
 
     title.widget.attrs.update({'class': 'form-text-field'})
     credit.widget.attrs.update({'class': 'form-text-field'})
+    '''
 
     class Meta:
         model = Image
         fields = [
             'image_file',
-            'title',
-            'text',
-            'credit',
-            'tags',
+            #'title',
+            #'text',
+            #'credit',
+            #'tags',
         ]
         widgets = {
             'image_file': ImagePreviewWidget
         }
         help_texts = {
-            'title': """Give the image a memorable and unique title that will \
-                be easy to reference later""",
             'image_file': """Obtain permission before uploading depicitons of \
                 private persons or places
                 Image Preview will appear when successfully uploaded""",
-            'text': """The text may appear on pages that include Images or \
-                other objects that use Images""",
-            'credit': """Give credit to the original creator of the image file
-                Obtain expressed permission before uploading images with \
-                exclusive rights""",
             'tags': "Choose one or more tags",
         }
 
@@ -210,6 +206,8 @@ class SoundUpdateForm(forms.ModelForm):
 
 class VideoCreateForm(forms.ModelForm):
 
+    # Remove comment lines to allow adding these fields on creation form.
+    '''
     title = forms.CharField(
         help_text="""Give the Video memorable and unique title that will be easy \
             to reference later""",
@@ -235,15 +233,15 @@ class VideoCreateForm(forms.ModelForm):
 
     title.widget.attrs.update({'class': 'form-text-field'})
     credit.widget.attrs.update({'class': 'form-text-field'})
-
+    '''
     class Meta:
         model = Video
         fields = [
             'video_file',
-            'title',
-            'text',
-            'credit',
-            'tags',
+            #'title',
+            #'text',
+            #'credit',
+            #'tags',
         ]
         widgets = {
             'video_file': VideoPreviewWidget

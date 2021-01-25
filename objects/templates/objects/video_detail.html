@@ -8,8 +8,10 @@
     </video>
     <br>
     <br>
-    <p>{{ video.text }}</p>
-    <p>
+    {% if video.text %}
+      <p>{{ video.text }}</p>
+    {% endif %}
+    <br>
       Video file: <a href="{{ video.video_file.url }}">{{ video.video_file.url }}</a><br>
       {% if video.credit %}Credit: {{ video.credit }}{% endif %}
     </p>
