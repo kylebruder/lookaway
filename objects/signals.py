@@ -141,17 +141,26 @@ def handle_sound_upload(sender, instance, created, *args, **kwargs):
                 fsop = FileSystemOps()
                 fsop._delete_file(instance.sound_file.path)
 
-        # Transcode the uploaded file
-        snd_path = Path(encode(snd_file))
-        # Give the image a random name and webp extenstion
-        original_name = Path(snd_file).name
-        instance.title = original_name.split('.')[:-1][0]
-        seed = str(snd_path) + str(timezone.now())
-        safe_file_name = md5(seed.encode()).hexdigest() + ".ogg"
-        new_path = snd_path.rename(snd_path.parent / safe_file_name)
-        instance.sound_file = str(new_path.relative_to(MEDIA_ROOT))
-        instance.save()
-    pass
+        try:
+            # Transcode the uploaded file
+            snd_path = Path(encode(snd_file))
+            # Give the image a random name and webp extenstion
+            original_name = Path(snd_file).name
+            instance.title = original_name.split('.')[:-1][0][:63]
+            seed = str(snd_path) + str(timezone.now())
+            safe_file_name = md5(seed.encode()).hexdigest() + ".ogg"
+            new_path = snd_path.rename(snd_path.parent / safe_file_name)
+            instance.sound_file = str(new_path.relative_to(MEDIA_ROOT))
+            instance.save()
+        except:
+            instance.title = "failed upload"
+            instance.save()
+            logger.error(
+                'Transcoding failed for sound {} with pk {}'.format(
+                    instance,
+                    instance.pk,
+                )
+            )
 
 @receiver(post_save, sender=Video)
 def handle_video_upload(sender, instance, created, *args, **kwargs):
@@ -198,23 +207,33 @@ def handle_video_upload(sender, instance, created, *args, **kwargs):
                         instance.pk,
                     )
                 )
+                return 1
             finally:
                 #Delete the original upload
                 fsop = FileSystemOps()
                 fsop._delete_file(instance.video_file.path)
                 
-        # Transcode the uploaded file
-        vid_path = Path(encode(vid_file))
-        # Give the image a random name and webp extenstion
-        original_name = Path(vid_file).name
-        instance.title = original_name.split('.')[:-1][0]
-        seed = str(vid_path) + str(timezone.now())
-        safe_file_name = md5(seed.encode()).hexdigest() + ".webm"
-        new_path = vid_path.rename(vid_path.parent / safe_file_name)
-        instance.video_file = str(new_path.relative_to(MEDIA_ROOT))
-        instance.save()
+        try:
+            # Transcode the uploaded file
+            vid_path = Path(encode(vid_file))
+            # Give the image a random name and webp extenstion
+            original_name = Path(vid_file).name
+            instance.title = original_name.split('.')[:-1][0][:63]
+            seed = str(vid_path) + str(timezone.now())
+            safe_file_name = md5(seed.encode()).hexdigest() + ".webm"
+            new_path = vid_path.rename(vid_path.parent / safe_file_name)
+            instance.video_file = str(new_path.relative_to(MEDIA_ROOT))
+            instance.save()
+        except:
+            instance.title = "failed upload"
+            instance.save()
+            logger.error(
+                'Transcoding failed for video {} with pk {}'.format(
+                    instance,
+                    instance.pk,
+                )
+            )
     
-
 # Cleanup
 @receiver(post_delete, sender=Image)
 def remove_image_files(sender, instance, *args, **kwargs):
