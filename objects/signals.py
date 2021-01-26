@@ -118,6 +118,7 @@ def handle_sound_upload(sender, instance, created, *args, **kwargs):
             try:
                 command = [
                     ffmpeg_cmd,
+                    '-y',
                     '-i', snd_file,
                     '-qmin', '0',
                     '-qmax', '50',
@@ -188,6 +189,7 @@ def handle_video_upload(sender, instance, created, *args, **kwargs):
             try:
                 command = [
                     ffmpeg_cmd,
+                    '-y',
                     '-i', vid_file,
                     '-vcodec', 'libvpx', 
                     '-qmin', qmin,

@@ -11,6 +11,7 @@ USER=$user
 GROUP=$group
 WORKERS=4
 BIND=unix:/home/lookaway/lookaway-env/lookaway/gunicorn.sock
+TIMEOUT=43200
 DJANGO_SETTINGS_MODULE=lookaway.settings
 DJANGO_WSGI_MODULE=lookaway.wsgi
 LOGLEVEL=error
@@ -28,5 +29,6 @@ exec $venv_dir/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
         --user=$USER \
         --group=$GROUP \
         --bind=$BIND \
+        --timeout=$TIMEOUT
         --log-level=$LOGLEVEL \
         --log-file=-
