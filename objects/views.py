@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template import loader
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone, text
+from django.views.decorators.http import require_POST
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -1014,7 +1015,7 @@ class TagCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 class TagListView(ListView, LoginRequiredMixin):
 
     model = Tag
-    paginate_by = 32
+    paginate_by = 150
     context_object_name = 'tags'
     ordering = ['-weight', '-pk']
 
@@ -1227,6 +1228,17 @@ def add_marshmallow_to_tag_view(request, pk):
             'You are not allowed to give marshmallows at this time'
         )
     return HttpResponseRedirect(reverse('objects:tags'))
+
+@require_POST
+def get_tag_detail(request, *args, **kwargs):
+    return HttpResponseRedirect(
+        reverse(
+            'objects:tag_detail',
+            args=[
+                Tag.objects.get(pk=request.POST['pk']).slug,
+            ],
+        )
+    )
 
 # By Tag Views
 class VisualByTag(ListView):

@@ -66,6 +66,11 @@ urlpatterns = [
         views.TagDetailView.as_view(),
         name='tag_detail',
     ),
+    path(
+        'tags/get-tag-detail',
+        views.get_tag_detail,
+        name='get_tag_detail',
+    ),
     # Member Specific Views
     path(
         'member/<slug:member>/images/',

@@ -120,6 +120,8 @@ class ImageUpdateForm(forms.ModelForm):
 
 class SoundCreateForm(forms.ModelForm):
 
+    # Remove comment lines to allow adding these fields on creation form.
+    '''
     title = forms.CharField(
         help_text="""Give the Sound a memorable and unique title that will be \
             easy to reference later""",
@@ -145,14 +147,15 @@ class SoundCreateForm(forms.ModelForm):
 
     title.widget.attrs.update({'class': 'form-text-field'})
     credit.widget.attrs.update({'class': 'form-text-field'})
+    '''
     class Meta:
         model = Sound
         fields = [
             'sound_file',
-            'title',
-            'text',
-            'credit',
-            'tags',
+            #'title',
+            #'text',
+            #'credit',
+            #'tags',
         ]
         widgets = {
             'sound_file': SoundPreviewWidget
@@ -311,7 +314,7 @@ class CodeForm(forms.ModelForm):
         ),
         help_text="Include comments with your Code (optional)",
         label="Comments",
-        max_length=65535,
+        max_length=1024,
         required=False,
     )
     code = forms.CharField(
@@ -322,7 +325,7 @@ class CodeForm(forms.ModelForm):
             }
         ),
         help_text="Enter the code here",
-        max_length=1024,
+        max_length=65535,
     )
     language= forms.CharField(
         help_text="For which language is the code written?",
@@ -408,6 +411,11 @@ class LinkForm(forms.ModelForm):
         max_length=256,
     )
     text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
         help_text="The text may appear on pages that include Links",
         max_length=512,
         required=False,

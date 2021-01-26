@@ -11,7 +11,7 @@
     {% if video.text %}
       <p>{{ video.text }}</p>
     {% endif %}
-    <br>
+    <p>
       Video file: <a href="{{ video.video_file.url }}">{{ video.video_file.url }}</a><br>
       {% if video.credit %}Credit: {{ video.credit }}{% endif %}
     </p>

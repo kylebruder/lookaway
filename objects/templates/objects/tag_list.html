@@ -5,14 +5,36 @@
     <div class="col">
       <h3 class="tag-title">Tags</h3>
     </div>
-    <div class="col-">
-      <a href="{% url 'objects:tag_create' %}">
-        <button class="btn btn-sm btn-primary">+Tag</button>
-      </a>
-    </div>
+    {% if request.user.is_authenticated %}
+      <div class="col-">
+        <div class="container">
+          <a href="{% url 'objects:tag_create' %}">
+            <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+          </a>
+        </div>
+      </div>
+    {% endif %}
   </div>
   <br>
+  <form action="{% url 'objects:get_tag_detail' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-sm-3">
+        <select class="link-list-field" required id="pk" name="pk">&nbps;
+          {% for tag in tags %}
+            <option value="{{ tag.pk }}">{{ tag }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col">
+        <input type="submit" class="btn btn-sm btn-primary" value="Get Tag">
+      </div>
+    </div>
+  </form>
+  <br>
   {% if tags.count > 0 %}
+    {% include "page_control.html" %}
+    <br>
     {% for tag in tags %}
       <span class="badge badge-secondary">
         <a href="{% url 'objects:tag_detail' tag.slug %}" class="tag-font">
@@ -20,6 +42,8 @@
         </a>
       </span>
     {% endfor %}
+    <br><br>
+    {% include "page_control.html" %}
   {% else %}
     <p>There are no tags yet. Check back soon!</p>
   {% endif %}

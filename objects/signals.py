@@ -17,15 +17,16 @@ from .models import Image, Sound, Video, Link
 from .utils import FileSystemOps
 
 logger = logging.getLogger(__name__)
-# Images
+
+# Upload handlers
+
 @receiver(post_save, sender=Image)
 def handle_image_upload(sender, instance, created, *args, **kwargs):
     '''
-    Resize images with a width or height > m
+    Resize images with a width or height > values
     from the main Lookaway settings file.
-    Converts valid image files to img_format
-    from the main Lookaway settings file.
-    Add a thumbnail image to the Image model after it is saved to DB
+    Converts valid image files to webp.
+    Adds a thumbnail image to the Image model.
     '''
     if created:
         # Start with the raw uploaded image
@@ -47,7 +48,7 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
         # larger than the height and width specidied in settings
         h = MEDIA_SETTINGS['image']['max_height']
         w = MEDIA_SETTINGS['image']['max_width']
-        img_format = MEDIA_SETTINGS['image']['format']
+        img_format = "webp"
         if image.width > w or image.height > h:
             max_size = (w, h)
             image.thumbnail(max_size)
@@ -55,7 +56,7 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
             image.save(instance.image_file.path, img_format, **info)
 
         # Give the image a random name and webp extenstion
-        instance.title = original_name
+        instance.title = original_name.split('.')[:-1][0]
         img_path = Path(instance.image_file.path)
         seed = str(img_path) + str(timezone.now())
         safe_file_name = md5(seed.encode()).hexdigest() + '.' + img_format
@@ -66,7 +67,7 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
         # Create a thumbnail based on the uploaded image
         h = MEDIA_SETTINGS['image']['thumbnail']['max_height']
         w = MEDIA_SETTINGS['image']['thumbnail']['max_width']
-        img_format = MEDIA_SETTINGS['image']['thumbnail']['format']
+        img_format = "webp"
         max_size = (250, 250)
         image.thumbnail(max_size)
         owner = instance.owner.id
@@ -93,21 +94,82 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
 
 @receiver(post_save, sender=Sound)
 def handle_sound_upload(sender, instance, created, *args, **kwargs):
+    '''
+    Converts valid audio files into ogg.
+    Sets the instance title to the filename minus the extension.
+    Changes the filename on disk to a hard to guess name
+    for added privacy.
+    '''
+    if created:
+        snd_file = instance.sound_file.path
+        # Thanks derekkwok!
+        # https://gist.github.com/derekkwok/4077509
+        ffmpeg_cmd = MEDIA_SETTINGS['ffmpeg_path']
+        bitrate = MEDIA_SETTINGS['sound']['bitrate']
+        crf = MEDIA_SETTINGS['sound']['crf']
+        qmin = MEDIA_SETTINGS['sound']['qmin']
+        qmax = MEDIA_SETTINGS['sound']['qmax']
+
+        def encode(snd_file):
+            path = ''.join(snd_file.split('.')[:-1])
+            output = '{}.ogg'.format(path)
+            # Thanks Vestride
+            # https://gist.github.com/Vestride/278e13915894821e1d6f
+            try:
+                command = [
+                    ffmpeg_cmd,
+                    '-i', snd_file,
+                    '-qmin', '0',
+                    '-qmax', '50',
+                    '-b:v', '1000K',
+                    '-crf', crf,
+                    '-deadline', 'realtime',
+                    '-acodec', 'libvorbis',
+                    output
+                ]
+                subprocess.call(command)
+                return output
+            except:
+                logger.error(
+                    'Transcoding failed for sound {} with pk {}'.format(
+                        instance,
+                        instance.pk,
+                    )
+                )
+            finally:
+                #Delete the original upload
+                fsop = FileSystemOps()
+                fsop._delete_file(instance.sound_file.path)
+
+        # Transcode the uploaded file
+        snd_path = Path(encode(snd_file))
+        # Give the image a random name and webp extenstion
+        original_name = Path(snd_file).name
+        instance.title = original_name.split('.')[:-1][0]
+        seed = str(snd_path) + str(timezone.now())
+        safe_file_name = md5(seed.encode()).hexdigest() + ".ogg"
+        new_path = snd_path.rename(snd_path.parent / safe_file_name)
+        instance.sound_file = str(new_path.relative_to(MEDIA_ROOT))
+        instance.save()
     pass
 
 @receiver(post_save, sender=Video)
 def handle_video_upload(sender, instance, created, *args, **kwargs):
+    '''
+    Converts valid video files into webm.
+    Sets the instance title to the filename minus the extension.
+    Changes the filename on disk to a hard to guess name
+    for added privacy.
+    '''
     if created:
-        # Transcode the uploaded file
         vid_file = instance.video_file.path
-
         # Thanks derekkwok!
         # https://gist.github.com/derekkwok/4077509
-    
-        ffmpeg_cmd = MEDIA_SETTINGS['video']['ffmpeg_path']
+        ffmpeg_cmd = MEDIA_SETTINGS['ffmpeg_path']
+        bitrate = MEDIA_SETTINGS['video']['bitrate']
         crf = MEDIA_SETTINGS['video']['crf']
-        print("in video poist_save")
-        
+        qmin = MEDIA_SETTINGS['video']['qmin']
+        qmax = MEDIA_SETTINGS['video']['qmax']
         
         def encode(vid_file):
             path = ''.join(vid_file.split('.')[:-1])
@@ -116,11 +178,12 @@ def handle_video_upload(sender, instance, created, *args, **kwargs):
             # https://gist.github.com/Vestride/278e13915894821e1d6f
             try:
                 command = [
-                    ffmpeg_cmd, '-i', vid_file,
+                    ffmpeg_cmd,
+                    '-i', vid_file,
                     '-vcodec', 'libvpx', 
-                    '-qmin', '0',
-                    '-qmax', '50',
-                    '-b:v', '1000K',
+                    '-qmin', qmin,
+                    '-qmax', qmax,
+                    '-b:v', bitrate,
                     '-crf', crf,
                     '-deadline', 'realtime',
                     '-acodec', 'libvorbis',
@@ -137,10 +200,10 @@ def handle_video_upload(sender, instance, created, *args, **kwargs):
                 )
             finally:
                 #Delete the original upload
-                print("hitting finally")
                 fsop = FileSystemOps()
                 fsop._delete_file(instance.video_file.path)
                 
+        # Transcode the uploaded file
         vid_path = Path(encode(vid_file))
         # Give the image a random name and webp extenstion
         original_name = Path(vid_file).name
@@ -152,6 +215,7 @@ def handle_video_upload(sender, instance, created, *args, **kwargs):
         instance.save()
     
 
+# Cleanup
 @receiver(post_delete, sender=Image)
 def remove_image_files(sender, instance, *args, **kwargs):
     '''
@@ -162,6 +226,15 @@ def remove_image_files(sender, instance, *args, **kwargs):
         fsop._delete_file(instance.image_file.path)
     if instance.thumbnail_file:
         fsop._delete_file(instance.thumbnail_file.path)
+
+@receiver(post_delete, sender=Sound)
+def remove_sound_file(sender, instance, *args, **kwargs):
+    '''
+    Remove sound file related to the deleted Sound instance from the filesystem
+    '''
+    fsop = FileSystemOps()
+    if instance.sound_file:
+        fsop._delete_file(instance.sound_file.path)
 
 @receiver(post_delete, sender=Video)
 def remove_video_file(sender, instance, *args, **kwargs):
