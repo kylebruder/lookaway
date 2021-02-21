@@ -1,7 +1,7 @@
 #!/bin/bash
 
 project="lookaway"
-venv_dir="lookaway-env"
+venv_dir="lookaway-dev-env"
 user="lookaway"
 group="lookaway"
 
@@ -10,7 +10,7 @@ DJANGODIR=/home/$user/$venv_dir/$project
 USER=$user
 GROUP=$group
 WORKERS=4
-BIND=unix:/home/lookaway/lookaway-env/lookaway/gunicorn.sock
+BIND=unix:/home/$user/$venv_dir/lookaway/gunicorn.sock
 TIMEOUT=43200
 DJANGO_SETTINGS_MODULE=lookaway.settings
 DJANGO_WSGI_MODULE=lookaway.wsgi

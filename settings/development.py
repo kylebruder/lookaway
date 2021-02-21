@@ -97,6 +97,7 @@ INSTALLED_APPS = [
     'posts',
     'music',
     'art',
+    'crypto',
 ]
 
 MIDDLEWARE = [
