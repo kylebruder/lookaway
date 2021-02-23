@@ -30,7 +30,7 @@ class PostCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         return kwargs
 
     def form_valid(self, form):
-        member = Member.objects.get(pk=self.request.user.pk)
+        member = self.request.user
         form.instance.creation_date = timezone.now()
         form.instance.owner = member
         form.instance.slug = text.slugify(form.instance.title)
@@ -99,7 +99,7 @@ class MemberPostView(ListView):
     context_object_name = 'posts'
 
     def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
+        member = self.request.user
         if self.request.user.is_authenticated:
             return Post.objects.filter(
                 owner=member
