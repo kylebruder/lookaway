@@ -16,7 +16,8 @@
         </a>
       </h5>
       <p class="art-meta">
-        Works by {{ gallery.artist }}, curated by <a href="{% url 'members:member_profile' gallery.owner.username %}">{{ gallery.owner }}</a> on {{ gallery.creation_date|date:"M d, Y" }}
+        Works by {{ gallery.artist }}, curated by <a href="{% url 'members:member_profile' gallery.owner.username %}"><span class="index-heading-span">{{ gallery.owner }}</span></a> on {{ gallery.creation_date|date:"M d, Y" }}<br>
+        {{ gallery.meta_description }}
       </p>
       {% if not gallery.is_public %}
         <span class="badge badge-dark">Unpublished</span>

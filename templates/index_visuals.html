@@ -2,7 +2,6 @@
 {% if visuals.count > 0 %}
   <div class="index-col">
     {% for visual in visuals %}
-      <div class="visuals-card float-left">
         <a href="{% url 'art:visual_detail' visual.slug %}">
           {% if visual.image.thumbnail_file %}
             <div class="float-left index-visual-card" style="background-image:url('{{ visual.image.thumbnail_file.url }}')">
@@ -15,7 +14,6 @@
             <span class="visuals-piece-card-title">Click here to see the Visual</span>
           {% endif %}
         </a>
-      </div>
     {% endfor %}
     <div class="clear"></div>
     <p><a href="{% url 'art:top_visuals' %}">more visuals...</a></p>

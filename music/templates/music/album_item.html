@@ -14,10 +14,11 @@
         </a>
       </h5>
       <p class="music-meta">
-        Performed by {{ album.artist }}, released by <a href="{% url 'members:member_profile' album.owner.username %}">{{ album.owner }}</a> on {{ album.creation_date|date:"M d, Y" }}
+        Performed by {{ album.artist }}, released by <a href="{% url 'members:member_profile' album.owner.username %}"><span class="index-heading-span">{{ album.owner }}</span></a> on {{ album.creation_date|date:"M d, Y" }}<br>
+        {{ album.meta_description }}
       </p>
       {% if not album.is_public %}
-        <span class="badge badge-dark">Unpublished</span>
+	    <span class="badge badge-dark">Unpublished</span>
       {% endif %}
       {% if album.tags.all.count > 0 %}
         {% with album as object %}

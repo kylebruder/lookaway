@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import(
     LoginRequiredMixin,
     PermissionRequiredMixin,
     )
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse_lazy, reverse
@@ -54,8 +55,9 @@ class PostListView(ListView):
     def get_queryset(self, *args, **kwargs):
         if self.request.user.is_authenticated:
             return Post.objects.filter(
-                is_public=True,
+                Q(owner=self.request.user) | Q(is_public=True),
             ).order_by(
+                'is_public',
                 '-publication_date',
             )
         else:

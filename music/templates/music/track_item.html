@@ -16,7 +16,8 @@
         </a>
       </h5>
       <p class="music-meta">
-        Performed by {{ track.artist }}, released by <a href="{% url 'members:member_profile' track.owner.username %}">{{ track.owner }}</a> on {{ track.creation_date|date:"M d, Y" }}
+        Performed by {{ track.artist }}, released by <a href="{% url 'members:member_profile' track.owner.username %}"><span class="index-heading-span">{{ track.owner }}</span></a> on {{ track.creation_date|date:"M d, Y" }}<br>
+	{{ track.meta_description }}
       </p>
       {% if not track.is_public %}
         <span class="badge badge-dark">Unpublished</span>

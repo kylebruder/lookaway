@@ -6,7 +6,7 @@
   {% include './music_page_button_bar.html' %}
   {% include './music_page_navbar.html' %}
   {% if new_tracks.all.count < 1 and new_albums.all.count < 1 %}
-    <p><i>Coming Soon...</i></p>
+    <p><i>Coming Soon...</i></p><br>
   {% else %} 
     <div class="row">
       {% if new_tracks.all.count > 0 %}

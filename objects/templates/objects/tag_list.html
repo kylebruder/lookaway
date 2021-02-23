@@ -38,7 +38,7 @@
     {% for tag in tags %}
       <span class="badge badge-secondary">
         <a href="{% url 'objects:tag_detail' tag.slug %}" class="tag-font">
-          {{ tag.key }} {% if tag.value %}: {{ tag.value }}{% endif %}
+          {{ tag.key }}{% if tag.value %}: {{ tag.value }}{% endif %}
         </a>
       </span>
     {% endfor %}

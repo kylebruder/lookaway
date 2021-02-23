@@ -1,27 +1,29 @@
 {% if tracks %}
   <h5 class="tag-title">Tracks</h5>
   {% for track in tracks %}
-    {% if track.is_public %}
-      <div class="row">
-        <div class="col-">
-          {% if track.image %}
-            <div class="music-track-list-image" style="background-image:url('{{ track.image.thumbnail_file.url }}')"></div>
-          {% elif track.owner.profile.image %}
-            <div class="music-track-list-image" style="background-image:url('{{ track.owner.profile.image.thumbnail_file.url }}')"></div>
-          {% else %}
-            <div class="music-track-list-image" style="background-image:url('/static/icon.webp')"></div>
-          {% endif %}      
-        </div>
-        <div class="col-sm">
-          <p>
-            <a class="tag-title" href="{% url 'music:track_detail' track.slug %}">{{ track.title }}</a><br>
-            Music by {{ track.artist }}, released by <a href="{% url 'members:member_profile' track.owner.username %}">{{ track.owner }}</a>{% if track.is_public %} on {{ track.publication_date|date:"M d, Y" }}{% endif %}.<br>
-            {{ track.meta_description }}
-          </p>
-        </div>
+    <div class="row">
+      <div class="col-">
+        {% if track.image %}
+          <div class="music-track-list-image" style="background-image:url('{{ track.image.thumbnail_file.url }}')"></div>
+        {% elif track.owner.profile.image %}
+          <div class="music-track-list-image" style="background-image:url('{{ track.owner.profile.image.thumbnail_file.url }}')"></div>
+        {% else %}
+          <div class="music-track-list-image" style="background-image:url('/static/icon.webp')"></div>
+        {% endif %}      
       </div>
-      <br>
-    {% endif %}
+      <div class="col-sm">
+        <p>
+          <a class="tag-title" href="{% url 'music:track_detail' track.slug %}">{{ track.title }}</a>
+          {% if not track.is_public %}
+            <span class="badge badge-dark">Unpublished</span>
+          {% endif %}
+          <br>
+          Music by {{ track.artist }}, released by <a href="{% url 'members:member_profile' track.owner.username %}"><span class="index-heading-span">{{ track.owner }}</span></a>{% if track.is_public %} on {{ track.publication_date|date:"M d, Y" }}{% endif %}.<br>
+          {{ track.meta_description }}
+        </p>
+      </div>
+    </div>
+    <br>
   {% endfor %}
   {% if total_tracks > list_length %}
     <p>

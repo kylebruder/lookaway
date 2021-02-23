@@ -12,8 +12,8 @@
     <!-- Image -->
     {% if not visual.video %}
       <a href="{{ visual.image.image_file.url }}">
-        <img class="art-visual-image" src="{{ visual.image.image_file.url }}" alt="{{ visual.image.title }}"><br>
-      </a>
+        <img class="art-visual-image" src="{{ visual.image.image_file.url }}" alt="{{ visual.image.title }}">
+      </a><br>
     {% endif %}
     <!-- Video -->
     {% if visual.video %}
