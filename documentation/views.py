@@ -14,6 +14,7 @@ from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteVi
 from django.views.generic.list import ListView
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
+from objects.utils import Text
 from posts.models import Post
 from .forms import ArticleForm, ArticleSectionForm, StoryForm, StorySectionForm, SupportDocumentForm, SupportDocSectionForm
 from .models import Article, ArticleSection, Story, StorySection, SupportDocument, SupportDocSection
@@ -130,7 +131,7 @@ class ArticleCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         member = Member.objects.get(pk=self.request.user.pk)
         form.instance.creation_date = timezone.now()
         form.instance.owner = member
-        form.instance.slug = text.slugify(form.instance.title)
+        form.instance.slug = Text.slugify_unique(self.model, form.instance.title)
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -430,7 +431,7 @@ class SupportDocumentCreateView(LoginRequiredMixin, MemberCreateMixin, CreateVie
         member = Member.objects.get(pk=self.request.user.pk)
         form.instance.creation_date = timezone.now()
         form.instance.owner = member
-        form.instance.slug = text.slugify(form.instance.title)
+        form.instance.slug = Text.slugify_unique(self.model, form.instance.title)
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -736,7 +737,7 @@ class StoryCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         member = Member.objects.get(pk=self.request.user.pk)
         form.instance.creation_date = timezone.now()
         form.instance.owner = member
-        form.instance.slug = text.slugify(form.instance.title)
+        form.instance.slug = Text.slugify_unique(self.model, form.instance.title)
         return super().form_valid(form)
 
     def get_success_url(self):
