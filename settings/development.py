@@ -26,6 +26,31 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 DEFAULT_MEMBER_STORAGE = 10**9*2 # 2GB
 
+MEDIA_SETTINGS = {
+    'ffmpeg_path': '/usr/bin/ffmpeg',
+    'image': {
+        'max_height': 2500,
+        'max_width': 2500,
+        'thumbnail': {
+            'max_height': 250,
+            'max_width': 250,
+        },
+    },
+    'sound': {
+        'bitrate': '1000K',
+        'crf': '10', # Lower value means better quality
+        'qmin': '0', # "
+        'qmax': '50',# "
+    },
+    'video': {
+        'bitrate': '1000K',
+        'crf': '10', # Lower value means better quality
+        'qmin': '0', # "
+        'qmax': '50',# "
+
+    },
+}
+
 # Any member that joined before the FOUNDER_CUTOFF date
 # will be considered a founder.
                        # year, mo, day
@@ -72,6 +97,7 @@ INSTALLED_APPS = [
     'posts',
     'music',
     'art',
+    'crypto',
 ]
 
 MIDDLEWARE = [

@@ -1,27 +1,29 @@
 {% if posts %}
   <h5 class="tag-title">Posts</h5>
   {% for post in posts %}
-    {% if post.is_public %}
-      <div class="row">
-        <div class="col-">
-          {% if post.image %}
-            <div class="tag-list-image" style="background-image:url('{{ post.image.thumbnail_file.url }}')"></div>
-          {% elif post.owner.profile.image %}
-            <div class="tag-list-image" style="background-image:url('{{ post.owner.profile.image.thumbnail_file.url }}')"></div>
-          {% else %}
-            <div class="tag-list-image" style="background-image:url('/static/icon.webp')"></div>
-          {% endif %}      
-        </div>
-        <div class="col-sm">
-          <p>
-            <a class="tag-title" href="{% url 'posts:post_detail' post.slug %}">{{ post.title }}</a><br>
-            Posted by <a href="{% url 'members:member_profile' post.owner.username %}">{{ post.owner }}</a>{% if post.is_public %} on {{ post.publication_date|date:"M d, Y" }}{% endif %}.<br>
-            {{ post.meta_description }}
-          </p>
-        </div>
+    <div class="row">
+      <div class="col-">
+        {% if post.image %}
+          <div class="tag-list-image" style="background-image:url('{{ post.image.thumbnail_file.url }}')"></div>
+        {% elif post.owner.profile.image %}
+          <div class="tag-list-image" style="background-image:url('{{ post.owner.profile.image.thumbnail_file.url }}')"></div>
+        {% else %}
+          <div class="tag-list-image" style="background-image:url('/static/icon.webp')"></div>
+        {% endif %}      
       </div>
-      <br>
-    {% endif %}
+      <div class="col-sm">
+        <p>
+          <a class="tag-title" href="{% url 'posts:post_detail' post.slug %}">{{ post.title }}</a>
+          {% if not post.is_public %}
+            <span class="badge badge-dark">Unpublished</span>
+          {% endif %}
+          <br>
+          Posted by <a href="{% url 'members:member_profile' post.owner.username %}"><span class="index-heading-span">{{ post.owner }}</span></a>{% if post.is_public %} on {{ post.publication_date|date:"M d, Y" }}{% endif %}.<br>
+          {{ post.meta_description }}
+        </p>
+      </div>
+    </div>
+    <br>
   {% endfor %}
   {% if total_posts > list_length %}
     <p>

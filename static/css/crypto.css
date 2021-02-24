@@ -49,6 +49,13 @@
   display: block;
 }
 
+.crypto-qr-sm {
+  display: inherit;
+  max-width: 150px;
+  max-height: auto;
+  display: block;
+}
+
 .crypto-title {
   font-family: 'Ibarra Real Nova', serif;
 }

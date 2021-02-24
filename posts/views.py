@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import(
     LoginRequiredMixin,
     PermissionRequiredMixin,
     )
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse_lazy, reverse
@@ -30,7 +31,7 @@ class PostCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         return kwargs
 
     def form_valid(self, form):
-        member = Member.objects.get(pk=self.request.user.pk)
+        member = self.request.user
         form.instance.creation_date = timezone.now()
         form.instance.owner = member
         form.instance.slug = Text.slugify_unique(self.model, form.instance.title)
@@ -55,8 +56,9 @@ class PostListView(ListView):
     def get_queryset(self, *args, **kwargs):
         if self.request.user.is_authenticated:
             return Post.objects.filter(
-                is_public=True,
+                Q(owner=self.request.user) | Q(is_public=True),
             ).order_by(
+                'is_public',
                 '-publication_date',
             )
         else:
@@ -98,7 +100,7 @@ class MemberPostView(ListView):
     context_object_name = 'posts'
 
     def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
+        member = self.request.user
         if self.request.user.is_authenticated:
             return Post.objects.filter(
                 owner=member

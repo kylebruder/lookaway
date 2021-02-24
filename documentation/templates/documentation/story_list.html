@@ -2,8 +2,8 @@
 {% block body_block %}
 <div class="container documentation-bg">
   {% include "./story_list_button_bar.html" %}
+  {% include "./documentation_page_navbar.html" %}
   {% if stories %}
-    {% include './documentation_page_navbar.html' %}
     {% include "page_control.html" %}
     <ul class="list-group">
       {% include "./story_list_item.html" %}
@@ -11,7 +11,7 @@
     {% include "page_control.html" %}
     <br>
   {% else %}
-    <p>No Stories have been published yet. Check back soon!</p>
+    <p>No stories have been published yet. Check back soon!</p>
     <br>
   {% endif %}
 </div>

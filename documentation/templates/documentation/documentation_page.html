@@ -37,7 +37,7 @@
             {% include "./document_item.html" %}
           {% endfor %}
           <div class="clear"></div>
-          <p><a href="{% url 'documentation:top_stories' %}">all new information</a></p>
+          <p><a href="{% url 'documentation:new_support_documents' %}">all new information</a></p>
         </div>
       {% endif %}
     </div>
@@ -70,7 +70,7 @@
             {% include "./document_item.html" %}
           {% endfor %}
           <div class="clear"></div>
-          <p><a href="{% url 'documentation:top_stories' %}">all top information</a></p>
+          <p><a href="{% url 'documentation:top_support_documents' %}">all top information</a></p>
         </div>
       {% endif %}
     </div>

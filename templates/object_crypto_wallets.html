@@ -1,0 +1,53 @@
+<!-- Crypto Wallets -->
+<!-- Bitcoin Wallet -->
+{% if object.bitcoin_wallet %}
+  <div class="row">
+    <div class="col-">
+      <div class="container">
+        <img class="crypto-qr-sm" src="{{ object.bitcoin_wallet.qr_code_lg.url }}" alt="bitcoin:{{ object.bitcoin_wallet.public_address }}"><br>
+      </div>
+    </div>
+    <div class="col">
+        {% load static %}
+        <h5>
+          <img src="{% static 'bitcoin_logo_sm.webp' %}">  Bitcoin Accepted Here
+        </h5>
+        <p>
+          <span class="crypto-address-block">{{ object.bitcoin_wallet.public_address }}</span><br>
+        </p>
+        {% if object.bitcoin_wallet.text %}
+          <div class="crypto-text-md">
+            {{ object.bitcoin_wallet.text|linebreaks }}
+          </div>
+        {% endif %}
+    </div>
+  </div>
+  <br>
+{% endif %}
+<!-- Litecoin Wallet -->
+{% if object.litecoin_wallet %}
+  <div class="row">
+    <div class="col-">
+      <div class="container">
+        <img class="crypto-qr-sm" src="{{ object.litecoin_wallet.qr_code_lg.url }}" alt="litecoin:{{ object.litecoin_wallet.public_address }}"><br>
+      </div>
+    </div>
+    <div class="col">
+      <div class="container">
+        {% load static %}
+        <h5>
+          <img src="{% static 'litecoin_logo_sm.webp' %}">  Litecoin Accepted Here
+        </h5>
+        <p>
+          <span class="crypto-address-block">{{ object.litecoin_wallet.public_address }}</span><br>
+        </p>
+        {% if object.litecoin_wallet.text %}
+          <div class="crypto-text-md">
+            {{ object.litecoin_wallet.text|linebreaks }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <br>
+{% endif %}

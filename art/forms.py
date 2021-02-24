@@ -225,3 +225,8 @@ class VisualForm(forms.ModelForm):
         ).order_by(
             '-last_modified',
         )
+        self.fields['video'].queryset = Video.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )

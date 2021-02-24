@@ -5,11 +5,13 @@ from django.contrib.auth.mixins import(
     PermissionRequiredMixin,
     )
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import loader
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone, text
+from django.views.decorators.http import require_POST
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -1014,7 +1016,7 @@ class TagCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 class TagListView(ListView, LoginRequiredMixin):
 
     model = Tag
-    paginate_by = 32
+    paginate_by = 150
     context_object_name = 'tags'
     ordering = ['-weight', '-pk']
 
@@ -1026,85 +1028,154 @@ class TagDetailView(DetailView):
 
     model = Tag
     context_object_name = 'tag'
-    list_length = 6
+    list_length = 3
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         slug = self.object.slug
         # Send the desired list length
         context['list_length'] = self.list_length
-        ## Send object lists with totals
+        ## Send object lists based on whether the requester is authenticated.
+        ## If they are, show them their unpublished objects that match the tag.
         # Posts
-        context['posts'] = Post.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).order_by('-weight')[:self.list_length]
-        context['total_posts'] = Post.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).count()
+        if self.request.user.is_authenticated:
+            posts = Post.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            posts = Post.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).order_by(
+                '-weight',
+            )
+        context['total_posts'] = posts.count()
+        context['posts'] = posts[:self.list_length]
         # Art
-        context['galleries'] = Gallery.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).order_by('-weight')[:self.list_length]
-        context['total_galleries'] = Gallery.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).count()
-        context['visuals'] = Visual.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).order_by('-weight')[:self.list_length]
-        context['total_visuals'] = Visual.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).count()
-        # Music
-        context['albums'] = Album.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).order_by('-weight')[:self.list_length]
-        context['total_albums'] = Album.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).count()
-        context['tracks'] = Track.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).order_by('-weight')[:self.list_length]
-        context['total_tracks'] = Track.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).count()
-        context['total_visuals'] = Visual.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).count()
-        context['stories'] = Story.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).order_by('-weight')[:self.list_length]
-        context['total_stories'] = Story.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).count()
-        context['articles'] = Article.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).order_by('-weight')[:self.list_length]
-        context['total_articles'] = Article.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).count()
-        context['documents'] = SupportDocument.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).order_by('-weight')[:self.list_length]
-        context['total_documents'] = SupportDocument.objects.filter(
-            tags__slug__exact=slug,
-            is_public=True,
-        ).count()
+        if self.request.user.is_authenticated:
+            galleries = Gallery.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            galleries = Gallery.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).order_by(
+                '-weight',
+            )
+        context['total_galleries'] = galleries.count()
+        context['galleries'] = galleries[:self.list_length]
+        if self.request.user.is_authenticated:
+            visuals = Visual.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            visuals = Visual.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).order_by(
+                '-weight',
+            )
+        context['total_visuals'] = visuals.count()
+        context['visuals'] = visuals[:self.list_length]
+        if self.request.user.is_authenticated:
+            albums = Album.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            albums = Album.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).order_by(
+                '-weight',
+            )
+        context['total_albums'] = albums.count()
+        context['albums'] = albums[:self.list_length]
+        if self.request.user.is_authenticated:
+            tracks = Track.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            tracks = Track.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).order_by(
+                '-weight',
+            )
+        context['total_tracks'] = tracks.count()
+        context['tracks'] = tracks[:self.list_length]
+        # Documentation
+        if self.request.user.is_authenticated:
+            stories = Story.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            stories = Story.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).order_by(
+                '-weight',
+            )
+        context['total_stories'] = stories.count()
+        context['stories'] = stories[:self.list_length]
+        if self.request.user.is_authenticated:
+            articles = Article.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            articles = Article.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).order_by(
+                '-weight',
+            )
+        context['total_articles'] = articles.count()
+        context['articles'] = articles[:self.list_length]
+        if self.request.user.is_authenticated:
+            documents = SupportDocument.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            documents = SupportDocument.objects.filter(
+                tags__slug__exact=slug,
+                is_public=True,
+            ).order_by(
+                '-weight',
+            )
+        context['total_documents'] = documents.count()
+        context['documents'] = documents[:self.list_length]
         # Tell the template if there are no objects to show non-members
         public_object_count = context['posts'].count() + \
             context['stories'].count() + \
@@ -1216,7 +1287,7 @@ def add_marshmallow_to_tag_view(request, pk):
             request, messages.INFO,
             'You gave {} to the {} "{}"'.format(
                 amount,
-                Image.__name__,
+                Tag.__name__,
                 instance,
             )
        )
@@ -1228,16 +1299,39 @@ def add_marshmallow_to_tag_view(request, pk):
         )
     return HttpResponseRedirect(reverse('objects:tags'))
 
+@require_POST
+def get_tag_detail(request, *args, **kwargs):
+    return HttpResponseRedirect(
+        reverse(
+            'objects:tag_detail',
+            args=[
+                Tag.objects.get(pk=request.POST['pk']).slug,
+            ],
+        )
+    )
+
 # By Tag Views
 class VisualByTag(ListView):
 
     model = Visual
     context_object_name = 'visuals'
     paginate_by = 32
-    ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
-        return Visual.objects.filter(tags__slug__exact=self.kwargs['slug'])
+        slug = self.kwargs['slug']
+        if self.request.user.is_authenticated:
+            return self.model.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            return self.model.objects.filter(
+                is_public=True,
+                tags__slug__exact=self.slug,
+            ).order_by('-weight')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1248,11 +1342,23 @@ class GalleryByTag(ListView):
 
     model = Gallery
     context_object_name = 'galleries'
-    paginate_by = 6
-    ordering = ['-weight', '-creation_date']
+    paginate_by = 5
 
     def get_queryset(self, *args, **kwargs):
-        return Gallery.objects.filter(tags__slug__exact=self.kwargs['slug'])
+        slug = self.kwargs['slug']
+        if self.request.user.is_authenticated:
+            return self.model.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            return self.model.objects.filter(
+                is_public=True,
+                tags__slug__exact=self.slug,
+            ).order_by('-weight')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1263,11 +1369,23 @@ class AlbumByTag(ListView):
 
     model = Album
     context_object_name = 'albums'
-    paginate_by = 6
-    ordering = ['-weight', '-creation_date']
+    paginate_by = 5
 
     def get_queryset(self, *args, **kwargs):
-        return Album.objects.filter(tags__slug__exact=self.kwargs['slug'])
+        slug = self.kwargs['slug']
+        if self.request.user.is_authenticated:
+            return self.model.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            return self.model.objects.filter(
+                is_public=True,
+                tags__slug__exact=self.slug,
+            ).order_by('-weight')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1278,11 +1396,23 @@ class TrackByTag(ListView):
 
     model = Track
     context_object_name = 'tracks'
-    paginate_by = 6
-    ordering = ['-weight', '-creation_date']
+    paginate_by = 5
 
     def get_queryset(self, *args, **kwargs):
-        return Track.objects.filter(tags__slug__exact=self.kwargs['slug'])
+        slug = self.kwargs['slug']
+        if self.request.user.is_authenticated:
+            return self.model.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            return self.model.objects.filter(
+                is_public=True,
+                tags__slug__exact=self.slug,
+            ).order_by('-weight')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1293,11 +1423,23 @@ class StoryByTag(ListView):
 
     model = Story
     context_object_name = 'stories'
-    paginate_by = 6
-    ordering = ['-weight', '-creation_date']
+    paginate_by = 5
 
     def get_queryset(self, *args, **kwargs):
-        return Story.objects.filter(tags__slug__exact=self.kwargs['slug'])
+        slug = self.kwargs['slug']
+        if self.request.user.is_authenticated:
+            return self.model.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            return self.model.objects.filter(
+                is_public=True,
+                tags__slug__exact=self.slug,
+            ).order_by('-weight')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1308,26 +1450,23 @@ class PostByTag(ListView):
 
     model = Post
     context_object_name = 'posts'
-    paginate_by = 6
-    ordering = ['-weight',]
+    paginate_by = 5
 
     def get_queryset(self, *args, **kwargs):
-        return Post.objects.filter(tags__slug__exact=self.kwargs['slug'])
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
-        return context
-
-class PostByTag(ListView):
-
-    model = Post
-    context_object_name = 'posts'
-    paginate_by = 6
-    ordering = ['-weight', '-creation_date']
-
-    def get_queryset(self, *args, **kwargs):
-        return Post.objects.filter(tags__slug__exact=self.kwargs['slug'])
+        slug = self.kwargs['slug']
+        if self.request.user.is_authenticated:
+            return self.model.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            return self.model.objects.filter(
+                is_public=True,
+                tags__slug__exact=self.slug,
+            ).order_by('-weight')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1338,11 +1477,23 @@ class ArticleByTag(ListView):
 
     model = Article
     context_object_name = 'articles'
-    paginate_by = 6
-    ordering = ['-weight', '-creation_date']
+    paginate_by = 5
 
     def get_queryset(self, *args, **kwargs):
-        return Article.objects.filter(tags__slug__exact=self.kwargs['slug'])
+        slug = self.kwargs['slug']
+        if self.request.user.is_authenticated:
+            return self.model.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            return self.model.objects.filter(
+                is_public=True,
+                tags__slug__exact=self.slug,
+            ).order_by('-weight')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1353,8 +1504,23 @@ class SupportDocumentByTag(ListView):
     
     model = SupportDocument
     context_object_name = 'documents'
-    paginate_by = 6
-    ordering = ['-weight', '-creation_date']
+    paginate_by = 5
+
+    def get_queryset(self, *args, **kwargs):
+        slug = self.kwargs['slug']
+        if self.request.user.is_authenticated:
+            return self.model.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+                tags__slug__exact=slug,
+            ).order_by(
+                'is_public',
+                '-weight',
+            )
+        else:
+            return self.model.objects.filter(
+                is_public=True,
+                tags__slug__exact=self.slug,
+            ).order_by('-weight')
 
     def get_queryset(self, *args, **kwargs):
         return SupportDocument.objects.filter(tags__slug__exact=self.kwargs['slug'])

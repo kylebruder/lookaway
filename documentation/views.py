@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import(
     LoginRequiredMixin,
     PermissionRequiredMixin,
     )
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse_lazy, reverse
@@ -151,11 +152,19 @@ class ArticleListView(ListView):
     context_object_name = 'articles'
 
     def get_queryset(self, *args, **kwargs):
-        return Article.objects.filter(
-            is_public=True,
-        ).order_by(
-            '-publication_date',
-        )
+        if self.request.user.is_authenticated:
+            return Article.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+            ).order_by(
+                'is_public',
+                '-publication_date',
+            )
+        else:
+            return Article.objects.filter(
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -451,11 +460,19 @@ class SupportDocumentListView(ListView):
     context_object_name = 'documents'
 
     def get_queryset(self, *args, **kwargs):
-        return SupportDocument.objects.filter(
-            is_public=True,
-        ).order_by(
-            '-publication_date',
-        )
+        if self.request.user.is_authenticated:
+            return SupportDocument.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+            ).order_by(
+                'is_public',
+                '-publication_date',
+            )
+        else:
+            return SupportDocument.objects.filter(
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -757,11 +774,19 @@ class StoryListView(ListView):
     context_object_name = 'stories'
 
     def get_queryset(self, *args, **kwargs):
-        return Story.objects.filter(
-            is_public=True,
-        ).order_by(
-            '-publication_date',
-        )
+        if self.request.user.is_authenticated:
+            return Story.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True)
+            ).order_by(
+                'is_public',
+                '-publication_date',
+            )
+        else:
+            return Story.objects.filter(
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

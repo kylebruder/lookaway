@@ -123,7 +123,6 @@ class AlbumForm(forms.ModelForm):
         super(AlbumForm, self).__init__(*args, **kwargs)
         self.fields['tracks'].queryset = Track.objects.filter(
             owner=user.pk,
-            is_public=True,
         ).order_by(
             '-last_modified',
         )
@@ -238,6 +237,11 @@ class TrackForm(forms.ModelForm):
         user = kwargs.pop('user')
         super(TrackForm, self).__init__(*args, **kwargs)
         self.fields['image'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['sound'].queryset = Sound.objects.filter(
             owner=user.pk,
         ).order_by(
             '-last_modified',

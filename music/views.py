@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import(
     LoginRequiredMixin,
     PermissionRequiredMixin,
     )
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse_lazy, reverse
@@ -120,11 +121,19 @@ class AlbumListView(ListView):
     context_object_name = 'albums'
 
     def get_queryset(self, *args, **kwargs):
-        return Album.objects.filter(
-            is_public=True,
-        ).order_by(
-            '-publication_date',
-        )
+        if self.request.user.is_authenticated:
+            return Album.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+            ).order_by(
+                'is_public',
+                '-publication_date',
+            )
+        else:
+            return Album.objects.filter(
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -326,11 +335,19 @@ class TrackListView(ListView):
     context_object_name = 'tracks'
 
     def get_queryset(self, *args, **kwargs):
-        return Track.objects.filter(
-            is_public=True,
-        ).order_by(
-            '-publication_date',
-        )
+        if self.request.user.is_authenticated:
+            return Track.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+            ).order_by(
+                'is_public',
+                '-publication_date',
+            )
+        else:
+            return Track.objects.filter(
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

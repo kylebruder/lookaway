@@ -1,6 +1,1 @@
-{% for tag in object.tags.all %}
-  <a href="{% url 'objects:tag_detail' tag.slug %}">
-    <span class="badge badge-secondary">{{ tag }}</span>
-  </a>
-{% endfor %}
-<br>
+{% for tag in object.tags.all %}<a href="{% url 'objects:tag_detail' tag.slug %}"><span class="badge badge-secondary">{{ tag }}</span></a> {% endfor %}<br>

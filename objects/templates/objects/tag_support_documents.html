@@ -1,27 +1,29 @@
 {% if documents %}
   <h5 class="tag-title">Information</h5>
   {% for document in documents %}
-    {% if document.is_public %}
-      <div class="row">
-        <div class="col-">
-          {% if document.image %}
-            <div class="tag-list-image" style="background-image:url('{{ document.image.thumbnail_file.url }}')"></div>
-          {% elif document.owner.profile.image %}
-            <div class="tag-list-image" style="background-image:url('{{ document.owner.profile.image.thumbnail_file.url }}')"></div>
-          {% else %}
-            <div class="tag-list-image" style="background-image:url('/static/icon.webp')"></div>
-          {% endif %}      
-        </div>
-        <div class="col-sm">
-          <p>
-            <a class="tag-title" href="{% url 'documentation:support_document_detail' document.slug %}">{{ document.title }}</a><br>
-            Contributed by <a href="{% url 'members:member_profile' document.owner.username %}">{{ document.owner }}</a>{% if document.is_public %}, last updated on {{ document.last_modified|date:"M d, Y" }}{% endif %}.<br>
-            {{ document.meta_description }}
-          </p>
-        </div>
+    <div class="row">
+      <div class="col-">
+        {% if document.image %}
+          <div class="tag-list-image" style="background-image:url('{{ document.image.thumbnail_file.url }}')"></div>
+        {% elif document.owner.profile.image %}
+          <div class="tag-list-image" style="background-image:url('{{ document.owner.profile.image.thumbnail_file.url }}')"></div>
+        {% else %}
+          <div class="tag-list-image" style="background-image:url('/static/icon.webp')"></div>
+        {% endif %}      
       </div>
-      <br>
-    {% endif %}
+      <div class="col-sm">
+        <p>
+          <a class="tag-title" href="{% url 'documentation:support_document_detail' document.slug %}">{{ document.title }}</a>
+          {% if not document.is_public %}
+            <span class="badge badge-dark">Unpublished</span>
+          {% endif %}
+          <br>
+          Documented by <a href="{% url 'members:member_profile' document.owner.username %}"><span class="index-heading-span">{{ document.owner }}</span></a>{% if document.is_public %}, last updated on {{ document.last_modified|date:"M d, Y" }}{% endif %}.<br>
+          {{ document.meta_description }}
+        </p>
+      </div>
+    </div>
+    <br>
   {% endfor %}
   {% if total_documents > list_length %}
     <p>
