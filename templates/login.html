@@ -3,7 +3,7 @@
 
 <div class="container updates-bg">
     <h3>Authentication</h3>
-    <form method="POST" class="uniForm">
+    <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Submit" class="btn btn-success">

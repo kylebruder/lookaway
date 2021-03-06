@@ -4,7 +4,7 @@
   {% if document.is_public or document.owner.pk == request.user.pk %}
     {% include './supportdocument_detail_button_bar.html' %}
     {% if document.is_public %}
-      <p>by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></p>
+      <p>Documented by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></p>
     {% else %}
       <p>Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}</p>
     {% endif %}

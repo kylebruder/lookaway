@@ -78,6 +78,8 @@ SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 DEBUG = False
 
 ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
     'testserver',
     ]
 
@@ -137,11 +139,11 @@ WSGI_APPLICATION = 'lookaway.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'lookaway',
-        'USER': 'lookaway',
+        'NAME': os.environ['DJANGO_DATABASE_NAME'],
+        'USER': os.environ['DJANGO_DATABASE'],
         'PASSWORD': os.environ['DJANGO_DATABASE_PASSWORD'],
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': os.environ['DJANGO_DATABASE_HOST'],
+        'PORT': os.environ['DJANGO_DATABASE_PORT'],
     }
 }
 
@@ -224,7 +226,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/home/lookaway/logs/debug.log',
+            'filename': os.environ['DJANGO_LOG_PATH'],
         },
     },
     'loggers': {

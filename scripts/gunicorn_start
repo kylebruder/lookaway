@@ -1,0 +1,50 @@
+#!/bin/bash
+###############################################################################
+# Gunicorn Start Script v1
+# by kbruder Tech
+
+# The System V service template provided with this code base,
+# "services/gunicorn.service" looks for this script in the user's home
+# It is a good idea to copy this file to the user's home
+# then edit the copied file. This file will be overwritten when
+# pulling from the Lookaway git repository.
+
+# Set your user, group and environment here.
+user="lookaway"
+group="lookaway"
+virtual_env="lookaway-env"
+
+# Set the gunicorn process name here. It should be unique if you are running 
+# multiple instances in the same environment.
+NAME="lookaway"
+
+# This script assumes you followed our documentation and have created 
+# the virtual environment from the user's home directory AND the 
+# Lookaway code repo was pulled into the virtual enviroment base directory.
+# If this is not the case, then change "DJANGODIR" to the base path of 
+# the virtual enviroment instead.
+DJANGODIR="/home/$user/$virtual_env/lookaway"
+
+WORKERS=4
+BIND=unix:/home/$user/lookaway-env/lookaway/gunicorn.sock
+TIMEOUT=43200
+DJANGO_SETTINGS_MODULE=lookaway.settings
+DJANGO_WSGI_MODULE=lookaway.wsgi
+LOGLEVEL=error
+
+cd /home/$user
+source .bashrc
+source $virtual_env/bin/activate
+
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+export PYTHONPATH=$DJANGODIR:$PYTHONPATH
+
+exec $venv_dir/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
+        --name $NAME \
+        --workers $WORKERS \
+        --user=$user \
+        --group=$group \
+        --bind=$BIND \
+        --timeout=$TIMEOUT
+        --log-level=$LOGLEVEL \
+        --log-file=-

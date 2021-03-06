@@ -136,7 +136,7 @@ Lookaway has inverted the model that nearly all content ranking systems use. Ins
 The Member model inherits the User model from the Django Authentication System in order to leverage all of the wonderful features Django has to offer. Django's authentication mechanisms provide top notch security for Member authentication due to their very well maintained code repository.
 
 #### Profile Page
-The Profile page is a page dedicated to the contributions of an individual Member. The content and media with the highest marshmallow weight is displayed on the Profile page. The Member's username will be displayed in the heading unless a first AND last name are provided. A Member can choose an Image to be displayed on their Profile and on pages on the site that call for a Member's Profile Image. A Member can add any string of text (safe of markup and code injections) that is less than 65,335 characters long including whitespaces to their Profile page.
+The Profile page is a page dedicated to the contributions of an individual Member. The content and media with the highest marshmallow weight is displayed on the Profile page. The Member's username will be displayed in the heading unless a first AND last name are provided. Alternatively, you can choose a Display Name instead of your real name or username. A Member can choose an Image to be displayed on their Profile and on pages on the site that call for a Member's Profile Image. A Member can add any string of text (safe of markup and code injections) that is less than 65,335 characters long including whitespaces to their Profile page.
 
 #### Studio Page
 The Studio Page is a graphical user interface that allows you and your members to upload files and create and edit web pages. The heads up display shows you objects that were recently created or modified to easily resume work. There is a progress bar that shows how much disk space you are allotted and currently using. 
@@ -160,19 +160,19 @@ Lookaway CMS Tags are key-value pairs that can be attached to any model class th
 
 The Image object is a database model that points to an uploaded image file on the storage filesystem and contains metadata and contextual data. 
 
-*COMING SOON* - Uploaded image files are reformatted for optimal web page loading performance. The filename is randomized for added obfuscation. The upload handler will attempt to remove EXIF data as well.
+Uploaded image files are reformatted for optimal web page loading performance. The filename is randomized for added obfuscation. The upload handler will attempt to remove EXIF data as well.
 
 #### Sounds
 
 The Sound object is a database model that points to an uploaded audio file on the storage filesystem and contains metadata and contextual data. 
 
-*COMING SOON* - Uploaded sound files are reformatted for optimal web page loading performance. The filename is randomized for added obfuscation. The upload handler will attempt to remove EXIF data as well
+Uploaded sound files are reformatted for optimal web page loading performance. The filename is randomized for added obfuscation. The upload handler will attempt to remove EXIF data as well
 
 #### Videos
 
 The video object is a database model that points to an uploaded video file on the storage filesystem and contains metadata and contextual data. 
 
-*COMING SOON* - Uploaded video are reformatted for optimal web page loading performance. The filename is randomized for added obfuscation.
+Uploaded video are reformatted for optimal web page loading performance. The filename is randomized for added obfuscation.
 
 #### Code
 
