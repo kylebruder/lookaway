@@ -6,7 +6,7 @@ After=network.target
 User=lookaway
 Group=lookaway
 WorkingDirectory=/home/lookaway/lookaway-env/lookaway
-ExecStart=/home/lookaway/lookaway-env/lookaway/gunicorn_start
+ExecStart=/home/lookaway/gunicorn_start
 
 [Install]
 WantedBy=multi-user.target
