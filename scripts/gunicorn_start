@@ -26,7 +26,7 @@ NAME="lookaway"
 DJANGODIR="/home/$user/$virtual_env/lookaway"
 
 WORKERS=4
-BIND=unix:/home/$user/lookaway-env/lookaway/gunicorn.sock
+BIND=unix:/home/$user/$virtual_env/lookaway/gunicorn.sock
 TIMEOUT=43200
 DJANGO_SETTINGS_MODULE=lookaway.settings
 DJANGO_WSGI_MODULE=lookaway.wsgi
@@ -39,7 +39,7 @@ source $virtual_env/bin/activate
 export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
-exec $venv_dir/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
+exec $virtual_env/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
         --name $NAME \
         --workers $WORKERS \
         --user=$user \
