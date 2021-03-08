@@ -43,10 +43,10 @@ copy_settings_template () {
 }
 
 insert_env () {
-    if  ! egrep "^${1}=" $env_var_file > /dev/null; then
+    if  ! egrep "^export ${1}=" $env_var_file > /dev/null; then
         echo "Enter ${2}: ";
         read;
-        echo "${1}='${REPLY}'" >> $env_var_file
+        echo "export ${1}='${REPLY}'" >> $env_var_file
         if [ $? ]; then
             echo "${1} $t2 '$env_var_file'."
         fi
@@ -133,48 +133,48 @@ select var in "${django_vars[@]}"; do
         # PostgreSQL Database
         "PostgreSQL Database Name")
             ## Database Name
-            insert_env "export DJANGO_DATABASE_NAME" "the name of the PostgreSQL database"
+            insert_env "DJANGO_DATABASE_NAME" "the name of the PostgreSQL database"
             ;;
         "PostgreSQL Database User")
             ## Database User
-            insert_env "export DJANGO_DATABASE_USER" "the name of the PostgreSQL user"
+            insert_env "DJANGO_DATABASE_USER" "the name of the PostgreSQL user"
             ;;
         "PostgreSQL Database Password")
             ## Database Password
-            insert_env "export DJANGO_DATABASE_PASSWORD" "the PostgreSQL user password"
+            insert_env "DJANGO_DATABASE_PASSWORD" "the PostgreSQL user password"
             ;;
         "PostgreSQL Database Host")
             ## Database Host
-            insert_env "export DJANGO_DATABASE_HOST" "the PostgreSQL host"
+            insert_env "DJANGO_DATABASE_HOST" "the PostgreSQL host"
             ;;
         "PostgreSQL Database Port Number")
             ## Database Port
-            insert_env "export DJANGO_DATABASE_PORT" "the PostgreSQL host port number"
+            insert_env "DJANGO_DATABASE_PORT" "the PostgreSQL host port number"
             ;;
         # Email
         "Email 'from' Name")
             ## Email From
-            insert_env "export ES_FROM" "the name of the sender for the automated password recovery service"
+            insert_env "ES_FROM" "the name of the sender for the automated password recovery service"
             ;;
         "Email Server Host")
             ## Email Host
-            insert_env "export ES_HOST" "the Email Server host"
+            insert_env "ES_HOST" "the Email Server host"
             ;;
         "Email Server Port")
             ## Email Port
-            insert_env "export ES_PORT" "the Email Server port"
+            insert_env "ES_PORT" "the Email Server port"
             ;;
         "Email Server User")
             ## Email User
-            insert_env "export ES_USER" "the name of the Email Server user"
+            insert_env "ES_USER" "the name of the Email Server user"
             ;;
         "Email Server Password")
             ## Email Password
-            insert_env "export ES_PASS" "the Email Server user password"
+            insert_env "ES_PASS" "the Email Server user password"
             ;;
         "Django Log File")
             ## Log File
-            insert_env "export DJANGO_LOG_PATH" "the path to the file where log entries will be written"
+            insert_env "DJANGO_LOG_PATH" "the path to the file where log entries will be written"
             ;;
         "Exit")
             echo $h2
