@@ -140,7 +140,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.environ['DJANGO_DATABASE_NAME'],
-        'USER': os.environ['DJANGO_DATABASE'],
+        'USER': os.environ['DJANGO_DATABASE_USER'],
         'PASSWORD': os.environ['DJANGO_DATABASE_PASSWORD'],
         'HOST': os.environ['DJANGO_DATABASE_HOST'],
         'PORT': os.environ['DJANGO_DATABASE_PORT'],

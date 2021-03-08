@@ -1,12 +1,12 @@
 [Unit]
-Description=gunicorn daemon
+Description=lookaway gunicorn daemon
 After=network.target
 
 [Service]
 User=lookaway
 Group=lookaway
 WorkingDirectory=/home/lookaway/lookaway-env/lookaway
-ExecStart=/home/lookaway/gunicorn_start
+ExecStart=/home/lookaway/lookaway_start
 
 [Install]
 WantedBy=multi-user.target
