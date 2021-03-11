@@ -31,9 +31,12 @@ class DocumentationPageView(TemplateView):
         return round(math.ceil((n/1.5)/2) * 2)
 
     def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # SEO
+        context['meta_title'] = "Lookaway Zine"
+        context['meta_desc'] = "New digital multimedia by worldwide contributors."
         # Number of items to show in each list
         n = 5
-        context = super().get_context_data(**kwargs)
         # Articles
         public_articles = Article.objects.filter(is_public=True)
         if public_articles.count() >= n:
@@ -536,10 +539,11 @@ class SupportDocumentDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         
         sections = SupportDocSection.objects.filter(support_reference=self.object.pk)
-        context['refs'] = ()
+        context['refs'] = {}
         for s in sections:
             if s.support_document not in context['refs']:
-                context['refs'] += (s.support_document,)
+                context['refs'][s.support_document] = s.pk
+        print(context['refs'])
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
             if member.check_can_allocate() and not member.check_is_new():

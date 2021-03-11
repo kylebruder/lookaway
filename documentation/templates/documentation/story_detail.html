@@ -3,12 +3,22 @@
 <div class="container documentation-story-bg">
   {% if story.is_public or story.owner.pk == request.user.pk %}
     {% include './story_detail_button_bar.html' %}
-    <p>by {{ story.author }}</p>
-    {% if story.image %}
-      <img class="documentation-image" src="{{ story.image.image_file.url }}" alt="{{ story.image.title }}">
-      <br>
-      <br>
+    {% if story.is_public %}
+      <p>Written by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></p><br>
+    {% else %}
+      <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}</p><br>
     {% endif %}
+    <!-- Heading -->
+    <div class="row">
+      <!-- Table of Contents -->
+        {% include './table_of_contents.html' %}
+      <!-- Header Image -->
+      {% with story.image as image %}
+        {% include './header_image.html' %}
+      {% endwith %}
+    </div>
+    <br>
+    <br>
     {% if story.intro %}
       <h4 class="documentation-title">Foreward</h4>
       {{ story.intro|linebreaks }}

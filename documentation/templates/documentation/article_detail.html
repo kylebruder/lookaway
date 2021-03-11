@@ -4,15 +4,21 @@
   {% if article.is_public or article.owner.pk == request.user.pk %}
     {% include './article_detail_button_bar.html' %}
     {% if article.is_public %}
-      <p>by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></p>
+      <p>Written by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, published on {{ object.publication_date }}{% if object.last_modified > object.publication_date %}, last updated on {{ object.last_modified }}{% endif %}</p><br>
     {% else %}
-      <p>Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}</p>
+      <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}</p><br>
     {% endif %}
-    {% if article.image %}
-      <img class="documentation-image" src="{{ article.image.image_file.url }}" alt="{{ article.image.title }}">
-      <br>
-      <br>
-    {% endif %}
+    <!-- Heading -->
+    <div class="row">
+      <!-- Table of Contents -->
+        {% include './table_of_contents.html' %}
+      <!-- Header Image -->
+      {% with article.image as image %}
+        {% include './header_image.html' %}
+      {% endwith %}
+    </div>
+    <br>
+    <br>
     {{ article.intro|linebreaks }}
     <br>
     {% if sections %}
@@ -32,15 +38,7 @@
       {% include './object_tags.html' %}
       <br>
     {% endif %}
-    {% if article.is_public %}
-      Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}<br>
-      {% if object.last_modified > object.creation_date %}
-        Last updated on {{ object.last_modified }}<br>
-      {% endif %}
-    {% else %}
-      Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<br>
-      <br>
-    {% endif %}
+    {% include 'object_meta_data.html' %}
     <br>
   {% else %}
     <p>This Article has not been published yet.</p>

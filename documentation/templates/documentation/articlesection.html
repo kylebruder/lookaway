@@ -1,6 +1,11 @@
 <div class="documentation-section">
+  <!-- Anchor for URI fragments to Offset the Nav Bar-->
+  <span id="section-{{ section.pk }}" class="documentation-section-anchor"></span>
+  <!-- Section Title -->
   {% include './articlesection_detail_button_bar.html' %}
+  <!-- Section Text -->
   {{ section.text|linebreaks }}
+  <!-- Section Images -->
   {% if section.images.count > 0 %}
     {% for image in section.images.all %}
       <div class="documentation-section-image">

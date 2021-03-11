@@ -117,8 +117,15 @@
 
 .documentation-image {
   max-width: 100%;
-  max-height: 750px;
-  border-radius: 5px;
+  max-height: 500px;
+}
+
+.documentation-header-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  max-height: 500px;
 }
 
 .documentation-list-image {
@@ -162,12 +169,24 @@
 
 .documentation-section {
   max-width: 100%;
+  position: relative;
+}
+
+.documentation-section-anchor {
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  z-index: -1;
+  top: -90px;
+  left: 0;
+  visibility: hidden;
 }
 
 .documentation-story-section-image {
-  max-width: 250px;
-  margin-left: 15px;
-  margin-right: 40px;
+  width: 335px;
+  margin-right: 30px;
+  margin-bottom: 15px;
   font-size: 0.75em;
   display: inline-block;
 }

@@ -4,19 +4,25 @@
   {% if document.is_public or document.owner.pk == request.user.pk %}
     {% include './supportdocument_detail_button_bar.html' %}
     {% if document.is_public %}
-      <p>Documented by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></p>
+      <p>Written by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, published on {{ object.publication_date }}{% if object.last_modified > object.publication_date %}, last updated on {{ object.last_modified }}{% endif %}</p><br>
     {% else %}
-      <p>Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}</p>
+      <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}</p><br>
     {% endif %}
-    {% if document.image %}
-      <img class="documentation-image" src="{{ document.image.image_file.url }}" alt="{{ document.image.title }}"><br>
-      {% if document.image.owner.pk == request.user.pk %}
-        <a href="{% url 'objects:image_update' document.image.pk %}?next={{ request.path }}">
-          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-        </a>
+    <!-- Heading -->
+    <div class="row">
+      <!-- Table of Contents -->
+      {% if document.numbered %}
+        {% include './numbered_table_of_contents.html' %}
+      {% else %}
+        {% include './table_of_contents.html' %}
       {% endif %}
-      <br>
-    {% endif %}
+      <!-- Header Image -->
+      {% with document.image as image %}
+        {% include './header_image.html' %}
+      {% endwith %}
+    </div>
+    <br>
+    <br>
     {{ document.intro|linebreaks }}
     <br>
     {% if sections %}
@@ -40,9 +46,9 @@
     <br>
     {% if refs|length > 0 %}
       <h4 class="documentation-title">Referenced by</h4>
-      {% for ref in refs %}
-        <h5><a class="documentation-title" href="{% url 'documentation:support_document_detail' ref.slug %}">{{ ref }}</a></h5>
-        <p>{{ ref.meta_description }}</p>
+      {% for r, s in refs.items %}
+        <h5><a class="documentation-title" href="{% url 'documentation:support_document_detail' r.slug %}#section-{{ s }}">{{ r }}</a></h5>
+        <p>{{ r.meta_description }}</p>
       {% endfor %}
     {% endif %}
     {% if document.links.count > 0 %}
@@ -55,14 +61,7 @@
       {% include './object_tags.html' %}
       <br>
     {% endif %}
-    {% if document.is_public %}
-      Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}<br>
-      {% if object.last_modified > object.creation_date %}
-        Last updated on {{ object.last_modified }}<br>
-      {% endif %}
-    {% else %}
-      Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<br>
-    {% endif %}
+    {% include 'object_meta_data.html' %}
     <br>
   {% else %}
     <p>This Support Document has not been published yet.</p>
