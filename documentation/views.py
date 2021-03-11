@@ -269,7 +269,10 @@ class ArticleDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
     model = Article
 
     def get_success_url(self):
-        return reverse('members:studio')
+        return reverse(
+            'documentation:member_articles',
+            kwargs={'member': self.request.user.username},
+         )
 
 def add_marshmallow_to_article_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -420,12 +423,38 @@ class ArticleSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView
                 kwargs={'pk': self.object.pk},
             )
 
-class ArticleSectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class ArticleSectionDeleteView(LoginRequiredMixin, DeleteView):
 
     model = ArticleSection
+    success_url = "/documentation/articles/{article_id}/"
 
-    def get_success_url(self):
-        return reverse('members:studio')
+    def post(self, request, *args, **kwargs):
+        instance = self.model.objects.get(pk=kwargs['pk'])
+        if self.request.POST and self.request.user.pk == instance.owner.pk:
+            instance.delete()                
+            messages.add_message(
+                request, messages.INFO,
+                'The {} "{}" has been successfully deleted.'.format(
+                    self.model.__name__,
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                    'documentation:article_detail',
+                    kwargs={'slug': instance.article.slug},
+                )
+            )
+    
+        else:
+            messages.add_message(
+                request, messages.ERROR,
+                'You do not own "{}". Delete Failed. It is not nice to delete \
+                other people\'s work!'.format(instance)
+            )
+            return HttpResponseRedirect(
+                reverse('home:index')
+            )
 
 # Support Document Views
 
@@ -584,7 +613,10 @@ class SupportDocumentDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteVie
     model = SupportDocument
 
     def get_success_url(self):
-        return reverse('members:studio')
+        return reverse(
+            'documentation:member_support_documents',
+            kwargs={'member': self.request.user.username},
+         )
 
 def add_marshmallow_to_support_document_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -739,8 +771,33 @@ class SupportDocSectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteV
 
     model = SupportDocSection
 
-    def get_success_url(self):
-        return reverse('members:studio')
+    def post(self, request, *args, **kwargs):
+        instance = self.model.objects.get(pk=kwargs['pk'])
+        if self.request.POST and self.request.user.pk == instance.owner.pk:
+            instance.delete()
+            messages.add_message(
+                request, messages.INFO,
+                'The {} "{}" has been successfully deleted.'.format(
+                    self.model.__name__,
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                    'documentation:support_document_detail',
+                    kwargs={'slug': instance.support_document.slug},
+                )
+            )
+
+        else:
+            messages.add_message(
+                request, messages.ERROR,
+                'You do not own "{}". Delete Failed. It is not nice to delete \
+                other people\'s work!'.format(instance)
+            )
+            return HttpResponseRedirect(
+                reverse('home:index')
+            )
 
 # Story Views
 
@@ -892,7 +949,10 @@ class StoryDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
     model = Story
 
     def get_success_url(self):
-        return reverse('members:studio')
+        return reverse(
+            'documentation:member_stories',
+            kwargs={'member': self.request.user.username},
+         )
 
 def add_marshmallow_to_story_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -1047,5 +1107,30 @@ class StorySectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = StorySection
 
-    def get_success_url(self):
-        return reverse('members:studio')
+    def post(self, request, *args, **kwargs):
+        instance = self.model.objects.get(pk=kwargs['pk'])
+        if self.request.POST and self.request.user.pk == instance.owner.pk:
+            instance.delete()
+            messages.add_message(
+                request, messages.INFO,
+                'The {} "{}" has been successfully deleted.'.format(
+                    self.model.__name__,
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                    'documentation:story_detail',
+                    kwargs={'slug': instance.story.slug},
+                )
+            )
+
+        else:
+            messages.add_message(
+                request, messages.ERROR,
+                'You do not own "{}". Delete Failed. It is not nice to delete \
+                other people\'s work!'.format(instance)
+            )
+            return HttpResponseRedirect(
+                reverse('home:index')
+            )
