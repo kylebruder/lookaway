@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import Textarea
 from templates.widgets import ImagePreviewWidget, SoundPreviewWidget, VideoPreviewWidget, FictionWidget
+from crypto.models import BitcoinWallet, LitecoinWallet
 from members.models import Member
 from objects.models import Image, Sound, Video, Code, Link
 from .models import Article, ArticleSection, Story, StorySection, SupportDocument, SupportDocSection
@@ -91,6 +92,8 @@ class ArticleForm(forms.ModelForm):
             'image',
             'links',
             'tags',
+            'bitcoin_wallet',
+            'litecoin_wallet',
         )
         help_texts = {
             'image': """Choose an image that represents the topic of the \
@@ -103,6 +106,16 @@ class ArticleForm(forms.ModelForm):
         user = kwargs.pop('user')
         super(ArticleForm, self).__init__(*args, **kwargs)
         self.fields['image'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['bitcoin_wallet'].queryset = BitcoinWallet.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['litecoin_wallet'].queryset = LitecoinWallet.objects.filter(
             owner=user.pk,
         ).order_by(
             '-last_modified',
@@ -268,6 +281,8 @@ class SupportDocumentForm(forms.ModelForm):
             'links',
             'tags',
             'numbered',
+            'bitcoin_wallet',
+            'litecoin_wallet',
         )
         help_texts = {
             'image': """Choose an image that represents the topic of the \
@@ -282,6 +297,16 @@ class SupportDocumentForm(forms.ModelForm):
         user = kwargs.pop('user')
         super(SupportDocumentForm, self).__init__(*args, **kwargs)
         self.fields['image'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['bitcoin_wallet'].queryset = BitcoinWallet.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['litecoin_wallet'].queryset = LitecoinWallet.objects.filter(
             owner=user.pk,
         ).order_by(
             '-last_modified',
@@ -466,7 +491,7 @@ class StoryForm(forms.ModelForm):
             }
         ),
         help_text="""Introduce the topic and context of the Story""",
-        label="Preface (optional)",
+        label="Foreword (optional)",
         max_length=65535,
         required=False,
     )
@@ -478,7 +503,7 @@ class StoryForm(forms.ModelForm):
         ),
         help_text="""Restate any information, observations, evidence or other \
             details and tie it all together""",
-        label="Afterward (optional)",
+        label="Afterword (optional)",
         max_length=65535,
         required=False,
     )
@@ -517,6 +542,8 @@ class StoryForm(forms.ModelForm):
             'image',
             'links',
             'tags',
+            'bitcoin_wallet',
+            'litecoin_wallet',
         )
         help_texts = {
             'image': """Choose an image that represents the topic of the \
@@ -529,6 +556,16 @@ class StoryForm(forms.ModelForm):
         user = kwargs.pop('user')
         super(StoryForm, self).__init__(*args, **kwargs)
         self.fields['image'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['bitcoin_wallet'].queryset = BitcoinWallet.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['litecoin_wallet'].queryset = LitecoinWallet.objects.filter(
             owner=user.pk,
         ).order_by(
             '-last_modified',

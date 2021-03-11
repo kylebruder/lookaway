@@ -33,11 +33,14 @@
       {% with article.links.all as links %}
         {% include 'object_links.html' %}
       {% endwith %}
+      <br>
     {% endif %}
+    {% include 'object_crypto_wallets.html' %}
     {% if article.tags.count > 0 %}
       {% include './object_tags.html' %}
       <br>
     {% endif %}
+
     {% include 'object_meta_data.html' %}
     <br>
   {% else %}

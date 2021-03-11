@@ -56,7 +56,9 @@
       {% with document.links.all as links%}
         {% include 'object_links.html' %}
       {% endwith %}
+      <br>
     {% endif %}
+    {% include 'object_crypto_wallets.html' %}
     {% if document.tags.count > 0 %}
       {% include './object_tags.html' %}
       <br>

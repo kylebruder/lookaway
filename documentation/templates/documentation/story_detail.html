@@ -32,7 +32,7 @@
       <br>
     {% endif %}
     {% if story.outro %}
-      <h4 class="documentation-title">Afterward</h4>
+      <h4 class="documentation-title">Afterword</h4>
       {{ story.outro|linebreaks }}
       <br>
     {% endif %}
@@ -42,7 +42,9 @@
       {% with story.links.all as links %}
         {% include 'object_links.html' %}
       {% endwith %}
+      <br>
     {% endif %}
+    {% include 'object_crypto_wallets.html' %}
     {% if story.tags.count > 0 %}
       {% include './object_tags.html' %}
       <br>
