@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from objects.models import MetaDataMixin
+from crypto.models import CryptoWalletsMixin
 from members.mixins import MarshmallowMixin
 
 # Create your models here.
@@ -47,7 +48,7 @@ class Section(MetaDataMixin):
     def __str__(self):
         return self.title
 
-class Doc(MetaDataMixin, MarshmallowMixin):
+class Doc(MetaDataMixin, MarshmallowMixin, CryptoWalletsMixin):
 
     class Meta:
         abstract = True
@@ -81,7 +82,7 @@ class Doc(MetaDataMixin, MarshmallowMixin):
         blank=True,
         null=True,
     )
-
+    
     def __str__(self):
         return self.title
 
