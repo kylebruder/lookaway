@@ -16,9 +16,8 @@ from django.views.generic.list import ListView
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from objects.utils import Text
-from posts.models import Post
 from .forms import ArticleForm, ArticleSectionForm, StoryForm, StorySectionForm, SupportDocumentForm, SupportDocSectionForm
-from .models import Article, ArticleSection, Story, StorySection, SupportDocument, SupportDocSection
+from .models import Article, ArticleSection, Story, StorySection, SupportDocument, SupportDocSection, DocumentationAppProfile
 
 # Create your views here.
 
@@ -32,9 +31,15 @@ class DocumentationPageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # SEO
-        context['meta_title'] = "Lookaway Zine"
-        context['meta_desc'] = "New digital multimedia by worldwide contributors."
+        # App Profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['meta_title'] = profile.title
+        context['meta_desc'] = profile.meta_description
+        context['app_text'] = profile.text
+        context['app_logo'] = profile.logo
+        context['app_banner'] = profile.banner
+        context['app_bg_image'] = profile.bg_image
+        context['links'] = profile.links
         # Number of items to show in each list
         n = 5
         # Articles
@@ -65,21 +70,21 @@ class DocumentationPageView(TemplateView):
         # Stories
         if self.request.user.is_authenticated:
             public_stories = Story.objects.filter(is_public=True)
-        # Do not send member only Articles to non members
+        # Do not send member only Stories to non members
         else:
             public_stories = Story.objects.filter(
                 is_public=True,
             )
         if public_stories.count() >= n:
             # Get the date of the nth newest Story
-            # if there are n or more Storys
+            # if there are n or more Stories
             last_new_story_date = public_stories.order_by(
                 '-publication_date',
             )[n-1].publication_date
             context['new_stories'] = public_stories.order_by(
                 '-publication_date',
             )[:n]
-            # Exclude any Article that appears in the new releases list
+            # Exclude any Story that appears in the new releases list
             # from the top Story list
             context['top_stories'] = public_stories.order_by(
                 '-weight',
@@ -93,7 +98,7 @@ class DocumentationPageView(TemplateView):
         # SupportDocuments
         if self.request.user.is_authenticated:
             public_documents = SupportDocument.objects.filter(is_public=True)
-        # Do not send member only Articles to non members
+        # Do not send member only Documents to non members
         else:
             public_documents = SupportDocument.objects.filter(
                 is_public=True,
@@ -107,7 +112,7 @@ class DocumentationPageView(TemplateView):
             context['new_documents'] = public_documents.order_by(
                 '-publication_date',
             )[:n]
-            # Exclude any Article that appears in the new releases list
+            # Exclude any Document that appears in the new releases list
             # from the top Document list
             context['top_documents'] = public_documents.order_by(
                 '-weight',

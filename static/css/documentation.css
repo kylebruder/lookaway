@@ -120,6 +120,11 @@
   max-height: 500px;
 }
 
+.documentation-header {
+  margin: 5px;
+  padding: 10px;
+}
+
 .documentation-header-image {
   display: block;
   margin-left: auto;
@@ -147,8 +152,20 @@
   border-color: #111111;
 }
 
+.documentation-logo {
+  max-height: 100px;
+  max-width: auto;
+  margin-bottom: 10px;
+}
+
 .documentation-meta {
   font-size: 0.8em;
+}
+
+.documentation-page-span {
+  background-color: #222222;
+  padding: 5px;
+  margin-top: 5px;
 }
 
 .documentation-page-section {
