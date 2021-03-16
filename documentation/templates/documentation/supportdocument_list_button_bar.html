@@ -1,21 +1,23 @@
 <div class="row">
+  {% if app_logo %}
+    <div class="col-">
+      <div class="container">
+        <a href="{% url 'documentation:documentation_page' %}">
+          <img class="documentation-logo" src="{{ app_logo.image_file.url }}" alt="{{ app_logo.thumbnail_file.title }}">
+        </a>
+      </div>
+    </div>
+  {% endif %}
   <div class="col">
-    {% if user_only %}
-      <h3 class="brand-title">{{ member }}'s Information</h3>
-    {% elif tag %}
-      <h3 class="brand-title">
-        Lookaway Information tagged with <span class="badge badge-secondary">{{ tag }}</span>
+    {% if tag %}
+      <h3 class="documentation-title">
+        <span class="documentation-page-span">Information tagged with</span> <span class="badge badge-secondary">{{ tag }}</span>
       </h3>
     {% else %}
-      <h3 class="brand-title">
-        {% if new %}New
-        {% elif top %}Top
-        {% endif %}
-        Lookaway Information
-      </h3>
+      <br><h3 class="documentation-title"><span class="documentation-page-span">{% if meta_title %}{{ meta_title }}{% else %}Information{% endif %}</span></h3>
     {% endif %}
   </div>
-  {% if request.user.is_authenticated and request.user.is_staff %}
+  {% if request.user.is_authenticated %}
     <div class="col-">
       <div class="container">
         <a href="{% url 'documentation:support_document_create' %}">

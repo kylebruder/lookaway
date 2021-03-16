@@ -7,7 +7,10 @@
     </div>
   {% endif %}
   <div class="col">
-    <h2 class="brand-title"><br><span class="documentation-page-span">{{ meta_title }}</span></h2>
+    <h2 class="documentation-title"><span class="documentation-page-span">{{ meta_title }}</span></h2>
+    {% if meta_desc %}
+      <span class="documentation-page-span"><i>{{ meta_desc }}</i></span><br><br>
+    {% endif %}
   </div>
   {% if request.user.is_authenticated %}
     <div class="col-">

@@ -1,5 +1,5 @@
-{% for document in documents %}
-  {% if document.is_public or document.owner.pk == request.user.pk %}
+<div class="row">
+  {% for document in documents %}
     {% include './supportdocument_item.html' %}
-  {% endif %}
-{% endfor %}
+  {% endfor %}
+</div>

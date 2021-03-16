@@ -1,17 +1,15 @@
 {% if page_obj.has_other_pages %}
-  <div class="images-pagination clear">
-    <span class="step-links">
-      {% if page_obj.has_previous %}
-        <a href="?page=1"><<</a>
-        <a href="?page={{page_obj.previous_page_number}}"><</a>
-      {% endif %}
-      <span class="images-current">
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages}}
-      </span>
-      {% if page_obj.has_next %}
-        <a href="?page={{page_obj.next_page_number}}">></a>
-        <a href="?page={{page_obj.paginator.num_pages}}">>></a>
-      {% endif %}
-    </span>
-  </div>
+  <span class="pagination-span">
+    {% if page_obj.has_previous %}
+      <a href="?page=1">&#9665;&#9665;&nbsp;</a>
+      <a href="?page={{page_obj.previous_page_number}}">&#9665;&nbsp;</a>
+    {% endif %}
+    <span class="images-current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages}}
+    </span>&nbsp;
+    {% if page_obj.has_next %}
+      <a href="?page={{page_obj.next_page_number}}">&#9655;</a>&nbsp;
+      <a href="?page={{page_obj.paginator.num_pages}}">&#9655;&#9655;</a>
+    {% endif %}
+  </span>
 {% endif %}

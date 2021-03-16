@@ -1,18 +1,20 @@
 {% extends 'base.html' %}
 {% block body_block %}
-<div class="container documentation-bg">
-  {% include "./article_list_button_bar.html" %}
-  {% include './documentation_page_navbar.html' %}
-  {% if articles %}
-    {% include 'page_control.html' %}
-    <ul class="list-group">
-      {% include "./article_list_item.html" %}
-    </ul>
-    {% include "page_control.html" %}
+<div class="container-fluid documentation-bg" style="{% if app_bg_image %} background-image: url('{{ app_bg_image.image_file.url }}');{% endif %}">
+  <div class="documentation-header" style="{% if app_banner %} background-image: url('{{ app_banner.image_file.url }}');{% endif %}">
+    {% include "./article_list_button_bar.html" %}
     <br>
+    {% include './documentation_page_navbar.html' %}
+    <br>
+  </div>
+  {% if articles %}
+    {% if page_obj.has_other_pages %}<span class="documentation-page-span">{% include 'page_control.html' %}</span>{% endif %}
+    {% include "./article_list_item.html" %}
+    {% if page_obj.has_other_pages %}<span class="documentation-page-span">{% include 'page_control.html' %}</span>{% endif %}
   {% else %}
-    <p>No articles have been published yet. Check back soon!</p>
+    <p class="documentation-page-span">No articles have been published yet. Check back soon!</p>
     <br>
   {% endif %}
+  <br>
 </div>
 {% endblock %}

@@ -41,7 +41,7 @@ class DocumentationPageView(TemplateView):
         context['app_bg_image'] = profile.bg_image
         context['links'] = profile.links
         # Number of items to show in each list
-        n = 5
+        n = 3
         # Articles
         public_articles = Article.objects.filter(is_public=True)
         if public_articles.count() >= n:
@@ -53,14 +53,14 @@ class DocumentationPageView(TemplateView):
             # Get the 5 newest Articles.
             context['new_articles'] = public_articles.order_by(
                 '-publication_date',
-            )[:self.calculate_article_list_length(n)]
+            )[:n]
             # Exclude any Article that appears in the new articles list
             # from the top Article list.
             context['top_articles'] = public_articles.order_by(
                 '-weight',
             ).exclude(
                 publication_date__gte=last_new_article_date,
-            )[:self.calculate_article_list_length(n)]
+            )[:n]
         # If there are less than 5 Articles,
         # include all of them in the new Article list.
         else:
@@ -156,7 +156,7 @@ class ArticleCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 class ArticleListView(ListView):
 
     model = Article
-    paginate_by = 5
+    paginate_by = 6
     context_object_name = 'articles'
 
     def get_queryset(self, *args, **kwargs):
@@ -176,13 +176,24 @@ class ArticleListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = "New Articles | {}".format(
+            profile.title,
+            )
+        context['meta_desc'] = "Recently published articles by {} contributors.".format(
+            profile.title,
+        )
         context['new'] = True
         return context   
 
 class TopArticleListView(ListView):
 
     model = Article
-    paginate_by = 5
+    paginate_by = 6
     context_object_name = 'articles'
 
     def get_queryset(self, *args, **kwargs):
@@ -195,13 +206,24 @@ class TopArticleListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = "Top Articles | {}".format(
+            profile.title,
+            )
+        context['meta_desc'] = "The all time greatest {} articles.".format(
+            profile.title,
+        )
         context['top'] = True
         return context   
 
 class MemberArticleView(ListView):
 
     model = Article
-    paginate_by = 5
+    paginate_by = 6
     context_object_name = 'articles'
 
     def get_queryset(self, *args, **kwargs):
@@ -223,6 +245,19 @@ class MemberArticleView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(username=self.kwargs['member'])
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = "Articles by {} | {}".format(
+            member,
+            profile.title,
+            )
+        context['meta_desc'] = "Articles written by {} for {}.".format(
+            member,
+            profile.title,
+        )
         context['user_only'] = True
         context['member'] = member
         return context
@@ -299,7 +334,7 @@ def add_marshmallow_to_article_view(request, pk):
                 messages.ERROR,
                 'You are not allowed to give marshmallows at this time'
             )
-    return HttpResponseRedirect(reverse('documentation:public_articles'))
+    return HttpResponseRedirect(reverse('documentation:top_articles'))
 
 def publish_article_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -375,7 +410,7 @@ class ArticleSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView
 class MemberArticleSectionView(LoginRequiredMixin, ListView):
 
     model = ArticleSection
-    paginate_by = 5
+    paginate_by = 6
     context_object_name = 'sections'
 
     def get_queryset(self, *args, **kwargs):
@@ -493,7 +528,7 @@ class SupportDocumentCreateView(LoginRequiredMixin, MemberCreateMixin, CreateVie
 class SupportDocumentListView(ListView):
 
     model = SupportDocument
-    paginate_by = 5
+    paginate_by = 6
     context_object_name = 'documents'
 
     def get_queryset(self, *args, **kwargs):
@@ -513,13 +548,24 @@ class SupportDocumentListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = "New Information | {}".format(
+            profile.title,
+            )
+        context['meta_desc'] = "Recently published documentation by {} staff contributors.".format(
+            profile.title,
+        )
         context['new'] = True
         return context   
 
 class TopSupportDocumentListView(ListView):
 
     model = SupportDocument
-    paginate_by = 5
+    paginate_by = 6
     context_object_name = 'documents'
 
     def get_queryset(self, *args, **kwargs):
@@ -532,13 +578,24 @@ class TopSupportDocumentListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = "Top Information | {}".format(
+            profile.title,
+            )
+        context['meta_desc'] = "Important information documented by {} contributors.".format(
+            profile.title,
+        )
         context['top'] = True
         return context
 
 class MemberSupportDocumentView(ListView):
 
     model = SupportDocument
-    paginate_by = 5
+    paginate_by = 6
     context_object_name = 'documents'
 
     def get_queryset(self, *args, **kwargs):
@@ -560,6 +617,9 @@ class MemberSupportDocumentView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(username=self.kwargs['member'])
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
         context['user_only'] = True
         context['member'] = member
         return context
@@ -643,7 +703,7 @@ def add_marshmallow_to_support_document_view(request, pk):
                 messages.ERROR,
                 'You are not allowed to give marshmallows at this time'
             )
-    return HttpResponseRedirect(reverse('documentation:public_support_documents'))
+    return HttpResponseRedirect(reverse('documentation:top_support_documents'))
 
 def publish_support_document_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -719,7 +779,7 @@ class SupportDocSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateV
 class MemberSupportDocSectionView(LoginRequiredMixin, ListView):
 
     model = SupportDocSection
-    paginate_by = 5
+    paginate_by = 6
     context_object_name = 'sections'
 
     def get_queryset(self, *args, **kwargs):
@@ -836,7 +896,7 @@ class StoryCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 class StoryListView(ListView):
 
     model = Story
-    paginate_by = 5
+    paginate_by = 6
     context_object_name = 'stories'
 
     def get_queryset(self, *args, **kwargs):
@@ -856,13 +916,24 @@ class StoryListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = "New Stories | {}".format(
+            profile.title,
+        )
+        context['meta_desc'] = "Recent stories written by {} contributors.".format(
+            profile.title,
+        )
         context['new'] = True
         return context   
 
 class TopStoryListView(ListView):
 
     model = Story
-    paginate_by = 5
+    paginate_by = 6
     context_object_name = 'stories'
 
     def get_queryset(self, *args, **kwargs):
@@ -875,13 +946,24 @@ class TopStoryListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = "Top Stories | {}".format(
+            profile.title,
+        )
+        context['meta_desc'] = "Excellent stories written by {} contributors.".format(
+            profile.title,
+        )
         context['top'] = True
         return context
 
 class MemberStoryView(ListView):
 
     model = Story
-    paginate_by = 5
+    paginate_by = 6
     context_object_name = 'stories'
 
     def get_queryset(self, *args, **kwargs):
@@ -903,6 +985,9 @@ class MemberStoryView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(username=self.kwargs['member'])
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
         context['user_only'] = True
         context['member'] = member
         return context
@@ -979,7 +1064,7 @@ def add_marshmallow_to_story_view(request, pk):
                 messages.ERROR,
                 'You are not allowed to give marshmallows at this time'
             )
-    return HttpResponseRedirect(reverse('documentation:public_stories'))
+    return HttpResponseRedirect(reverse('documentation:top_stories'))
 
 def publish_story_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -1055,7 +1140,7 @@ class StorySectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 class MemberStorySectionView(LoginRequiredMixin, ListView):
 
     model = StorySection
-    paginate_by = 5
+    paginate_by = 6
     context_object_name = 'sections'
 
     def get_queryset(self, *args, **kwargs):
