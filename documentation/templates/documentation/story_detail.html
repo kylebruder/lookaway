@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block body_block %}
-<div class="container documentation-story-bg">
+{% if app_bg_image %}<div style="background-image: url('{{ app_bg_image.image_file.url }}');">{% endif %}
+<div class="container documentation-bg">
   {% if story.is_public or story.owner.pk == request.user.pk %}
     {% include './story_detail_button_bar.html' %}
     {% if story.is_public %}
-      <p>Written by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></p><br>
+      <p>Written by {{ object.author }}<br>Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}{% if object.last_modified > object.publication_date %}<br>Last updated on {{ object.last_modified }}{% endif %}</p><br>
     {% else %}
       <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}</p><br>
     {% endif %}
@@ -56,4 +57,6 @@
     <br>
   {% endif %}
 </div>  
+<br>
+{% if app_bg_image %}</div>{% endif %}
 {% endblock %}

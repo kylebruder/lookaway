@@ -23,22 +23,22 @@
       <div class="col-sm documentation-page-section">
         <ul class="list-group documentation-list">
           {% for document in new_articles %}
-            {% include './documentation_page_item.html' %}
+            {% include './documentation_page_article_item.html' %}
           {% endfor %}
           {% for document in new_stories %}
-            {% include './documentation_page_item.html' %}
+            {% include './documentation_page_story_item.html' %}
           {% endfor %}
           {% for document in new_documents %}
-            {% include './documentation_page_item.html' %}
+            {% include './documentation_page_supportdocument_item.html' %}
           {% endfor %}
           {% for document in top_articles %}
-            {% include './documentation_page_item.html' %}
+            {% include './documentation_page_article_item.html' %}
           {% endfor %}
           {% for document in top_stories %}
-            {% include './documentation_page_item.html' %}
+            {% include './documentation_page_story_item.html' %}
           {% endfor %}
           {% for document in top_documents %}
-            {% include './documentation_page_item.html' %}
+            {% include './documentation_page_supportdocument_item.html' %}
           {% endfor %}
         </ul>
       </div>

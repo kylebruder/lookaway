@@ -16,7 +16,7 @@
         </a>
       </h5>
       <p class="documentation-meta">
-        Written by <a href="{% url 'members:member_profile' document.owner.username %}"><span class="index-heading-span">{{ document.owner }}</span></a>{% if document.publication_date %}, published on {{ document.publication_date|date:"M d, Y" }}{% endif %}
+        Documented by <a href="{% url 'members:member_profile' document.owner.username %}"><span class="index-heading-span">{{ document.owner }}</span></a>{% if document.publication_date %}, published on {{ document.publication_date|date:"M d, Y" }}{% endif %}
       </p>
       {% if document.members_only %}
         <span class="badge badge-warning">Members Only</span>

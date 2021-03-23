@@ -11,9 +11,8 @@
     </div>
     <div class="col-sm">
       <h5 class="documentation-title">
-        <a href="{% url 'documentation:support_document_detail' document.slug %}">
-          {{ document.title }}
-        </a>
+        {% block detail_block %}
+        {% endblock %}
       </h5>
       <p class="documentation-meta">
         Published by <a href="{% url 'members:member_profile' document.owner.username %}"><span class="index-heading-span">{{ document.owner }}</span></a>{% if document.publication_date %} on {{ document.publication_date|date:"M d, Y" }}{% endif %}<br>

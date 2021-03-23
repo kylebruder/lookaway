@@ -1,44 +1,34 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class ="container create-bg">
-  <div class="container">
-    {% include './article_form_button_bar.html' %}
-  </div>
-  <br>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm">
-        <form method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-          {% if form.image.field.choices.queryset.count > 0 %}
-            <h5 class="form-label">{{ form.image.label }}</h5>
-            <p>{{ form.image.help_text }}</p>
-            <p>{{ form.image.errors }}</p>
-            <div class="form-image-selection">
-              {% for value in form.image.field.choices %}
-                {% if value|first != '' %}
-                  <div class="form-image-card float-left" style="background-image:url('{{ value.2.thumbnail_file.url }}')">
-                    <p>&nbsp;<input type="radio" value="{{ value|first }}" name="image" {% if object.image.pk == value|first %}checked{% endif %}></p>
-                  </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          {% else %}
-            <p>You have not uploaded any Images yet.</p>
-          {% endif %}
-          <br>
-          <br>
-          {% for field in form %}
-            {% if field != form.image %}
-              {% include 'form_field.html' %}
-            {% endif %}
-          {% endfor %}
-          <br>
-          <input type="submit" value="Submit" class="btn btn-success">
-        </form>
+{% extends 'form.html' %}
+{% block title_block %}
+<div class="row">
+  {% if object.title %}
+    <div class="col">
+      <h3 class="documentation-title">Edit Article:</h3>
+      <h4 class="documentation-title">{{ object.title }}</h4>
+    </div>
+    <div class="col-">
+      <div class="container">
+        <p>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:image_create' %}?next={{ request.path }}">+Image</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:link_create' %}?next={{ request.path }}">+Link</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:tag_create' %}?next={{ request.path }}">+Tag</a>
+        </p>
       </div>
     </div>
-  </div>
-  <br>
+  {% else %}
+    <div class="col">
+      <h3 class="documentation-title">New Article</h3>
+      <p>Submit an Article you wish to publish. Articles are open ended and can contain your contributed media. Create an Article using this form then edit it and add one or more Sections.</p>
+    </div>
+    <div class="col-">
+      <div class="container">
+        <p>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:image_create' %}?next={{ request.path }}">+Image</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:link_create' %}?next={{ request.path }}">+Link</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:tag_create' %}?next={{ request.path }}">+Tag</a>
+        </p>
+      </div>
+    </div>
+  {% endif %}
 </div>
 {% endblock %}

@@ -253,7 +253,7 @@ class SupportDocumentForm(forms.ModelForm):
             }
         ),
         help_text="Introduce the topic of the Support Document",
-        label="Introduciton",
+        label="Introduction",
         max_length=65535,
         required=False,
     )

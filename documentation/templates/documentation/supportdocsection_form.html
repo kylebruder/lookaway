@@ -1,38 +1,39 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class ="container create-bg">
-  <div class="container">
-    {% include './supportdocsection_form_button_bar.html' %}
-  </div>
-  <br>
-  <div class="container">
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% for field in form %}
-        {% if field != form.images %}
-          {% include 'form_field.html' %}
-        {% endif %}
-      {% endfor %}
-      <h5 class="form-label">{{ form.images.label }}</h5>
-      <p>{{ form.images.help_text}}</p>
-      <p>{{ form.images.errors }}</p>
-      {% if form.images.field.choices.queryset.all|length == 0 %}
-        <p><i>No images found.</i></p>
-      {% else %}
-        <div class="form-image-selection">
-          {% for value, label, obj in form.images.field.choices %}
-            {% if value != '' %}
-              <div class="form-image-card float-left" style="background-image:url('{{ obj.thumbnail_file.url }}')">
-                <p>&nbsp;<input type="checkbox" value="{{ value }}" name="images" {% if obj in object.images.all %}checked{% endif %}></p>
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-      {% endif %}
-      <br>
-      <input type="submit" value="Submit" class="btn btn-success">
-    </form>
-  </div>
-  <br>
+{% extends 'form.html' %}
+{% block title_block %}
+<div class="row">
+  {% if object.title %}
+    <div class="col">
+      <h3 class="documentation-title">Edit Support Document Section:</h3>
+      <h4 class="documentation-title">{{ object.title }}</h4>
+    </div>
+    <div class="col-">
+      <div class="container">
+        <p>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:image_create' %}?next={{ request.path }}">+Image</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:sound_create' %}?next={{ request.path }}">+Sound</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:video_create' %}?next={{ request.path }}">+Video</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:code_create' %}?next={{ request.path }}">+Code</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:link_create' %}?next={{ request.path }}">+Link</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:tag_create' %}?next={{ request.path }}">+Tag</a>
+        </p>
+      </div>
+    </div>
+  {% else %}
+    <div class="col">
+      <h3 class="documentation-title">New Support Document Section</h3>
+      <p>Add a Section to a Support Document. Sections are the meat of a Document and will appear after the introduction and before the conclusion in the order chosen.</p>
+    </div>
+    <div class="col-">
+      <div class="container">
+        <p>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:image_create' %}?next={{ request.path }}">+Image</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:sound_create' %}?next={{ request.path }}">+Sound</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:video_create' %}?next={{ request.path }}">+Video</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:code_create' %}?next={{ request.path }}">+Code</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:link_create' %}?next={{ request.path }}">+Link</a>
+        </p>
+      </div>
+    </div>
+  {% endif %}
 </div>
 {% endblock %}

@@ -11,7 +11,7 @@
   <div class="col">
     {% if tag %}
       <h3 class="documentation-title">
-        <span class="documentation-page-span">Stories tagged with</span> <span class="badge badge-secondary">{{ tag }/</span>
+        <span class="documentation-page-span">Stories tagged with</span> <span class="badge badge-secondary">{{ tag }}</span>
       </h3>
     {% else %}
       <br><h3 class="documentation-title"><span class="documentation-page-span">{% if meta_title %}{{ meta_title }}{% else %}Stories{% endif %}</span></h3>
@@ -20,7 +20,7 @@
   {% if request.user.is_authenticated %}
     <div class="col-">
       <div class="container">
-        <a href="{% url 'documentation:story_create' %}">
+        <a href="{% url 'documentation:article_create' %}">
           <button type="button" class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
         </a>
       </div>

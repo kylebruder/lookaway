@@ -269,6 +269,10 @@ class ArticleDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
             if member.check_can_allocate() and not member.check_is_new():
@@ -617,9 +621,19 @@ class MemberSupportDocumentView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(username=self.kwargs['member'])
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['app_logo'] = profile.logo
         context['app_bg_image'] = profile.bg_image
         context['app_banner'] = profile.banner
+        context['meta_title'] = "Information by {} | {}".format(
+            member,
+            profile.title,
+            )
+        context['meta_desc'] = "Information documented by {} for {}.".format(
+            member,
+            profile.title,
+        )
         context['user_only'] = True
         context['member'] = member
         return context
@@ -631,7 +645,11 @@ class SupportDocumentDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
         sections = SupportDocSection.objects.filter(support_reference=self.object.pk)
         context['refs'] = {}
         for s in sections:
@@ -985,9 +1003,19 @@ class MemberStoryView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(username=self.kwargs['member'])
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['app_logo'] = profile.logo
         context['app_bg_image'] = profile.bg_image
         context['app_banner'] = profile.banner
+        context['meta_title'] = "Stories by {} | {}".format(
+            member,
+            profile.title,
+            )
+        context['meta_desc'] = "Stories published by {} for {}.".format(
+            member,
+            profile.title,
+        )
         context['user_only'] = True
         context['member'] = member
         return context
@@ -999,6 +1027,11 @@ class StoryDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
             if member.check_can_allocate() and not member.check_is_new():

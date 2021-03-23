@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% if app_bg_image %}<div style="background-image: url('{{ app_bg_image.image_file.url }}');">{% endif %}
 <div class="container documentation-bg">
   {% if article.is_public or article.owner.pk == request.user.pk %}
     {% include './article_detail_button_bar.html' %}
     {% if article.is_public %}
-      <p>Written by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, published on {{ object.publication_date }}{% if object.last_modified > object.publication_date %}, last updated on {{ object.last_modified }}{% endif %}</p><br>
+      <p>Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}{% if object.last_modified > object.publication_date %}<br>Last updated on {{ object.last_modified }}{% endif %}</p><br>
     {% else %}
       <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}</p><br>
     {% endif %}
@@ -40,12 +41,12 @@
       {% include './object_tags.html' %}
       <br>
     {% endif %}
-
-    {% include 'object_meta_data.html' %}
     <br>
   {% else %}
     <p>This Article has not been published yet.</p>
     <br>
   {% endif %}
 </div>  
+<br>
+{% if app_bg_image %}</div>{% endif %}
 {% endblock %}
