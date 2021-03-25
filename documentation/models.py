@@ -1,12 +1,42 @@
 from django.db import models
 from django.urls import reverse
+from crypto.models import CryptoWalletsMixin
 from lookaway.mixins import AppProfile, Section, Doc
 
 # Create your models here.
 
-class DocumentationAppProfile(AppProfile):
+class DocumentationAppProfile(AppProfile, CryptoWalletsMixin):
     pass
     
+class DocumentationPageSection(Section):
+
+    info = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    alert = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    articles = models.ManyToManyField(
+        'documentation.article',
+        blank=True,
+    )
+    stories = models.ManyToManyField(
+        'documentation.story',
+        blank=True,
+    )
+    support_documents = models.ManyToManyField(
+        'documentation.supportdocument',
+        blank=True,
+    )
+    is_enabled = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['order']
+
 class Article(Doc):
 
     def get_absolute_url(self):

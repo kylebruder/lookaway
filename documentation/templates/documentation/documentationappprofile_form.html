@@ -1,0 +1,49 @@
+{% extends 'form.html' %}
+{% block header_block %}
+<div class="documentation-header" {% if app_banner %}style="background-image: url('{{ app_banner.image_file.url }}');"{% endif %}>
+  <div class="row">
+    <div class="col-sm-">
+      <div class="container">
+        <img class="documentation-logo" src="{{ app_logo.image_file.url }}" alt="{{ app_logo.thumbnail_file.title }}">
+      </div>
+    </div>
+    <div class="col">
+      <h3 class="documentation-title documentation-page-span documentation-alert">{{ meta_title }}</h3>
+    </div>
+    <div class="col-">
+      <div class="container">
+        <p>
+          <a class="btn btn-sm btn-primary" href="{% url 'documentation:documentation_page_section_create' %}?next={{ request.path }}">+Section</a>
+          {% include 'object_create_buttons.html' %}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+{% if sections %}
+  <div class="form-field">
+    <h5 class="form-label">Landing Page Sections</h5>
+    <table class="">
+      {% for section in sections %}
+        <tr>
+          <td>
+            <a class="form-label" href="{% url 'documentation:documentation_page_section_detail' section.pk %}">{{ section }}</a>
+          </td>
+          <td>
+            {% if section.is_enabled %}
+              <span class="badge badge-success">Enabled</span>
+            {% else %}
+              <span class="badge badge-secondary">Disabled</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'documentation:documentation_page_section_update' section.pk %}"><button class="btn btn-sm btn-warning edit-button">&#9998;</button></a>
+            <a href="{% url 'documentation:documentation_page_section_delete' section.pk %}"><button class="btn btn-sm btn-danger delete-button">X</button></a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>  
+  </div>
+{% endif %}
+{% endblock %}

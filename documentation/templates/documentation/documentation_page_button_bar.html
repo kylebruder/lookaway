@@ -1,19 +1,15 @@
 <div class="row">
   {% if app_logo %}
-    <div class="col-">
+    <div class="col-sm-">
       <div class="container">
         <img class="documentation-logo" src="{{ app_logo.image_file.url }}" alt="{{ app_logo.thumbnail_file.title }}">
       </div>
     </div>
   {% endif %}
-  <div class="col-sm-">
-    <div class="container">
-      <h2 class="documentation-title"><span class="documentation-page-span">{{ meta_title }}</span></h2>
-    </div>
-  </div>
   <div class="col-sm">
+    <h2 class="documentation-title documentation-page-span documentation-alert">{{ meta_title }}</h2>
     {% if meta_desc %}
-      <p class="documentation-page-span"><i>{{ meta_desc }}</i></p><br><br>
+      <br><p class="documentation-page-span documentation-alert"><i>{{ meta_desc }}</i></p>
     {% endif %}
   </div>
   {% if request.user.is_authenticated %}
@@ -24,6 +20,11 @@
           <a class="btn btn-sm btn-primary" href="{% url 'documentation:story_create' %}">+Story</a>
           {% if request.user.is_staff %}
             <a class="btn btn-sm btn-primary" href="{% url 'documentation:support_document_create' %}">+Document</a>
+          {% endif %}
+          {% if request.user.is_superuser %}
+            <a href="{% url 'documentation:documentation_app_profile_update' 1 %}?next={{ request.path }}">
+              <button class="btn btn-sm btn-warning">Edit App</button>
+            </a>
           {% endif %}
         </p>
       </div>

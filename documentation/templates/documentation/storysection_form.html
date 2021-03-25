@@ -1,39 +1,14 @@
-{% extends 'form.html' %}
+{% extends './documentation_form_header.html' %}
 {% block title_block %}
-<div class="row">
-  {% if object.title %}
-    <div class="col">
-      <h3 class="documentation-title">Edit Story Section:</h3>
-      <h4 class="documentation-title">{{ object.title }}</h4>
-    </div>
-    <div class="col-">
-      <div class="container">
-        <p>
-          <a class="btn btn-sm btn-primary" href="{% url 'objects:image_create' %}?next={{ request.path }}">+Image</a>
-          <a class="btn btn-sm btn-primary" href="{% url 'objects:sound_create' %}?next={{ request.path }}">+Sound</a>
-          <a class="btn btn-sm btn-primary" href="{% url 'objects:video_create' %}?next={{ request.path }}">+Video</a>
-          <a class="btn btn-sm btn-primary" href="{% url 'objects:code_create' %}?next={{ request.path }}">+Code</a>
-          <a class="btn btn-sm btn-primary" href="{% url 'objects:link_create' %}?next={{ request.path }}">+Link</a>
-          <a class="btn btn-sm btn-primary" href="{% url 'objects:tag_create' %}?next={{ request.path }}">+Tag</a>
-        </p>
-      </div>
-    </div>
-  {% else %}
-    <div class="col">
-      <h3 class="documentation-title">New Story Section</h3>
-      <p>Add a Section to a Story. Sections are the meat of a Story and will appear after the preface and before the afterward in the order chosen.</p>
-    </div>
-    <div class="col-">
-      <div class="container">
-        <p>
-          <a class="btn btn-sm btn-primary" href="{% url 'objects:image_create' %}?next={{ request.path }}">+Image</a>
-          <a class="btn btn-sm btn-primary" href="{% url 'objects:sound_create' %}?next={{ request.path }}">+Sound</a>
-          <a class="btn btn-sm btn-primary" href="{% url 'objects:video_create' %}?next={{ request.path }}">+Video</a>
-          <a class="btn btn-sm btn-primary" href="{% url 'objects:code_create' %}?next={{ request.path }}">+Code</a>
-          <a class="btn btn-sm btn-primary" href="{% url 'objects:link_create' %}?next={{ request.path }}">+Link</a>
-        </p>
-      </div>
-    </div>
-  {% endif %}
-</div>
+{% if object.title %}
+  <div class="col">
+    <h3 class="documentation-title documentation-page-span documentation-alert">Edit Story Section:</h3><br>
+    <h4 class="documentation-title documentation-page-span documentation-alert">{{ object.title }}</h4>
+  </div>
+{% else %}
+  <div class="col">
+    <h3 class="documentation-title documentation-page-span documentation-alert">New Story Section</h3>
+    <p class="documentation-page-span documentation-alert">Add a Section to a Story. Sections are the meat of a Story and will appear after the preface and before the afterward in the order chosen.</p>
+  </div>
+{% endif %}
 {% endblock %}

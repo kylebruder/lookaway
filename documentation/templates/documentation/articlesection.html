@@ -4,7 +4,9 @@
   <!-- Section Title -->
   {% include './articlesection_detail_button_bar.html' %}
   <!-- Section Text -->
-  {{ section.text|linebreaks }}
+  {% if section.text %}
+    {{ section.text|linebreaks }}
+  {% endif %}
   <!-- Section Images -->
   {% if section.images.count > 0 %}
     {% for image in section.images.all %}

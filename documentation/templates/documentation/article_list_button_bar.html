@@ -1,6 +1,6 @@
 <div class="row">
   {% if app_logo %}
-    <div class="col-">
+    <div class="col-sm-">
       <div class="container">
         <a href="{% url 'documentation:documentation_page' %}">
           <img class="documentation-logo" src="{{ app_logo.image_file.url }}" alt="{{ app_logo.thumbnail_file.title }}">
@@ -8,14 +8,13 @@
       </div>
     </div>
   {% endif %}
-  <div class="col">
+  <div class="col-sm">
     {% if tag %}
-      <h3 class="documentation-title">
-        <span class="documentation-page-span">Articles tagged with</span> <span class="badge badge-secondary">{{ tag }}</span>
-      </h3>
+      <h3 class="documentation-title documentation-page-span documentation-alert">Articles tagged with</span> <span class="badge badge-secondary">{{ tag }}</h3>
     {% else %}
-      <br><h3 class="documentation-title"><span class="documentation-page-span">{% if meta_title %}{{ meta_title }}{% else %}Articles{% endif %}</span></h3>
+      <h3 class="documentation-title documentation-page-span documentation-alert">{% if meta_title %}{{ meta_title }}{% else %}Articles{% endif %}</h3>
     {% endif %}
+    <br><br>{% include './documentation_page_navbar.html' %}
   </div>
   {% if request.user.is_authenticated %}
     <div class="col-">

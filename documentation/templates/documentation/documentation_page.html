@@ -12,15 +12,18 @@
   </div>
   <br>
   {% if new_articles.all.count < 1 and new_stories.all.count < 1 and new_documents.all.count < 1 %}
-    <span class="documentationa-page-span"><i>Coming Soon...</i></p> 
+    <span class="documentation-page-span"><i>Coming Soon...</i></p> 
   {% else %}
     <div class="row">
       {% if sections %}
-        <div class="col-sm-8 documentation-page-section">
+        <div class="col-sm">
+          {% for section in sections %}
+            {% include './documentationpagesection.html' %}
+          {% endfor %}
         </div>
       {% endif %}
       <!-- List of new and top items -->
-      <div class="col-sm documentation-page-section">
+      <div class="col-sm">
         <ul class="list-group documentation-list">
           {% for document in new_articles %}
             {% include './documentation_page_article_item.html' %}

@@ -18,6 +18,10 @@
 @import "css/art.css";
 @import "css/crypto.css";
 
+table, th, td {
+  padding: 5px;
+}
+
 .clear {
   clear: both;
 }
@@ -52,12 +56,23 @@
   margin-right: 10px;
   margin-bottom: 10px;
 }
+
 .edit-button {
   border-radius: 100%;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .create-button {
   border-radius: 48%;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.delete-button {
+  border-radius: 100%;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .object-title {

@@ -16,10 +16,44 @@ from django.views.generic.list import ListView
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from objects.utils import Text
-from .forms import ArticleForm, ArticleSectionForm, StoryForm, StorySectionForm, SupportDocumentForm, SupportDocSectionForm
-from .models import Article, ArticleSection, Story, StorySection, SupportDocument, SupportDocSection, DocumentationAppProfile
+from .forms import ArticleForm, ArticleSectionForm, DocumentationAppProfileForm, DocumentationPageSectionForm, StoryForm, StorySectionForm, SupportDocumentForm, SupportDocSectionForm
+from .models import Article, ArticleSection, DocumentationAppProfile, DocumentationPageSection, Story, StorySection, SupportDocument, SupportDocSection
 
 # Create your views here.
+
+# Documentation App Profile Form
+class DocumentationAppProfileUpdateView(LoginRequiredMixin, UpdateView):
+
+    model = DocumentationAppProfile
+    form_class = DocumentationAppProfileForm
+
+    def get_form_kwargs(self):
+        kwargs = super(DocumentationAppProfileUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        context['sections'] = DocumentationPageSection.objects.all().order_by(
+            'order',
+        )
+        return context
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('documentation:documentation_page')
 
 # Documentation Landing Page
 class DocumentationPageView(TemplateView):
@@ -31,7 +65,7 @@ class DocumentationPageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App Profile
+        # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['meta_title'] = profile.title
         context['meta_desc'] = profile.meta_description
@@ -40,6 +74,12 @@ class DocumentationPageView(TemplateView):
         context['app_banner'] = profile.banner
         context['app_bg_image'] = profile.bg_image
         context['links'] = profile.links
+        # Sections
+        context['sections'] = DocumentationPageSection.objects.filter(
+            is_enabled = True,
+        ).order_by(
+            'order',
+        )
         # Number of items to show in each list
         n = 3
         # Articles
@@ -124,8 +164,105 @@ class DocumentationPageView(TemplateView):
                 '-publication_date',
             )[:n]
         return context
-# Support Article Views
 
+# Documentation Page Section Views
+class DocumentationPageSectionCreateView(LoginRequiredMixin, CreateView):
+
+    model = DocumentationPageSection
+    form_class = DocumentationPageSectionForm
+
+    def get_form_kwargs(self):
+        kwargs = super(DocumentationPageSectionCreateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
+
+    def form_valid(self, form):
+        member = Member.objects.get(pk=self.request.user.pk)
+        form.instance.creation_date = timezone.now()
+        form.instance.owner = member
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse(
+                'documentation:documentation_page_section_detail',
+                kwargs={'slug': self.object.slug},
+            )
+
+class DocumentationPageSectionDetailView(LoginRequiredMixin, DetailView):
+
+    model = DocumentationPageSection
+    context_object_name = 'section'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
+
+class DocumentationPageSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+
+    model = DocumentationPageSection
+    form_class = DocumentationPageSectionForm
+
+    def get_form_kwargs(self):
+        kwargs = super(DocumentationPageSectionUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
+
+    def form_valid(self, form):
+        # Update last modified date for the Section
+        form.instance.last_modified = timezone.now()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse(
+                'documentation:documentation_page_section_detail',
+                kwargs={'pk': self.object.pk},
+            )
+
+class DocumentationPageSectionDeleteView(LoginRequiredMixin, DeleteView):
+
+    model = DocumentationPageSection
+    context_object_name = "section"
+
+    def get_success_url(self):
+        return reverse(
+            'documentation:documentation_page',
+        )
+
+# Article Views
 class ArticleCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = Article
@@ -135,6 +272,16 @@ class ArticleCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         kwargs = super(ArticleCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
 
     def form_valid(self, form):
         member = Member.objects.get(pk=self.request.user.pk)
@@ -294,6 +441,16 @@ class ArticleUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         kwargs['user'] = self.request.user
         return kwargs
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
+
     def form_valid(self, form):
         form.instance.last_modified = timezone.now()
         return super().form_valid(form)
@@ -383,7 +540,6 @@ def publish_article_view(request, pk):
         return HttpResponseRedirect(reverse('member:studio'))
 
 # ArticleSection Views
-
 class ArticleSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = ArticleSection
@@ -394,6 +550,16 @@ class ArticleSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView
         kwargs['user'] = self.request.user
         kwargs['article'] = self.request.GET.get('article')
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
 
     def form_valid(self, form):
         member = Member.objects.get(pk=self.request.user.pk)
@@ -443,6 +609,16 @@ class ArticleSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView
         kwargs['user'] = self.request.user
         return kwargs
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
+
     def form_valid(self, form):
         # Update last modified date for the ArticleSection
         form.instance.last_modified = timezone.now()
@@ -467,7 +643,7 @@ class ArticleSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView
                 kwargs={'pk': self.object.pk},
             )
 
-class ArticleSectionDeleteView(LoginRequiredMixin, DeleteView):
+class ArticleSectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = ArticleSection
     success_url = "/documentation/articles/{article_id}/"
@@ -501,7 +677,6 @@ class ArticleSectionDeleteView(LoginRequiredMixin, DeleteView):
             )
 
 # Support Document Views
-
 class SupportDocumentCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = SupportDocument
@@ -511,6 +686,16 @@ class SupportDocumentCreateView(LoginRequiredMixin, MemberCreateMixin, CreateVie
         kwargs = super(SupportDocumentCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
 
     def form_valid(self, form):
         member = Member.objects.get(pk=self.request.user.pk)
@@ -677,6 +862,16 @@ class SupportDocumentUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateVie
         kwargs['user'] = self.request.user
         return kwargs
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
+
     def form_valid(self, form):
         form.instance.last_modified = timezone.now()
         return super().form_valid(form)
@@ -766,7 +961,6 @@ def publish_support_document_view(request, pk):
         return HttpResponseRedirect(reverse('member:studio'))
 
 # SupportDocSection Views
-
 class SupportDocSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = SupportDocSection
@@ -777,6 +971,16 @@ class SupportDocSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateV
         kwargs['user'] = self.request.user
         kwargs['support_document'] = self.request.GET.get('support_document')
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
 
     def form_valid(self, form):
         member = Member.objects.get(pk=self.request.user.pk)
@@ -825,6 +1029,16 @@ class SupportDocSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateV
         kwargs = super(SupportDocSectionUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
 
     def form_valid(self, form):
         # Update last modified date for the SupportDocSection
@@ -883,7 +1097,6 @@ class SupportDocSectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteV
             )
 
 # Story Views
-
 class StoryCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = Story
@@ -893,6 +1106,16 @@ class StoryCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         kwargs = super(StoryCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
 
     def form_valid(self, form):
         member = Member.objects.get(pk=self.request.user.pk)
@@ -1053,6 +1276,16 @@ class StoryUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         kwargs['user'] = self.request.user
         return kwargs
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
+
     def form_valid(self, form):
         form.instance.last_modified = timezone.now()
         return super().form_valid(form)
@@ -1142,7 +1375,6 @@ def publish_story_view(request, pk):
         return HttpResponseRedirect(reverse('member:studio'))
 
 # StorySection Views
-
 class StorySectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 
     model = StorySection
@@ -1153,6 +1385,16 @@ class StorySectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         kwargs['user'] = self.request.user
         kwargs['story'] = self.request.GET.get('story')
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
 
     def form_valid(self, form):
         member = Member.objects.get(pk=self.request.user.pk)
@@ -1201,6 +1443,16 @@ class StorySectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         kwargs = super(StorySectionUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['app_logo'] = profile.logo
+        context['app_bg_image'] = profile.bg_image
+        context['app_banner'] = profile.banner
+        context['meta_title'] = profile.title
+        return context
 
     def form_valid(self, form):
         # Update last modified date for the StorySection

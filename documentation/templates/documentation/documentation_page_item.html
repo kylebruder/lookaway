@@ -14,7 +14,7 @@
         {% block detail_block %}
         {% endblock %}
       </h5>
-      <p class="documentation-meta">
+      <p>
         Published by <a href="{% url 'members:member_profile' document.owner.username %}"><span class="index-heading-span">{{ document.owner }}</span></a>{% if document.publication_date %} on {{ document.publication_date|date:"M d, Y" }}{% endif %}<br>
         {% if document.meta_description %}{{ document.meta_description }}<br>{% endif %}
       </p>

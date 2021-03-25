@@ -1,7 +1,9 @@
-<h5 class="form-label">{{ field.label }}</h5>
-{% if field.help_text %}
-  <p class="form-help">{{ field.help_text|linebreaksbr }}<p>
-{% endif %}
-<p>{{ field.errors }}</p>
-<p>{{ field }}</p>
-<br>
+<div class="col-md form-field">
+  <h5 class="form-label">{{ field.label }}</h5>
+  {% if field.help_text %}
+    <p class="form-help">{{ field.help_text|linebreaksbr }}<p>
+  {% endif %}
+  <p>{{ field.errors }}</p>
+  <p>{{ field }}</p>
+  <br>
+</div>

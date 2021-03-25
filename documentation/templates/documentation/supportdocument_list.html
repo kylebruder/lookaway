@@ -4,8 +4,6 @@
   <div class="documentation-header" style="{% if app_banner %} background-image: url('{{ app_banner.image_file.url }}');{% endif %}">
     {% include "./supportdocument_list_button_bar.html" %}
     <br>
-    {% include './documentation_page_navbar.html' %}
-    <br>
   </div>
   {% if documents %}
     {% if page_obj.has_other_pages %}<span class="documentation-page-span">{% include 'page_control.html' %}</span>{% endif %}

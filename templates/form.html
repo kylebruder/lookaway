@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block body_block %}
-<div class ="container-fluid create-bg">
-  {% block title_block %}
+<div class="container-fluid create-bg" style="{% if app_bg_image %} background-image: url('{{ app_bg_image.image_file.url }}');{% endif %}">
+  {% block header_block %}
     <!-- Anything outside of this will be inhereited if you extend! -->
   {% endblock %}
   <br>
@@ -9,62 +9,39 @@
     <div class="row">
       {% csrf_token %}
       {% if form.image %}
-        {% if form.image.field.choices.queryset.count > 0 %}
-          <div class="col-md form-field">
-            <h5 class="form-label">{{ form.image.label }}</h5>
-            <p>{{ form.image.help_text }}</p>
-            <p>{{ form.image.errors }}</p>
-            <div class="form-image-selection">
-              {% for value in form.image.field.choices %}
-                {% if value|first != '' %}
-                  <div class="form-image-card float-left" style="background-image:url('{{ value.2.thumbnail_file.url }}')">
-                    <p>&nbsp;<input type="radio" value="{{ value|first }}" name="image" {% if object.image.pk == value|first %}checked{% endif %}></p>
-                  </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
-        {% else %}
-          <div class="col-md form-field">
-            <p>You have not uploaded any Images yet.</p>
-          </div>
-        {% endif %}
+        {% with form.image as x %}
+          {% include 'image_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% if form.logo %}
+        {% with form.logo as x %}
+          {% include 'logo_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% if form.banner %}
+        {% with form.banner as x %}
+          {% include 'banner_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% if form.bg_image %}
+        {% with form.bg_image as x %}
+          {% include 'bg_image_form_field.html' %}
+        {% endwith %}
       {% endif %}
       {% if form.images %}
-        {% if form.images.field.choices.queryset.all|length == 0 %}
-          <div class="col-md form-field">
-            <p><i>No images found.</i></p>
-          </div>
-        {% else %}
-          <div class="col-md form-field">
-            <h5 class="form-label">{{ form.images.label }}</h5>
-            <p>{{ form.images.help_text}}</p>
-            <p>{{ form.images.errors }}</p>
-            <div class="form-image-selection">
-              {% for value, label, obj in form.images.field.choices %}
-                {% if value != '' %}
-                  <div class="form-image-card float-left" style="background-image:url('{{ obj.thumbnail_file.url }}')">
-                    <p>&nbsp;<input type="checkbox" value="{{ value }}" name="images" {% if obj in object.images.all %}checked{% endif %}></p>
-                  </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
-        {% endif %}
+        {% with form.images as x %}
+          {% include 'images_form_field.html' %}
+        {% endwith %}
       {% endif %}
       {% for field in form %}
-        {% if field != form.image and field != form.images %}
-          <div class="col-md form-field">
-            {% include 'form_field.html' %}
-          </div>
+        {% if field != form.image and field != form.images and field != form.logo and field != form.banner and field != form.bg_image %}
+          {% include 'form_field.html' %}
         {% endif %}
       {% endfor %}
-      <br>
-      <div class="fixed-bottom">
-        <div class="form-field">
-          <input type="submit" value="Submit" class="btn btn-success">
-        </div>
-      </div>
+    </div>
+    <br>
+    <div class="fixed-bottom">
+      <input type="submit" value="Submit" class="btn btn-success form-submit-button float-right">
     </div>
   </form>
   <br>

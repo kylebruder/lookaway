@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col">
+    {% if not section.hide_title %}
+      <h4 class="documentation-title">{{ section.title }}</h4>
+    {% endif %}
+  </div>
+  {% if section.owner.pk == request.user.pk %}
+    <div class="col-">
+      <a href="{% url 'documentation:documentation_page_section_delete' section.pk %}">
+        <button type="button" class="btn btn-sm  btn-danger float-right">Delete</button>
+      </a>
+      <a href="{% url 'documentation:documentation_page_section_update' section.pk %}">
+        <button type="button" class="btn btn-sm btn-warning float-right">Edit</button>
+      </a>
+      {% if not article %}
+        <a href="{% url 'documentation:documentation_page_section_create' %}">
+          <button type="button" class="btn btn-sm btn-primary float-right">Add Section</button>
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>

@@ -20,15 +20,20 @@
     </div>
     <br>
     <br>
-    {{ article.intro|linebreaks }}
-    <br>
+    {% if article.intro %}
+      {{ article.intro|linebreaks }}
+      <br>
+    {% endif %}
     {% if sections %}
       {% for section in sections %}
         {% include './articlesection.html' %}
         <br>
       {% endfor %}
     {% endif %}
-    {{ article.outro|linebreaks }}
+    {% if article.outro %}
+      {{ article.outro|linebreaks }}
+      <br>
+    {% endif %}
     {% if article.links.count > 0 %}
       <h4 class="documentation-title">Links</h4>
       {% with article.links.all as links %}

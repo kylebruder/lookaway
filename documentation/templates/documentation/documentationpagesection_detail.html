@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block body_block %}
+<div class="container documentation-bg">
+  {% include './documentationpagesection.html' %}
+  {% if section.is_public %}
+    Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}<br>
+    {% if object.last_modified > object.creation_date %}
+      Last updated on {{ object.last_modified }}<br>
+    {% endif %}
+  {% else %}
+    Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<br>
+  {% endif %}
+  <br>
+</div>  
+{% endblock %}

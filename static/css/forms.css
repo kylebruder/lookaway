@@ -28,9 +28,12 @@
 }
 
 .form-field {
-  min-width: 330px;
-  padding: 10px;
+  background-color: #222222;
+  color: #eeeeee;
+  border-radius: 5px;
   margin: 5px;
+  min-width: 350px;
+  padding: 20px;
 }
 
 .form-image-card {
@@ -56,6 +59,10 @@
 .form-preview-image {
   max-width: 100%;
   max-height: 250px;
+}
+
+.form-submit-button {
+  margin: 10px;
 }
 
 .form-text-field {
