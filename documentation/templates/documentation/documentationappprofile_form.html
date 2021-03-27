@@ -1,10 +1,10 @@
 {% extends 'form.html' %}
 {% block header_block %}
-<div class="documentation-header" {% if app_banner %}style="background-image: url('{{ app_banner.image_file.url }}');"{% endif %}>
+<div class="documentation-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
   <div class="row">
     <div class="col-sm-">
       <div class="container">
-        <img class="documentation-logo" src="{{ app_logo.image_file.url }}" alt="{{ app_logo.thumbnail_file.title }}">
+        <img class="documentation-logo" src="{{ profile.logo.image_file.url }}" alt="{{ profile.logo.thumbnail_file.title }}">
       </div>
     </div>
     <div class="col">
@@ -22,7 +22,7 @@
 </div>
 <br>
 {% if sections %}
-  <div class="form-field">
+  <div class="form-field documentation-alert">
     <h5 class="form-label">Landing Page Sections</h5>
     <table class="">
       {% for section in sections %}

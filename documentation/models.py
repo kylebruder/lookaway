@@ -39,6 +39,10 @@ class DocumentationPageSection(Section):
 
 class Article(Doc):
 
+    class Meta:
+        verbose_name = "Article"
+        verbose_name_plural = "Articles"
+
     def get_absolute_url(self):
         return reverse('documentation:article_detail', kwargs={'slug': self.slug})
 
@@ -52,6 +56,9 @@ class ArticleSection(Section):
 
     class Meta:
         ordering = ['order']
+        verbose_name = "Article Section"
+        verbose_name_plural = "Article Sections"
+
 
 class Story(Doc):
 
@@ -85,6 +92,10 @@ class Story(Doc):
         null=True,
     )
 
+    class Meta:
+        verbose_name = "Story"
+        verbose_name_plural = "Stories"
+
     def get_absolute_url(self):
         return reverse('documentation:story_detail', kwargs={'slug': self.slug})
 
@@ -98,10 +109,16 @@ class StorySection(Section):
 
     class Meta:
         ordering = ['order']
+        verbose_name = "Story Section"
+        verbose_name_plural = "Story Sections"
 
 class SupportDocument(Doc):
 
     numbered = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Information"
+        verbose_name_plural = "Information"
 
     def get_absolute_url(self):
         return reverse('documentation:support_document_detail', kwargs={'slug': self.slug})
@@ -133,3 +150,5 @@ class SupportDocSection(Section):
 
     class Meta:
         ordering = ['order']
+        verbose_name = "Information Section"
+        verbose_name_plural = "Information Sections"

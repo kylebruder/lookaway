@@ -22,8 +22,9 @@ from .models import Article, ArticleSection, DocumentationAppProfile, Documentat
 # Create your views here.
 
 # Documentation App Profile Form
-class DocumentationAppProfileUpdateView(LoginRequiredMixin, UpdateView):
+class DocumentationAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
+    permission_required = 'documentation.change_documentationappprofile'
     model = DocumentationAppProfile
     form_class = DocumentationAppProfileForm
 
@@ -39,9 +40,8 @@ class DocumentationAppProfileUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
+        # SEO stuff
         context['meta_title'] = profile.title
         context['sections'] = DocumentationPageSection.objects.all().order_by(
             'order',
@@ -67,13 +67,10 @@ class DocumentationPageView(TemplateView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        # SEO stuff
         context['meta_title'] = profile.title
         context['meta_desc'] = profile.meta_description
-        context['app_text'] = profile.text
-        context['app_logo'] = profile.logo
-        context['app_banner'] = profile.banner
-        context['app_bg_image'] = profile.bg_image
-        context['links'] = profile.links
         # Sections
         context['sections'] = DocumentationPageSection.objects.filter(
             is_enabled = True,
@@ -166,8 +163,9 @@ class DocumentationPageView(TemplateView):
         return context
 
 # Documentation Page Section Views
-class DocumentationPageSectionCreateView(LoginRequiredMixin, CreateView):
+class DocumentationPageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
+    permission_required = 'documentation.add_documentationpagesection'
     model = DocumentationPageSection
     form_class = DocumentationPageSectionForm
 
@@ -180,10 +178,7 @@ class DocumentationPageSectionCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
-        context['meta_title'] = profile.title
+        context['profile'] = profile
         return context
 
     def form_valid(self, form):
@@ -211,14 +206,13 @@ class DocumentationPageSectionDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
         context['meta_title'] = profile.title
         return context
 
-class DocumentationPageSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class DocumentationPageSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
+    permission_required = 'documentation.change_documentationpagesection'
     model = DocumentationPageSection
     form_class = DocumentationPageSectionForm
 
@@ -231,9 +225,7 @@ class DocumentationPageSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, 
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
         context['meta_title'] = profile.title
         return context
 
@@ -252,8 +244,9 @@ class DocumentationPageSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, 
                 kwargs={'pk': self.object.pk},
             )
 
-class DocumentationPageSectionDeleteView(LoginRequiredMixin, DeleteView):
+class DocumentationPageSectionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
+    permission_required = 'documentation.delete_documentationpagesection'
     model = DocumentationPageSection
     context_object_name = "section"
 
@@ -277,9 +270,7 @@ class ArticleCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
         context['meta_title'] = profile.title
         return context
 
@@ -325,16 +316,22 @@ class ArticleListView(ListView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
-        context['meta_title'] = "New Articles | {}".format(
+        context['profile'] = profile
+        context['app_list_context'] = "New Articles"
+        # SEO stuff
+        context['meta_title'] = "{} | {}".format(
+            context['app_list_context'],
             profile.title,
-            )
+        )
         context['meta_desc'] = "Recently published articles by {} contributors.".format(
             profile.title,
         )
-        context['new'] = True
+        # Create button
+        if self.request.user.has_perm('documentation.add_article'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'documentation:article_create',
+            )
         return context   
 
 class TopArticleListView(ListView):
@@ -355,16 +352,21 @@ class TopArticleListView(ListView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
+        context['app_list_context'] = "Top Articles"
+        # SEO stuff
         context['meta_title'] = "Top Articles | {}".format(
             profile.title,
             )
         context['meta_desc'] = "The all time greatest {} articles.".format(
             profile.title,
         )
-        context['top'] = True
+        # Create button
+        if self.request.user.has_perm('documentation.add_article'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'documentation:article_create',
+            )
         return context   
 
 class MemberArticleView(ListView):
@@ -394,9 +396,9 @@ class MemberArticleView(ListView):
         member = Member.objects.get(username=self.kwargs['member'])
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
+        context['app_list_context'] = "Articles"
+        # SEO stuff
         context['meta_title'] = "Articles by {} | {}".format(
             member,
             profile.title,
@@ -405,7 +407,12 @@ class MemberArticleView(ListView):
             member,
             profile.title,
         )
-        context['user_only'] = True
+        # Create button
+        if self.request.user.has_perm('documentation.add_article'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'documentation:article_create',
+            )
         context['member'] = member
         return context
 
@@ -417,9 +424,7 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
             if member.check_can_allocate() and not member.check_is_new():
@@ -445,10 +450,7 @@ class ArticleUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
-        context['meta_title'] = profile.title
+        context['profile'] = profile
         return context
 
     def form_valid(self, form):
@@ -555,10 +557,7 @@ class ArticleSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
-        context['meta_title'] = profile.title
+        context['profile'] = profile
         return context
 
     def form_valid(self, form):
@@ -576,23 +575,6 @@ class ArticleSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView
                 'documentation:article_section_detail',
                 kwargs={'pk': self.object.pk},
             )
-
-class MemberArticleSectionView(LoginRequiredMixin, ListView):
-
-    model = ArticleSection
-    paginate_by = 6
-    context_object_name = 'sections'
-
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        return ArticleSection.objects.filter(owner=member)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        context['user_only'] = True
-        context['member'] = member
-        return context
 
 class ArticleSectionDetailView(LoginRequiredMixin, DetailView):
 
@@ -613,9 +595,7 @@ class ArticleSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
         context['meta_title'] = profile.title
         return context
 
@@ -691,10 +671,7 @@ class SupportDocumentCreateView(LoginRequiredMixin, MemberCreateMixin, CreateVie
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
-        context['meta_title'] = profile.title
+        context['profile'] = profile
         return context
 
     def form_valid(self, form):
@@ -739,16 +716,21 @@ class SupportDocumentListView(ListView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
+        context['app_list_context'] = "New Information"
+        # SEO stuff
         context['meta_title'] = "New Information | {}".format(
             profile.title,
             )
         context['meta_desc'] = "Recently published documentation by {} staff contributors.".format(
             profile.title,
         )
-        context['new'] = True
+        # Create button
+        if self.request.user.has_perm('documentation.add_article'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'documentation:article_create',
+            )
         return context   
 
 class TopSupportDocumentListView(ListView):
@@ -769,16 +751,21 @@ class TopSupportDocumentListView(ListView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
+        context['app_list_context'] = "Top Information"
+        # SEO stuff
         context['meta_title'] = "Top Information | {}".format(
             profile.title,
             )
         context['meta_desc'] = "Important information documented by {} contributors.".format(
             profile.title,
         )
-        context['top'] = True
+        # Create button
+        if self.request.user.has_perm('documentation.add_article'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'documentation:article_create',
+            )
         return context
 
 class MemberSupportDocumentView(ListView):
@@ -808,9 +795,9 @@ class MemberSupportDocumentView(ListView):
         member = Member.objects.get(username=self.kwargs['member'])
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
+        context['app_list_context'] = "Information"
+        # SEO stuff
         context['meta_title'] = "Information by {} | {}".format(
             member,
             profile.title,
@@ -819,7 +806,12 @@ class MemberSupportDocumentView(ListView):
             member,
             profile.title,
         )
-        context['user_only'] = True
+        # Create button
+        if self.request.user.has_perm('documentation.add_article'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'documentation:article_create',
+            )
         context['member'] = member
         return context
 
@@ -832,9 +824,7 @@ class SupportDocumentDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
         sections = SupportDocSection.objects.filter(support_reference=self.object.pk)
         context['refs'] = {}
         for s in sections:
@@ -866,10 +856,7 @@ class SupportDocumentUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateVie
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
-        context['meta_title'] = profile.title
+        context['profile'] = profile
         return context
 
     def form_valid(self, form):
@@ -976,10 +963,7 @@ class SupportDocSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateV
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
-        context['meta_title'] = profile.title
+        context['profile'] = profile
         return context
 
     def form_valid(self, form):
@@ -997,23 +981,6 @@ class SupportDocSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateV
                 'documentation:support_doc_section_detail',
                 kwargs={'pk': self.object.pk},
             )
-
-class MemberSupportDocSectionView(LoginRequiredMixin, ListView):
-
-    model = SupportDocSection
-    paginate_by = 6
-    context_object_name = 'sections'
-
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        return SupportDocSection.objects.filter(owner=member)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        context['user_only'] = True
-        context['member'] = member
-        return context
 
 class SupportDocSectionDetailView(LoginRequiredMixin, DetailView):
 
@@ -1034,10 +1001,7 @@ class SupportDocSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateV
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
-        context['meta_title'] = profile.title
+        context['profile'] = profile
         return context
 
     def form_valid(self, form):
@@ -1111,10 +1075,7 @@ class StoryCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
-        context['meta_title'] = profile.title
+        context['profile'] = profile
         return context
 
     def form_valid(self, form):
@@ -1159,16 +1120,21 @@ class StoryListView(ListView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
+        context['app_list_context'] = "New Stories"
+        # SEO stuff
         context['meta_title'] = "New Stories | {}".format(
             profile.title,
         )
         context['meta_desc'] = "Recent stories written by {} contributors.".format(
             profile.title,
         )
-        context['new'] = True
+        # Create button
+        if self.request.user.has_perm('documentation.add_article'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'documentation:article_create',
+            )
         return context   
 
 class TopStoryListView(ListView):
@@ -1189,16 +1155,21 @@ class TopStoryListView(ListView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
+        context['app_list_context'] = "Top Stories"
+        # SEO stuff
         context['meta_title'] = "Top Stories | {}".format(
             profile.title,
         )
         context['meta_desc'] = "Excellent stories written by {} contributors.".format(
             profile.title,
         )
-        context['top'] = True
+        # Create button
+        if self.request.user.has_perm('documentation.add_article'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'documentation:article_create',
+            )
         return context
 
 class MemberStoryView(ListView):
@@ -1228,9 +1199,8 @@ class MemberStoryView(ListView):
         member = Member.objects.get(username=self.kwargs['member'])
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
+        context['app_list_context'] = "Stories"
         context['meta_title'] = "Stories by {} | {}".format(
             member,
             profile.title,
@@ -1239,7 +1209,12 @@ class MemberStoryView(ListView):
             member,
             profile.title,
         )
-        context['user_only'] = True
+        # Create button
+        if self.request.user.has_perm('documentation.add_article'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'documentation:article_create',
+            )
         context['member'] = member
         return context
 
@@ -1252,9 +1227,7 @@ class StoryDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
+        context['profile'] = profile
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
             if member.check_can_allocate() and not member.check_is_new():
@@ -1280,10 +1253,7 @@ class StoryUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
-        context['meta_title'] = profile.title
+        context['profile'] = profile
         return context
 
     def form_valid(self, form):
@@ -1390,10 +1360,7 @@ class StorySectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
-        context['meta_title'] = profile.title
+        context['profile'] = profile
         return context
 
     def form_valid(self, form):
@@ -1411,23 +1378,6 @@ class StorySectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
                 'documentation:story_section_detail',
                 kwargs={'pk': self.object.pk},
             )
-
-class MemberStorySectionView(LoginRequiredMixin, ListView):
-
-    model = StorySection
-    paginate_by = 6
-    context_object_name = 'sections'
-
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        return StorySection.objects.filter(owner=member)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        context['user_only'] = True
-        context['member'] = member
-        return context
 
 class StorySectionDetailView(LoginRequiredMixin, DetailView):
 
@@ -1448,10 +1398,7 @@ class StorySectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['app_logo'] = profile.logo
-        context['app_bg_image'] = profile.bg_image
-        context['app_banner'] = profile.banner
-        context['meta_title'] = profile.title
+        context['profile'] = profile
         return context
 
     def form_valid(self, form):

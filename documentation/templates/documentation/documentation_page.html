@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block body_block %}
-<div class="container-fluid documentation-bg" style="{% if app_bg_image %} background-image: url('{{ app_bg_image.image_file.url }}');{% endif %}">
+<div class="container-fluid documentation-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
   <!-- Heading -->
-  <div class="documentation-header" {% if app_banner %}style="background-image: url('{{ app_banner.image_file.url }}');"{% endif %}>
+  <div class="documentation-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
     {% include './documentation_page_button_bar.html' %}
-    {% if app_text %}
-      <p class="documentation-page-span">{{ app_text }}</p>
+    {% if profile.text %}
+      <p class="documentation-page-span">{{ profile.text }}</p>
     {% endif %}
     {% include './documentation_page_navbar.html' %}
   </div>

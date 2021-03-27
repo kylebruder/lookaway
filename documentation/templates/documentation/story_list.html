@@ -1,18 +1,47 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class="container-fluid documentation-bg" style="{% if app_bg_image %} background-image: url('{{ app_bg_image.image_file.url }}');{% endif %}">
-  <div class="documentation-header" style="{% if app_banner %} background-image: url('{{ app_banner.image_file.url }}');{% endif %}">
-    {% include "./story_list_button_bar.html" %}
-    <br>
-  </div>
-  {% if stories %}
-    {% if page_obj.has_other_pages %}<span class="documentation-page-span">{% include 'page_control.html' %}</span>{% endif %}
-    {% include "./story_list_item.html" %}
-    {% if page_obj.has_other_pages %}<span class="documentation-page-span">{% include 'page_control.html' %}</span>{% endif %}
-  {% else %}
-    <p class="documentation-page-span">No articles have been published yet. Check back soon!</p>
-    <br>
-  {% endif %}
-  <br>
+{% extends './documentation_list.html' %}
+{% block items_block %}
+<div class="row">
+  {% for story in stories %}
+    <div class="col-sm-4 documentation-list-card">
+      <div class="row">
+        <div class="col-">
+          {% if story.image %}
+            <div class="float-right documentation-list-image" style="background-image:url('{{ story.image.thumbnail_file.url }}')"></div>
+          {% elif story.owner.profile.image %}
+            <div class="float-right documentation-list-image" style="background-image:url('{{ story.owner.profile.image.thumbnail_file.url }}')"></div>
+          {% else %}
+            <div class="float-right documentation-list-image" style="background-image:url('/static/icon.webp')"></div>
+          {% endif %}
+        </div>
+        <div class="col-sm">
+          <h5 class="documentation-title">
+            <a href="{% url 'documentation:story_detail' story.slug %}">
+              {{ story.title }}
+            </a>
+          </h5>
+          <p class="documentation-meta">
+            Published by <a href="{% url 'members:member_profile' story.owner.username %}"><span class="index-heading-span">{{ story.owner }}</span></a>{% if story.publication_date %} on {{ story.publication_date|date:"M d, Y" }}{% endif %}
+          </p>
+          {% if story.members_only %}
+            <span class="badge badge-warning">Members Only</span>
+          {% endif %}
+          {% if not story.is_public %}
+            <span class="badge badge-dark">Unpublished</span>
+          {% endif %}
+          {% if story.tags.all.count > 0 %}
+            {% with story as object %}
+              {% include 'object_tags.html' %}
+            {% endwith %}
+          {% endif %}
+        </div>
+      </div>
+      {% if story.meta_description %}
+        <br>
+        <p class="">
+          {{ story.meta_description }}<br>
+        </p>
+      {% endif %}
+    </div>
+  {% endfor %}
 </div>
 {% endblock %}
