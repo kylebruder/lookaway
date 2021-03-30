@@ -1,0 +1,35 @@
+<div class="row">
+  {% if section.text %}
+    <div class="col-sm">
+      <div class="section-text">
+        {{ section.text|linebreaks }}
+      </div>
+    </div>
+  {% endif %}
+  {% if section.images.count > 0 %}
+    {% for image in images %}
+      <div class="col-sm">
+        <a href="{{ image.image_file.url }}">
+          {% if images.count > 3 %}
+            <img src="{{ image.thumbnail_file.url }}" alt="{{ image.title }}">
+          {% else %}
+            <img class="section-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
+          {% endif %}
+        </a><br><br>
+        <span class="">
+          {% if image.text %}
+            {{ image.text }}<br>
+          {% endif %}
+          {% if image.credit %}
+            <i>{{ image.credit }}</i><br>
+          {% endif %}
+          {% if image.owner.pk == request.user.pk %}
+            <a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}">
+              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+            </a>
+          {% endif %}
+        </span>
+      </div>
+    {% endfor %}
+  {% endif %}
+</div>

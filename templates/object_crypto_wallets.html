@@ -1,61 +1,65 @@
 <!-- Crypto Wallets -->
 <!-- Bitcoin Wallet -->
-{% if object.bitcoin_wallet %}
-  <div class="row">
-    <div class="col-">
-      <div class="container">
-        <img class="crypto-qr-sm" src="{{ object.bitcoin_wallet.qr_code_lg.url }}" alt="bitcoin:{{ object.bitcoin_wallet.public_address }}"><br>
+{% if bitcoin_wallet %}
+  <div class="documentation-section">
+    <div class="row">
+      <div class="col-">
+        <div class="container">
+          <img class="crypto-qr-sm" src="{{ bitcoin_wallet.qr_code_lg.url }}" alt="bitcoin:{{ bitcoin_wallet.public_address }}"><br>
+        </div>
+      </div>
+      <div class="col">
+        {% load static %}
+        <h5>
+          <img src="{% static 'bitcoin_logo_sm.webp' %}">  Bitcoin Accepted Here
+        </h5>
+        <p>
+          <span class="crypto-address-block">{{ bitcoin_wallet.public_address }}</span>
+          {% if request.user == bitcoin_wallet.owner %}
+          <a href="{% url 'crypto:bitcoinwallet_update' bitcoin_wallet.pk %}?next={{ request.path }}">
+              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+            </a>
+          {% endif %}
+        </p>
+        {% if bitcoin_wallet.text %}
+          <div class="crypto-text-md">
+            {{ bitcoin_wallet.text|linebreaks }}
+          </div>
+        {% endif %}
       </div>
     </div>
-    <div class="col">
-      {% load static %}
-      <h5>
-        <img src="{% static 'bitcoin_logo_sm.webp' %}">  Bitcoin Accepted Here
-      </h5>
-      <p>
-        <span class="crypto-address-block">{{ object.bitcoin_wallet.public_address }}</span>
-        {% if request.user == object.bitcoin_wallet.owner %}
-        <a href="{% url 'crypto:bitcoinwallet_update' object.bitcoin_wallet.pk %}?next={{ request.path }}">
-            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-          </a>
-        {% endif %}
-      </p>
-      {% if object.bitcoin_wallet.text %}
-        <div class="crypto-text-md">
-          {{ object.bitcoin_wallet.text|linebreaks }}
-        </div>
-      {% endif %}
-    </div>
+    <br>
   </div>
-  <br>
 {% endif %}
 <!-- Litecoin Wallet -->
-{% if object.litecoin_wallet %}
-  <div class="row">
-    <div class="col-">
-      <div class="container">
-        <img class="crypto-qr-sm" src="{{ object.litecoin_wallet.qr_code_lg.url }}" alt="litecoin:{{ object.litecoin_wallet.public_address }}"><br>
+{% if litecoin_wallet %}
+  <div class="documentation-section">
+    <div class="row">
+      <div class="col-">
+        <div class="container">
+          <img class="crypto-qr-sm" src="{{ litecoin_wallet.qr_code_lg.url }}" alt="litecoin:{{ litecoin_wallet.public_address }}"><br>
+        </div>
+      </div>
+      <div class="col">
+        {% load static %}
+        <h5>
+          <img src="{% static 'litecoin_logo_sm.webp' %}">  Litecoin Accepted Here
+        </h5>
+        <p>
+          <span class="crypto-address-block">{{ litecoin_wallet.public_address }}</span>
+          {% if request.user == litecoin_wallet.owner %}
+          <a href="{% url 'crypto:litecoinwallet_update' litecoin_wallet.pk %}?next={{ request.path }}">
+              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+            </a>
+          {% endif %}
+        </p>
+        {% if litecoin_wallet.text %}
+          <div class="crypto-text-md">
+            {{ litecoin_wallet.text|linebreaks }}
+          </div>
+        {% endif %}
       </div>
     </div>
-    <div class="col">
-      {% load static %}
-      <h5>
-        <img src="{% static 'litecoin_logo_sm.webp' %}">  Litecoin Accepted Here
-      </h5>
-      <p>
-        <span class="crypto-address-block">{{ object.litecoin_wallet.public_address }}</span>
-        {% if request.user == object.litecoin_wallet.owner %}
-        <a href="{% url 'crypto:litecoinwallet_update' object.litecoin_wallet.pk %}?next={{ request.path }}">
-            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-          </a>
-        {% endif %}
-      </p>
-      {% if object.litecoin_wallet.text %}
-        <div class="crypto-text-md">
-          {{ object.litecoin_wallet.text|linebreaks }}
-        </div>
-      {% endif %}
-    </div>
+    <br>
   </div>
-  <br>
 {% endif %}

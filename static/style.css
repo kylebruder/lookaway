@@ -83,6 +83,20 @@ table, th, td {
   line-height: 5;
 }
 
+.section-image {
+  max-width: 100%;
+  max-height: auto;
+}
+
+.section-video {
+  max-width: 100%;
+  max-height: auto;
+}
+
+.section-text {
+  min-width: 330px;
+}
+
 .title-button {
   margin: 3px;
 }

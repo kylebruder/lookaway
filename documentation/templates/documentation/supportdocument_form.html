@@ -1,14 +1,1 @@
-{% extends './documentation_form_header.html' %}
-{% block title_block %}
-{% if object.title %}
-  <div class="col">
-    <h3 class="documentation-title documentation-page-span documentation-alert">Edit Document:</h3><br>
-    <h4 class="documentation-title documentation-page-span documentation-alert">{{ object.title }}</h4>
-  </div>
-{% else %}
-  <div class="col">
-    <h3 class="documentation-title documentation-page-span documentation-alert">New Document</h3>
-    <p class="documentation-page-span documentation-alert">Documents are used to provide accurate and verifiable information to members and guests of the site. Create a Support Document using this form then edit the Document and add one or more Sections.</p>
-  </div>
-{% endif %}
-{% endblock %}
+{% include './documentation_form.html' %}

@@ -68,7 +68,7 @@ class DocumentationAppProfileForm(forms.ModelForm):
         queryset=Image.objects.all(),
         required=False, 
         help_text="""The logo will appear on the landing page and list headers
-            The optimal image size is 100 pixels wide by 100 pixels high \
+            The optimal image size is 250 pixels wide by 250 pixels high \
             (1:1)""",
     )
     banner = CustomModelChoiceField(
@@ -92,7 +92,9 @@ class DocumentationAppProfileForm(forms.ModelForm):
         model = DocumentationAppProfile
         fields = (
             'title',
+            'show_title',
             'meta_description',
+            'show_desc',
             'text',
             'logo',
             'banner',
@@ -103,6 +105,13 @@ class DocumentationAppProfileForm(forms.ModelForm):
         )
         help_texts = {
             'links': "Add featured links that will appear on the landing page",
+            'show_title': """Check this option if you would like the title to \
+                appear on the landing page header""",
+            'show_desc': """Check this option if you would like the \
+                meta description to appear on the landing page""",
+        }
+        labels = {
+            'show_desc': "Show description",
         }
 
     def __init__(self, *args, **kwargs):
@@ -386,6 +395,7 @@ class ArticleSectionForm(forms.ModelForm):
         fields = (
             'article',
             'title',
+            'hide_title',
             'order',
             'text',
             'images',
@@ -397,6 +407,8 @@ class ArticleSectionForm(forms.ModelForm):
         help_texts = {
             'article': """Choose the Article in which this Section \
                 will appear""",
+            'hide_title': """Choose this option if you do not want \
+                the title of this section to be displayed on the Article page""",
             'images': """Choose one or more Images that support your \
                 Article (optional)""",
             'sounds': """Choose one or more Sounds that support your \

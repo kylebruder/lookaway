@@ -1,14 +1,1 @@
-{% extends './documentation_form_header.html' %}
-{% block title_block %}
-{% if object.title %}
-  <div class="col">
-    <h3 class="documentation-title documentation-page-span documentation-alert">Edit Article Section:</h3><br>
-    <h4 class="documentation-title documentation-page-span documentation-alert">{{ object.title }}</h4>
-  </div>
-{% else %}
-  <div class="col">
-    <h3 class="documentation-title documentation-page-span documentation-alert">New Article Section</h3>
-    <p class="documentation-page-span documentation-alert">Add a Section to an Article. Sections are the meat of an Article and will appear after the introduction and before the conclusion in the order chosen.</p>
-  </div>
-{% endif %}
-{% endblock %}
+{% include './documentation_form.html' %}

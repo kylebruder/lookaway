@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container documentation-bg">
+  <p><i>From the <a href="{% url 'documentation:documentation_page' %}">{{ profile.title }}</a> landing page.</i></p>
   {% include './documentationpagesection.html' %}
   {% if section.is_public %}
     Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}<br>
@@ -11,5 +13,6 @@
     Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<br>
   {% endif %}
   <br>
-</div>  
+</div>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

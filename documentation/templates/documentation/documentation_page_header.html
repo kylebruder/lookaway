@@ -21,10 +21,23 @@
       <div class="col-">
         <div class="container">
           <p>
-            {% include 'object_create_buttons.html' %}
+            <a class="btn btn-sm btn-primary" href="{% url 'documentation:article_create' %}">+Article</a>
+            <a class="btn btn-sm btn-primary" href="{% url 'documentation:story_create' %}">+Story</a>
+            {% if request.user.is_staff %}
+              <a class="btn btn-sm btn-primary" href="{% url 'documentation:support_document_create' %}">+Document</a>
+            {% endif %}
+            {% if request.user.is_superuser %}
+              <a href="{% url 'documentation:documentation_app_profile_update' 1 %}?next={{ request.path }}">
+                <button class="btn btn-sm btn-warning">Edit App</button>
+              </a>
+            {% endif %}
           </p>
         </div>
       </div>
     {% endif %}
   </div>
+  {% if profile.text %}
+    <p class="documentation-page-span documentation-alert">{{ profile.text }}</p>
+  {% endif %}
+  {% include './documentation_page_navbar.html' %}
 </div>

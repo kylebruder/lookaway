@@ -17,11 +17,13 @@ class AppProfile(models.Model):
         max_length=255,
         default="Lookaway CMS"
     )
+    show_title = models.BooleanField(default=True)
     meta_description = models.TextField(
         max_length = 155,
         blank=True,
         null=True,
     )
+    show_desc = models.BooleanField(default=True)
     text = models.TextField(
         max_length=65535,
         blank=True,

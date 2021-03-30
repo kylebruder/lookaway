@@ -43,6 +43,7 @@ class DocumentationAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMi
         context['profile'] = profile
         # SEO stuff
         context['meta_title'] = profile.title
+        context['meta_desc'] = "Update \"{}\" profile settings".format(profile.title)
         context['sections'] = DocumentationPageSection.objects.all().order_by(
             'order',
         )
@@ -179,6 +180,8 @@ class DocumentationPageSectionCreateView(LoginRequiredMixin, PermissionRequiredM
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
+        context['meta_title'] = "New Page Section"
+        context['meta_desc'] = "Add a section to the {} landing page.".format(profile.title)
         return context
 
     def form_valid(self, form):
@@ -226,7 +229,8 @@ class DocumentationPageSectionUpdateView(LoginRequiredMixin, PermissionRequiredM
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
-        context['meta_title'] = profile.title
+        context['meta_title'] = "Update \"{}\"".format(self.object.title)
+        context['meta_desc'] = "Make changes to this landing page section.".format(self.object.title)
         return context
 
     def form_valid(self, form):
@@ -271,7 +275,11 @@ class ArticleCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
-        context['meta_title'] = profile.title
+        context['meta_title'] = "New Article"
+        context['meta_desc'] = """Create a new article. Once the article is \
+            created, you can add sections containing the main content of \
+            the article. Don't forget to publish the article once it is \
+            ready."""
         return context
 
     def form_valid(self, form):
@@ -451,6 +459,8 @@ class ArticleUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
+        context['meta_title'] = "Update \"{}\"".format(self.object.title)
+        context['meta_desc'] = "Make changes to this article.".format(self.object.title)
         return context
 
     def form_valid(self, form):
@@ -558,6 +568,10 @@ class ArticleSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
+        context['meta_title'] = "New Article Section"
+        context['meta_desc'] = """Create a new article section. Once created, \
+            article sections will instantly appear in the article selected in \
+            the order chosen."""
         return context
 
     def form_valid(self, form):
@@ -581,6 +595,13 @@ class ArticleSectionDetailView(LoginRequiredMixin, DetailView):
     model = ArticleSection
     context_object_name = 'section'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        return context
+
 class ArticleSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = ArticleSection
@@ -596,7 +617,12 @@ class ArticleSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
-        context['meta_title'] = profile.title
+        context['meta_title'] = "Update \"{}\"".format(
+            self.object.title,
+        )
+        context['meta_desc'] = "Make changes to this article section from \"{}\".".format(
+            self.object.article.title,
+        )
         return context
 
     def form_valid(self, form):
@@ -672,6 +698,11 @@ class SupportDocumentCreateView(LoginRequiredMixin, MemberCreateMixin, CreateVie
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
+        context['meta_title'] = "New Document"
+        context['meta_desc'] = """Create a new document. Once the document is \
+            created, you can add sections containing the main content of \
+            the document. Don't forget to publish the document once it is \
+            ready."""
         return context
 
     def form_valid(self, form):
@@ -729,7 +760,7 @@ class SupportDocumentListView(ListView):
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
             context['create_button_url'] = reverse(
-                'documentation:article_create',
+                'documentation:support_document_create',
             )
         return context   
 
@@ -764,7 +795,7 @@ class TopSupportDocumentListView(ListView):
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
             context['create_button_url'] = reverse(
-                'documentation:article_create',
+                'documentation:support_document_create',
             )
         return context
 
@@ -810,7 +841,7 @@ class MemberSupportDocumentView(ListView):
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
             context['create_button_url'] = reverse(
-                'documentation:article_create',
+                'documentation:support_document_create',
             )
         context['member'] = member
         return context
@@ -857,6 +888,8 @@ class SupportDocumentUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateVie
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
+        context['meta_title'] = "Update \"{}\"".format(self.object.title)
+        context['meta_desc'] = "Make changes to this document.".format(self.object.title)
         return context
 
     def form_valid(self, form):
@@ -964,6 +997,11 @@ class SupportDocSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateV
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
+        context['meta_title'] = "New Document Section"
+        context['meta_desc'] = """Create a new document section. Once created, \
+            document sections will instantly appear in the document selected in \
+            the order chosen."""
+        context['profile'] = profile
         return context
 
     def form_valid(self, form):
@@ -987,6 +1025,13 @@ class SupportDocSectionDetailView(LoginRequiredMixin, DetailView):
     model = SupportDocSection
     context_object_name = 'section'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        return context
+
 class SupportDocSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = SupportDocSection
@@ -1002,6 +1047,12 @@ class SupportDocSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateV
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
+        context['meta_title'] = "Update \"{}\"".format(
+            self.object.title,
+        )
+        context['meta_desc'] = "Make changes to this document section from \"{}\".".format(
+            self.object.support_document.title,
+        )
         return context
 
     def form_valid(self, form):
@@ -1076,6 +1127,11 @@ class StoryCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
+        context['meta_title'] = "New Story"
+        context['meta_desc'] = """Create a new story. Once the story is \
+            created, you can add sections containing the main content of \
+            the story. Don't forget to publish the story once it is \
+            ready."""
         return context
 
     def form_valid(self, form):
@@ -1133,7 +1189,7 @@ class StoryListView(ListView):
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
             context['create_button_url'] = reverse(
-                'documentation:article_create',
+                'documentation:story_create',
             )
         return context   
 
@@ -1168,7 +1224,7 @@ class TopStoryListView(ListView):
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
             context['create_button_url'] = reverse(
-                'documentation:article_create',
+                'documentation:story_create',
             )
         return context
 
@@ -1213,7 +1269,7 @@ class MemberStoryView(ListView):
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
             context['create_button_url'] = reverse(
-                'documentation:article_create',
+                'documentation:story_create',
             )
         context['member'] = member
         return context
@@ -1254,6 +1310,8 @@ class StoryUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
+        context['meta_title'] = "Update \"{}\"".format(self.object.title)
+        context['meta_desc'] = "Make changes to this story.".format(self.object.title)
         return context
 
     def form_valid(self, form):
@@ -1361,6 +1419,11 @@ class StorySectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
+        context['meta_title'] = "New Story Section"
+        context['meta_desc'] = """Create a new story section. Once created, \
+            story sections will instantly appear in the story selected in \
+            the order chosen."""
+        context['profile'] = profile
         return context
 
     def form_valid(self, form):
@@ -1384,6 +1447,13 @@ class StorySectionDetailView(LoginRequiredMixin, DetailView):
     model = StorySection
     context_object_name = 'section'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        return context
+
 class StorySectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = StorySection
@@ -1399,6 +1469,12 @@ class StorySectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
+        context['meta_title'] = "Update \"{}\"".format(
+            self.object.title,
+        )
+        context['meta_desc'] = "Make changes to this story section from \"{}\".".format(
+            self.object.story.title,
+        )
         return context
 
     def form_valid(self, form):

@@ -3,13 +3,7 @@
 {% block body_block %}
 <div class="container-fluid documentation-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
   <!-- Heading -->
-  <div class="documentation-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
-    {% include './documentation_page_button_bar.html' %}
-    {% if profile.text %}
-      <p class="documentation-page-span">{{ profile.text }}</p>
-    {% endif %}
-    {% include './documentation_page_navbar.html' %}
-  </div>
+  {% include './documentation_page_header.html' %}
   <br>
   {% if new_articles.all.count < 1 and new_stories.all.count < 1 and new_documents.all.count < 1 %}
     <span class="documentation-page-span"><i>Coming Soon...</i></p> 
@@ -44,6 +38,21 @@
             {% include './documentation_page_supportdocument_item.html' %}
           {% endfor %}
         </ul>
+        <br>
+          <div class="documentation-section">
+            <h4 class="documentation-title">Donate</h4>
+            {% with profile.bitcoin_wallet as bitcoin_wallet %}
+              {% with profile.litecoin_wallet as litecoin_wallet %}
+                {% include 'object_crypto_wallets.html' %}
+              {% endwith %}
+            {% endwith %}
+          </div>
+        {% with profile.links.all as links %}
+          <div class="documentation-section">
+            <h4 class="documentation-title">External Links</h4>
+            {% include 'object_links.html' %}
+          </div>
+        {% endwith %}
       </div>
     </div>
     <br>

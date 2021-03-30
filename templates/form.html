@@ -5,6 +5,7 @@
     <!-- Anything outside of this will be inhereited if you extend! -->
   {% endblock %}
   <br>
+  <div class="container-fluid">
   <form method="post" enctype="multipart/form-data">
     <div class="row">
       {% csrf_token %}
@@ -44,6 +45,7 @@
       <input type="submit" value="Submit" class="btn btn-success form-submit-button float-right">
     </div>
   </form>
+  </div>
   <br>
 </div>
 {% endblock %}

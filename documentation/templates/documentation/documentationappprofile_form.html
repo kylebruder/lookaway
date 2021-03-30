@@ -1,29 +1,19 @@
 {% extends 'form.html' %}
 {% block header_block %}
-<div class="documentation-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
-  <div class="row">
-    <div class="col-sm-">
-      <div class="container">
-        <img class="documentation-logo" src="{{ profile.logo.image_file.url }}" alt="{{ profile.logo.thumbnail_file.title }}">
-      </div>
-    </div>
-    <div class="col">
-      <h3 class="documentation-title documentation-page-span documentation-alert">{{ meta_title }}</h3>
-    </div>
-    <div class="col-">
-      <div class="container">
-        <p>
-          <a class="btn btn-sm btn-primary" href="{% url 'documentation:documentation_page_section_create' %}?next={{ request.path }}">+Section</a>
-          {% include 'object_create_buttons.html' %}
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+{% include './documentation_form_header.html' %}
 <br>
 {% if sections %}
-  <div class="form-field documentation-alert">
-    <h5 class="form-label">Landing Page Sections</h5>
+  <div class="form-field">
+    <div class="row">
+      <div class="col-sm">
+        <h4 class="form-label">Landing Page Sections</h4>
+      </div>
+      <div class="col-">
+        <div class="container">
+         <a class="btn btn-sm btn-primary" href="{% url 'documentation:documentation_page_section_create' %}?next={{ request.path }}">+Section</a> 
+        </div>
+      </div>
+    </div>
     <table class="">
       {% for section in sections %}
         <tr>
