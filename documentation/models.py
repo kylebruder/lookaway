@@ -6,7 +6,15 @@ from lookaway.mixins import AppProfile, Section, Doc
 # Create your models here.
 
 class DocumentationAppProfile(AppProfile, CryptoWalletsMixin):
-    pass
+
+    n = models.PositiveIntegerField(default=3)
+    list_pagination = models.PositiveIntegerField(default=6)
+    show_new_articles = models.BooleanField(default=True)
+    show_top_articles = models.BooleanField(default=True)
+    show_new_stories = models.BooleanField(default=True)
+    show_top_stories = models.BooleanField(default=True)
+    show_new_support_documents = models.BooleanField(default=True)
+    show_top_support_documents = models.BooleanField(default=True)
     
 class DocumentationPageSection(Section):
 
@@ -35,6 +43,8 @@ class DocumentationPageSection(Section):
     is_enabled = models.BooleanField(default=False)
 
     class Meta:
+        verbose_name = "Landing Page Section"
+        verbose_name_plural = "Landing Page Sections"
         ordering = ['order']
 
 class Article(Doc):

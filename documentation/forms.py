@@ -86,6 +86,50 @@ class DocumentationAppProfileForm(forms.ModelForm):
         help_text="The background image will appear on pages related to \
             this app",
     )
+    n = forms.IntegerField(
+        max_value=1000,
+        min_value=0,
+        label="Number of each item to show on the landing page (n)",
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+    )
+    list_pagination = forms.IntegerField(
+        max_value=1000,
+        min_value=1,
+        label="Number of items to show in lists",
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+    )
+    show_new_articles = forms.BooleanField(
+        label="Show the n newest articles on the landing page",
+        required=False,
+    )
+    show_top_articles = forms.BooleanField(
+        label="Show the top n articles on the landing page",
+        required=False,
+    )
+    show_new_stories = forms.BooleanField(
+        label="Show the n newest stories on the landing page",
+        required=False,
+    )
+    show_top_stories = forms.BooleanField(
+        label="Show the top n stories on the landing page",
+        required=False,
+    )
+    show_new_support_documents = forms.BooleanField(
+        label="Show the n newest documents on the landing page",
+        required=False,
+    )
+    show_top_support_documents = forms.BooleanField(
+        label="Show the top n documents on the landing page",
+        required=False,
+    )
     title.widget.attrs.update({'class': 'form-text-field'})
 
     class Meta:
@@ -99,6 +143,14 @@ class DocumentationAppProfileForm(forms.ModelForm):
             'logo',
             'banner',
             'bg_image',
+            'n',
+            'list_pagination',
+            'show_new_articles',
+            'show_top_articles',
+            'show_new_stories',
+            'show_top_stories',
+            'show_new_support_documents',
+            'show_top_support_documents',
             'links',
             'bitcoin_wallet',
             'litecoin_wallet',

@@ -135,6 +135,13 @@
   font-size: 0.8em;
 }
 
+.documentation-nav {
+  border-color: #111111;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 5px;
+}
+
 .documentation-page-span {
   color: #ffffff;
   background-color: #222222;

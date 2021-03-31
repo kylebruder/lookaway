@@ -39,6 +39,7 @@
           {% endfor %}
         </ul>
         <br>
+        {% if profile.bitcoin_wallet or profile.litecoin_wallet %}
           <div class="documentation-section">
             <h4 class="documentation-title">Donate</h4>
             {% with profile.bitcoin_wallet as bitcoin_wallet %}
@@ -47,12 +48,15 @@
               {% endwith %}
             {% endwith %}
           </div>
-        {% with profile.links.all as links %}
-          <div class="documentation-section">
-            <h4 class="documentation-title">External Links</h4>
-            {% include 'object_links.html' %}
-          </div>
-        {% endwith %}
+        {% endif %}
+        {% if profile.links.count > 0 %}
+          {% with profile.links.all as links %}
+            <div class="documentation-section">
+              <h4 class="documentation-title">External Links</h4>
+              {% include 'object_links.html' %}
+            </div>
+          {% endwith %}
+        {% endif %}
       </div>
     </div>
     <br>
