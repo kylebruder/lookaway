@@ -201,7 +201,7 @@ class DocumentationPageSectionCreateView(LoginRequiredMixin, PermissionRequiredM
         else:
             return reverse(
                 'documentation:documentation_page_section_detail',
-                kwargs={'slug': self.object.slug},
+                kwargs={'pk': self.object.pk},
             )
 
 class DocumentationPageSectionDetailView(LoginRequiredMixin, DetailView):

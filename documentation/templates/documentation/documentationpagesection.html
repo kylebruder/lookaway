@@ -25,6 +25,8 @@
         {% include 'section_images.html' %}
       {% endif %}
     {% endwith %}
+  {% elif section.text %}
+    {{ section.text|linebreaks }}
   {% endif %}
   {% if section.sounds.count > 0 %}
     {% with section.sounds.all as sounds %}
