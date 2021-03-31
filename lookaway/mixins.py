@@ -29,27 +29,6 @@ class AppProfile(models.Model):
         blank=True,
         null=True,
     )
-    logo = models.ForeignKey(
-        'objects.image',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-        related_name='app_logo'
-    )
-    banner = models.ForeignKey(
-        'objects.image',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-        related_name='app_banner'
-    )
-    bg_image = models.ForeignKey(
-        'objects.image',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-        related_name='app_bg_image'
-    )
     links = models.ManyToManyField(
         'objects.link',
         blank=True,

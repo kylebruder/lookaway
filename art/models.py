@@ -2,8 +2,69 @@ from django.db import models
 from django.urls import reverse
 from members.mixins import MarshmallowMixin
 from objects.models import MetaDataMixin
+from crypto.models import CryptoWalletsMixin
+from lookaway.mixins import AppProfile, Section, Doc
 
 # Create your models here.
+
+class ArtAppProfile(AppProfile, CryptoWalletsMixin):
+
+    n_visuals = models.PositiveIntegerField(default=25)
+    n_galleries = models.PositiveIntegerField(default=5)
+    visual_list_pagination = models.PositiveIntegerField(default=25)
+    gallery_list_pagination = models.PositiveIntegerField(default=6)
+    show_new_visuals = models.BooleanField(default=True)
+    show_top_visuals = models.BooleanField(default=True)
+    show_new_galleries= models.BooleanField(default=True)
+    show_top_galleries = models.BooleanField(default=True)
+    logo = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='art_logo'
+    )
+    banner = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='art_banner'
+    )
+    bg_image = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='art_bg_image'
+    )
+    
+class ArtPageSection(Section):
+
+    info = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    alert = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    visuals = models.ManyToManyField(
+        'art.visual',
+        blank=True,
+    )
+    galleries = models.ManyToManyField(
+        'art.gallery',
+        blank=True,
+    )
+    is_enabled = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Landing Page Section"
+        verbose_name_plural = "Landing Page Sections"
+        ordering = ['order']
 
 class ArtMetaData(models.Model):
 
@@ -26,7 +87,7 @@ class ArtMetaData(models.Model):
         null=True,
     )
 
-class Visual(MetaDataMixin, ArtMetaData, MarshmallowMixin):
+class Visual(MetaDataMixin, ArtMetaData, MarshmallowMixin, CryptoWalletsMixin):
 
     order = models.DecimalField(
         max_digits=8,
@@ -72,7 +133,7 @@ class Visual(MetaDataMixin, ArtMetaData, MarshmallowMixin):
     def __str__(self):
         return self.title
 
-class Gallery(MetaDataMixin, ArtMetaData, MarshmallowMixin):
+class Gallery(MetaDataMixin, ArtMetaData, MarshmallowMixin, CryptoWalletsMixin):
 
     visuals = models.ManyToManyField(
         Visual,

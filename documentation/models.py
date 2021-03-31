@@ -15,6 +15,27 @@ class DocumentationAppProfile(AppProfile, CryptoWalletsMixin):
     show_top_stories = models.BooleanField(default=True)
     show_new_support_documents = models.BooleanField(default=True)
     show_top_support_documents = models.BooleanField(default=True)
+    logo = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='documentation_logo'
+    )
+    banner = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='documentation_banner'
+    )
+    bg_image = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='documentation_bg_image'
+    )
     
 class DocumentationPageSection(Section):
 
