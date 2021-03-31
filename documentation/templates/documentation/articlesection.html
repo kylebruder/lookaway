@@ -1,96 +1,53 @@
-<div class="documentation-section">
-  <!-- Anchor for URI fragments to Offset the Nav Bar-->
-  <span id="section-{{ section.pk }}" class="documentation-section-anchor"></span>
-  <!-- Section Title -->
-  {% include './articlesection_detail_button_bar.html' %}
-  <!-- Section Text -->
-  {{ section.text|linebreaks }}
-  <!-- Section Images -->
-  {% if section.images.count > 0 %}
-    {% for image in section.images.all %}
-      <div class="documentation-section-image">
-        <a href="{{ image.image_file.url }}">
-          <img class="documentation-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
-        </a>
-        <p>
-          {% if image.text %}
-            {{ image.text }}<br>
-          {% endif %}
-          {% if image.credit %}
-            <i>{{ image.credit }}</i><br>
-          {% endif %}
-          {% if image.owner.pk == request.user.pk %}
-            <a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}">
-              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-            </a>
-          {% endif %}
-        </p>
-      </div>
-    {% endfor %}
+<!-- Anchor for URI fragments to Offset the Nav Bar-->
+<span id="section-{{ section.pk }}" class="documentation-section-anchor"></span>
+<!-- Section Title -->
+{% include './articlesection_detail_title_bar.html' %}
+<!-- Section images -->
+{% if section.images.count == 1 %}
+  {% if section.text %}
+    {{ section.text|linebreaks }}
   {% endif %}
-  {% if section.sounds.count > 0 %}
-    {% for sound in section.sounds.all %}
-      <audio controls="controls" preload="none">
-        {% include 'audio_mime_types.html' %}
-      </audio>
-      <p>
-        {{ sound.text }}
-        <br>
-        {% if sound.credit %}
-          <i>{{ sound.credit }}</i><br>
-        {% endif %}
-        {% if sound.owner.pk == request.user.pk %}
-          <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
-            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-          </a>
-        {% endif %}
-      </p>
-    {% endfor %}
+  {% with section.images.all.first as image %}
+    {% include 'section_image.html' %}
+  {% endwith %}
+{% elif section.images.count > 1 %}
+  {% with section.images.all as images %}
+    {% include 'section_images_text.html' %}
+  {% endwith %}
+{% else %}
+  {% if section.text %}
+    {{ section.text|linebreaks }}
   {% endif %}
-  {% if section.videos.count > 0  %}
-    {% for video in section.videos.all %}
-      <video class="video-player" preload="none" controls="controls">
-        {% include 'video_mime_types.html' %}
-      </video>
-      <br>
-      <p>
-        {{ video.text }}<br>
-        {% if video.credit %}
-          <i>{{ video.credit }}</i><br>
-        {% endif %}
-        {% if video.owner.pk == request.user.pk %}
-          <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
-            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-          </a>
-        {% endif %}
-      </p>
-    {% endfor %}
-  {% endif %}
-  {% if section.code.count > 0  %}
-    {% for code in section.code.all %}
-      {% if code.file_path %}
-        <span class="code-block"><strong>{{ code.file_path }}</strong></span><br>
-      {% endif %}
-      <pre class="code-block">{{ code.code }}</pre>
-      <p>
-        {% if code.source and code.source_url %}
-          Source: <a href="{{ code.source_url }}">{{ code.source }}</a><br>
-        {% elif code.source %}
-          Source: {{ code.source }}</p>
-        {% elif code.source_url %}
-          Source: <a href="{{ code.source_url }}">{{ code.source_url }}</a><br>
-        {% endif %}
-        {% if code.owner.pk == request.user.pk %}
-          <a href="{% url 'objects:code_update' code.pk %}?next={{ request.path }}">
-            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-          </a>
-        {% endif %}
-      </p>
-    {% endfor %}
-  {% endif %}
-  {% if section.links.count > 0  %}
-    {% with section.links.all as links%}
-      {% include 'object_links.html' %}
-    {% endwith %}
-  {% endif %}
-</div>
+{% endif %}
+<!-- Section sounds -->
+{% if section.sounds.count == 1 %}
+  {% with section.sounds.all.first as sound %}
+    {% include 'section_sound.html' %}
+  {% endwith %}
+{% elif section.sounds.count > 1 %}
+  {% with section.sounds.all as sounds %}
+    {% include 'section_sounds.html' %}
+  {% endwith %}
+{% endif %}
+<!-- Section videos -->
+{% if section.videos.count == 1 %}
+  {% with section.videos.all.first as video %}
+    {% include 'section_video.html' %}
+  {% endwith %}
+{% elif section.videos.count > 1 %}
+  {% with section.videos.all as videos %}
+    {% include 'section_videos.html' %}
+  {% endwith %}
+{% endif %}
+<!-- Section code -->
+{% if section.code.count > 0  %}
+  {% with section.code.all as codes %}
+    {% include 'section_codes.html' %}
+  {% endwith %}
+{% endif %}
+<!-- Section Links -->
+{% if section.links.count > 0  %}
+  {% with section.links.all as links%}
+    {% include 'object_links.html' %}
+  {% endwith %}
+{% endif %}

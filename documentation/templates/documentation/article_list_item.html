@@ -1,5 +1,0 @@
-{% for article in articles %}
-  {% if article.is_public or article.owner.pk == request.user.pk %}
-    {% include './article_item.html' %}
-  {% endif %}
-{% endfor %}

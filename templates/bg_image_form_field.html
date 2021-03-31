@@ -1,0 +1,4 @@
+{% extends 'image_choice_selector.html' %}
+{% block input_block %}
+<p>&nbsp;<input type="radio" value="{{ value|first }}" name="bg_image" {% if object.bg_image.pk == value|first %}checked{% endif %}></p>
+{% endblock %}

@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block body_block %}
-<div class="container documentation-story-bg">
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
+<div class="container documentation-bg">
   {% if story.is_public or story.owner.pk == request.user.pk %}
     {% include './story_detail_button_bar.html' %}
     {% if story.is_public %}
-      <p>Written by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></p><br>
+      <p>Written by {{ object.author }}<br>Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}{% if object.last_modified > object.publication_date %}<br>Last updated on {{ object.last_modified }}{% endif %}</p><br>
     {% else %}
       <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}</p><br>
     {% endif %}
@@ -20,7 +21,7 @@
     <br>
     <br>
     {% if story.intro %}
-      <h4 class="documentation-title">Foreward</h4>
+      <h4 class="documentation-title">Foreword</h4>
       {{ story.intro|linebreaks }}
       <br>
     {% endif %}
@@ -37,6 +38,7 @@
       <br>
     {% endif %}
     {% include './story_data.html' %}
+    <br>
     {% if story.links.count > 0 %}
       <h4 class="documentation-title">Links</h4>
       {% with story.links.all as links %}
@@ -44,16 +46,20 @@
       {% endwith %}
       <br>
     {% endif %}
-    {% include 'object_crypto_wallets.html' %}
+    {% with story.bitcoin_wallet as bitcoin_wallet %}
+      {% with story.litecoin_wallet as litecoin_wallet %}
+        {% include 'object_crypto_wallets.html' %}
+      {% endwith %}
+    {% endwith %}
     {% if story.tags.count > 0 %}
       {% include './object_tags.html' %}
-      <br>
     {% endif %}
-    {% include 'object_meta_data.html' %}
-    <br>
   {% else %}
     <p>This Story has not been published yet.</p>
     <br>
   {% endif %}
+  <br>
 </div>  
+<br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

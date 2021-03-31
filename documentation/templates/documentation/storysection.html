@@ -1,32 +1,20 @@
-<div class="documentation-section">
-  <!-- Anchor for URI fragments to Offset the Nav Bar-->
-  <span id="section-{{ section.pk }}" class="documentation-section-anchor"></span>
-  <!-- Section Title -->
-  {% include './storysection_detail_button_bar.html' %}
-  <!-- Section Images -->
-  {% if section.images.count > 0 %}
-    {% for image in section.images.all %}
-      <div class="documentation-story-section-image float-left">
-        <a href="{{ image.image_file.url }}">
-          <img class="documentation-image" src="{{ image.thumbnail_file.url }}" alt="{{ image.title }}">
-        </a><br><br>
-        <span class="">
-          {% if image.text %}
-            {{ image.text }}<br>
-          {% endif %}
-          {% if image.credit %}
-            <i>{{ image.credit }}</i><br>
-          {% endif %}
-          {% if image.owner.pk == request.user.pk %}
-            <a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}">
-              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-            </a>
-          {% endif %}
-        </span>
-      </div>
-    {% endfor %}
-  {% endif %}
-  <!-- Section Text -->
-  {{ section.text|linebreaks }}
-</div>
+<!-- Anchor for URI fragments to Offset the Nav Bar-->
+<span id="section-{{ section.pk }}" class="documentation-section-anchor"></span>
+<!-- Section Title -->
+{% include './storysection_detail_button_bar.html' %}
+<!-- Section Images -->
+{% if section.images.count > 0  %}
+  {% with section.images.all as images %}
+    <!-- Section Text -->
+    {% if section.text %}
+      {% include 'section_images_text.html' %}
+    {% elif section.images.count == 1 %}
+      {% with section.images.first as image %}
+        {% include 'section_image.html' %}
+      {% endwith %}
+    {% else %}
+      {% include 'section_images.html' %}
+    {% endif %}
+  {% endwith %}
+{% endif %}
 <div class="clear"></div>

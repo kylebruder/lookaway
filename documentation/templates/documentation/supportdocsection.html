@@ -1,110 +1,48 @@
-<div class="documentation-section">
-  <!-- Anchor for URI fragments to Offset the Nav Bar-->
-  <span id="section-{{ section.pk }}" class="documentation-section-anchor"></span>
-  <!-- Section Title -->
-  {% include './supportdocsection_detail_button_bar.html' %}
-  <!-- Section Text -->
+<!-- Anchor for URI fragments to Offset the Nav Bar-->
+<span id="section-{{ section.pk }}" class="documentation-section-anchor"></span>
+<!-- Section Title -->
+{% include './supportdocsection_detail_button_bar.html' %}
+<!-- Section Text -->
+{% if section.text %}
   {{ section.text|linebreaks }}
-  <!-- Section Tip -->
-  {% if section.tip %}
-    <div class="alert alert-primary documentation-alert"><strong>Tip:</strong> {{ section.tip }}</div><br>
-  {% endif %}
-  <!-- Section Warning -->
-  {% if section.warning %}
-    <div class="alert alert-warning documentation-alert"><strong>Caution:</strong> {{ section.warning }}</div><br>
-  {% endif %}
-  <!-- Section Images -->
-  {% if section.images.count > 0 %}
-    {% for image in section.images.all %}
-      <div class="documentation-seciton-image">
-        <a href="{{ image.image_file.url }}">
-          <img class="documentation-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
-        </a>
-        <p>
-          {% if image.text %}
-            {{ image.text }}<br>
-          {% endif %}
-          {% if image.credit %}
-            <i>{{ image.credit }}</i><br>
-          {% endif %}
-          {% if image.owner.pk == request.user.pk %}
-            <a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}">
-              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-            </a><br>
-          {% endif %}
-        </p>
-      </div>
-    {% endfor %}
-  {% endif %}
-  {% if section.sounds.count > 0 %}
-    {% for sound in section.sounds.all %}
-      <audio controls="controls" preload="none">
-        {% include 'audio_mime_types.html' %}
-      </audio>
-      <p>
-        {{ sound.text }}
-        <br>
-        {% if sound.credit %}
-          <i>{{ sound.credit }}</i><br>
-        {% endif %}
-        {% if sound.owner.pk == request.user.pk %}
-          <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
-            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-          </a>
-        {% endif %}
-      </p>
-    {% endfor %}
-  {% endif %}
-  {% if section.videos.count > 0  %}
-    {% for video in section.videos.all %}
-      <video class="video-player" preload="none" controls="controls">
-        {% include 'video_mime_types.html' %}
-      </video>
-      <br>
-      <p>
-        {{ video.text }}<br>
-        {% if video.credit %}
-          <i>{{ video.credit }}</i><br>
-        {% endif %}
-        {% if video.owner.pk == request.user.pk %}
-          <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
-            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-          </a>
-        {% endif %}
-      </p>
-    {% endfor %}
-  {% endif %}
-  {% if section.code.count > 0  %}
-    {% for code in section.code.all %}
-      {% if code.file_path %}
-        <span class="code-block"><strong>{{ code.file_path }}</strong></span><br>
-      {% endif %}
-      <pre class="code-block">{{ code.code }}</pre>
-      <p>
-        {% if code.source and code.source_url %}
-          Source: <a href="{{ code.source_url }}">{{ code.source }}</a><br>
-        {% elif code.source %}
-          Source: {{ code.source }}</p>
-        {% elif code.source_url %}
-          Source: <a href="{{ code.source_url }}">{{ code.source_url }}</a><br>
-        {% endif %}
-        {% if code.owner.pk == request.user.pk %}
-          <a href="{% url 'objects:code_update' code.pk %}?next={{ request.path }}">
-            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-          </a>
-        {% endif %}
-      </p>
-    {% endfor %}
-  {% endif %}
-  {% if section.support_reference %}
-    <a href="{% url 'documentation:support_document_detail' section.support_reference.slug %}">
-      <h5 class="documentation-title">{{ section.support_reference.title }}</h5>
-    </a>
-    <p>{{ section.support_reference.meta_description }}</p>
-  {% endif %}
-  {% if section.links.count > 0  %}
-    {% with section.links.all as links %}
-      {% include 'object_links.html' %}
-    {% endwith %}
-  {% endif %}
-</div>
+{% endif %}
+<!-- Section Tip -->
+{% if section.tip %}
+  <div class="alert alert-primary documentation-alert"><strong>Tip:</strong> {{ section.tip }}</div><br>
+{% endif %}
+<!-- Section Warning -->
+{% if section.warning %}
+  <div class="alert alert-warning documentation-alert"><strong>Caution:</strong> {{ section.warning }}</div><br>
+{% endif %}
+<!-- Section Images -->
+{% if section.images.count > 0 %}
+  {% with section.images.all as images %}
+    {% include 'section_images.html' %}
+  {% endwith %}
+{% endif %}
+{% if section.sounds.count > 0 %}
+  {% with section.sounds.all as sounds %}
+    {% include 'section_sounds.html' %}
+  {% endwith %}
+{% endif %}
+{% if section.videos.count > 0  %}
+  {% with section.videos.all as videos %}
+    {% include 'section_videos.html' %}
+  {% endwith %}
+{% endif %}
+{% if section.code.count > 0  %}
+  {% with section.code.all as codes %}
+    {% include 'section_codes.html' %}
+  {% endwith %}
+{% endif %}
+{% if section.support_reference %}
+  <a href="{% url 'documentation:support_document_detail' section.support_reference.slug %}">
+    <h5 class="documentation-title">{{ section.support_reference.title }}</h5>
+  </a>
+  <p>{{ section.support_reference.meta_description }}</p>
+{% endif %}
+{% if section.links.count > 0  %}
+  {% with section.links.all as links %}
+    {% include 'object_links.html' %}
+  {% endwith %}
+{% endif %}

@@ -1,0 +1,23 @@
+<div class="row">
+  {% for sound in sounds %}
+    <div class="col-sm">
+      <audio controls="controls" preload="none">
+        {% include 'audio_mime_types.html' %}
+      </audio>
+      <p>
+        {% if sound.text %}
+          {{ sound.text }}
+          <br>
+        {% endif %}
+        {% if sound.credit %}
+          <i>{{ sound.credit }}</i><br>
+        {% endif %}
+        {% if sound.owner.pk == request.user.pk %}
+          <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
+            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+          </a>
+        {% endif %}
+      </p>
+    </div>
+  {% endfor %}
+</div>

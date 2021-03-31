@@ -1,6 +1,8 @@
 <div class="row">
   <div class="col">
-    <h4 class="documentation-title">{{ section.title }}</h4>
+    {% if not section.hide_title %}
+      <h4 class="documentation-title">{{ section.title }}</h4>
+    {% endif %}
     {% if not article %}
       <p class="test">
         from <a href="{% url 'documentation:article_detail' section.article.slug %}">

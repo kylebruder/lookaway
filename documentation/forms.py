@@ -4,8 +4,9 @@ from templates.widgets import ImagePreviewWidget, SoundPreviewWidget, VideoPrevi
 from crypto.models import BitcoinWallet, LitecoinWallet
 from members.models import Member
 from objects.models import Image, Sound, Video, Code, Link
-from .models import Article, ArticleSection, Story, StorySection, SupportDocument, SupportDocSection
+from .models import Article, ArticleSection, DocumentationAppProfile, DocumentationPageSection, Story, StorySection, SupportDocument, SupportDocSection
 
+# Custom model choice classes for image selection fields
 class CustomModelChoiceIterator(forms.models.ModelChoiceIterator):
 
     def choice(self, obj):
@@ -28,6 +29,292 @@ class CustomModelMultipleChoiceField(forms.models.ModelMultipleChoiceField):
         return CustomModelChoiceIterator(self)
 
     choices = property(_get_choices, forms.MultipleChoiceField._set_choices)
+
+# Documentation app profile form
+class DocumentationAppProfileForm(forms.ModelForm):
+
+    title = forms.CharField(
+        help_text="""The Article title will appear in the header
+            It will also appear on search engine results pages (SERPs) and can \
+            impact search engine optimization (SEO)""",
+        max_length=128,
+        required=False,
+    )
+    meta_description = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="""Add a short description
+            The description will be used by Search Engines and will impact SEO
+            Include key words used in the title
+            Keep it less than 155 characters""",
+        max_length=155,
+        required=False,
+    )
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        label="Blurb",
+        help_text="Add a short blurb that will be displayed under the header",
+        max_length=65535,
+        required=False,
+    )
+    logo = CustomModelChoiceField(
+        queryset=Image.objects.all(),
+        required=False, 
+        help_text="""The logo will appear on the landing page and list headers
+            The optimal image size is 250 pixels wide by 250 pixels high \
+            (1:1)""",
+    )
+    banner = CustomModelChoiceField(
+        queryset=Image.objects.all(),
+        required=False, 
+        help_text="""The banner is the background image for the landing page \
+            header
+            The optimal image size is 1800 pixels wide by 400 pixels high \
+            (9:2)""",
+    )
+    bg_image = CustomModelChoiceField(
+        queryset=Image.objects.all(),
+        required=False, 
+        label="Background Image",
+        help_text="The background image will appear on pages related to \
+            this app",
+    )
+    n = forms.IntegerField(
+        max_value=1000,
+        min_value=0,
+        label="Number of each item to show on the landing page (n)",
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+    )
+    list_pagination = forms.IntegerField(
+        max_value=1000,
+        min_value=1,
+        label="Number of items to show in lists",
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+    )
+    show_new_articles = forms.BooleanField(
+        label="Show the n newest articles on the landing page",
+        required=False,
+    )
+    show_top_articles = forms.BooleanField(
+        label="Show the top n articles on the landing page",
+        required=False,
+    )
+    show_new_stories = forms.BooleanField(
+        label="Show the n newest stories on the landing page",
+        required=False,
+    )
+    show_top_stories = forms.BooleanField(
+        label="Show the top n stories on the landing page",
+        required=False,
+    )
+    show_new_support_documents = forms.BooleanField(
+        label="Show the n newest documents on the landing page",
+        required=False,
+    )
+    show_top_support_documents = forms.BooleanField(
+        label="Show the top n documents on the landing page",
+        required=False,
+    )
+    title.widget.attrs.update({'class': 'form-text-field'})
+
+    class Meta:
+        model = DocumentationAppProfile
+        fields = (
+            'title',
+            'show_title',
+            'meta_description',
+            'show_desc',
+            'text',
+            'logo',
+            'banner',
+            'bg_image',
+            'n',
+            'list_pagination',
+            'show_new_articles',
+            'show_top_articles',
+            'show_new_stories',
+            'show_top_stories',
+            'show_new_support_documents',
+            'show_top_support_documents',
+            'links',
+            'bitcoin_wallet',
+            'litecoin_wallet',
+        )
+        help_texts = {
+            'links': "Add featured links that will appear on the landing page",
+            'show_title': """Check this option if you would like the title to \
+                appear on the landing page header""",
+            'show_desc': """Check this option if you would like the \
+                meta description to appear on the landing page""",
+        }
+        labels = {
+            'show_desc': "Show description",
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(DocumentationAppProfileForm, self).__init__(*args, **kwargs)
+        self.fields['logo'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['banner'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['bg_image'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+
+# Documentation page section form
+class DocumentationPageSectionForm(forms.ModelForm):
+
+    is_enabled = forms.BooleanField(
+        label="Enabled",
+        help_text="""Choose this option if you want this section to appear\
+            on the landing page""",
+        required=False,
+    )
+    images = CustomModelMultipleChoiceField(
+        queryset = Image.objects.all(),
+        required=False,
+        help_text="Choose one or more Images to include in this Section",
+    )
+    title = forms.CharField(
+        help_text="""The Section title will appear in the header of this \
+            Section""",
+        max_length=255,
+    )
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="Enter the Section text here",
+        max_length=65535,
+        required=False,
+    )
+    info = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        label="Info",
+        help_text="Add highlighted information in this section",
+        max_length=65535,
+        required=False,
+    )
+    alert = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        label="Alert",
+        help_text="Add a highlighted alert that will display in this section",
+        max_length=65535,
+        required=False,
+    )
+    order = forms.DecimalField(
+        help_text="""Choose the order in which the Section will appear on \
+            the landing page
+            Lower values will appear first""",
+        max_digits=8,
+        initial=0,
+    )
+    hide_title = forms.BooleanField(
+        help_text ="""Choose this option if you do not want \
+            the title of this section to be displayed on the page""",
+        required=False,
+    )
+    order.widget.attrs.update({'class': 'form-text-field'})
+    title.widget.attrs.update({'class': 'form-text-field'})
+
+    class Meta:
+        model = DocumentationPageSection
+        fields = (
+            'is_enabled',
+            'images',
+            'title',
+            'hide_title',
+            'order',
+            'text',
+            'info',
+            'alert',
+            'articles',
+            'stories',
+            'support_documents',
+            'sounds',
+            'videos',
+            'code',
+            'links',
+        )
+        help_texts = {
+            'sounds': """Choose one or more Sounds""",
+            'videos': """Choose one or more Videos""",
+            'code': """Choose one or more Code samples""",
+            'links': """Choose one or more Links""",
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(DocumentationPageSectionForm, self).__init__(*args, **kwargs)
+        self.fields['images'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['sounds'].queryset = Sound.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['videos'].queryset = Video.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['code'].queryset = Code.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['articles'].queryset = Article.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['stories'].queryset = Story.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['support_documents'].queryset = SupportDocument.objects.filter(
+            is_public=True,
+        ).order_by(
+            '-last_modified',
+        )
 
 class ArticleForm(forms.ModelForm):
 
@@ -82,6 +369,7 @@ class ArticleForm(forms.ModelForm):
         required=False,
     )
     title.widget.attrs.update({'class': 'form-text-field'})
+
     class Meta:
         model = Article
         fields = (
@@ -159,6 +447,7 @@ class ArticleSectionForm(forms.ModelForm):
         fields = (
             'article',
             'title',
+            'hide_title',
             'order',
             'text',
             'images',
@@ -170,16 +459,18 @@ class ArticleSectionForm(forms.ModelForm):
         help_texts = {
             'article': """Choose the Article in which this Section \
                 will appear""",
+            'hide_title': """Choose this option if you do not want \
+                the title of this section to be displayed on the Article page""",
             'images': """Choose one or more Images that support your \
-                information (optional)""",
+                Article (optional)""",
             'sounds': """Choose one or more Sounds that support your \
-                information (optional)""",
+                Article (optional)""",
             'videos': """Choose one or more Videos that support your \
-                information (optional)""",
+                Article (optional)""",
             'code': """Choose one or more Code samples that support your \
-                information (optional)""",
+                Article (optional)""",
             'links': """Choose one or more Links that provide reference to \
-                your information (optional)""",
+                your Article (optional)""",
         }
 
     def __init__(self, *args, **kwargs):
@@ -253,7 +544,7 @@ class SupportDocumentForm(forms.ModelForm):
             }
         ),
         help_text="Introduce the topic of the Support Document",
-        label="Introduciton",
+        label="Introduction",
         max_length=65535,
         required=False,
     )

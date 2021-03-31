@@ -16,6 +16,12 @@
   margin-right: 5px;
 }
 
+.link-favicon {
+  height: 16px;
+  width: 16px;
+  margin-bottom: 5px;
+}
+
 .link-list-field {
   color: #eeeeee;
   background-color: #222222;

@@ -18,6 +18,10 @@
 @import "css/art.css";
 @import "css/crypto.css";
 
+table, th, td {
+  padding: 5px;
+}
+
 .clear {
   clear: both;
 }
@@ -44,6 +48,7 @@
 } 
 
 .brand-title {
+  color: #ffffff;
   font-family: 'Baloo Paaji 2', sans-serif;
 }
 
@@ -51,16 +56,45 @@
   margin-right: 10px;
   margin-bottom: 10px;
 }
+
 .edit-button {
   border-radius: 100%;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .create-button {
   border-radius: 48%;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.delete-button {
+  border-radius: 100%;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .object-title {
   font-family: 'Ibarra Real Nova', serif;
+}
+
+.pagination-span {
+  line-height: 5;
+}
+
+.section-image {
+  max-width: 100%;
+  max-height: auto;
+}
+
+.section-video {
+  max-width: 100%;
+  max-height: auto;
+}
+
+.section-text {
+  min-width: 330px;
 }
 
 .title-button {

@@ -1,0 +1,14 @@
+<img class="documentation-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
+<p>
+  {% if image.text %}
+    {{ image.text }}<br>
+  {% endif %}
+  {% if image.credit %}
+    <i>{{ image.credit }}</i><br>
+  {% endif %}
+  {% if image.owner.pk == request.user.pk %}
+    <a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}">
+      <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+    </a><br>
+  {% endif %}
+</p>

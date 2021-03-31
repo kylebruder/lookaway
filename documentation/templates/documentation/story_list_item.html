@@ -1,5 +1,5 @@
-{% for story in stories %}
-  {% if story.is_public or story.owner.pk == request.user.pk %}
+<div class="row">
+  {% for story in stories %}
     {% include './story_item.html' %}
-  {% endif %}
-{% endfor %}
+  {% endfor %}
+</div>

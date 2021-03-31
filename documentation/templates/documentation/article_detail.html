@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container documentation-bg">
   {% if article.is_public or article.owner.pk == request.user.pk %}
-    {% include './article_detail_button_bar.html' %}
+    <!-- Title bar -->
+    {% include './article_detail_title_bar.html' %}
+    <!-- Meta data -->
     {% if article.is_public %}
-      <p>Written by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, published on {{ object.publication_date }}{% if object.last_modified > object.publication_date %}, last updated on {{ object.last_modified }}{% endif %}</p><br>
+      <p>Written by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, published on {{ object.publication_date|date:"M d, Y" }}{% if object.last_modified > object.publication_date %}<br>Last updated on {{ object.last_modified|date:"M d, Y" }}{% endif %}</p><br>
     {% else %}
       <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}</p><br>
     {% endif %}
@@ -19,15 +22,20 @@
     </div>
     <br>
     <br>
-    {{ article.intro|linebreaks }}
-    <br>
+    {% if article.intro %}
+      {{ article.intro|linebreaks }}
+      <br>
+    {% endif %}
     {% if sections %}
       {% for section in sections %}
         {% include './articlesection.html' %}
         <br>
       {% endfor %}
     {% endif %}
-    {{ article.outro|linebreaks }}
+    {% if article.outro %}
+      {{ article.outro|linebreaks }}
+      <br>
+    {% endif %}
     {% if article.links.count > 0 %}
       <h4 class="documentation-title">Links</h4>
       {% with article.links.all as links %}
@@ -35,17 +43,20 @@
       {% endwith %}
       <br>
     {% endif %}
-    {% include 'object_crypto_wallets.html' %}
+    {% with article.bitcoin_wallet as bitcoin_wallet %}
+      {% with article.litecoin_wallet as litecoin_wallet %}
+        {% include 'object_crypto_wallets.html' %}
+      {% endwith %}
+    {% endwith %}
     {% if article.tags.count > 0 %}
-      {% include './object_tags.html' %}
-      <br>
+      {% include 'object_tags.html' %}
     {% endif %}
-
-    {% include 'object_meta_data.html' %}
     <br>
   {% else %}
     <p>This Article has not been published yet.</p>
     <br>
   {% endif %}
 </div>  
+<br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

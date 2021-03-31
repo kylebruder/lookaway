@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container-fluid create-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
+  {% block header_block %}
+    <!-- Anything outside of this will be inhereited if you extend! -->
+  {% endblock %}
+  <br>
+  <div class="container-fluid">
+  <form method="post" enctype="multipart/form-data">
+    <div class="row">
+      {% csrf_token %}
+      {% if form.image %}
+        {% with form.image as x %}
+          {% include 'image_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% if form.logo %}
+        {% with form.logo as x %}
+          {% include 'logo_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% if form.banner %}
+        {% with form.banner as x %}
+          {% include 'banner_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% if form.bg_image %}
+        {% with form.bg_image as x %}
+          {% include 'bg_image_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% if form.images %}
+        {% with form.images as x %}
+          {% include 'images_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% for field in form %}
+        {% if field != form.image and field != form.images and field != form.logo and field != form.banner and field != form.bg_image %}
+          {% include 'form_field.html' %}
+        {% endif %}
+      {% endfor %}
+    </div>
+    <br>
+    <div class="fixed-bottom">
+      <input type="submit" value="Submit" class="btn btn-success form-submit-button float-right">
+    </div>
+  </form>
+  </div>
+  <br>
+</div>
+{% endblock %}

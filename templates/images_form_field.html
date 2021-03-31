@@ -1,0 +1,4 @@
+{% extends 'image_multiple_choice_selector.html' %}
+{% block input_block %}
+<p>&nbsp;<input type="checkbox" value="{{ value }}" name="images" {% if obj in object.images.all %}checked{% endif %}></p>
+{% endblock %}
