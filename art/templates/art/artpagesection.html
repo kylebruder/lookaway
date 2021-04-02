@@ -1,0 +1,66 @@
+<div class="art-section">
+  <!-- Anchor for URI fragments to Offset the Nav Bar-->
+  <span id="section-{{ section.pk }}" class="art-section-anchor"></span>
+  <!-- Section Title -->
+  {% include './artpagesection_detail_button_bar.html' %}
+    <!-- Section Information Message -->
+  {% if section.info %}
+    <div class="alert alert-primary art-alert">{{ section.info }}</div><br>
+  {% endif %}
+  <!-- Section Alert Message -->
+  {% if section.alert %}
+    <div class="alert alert-danger art-alert">{{ section.alert }}</div><br>
+  {% endif %}
+  <!-- Section Images -->
+  {% if section.images.count > 0 %}
+    {% with section.images.all as images %}
+      <!-- Section Text -->
+      {% if section.text %}
+        {% include 'section_images_text.html' %}
+      {% elif section.images.count == 1 %}
+        {% with section.images.first as image %}
+          {% include 'section_image.html' %}
+        {% endwith %}
+      {% else %}
+        {% include 'section_images.html' %}
+      {% endif %}
+    {% endwith %}
+  {% elif section.text %}
+    {{ section.text|linebreaks }}
+  {% endif %}
+  {% if section.sounds.count > 0 %}
+    {% with section.sounds.all as sounds %}
+      {% include 'section_sounds.html' %}
+    {% endwith %}
+  {% endif %}
+  {% if section.videos.count > 0  %}
+    {% with section.videos.all as videos %}
+      {% include 'section_videos.html' %}
+    {% endwith %}
+  {% endif %}
+  {% if section.code.count > 0  %}
+    {% with section.code.all as codes %}
+      {% include 'section_codes.html' %}
+    {% endwith %}
+  {% endif %}
+  {% if section.visuals.count > 0 %}
+    {% for visual in section.visuals.all %}
+      <a href="{% url 'art:visual_detail' visual.slug %}">
+       <img class="art-visual-image" src="{{ visual.image.image_file.url }}">
+      </a>
+      <br> 
+    {% endfor %}
+  {% endif %}
+  {% if section.galleries.count > 0 %}
+    {% for gallery in section.galleries.all %}
+      {% include './gallery_item.html' %}
+    {% endfor %}
+    <br>
+  {% endif %}
+  {% if section.links.count > 0  %}
+    {% with section.links.all as links%}
+      {% include 'object_links.html' %}
+    {% endwith %}
+  {% endif %}
+</div>
+

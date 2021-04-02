@@ -1,6 +1,6 @@
 {% if x.field.choices.queryset.all|length == 0 %}
   <div class="col-md form-field">
-    <p><i>No images found.</i></p>
+    <p><i>No visuals found.</i></p>
   </div>
 {% else %}
   <div class="col-md form-field">
@@ -10,7 +10,7 @@
     <div class="form-image-selection">
       {% for value, label, obj in x.field.choices %}
         {% if value != '' %}
-          <div class="form-image-card float-left" style="background-image:url('{{ obj.thumbnail_file.url }}')">
+          <div class="form-image-card float-left" style="background-image:url('{{ obj.image.thumbnail_file.url }}')">
             {% block input_block %}
             {% endblock %}
           </div>

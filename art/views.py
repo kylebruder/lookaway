@@ -13,75 +13,200 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from lookaway.mixins import AppPageMixin
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
-from .forms import GalleryForm, VisualForm
-from .models import Gallery, Visual
+from .forms import ArtAppProfileForm, ArtPageSectionForm, GalleryForm, VisualForm
+from .models import ArtAppProfile, ArtPageSection, Gallery, Visual
 # Create your views here.
 
-# Gallery Views
+# Documentation App Profile Form
+class ArtAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
-class ArtPageView(TemplateView):
+    permission_required = 'art.change_artappprofile'
+    model = ArtAppProfile
+    form_class = ArtAppProfileForm
+
+    def get_form_kwargs(self):
+        kwargs = super(ArtAppProfileUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        # SEO stuff
+        context['meta_title'] = profile.title
+        context['meta_desc'] = "Update \"{}\" profile settings".format(profile.title)
+        context['sections'] = ArtPageSection.objects.all().order_by(
+            'order',
+        )
+        return context
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('art:art_page')
+
+class ArtPageView(TemplateView, AppPageMixin):
 
     template_name = 'art/art_page.html'
 
     def get_context_data(self, **kwargs):
-        # Number of items to show in each list
-        n = 5
         context = super().get_context_data(**kwargs)
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        # SEO stuff
+        context['meta_title'] = profile.title
+        context['meta_desc'] = profile.meta_description
+        # Sections
+        context['sections'] = ArtPageSection.objects.filter(
+            is_enabled = True,
+        ).order_by(
+            'order',
+        )
         # Galleries
-        public_galleries = Gallery.objects.filter(is_public=True)
-        if public_galleries.count() >= n:
-            # Get the date of the 5th newest Gallery
-            # if there are 5 or more Galleries.
-            last_new_gallery_date = public_galleries.order_by(
-                '-publication_date',
-            )[n-1].publication_date
-            # Get the 5 newest Galleries.
-            context['new_galleries'] = public_galleries.order_by(
-                '-publication_date',
-            )[:n]
-            # Exclude any Gallery that appears in the new galleries list
-            # from the top Gallery list.
-            context['top_galleries'] = public_galleries.order_by(
-                '-weight',
-            ).exclude(
-                publication_date__gte=last_new_gallery_date,
-            )[:n]
-        # If there are less than 5 Galleries,
-        # include all of them in the new Gallery list.
-        else:
-            context['new_galleries'] = public_galleries.order_by(
-                '-publication_date',
-            )
-
+        context['new_galleries'], context['top_galleries'] = self.get_sets(
+            Gallery,
+            profile.n_galleries,
+            show_new=profile.show_new_galleries,
+            show_top=profile.show_top_galleries,
+        )
         # Visuals
-        public_visuals = Visual.objects.filter(is_public=True)
-        if public_visuals.count() >= n*6:
-            # Get the date of the nth newest Visual
-            # if there are n*6 or more Visuals
-            last_new_visual_date = public_visuals.order_by(
-                '-publication_date',
-            )[n*6-1].publication_date
-            # Get the 5 newest Galleries.
-            context['new_visuals'] = public_visuals.order_by(
-                '-publication_date',
-            )[:n*6]
-            # Exclude any Gallery that appears in the new releases list
-            # from the top Visual list
-            context['top_visuals'] = public_visuals.order_by(
-                '-weight',
-            ).exclude(
-                publication_date__gte=last_new_visual_date,
-            )[:n*6]
-        else:
-            context['new_visuals'] = public_visuals.order_by(
-                '-publication_date',
-            )[:n*6]
+        context['new_visuals'], context['top_visuals'] = self.get_sets(
+            Visual,
+            profile.n_visuals,
+            show_new=profile.show_new_visuals,
+            show_top=profile.show_top_visuals,
+        )
+        # Create visual button
+        if self.request.user.has_perm('art.add_visual'):
+            context['show_create_visual_button'] = True
+            context['create_visual_url'] = reverse(
+                'art:visual_create',
+            )
+        # Create gallery button
+        if self.request.user.has_perm('art.add_gallery'):
+            context['show_create_gallery_button'] = True
+            context['create_gallery_url'] = reverse(
+                'art:gallery_create',
+            )
+        # Update app profile button
+        if self.request.user.has_perm('art.change_artappprofile'):
+            context['show_edit_profile_button'] = True
+            context['edit_profile_url'] = reverse(
+                'art:art_app_profile_update',
+                kwargs={'pk': 1},
+            )
         return context
 
-class GalleryCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+# Art Page Section Views
+class ArtPageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
+    permission_required = 'art.add_artpagesection'
+    model = ArtPageSection
+    form_class = ArtPageSectionForm
+
+    def get_form_kwargs(self):
+        kwargs = super(ArtPageSectionCreateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "New Page Section"
+        context['meta_desc'] = "Add a section to the {} landing page.".format(profile.title)
+        return context
+
+    def form_valid(self, form):
+        member = Member.objects.get(pk=self.request.user.pk)
+        form.instance.creation_date = timezone.now()
+        form.instance.owner = member
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse(
+                'art:art_page_section_detail',
+                kwargs={'pk': self.object.pk},
+            )
+
+class ArtPageSectionDetailView(LoginRequiredMixin, DetailView):
+
+    model = ArtPageSection
+    context_object_name = 'section'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = profile.title
+        return context
+
+class ArtPageSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
+
+    permission_required = 'art.change_artpagesection'
+    model = ArtPageSection
+    form_class = ArtPageSectionForm
+
+    def get_form_kwargs(self):
+        kwargs = super(ArtPageSectionUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "Update \"{}\"".format(self.object.title)
+        context['meta_desc'] = "Make changes to this landing page section.".format(self.object.title)
+        return context
+
+    def form_valid(self, form):
+        # Update last modified date for the Section
+        form.instance.last_modified = timezone.now()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse(
+                'art:art_page_section_detail',
+                kwargs={'pk': self.object.pk},
+            )
+
+class ArtPageSectionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+
+    permission_required = 'art.delete_artpagesection'
+    model = ArtPageSection
+    context_object_name = "section"
+
+    def get_success_url(self):
+        return reverse(
+            'art:art_page',
+        )
+
+# Gallery Views
+class GalleryCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
+
+    permission_required = 'art.add_gallery'
     model = Gallery
     form_class = GalleryForm
 
@@ -89,6 +214,18 @@ class GalleryCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         kwargs = super(GalleryCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "New Gallery"
+        context['meta_desc'] = """Submit an Gallery you wish to publish. \
+            First, create some visuals then choose which Visuals will appear \
+            in the Gallery in the form below."""
+        context['profile'] = profile
+        return context
 
     def form_valid(self, form):
         member = Member.objects.get(pk=self.request.user.pk)
@@ -110,7 +247,7 @@ class GalleryCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 class GalleryListView(ListView):
 
     model = Gallery
-    paginate_by = 6
+    paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
     context_object_name = 'galleries'
 
     def get_queryset(self, *args, **kwargs):
@@ -127,16 +264,38 @@ class GalleryListView(ListView):
             ).order_by(
                 '-publication_date',
             )
+        # Create button
+        if self.request.user.has_perm('art.add_gallery'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'art:gallery_create',
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['new'] = True
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "New Galleries"
+        # SEO stuff
+        context['meta_title'] = "New Galleries | {}".format(
+            profile.title,
+        )
+        context['meta_desc'] = "The latest galleries curated by {} contributors.".format(
+            profile.title,
+        )
+        # Create button
+        if self.request.user.has_perm('art.add_gallery'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'art:gallery_create',
+            )
         return context
 
 class TopGalleryListView(ListView):
 
     model = Gallery
-    paginate_by = 6
+    paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
     context_object_name = 'galleries'
 
     def get_queryset(self, *args, **kwargs):
@@ -149,7 +308,23 @@ class TopGalleryListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['top'] = True
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "Top Galleries"
+        # SEO stuff
+        context['meta_title'] = "Top Galleries | {}".format(
+            profile.title,
+        )
+        context['meta_desc'] = "Amazing galleries curated by {} contributors.".format(
+            profile.title,
+        )
+        # Create button
+        if self.request.user.has_perm('art.add_gallery'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'art:gallery_create',
+            )
         return context
 
 class GalleryDetailView(DetailView):
@@ -159,6 +334,9 @@ class GalleryDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
             if member.check_can_allocate() and not member.check_is_new():
@@ -170,7 +348,7 @@ class GalleryDetailView(DetailView):
 class MemberGalleryView(ListView):
 
     model = Gallery
-    paginate_by = 6
+    paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
     context_object_name = 'galleries'
 
     def get_queryset(self, *args, **kwargs):
@@ -192,12 +370,30 @@ class MemberGalleryView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(username=self.kwargs['member'])
-        context['user_only'] = True
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "Stories"
+        context['meta_title'] = "Galleries by {} | {}".format(
+            member,
+            profile.title,
+            )
+        context['meta_desc'] = "Galleries curated by {} for {}.".format(
+            member,
+            profile.title,
+        )
+        # Create button
+        if self.request.user.has_perm('art.add_gallery'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'art:gallery_create',
+            )
         context['member'] = member
         return context
 
-class GalleryUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class GalleryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
+    permission_required = 'art.change_gallery'
     model = Gallery
     form_class = GalleryForm
 
@@ -205,6 +401,15 @@ class GalleryUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         kwargs = super(GalleryUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "Update \"{}\"".format(self.object.title)
+        context['meta_desc'] = "Make changes to this gallery.".format(self.object.title)
+        return context
 
     def form_valid(self, form):
         form.instance.last_modified = timezone.now()
@@ -220,8 +425,9 @@ class GalleryUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class GalleryDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class GalleryDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
+    permission_required = 'art.delete_gallery'
     model = Gallery
 
     def get_success_url(self):
@@ -293,8 +499,9 @@ def publish_gallery_view(request, pk):
 
 # Visual Views
 
-class VisualCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+class VisualCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
+    permission_required = 'art.add_visual'
     model = Visual
     form_class = VisualForm
 
@@ -302,6 +509,17 @@ class VisualCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         kwargs = super(VisualCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "New Visual"
+        context['meta_desc'] = """Submit a Visual you wish to publish. \
+            First upload an image file then choose it in the form below."""
+        context['profile'] = profile
+        return context
 
     def form_valid(self, form):
         member = Member.objects.get(pk=self.request.user.pk)
@@ -323,7 +541,7 @@ class VisualCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
 class VisualListView(ListView):
 
     model = Visual
-    paginate_by = 36
+    paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].visual_list_pagination
     context_object_name = 'visuals'
 
     def get_queryset(self, *args, **kwargs):
@@ -343,13 +561,29 @@ class VisualListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['new'] = True
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "New Visuals"
+        # SEO stuff
+        context['meta_title'] = "New Visuals | {}".format(
+            profile.title,
+        )
+        context['meta_desc'] = "The latest visuals curated by {} contributors.".format(
+            profile.title,
+        )
+        # Create button
+        if self.request.user.has_perm('art.add_visual'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'art:visual_create',
+            )
         return context
 
 class TopVisualListView(ListView):
 
     model = Visual
-    paginate_by = 36
+    paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].visual_list_pagination
     context_object_name = 'visuals'
 
     def get_queryset(self, *args, **kwargs):
@@ -362,7 +596,23 @@ class TopVisualListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['top'] = True
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "Top Visuals"
+        # SEO stuff
+        context['meta_title'] = "Top Visuals | {}".format(
+            profile.title,
+        )
+        context['meta_desc'] = "Amazing visuals curated by {} contributors.".format(
+            profile.title,
+        )
+        # Create button
+        if self.request.user.has_perm('art.add_visual'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'art:visual_create',
+            )
         return context
 
 class VisualDetailView(DetailView):
@@ -372,9 +622,12 @@ class VisualDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Galleries that have the Track on their list
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        # Galleries that have the visual in their list
         context['galleries'] = Gallery.objects.filter(
-            visuals__title=self.object.title,
+            visuals__pk=self.object.pk,
             is_public=True,
         )
         # Check whether or not to display the Marshmallow button
@@ -389,7 +642,7 @@ class VisualDetailView(DetailView):
 class MemberVisualView(ListView):
 
     model = Visual
-    paginate_by = 36
+    paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].visual_list_pagination
     context_object_name = 'visuals'
 
     def get_queryset(self, *args, **kwargs):
@@ -411,12 +664,30 @@ class MemberVisualView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(username=self.kwargs['member'])
-        context['user_only'] = True
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "Stories"
+        context['meta_title'] = "Visuals by {} | {}".format(
+            member,
+            profile.title,
+            )
+        context['meta_desc'] = "Visuals curated by {} for {}.".format(
+            member,
+            profile.title,  
+        )
+        # Create button
+        if self.request.user.has_perm('art.add_visual'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'art:visual_create',
+            )
         context['member'] = member
         return context
 
-class VisualUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class VisualUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
+    permission_required = 'art.change_visual'
     model = Visual
     form_class = VisualForm
 
@@ -424,6 +695,15 @@ class VisualUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         kwargs = super(VisualUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "Update \"{}\"".format(self.object.title)
+        context['meta_desc'] = "Make changes to this visual.".format(self.object.title)
+        return context
 
     def form_valid(self, form):
         form.instance.last_modified = timezone.now()
@@ -439,8 +719,9 @@ class VisualUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class VisualDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class VisualDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
+    permission_required = 'art.delete_visual'
     model = Visual
 
     def get_success_url(self):

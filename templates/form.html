@@ -34,8 +34,13 @@
           {% include 'images_form_field.html' %}
         {% endwith %}
       {% endif %}
+      {% if form.visuals %}
+        {% with form.visuals as x %}
+            {% include 'visuals_form_field.html' %}
+        {% endwith %}
+      {% endif %}
       {% for field in form %}
-        {% if field != form.image and field != form.images and field != form.logo and field != form.banner and field != form.bg_image %}
+        {% if field != form.image and field != form.images and field != form.logo and field != form.banner and field != form.bg_image and field != form.visuals %}
           {% include 'form_field.html' %}
         {% endif %}
       {% endfor %}

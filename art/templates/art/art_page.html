@@ -1,64 +1,31 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block body_block %}
-<div class="container-fluid art-bg">
+<div class="container-fluid art-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
   <!-- Heading -->
-  {% include './art_page_button_bar.html' %}
-  {% include './art_page_navbar.html' %}
-  {% if new_visuals.all.count < 1 and new_galleries.all.count < 1 %}
-  <p><i>Coming Soon...</i></p><br>
+  {% include './art_page_header.html' %}
+  <br>
+  {% if new_visuals.count < 1 and new_galleries.count <  1 and top_visuals.count < 1 and top_galleries.count < 1 %}
+    <span class="art-page-span"><i>Coming Soon...</i></p> 
   {% else %}
-    <div class="container-fluid">
+    {% if sections %}
       <div class="row">
-        {% if new_visuals.all.count > 0 %}
-          <div class="col-sm art-page-section">
-            <h4 class="art-page-title">New Visuals</h4>
-            <div class="art-page-visual-matrix">
-              {% for visual in new_visuals %}
-                {% include "./visual_item.html" %}
-              {% endfor %}
-            </div>
-            <div class="clear"></div>
-            <p><a href="{% url 'art:new_visuals' %}">all new visuals</a></p>
-          </div>
-        {% endif %}
-        {% if new_galleries.all.count > 0 %}
-          <div class="col-sm art-page-section">
-            <h4 class="art-page-title">New Galleries</h4>
-            {% for gallery in new_galleries %}
-              {% include "./gallery_item.html" %}
-            {% endfor %}
-            <div class="clear"></div>
-            <p><a href="{% url 'art:new_galleries' %}">all new galleries</a></p>
-          </div>
-        {% endif %}
+        <div class="col-sm">
+          {% for section in sections %}
+            {% include './artpagesection.html' %}
+          {% endfor %}
+        </div>
+        <div class="col-sm">
+          {% include './art_page_items.html' %}
+        </div>
       </div>
-      <div class="row">
-        {% if top_visuals.all.count > 0 %}
-          <div class="col-sm art-page-section">
-            <h4 class="art-page-title">Top Visuals</h4>
-            <div class="art-page-visual-matrix">
-              {% for visual in top_visuals %}
-                {% include "./visual_item.html" %}
-              {% endfor %}
-              <div class="clear"></div>
-              <p><a href="{% url 'art:top_visuals' %}">all top visuals</a></p>
-            </div>
-          </div>
-        {% endif %}
-        {% if top_galleries.count > 0 %}
-          <div class="col-sm art-page-section">
-            <h4 class="art-page-title">Top Galleries</h4>
-            {% for gallery in top_galleries %}
-              {% include "./gallery_item.html" %}
-            {% endfor %}
-            <div class="clear"></div>
-            <p><a href="{% url 'art:top_galleries' %}">all top galleries</a></p>
-          </div>
-        {% endif %}
+    {% else %}
+      <!-- List of new and top items -->
+      <div class="container-fluid">
+        {% include './art_page_items_without_sections.html' %}
       </div>
-    </div>
-    <br>
+      <br>
+    {% endif %}
   {% endif %}
 </div>
 {% endblock %}

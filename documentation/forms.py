@@ -34,7 +34,7 @@ class CustomModelMultipleChoiceField(forms.models.ModelMultipleChoiceField):
 class DocumentationAppProfileForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="""The Article title will appear in the header
+        help_text="""The title will appear in the header
             It will also appear on search engine results pages (SERPs) and can \
             impact search engine optimization (SEO)""",
         max_length=128,

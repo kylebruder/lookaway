@@ -1,14 +1,12 @@
-<div class="visuals-card float-left">
-  <a href="{% url 'art:visual_detail' visual.slug %}">
-    {% if visual.image.thumbnail_file %}
-      <div class="float-left art-visual-card" style="background-image:url('{{ visual.image.thumbnail_file.url }}">
-        {% if not visual.is_public %}
-          <span class="badge badge-secondary">Unpublished</span>
-        {% endif %}
-      </div>
-    {% else %}
-      <span class="visuals-piece-card-title">{{ visual.title }}</span>
-      <span class="visuals-piece-card-title">Click here to see the Visual</span>
-    {% endif %}
-  </a>
-</div>
+<a href="{% url 'art:visual_detail' visual.slug %}">
+  {% if visual.image.thumbnail_file %}
+    <div class="float-left art-visual-card" style="background-image:url('{{ visual.image.thumbnail_file.url }}">
+      {% if not visual.is_public %}
+        <span class="badge badge-secondary">Unpublished</span>
+      {% endif %}
+    </div>
+  {% else %}
+    <span class="visuals-piece-card-title">{{ visual.title }}</span>
+    <span class="visuals-piece-card-title">Click here to see the Visual</span>
+  {% endif %}
+</a>

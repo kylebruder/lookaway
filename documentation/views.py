@@ -13,6 +13,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.views.generic.list import ListView
+from lookaway.mixins import AppPageMixin
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from objects.utils import Text
@@ -57,79 +58,10 @@ class DocumentationAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMi
             return reverse('documentation:documentation_page')
 
 # Documentation Landing Page
-class DocumentationPageView(TemplateView):
+class DocumentationPageView(TemplateView, AppPageMixin):
 
     template_name = 'documentation/documentation_page.html'
 
-    def get_sets(self, model, n, show_new=True, show_top=True):
-        '''
-        A method for fetching two model querysets from a Django model.
-        Given a model, it will return a list of the newest n items
-        whose 'is_public' field is set to true.
-        If the number of public models is sufficent, it will
-        also return a queryset of at most, the top n items by 'weight'.
-        Items that appear in the 'new' queryset will be excluded from
-        the 'top' queryset.
-
-        Args:
-        instance -  A Django instance with 'is_public', 'publication_date'
-                    and 'weight' fields.
-        n -         The number of items in each queryset.
-        show_new -  If set to False, the 'new_instances' queryset will be empty.
-        show_top -  If set to False, the 'top_instances' queryset will be empty.
-
-        Returns:
-        new_instances - A queryset of n new public instances of the given instance.
-                     Queryset may be less than n if the number of instances
-                     is insufficent.
-        top_instances - A queryset of the top n public instances by weight
-                     of the given instance excluding instances in new_instances.
-                     Queryset may be less than n if the number of instances
-                     is insufficent.
-        '''
-        # Initialize variables.
-        public_instances = model.objects.filter(is_public=True)
-        new_instances = model.objects.none()
-        top_instances = model.objects.none()
-        # If there are public instances and we want to show the newest n
-        if n > 0 and public_instances.count() >= n and show_new:
-            # Get the date of the nth newest instance
-            # if there are n or more instances.
-            last_new_instance_date = public_instances.order_by(
-                '-publication_date',
-            )[n-1].publication_date
-            # Get the n newest instances.
-            new_instances = public_instances.order_by(
-                '-publication_date',
-            )[:n]
-        # If there are public instances and we want to show the top n
-        if n > 0 and public_instances.count() >= n and show_top:
-            # Exclude any instance that appears in the new instances list
-            # from the top instance list.
-            if show_new:
-                top_instances = public_instances.order_by(
-                    '-weight',
-                ).exclude(
-                    publication_date__gte=last_new_instance_date,
-                )[:n]
-            # Unless new instances aren't being shown, of course
-            else:
-                top_instances = public_instances.order_by('-weight')[:n]
-        # In the event there are less than n instances,
-        # include them in the new model list.
-        elif n > 0:
-            if show_new:
-                new_instances = public_instances.order_by(
-                    '-publication_date',
-                )
-            # Or in the top list if we don't want to show new_models
-            elif show_top:
-                top_instances = public_instances.order_by(
-                    '-weight',
-                )
-        # Return the querysets
-        return new_instances, top_instances
-        
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # App profile
@@ -264,8 +196,9 @@ class DocumentationPageSectionDeleteView(LoginRequiredMixin, PermissionRequiredM
         )
 
 # Article Views
-class ArticleCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+class ArticleCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
+    permission_required = 'documentation.add_article'
     model = Article
     form_class = ArticleForm
 
@@ -448,8 +381,9 @@ class ArticleDetailView(DetailView):
         ).order_by('order')
         return context
 
-class ArticleUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class ArticleUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
+    permission_required = 'documentation.change_article'
     model = Article
     form_class = ArticleForm
 
@@ -481,8 +415,9 @@ class ArticleUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class ArticleDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class ArticleDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
+    permission_required = 'documentation.delete_article'
     model = Article
 
     def get_success_url(self):
@@ -556,8 +491,9 @@ def publish_article_view(request, pk):
         return HttpResponseRedirect(reverse('member:studio'))
 
 # ArticleSection Views
-class ArticleSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+class ArticleSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
+    permission_required = 'documentation.add_articlesection'
     model = ArticleSection
     form_class = ArticleSectionForm
 
@@ -606,8 +542,9 @@ class ArticleSectionDetailView(LoginRequiredMixin, DetailView):
         context['profile'] = profile
         return context
 
-class ArticleSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class ArticleSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
+    permission_required = 'documentation.change_articlesection'
     model = ArticleSection
     form_class = ArticleSectionForm
 
@@ -653,8 +590,9 @@ class ArticleSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView
                 kwargs={'pk': self.object.pk},
             )
 
-class ArticleSectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class ArticleSectionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
+    permission_required = 'documentation.delete_articlesection'
     model = ArticleSection
     success_url = "/documentation/articles/{article_id}/"
 
@@ -687,8 +625,9 @@ class ArticleSectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView
             )
 
 # Support Document Views
-class SupportDocumentCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+class SupportDocumentCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
+    permission_required = 'documentation.add_supportdocument'
     model = SupportDocument
     form_class = SupportDocumentForm
 
@@ -877,8 +816,9 @@ class SupportDocumentDetailView(DetailView):
         ).order_by('order')
         return context
 
-class SupportDocumentUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class SupportDocumentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
+    permission_required = 'documentation.change_supportdocument'
     model = SupportDocument
     form_class = SupportDocumentForm
 
@@ -910,8 +850,9 @@ class SupportDocumentUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateVie
                 kwargs={'slug': self.object.slug},
             )
 
-class SupportDocumentDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class SupportDocumentDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
+    permission_required = 'documentation.delete_supportdocument'
     model = SupportDocument
 
     def get_success_url(self):
@@ -985,8 +926,9 @@ def publish_support_document_view(request, pk):
         return HttpResponseRedirect(reverse('member:studio'))
 
 # SupportDocSection Views
-class SupportDocSectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+class SupportDocSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
+    permission_required = 'documentation.add_supportdocsection'
     model = SupportDocSection
     form_class = SupportDocSectionForm
 
@@ -1036,8 +978,9 @@ class SupportDocSectionDetailView(LoginRequiredMixin, DetailView):
         context['profile'] = profile
         return context
 
-class SupportDocSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class SupportDocSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
+    permission_required = 'documentation.change_supportdocsection'
     model = SupportDocSection
     form_class = SupportDocSectionForm
 
@@ -1083,8 +1026,9 @@ class SupportDocSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateV
                 kwargs={'pk': self.object.pk},
             )
 
-class SupportDocSectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class SupportDocSectionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
+    permission_required = 'documentation.delete_supportdocsection'
     model = SupportDocSection
 
     def post(self, request, *args, **kwargs):
@@ -1116,8 +1060,9 @@ class SupportDocSectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteV
             )
 
 # Story Views
-class StoryCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+class StoryCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
+    permission_required = 'documentation.add_story'
     model = Story
     form_class = StoryForm
 
@@ -1299,8 +1244,9 @@ class StoryDetailView(DetailView):
         ).order_by('order')
         return context
 
-class StoryUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class StoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
+    permission_required = 'documentation.change_story'
     model = Story
     form_class = StoryForm
 
@@ -1332,8 +1278,9 @@ class StoryUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class StoryDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class StoryDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
+    permission_required = 'documentation.delete_story'
     model = Story
 
     def get_success_url(self):
@@ -1407,8 +1354,9 @@ def publish_story_view(request, pk):
         return HttpResponseRedirect(reverse('member:studio'))
 
 # StorySection Views
-class StorySectionCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+class StorySectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
+    permission_required = 'documentation.add_storysection'
     model = StorySection
     form_class = StorySectionForm
 
@@ -1458,8 +1406,9 @@ class StorySectionDetailView(LoginRequiredMixin, DetailView):
         context['profile'] = profile
         return context
 
-class StorySectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class StorySectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
+    permission_required = 'documentation.change_storysection'
     model = StorySection
     form_class = StorySectionForm
 
@@ -1505,8 +1454,9 @@ class StorySectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
                 kwargs={'pk': self.object.pk},
             )
 
-class StorySectionDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class StorySectionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
+    permission_required = 'documentation.delete_storysection'
     model = StorySection
 
     def post(self, request, *args, **kwargs):

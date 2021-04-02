@@ -1,38 +1,4 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class ="container create-bg">
-  <div class="container">
-    {% include './gallery_form_button_bar.html' %}
-  </div>
-  <br>
-  <div class="container">
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <h5 class="art-title">{{ form.visuals.label }}</h5>
-      <p>{{ form.visuals.help_text}}</p>
-      <p>{{ form.visuals.errors }}</p>
-      {% if form.visuals.field.choices.queryset.all|length == 0 %}
-        <p><i>No visuals found.</i></p>
-      {% else %}
-        <div class="form-image-selection">
-          {% for value, label, obj in form.visuals.field.choices %}
-            {% if value != '' %}
-              <div class="form-image-card float-left" style="background-image:url('{{ obj.image.thumbnail_file.url }}')">
-                <p>&nbsp;<input type="checkbox" value="{{ value }}" name="visuals" {% if obj in object.visuals.all %}checked{% endif %}></p>
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-      {% endif %}
-      <br>
-      {% for field in form %}
-        {% if field != form.visuals %}
-          {% include 'form_field.html' %}
-        {% endif %}
-      {% endfor %}
-      <input type="submit" value="Submit" class="btn btn-success">
-    </form>
-  </div>
-  <br>
-</div>
+{% extends 'form.html' %}
+{% block header_block %}
+{% include './gallery_form_header.html' %}
 {% endblock %}

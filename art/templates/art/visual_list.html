@@ -1,20 +1,11 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class="container art-bg">
-  {% include './visual_list_button_bar.html' %}
-  {% include './art_page_navbar.html' %}
-  {% if visuals %}
-    {% include "page_control.html" %}
-    <br>
-    <div class="art-visual-matrix">
-      {% include "./visual_list_item.html" %}
-      <div class="clear"></div>
-    </div>
-    {% include "page_control.html" %}
-    <br>
-  {% else %}
-    <p>No visuals have been published yet. Check back soon!</p>
-    <br>
-  {% endif %}
+{% extends './art_list.html' %}
+{% block items_block %}
+<div class="art-section">
+  <div class="art-visual-matrix">
+    {% for visual in visuals %}
+      {% include './visual_item.html' %}
+    {% endfor %}
+  </div>
+  <div class="clear"></div>
 </div>
 {% endblock %}
