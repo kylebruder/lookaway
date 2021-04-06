@@ -1,0 +1,40 @@
+<div class="music-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
+  <div class="row">
+    {% if profile.logo %}
+      <div class="col-sm-">
+        <div class="container">
+          <img class="music-logo" src="{{ profile.logo.image_file.url }}" alt="{{ profile.logo.thumbnail_file.title }}">
+        </div>
+      </div>
+    {% endif %}
+    {% if profile.show_title or profile.show_desc %}
+      <div class="col-sm">
+        {% if profile.title and profile.show_title %}
+          <h3 class="music-title music-page-span music-alert">{{ meta_title }}</h3>
+        {% endif %}
+        {% if meta_desc and profile.show_desc %}
+          <br><p class="music-page-span music-alert"><i>{{ meta_desc }}</i></p>
+        {% endif %}
+      </div>
+    {% endif %}
+    <div class="col-">
+      <div class="container">
+        {% if perms.music.add_track %}
+          <a class="btn btn-sm btn-primary" href="{% url 'music:track_create' %}?next={{ request.path }}">+Track</a>
+        {% endif %}
+        {% if perms.objects.add_image %}
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:image_create' %}?next={{ request.path }}">+Image</a>
+        {% endif %}
+        {% if perms.objects.add_video %}
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:video_create' %}?next={{ request.path }}">+Video</a>
+        {% endif %}
+        {% if perms.objects.add_link %}
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:link_create' %}?next={{ request.path }}">+Link</a>
+        {% endif %}
+        {% if perms.objects.add_tag %}
+          <a class="btn btn-sm btn-primary" href="{% url 'objects:tag_create' %}?next={{ request.path }}">+Tag</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -29,6 +29,11 @@
           {% include 'bg_image_form_field.html' %}
         {% endwith %}
       {% endif %}
+      {% if form.cover %}
+        {% with form.cover as x %}
+          {% include 'cover_form_field.html' %}
+        {% endwith %}
+      {% endif %}
       {% if form.images %}
         {% with form.images as x %}
           {% include 'images_form_field.html' %}
@@ -40,7 +45,7 @@
         {% endwith %}
       {% endif %}
       {% for field in form %}
-        {% if field != form.image and field != form.images and field != form.logo and field != form.banner and field != form.bg_image and field != form.visuals %}
+        {% if field != form.image and field != form.images and field != form.logo and field != form.banner and field != form.bg_image and field != form.visuals and field != form.cover %}
           {% include 'form_field.html' %}
         {% endif %}
       {% endfor %}

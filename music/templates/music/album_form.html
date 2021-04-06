@@ -1,39 +1,4 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class ="container create-bg">
-  <div class="container">
-    {% include './album_form_button_bar.html' %}
-  </div>
-  <br>
-  <div class="container">
-    <form method="post">
-      {% csrf_token %}
-      {% if form.cover.field.choices.queryset.count > 0 %}
-        <h5 class="form-label">{{ form.cover.label }}</h5>
-        <p>{{ form.cover.help_text }}</p>
-        <p>{{ form.cover.errors }}</p>
-        <div class="form-image-selection">
-          {% for value in form.cover.field.choices %}
-            {% if value|first != '' %}
-              <div class="form-image-card float-left" style="background-image:url('{{ value.2.thumbnail_file.url }}')">
-                <p>&nbsp;<input type="radio" value="{{ value|first }}" name="cover" {% if object.cover.pk == value|first %}checked{% endif %}></p>
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-      {% else %}
-        <p>You have not uploaded any Images yet.</p>
-      {% endif %}
-      <br>
-      {% for field in form %}
-        {% if field != form.cover %}
-          {% include 'form_field.html' %}
-        {% endif %}
-      {% endfor %}
-      <br>
-      <input type="submit" value="Submit" class="btn btn-success">
-    </form>
-  </div>
-  <br>
-</div>
+{% extends 'form.html' %}
+{% block header_block %}
+{% include './album_form_header.html' %}
 {% endblock %}

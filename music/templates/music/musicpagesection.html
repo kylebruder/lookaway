@@ -1,0 +1,67 @@
+<div class="music-section">
+  <!-- Anchor for URI fragments to Offset the Nav Bar-->
+  <span id="section-{{ section.pk }}" class="music-section-anchor"></span>
+  <!-- Section Title -->
+  {% include './musicpagesection_detail_title_bar.html' %}
+    <!-- Section Information Message -->
+  {% if section.info %}
+    <div class="alert alert-primary music-alert">{{ section.info }}</div><br>
+  {% endif %}
+  <!-- Section Alert Message -->
+  {% if section.alert %}
+    <div class="alert alert-danger music-alert">{{ section.alert }}</div><br>
+  {% endif %}
+  <!-- Section Images -->
+  {% if section.images.count > 0 %}
+    {% with section.images.all as images %}
+      <!-- Section Text -->
+      {% if section.text %}
+        {% include 'section_images_text.html' %}
+      {% elif section.images.count == 1 %}
+        {% with section.images.first as image %}
+          {% include 'section_image.html' %}
+        {% endwith %}
+      {% else %}
+        {% include 'section_images.html' %}
+      {% endif %}
+    {% endwith %}
+  {% elif section.text %}
+    {{ section.text|linebreaks }}
+  {% endif %}
+  {% if section.sounds.count > 0 %}
+    {% with section.sounds.all as sounds %}
+      {% include 'section_sounds.html' %}
+    {% endwith %}
+  {% endif %}
+  {% if section.videos.count > 0  %}
+    {% with section.videos.all as videos %}
+      {% include 'section_videos.html' %}
+    {% endwith %}
+  {% endif %}
+  {% if section.code.count > 0  %}
+    {% with section.code.all as codes %}
+      {% include 'section_codes.html' %}
+    {% endwith %}
+  {% endif %}
+  {% if section.tracks.count > 0 %}
+    {% for track in section.tracks.all %}
+      <div class="music-section">
+        {% include './track_item.html' %}
+      </div>
+    {% endfor %}
+  {% endif %}
+  {% if section.albums.count > 0 %}
+    {% for album in section.albums.all %}
+      <div class="music-section">
+        {% include './album_item.html' %}
+      </div>
+    {% endfor %}
+    <br>
+  {% endif %}
+  {% if section.links.count > 0  %}
+    {% with section.links.all as links%}
+      {% include 'object_links.html' %}
+    {% endwith %}
+  {% endif %}
+</div>
+

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container music-bg">
   {% if album.is_public and album.members_only and not request.user.is_authenticated %}
     <p class="music-meta">This Album is only avaialble for Members of the site.</p>
@@ -9,13 +10,8 @@
       <p class="music-meta"><i>This Album is only avaialble for Members of the site.</i></p>
     {% endif %}
     <div class="row">
-      <div class="col-sm-6">
-        <!!-- Cover -->
-        {% if album.cover %}
-          <div class="col- music-album-image" style="background-image: url('{{ album.cover.image_file.url }}')"></div>   
-          <br>
-        {% endif %}
-        <p>
+      <div class="col-sm">
+        <p class="music-track-info">
           {% if album.artist %}
             <span>{{ album.artist }}</span><br>
           {% endif %}
@@ -29,15 +25,20 @@
             <span>{{ album.genre }}</span><br>
           {% endif %}
         </p>
+        <!!-- Cover -->
+        {% if album.cover %}
+          <div class="col- music-album-image" style="background-image: url('{{ album.cover.image_file.url }}')"></div>   
+          <br>
+        {% endif %}
         <!-- Blurb -->
         {% if album.text %}
           <p class="music-album-blurb">{{ album.text|linebreaks }}</p>
           <br>
         {% endif %}
       </div>
-      <div class="col-sm-6">
-        <!-- Track list -->
-        {% if album.tracks.all.count > 0 %}
+      {% if album.tracks.all.count > 0 %}
+        <div class="col-sm">
+          <!-- Track list -->
           {% for track in album.tracks.all %}
             {% if track.is_public %}
               <h5 class="music-title">
@@ -45,7 +46,7 @@
               </h5>
               <!-- Sound -->
               {% with track.sound as sound %}
-                <audio controls="controls">
+                <audio controls="controls" preload="none">
                   {% include 'audio_mime_types.html' %}
                 </audio>
                 <br>
@@ -53,8 +54,8 @@
               {% endwith %}
             {% endif %}
           {% endfor %}
-        {% endif %}
-      </div>
+        </div>
+      {% endif %}
     </div>
     <!-- Links -->
     {% if album.links.count > 0 %}
@@ -64,10 +65,14 @@
       {% endwith %}
     {% endif %}
     <div class="clear"></div>
-    <!-- Tags -->
-    {% if album.tags.count > 0 %}
-      {% include './object_tags.html' %}
-      <br>
+    <!-- Wallets -->
+    {% if album.bitcoin_wallet or foo.litecoin_wallet %}
+      {% with album.bitcoin_wallet as bitcoin_wallet %}
+        {% with album.litecoin_wallet as litecoin_wallet %}
+          <h4 class="music-title">Donate</h4> 
+          {% include 'object_crypto_wallets.html' %}
+        {% endwith %}
+      {% endwith %}
     {% endif %}
     <!-- Credits -->
     {% if album.is_public %}
@@ -80,6 +85,11 @@
       <p class="album-meta">Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
       <br>
     {% endif %}
+    <!-- Tags -->
+    {% if album.tags.count > 0 %}
+      {% include './object_tags.html' %}
+      <br>
+    {% endif %}
   {% else %}
     <p>This Album has not been published yet.</p>
     <br>
@@ -87,4 +97,6 @@
   {% endif %}
   <br>
 </div>
+<br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

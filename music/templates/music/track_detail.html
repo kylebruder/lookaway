@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container music-bg">
   {% if track.is_public and track.members_only and not request.user.is_authenticated %}
     <p class="music-meta">This Track is only avaialble for Members of the site.</p>
@@ -9,37 +10,6 @@
       <p class="music-meta"><i>This Track is only avaialble for Members of the site.</i></p>
     {% endif %}
     <div class="row">
-      {% if track.video %}
-        <!-- Video -->
-        {% with track.video as video %}
-          <div class="col-sm-6">
-            <video class="music-video-md video-player" style="background:transparent url('{{ track.image.image_file.url }}') no-repeat 0 0;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;" preload="metadata" controls>
-              {% include 'video_mime_types.html' %}
-            </video>
-            <p class="track-meta">
-              {% if video.text %}
-                {{ video.text }}<br>
-              {% endif %}
-              {% if video.credit %}
-                <i>{{ video.credit }}</i>
-              {% endif %}
-              {% if track.video.owner.pk == request.user.pk %}
-                <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
-                  <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-                </a>
-              {% endif %}
-            </p>
-          </div>
-        {% endwith %}
-      {% elif track.image %}
-        <!-- Image -->
-        <div class="col-sm-">
-          <div class="container">
-            <img class="music-track-image" src="{{ track.image.image_file.url }}" alt="{{ track.image.title }}">   
-          </div>
-        </div>
-      {% endif %}
-      <!-- Sound -->
       <div class="col-sm-6 ">
         <p class="music-track-info">
           {% if track.artist %}
@@ -69,6 +39,37 @@
           <br>
         {% endif %}
       </div>
+      {% if track.video %}
+        <!-- Video -->
+        {% with track.video as video %}
+          <div class="col-sm-6">
+            <video class="music-video-md" style="background:transparent url('{{ track.image.image_file.url }}') no-repeat 0 0;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;" preload="metadata" controls>
+              {% include 'video_mime_types.html' %}
+            </video>
+            <p class="track-meta">
+              {% if video.text %}
+                {{ video.text }}<br>
+              {% endif %}
+              {% if video.credit %}
+                <i>{{ video.credit }}</i>
+              {% endif %}
+              {% if track.video.owner.pk == request.user.pk %}
+                <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
+                  <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+                </a>
+              {% endif %}
+            </p>
+          </div>
+        {% endwith %}
+      {% elif track.image %}
+        <!-- Image -->
+        <div class="col-sm-">
+          <div class="container">
+            <img class="music-track-image" src="{{ track.image.image_file.url }}" alt="{{ track.image.title }}">   
+          </div>
+        </div>
+      {% endif %}
+      <!-- Sound -->
     </div>
     <br>
     <!-- Albums -->
@@ -95,10 +96,14 @@
         {% include 'object_links.html' %}
       {% endwith %}
     {% endif %}
-    <!-- Tags -->
-    {% if track.tags.count > 0 %}
-      {% include './object_tags.html' %}
-      <br>
+    <!-- Wallets -->
+    {% if track.bitcoin_wallet or foo.litecoin_wallet %}
+      {% with track.bitcoin_wallet as bitcoin_wallet %}
+        {% with track.litecoin_wallet as litecoin_wallet %}
+          <h4 class="music-title">Donate</h4> 
+          {% include 'object_crypto_wallets.html' %}
+        {% endwith %}
+      {% endwith %}
     {% endif %}
     <!-- Credits -->
     {% if track.is_public %}
@@ -111,10 +116,17 @@
       <p class="track-meta">Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
       <br>
     {% endif %}
+    <!-- Tags -->
+    {% if track.tags.count > 0 %}
+      {% include './object_tags.html' %}
+      <br>
+    {% endif %}
   {% else %}
     <p>This Track has not been published yet.</p>
     <br>
   {% endif %}
   <br>
 </div>
+<br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}
