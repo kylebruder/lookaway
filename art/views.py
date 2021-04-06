@@ -374,7 +374,7 @@ class MemberGalleryView(ListView):
         # App profile
         profile, created = ArtAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
-        context['app_list_context'] = "Stories"
+        context['app_list_context'] = "Galleries"
         context['meta_title'] = "Galleries by {} | {}".format(
             member,
             profile.title,
@@ -668,7 +668,7 @@ class MemberVisualView(ListView):
         # App profile
         profile, created = ArtAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
-        context['app_list_context'] = "Stories"
+        context['app_list_context'] = "Visuals"
         context['meta_title'] = "Visuals by {} | {}".format(
             member,
             profile.title,

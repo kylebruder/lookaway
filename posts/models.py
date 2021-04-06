@@ -1,9 +1,64 @@
 from django.db import models
 from crypto.models import CryptoWalletsMixin
 from members.mixins import MarshmallowMixin
+from lookaway.mixins import AppProfile, Section
 from objects.models import MetaDataMixin
 
 # Create your models here.
+class PostsAppProfile(AppProfile, CryptoWalletsMixin):
+
+    n_posts = models.PositiveIntegerField(default=25)
+    n_responses = models.PositiveIntegerField(default=5)
+    post_list_pagination = models.PositiveIntegerField(default=25)
+    response_list_pagination = models.PositiveIntegerField(default=6)
+    show_new_posts = models.BooleanField(default=True)
+    show_top_responses = models.BooleanField(default=True)
+    show_new_posts = models.BooleanField(default=True)
+    show_top_responses = models.BooleanField(default=True)
+    logo = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='posts_logo'
+    )
+    banner = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='posts_banner'
+    )
+    bg_image = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='posts_bg_image'
+    )
+
+class PostsPageSection(Section):
+
+    info = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    alert = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    posts = models.ManyToManyField(
+        'posts.post',
+        blank=True,
+    )
+    is_enabled = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Landing Page Section"
+        verbose_name_plural = "Landing Page Sections"
+        ordering = ['order']
 
 class Post(MetaDataMixin, MarshmallowMixin, CryptoWalletsMixin):
 
