@@ -182,7 +182,7 @@ class ResponsePost(MetaDataMixin, PostMetaData, PostForeignModels, MarshmallowMi
     class Meta:
         ordering = ['-publication_date', '-creation_date']
 
-class Report(MetaDataMixin, PostMetaData, PostForeignModels):
+class ReportPost(MetaDataMixin, PostMetaData, PostForeignModels):
 
     class ReportChoices(models.TextChoices):
         BUG = 'bug', _('Bug Report')
