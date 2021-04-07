@@ -109,7 +109,7 @@ class PostsPageView(TemplateView, AppPageMixin):
         )
         # New and top Post instances
         context['new_posts'], context['top_posts'] = self.get_sets(
-            Posts,
+            Post,
             profile.n_posts,
             show_new=profile.show_new_posts,
             show_top=profile.show_top_posts,

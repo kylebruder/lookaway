@@ -217,7 +217,7 @@ class AlbumCreateView(LoginRequiredMixin, CreateView):
         member = Member.objects.get(pk=self.request.user.pk)
         form.instance.creation_date = timezone.now()
         form.instance.owner = member
-        form.instance.slug = Text.slugify_unique(form.instance.title)
+        form.instance.slug = Text.slugify_unique(self.model, form.instance.title)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -504,7 +504,7 @@ class TrackCreateView(LoginRequiredMixin, CreateView):
         member = Member.objects.get(pk=self.request.user.pk)
         form.instance.creation_date = timezone.now()
         form.instance.owner = member
-        form.instance.slug = Text.slugify_unique(form.instance.title)
+        form.instance.slug = Text.slugify_unique(self.model, form.instance.title)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
