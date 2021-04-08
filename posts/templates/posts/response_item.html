@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-">
-    {% if post.cover %}
+    {% if response.cover %}
       <div class="posts-list-image" style="background-image:url('{{ post.image.thumbnail_file.url }}')"></div>
-    {% elif post.owner.profile.image %}
+    {% elif response.owner.profile.image %}
       <div class="posts-list-image" style="background-image:url('{{ post.owner.profile.image.thumbnail_file.url }}')"></div>
     {% else %}
       <div class="posts-list-image" style="background-image:url('/static/icon.webp')"></div>
@@ -10,26 +10,26 @@
   </div>
   <div class="col-sm">
     <h5 class="posts-title">
-      <a href="{% url 'posts:post_detail' post.slug %}">
-        {{ post.title }}
+      <a href="{% url 'posts:post_detail' response.slug %}">
+        {{ response.title }}
       </a>
     </h5>
     <p>
-      Posted by <a href="{% url 'members:member_profile' post.owner.username %}"><span class="index-heading-span">{{ post.owner }}</span></a> on {{ post.creation_date|date:"M d, Y" }}<br><br>
+      Posted by <a href="{% url 'members:member_profile' response.owner.username %}"><span class="index-heading-span">{{ response.owner }}</span></a> on {{ response.creation_date|date:"M d, Y" }}<br><br>
     </p>
   </div>
 </div>
 <p>
-  {{ post.meta_description }}
+  {{ response.meta_description }}
 </p>
-{% if not post.is_public %}
+{% if not response.is_public %}
   <span class="badge badge-dark">Unpublished</span>
 {% endif %}
-{% if post.members_only %}
+{% if response.members_only %}
   <span class="badge badge-warning">Members Only</span>
 {% endif %}
-{% if post.tags.all.count > 0 %}
-  {% with post as object %}
+{% if response.tags.all.count > 0 %}
+  {% with response as object %}
     {% include 'object_tags.html' %}
   {% endwith %}
 {% endif %}

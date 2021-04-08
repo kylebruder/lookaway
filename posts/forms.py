@@ -3,7 +3,7 @@ from django.forms import Textarea
 from templates.widgets import ImagePreviewWidget, SoundPreviewWidget, VideoPreviewWidget
 from members.models import Member
 from objects.models import Image, Sound, Video, Code
-from .models import PostsAppProfile, PostsPageSection, Post
+from .models import PostsAppProfile, PostsPageSection, Post, ResponsePost, ReportPost
 
 class CustomModelChoiceIterator(forms.models.ModelChoiceIterator):
 
@@ -306,7 +306,7 @@ class PostsPageSectionForm(forms.ModelForm):
         ).order_by(
             '-last_modified',
         )
-        self.fields['posts'].queryset = Posts.objects.filter(
+        self.fields['posts'].queryset = Post.objects.filter(
             is_public=True,
         ).order_by(
             '-last_modified',
@@ -410,4 +410,105 @@ class PostForm(forms.ModelForm):
             owner=user.pk,
         ).order_by(
             '-last_modified',
+        )
+
+class ResponsePostForm(forms.ModelForm):
+
+    image = CustomModelChoiceField(
+        queryset=Image.objects.all(),
+        required=False, 
+    )
+    title = forms.CharField(
+        help_text="""The Response title will appear on the site and is used to \
+            create the permanent URL for this Response
+            It will also appear on search engine results pages (SERPs) and can \
+            impact search engine optimization (SEO)""",
+        max_length=128,
+    )
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="Your response message goes here",
+        max_length=65535,
+    )
+    location = forms.CharField(
+        help_text="Where are you responding from? (optional)",
+        max_length=128,
+        required=False,
+    )
+    title.widget.attrs.update({'class': 'form-text-field'})
+    location.widget.attrs.update({'class': 'form-text-field'})
+
+    class Meta:
+        model = ResponsePost
+        fields = (
+            'title',
+            'text',
+            'location',
+            'image',
+            'sound',
+            'video',
+            'code',
+            'link',
+            'tags',
+        )
+        help_texts = {
+            'image': "Add an Image (optional)",
+            'sound': "Add a Sound (optional)",
+            'video': "Add a Video (optional)",
+            'code': "Add Code (optional)",
+            'link': "Add a Link (optional)",
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(ResponsePostForm, self).__init__(*args, **kwargs)
+        self.fields['image'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['sound'].queryset = Sound.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['video'].queryset = Video.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['code'].queryset = Code.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+
+class ReportPostForm(forms.ModelForm):
+
+    title = forms.CharField(
+        help_text="Please provide a title for this report",
+        max_length=128,
+    )
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        label="Report",
+        help_text="""Please let us know which part of our content should be \
+            submitted for review""",
+        max_length=65535,
+    )
+    title.widget.attrs.update({'class': 'form-text-field'})
+
+    class Meta:
+        model = ReportPost
+        fields = (
+            'title',
+            'text',
         )

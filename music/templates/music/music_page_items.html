@@ -11,6 +11,8 @@
       </ul>
       <br>
     {% endif %}
+  </div>
+  <div class="col-sm music-page-section">
     {% if new_albums.all.count > 0 %}
       <ul class="list-group music-section">
         <h4 class="music-page-title">New Albums</h4>
@@ -22,6 +24,10 @@
       </ul>
       <br>
     {% endif %}
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm music-page-section">
     {% if top_tracks.all.count > 0 %}
       <ul class="list-group music-section">
         <h4 class="music-page-title">Top Tracks</h4>
@@ -33,8 +39,10 @@
       </ul>
       <br>
     {% endif %}
+  </div>
+  <div class="col-sm music-page-section">
     {% if top_albums.count > 0 %}
-      <ul class="list-groupi music-section">
+      <ul class="list-group music-section">
         <h4 class="music-page-title">Top Albums</h4>
         {% for album in top_albums %}
           <li class="list-group-item music-list-li">

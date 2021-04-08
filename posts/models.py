@@ -149,6 +149,12 @@ class PostForeignModels(models.Model):
         blank=True,
         null=True,
     )
+    document = models.ForeignKey(
+        'documentation.supportdocument',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
     visual = models.ForeignKey(
         'art.visual',
         on_delete=models.SET_NULL,

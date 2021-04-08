@@ -17,8 +17,8 @@ from lookaway.mixins import AppPageMixin
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from objects.utils import Text
-from .forms import PostsAppProfileForm, PostsPageSectionForm, PostForm
-from .models import PostsAppProfile, PostsPageSection, Post
+from .forms import PostsAppProfileForm, PostsPageSectionForm, PostForm, ResponsePostForm, ReportPostForm
+from .models import PostsAppProfile, PostsPageSection, Post, ResponsePost, ReportPost
 
 # Create your views here.
 
@@ -116,7 +116,7 @@ class PostsPageView(TemplateView, AppPageMixin):
         )
         # New and top Response instances
         context['new_responses'], context['top_responses'] = self.get_sets(
-            Bar,
+            ResponsePost,
             profile.n_responses,
             show_new=profile.show_new_responses,
             show_top=profile.show_top_responses,
@@ -125,13 +125,7 @@ class PostsPageView(TemplateView, AppPageMixin):
         if self.request.user.has_perm('posts.add_posts'):
             context['show_create_posts_button'] = True
             context['create_posts_url'] = reverse(
-                'posts:posts_create',
-            )
-        # Create Bar button
-        if self.request.user.has_perm('posts.add_response'):
-            context['show_create_response_button'] = True
-            context['create_response_url'] = reverse(
-                'posts:response_create',
+                'posts:post_create',
             )
         # Update AppProfile button
         if self.request.user.has_perm('posts.change_postsappprofile'):
@@ -201,7 +195,7 @@ class PostsPageSectionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, De
             'posts:posts_page',
         )
 
-class PostCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
     permission_required = 'posts:add_post'
     model = Post
@@ -283,50 +277,6 @@ class PostListView(ListView):
             )
         return context
     
-class PostResponseListView(ListView):
-
-    model = Post
-    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
-    context_object_name = 'posts'
-
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Post.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-            ).exclude(re=None).order_by(
-                'is_public',
-                '-publication_date',
-            )
-        else:
-            return Post.objects.filter(
-                is_public=True,
-                members_only=False,
-            ).exclude(re=None).order_by(
-                '-publication_date',
-            )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "New Responses"
-        # SEO stuff
-        context['meta_title'] = "{} | {}".format(
-            context['app_list_context'],
-            profile.title,
-        )
-        context['meta_desc'] = "Recent posts by {} contributors.".format(
-            profile.title, 
-        )
-        # Create button
-        if self.request.user.has_perm('posts.add_post'):
-            context['show_create_button'] = True  
-            context['create_button_url'] = reverse(
-                'posts:post_create',
-            )
-        return context
-
 class TopPostListView(ListView):
 
     model = Post
@@ -363,52 +313,6 @@ class TopPostListView(ListView):
             profile.title,
         )
         context['meta_desc'] = "The best posts by {} contributors.".format(
-            profile.title,
-        )
-        # Create button
-        if self.request.user.has_perm('posts.add_post'):
-            context['show_create_button'] = True
-            context['create_button_url'] = reverse(
-                'posts:post_create',
-            )
-        return context
-
-class TopPostResponseListView(ListView):
-
-    model = Post
-    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
-    context_object_name = 'posts'
-
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Post.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-            ).exclude(re=None).order_by(
-                'is_public',
-                '-weight',
-                '-publication_date',
-            )
-        else:
-            return Post.objects.filter(
-                is_public=True,
-                members_only=False,
-            ).exclude(re=None).order_by(
-                '-weight',
-                '-publication_date',
-            )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Top Responses"
-        # SEO stuff
-        context['meta_title'] = "{} | {}".format(
-            context['app_list_context'],
-            profile.title,
-        )
-        context['meta_desc'] = "The best responses by {} contributors.".format(
             profile.title,
         )
         # Create button
@@ -473,7 +377,7 @@ class PostDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile, created = FooAppProfile.objects.get_or_create(pk=1)
+        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
@@ -493,7 +397,7 @@ class PostDetailView(DetailView):
                 context['public_response'] = True
         return context
 
-class PostUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
     permission_required = 'posts.change_post'
     model = Post
@@ -527,8 +431,9 @@ class PostUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class PostDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class PostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
+    permission_required  = 'posts.delete_post'
     model = Post
 
     def get_success_url(self):
@@ -591,10 +496,417 @@ def publish_post_view(request, pk):
             )
             return HttpResponseRedirect(
                 reverse(
-                'members:post_detail',
+                'posts:post_detail',
                 kwargs={'pk': instance.pk}
             )
         )
     else:
         return HttpResponseRedirect(reverse('member:studio'))
 
+class ResponsePostCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
+
+    permission_required = 'posts:add_responsepost'
+    model = ResponsePost
+    form_class = ResponsePostForm
+
+    def get_form_kwargs(self):
+        kwargs = super(ResponsePostCreateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "New Response"
+        context['meta_desc'] = """Submit a response. Responses \
+            are open ended and can contain your contributed media."""
+        return context
+
+    def form_valid(self, form):
+        member = self.request.user
+        form.instance.creation_date = timezone.now()
+        form.instance.owner = member
+        form.instance.slug = Text.slugify_unique(self.model, form.instance.title)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse(
+                'posts:response_detail',
+                kwargs={'slug': self.object.slug},
+            )
+
+class ResponsePostListView(ListView):
+
+    model = ResponsePost
+    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    context_object_name = 'responses'
+
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return ResponsePost.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+            ).order_by(
+                'is_public',
+                '-publication_date',
+            )
+        else:
+            return ResponsePost.objects.filter(
+                is_public=True,
+                members_only=False,
+            ).order_by(
+                '-publication_date',
+            )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "New Responses"
+        # SEO stuff
+        context['meta_title'] = "{} | {}".format(
+            context['app_list_context'],
+            profile.title,
+        )
+        context['meta_desc'] = "Recent responses to content on {}.".format(
+            profile.title,
+        )
+    
+class TopResponsePostListView(ListView):
+
+    model = ResponsePost
+    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    context_object_name = 'responses'
+
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return ResponsePost.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+            ).order_by(
+                'is_public',
+                '-weight',
+                '-publication_date',
+            )
+        else:
+            return ResponsePost.objects.filter(
+                is_public=True,
+                members_only=False,
+            ).order_by(
+                '-weight',
+                '-publication_date',
+            )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "Top Responses"
+        # SEO stuff
+        context['meta_title'] = "{} | {}".format(
+            context['app_list_context'],
+            profile.title,
+        )
+        context['meta_desc'] = "The best responses to content on {}.".format(
+            profile.title,
+        )
+        return context
+
+class MemberResponsePostView(ListView):
+
+    model = ResponsePost
+    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    context_object_name = 'responses'
+
+    def get_queryset(self, *args, **kwargs):
+        member = self.request.user
+        if self.request.user.is_authenticated:
+            return ResponsePost.objects.filter(
+                owner=member
+            ).order_by(
+                '-last_modified',
+            )
+        else: 
+            return ResponsePost.objects.filter(
+                owner=member,
+                members_only=False,
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = Member.objects.get(username=self.kwargs['member'])
+        # App profile
+        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "Responses"
+        context['meta_title'] = "Responses by {} | {}".format(
+            member,
+            profile.title,
+            )
+        context['meta_desc'] = "Responses by {} on {}.".format(
+            member,
+            profile.title,
+        )
+        return context
+
+class ResponsePostDetailView(DetailView):
+
+    model = ResponsePost
+    context_object_name = 'response'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        if self.request.user.is_authenticated:
+            member = Member.objects.get(pk=self.request.user.pk)
+            if member.check_can_allocate() and not member.check_is_new():
+                context['can_add_marshmallow'] = True
+            else:
+                context['can_add_marshmallow'] = False
+
+class ResponsePostUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+
+    permission_required = 'posts.change_responsepost'
+    model = ResponsePost
+    form_class = ResponsePostForm
+
+    def get_form_kwargs(self):
+        kwargs = super(ResponsePostUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "Update \"{}\"".format(self.object.title)
+        context['meta_desc'] = "Make changes to this Response."
+        return context
+
+    def form_valid(self, form):
+        form.instance.last_modified = timezone.now()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse(
+                'posts:response_detail',
+                kwargs={'slug': self.object.slug},
+            )
+
+class ResponsePostDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+
+    model = ResponsePost
+
+    def get_success_url(self):
+        return reverse('members:studio')
+
+def publish_responsepost_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(Post, pk=pk)
+    if request.method == 'GET':
+        template = loader.get_template('publish.html')
+        context = {'object': instance}
+        return render(request, 'publish.html', context)
+    elif request.method == 'POST':
+        successful = instance.publish(instance, member)
+        if successful:
+            messages.add_message(
+                request,
+                messages.INFO,
+                '{} has been published'.format(
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                    'posts:responsepost_detail',
+                    kwargs={
+                        'slug': instance.slug,
+                    }
+                )
+            )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                '{} could not be published'.format(
+                    instance,
+                )
+            )
+            return HttpResponseRedirect(
+                reverse(
+                'posts:responsepost_detail',
+                kwargs={'pk': instance.pk}
+            )
+        )
+    else:
+        return HttpResponseRedirect(reverse('member:studio'))
+
+def add_marshmallow_to_responsepost_view(request, pk):
+    member = Member.objects.get(pk=request.user.pk)
+    instance = get_object_or_404(ResponsePost, pk=pk)
+    if instance.is_public:
+        successful, weight, amount = member.allocate_marshmallow(instance, model=ResponsePost)
+        if successful:
+            messages.add_message(
+                request, messages.INFO,
+                'You gave {} to the {} "{}"'.format(
+                    amount,
+                    ResponsePost.__name__,
+                    instance,
+                )
+           )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                'You are not allowed to give marshmallows at this time'
+            )
+    return HttpResponseRedirect(reverse('posts:public_responseposts'))
+
+class ReportPostCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
+
+    permission_required = 'posts:add_reportpost'
+    model = ReportPost
+    form_class = ReportPostForm
+
+    def get_form_kwargs(self):
+        kwargs = super(ReportPostCreateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "New Report"
+        context['meta_desc'] = """Submit a new report."""
+        return context
+
+    def form_valid(self, form):
+        member = self.request.user
+        form.instance.creation_date = timezone.now()
+        form.instance.owner = member
+        form.instance.slug = Text.slugify_unique(self.model, form.instance.title)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('home:index',)
+
+class ReportPostListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
+
+    permission_required = 'posts:delete_reportpost'
+    model = ReportPost
+    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    context_object_name = 'reports'
+
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return ReportPost.objects.filter(
+                Q(owner=self.request.user) | Q(is_public=True),
+            ).order_by(
+                'is_public',
+                '-publication_date',
+            )
+        else:
+            return ReportPost.objects.filter(
+                is_public=True,
+                members_only=False,
+            ).order_by(
+                '-publication_date',
+            )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "Responses"
+        # SEO stuff
+        context['meta_title'] = "{} | {}".format(
+            context['app_list_context'],
+            profile.title,
+        )
+        context['meta_desc'] = "Recent reports by {} contributors.".format(
+            profile.title,
+        )
+    
+class MemberReportPostView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
+
+    permission_required = 'posts:delete_reportpost'
+    model = ReportPost
+    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    context_object_name = 'reports'
+
+    def get_queryset(self, *args, **kwargs):
+        member = self.request.user
+        if self.request.user.is_authenticated:
+            return ReportPost.objects.filter(
+                owner=member
+            ).order_by(
+                '-last_modified',
+            )
+        else: 
+            return ReportPost.objects.filter(
+                owner=member,
+                members_only=False,
+                is_public=True,
+            ).order_by(
+                '-publication_date',
+            )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = Member.objects.get(username=self.kwargs['member'])
+        # App profile
+        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "Report Posts"
+        context['meta_title'] = "Report Posts by {} | {}".format(
+            member,
+            profile.title,
+            )
+        context['meta_desc'] = "Report Posts by {} on {}.".format(
+            member,
+            profile.title,
+        )
+        return context
+
+class ReportPostDetailView(DetailView, LoginRequiredMixin, PermissionRequiredMixin):
+
+    permission_required = 'posts:delete_reportpost'
+    model = ReportPost
+    context_object_name = 'report'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+
+class ReportPostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+
+    permission_required = 'posts:add_deletepost'
+    model = ReportPost
+
+    def get_success_url(self):
+        return reverse('members:studio')

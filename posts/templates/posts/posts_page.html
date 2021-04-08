@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body_block %}
+<div class="container-fluid posts-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
+  <!-- Heading -->
+  {% include './posts_page_header.html' %}
+  <br>
+  {% if new_posts.count < 1 and new_responses.count <  1 and top_posts.count < 1 and top_responses.count < 1 %}
+    <span class="posts-page-span"><i>Coming Soon...</i></p>
+  {% else %}
+    {% if sections %}
+      <div class="row">
+        <div class="col-sm">
+          {% for section in sections %}
+            {% include './postspagesection.html' %}
+          {% endfor %}
+        </div>
+        <div class="col-sm">
+          {% include './posts_page_items.html' %}
+        </div>
+      </div>
+    {% else %}
+      <!-- List of new and top items -->
+      <div class="container-fluid">
+        {% include './posts_page_items_without_sections.html' %}
+      </div>
+      <br>
+    {% endif %}
+  {% endif %}
+</div>
+{% endblock %}

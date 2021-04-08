@@ -54,19 +54,34 @@ urlpatterns = [
         name='top_posts',
     ),
     path(
-        '', 
-        views.PostResponseListView.as_view(),
+        'responses/', 
+        views.ResponsePostListView.as_view(),
         name='public_responses',
     ),
     path(
-        'top/', 
-        views.TopPostResponseListView.as_view(),
+        'responses/top/', 
+        views.TopResponsePostListView.as_view(),
         name='top_responses',
+    ),
+    path(
+        'reports/', 
+        views.ReportPostListView.as_view(),
+        name='reports',
     ),
     path(
         '<slug:slug>/', 
         views.PostDetailView.as_view(),
         name='post_detail',
+    ),
+    path(
+        'responses/<slug:slug>/', 
+        views.ResponsePostDetailView.as_view(),
+        name='response_detail',
+    ),
+    path(
+        'reports/<int:pk>/', 
+        views.ReportPostDetailView.as_view(),
+        name='report_detail',
     ),
     # Member Specific Views
     path(
@@ -74,10 +89,30 @@ urlpatterns = [
         views.MemberPostView.as_view(),
         name='member_posts',
     ),
+    path(
+        'responses/member/<slug:member>/', 
+        views.MemberResponsePostView.as_view(),
+        name='member_responses',
+    ),
+    path(
+        'reports/member/<slug:member>/', 
+        views.MemberReportPostView.as_view(),
+        name='member_reports',
+    ),
     # Create Views
     path(
         'add/post/', 
         views.PostCreateView.as_view(),
+        name='post_create',
+    ),
+    path(
+        'add/response/', 
+        views.ResponsePostCreateView.as_view(),
+        name='responsepost_create',
+    ),
+    path(
+        'add/report/', 
+        views.ReportPostCreateView.as_view(),
         name='post_create',
     ),
     # Update Views
@@ -86,11 +121,26 @@ urlpatterns = [
         views.PostUpdateView.as_view(),
         name='post_update',
     ),
+    path(
+        'modify/response/<slug:slug>/', 
+        views.ResponsePostUpdateView.as_view(),
+        name='post_update',
+    ),
     # Delete Views
     path(
         'delete/post/<int:pk>/', 
         views.PostDeleteView.as_view(),
         name='post_delete',
+    ),
+    path(
+        'delete/response/<int:pk>/', 
+        views.ResponsePostDeleteView.as_view(),
+        name='response_delete',
+    ),
+    path(
+        'delete/report/<int:pk>/', 
+        views.ResponsePostDeleteView.as_view(),
+        name='report_delete',
     ),
     # Publish Views
     path(
@@ -98,10 +148,20 @@ urlpatterns = [
         views.publish_post_view,
         name='publish_post',
     ),
+    path(
+        'publish/response/<int:pk>/', 
+        views.publish_responsepost_view,
+        name='publish_response',
+    ),
     # Marshmallow Views
     path(
         '<int:pk>/add-marshmallow', 
         views.add_marshmallow_to_post_view,
         name='post_marshmallow',
+    ),
+    path(
+        'responses/<int:pk>/add-marshmallow', 
+        views.add_marshmallow_to_responsepost_view,
+        name='response_marshmallow',
     ),
 ]

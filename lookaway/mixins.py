@@ -233,7 +233,10 @@ class AppPageMixin:
                      is insufficent.
         '''
         # Initialize variables.
-        public_instances = model.objects.filter(is_public=True)
+        try:
+            public_instances = model.objects.filter(is_public=True).exclude(members_only=True)
+        except:
+            public_instances = model.objects.filter(is_public=True)
         new_instances = model.objects.none()
         top_instances = model.objects.none()
         # If there are public instances and we want to show the newest n
