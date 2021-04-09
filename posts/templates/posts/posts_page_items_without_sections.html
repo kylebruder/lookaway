@@ -1,7 +1,7 @@
 <div class="row">
   {% if new_posts.all.count > 0 %}
-    <div class="col-sm posts-page-section posts-section">
-      <ul class="list-group">
+    <div class="col-sm">
+      <ul class="list-group posts-section">
         <h4 class="posts-page-title">New Posts</h4>
         {% for post in new_posts %}
           <li class="list-group-item posts-list-li">
@@ -12,8 +12,8 @@
     </div>
   {% endif %}
   {% if top_posts.all.count > 0 %}
-    <div class="col-sm posts-page-section posts-section">
-      <ul class="list-group">
+    <div class="col-sm">
+      <ul class="list-group posts-section">
         <h4 class="posts-page-title">Top Posts</h4>
         {% for post in top_posts %}
           <li class="list-group-item posts-list-li">
@@ -24,8 +24,8 @@
     </div>
   {% endif %}
   {% if new_responses.all.count > 0 %}
-    <div class="col-sm posts-page-section posts-section">
-      <ul class="list-group">
+    <div class="col-sm">
+      <ul class="list-group posts-section">
         <h4 class="posts-page-title">New Responses</h4>
         {% for response in new_responses %}
           <li class="list-group-item posts-list-li">
@@ -36,8 +36,8 @@
     </div>
   {% endif %}
   {% if top_responses.count > 0 %}
-    <div class="col-sm posts-page-section posts-section">
-      <ul class="list-group">
+    <div class="col-sm">
+      <ul class="list-group posts-section">
         <h4 class="posts-page-title">Top Responses</h4>
         {% for response in top_responses %}
           <li class="list-group-item posts-list-li">

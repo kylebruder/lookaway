@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm posts-page-section">
+  <div class="col-sm">
     {% if new_posts.all.count > 0 %}
       <ul class="list-group posts-section">
         <h4 class="posts-page-title">New Posts</h4>
@@ -23,7 +23,7 @@
       <br>
     {% endif %}
   </div>
-  <div class="col-sm posts-page-section">
+  <div class="col-sm">
     {% if top_posts.all.count > 0 %}
       <ul class="list-group posts-section">
         <h4 class="posts-page-title">Top Posts</h4>
@@ -48,21 +48,3 @@
     {% endif %}
   </div>
 </div>
-{% if profile.bitcoin_wallet or profile.litecoin_wallet %}
-  <div class="posts-section">
-    <h4 class="posts-page-title">Donate</h4>
-    {% with profile.bitcoin_wallet as bitcoin_wallet %}
-      {% with profile.litecoin_wallet as litecoin_wallet %}
-        {% include 'object_crypto_wallets.html' %}
-      {% endwith %}
-    {% endwith %}
-  </div>
-{% endif %}
-{% if profile.links.count > 0 %}
-  {% with profile.links.all as links %}
-    <div class="posts-section">
-      <h4 class="posts-page-title">External Links</h4>
-      {% include 'object_links.html' %}
-    </div>
-  {% endwith %}
-{% endif %}

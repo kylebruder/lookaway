@@ -1,9 +1,9 @@
 {% extends './posts_list.html' %}
 {% block items_block %}
   <div class="row">
-    {% for post in posts %}
+    {% for response in responses %}
       <div class="col-4-sm posts-list-card">
-        {% include './post_item.html' %}
+        {% include './response_item.html' %}
       </div>
     {% endfor %}
   </div>

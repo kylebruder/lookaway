@@ -1,21 +1,20 @@
 <div class="row">
   <div class="col-">
-    {% if response.cover %}
-      <div class="posts-list-image" style="background-image:url('{{ post.image.thumbnail_file.url }}')"></div>
-    {% elif response.owner.profile.image %}
+    {% if response.owner.profile.image %}
       <div class="posts-list-image" style="background-image:url('{{ post.owner.profile.image.thumbnail_file.url }}')"></div>
     {% else %}
       <div class="posts-list-image" style="background-image:url('/static/icon.webp')"></div>
     {% endif %}
   </div>
   <div class="col-sm">
-    <h5 class="posts-title">
-      <a href="{% url 'posts:post_detail' response.slug %}">
+    <h6 class="posts-title">
+      <a href="{% url 'posts:response_detail' response.slug %}">
         {{ response.title }}
       </a>
-    </h5>
+    </h6>
     <p>
-      Posted by <a href="{% url 'members:member_profile' response.owner.username %}"><span class="index-heading-span">{{ response.owner }}</span></a> on {{ response.creation_date|date:"M d, Y" }}<br><br>
+      {% include './re_links.html' %}
+      Posted by <a href="{% url 'members:member_profile' response.owner.username %}"><span class="index-heading-span">{{ response.owner }}</span></a> on <span class="index-heading-span">{{ response.creation_date|date:"M d, Y" }}</span>
     </p>
   </div>
 </div>

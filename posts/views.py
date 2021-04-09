@@ -288,7 +288,6 @@ class TopPostListView(ListView):
             return Post.objects.filter(
                 Q(owner=self.request.user) | Q(is_public=True),
             ).order_by(
-                'is_public',
                 '-weight',
                 '-publication_date',
             )
@@ -577,6 +576,7 @@ class ResponsePostListView(ListView):
         context['meta_desc'] = "Recent responses to content on {}.".format(
             profile.title,
         )
+        return context
     
 class TopResponsePostListView(ListView):
 
@@ -589,7 +589,6 @@ class TopResponsePostListView(ListView):
             return ResponsePost.objects.filter(
                 Q(owner=self.request.user) | Q(is_public=True),
             ).order_by(
-                'is_public',
                 '-weight',
                 '-publication_date',
             )

@@ -14,16 +14,16 @@
           {% for section in sections %}
             {% include './postspagesection.html' %}
           {% endfor %}
+          {% include './posts_page_links.html' %}
         </div>
         <div class="col-sm">
           {% include './posts_page_items.html' %}
         </div>
       </div>
+      <br>
     {% else %}
-      <!-- List of new and top items -->
-      <div class="container-fluid">
-        {% include './posts_page_items_without_sections.html' %}
-      </div>
+      {% include './posts_page_items_without_sections.html' %}
+      {% include './posts_page_links.html' %}
       <br>
     {% endif %}
   {% endif %}

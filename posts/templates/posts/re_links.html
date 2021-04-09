@@ -1,0 +1,24 @@
+{% if response.post %}
+  <i>Re: <a href="{% url 'posts:post_detail' response.post.slug %}">{{ response.post }}</a></i><br>
+{% endif %}
+{% if response.article %}
+  <i>Re: <a href="{% url 'documentation:article_detail' response.article.slug %}">{{ response.article }}</a></i><br>
+{% endif %}
+{% if response.story %}
+  <i>Re: <a href="{% url 'documentation:story_detail' response.story.slug %}">{{ response.story }}</a></i><br>
+{% endif %}
+{% if response.document %}
+  <i>Re: <a href="{% url 'documentation:support_document_detail' response.document.slug %}">{{ response.document }}</a></i><br>
+{% endif %}
+{% if response.visual %}
+  <i>Re: <a href="{% url 'art:visual_detail' response.visual.slug %}">{{ response.visual }}</a></i><br>
+{% endif %}
+{% if response.gallery %}
+  <i>Re: <a href="{% url 'art:gallery_detail' response.gallery.slug %}">{{ response.gallery }}</a></i><br>
+{% endif %}
+{% if response.track %}
+  <i>Re: <a href="{% url 'music:track_detail' response.track.slug %}">{{ response.track }}</a></i><br>
+{% endif %}
+{% if response.album %}
+  <i>Re: <a href="{% url 'music:album_detail' response.album.slug %}">{{ response.album }}</a></i><br>
+{% endif %}
