@@ -50,6 +50,7 @@ class Section(MetaDataMixin):
         max_digits=8,
         decimal_places=4,
     )
+    members_only = models.BooleanField(default=False)
     hide_title = models.BooleanField(default=False)
     title = models.CharField(
         max_length=255,
