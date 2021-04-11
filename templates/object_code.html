@@ -1,0 +1,21 @@
+{% if code.file_path %}
+  <span class="code-block"><strong>{{ code.file_path }}</strong></span><br>
+{% endif %}
+<pre class="code-block">{{ code.code }}</pre>
+<p>
+  {% if code.text %}
+    {{ code.text }}<br>
+  {% endif %}
+  {% if code.source and code.source_url %}
+    Source: <a href="{{ code.source_url }}">{{ code.source }}</a><br>
+  {% elif code.source %}
+    Source: {{ code.source }}</p>
+  {% elif code.source_url %}
+    Source: <a href="{{ code.source_url }}">{{ code.source_url }}</a><br>
+  {% endif %}
+  {% if code.owner.pk == request.user.pk %}
+    <a href="{% url 'objects:code_update' code.pk %}?next={{ request.path }}">
+      <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+    </a>
+  {% endif %}
+</p>

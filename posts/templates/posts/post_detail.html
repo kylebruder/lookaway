@@ -1,22 +1,21 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container posts-bg">
-  {% if post.is_public and post.members_only and not request.user.is_authenticated %}
-    <p>This Post is only avaialble for Members of the site.</p>
-  {% elif post.is_public or post.owner.pk == request.user.pk %}
-    {% include './post_detail_button_bar.html' %}
-    {% if post.members_only %}
-      <p><i>This Post is only avaialble for Members of the site.</i></p>
-    {% endif %}
-    <!-- Response -->
-    {% if post.re %}
-      <p class="post-meta">Re: <a href="{% url 'posts:post_detail' post.re.slug %}">{{ post.re.title }}</a></p>
-    {% endif %}
+  {% if post.is_public or post.owner.pk == request.user.pk %}
+    <!-- Title bar-->
+    {% include './post_detail_title_bar.html' %}
+    <!-- Meta data -->
+    <p>
+      {% if post.members_only %}
+        <i>This Post is only visible to authenticated members</i><br>
+      {% endif %}
+    </p>
     <!-- Image -->
     <div class="col-sm-6 float-right">
       {% if post.image %}
         <a href="{{ post.image.image_file.url }}">
-          <img class="post-image" src="{{ post.image.image_file.url }}" alt="{{ post.image.title }}">
+          <img class="images-image" src="{{ post.image.image_file.url }}" alt="{{ post.image.title }}">
         </a>
         <span class="post-image-text">
           <p>
@@ -40,127 +39,94 @@
       {{ post.text|linebreaks }}
       <br>
     {% endif %}
-    <!-- Sound -->
     {% if post.sound %}
       {% with post.sound as sound %}
-        <div>
-          <h5 class="post-title">{{ sound.title }}</h5>
-          <audio controls="controls">
-            {% include 'audio_mime_types.html' %}
-          </audio>
-          <p>
-            {{ sound.text }}
-            {% if sound.owner.pk == request.user.pk %}
-              <a href="{% url 'objects:sound_update' sound.pk %}?next={{ request.path }}">
-                <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-              </a>
-            {% endif %}
-            <br>
-            {% if sound.credit %}
-              <i>{{ sound.credit }}</i><br>
-            {% endif %}
-          </p>
-        </div>
-        <br>
+        {% include 'object_sound.html' %}
       {% endwith %}
     {% endif %}
-    <!-- Video -->
     {% if post.video %}
       {% with post.video as video %}
-        <div>
-          <h5 class="post-title">{{ video.title }}</h5>
-          <video class="video-player-sm" preload="metadata" controls="controls">
-            {% include 'video_mime_types.html' %}
-          </video>
-          <br>
-          <p>
-            {{ video.text }}<br>
-            {% if video.credit %}
-              <i>{{ video.credit }}</i><br>
-            {% endif %}
-            {% if video.owner.pk == request.user.pk %}
-              <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
-                <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-              </a>
-            {% endif %}
-          </p>
-        </div>
+        {% include 'object_video.html' %}
+      {% endwith %}
+    {% endif %}
+    {% if post.code %}
+      {% with post.code as code %}
+        {% include 'object_code.html' %}
+      {% endwith %}
+    {% endif %}
+    <div class="clear"></div>
+    {% if post.link %}
+      {% with post.link as link %}
+        {% include 'object_link.html' %}
         <br>
       {% endwith %}
     {% endif %}
-    <!-- Code -->
-    {% if post.code %}
-      <h5 class="post-title">{{ post.code.title }}</h5>
-      {% if post.code.file_path %}
-        <span class="code-block post-meta">{{ post.code.file_path }}</span>
-      {% endif %}
-      <pre class="code-block">{{ post.code.code }}</pre>
-      {% if post.code.source_url %}
-        <p class="post-meta">Source: <a href="{{ post.code.source_url }}">{{ post.code.source }}</a></p>
+    <p>
+      {% if post.is_public %}
+        Posted by
+        <span class="index-page-span"><a href="{% url 'members:member_profile' post.owner.profile.slug %}">{{ post.owner }}</a></span>
+        on <span class="index-page-span">{{ post.publication_date|date:"M d, Y" }}</span>
+        {% if post.location %}
+          from <span class="index-page-span">{{ post.location }}</span>
+        {% endif %}<br>
       {% else %}
-        <p class="post-meta">Source: {{ post.code.source }}</p>
+        Owned by <a href="{% url 'members:member_profile' post.owner.profile.slug %}">{{ post.owner }}</a>, created on {{ post.creation_date }}
+        <span class="badge badge-dark">Unpublished</span>
       {% endif %}
-      {% if post.code.owner.pk == request.user.pk %}
-        <a href="{% url 'objects:code_update' post.code.pk %}?next={{ request.path }}">
-          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-        </a><br>
+      {% if post.last_modified > post.publication_date %}
+        Last updated on
+        <span class="index-page-span">{{ post.last_modified|date:"M d, Y" }}</span>
       {% endif %}
-      <br>
-    {% endif %}
-    <!-- Link -->
-    {% if post.link %}
-      {% if post.link.title %}
-        <h5 class="post-title">{{ post.link.title }}</h5>
-      {% endif %}
-      {% if post.link.text %}
-        <p>{{ post.link.text }}</p>
-      {% endif %}
-      {% if post.link.favicon_href %}
-        <div class="link-list-card float-left" style="background-image:url('{{ post.link.favicon_href }}')"></div>
-      {% endif %}
-      <p class="link-url">
-        <a href="{{ post.link.url }}" class="links-list-link">{{ post.link.url|truncatechars:128 }}</a>
-        {% if post.link.owner.pk == request.user.pk %}
-          <a href="{% url 'objects:link_update' post.link.pk %}?next={{ request.path }}">
-            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-          </a>
-        {% endif %}
-      </p>
-    {% endif %}
-    <div class="clear"></div>
+    </p>
     <br>
-    {% include 'object_crypto_wallets.html' %}
-    <!-- Tags -->
-    {% if post.tags.count > 0 %}
-      {% include 'object_tags.html' %}
-      <br>
-    {% endif %}
     <!-- Responses -->
     {% if responses.count > 0 %}
-      {% if request.user.is_authenticated or True in responses.all.members_only or public_response %}
-        <h5 class="post-title">Responses</h5>
-      {% endif %}
-      {% for re in responses %}
-        {% if not re.members_only or request.user.is_authenticated %}
-          <p><a href="{% url 'posts:post_detail' re.slug %}">{{ re.title }}</a> - {{ re.owner }} - {{ re.publication_date }}</p>
-        {% endif %}
-      {% endfor %}
+      <h4 class="posts-title">Responses</h4>
+      <ul class="list-group">
+        {% for response in responses %}
+          <li class="list-group-item posts-list-li">
+            {% include 'object_response_item.html' %}
+          </li>
+        {% endfor %}
+      </ul>
+      <br>
     {% endif %}
-    <!-- Credits -->
-    {% if post.is_public %}
-      <p>Posted by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> {% if post.publication_date %} on {{ post.publication_date }}{% endif %}{% if post.location %} from {{ post.location }}{% endif %}
-      {% if object.last_modified > object.creation_date %}
-        <br>Last updated on {{ object.last_modified }}
-      {% endif %}
-      </p>
-    {% else %}
-      <p class="post-meta">Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
+    {% if post.bitcoin_wallet or post.litecoin_wallet %}
+      <h4 class="posts-title">Donate</h4>
+      <br>
+      {% with post.bitcoin_wallet as bitcoin_wallet %}
+        {% with post.litecoin_wallet as litecoin_wallet %}
+          {% include 'object_crypto_wallets.html' %}
+        {% endwith %}
+      {% endwith %}
     {% endif %}
-  {% else %}
-    <p>This Post has not been published yet.</p>
+    <div class="row">
+      <div class="col-sm">
+        {% include 'object_tags.html' %}
+      </div>
+      {% if post.is_public %}
+        <div class="col-">
+          <div class="container">
+            {% if can_add_marshmallow %}
+              <a href="{% url 'posts:post_marshmallow' post.pk %}">
+                <button type="button" class="btn btn-sm btn-light marshmallow-button float-right">M</button>
+              </a>
+            {% endif %}
+            {% if can_add_response %}
+              <a href="{% url 'posts:response_post_create' model='post' pk=post.pk members_only=post.members_only %}">
+                <button type="button" class="btn btn-sm btn-primary float-right">+Response</button>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
     <br>
+  {% else %}
+    <p>This post has not been published yet.</p>
     <br>
   {% endif %}
-  <br>
 </div>  
+<br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

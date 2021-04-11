@@ -10,9 +10,9 @@
   </div>
   <div class="col-sm">
     <h6 class="posts-title">
-      <a href="{% url 'posts:post_detail' post.slug %}">
+      <strong><a href="{% url 'posts:post_detail' post.slug %}">
         {{ post.title }}
-      </a>
+      </a></strong>
     </h6>
     <p>
       Posted by <a href="{% url 'members:member_profile' post.owner.username %}"><span class="index-heading-span">{{ post.owner }}</span></a> on <span class="index-heading-span">{{ post.creation_date|date:"M d, Y" }}</span>

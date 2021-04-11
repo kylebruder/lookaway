@@ -44,7 +44,7 @@ urlpatterns = [
     ),
     # Read Views
     path(
-        '', 
+        'new/', 
         views.PostListView.as_view(),
         name='public_posts',
     ),
@@ -106,14 +106,14 @@ urlpatterns = [
         name='post_create',
     ),
     path(
-        'add/response/', 
+        'add/response/<slug:model>-<int:pk>-<slug:members_only>', 
         views.ResponsePostCreateView.as_view(),
-        name='responsepost_create',
+        name='response_post_create',
     ),
     path(
         'add/report/', 
         views.ReportPostCreateView.as_view(),
-        name='post_create',
+        name='report_post_create',
     ),
     # Update Views
     path(
@@ -124,7 +124,7 @@ urlpatterns = [
     path(
         'modify/response/<slug:slug>/', 
         views.ResponsePostUpdateView.as_view(),
-        name='post_update',
+        name='response_update',
     ),
     # Delete Views
     path(

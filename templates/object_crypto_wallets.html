@@ -1,7 +1,7 @@
 <!-- Crypto Wallets -->
 <!-- Bitcoin Wallet -->
 {% if bitcoin_wallet %}
-  <div class="documentation-section">
+  <div class="section">
     <div class="row">
       <div class="col-">
         <div class="container">
@@ -16,7 +16,7 @@
         <p>
           <span class="crypto-address-block">{{ bitcoin_wallet.public_address }}</span>
           {% if request.user == bitcoin_wallet.owner %}
-          <a href="{% url 'crypto:bitcoinwallet_update' bitcoin_wallet.pk %}?next={{ request.path }}">
+            <a href="{% url 'crypto:bitcoinwallet_update' bitcoin_wallet.pk %}?next={{ request.path }}">
               <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
             </a>
           {% endif %}
@@ -33,7 +33,7 @@
 {% endif %}
 <!-- Litecoin Wallet -->
 {% if litecoin_wallet %}
-  <div class="documentation-section">
+  <div class="section">
     <div class="row">
       <div class="col-">
         <div class="container">
@@ -48,7 +48,7 @@
         <p>
           <span class="crypto-address-block">{{ litecoin_wallet.public_address }}</span>
           {% if request.user == litecoin_wallet.owner %}
-          <a href="{% url 'crypto:litecoinwallet_update' litecoin_wallet.pk %}?next={{ request.path }}">
+            <a href="{% url 'crypto:litecoinwallet_update' litecoin_wallet.pk %}?next={{ request.path }}">
               <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
             </a>
           {% endif %}

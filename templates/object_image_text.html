@@ -1,0 +1,29 @@
+<div class="row">
+  {% if text %}
+    <div class="col-sm">
+      <div class="section-text">
+        {{ text|linebreaks }}
+      </div>
+    </div>
+  {% endif %}
+  {% if image %}
+    <div class="col-sm">
+      <a href="{{ image.image_file.url }}">
+        <img class="section-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
+      </a><br><br>
+      <span class="">
+        {% if image.text %}
+          {{ image.text }}<br>
+        {% endif %}
+        {% if image.credit %}
+          <i>{{ image.credit }}</i><br>
+        {% endif %}
+        {% if image.owner == request.user %}
+          <a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}">
+            <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+          </a>
+        {% endif %}
+      </span>
+    </div>
+  {% endif %}
+</div>

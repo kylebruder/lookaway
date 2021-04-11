@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
+<div class="container posts-bg">
+  {% if response.is_public or response.owner.pk == request.user.pk %}
+    <!-- Title bar-->
+    {% include './response_detail_title_bar.html' %}
+    <!-- Meta data -->
+    {% include './re_links.html' %}
+    <p>
+      {% if response.members_only %}
+        <i>This Post is only visible to authenticated members</i><br>
+      {% endif %}
+    </p>
+    {% if response.text or response.image %}
+      {% with response.text as text and response.image as image %}
+        {% include 'object_image_text.html' %}
+        <br>
+      {% endwith %}
+    {% endif %}
+    {% if response.sound %}
+      {% with response.sound as sound %}
+        {% include 'object_sound.html' %}
+      {% endwith %}
+    {% endif %}
+    {% if response.video %}
+      {% with response.video as video %}
+        {% include 'object_video.html' %}
+      {% endwith %}
+    {% endif %}
+    {% if response.code %}
+      {% with response.code as code %}
+        {% include 'object_code.html' %}
+      {% endwith %}
+    {% endif %}
+    {% if response.link %}
+      {% with response.link as link %}
+        {% include 'object_link.html' %}
+        <br>
+      {% endwith %}
+    {% endif %}
+    <p>
+      {% if response.is_public %}
+        Posted by
+        <span class="index-page-span"><a href="{% url 'members:member_profile' response.owner.profile.slug %}">{{ response.owner }}</a></span>
+        on <span class="index-page-span">{{ response.publication_date|date:"M d, Y" }}</span>
+        {% if response.location %}
+          from <span class="index-page-span">{{ response.location }}</span>
+        {% endif %}
+      {% else %}
+        Owned by <a href="{% url 'members:member_profile' response.owner.profile.slug %}">{{ response.owner }}</a>, created on {{ response.creation_date }}
+        {% if not post.is_public %}
+          <span class="badge badge-dark">Unpublished</span><br>
+        {% endif %}
+      {% endif %}
+      {% if response.last_modified > response.publication_date %}
+        Last updated on
+        <span class="index-page-span">{{ response.last_modified|date:"M d, Y" }}</span>
+      {% endif %}
+    </p>
+    <br>
+    {% if response.bitcoin_wallet or response.litecoin_wallet %}
+      <h4 class="posts-title">Donate</h4>
+      <br>
+      {% with response.bitcoin_wallet as bitcoin_wallet %}
+        {% with response.litecoin_wallet as litecoin_wallet %}
+          {% include 'object_crypto_wallets.html' %}
+        {% endwith %}
+      {% endwith %}
+    {% endif %}
+    <div class="row">
+      <div class="col-sm">
+        {% include 'object_tags.html' %}
+      </div>
+      {% if response.is_public and can_add_marshmallow %}
+        <div class="col-">
+          <div class="container">
+            <a href="{% url 'posts:response_marshmallow' response.pk %}">
+              <button type="button" class="btn btn-sm btn-light marshmallow-button float-right">M</button>
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    <br>
+  {% else %}
+    <p>This response has not been published yet.</p>
+    <br>
+  {% endif %}
+</div>  
+<br>
+{% if profile.bg_image %}</div>{% endif %}
+{% endblock %}

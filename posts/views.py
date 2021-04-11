@@ -16,6 +16,9 @@ from django.views.generic.list import ListView
 from lookaway.mixins import AppPageMixin
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
+from art.models import Visual, Gallery
+from documentation.models import Article, Story, SupportDocument
+from music.models import Track, Album
 from objects.utils import Text
 from .forms import PostsAppProfileForm, PostsPageSectionForm, PostForm, ResponsePostForm, ReportPostForm
 from .models import PostsAppProfile, PostsPageSection, Post, ResponsePost, ReportPost
@@ -384,16 +387,19 @@ class PostDetailView(DetailView):
                 context['can_add_marshmallow'] = True
             else:
                 context['can_add_marshmallow'] = False
-        # Get the posts that are a response to this post
-        context['responses'] = Post.objects.filter(
-            re=self.object,
-        ).filter(
-            is_public=True,
-        ).order_by('weight', '-publication_date')
-        # Check if any responses can be seen by non-members
-        for re in context['responses']:
-            if not re.members_only:
-                context['public_response'] = True
+            # Get the posts that are a response to this post
+            context['responses'] = ResponsePost.objects.filter(
+                post=self.object,
+                is_public=True,
+            ).order_by('weight', '-publication_date')[:5]
+            if self.request.user.has_perms('posts:add_response'):
+                context['can_add_response'] = True
+        else:
+            context['responses'] = ResponsePost.objects.filter(
+                post=self.object,
+                is_public=True,
+                members_only=False,
+            ).order_by('weight', '-publication_date')[:5]
         return context
 
 class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
@@ -508,6 +514,29 @@ class ResponsePostCreateView(LoginRequiredMixin, PermissionRequiredMixin, Member
     model = ResponsePost
     form_class = ResponsePostForm
 
+    def get_target(self):
+        model = self.kwargs['model']
+        pk = self.kwargs['pk']
+        if model == 'post':
+            target = Post.objects.get(pk=pk)
+        elif model == 'article':
+            target = Article.objects.get(pk=pk)
+        elif model == 'story':
+            target = Story.objects.get(pk=pk)
+        elif model == 'document':
+            target = SupportDocuement.objects.get(pk=pk)
+        elif model == 'visual':
+            target = Visual.objects.get(pk=pk)
+        elif model == 'gallery':
+            target = Gallery.objects.get(pk=pk)
+        elif model == 'track':
+            target = Track.objects.get(pk=pk)
+        elif model == 'album':
+            target = Album.objects.get(pk=pk)
+        else:
+            target = None
+        return target
+        
     def get_form_kwargs(self):
         kwargs = super(ResponsePostCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
@@ -515,16 +544,22 @@ class ResponsePostCreateView(LoginRequiredMixin, PermissionRequiredMixin, Member
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        target = self.get_target()
         # App profile
         profile, created = PostsAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         context['meta_title'] = "New Response"
-        context['meta_desc'] = """Submit a response. Responses \
-            are open ended and can contain your contributed media."""
+        context['meta_desc'] = "Submit a response to \"{}\".".format(
+                str(target),
+            )
         return context
 
     def form_valid(self, form):
         member = self.request.user
+        if self.kwargs['model'] == 'post':
+            form.instance.post = Post.objects.get(pk=self.kwargs['pk'])
+        if self.kwargs['members_only']:
+            form.instance.members_only = self.kwargs['members_only']
         form.instance.creation_date = timezone.now()
         form.instance.owner = member
         form.instance.slug = Text.slugify_unique(self.model, form.instance.title)
@@ -672,12 +707,34 @@ class ResponsePostDetailView(DetailView):
                 context['can_add_marshmallow'] = True
             else:
                 context['can_add_marshmallow'] = False
+        return context
 
 class ResponsePostUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     permission_required = 'posts.change_responsepost'
     model = ResponsePost
     form_class = ResponsePostForm
+
+    def get_target(self):
+        if self.object.post:
+            target = self.object.post
+        elif self.object.article:
+            target = self.object.article
+        elif self.object.story:
+            target = self.object.story
+        elif self.object.document:
+            target = self.object.document
+        elif self.object.visual:
+            target = self.object.visual
+        elif self.object.gallery:
+            target = self.object.gallery
+        elif self.object.track:
+            target = self.object.track
+        elif self.object.album:
+            target = self.object.album
+        else:
+            target = None
+        return target
 
     def get_form_kwargs(self):
         kwargs = super(ResponsePostUpdateView, self).get_form_kwargs()
@@ -686,11 +743,15 @@ class ResponsePostUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        target = self.get_target()
         # App profile
         profile, created = PostsAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         context['meta_title'] = "Update \"{}\"".format(self.object.title)
-        context['meta_desc'] = "Make changes to this Response."
+        
+        context['meta_desc'] = "Make changes to your response to \"{}\".".format(
+            target,
+        )
         return context
 
     def form_valid(self, form):
@@ -716,7 +777,7 @@ class ResponsePostDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
 
 def publish_responsepost_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
-    instance = get_object_or_404(Post, pk=pk)
+    instance = get_object_or_404(ResponsePost, pk=pk)
     if request.method == 'GET':
         template = loader.get_template('publish.html')
         context = {'object': instance}
@@ -733,7 +794,7 @@ def publish_responsepost_view(request, pk):
             )
             return HttpResponseRedirect(
                 reverse(
-                    'posts:responsepost_detail',
+                    'posts:response_detail',
                     kwargs={
                         'slug': instance.slug,
                     }
@@ -776,7 +837,7 @@ def add_marshmallow_to_responsepost_view(request, pk):
                 messages.ERROR,
                 'You are not allowed to give marshmallows at this time'
             )
-    return HttpResponseRedirect(reverse('posts:public_responseposts'))
+    return HttpResponseRedirect(reverse('posts:public_response_posts'))
 
 class ReportPostCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 

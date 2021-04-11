@@ -13,22 +13,10 @@
       </a></strong>
     </h6>
     <p>
-      {% include './re_links.html' %}
+      {% if response.text %}
+        {{ response.text|truncatechars:256 }}<br>
+      {% endif %}
       Posted by <a href="{% url 'members:member_profile' response.owner.username %}"><span class="index-heading-span">{{ response.owner }}</span></a> on <span class="index-heading-span">{{ response.creation_date|date:"M d, Y" }}</span>
     </p>
   </div>
 </div>
-<p>
-  {{ response.text|truncatechars:155 }}
-</p>
-{% if not response.is_public %}
-  <span class="badge badge-dark">Unpublished</span>
-{% endif %}
-{% if response.members_only %}
-  <span class="badge badge-warning">Members Only</span>
-{% endif %}
-{% if response.tags.all.count > 0 %}
-  {% with response as object %}
-    {% include 'object_tags.html' %}
-  {% endwith %}
-{% endif %}

@@ -6,15 +6,11 @@
   </div>
   {% if section.owner.pk == request.user.pk %}
     <div class="col-">
-      <a href="{% url 'posts:posts_page_section_delete' section.pk %}">
-        <button type="button" class="btn btn-sm  btn-danger float-right">Delete</button>
-      </a>
-      <a href="{% url 'posts:posts_page_section_update' section.pk %}">
-        <button type="button" class="btn btn-sm btn-warning float-right">Edit</button>
-      </a>
-      <a href="{% url 'posts:posts_page_section_create' %}">
-        <button type="button" class="btn btn-sm btn-primary float-right">Add Section</button>
-      </a>
+      <div class="container">
+        <a href="{% url 'posts:posts_page_section_create' %}"><button type="button" class="btn btn-sm btn-primary create-button">+</button></a>
+        <a href="{% url 'posts:posts_page_section_update' section.pk %}"><button type="button" class="btn btn-sm btn-warning edit-button">&#9998;</button></a>
+        <a href="{% url 'posts:posts_page_section_delete' section.pk %}"><button type="button" class="btn btn-sm  btn-danger delete-button">X</button></a>
+      </div>
     </div>
   {% endif %}
 </div>

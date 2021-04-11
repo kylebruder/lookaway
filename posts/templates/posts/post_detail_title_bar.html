@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col">
+    <h4 class="posts-page-title">{{ post.title }}</h4>
+  </div>
+  {% if post.owner.pk == request.user.pk %}
+    <div class="col-">
+      <div class="container">
+        <a href="{% url 'posts:post_delete' post.pk %}">
+          <button type="button" class="btn btn-sm  btn-danger float-right">Delete</button>
+        </a>
+        <a href="{% url 'posts:post_update' post.slug %}">
+          <button type="button" class="btn btn-sm btn-warning float-right">Edit</button>
+        </a>
+        {% if not post.is_public %}
+          <a href="{% url 'posts:publish_post' post.pk %}">
+            <button type="button" class="btn btn-sm  btn-success float-right">Publish</button>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+</div>
