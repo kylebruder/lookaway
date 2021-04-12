@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils import timezone
 from lookaway.settings import BASE_DIR, DEFAULT_MEMBER_STORAGE, FOUNDER_CUTOFF
+from crypto.models import CryptoWalletsMixin
 from objects.models import Image
 
 
@@ -198,7 +199,7 @@ class Member(User):
         else:
             return self.username
 
-class Profile(models.Model):
+class Profile(CryptoWalletsMixin):
 
     member = models.OneToOneField(Member, on_delete=models.CASCADE)
     display_name = models.CharField(
