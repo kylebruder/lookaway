@@ -7,6 +7,7 @@ from django.db import models
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils import timezone
+from lookaway.mixins import AppProfile, Section
 from lookaway.settings import BASE_DIR, DEFAULT_MEMBER_STORAGE, FOUNDER_CUTOFF
 from crypto.models import CryptoWalletsMixin
 from objects.models import Image
@@ -50,7 +51,7 @@ class Member(User):
         # get n seconds ago
         t = timezone.now() - datetime.timedelta(seconds=n)
         try:
-            q = Profile.objects.select_related('member').get(member=self).last_marshmallow_allocation
+            q = Profile.objects.select_related('member').get(member=self).last_marshmallow_time
             if t > q:
                 return True
             else:
@@ -124,7 +125,8 @@ class Member(User):
             q = Marshmallow.objects.filter(member=self, date__gte=t).count()
         if q == 0:
             q += 1
-        print('number of marshmalows allocated in last {0} days by {1}: {2}'.format(n, q, self))
+        # Debug line
+        #print('number of marshmalows allocated in last {0} days by {1}: {2}'.format(n, q, self))
         # weight allocation period
         p = n / q 
         # apply the multiplier
@@ -184,7 +186,7 @@ class Member(User):
             else:
                 amount = "a spec of marshmallow"
             p = Profile.objects.select_related('member').get(member=self)
-            p.last_marshmallow_allocation = timezone.now()
+            p.last_marshmallow_time = timezone.now()
             p.save()
             return True, m.weight, amount
         else:
@@ -199,7 +201,7 @@ class Member(User):
         else:
             return self.username
 
-class Profile(CryptoWalletsMixin):
+class Profile(AppProfile, CryptoWalletsMixin):
 
     member = models.OneToOneField(Member, on_delete=models.CASCADE)
     display_name = models.CharField(
@@ -209,21 +211,132 @@ class Profile(CryptoWalletsMixin):
         null=True,
     )
     slug = models.SlugField(max_length=255, unique=True)
-    last_marshmallow_allocation = models.DateTimeField(default=timezone.now)
-    media_capacity = models.BigIntegerField(default=DEFAULT_MEMBER_STORAGE)
+    # Member profile blurb
     text = models.TextField(
         blank=True,
         null=True,
     )
+    # Profile picture
     image = models.ForeignKey(
         Image,
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
     )
+    # Profile banner
+    banner = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='member_banner'
+    )
+    # Profile background image
+    bg_image = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='member_bg_image'
+    )
+    # Posts settings
+    n_posts = models.PositiveIntegerField(default=5)
+    n_responses = models.PositiveIntegerField(default=5)
+    post_list_pagination = models.PositiveIntegerField(default=6)
+    response_list_pagination = models.PositiveIntegerField(default=6)
+    show_new_posts = models.BooleanField(default=True)
+    show_top_posts = models.BooleanField(default=True)
+    show_new_responses = models.BooleanField(default=False)
+    show_top_responses = models.BooleanField(default=False)
+    # Documentation settings
+    n_articles = models.PositiveIntegerField(default=5)
+    n_stories = models.PositiveIntegerField(default=5)
+    n_documents = models.PositiveIntegerField(default=5)
+    article_list_pagination = models.PositiveIntegerField(default=6)
+    story_list_pagination = models.PositiveIntegerField(default=6)
+    document_list_pagination = models.PositiveIntegerField(default=6)
+    show_new_articles = models.BooleanField(default=True)
+    show_top_articles = models.BooleanField(default=True)
+    show_new_stories = models.BooleanField(default=True)
+    show_top_stories = models.BooleanField(default=True)
+    show_new_documents = models.BooleanField(default=True)
+    show_top_documents = models.BooleanField(default=True)
+    # Art settings
+    n_visuals = models.PositiveIntegerField(default=25)
+    n_galleries = models.PositiveIntegerField(default=5)
+    visual_list_pagination = models.PositiveIntegerField(default=25)
+    gallery_list_pagination = models.PositiveIntegerField(default=6)
+    show_new_visuals = models.BooleanField(default=True)
+    show_top_visual = models.BooleanField(default=True)
+    show_new_galleries = models.BooleanField(default=True)
+    show_top_galleries = models.BooleanField(default=True)
+    # Music settings
+    n_tracks = models.PositiveIntegerField(default=5)
+    n_albums = models.PositiveIntegerField(default=5)
+    track_list_pagination = models.PositiveIntegerField(default=6)
+    album_list_pagination = models.PositiveIntegerField(default=6)
+    show_new_tracks = models.BooleanField(default=True)
+    show_top_tracks = models.BooleanField(default=True)
+    show_new_albums = models.BooleanField(default=True)
+    show_top_albums = models.BooleanField(default=True)
+    # How much the Member can store on disk
+    media_capacity = models.BigIntegerField(default=DEFAULT_MEMBER_STORAGE)
+    # Feedback timestamps
+    last_marshmallow_time = models.DateTimeField(default=timezone.now)
+    last_post_time = models.DateTimeField(default=timezone.now)
+    last_response_post_time = models.DateTimeField(default=timezone.now)
+    last_report_post_time = models.DateTimeField(default=timezone.now)
+    
 
     def __str__(self):
         return str(self.member)
+
+class MemberProfileSection(Section):
+
+    # Profile Section TLOs
+    posts = models.ManyToManyField(
+        'posts.post',
+        blank=True,
+    )
+    responses = models.ManyToManyField(
+        'posts.responsepost',
+        blank=True,
+    )
+    articles = models.ManyToManyField(
+        'documentation.article',
+        blank=True,
+    )
+    story = models.ManyToManyField(
+        'documentation.story',
+        blank=True,
+    )
+    documents = models.ManyToManyField(
+        'documentation.supportdocument',
+        blank=True,
+    )
+    visuals = models.ManyToManyField(
+        'art.visual',
+        blank=True,
+    )
+    galleries = models.ManyToManyField(
+        'art.gallery',
+        blank=True,
+    )
+    tracks = models.ManyToManyField(
+        'music.track',
+        blank=True,
+    )
+    albums = models.ManyToManyField(
+        'music.album',
+        blank=True,
+    )
+    is_enabled = models.BooleanField(default=False)
+    members_only = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Member Page Section"
+        verbose_name_plural = "Member Page Sections"
+        ordering = ['order']
 
 class Marshmallow(models.Model):
 
