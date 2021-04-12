@@ -101,7 +101,7 @@ class MusicMetaData(models.Model):
     )
 
 
-class Track(MetaDataMixin, MusicMetaData, MarshmallowMixin):
+class Track(MetaDataMixin, MusicMetaData, MarshmallowMixin, CryptoWalletsMixin):
 
     order = models.DecimalField(
         max_digits=8,
@@ -137,7 +137,7 @@ class Track(MetaDataMixin, MusicMetaData, MarshmallowMixin):
     class Meta:
         ordering = ['order']
 
-class Album(MetaDataMixin, MusicMetaData, MarshmallowMixin):
+class Album(MetaDataMixin, MusicMetaData, MarshmallowMixin, CryptoWalletsMixin):
 
     cover = models.ForeignKey(
         'objects.image',

@@ -68,7 +68,7 @@ class DocumentationPageSection(Section):
         verbose_name_plural = "Landing Page Sections"
         ordering = ['order']
 
-class Article(Doc):
+class Article(Doc, CryptoWalletsMixin):
 
     class Meta:
         verbose_name = "Article"
@@ -91,7 +91,7 @@ class ArticleSection(Section):
         verbose_name_plural = "Article Sections"
 
 
-class Story(Doc):
+class Story(Doc, CryptoWalletsMixin):
 
     is_fiction = models.BooleanField(default=True)
     author = models.CharField(
@@ -143,7 +143,7 @@ class StorySection(Section):
         verbose_name = "Story Section"
         verbose_name_plural = "Story Sections"
 
-class SupportDocument(Doc):
+class SupportDocument(Doc, CryptoWalletsMixin):
 
     numbered = models.BooleanField(default=False)
 
