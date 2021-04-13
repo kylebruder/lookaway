@@ -32,126 +32,22 @@ class CustomModelMultipleChoiceField(forms.models.ModelMultipleChoiceField):
 
     choices = property(_get_choices, forms.MultipleChoiceField._set_choices)
 
-class UserRegistrationForm(UserCreationForm):
+class HomeAppProfileForm(forms.ModelForm):
 
-    username = forms.CharField(
-        label="Member Login",
-        max_length=32,
-        help_text="""Use only lower case letters in your Member Login \
-            Name. Your Member Login name is used to create a permanent URL for \
-            your Profile page and is also used to credit \
-            your contributions unless you choose a display name or provide \
-            a first and last name.""",
-    )
-    password1 = forms.CharField(
-        widget=forms.PasswordInput(),
-        label="Password",
-    )
-    password2 = forms.CharField(
-        widget=forms.PasswordInput(),
-        label="Verify Password",
-        )
-    first_name = forms.CharField(
-        widget=forms.PasswordInput(),
-        label="First Name (optional)",
-        help_text="""You may use your real name or an alias or completely fake \
-            name.""",
+    title = forms.CharField(
+        help_text="""The title will appear in the header
+            It will also appear on search engine results pages (SERPs) and can \
+            impact search engine optimization (SEO)""",
+        max_length=128,
         required=False,
     )
-    last_name = forms.CharField(
-        widget=forms.PasswordInput(),
-        label="Last Name (optional)",
-        help_text="""If you provide a first AND last name, they will be used  \
-            to credit your contributions unless you choose a display name for \
-            your Profile after creating your Member account.""",
-        required=False,
-    )
-    email = forms.CharField(
-        widget=forms.EmailInput(),
-        label="Recovery Email (optional)",
-        help_text="""If you provide an email contact, your email address will \
-            only be used to recover your password in the event you no longer \
-            know you password. IMPORTANT! If you do not provide an valid \
-            email address, you will be unable to use the Password Recovery \
-            Service. We do not confirm whether or not your recovery email \
-            address is valid so be sure you have can access the email address \
-            you provide. The recovery email can be changed any time as long \
-            as you are authenticated to the site.""",
-        required=False,
-    )
-    username.widget.attrs.update({'class': 'form-text-field'})
-    password1.widget.attrs.update({'class': 'form-text-field'})
-    password2.widget.attrs.update({'class': 'form-text-field'})
-    first_name.widget.attrs.update({'class': 'form-text-field'})
-    last_name.widget.attrs.update({'class': 'form-text-field'})
-    email.widget.attrs.update({'class': 'form-text-field'})
-
-    class Meta:
-        model = User
-        fields = (
-            'username',
-            'password1',
-            'password2',
-            'first_name',
-            'last_name',
-            'email',
-        )
-
-    # Thanks to Junior Mayta
-    # https://stackoverflow.com/questions/52723824/how-to-create-a-validator-for-special-characters-in-django?rq=1
-    def validate_username(self, string):
-        '''
-        Ensure the supplied username only contains lowercase letters and numbers
-        Pass cleaned form data as a string
-        returns either True or False
-        '''
-        for char in string:
-            if not char.isdigit() and not char.isalpha():
-                return False
-        return True
-
-    def clean_username(self):
-        data = self.cleaned_data['username']
-        if not data.islower():
-            raise forms.ValidationError("Your username may only include lowercase letters.")
-        if not self.validate_username(data):
-            raise forms.ValidationError("Your username may only include letters and numbers.")
-        return data
-            
-class MemberForm(forms.ModelForm):
-
-    first_name = forms.CharField(
-        max_length=30,
-        required=False,
-    )
-    last_name = forms.CharField(
-        max_length=30,
-        required=False,
-    )
-    email = forms.CharField(
-        required=False,
-    )
-    first_name.widget.attrs.update({'class': 'form-text-field'})
-    last_name.widget.attrs.update({'class': 'form-text-field'})
-    email.widget.attrs.update({'class': 'form-text-field'})
-
-    class Meta:
-        model = Member
-        fields = (
-            'first_name',
-            'last_name',
-            'email',
-        )
-
-class ProfileForm(forms.ModelForm):
-
     meta_description = forms.CharField(
         widget=forms.Textarea(
             attrs={
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description of your profile page \
+        help_text="""Add a short description of the website \
             The description will be used by Search Engines and will impact SEO \
             Include key words used on your page \
             Keep it less than 155 characters""",
@@ -167,7 +63,7 @@ class ProfileForm(forms.ModelForm):
     banner = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="""The banner is the background image for your profile page \
+        help_text="""The banner is the background image for the home page \
             header
             The optimal image size is 1800 pixels wide by 400 pixels high \
             (9:2)""",
@@ -176,15 +72,8 @@ class ProfileForm(forms.ModelForm):
         queryset=Image.objects.all(),
         required=False, 
         label="Background Image",
-        help_text="The background image will appear on your profile page \
+        help_text="The background image will appear on the home page \
             and lists of your contributions",
-    )
-    display_name = forms.CharField(
-        max_length=64,
-        help_text="""Your display name is shown on your profile page and is \
-            used to credit your contributions.""",
-        required=False,
-        label="Display Name (optional)",
     )
     text = forms.CharField(
         widget=forms.Textarea(
@@ -192,7 +81,7 @@ class ProfileForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Explain yourself here.",
+        help_text="Add a short blurb that will be displayed under the header",
         required=False, 
         label="Blurb (optional)",
     )
@@ -207,13 +96,7 @@ class ProfileForm(forms.ModelForm):
             'text',
             'banner',
             'bg_image',
-            'show_email',
         )
-        help_texts = {
-            'show_email': """Choose this option if you have already provided \
-                an email address and you would like your email address \
-                to appear on your profile page""",
-        }
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super(ProfileForm, self).__init__(*args, **kwargs)
@@ -233,27 +116,27 @@ class ProfileForm(forms.ModelForm):
             '-last_modified',
         )
 
-class ProfileSettings(forms.ModelForm):
+class HomeAppProfileSettings(forms.ModelForm):
     show_new_posts = forms.BooleanField(
-        label="Show the n newest posts on your profile page",
+        label="Show the n newest posts on the home page",
         required=False,
     )
     show_top_posts = forms.BooleanField(
-        label="Show the top n posts on the your profile page",
+        label="Show the top n posts on the the home page",
         required=False,
     )
     show_new_responses = forms.BooleanField(
-        label="Show the n newest responses on your profile page",
+        label="Show the n newest responses on the home page",
         required=False,
     )
     show_top_responses = forms.BooleanField(
-        label="Show the top n responses on your profile page",
+        label="Show the top n responses on the home page",
         required=False,
     )
     n_posts = forms.IntegerField(
         max_value=1000,
         min_value=0,
-        label="Number of posts to show in each list on your profile page (n)",
+        label="Number of posts to show in each list on the home page (n)",
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-text-field',
@@ -263,7 +146,7 @@ class ProfileSettings(forms.ModelForm):
     n_responses = forms.IntegerField(
         max_value=1000,
         min_value=0,
-        label="Number of responses to show in each list on your profile page (n)",
+        label="Number of responses to show in each list on the home page (n)",
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-text-field',
@@ -291,33 +174,33 @@ class ProfileSettings(forms.ModelForm):
         ),
     )
     show_new_articles = forms.BooleanField(
-        label="Show the n newest articles on your profile page",
+        label="Show the n newest articles on the home page",
         required=False,
     )
     show_top_articles = forms.BooleanField(
-        label="Show the top n articles on your profile page",
+        label="Show the top n articles on the home page",
         required=False,
     )
     show_new_stories = forms.BooleanField(
-        label="Show the n newest stories on your profile page",
+        label="Show the n newest stories on the home page",
         required=False,
     )
     show_top_stories = forms.BooleanField(
-        label="Show the top n stories on your profile page",
+        label="Show the top n stories on the home page",
         required=False,
     )
     show_new_support_documents = forms.BooleanField(
-        label="Show the n newest documents on your profile page",
+        label="Show the n newest documents on the home page",
         required=False,
     )
     show_top_support_documents = forms.BooleanField(
-        label="Show the top n documents on your profile page",
+        label="Show the top n documents on the home page",
         required=False,
     )
     n_articles = forms.IntegerField(
         max_value=1000,
         min_value=0,
-        label="Number of articles to show in each list on your profile page (n)",
+        label="Number of articles to show in each list on the home page (n)",
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-text-field',
@@ -327,7 +210,7 @@ class ProfileSettings(forms.ModelForm):
     n_stories = forms.IntegerField(
         max_value=1000,
         min_value=0,
-        label="Number of stories to show in each list on your profile page (n)",
+        label="Number of stories to show in each list on the home page (n)",
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-text-field',
@@ -337,37 +220,7 @@ class ProfileSettings(forms.ModelForm):
     n_documents = forms.IntegerField(
         max_value=1000,
         min_value=0,
-        label="Number of documents to show in each list on your profile page (n)",
-        widget=forms.NumberInput(
-            attrs={
-                'class': 'form-text-field',
-            }
-        ),
-    )
-    article_list_pagination = forms.IntegerField(
-        max_value=1000,
-        min_value=1,
-        label="Number of articles to show in your lists",
-        widget=forms.NumberInput(
-            attrs={
-                'class': 'form-text-field',
-            }
-        ),
-    )
-    story_list_pagination = forms.IntegerField(
-        max_value=1000,
-        min_value=1,
-        label="Number of stories to show in your lists",
-        widget=forms.NumberInput(
-            attrs={
-                'class': 'form-text-field',
-            }
-        ),
-    )
-    document_list_pagination = forms.IntegerField(
-        max_value=1000,
-        min_value=1,
-        label="Number of documents to show in your lists",
+        label="Number of documents to show in each list on the home page (n)",
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-text-field',
@@ -375,25 +228,25 @@ class ProfileSettings(forms.ModelForm):
         ),
     )
     show_new_visuals = forms.BooleanField(
-        label="Show the n newest visuals on your profile page",
+        label="Show the n newest visuals on the home page",
         required=False,
     )
     show_top_visuals = forms.BooleanField(
-        label="Show the top n visuals on your profile page",
+        label="Show the top n visuals on the home page",
         required=False,
     )
     show_new_galleries = forms.BooleanField(
-        label="Show the n newest galleries on your profile page",
+        label="Show the n newest galleries on the home page",
         required=False,
     )
     show_top_galleries = forms.BooleanField(
-        label="Show the top n galleries on your profile page",
+        label="Show the top n galleries on the home page",
         required=False,
     )
     n_visuals = forms.IntegerField(
         max_value=1000,
         min_value=0,
-        label="Number of visuals to show in each list on your profile page (n)",
+        label="Number of visuals to show in each list on the home page (n)",
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-text-field',
@@ -403,27 +256,7 @@ class ProfileSettings(forms.ModelForm):
     n_galleries = forms.IntegerField(
         max_value=1000,
         min_value=0,
-        label="Number of galleries to show in each list on your profile page (n)",
-        widget=forms.NumberInput(
-            attrs={
-                'class': 'form-text-field',
-            }
-        ),
-    )
-    visual_list_pagination = forms.IntegerField(
-        max_value=1000,
-        min_value=1,
-        label="Number of visuals to show in your lists",
-        widget=forms.NumberInput(
-            attrs={
-                'class': 'form-text-field',
-            }
-        ),
-    )
-    gallery_list_pagination = forms.IntegerField(
-        max_value=1000,
-        min_value=1,
-        label="Number of galleries to show in your lists",
+        label="Number of galleries to show in each list on the home page (n)",
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-text-field',
@@ -431,25 +264,25 @@ class ProfileSettings(forms.ModelForm):
         ),
     )
     show_new_tracks = forms.BooleanField(
-        label="Show the n newest tracks on your profile page",
+        label="Show the n newest tracks on the home page",
         required=False,
     )
     show_top_tracks = forms.BooleanField(
-        label="Show the top n tracks on your profile page",
+        label="Show the top n tracks on the home page",
         required=False,
     )
     show_new_albums = forms.BooleanField(
-        label="Show the n newest albums on your profile page",
+        label="Show the n newest albums on the home page",
         required=False,
     )
     show_top_albums = forms.BooleanField(
-        label="Show the top n albums on your profile page",
+        label="Show the top n albums on the home page",
         required=False,
     )
     n_tracks = forms.IntegerField(
         max_value=1000,
         min_value=0,
-        label="Number of tracks to show in each list on your profile page (n)",
+        label="Number of tracks to show in each list on the home page (n)",
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-text-field',
@@ -459,27 +292,7 @@ class ProfileSettings(forms.ModelForm):
     n_albums = forms.IntegerField(
         max_value=1000,
         min_value=0,
-        label="Number of albums to show in each list on your profile page (n)",
-        widget=forms.NumberInput(
-            attrs={
-                'class': 'form-text-field',
-            }
-        ),
-    )
-    track_list_pagination = forms.IntegerField(
-        max_value=1000,
-        min_value=1,
-        label="Number of tracks to show in your lists",
-        widget=forms.NumberInput(
-            attrs={
-                'class': 'form-text-field',
-            }
-        ),
-    )
-    album_list_pagination = forms.IntegerField(
-        max_value=1000,
-        min_value=1,
-        label="Number of albums to show in your lists",
+        label="Number of albums to show in each list on the home page (n)",
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-text-field',
@@ -488,7 +301,7 @@ class ProfileSettings(forms.ModelForm):
     )
 
     class Meta:
-        model = Profile
+        model = HomeAppProfile
         fields = (
             'show_new_posts',
             'show_top_posts',
@@ -496,8 +309,6 @@ class ProfileSettings(forms.ModelForm):
             'show_top_responses',
             'n_posts',
             'n_responses',
-            'post_list_pagination',
-            'response_list_pagination',
             'show_new_articles',
             'show_top_articles',
             'show_new_stories',
@@ -507,25 +318,18 @@ class ProfileSettings(forms.ModelForm):
             'n_articles',
             'n_stories',
             'n_documents',
-            'article_list_pagination',
-            'story_list_pagination',
-            'document_list_pagination',
             'show_new_visuals',
             'show_top_visuals',
             'show_new_galleries',
             'show_top_galleries',
             'n_visuals',
             'n_galleries',
-            'visual_list_pagination',
-            'gallery_list_pagination',
             'show_new_tracks',
             'show_top_tracks',
             'show_new_albums',
             'show_top_albums',
             'n_tracks',
             'n_albums',
-            'track_list_pagination',
-            'album_list_pagination',
         )
 
 class MemberProfileSectionForm(forms.ModelForm):
@@ -533,7 +337,7 @@ class MemberProfileSectionForm(forms.ModelForm):
     is_enabled = forms.BooleanField(
         label="Enabled",
         help_text="""Choose this option if you want this section to appear\
-            on your profile page""",
+            on the home page""",
         required=False,
     )
     images = CustomModelMultipleChoiceField(
@@ -543,7 +347,7 @@ class MemberProfileSectionForm(forms.ModelForm):
     )
     title = forms.CharField(
         help_text="""The section title will appear in the header of this \
-            Section""",
+            section""",
         max_length=255,
     )
     text = forms.CharField(
@@ -580,7 +384,7 @@ class MemberProfileSectionForm(forms.ModelForm):
     )
     order = forms.DecimalField(
         help_text="""Choose the order in which the section will appear on \
-            your profile page
+            the home page
             Lower values will appear first""",
         max_digits=8,
         initial=0,
@@ -658,60 +462,6 @@ class MemberProfileSectionForm(forms.ModelForm):
         )
         self.fields['code'].queryset = Code.objects.filter(
             owner=user.pk,
-        ).order_by(
-            '-last_modified',
-        )
-        self.fields['posts'].queryset = Post.objects.filter(
-            owner=user.pk,
-            is_public=True,
-        ).order_by(
-            '-last_modified',
-        )
-        self.fields['responses'].queryset = Response.objects.filter(
-            owner=user.pk,
-            is_public=True,
-        ).order_by(
-            '-last_modified',
-        )
-        self.fields['articles'].queryset = Article.objects.filter(
-            owner=user.pk,
-            is_public=True,
-        ).order_by(
-            '-last_modified',
-        )
-        self.fields['stories'].queryset = Stories.objects.filter(
-            owner=user.pk,
-            is_public=True,
-        ).order_by(
-            '-last_modified',
-        )
-        self.fields['documents'].queryset = SupportDocument.objects.filter(
-            owner=user.pk,
-            is_public=True,
-        ).order_by(
-            '-last_modified',
-        )
-        self.fields['visuals'].queryset = Visual.objects.filter(
-            owner=user.pk,
-            is_public=True,
-        ).order_by(
-            '-last_modified',
-        )
-        self.fields['galleries'].queryset = Gallery.objects.filter(
-            owner=user.pk,
-            is_public=True,
-        ).order_by(
-            '-last_modified',
-        )
-        self.fields['tracks'].queryset = Track.objects.filter(
-            owner=user.pk,
-            is_public=True,
-        ).order_by(
-            '-last_modified',
-        )
-        self.fields['albums'].queryset = Album.objects.filter(
-            owner=user.pk,
-            is_public=True,
         ).order_by(
             '-last_modified',
         )

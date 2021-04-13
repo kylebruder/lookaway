@@ -307,7 +307,7 @@ class MemberProfileSection(Section):
         'documentation.article',
         blank=True,
     )
-    story = models.ManyToManyField(
+    stories = models.ManyToManyField(
         'documentation.story',
         blank=True,
     )

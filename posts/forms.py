@@ -263,6 +263,7 @@ class PostsPageSectionForm(forms.ModelForm):
         model = PostsPageSection
         fields = (
             'is_enabled',
+            'members_only',
             'images',
             'title',
             'hide_title',
@@ -281,6 +282,9 @@ class PostsPageSectionForm(forms.ModelForm):
             'videos': """Choose one or more Videos""",
             'code': """Choose one or more Code samples""",
             'links': """Choose one or more Links""",
+            'members_only': """Choose this option if you would like to \
+                restrict the visibility of this section to members of \
+                the site""",
         }
 
     def __init__(self, *args, **kwargs):

@@ -207,7 +207,12 @@ class ArtPageSectionForm(forms.ModelForm):
     images = CustomModelMultipleChoiceField(
         queryset = Image.objects.all(),
         required=False,
-        help_text="Choose one or more Images to include in this Section",
+        help_text="Choose one or more images",
+    )
+    visuals = CustomModelMultipleChoiceField(
+        queryset = Visual.objects.all(),
+        required=False,
+        help_text="Choose one or more visuals to feature in this section",
     )
     title = forms.CharField(
         help_text="""The section title will appear in the header of this \
@@ -265,6 +270,7 @@ class ArtPageSectionForm(forms.ModelForm):
         model = ArtPageSection
         fields = (
             'is_enabled',
+            'members_only',
             'images',
             'title',
             'hide_title',
@@ -280,10 +286,15 @@ class ArtPageSectionForm(forms.ModelForm):
             'links',
         )
         help_texts = {
-            'sounds': """Choose one or more Sounds""",
-            'videos': """Choose one or more Videos""",
-            'code': """Choose one or more Code samples""",
-            'links': """Choose one or more Links""",
+            'sounds': """Choose one or more sounds""",
+            'videos': """Choose one or more videos""",
+            'code': """Choose one or more code samples""",
+            'links': """Choose one or more links""",
+            'galleries': """Choose one or more galleries \
+                to feature in this section""",
+            'members_only': """Choose this option if you would like to \
+                restrict the visibility of this section to members of \
+                the site""",
         }
 
     def __init__(self, *args, **kwargs):
