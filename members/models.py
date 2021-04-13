@@ -239,6 +239,7 @@ class Profile(AppProfile, CryptoWalletsMixin):
         null=True,
         related_name='member_bg_image'
     )
+    show_email = models.BooleanField(default=False)
     # Posts settings
     n_posts = models.PositiveIntegerField(default=5)
     n_responses = models.PositiveIntegerField(default=5)
@@ -337,6 +338,9 @@ class MemberProfileSection(Section):
         verbose_name = "Member Page Section"
         verbose_name_plural = "Member Page Sections"
         ordering = ['order']
+
+    def __str__(self):
+        return self.title
 
 class Marshmallow(models.Model):
 

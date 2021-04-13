@@ -30,6 +30,7 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
     # Navbar
     nav_posts_name = models.CharField(
         max_length=64,
+        default='posts',
     )
     nav_posts_image = models.ForeignKey(
         'objects.image',
@@ -40,6 +41,7 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
     )
     nav_documentation_name = models.CharField(
         max_length=64,
+        default='zine',
     )
     nav_documentation_image = models.ForeignKey(
         'objects.image',
@@ -50,6 +52,7 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
     )
     nav_art_name = models.CharField(
         max_length=64,
+        default='art',
     )
     nav_art_image = models.ForeignKey(
         'objects.image',
@@ -60,6 +63,7 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
     )
     nav_music_name = models.CharField(
         max_length=64,
+        default='music',
     )
     nav_music_image = models.ForeignKey(
         'objects.image',
@@ -102,7 +106,7 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
     # Tags
     n_tags = models.PositiveIntegerField(default=50)
     show_tags = models.BooleanField(default=True)
-    # Footer
+    # Hometer
     legal_notice = models.TextField(
         max_length=2048,
         null=True,
@@ -121,6 +125,65 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
 
     class Meta:
         verbose_name = "Home App Profile"
+
+    def __str__(self):
+        return self.title
+
+class HomePageSection(Section):
+
+    info = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    alert = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    posts = models.ManyToManyField(
+        'posts.post',
+        blank=True,
+    )
+    responses = models.ManyToManyField(
+        'posts.responsepost',
+        blank=True,
+    )
+    articles = models.ManyToManyField(
+        'documentation.article',
+        blank=True,
+    )
+    story = models.ManyToManyField(
+        'documentation.story',
+        blank=True,
+    )
+    documents = models.ManyToManyField(
+        'documentation.supportdocument',
+        blank=True,
+    )
+    visuals = models.ManyToManyField(
+        'art.visual',
+        blank=True,
+    )
+    galleries = models.ManyToManyField(
+        'art.gallery',
+        blank=True,
+    )
+    tracks = models.ManyToManyField(
+        'music.track',
+        blank=True,
+    )
+    albums = models.ManyToManyField(
+        'music.album',
+        blank=True,
+    )
+    is_enabled = models.BooleanField(default=False)
+    members_only = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Home Page Section"
+        verbose_name_plural = "Home Page Sections"
+        ordering = ['order']
 
     def __str__(self):
         return self.title
