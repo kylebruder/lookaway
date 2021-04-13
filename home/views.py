@@ -5,6 +5,7 @@ from music.models import Album, Track
 from objects.models import Tag
 from documentation.models import Article, Story, SupportDocument
 from posts.models import Post
+from .models import HomeAppProfile, HomePageSection
 
 # Create your views here.
 
@@ -20,6 +21,18 @@ class IndexView(TemplateView):
         for model in tag_models:
             public_tags = public_tags | Tag.get_tags_from_public(model)
         context['tags'] = public_tags.order_by('-weight')[:50]
+        # Sections
+        sections = HomePageSection.objects.filter(
+            is_enabled = True,
+        ).order_by(
+            'order',
+        )
+        if self.request.user.is_authenticated:
+            context['sections'] = sections
+        else:
+            context['sections'] = sections.exclude(
+                members_only=True
+            )
         context['posts'] = Post.objects.filter(
             is_public=True,
             members_only=False,

@@ -68,11 +68,17 @@ class ArtPageView(TemplateView, AppPageMixin):
         context['meta_title'] = profile.title
         context['meta_desc'] = profile.meta_description
         # Sections
-        context['sections'] = ArtPageSection.objects.filter(
+        sections = ArtPageSection.objects.filter(
             is_enabled = True,
         ).order_by(
             'order',
         )
+        if self.request.user.is_authenticated:
+            context['sections'] = sections
+        else:
+            context['sections'] = sections.exclude(
+                members_only=True
+            )
         # Galleries
         context['new_galleries'], context['top_galleries'] = self.get_sets(
             Gallery,

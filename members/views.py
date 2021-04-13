@@ -18,7 +18,7 @@ from music.models import Album, Track
 from objects.models import Image, Sound, Video, Code, Link
 from posts.models import Post
 from .forms import MemberForm, ProfileForm, UserRegistrationForm
-from .models import Member, Profile, InviteLink
+from .models import Member, Profile, InviteLink, MemberProfileSection
 # Create your views here.
 
 class StudioView(LoginRequiredMixin, TemplateView):
@@ -113,6 +113,18 @@ class MemberProfileView(DetailView):
         context = super().get_context_data(**kwargs)
         member = self.object.member
         context['member'] = member
+        # Sections
+        sections = MemberPageSection.objects.filter(
+            is_enabled = True,
+        ).order_by(
+            'order',
+        )
+        if self.request.user.is_authenticated:
+            context['sections'] = sections
+        else:
+            context['sections'] = sections.exclude(
+                members_only=True
+            )
         # Visuals
         context['visuals'] = Visual.objects.filter(
             owner=member,

@@ -67,11 +67,17 @@ class MusicPageView(TemplateView, AppPageMixin):
         context['meta_title'] = profile.title
         context['meta_desc'] = profile.meta_description
         # Sections
-        context['sections'] = MusicPageSection.objects.filter(
+        sections = MusicPageSection.objects.filter(
             is_enabled = True,
         ).order_by(
             'order',
         )
+        if self.request.user.is_authenticated:
+            context['sections'] = sections
+        else:
+            context['sections'] = sections.exclude(
+                members_only=True
+            )
         # New and top Track model instances
         context['new_tracks'], context['top_tracks'] = self.get_sets(
             Track,

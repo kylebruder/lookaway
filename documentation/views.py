@@ -71,11 +71,17 @@ class DocumentationPageView(TemplateView, AppPageMixin):
         context['meta_title'] = profile.title
         context['meta_desc'] = profile.meta_description
         # Sections
-        context['sections'] = DocumentationPageSection.objects.filter(
+        sections = DocumentationPageSection.objects.filter(
             is_enabled = True,
         ).order_by(
             'order',
         )
+        if self.request.user.is_authenticated:
+            context['sections'] = sections
+        else:
+            context['sections'] = sections.exclude(
+                members_only=True
+            )
         # Articles
         context['new_articles'], context['top_articles'] = self.get_sets(
             Article,
