@@ -1,10 +1,10 @@
 argon2-cffi==20.1.0
-asgiref==3.2.10
+asgiref==3.3.4
 base58==2.0.1
 beautifulsoup4==4.9.1
 bs4==0.0.1
 cffi==1.14.0
-Django==3.1.7
+Django==3.2
 ffmpeg-python==0.2.0
 future==0.18.2
 gunicorn==20.0.4
