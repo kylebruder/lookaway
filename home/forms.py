@@ -3,11 +3,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import Textarea
 from templates.widgets import ImagePreviewWidget, SoundPreviewWidget, VideoPreviewWidget
+from members.models import Member
 from art.models import Visual, Gallery
 from documentation.models import Article, Story, SupportDocument
 from music.models import Track, Album
 from objects.models import Image, Sound, Video, Code, Link
-from .models import Member, Profile, MemberProfileSection 
+from .models import HomeAppProfile, HomePageSection 
 
 class CustomModelChoiceIterator(forms.models.ModelChoiceIterator):
 
@@ -85,13 +86,11 @@ class HomeAppProfileForm(forms.ModelForm):
         required=False, 
         label="Blurb (optional)",
     )
-    display_name.widget.attrs.update({'class': 'form-text-field'})
 
     class Meta:
-        model = Profile
+        model = HomeAppProfile
         fields = (
             'image',
-            'display_name',
             'meta_description',
             'text',
             'banner',
@@ -147,26 +146,6 @@ class HomeAppProfileSettings(forms.ModelForm):
         max_value=1000,
         min_value=0,
         label="Number of responses to show in each list on the home page (n)",
-        widget=forms.NumberInput(
-            attrs={
-                'class': 'form-text-field',
-            }
-        ),
-    )
-    post_list_pagination = forms.IntegerField(
-        max_value=1000,
-        min_value=1,
-        label="Number of posts to show in your lists",
-        widget=forms.NumberInput(
-            attrs={
-                'class': 'form-text-field',
-            }
-        ),
-    )
-    response_list_pagination = forms.IntegerField(
-        max_value=1000,
-        min_value=1,
-        label="Number of responses to show in your lists",
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-text-field',
@@ -332,7 +311,7 @@ class HomeAppProfileSettings(forms.ModelForm):
             'n_albums',
         )
 
-class MemberProfileSectionForm(forms.ModelForm):
+class HomePageSectionForm(forms.ModelForm):
 
     is_enabled = forms.BooleanField(
         label="Enabled",
@@ -398,7 +377,7 @@ class MemberProfileSectionForm(forms.ModelForm):
     title.widget.attrs.update({'class': 'form-text-field'})
 
     class Meta:
-        model = MemberProfileSection
+        model = HomePageSection
         fields = (
             'is_enabled',
             'members_only',
