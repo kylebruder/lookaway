@@ -42,6 +42,24 @@ class Member(User):
         else:
             return True
 
+    def check_is_contributor(self):
+        return self.groups.filter(name="Contributors").exists()
+
+    def check_is_member(self):
+        return self.groups.filter(name="Members").exists()
+
+    def check_is_writer(self):
+        return self.groups.filter(name="Writers").exists()
+
+    def check_is_artist(self):
+        return self.groups.filter(name="Artists").exists()
+
+    def check_is_musician(self):
+        return self.groups.filter(name="Musicians").exists()
+
+    def check_is_member(self):
+        return self.groups.filter(name="Members").exists()
+
     def check_can_allocate(self, n=300):
         '''
         Returns True if the Member's last Marshmallow allocation occurred more
@@ -200,6 +218,81 @@ class Member(User):
             return self.profile.display_name
         else:
             return self.username
+
+class MembersAppProfile(AppProfile, CryptoWalletsMixin):
+
+    show_members = models.BooleanField(default=True)
+    show_contributors = models.BooleanField(default=True)
+    n_members = models.PositiveIntegerField(default=25)
+    n_contributors = models.PositiveIntegerField(default=25)
+    members_list_pagination = models.PositiveIntegerField(default=25)
+    contributors_list_pagination = models.PositiveIntegerField(default=1000)
+    logo = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='members_logo'
+    )
+    banner = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='members_banner'
+    )
+    bg_image = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='members_bg_image'
+    )
+    member_agreement = models.TextField(
+        max_length = 65535,
+        blank=True,
+        null=True,
+    )
+
+    class Meta:
+        verbose_name = "App Profile"
+
+    def accepting_new_contributors(self):
+        if Member.objects.count() <= self.max_members:
+            return True
+        else:
+            return False
+
+    def __str__(self):
+        return self.title
+
+class MembersPageSection(Section):
+
+    info = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    alert = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    members = models.ManyToManyField(
+        'members.member',
+        blank=True,
+        related_name='section_members'
+    )
+    is_enabled = models.BooleanField(default=False)
+    members_only = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Landing Page Section"
+        verbose_name_plural = "Landing Page Sections"
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
 
 class Profile(AppProfile, CryptoWalletsMixin):
 
