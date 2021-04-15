@@ -93,7 +93,7 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
     n_visuals = models.PositiveIntegerField(default=25)
     n_galleries = models.PositiveIntegerField(default=5)
     show_new_visuals = models.BooleanField(default=True)
-    show_top_visual = models.BooleanField(default=True)
+    show_top_visuals = models.BooleanField(default=True)
     show_new_galleries = models.BooleanField(default=True)
     show_top_galleries = models.BooleanField(default=True)
     # Music settings

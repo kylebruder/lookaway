@@ -36,9 +36,14 @@ class CustomModelMultipleChoiceField(forms.models.ModelMultipleChoiceField):
 class HomeAppProfileForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="""The title will appear in the header
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="""The title will appear in the header. \
             It will also appear on search engine results pages (SERPs) and can \
-            impact search engine optimization (SEO)""",
+            impact search engine optimization (SEO).""",
         max_length=128,
         required=False,
     )
@@ -48,33 +53,32 @@ class HomeAppProfileForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description of the website \
-            The description will be used by Search Engines and will impact SEO \
-            Include key words used on your page \
-            Keep it less than 155 characters""",
+        help_text="""Add a short description of the website. \
+            The description will be used by Search Engines and will impact SEO. \
+            Include key words used on your page. \
+            Keep it less than 155 characters.""",
         max_length=155,
         required=False,
     )
-    image = CustomModelChoiceField(
+    logo = CustomModelChoiceField(
         queryset=Image.objects.all(),
-        help_text="Choose your Profile Image.",
+        help_text="Choose your site's logo image.",
         required=False, 
-        label="Profile Image (optional)",
+        label="Logo",
     )
     banner = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
         help_text="""The banner is the background image for the home page \
-            header
+            header. \
             The optimal image size is 1800 pixels wide by 400 pixels high \
-            (9:2)""",
+            (9:2).""",
     )
     bg_image = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
         label="Background Image",
-        help_text="The background image will appear on the home page \
-            and lists of your contributions",
+        help_text="The background image will appear on the home page."
     )
     text = forms.CharField(
         widget=forms.Textarea(
@@ -82,7 +86,7 @@ class HomeAppProfileForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Add a short blurb that will be displayed under the header",
+        help_text="Add a short blurb which will be displayed under the header.",
         required=False, 
         label="Blurb (optional)",
     )
@@ -90,16 +94,17 @@ class HomeAppProfileForm(forms.ModelForm):
     class Meta:
         model = HomeAppProfile
         fields = (
-            'image',
-            'meta_description',
-            'text',
+            'logo',
             'banner',
             'bg_image',
+            'title',
+            'meta_description',
+            'text',
         )
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
-        super(ProfileForm, self).__init__(*args, **kwargs)
-        self.fields['image'].queryset = Image.objects.filter(
+        super(HomeAppProfileForm, self).__init__(*args, **kwargs)
+        self.fields['logo'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(
             '-last_modified',
@@ -316,17 +321,22 @@ class HomePageSectionForm(forms.ModelForm):
     is_enabled = forms.BooleanField(
         label="Enabled",
         help_text="""Choose this option if you want this section to appear\
-            on the home page""",
+            on the home page.""",
         required=False,
     )
     images = CustomModelMultipleChoiceField(
         queryset = Image.objects.all(),
         required=False,
-        help_text="Choose one or more Images to include in this Section",
+        help_text="Choose one or more images to include in this section.",
+    )
+    visuals = CustomModelMultipleChoiceField(
+        queryset = Visual.objects.all(),
+        required=False,
+        help_text="Choose one or featured visuals in this section.",
     )
     title = forms.CharField(
         help_text="""The section title will appear in the header of this \
-            section""",
+            section.""",
         max_length=255,
     )
     text = forms.CharField(
@@ -346,7 +356,7 @@ class HomePageSectionForm(forms.ModelForm):
             }
         ),
         label="Info",
-        help_text="Add highlighted information in this section",
+        help_text="Add highlighted information in this section.",
         max_length=65535,
         required=False,
     )
@@ -357,20 +367,20 @@ class HomePageSectionForm(forms.ModelForm):
             }
         ),
         label="Alert",
-        help_text="Add a highlighted alert that will display in this section",
+        help_text="Add a highlighted alert that will display in this section.",
         max_length=65535,
         required=False,
     )
     order = forms.DecimalField(
         help_text="""Choose the order in which the section will appear on \
-            the home page
-            Lower values will appear first""",
+            the home page. \
+            Lower values will appear first.""",
         max_digits=8,
         initial=0,
     )
     hide_title = forms.BooleanField(
         help_text ="""Choose this option if you do not want \
-            the title of this section to be displayed on the page""",
+            the title of this section to be displayed on the page.""",
         required=False,
     )
     order.widget.attrs.update({'class': 'form-text-field'})
@@ -403,27 +413,26 @@ class HomePageSectionForm(forms.ModelForm):
             'albums',
         )
         help_texts = {
-            'posts': """Choose one or more featured posts""",
-            'responses': """Choose one or more featured responses""",
-            'articles': """Choose one or more featured articles""",
-            'stories': """Choose one or more featured stories""",
-            'documents': """Choose one or more featured documents""",
-            'visuals': """Choose one or more featured visuals""",
-            'galleries': """Choose one or more featured galleries""",
-            'tracks': """Choose one or more featured tracks""",
-            'albums': """Choose one or more featured albums""",
-            'sounds': """Choose one or more sounds""",
-            'videos': """Choose one or more videos""",
-            'code': """Choose one or more Code samples""",
-            'links': """Choose one or more links""",
+            'posts': """Choose one or more featured posts.""",
+            'responses': """Choose one or more featured responses.""",
+            'articles': """Choose one or more featured articles.""",
+            'stories': """Choose one or more featured stories.""",
+            'documents': """Choose one or more featured documents.""",
+            'galleries': """Choose one or more featured galleries.""",
+            'tracks': """Choose one or more featured tracks.""",
+            'albums': """Choose one or more featured albums.""",
+            'sounds': """Choose one or more sounds.""",
+            'videos': """Choose one or more videos.""",
+            'code': """Choose one or more code samples.""",
+            'links': """Choose one or more links.""",
             'members_only': """Choose this option if you would like to \
                 restrict the visibility of this section to members of \
-                the site""",
+                the site.""",
         }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
-        super(MemberProfileSectionForm, self).__init__(*args, **kwargs)
+        super(HomePageSectionForm, self).__init__(*args, **kwargs)
         self.fields['images'].queryset = Image.objects.filter(
             owner=user.pk,
         ).order_by(

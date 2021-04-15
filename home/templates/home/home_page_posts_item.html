@@ -1,0 +1,7 @@
+<p class="posts-title">
+  {% for post in new_posts %}
+    <span class="index-heading-span">&squf;
+      <a href="{% url 'posts:post_detail' post.slug %}">{{ post.title }}</a>
+    </span>
+  {% endfor %}
+</p>

@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, reverse
+from django.utils import timezone
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
@@ -11,7 +12,7 @@ from objects.utils import Text
 from art.models import Gallery, Visual
 from music.models import Album, Track
 from documentation.models import Article, Story, SupportDocument
-from posts.models import Post
+from posts.models import Post, ResponsePost
 from .forms import HomeAppProfileForm, HomePageSectionForm
 from .models import HomeAppProfile, HomePageSection
 
@@ -50,7 +51,7 @@ class HomeAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Upda
 
 class IndexView(TemplateView, AppPageMixin):
 
-    template_name = 'index.html'
+    template_name = 'home/home_page.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -87,7 +88,7 @@ class IndexView(TemplateView, AppPageMixin):
         )
         # New and top Response model instances
         context['new_responses'], context['top_responses'] = self.get_sets(
-            Response,
+            ResponsePost,
             profile.n_responses,
             show_new=profile.show_new_responses,
             show_top=profile.show_top_responses,
@@ -108,7 +109,7 @@ class IndexView(TemplateView, AppPageMixin):
         )
         # New and top Document model instances
         context['new_documents'], context['top_documents'] = self.get_sets(
-            Document,
+            SupportDocument,
             profile.n_documents,
             show_new=profile.show_new_documents,
             show_top=profile.show_top_documents,

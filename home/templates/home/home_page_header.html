@@ -1,0 +1,42 @@
+<div class="home-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
+  <div class="row">
+    {% if profile.logo %}
+      <div class="col-sm-">
+        <div class="container">
+          <img class="home-logo" src="{{ profile.logo.image_file.url }}" alt="{{ profile.logo.title }}">
+        </div>
+      </div>
+    {% endif %}
+    {% if profile.show_title or profile.show_desc %}
+      <div class="col-sm">
+        {% if profile.title and profile.show_title %}
+          <h3 class="brand-title home-page-span home-alert">{{ meta_title }}</h3>
+        {% endif %}
+        {% if meta_desc and profile.show_desc %}
+          <br><p class="home-page-span home-alert"><i>{{ meta_desc }}</i></p>
+        {% endif %}
+      </div>
+    {% endif %}
+    {% if request.user.is_authenticated %}
+      <div class="col-">
+        <div class="container">
+          <p>
+            {% if show_edit_profile_button %} 
+              <a href="{% url 'home:home_app_profile_update' 1 %}?next={{ request.path }}">
+                <button class="btn btn-sm btn-warning">Edit App</button>
+              </a>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+  {% if profile.text %}
+    <p class="home-page-span home-alert">{{ profile.text }}</p>
+  {% endif %}
+  <div class="row">
+    <div class="col-sm">
+      {% include './home_page_navbar.html' %}
+    </div>
+  </div>
+</div>
