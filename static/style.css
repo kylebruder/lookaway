@@ -86,6 +86,7 @@ table, th, td {
 
 .section-image {
   max-width: 100%;
+  min-width: 250px;
   max-height: auto;
 }
 

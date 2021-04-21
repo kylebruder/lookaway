@@ -46,6 +46,9 @@ class Section(MetaDataMixin):
     class Meta:
         abstract = True
 
+    def next_order(self):
+        return self.order + 1
+
     order = models.DecimalField(
         max_digits=8,
         decimal_places=4,

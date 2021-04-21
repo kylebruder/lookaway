@@ -13,6 +13,11 @@ urlpatterns = [
         views.HomeAppProfileUpdateView.as_view(),
         name='home_app_profile_update',
     ),
+    path(
+        'profile/update/<int:pk>/settings/', 
+        views.HomeAppProfileSettingsUpdateView.as_view(),
+        name='home_app_profile_settings_update',
+    ),
     # Home landing page section views
     ## Create
     path(

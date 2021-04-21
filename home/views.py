@@ -13,7 +13,7 @@ from art.models import Gallery, Visual
 from music.models import Album, Track
 from documentation.models import Article, Story, SupportDocument
 from posts.models import Post, ResponsePost
-from .forms import HomeAppProfileForm, HomePageSectionForm
+from .forms import HomeAppProfileForm, HomeAppProfileSettings, HomePageSectionForm
 from .models import HomeAppProfile, HomePageSection
 
 # Create your views here.
@@ -36,10 +36,34 @@ class HomeAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Upda
         context['profile'] = profile
         # SEO stuff
         context['meta_title'] = profile.title
-        context['meta_desc'] = "Update \"{}\" profile settings".format(profile.title)
+        context['meta_desc'] = "Update \"{}\" profile".format(profile.title)
         context['sections'] = HomePageSection.objects.all().order_by(
             'order',
         )
+        return context
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('home:index')
+
+class HomeAppProfileSettingsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, MemberUpdateMixin):
+
+    permission_required = 'home.change_homeappprofile'
+    model = HomeAppProfile
+    form_class = HomeAppProfileSettings
+    template_name = 'home/homeappprofilesettings_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = HomeAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        # SEO stuff
+        context['meta_title'] = profile.title
+        context['meta_desc'] = "Update \"{}\" profile settings".format(profile.title)
         return context
 
     def get_success_url(self):
@@ -160,6 +184,7 @@ class HomePageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, Mem
     def get_form_kwargs(self):
         kwargs = super(HomePageSectionCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
+        kwargs['order'] = self.request.GET.get('order')
         return kwargs
 
     def get_context_data(self, **kwargs):
