@@ -3,17 +3,23 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  {% if object.title %}
-    <title>{{ object.title }}</title>
-  {% elif meta_title %}
+  {% if meta_title %}
     <title>{{ meta_title }}</title>
+  {% elif object.title %}
+    <title>{{ object.title }}</title>
+  {% elif lookaway_title %}
+    <title>{{ object.title }}</title>
   {% else %}
-    <title>Lookaway Information</title>
+    <title>Lookaway CMS</title>
   {% endif %}
-  {% if object.meta_description %}
-    <meta name="description" content="{{ object.meta_description }}">
-  {% elif meta_desc %}
+  {% if meta_desc %}
     <meta name="description" content="{{ meta_desc }}">
+  {% elif object.meta_description %}
+    <meta name="description" content="{{ object.meta_description }}">
+  {% elif lookaway_desc %}
+    <meta name="description" content="{{ lookaway_desc }}">
+  {% else %}
+    <meta name="description" content="An open source content management system running on Django and Python.">
   {% endif %}
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" type="image/webp" href="{% static 'favicon.ico' %}"/>

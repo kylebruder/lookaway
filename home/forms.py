@@ -33,6 +33,167 @@ class CustomModelMultipleChoiceField(forms.models.ModelMultipleChoiceField):
 
     choices = property(_get_choices, forms.MultipleChoiceField._set_choices)
 
+class SiteProfileForm(forms.ModelForm):
+
+    nav_show_posts = forms.BooleanField(
+        label="Show a link to the Posts app in the navbar.",
+        required=False,
+    )
+    nav_posts_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="""Set the name of the Posts app in the navbar.""",
+        max_length=64,
+    )
+    nav_show_documentation = forms.BooleanField(
+        label="Show a link to the Documentation app in the navbar.",
+        required=False,
+    )
+    nav_documentation_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="""Set the name of the Documentation app in the navbar.""",
+        max_length=64,
+    )
+    nav_show_art = forms.BooleanField(
+        label="Show a link to the Art app in the navbar.",
+        required=False,
+    )
+    nav_art_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="""Set the name of the Art app in the navbar.""",
+        max_length=64,
+    )
+    nav_show_music = forms.BooleanField(
+        label="Show a link to the Music app in the navbar.",
+        required=False,
+    )
+    nav_music_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="""Set the name of the Music app in the navbar.""",
+        max_length=64,
+    )
+    nav_show_members = forms.BooleanField(
+        label="Show a link to the Members app in the navbar.",
+        required=False,
+    )
+    nav_members_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="""Set the name of the Members app in the navbar.""",
+        max_length=64,
+    )
+    legal_notice = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="""Add a notice that will appear in the footer \
+            on every page.""",
+        max_length=155,
+        label="Legal Notice",
+        required=False,
+    )
+    admin_email = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="""Set a contact email that will appear in the footer \
+            on every page.""",
+        max_length=64,
+        label = "Admin Contact Email",
+        required=False,
+    )
+    css_path = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="""Set an alternate css file. Enter a relative path \
+            starting with a '/'. Leaving this field blank will use the \
+            default Lookaway CSS. There path you provide is not validated. \
+            If the provided path is unavailable, most browsers will fail \
+            silently and may result in no styling at all. This setting can \
+            also be changed in the Django admin panel.
+            Example: '/static/my_style.css'.""",
+        max_length=64,
+        label = "Alternative CSS",
+        required=False,
+    )
+
+    class Meta:
+        model = HomeAppProfile
+        fields = (
+            'nav_show_posts',
+            'nav_posts_name',
+            'nav_posts_image',
+            'nav_show_documentation',
+            'nav_documentation_name',
+            'nav_documentation_image',
+            'nav_show_art',
+            'nav_art_name',
+            'nav_art_image',
+            'nav_show_music',
+            'nav_music_name',
+            'nav_music_image',
+            'nav_show_members',
+            'nav_members_name',
+            'nav_members_image',
+            'legal_notice',
+            'admin_email',
+            'css_path',
+        )
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(SiteProfileForm, self).__init__(*args, **kwargs)
+        self.fields['nav_posts_image'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['nav_documentation_image'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['nav_art_image'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['nav_music_image'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+        self.fields['nav_members_image'].queryset = Image.objects.filter(
+            owner=user.pk,
+        ).order_by(
+            '-last_modified',
+        )
+
+
 class HomeAppProfileForm(forms.ModelForm):
 
     title = forms.CharField(

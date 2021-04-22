@@ -7,21 +7,32 @@
   <!-- NAVBAR -->
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'posts:posts_page' %}">Posts</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'documentation:documentation_page' %}">Zine</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'music:music_page' %}">Music</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'art:art_page' %}">Art</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link nav-font" href="{% url 'members:member_list' %}">Members</a>
-      </li>
+      {% if nav_show_posts %} 
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'posts:posts_page' %}">{% if nav_posts_image %}<img src="{{ nav_posts_image }}" class="nav-image" alt="{{ nav_posts_name }}">{% else %}<span class="index-header-span nav-font">{{ nav_posts_name }}</span>{% endif %}</a>
+        </li>
+      {% endif %}
+      {% if nav_show_documentation %} 
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'documentation:documentation_page' %}">{% if nav_documentation_image %}<img src="{{ nav_documentation_image }}" class="nav-image" alt="{{ nav_documentation_name }}">{% else %}<span class="index-header-span nav-font">{{ nav_documentation_name }}</span>{% endif %}</a>
+        </li>
+      {% endif %}
+      {% if nav_show_music %} 
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'music:music_page' %}">{% if nav_music_image %}<img src="{{ nav_music_image }}" class="nav-image" alt="{{ nav_music_name }}">{% else %}<span class="index-header-span nav-font">{{ nav_music_name }}</span>{% endif %}</a>
+        </li>
+      {% endif %}
+      {% if nav_show_art %} 
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'art:art_page' %}">{% if nav_art_image %}<img src="{{ nav_art_image }}" class="nav-image" alt="{{ nav_art_name }}">{% else %}<span class="index-header-span nav-font">{{ nav_art_name }}</span>{% endif %}</a>
+        </li>
+      {% endif %}
+      {% if nav_show_members %} 
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'members:member_list' %}">{% if nav_members_image %}<img src="{{ nav_members_image }}" class="nav-image" alt="{{ nav_members_name }}">{% else %}<span class="index-header-span nav-font">{{ nav_members_name }}</span>{% endif %}</a>
+        </li>
+      {% endif %}
+      <!-- Turning the objects off for now 
       {% if request.user.is_authenticated %}
         <li class="nav-item">  </li>
         <li class="nav-item">
@@ -43,6 +54,7 @@
           <a class="nav-link nav-font-objects" href="{% url 'objects:tags' %}">Tags</a>
         </li>
       {% endif %}
+      -->
     </ul>
     {% if request.user.is_authenticated %}
       <span class="nav-text">

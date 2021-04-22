@@ -28,9 +28,11 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
         related_name='home_bg_image'
     )
     # Navbar
+    ## Posts
+    nav_show_posts = models.BooleanField(default=True)
     nav_posts_name = models.CharField(
         max_length=64,
-        default='posts',
+        default='Posts',
     )
     nav_posts_image = models.ForeignKey(
         'objects.image',
@@ -39,9 +41,11 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
         null=True,
         related_name='nav_posts_image',
     )
+    ## Documentation
+    nav_show_documentation = models.BooleanField(default=True)
     nav_documentation_name = models.CharField(
         max_length=64,
-        default='zine',
+        default='Zine',
     )
     nav_documentation_image = models.ForeignKey(
         'objects.image',
@@ -50,9 +54,11 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
         null=True,
         related_name='nav_documentation_image',
     )
+    ## Art
+    nav_show_art = models.BooleanField(default=True)
     nav_art_name = models.CharField(
         max_length=64,
-        default='art',
+        default='Art',
     )
     nav_art_image = models.ForeignKey(
         'objects.image',
@@ -61,9 +67,11 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
         null=True,
         related_name='nav_art_image',
     )
+    ## Music
+    nav_show_music = models.BooleanField(default=True)
     nav_music_name = models.CharField(
         max_length=64,
-        default='music',
+        default='Music',
     )
     nav_music_image = models.ForeignKey(
         'objects.image',
@@ -72,6 +80,20 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
         null=True,
         related_name='nav_music_image',
     )
+    ## Members
+    nav_show_members = models.BooleanField(default=True)
+    nav_members_name = models.CharField(
+        max_length=64,
+        default='Members',
+    )
+    nav_members_image = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='nav_members_image',
+    )
+
     # Posts settings
     n_posts = models.PositiveIntegerField(default=5)
     n_responses = models.PositiveIntegerField(default=5)

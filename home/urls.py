@@ -9,6 +9,11 @@ urlpatterns = [
     # Home app profile
     ## Update
     path(
+        'profile/update/<int:pk>/site/settings/', 
+        views.SiteProfileUpdateView.as_view(),
+        name='site_profile_update',
+    ),
+    path(
         'profile/update/<int:pk>/', 
         views.HomeAppProfileUpdateView.as_view(),
         name='home_app_profile_update',

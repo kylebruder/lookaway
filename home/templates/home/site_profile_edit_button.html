@@ -1,0 +1,4 @@
+{% extends 'edit_button.html' %}
+{% block button_url %}{{ edit_site_profile_url }}{% endblock %}
+{% block parameters %}?next={{ request.path }}{% endblock %}
+{% block button_text %}Edit Site{% endblock %}

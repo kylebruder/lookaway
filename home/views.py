@@ -13,11 +13,42 @@ from art.models import Gallery, Visual
 from music.models import Album, Track
 from documentation.models import Article, Story, SupportDocument
 from posts.models import Post, ResponsePost
-from .forms import HomeAppProfileForm, HomeAppProfileSettings, HomePageSectionForm
+from .forms import HomeAppProfileForm, HomeAppProfileSettings, HomePageSectionForm, SiteProfileForm
 from .models import HomeAppProfile, HomePageSection
 
 # Create your views here.
 
+class SiteProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+
+    permission_required = 'home.change_homeappprofile'
+    model = HomeAppProfile
+    form_class = SiteProfileForm
+    template_name = 'home/homeappprofilesettings_form.html'
+
+    def get_form_kwargs(self):
+        kwargs = super(SiteProfileUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = HomeAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        # SEO stuff
+        context['meta_title'] = profile.title
+        context['meta_desc'] = "Update \"{}\" global site settings".format(profile.title)
+        context['sections'] = HomePageSection.objects.all().order_by(
+            'order',
+        )
+        return context
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('home:index')
 class HomeAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
     permission_required = 'home.change_homeappprofile'
@@ -168,6 +199,11 @@ class IndexView(TemplateView, AppPageMixin):
         )
         # Update AppProfile button
         if self.request.user.has_perm('home.change_homeappprofile'):
+            context['show_edit_site_profile_button'] = True
+            context['edit_site_profile_url'] = reverse(
+                'home:site_profile_update',
+                kwargs={'pk': 1},
+            )
             context['show_edit_profile_button'] = True
             context['edit_profile_url'] = reverse(
                 'home:home_app_profile_update',

@@ -21,6 +21,9 @@
       <div class="col-">
         <div class="container">
           <p>
+            {% if show_edit_site_profile_button %} 
+              {% include './site_profile_edit_button.html' %}
+            {% endif %}
             {% if show_edit_profile_button %} 
               {% include './homeappprofile_edit_button.html' %}
             {% endif %}
