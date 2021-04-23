@@ -206,7 +206,7 @@ class PostsPageSectionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, De
 
 class PostCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
-    permission_required = 'posts:add_post'
+    permission_required = 'posts.add_post'
     model = Post
     form_class = PostForm
 

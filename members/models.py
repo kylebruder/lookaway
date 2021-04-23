@@ -361,7 +361,7 @@ class Profile(AppProfile, CryptoWalletsMixin):
     visual_list_pagination = models.PositiveIntegerField(default=25)
     gallery_list_pagination = models.PositiveIntegerField(default=6)
     show_new_visuals = models.BooleanField(default=True)
-    show_top_visual = models.BooleanField(default=True)
+    show_top_visuals = models.BooleanField(default=True)
     show_new_galleries = models.BooleanField(default=True)
     show_top_galleries = models.BooleanField(default=True)
     # Music settings

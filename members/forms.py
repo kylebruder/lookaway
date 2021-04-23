@@ -3,11 +3,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import Textarea
 from templates.widgets import ImagePreviewWidget, SoundPreviewWidget, VideoPreviewWidget
+from members.bad_names import bad_names
 from art.models import Visual, Gallery
 from documentation.models import Article, Story, SupportDocument
 from music.models import Track, Album
 from objects.models import Image, Sound, Video, Code, Link
-from .models import Member, MembersAppProfile, MembersPageSection, Profile, MemberProfileSection 
+from .models import Member, MembersAppProfile, MembersPageSection, Profile, MemberProfileSection, InviteLink 
 
 class CustomModelChoiceIterator(forms.models.ModelChoiceIterator):
 
@@ -107,6 +108,17 @@ class UserRegistrationForm(UserCreationForm):
         '''
         for char in string:
             if not char.isdigit() and not char.isalpha():
+                return False
+        '''
+        Members Choose their names during registration.
+        A valid name is used as the slug for their profile page.
+        In order to allow short profile URLs, with the member name
+        after the FQDN, we need to make sure no one has the same name
+        as any slug in the paths in lookaway.urls.
+        Returns a list of blacklisted names.
+        ''' 
+        for x in bad_names:
+            if string in x:
                 return False
         return True
 
@@ -990,3 +1002,30 @@ class MemberProfileSectionForm(forms.ModelForm):
         ).order_by(
             '-last_modified',
         )
+
+class InviteLinkCreateForm(forms.ModelForm):
+
+    label = forms.CharField(
+        max_length=255,
+    )
+    note = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        max_length=1000,
+    )
+
+    label.widget.attrs.update({'class': 'form-text-field'})
+
+    class Meta:
+        model = InviteLink
+        fields = (
+            'label',
+            'note',
+        )
+        help_texts = {
+            'label': """Label this link for future reference.""",
+            'note': """Leave a message for the recipient.""",
+        }

@@ -1,21 +1,3 @@
-.members-bg {
-  background-color: #222222;
-  color: #eeeeee;
-  max-width: 1500px;
-  border-radius: 0px 0px 25px 25px;
-  padding-top: 15px;
-  margin-bottom: 40px;
-}
-
-.member-card {
-  max-width: 450px;
-  padding: 15px;
-  margin: 5px;
-  border-style: solid;
-  border-width: 5px 5px 5px 5px;
-  border-color: #111111;
-}
-
 .member-badge {
   background-color: #222222;
   font-family: 'Ibarra Real Nova', serif;
@@ -26,25 +8,105 @@
   margin-bottom: 5px;
 }
 
-.member-list-image {
+.members-alert {
+  display: inline-block;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #111111;
+}
+
+.members-bg {
+  background-color: #222222;
+  color: #eeeeee;
+  border-radius: 0px 0px 25px 25px;
+  padding-top: 15px;
+  margin-bottom: 40px;
+}
+
+.members-brand-name {
+  font-family: 'Baloo Paaji 2', sans-serif;
+}
+
+.members-header {
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.members-list-card {
+  color: #ffffff;
+  background-color: #222222;
+  max-width: 550px;
   display: block;
-  max-width: 125px;
-  max-height: 125px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 10px;
+  margin: 15px;
+  border-style: solid;
+  border-width: 5px 5px 5px 5px;
+  border-color: #111111;
+  border-radius: 5px;
+}
+
+.members-list-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-left: 15px;
+  margin-bottom: 10px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #222222;
 }
 
-.member-list-li {
+.members-list-li {
   background-color: #222222;
   color: #ffffff;
   border-style: solid;
-  border-width: 0px 5px 5px 5px;
+  border-width: 0px 3px 3px 3px;
   border-color: #111111;
 }
 
-.member-title {
-  font-family: 'Averia Serif Libre', serif;
+.members-logo {
+  max-height: 150px;
+  max-width: auto;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.members-meta {
+  font-size: 0.8em;
+}
+
+.members-page-header {
+  margin: auto;
+  display: block;
+}
+
+.members-page-section {
+  padding: 3px;
+  margin: 3px;
+}
+
+.members-page-span {
+  color: #ffffff;
+  background-color: #222222;
+  padding: 10px;
+  line-height: 1.75;
+  border-radius: 5px;
+}
+
+.members-section {
+  color: #eeeeee;
+  background-color: #222222;
+  max-width: 100%;
+  padding: 15px;
+  margin-bottom: 10px;
+  position: relative;
+  border-color: #111111;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 5px;
+}
+
+
+.members-title {
+  font-family: 'Arial', sans-serif;
 }

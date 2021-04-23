@@ -13,13 +13,14 @@ from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, FormMixin, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from lookaway.mixins import AppPageMixin
+from home.models import HomeAppProfile
 from documentation.models import Article, Story, SupportDocument
 from art.models import Gallery, Visual
 from home.models import HomeAppProfile
 from music.models import Album, Track
 from objects.models import Image, Sound, Video, Code, Link
-from posts.models import Post
-from .forms import MemberForm, MembersAppProfileForm, MembersPageSectionForm, ProfileForm, ProfileSettingsForm, UserRegistrationForm, MemberProfileSectionForm
+from posts.models import Post, ResponsePost
+from .forms import MemberForm, MembersAppProfileForm, MembersPageSectionForm, ProfileForm, ProfileSettingsForm, UserRegistrationForm, MemberProfileSectionForm, InviteLinkCreateForm
 from .mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from .models import Member, MembersAppProfile, MembersPageSection, Profile, InviteLink, MemberProfileSection
 # Create your views here.
@@ -290,7 +291,7 @@ class MemberListView(ListView):
         if self.request.user.has_perm('members.add_invitelink'):
             context['show_create_button'] = True
             context['create_button_url'] = reverse(
-                'members:member_registration',
+                'invite',
             )
         return context
 
@@ -307,7 +308,7 @@ class MemberProfileView(DetailView, AppPageMixin):
         context['meta_title'] = profile.title
         context['meta_desc'] = profile.meta_description
         # Sections
-        sections = MemberPageSection.objects.filter(
+        sections = MemberProfileSection.objects.filter(
             owner=self.request.user,
             is_enabled = True,
         ).order_by(
@@ -328,7 +329,7 @@ class MemberProfileView(DetailView, AppPageMixin):
         )
         # Responses
         context['new_responses'], context['top_responses'] = self.get_sets(
-            Response,
+            ResponsePost,
             profile.n_responses,
             show_new=profile.show_new_responses,
             show_top=profile.show_top_responses,
@@ -636,12 +637,22 @@ class InviteLinkCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
 
     permission_required = 'members.add_invitelink'
     model = InviteLink
-    fields = ['label', 'note']
+    form_class= InviteLinkCreateForm
 
     def form_valid(self, form):
         form.instance.slug = self.model.make_slug(form.instance)
         form.instance.expiration_date += datetime.timedelta(days=7)
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        home, created = HomeAppProfile.objects.get_or_create(pk=1)
+        profile, created = MembersAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "New Invite Link"
+        context['meta_desc'] = "Invite someone to join {}".format(home.title)
+        return context
 
     def get_success_url(self):
         return reverse_lazy('members:invite_link_detail', 

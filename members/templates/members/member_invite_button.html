@@ -1,0 +1,4 @@
+{% extends 'add_button.html' %}
+{% block button_url %}{{ create_button_url }}{% endblock %}
+{% block parameters %}?next={{ request.path }}{% endblock %}
+{% block button_text %}+Invite{% endblock %}
