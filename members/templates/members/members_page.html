@@ -3,9 +3,9 @@
 {% block body_block %}
 <div class="container-fluid members-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
   <!-- Heading -->
-  {% include './member_profile_header.html' %}
+  {% include './members_page_header.html' %}
   <br>
-  {% if new_members.count < 1 and new_responses.count <  1 and top_members.count < 1 and top_responses.count < 1 %}
+  {% if new_memberss.count < 1 and new_bars.count <  1 and top_memberss.count < 1 and top_bars.count < 1 %}
     <span class="members-page-span"><i>Coming Soon...</i></p>
   {% else %}
     {% if sections %}
@@ -14,16 +14,16 @@
           {% for section in sections %}
             {% include './memberspagesection.html' %}
           {% endfor %}
-          {% include './member_profile_links.html' %}
         </div>
         <div class="col-sm">
-          {% include './member_profile_items.html' %}
+          {% include './members_page_items.html' %}
         </div>
       </div>
-      <br>
     {% else %}
-      {% include './member_profile_items_without_sections.html' %}
-      {% include './member_profile_links.html' %}
+      <!-- List of new and top items -->
+      <div class="container-fluid">
+        {% include './members_page_items_without_sections.html' %}
+      </div>
       <br>
     {% endif %}
   {% endif %}

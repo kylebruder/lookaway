@@ -29,7 +29,7 @@
       {% endif %}
       {% if nav_show_members %} 
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'members:member_list' %}">{% if nav_members_image %}<img src="{{ nav_members_image }}" class="nav-image" alt="{{ nav_members_name }}">{% else %}<span class="index-header-span nav-font">{{ nav_members_name }}</span>{% endif %}</a>
+          <a class="nav-link" href="{% url 'members:members_page' %}">{% if nav_members_image %}<img src="{{ nav_members_image }}" class="nav-image" alt="{{ nav_members_name }}">{% else %}<span class="index-header-span nav-font">{{ nav_members_name }}</span>{% endif %}</a>
         </li>
       {% endif %}
       <!-- Turning the objects off for now 

@@ -17,6 +17,11 @@ class Member(User):
 
     class Meta:
         proxy = True
+        ordering = [
+            'is_staff',
+            'is_superuser',
+            '-date_joined',
+        ]
 
     def check_is_founder(self):
         '''
@@ -56,9 +61,6 @@ class Member(User):
 
     def check_is_musician(self):
         return self.groups.filter(name="Musicians").exists()
-
-    def check_is_member(self):
-        return self.groups.filter(name="Members").exists()
 
     def check_can_allocate(self, n=300):
         '''

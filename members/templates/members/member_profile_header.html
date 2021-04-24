@@ -1,0 +1,39 @@
+<div class="members-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
+  <div class="row">
+    {% if profile.image %}
+      <div class="col-sm-">
+        <div class="container">
+          <img class="members-logo" src="{{ profile.image.image_file.url }}" alt="{{ profile.image.title }}">
+        </div>
+      </div>
+    {% endif %}
+    <div class="col-sm">
+      <h3 class="brand-title members-page-span members-alert">{{ profile.member }}</h3>
+      {% if meta_desc and profile.show_desc %}
+        <br><p class="members-page-span members-alert"><i>{{ meta_desc }}</i></p>
+      {% endif %}
+    </div>
+    {% if request.user.is_authenticated %}
+      <div class="col-">
+        <div class="container">
+          <p>
+            {% if show_create_member_button %} 
+              <a class="btn btn-sm btn-primary" href="{% url 'members:member_create' %}">+Post</a>
+            {% endif %}
+            {% if show_create_responses_button %} 
+              <a class="btn btn-sm btn-primary" href="{% url 'members:responses_create' %}">+Response</a>
+            {% endif %}
+            {% if show_edit_profile_button %} 
+              <a href="{% url 'members:members_app_profile_update' 1 %}?next={{ request.path }}">
+                <button class="btn btn-sm btn-warning">Edit App</button>
+              </a>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+  {% if profile.text %}
+    <p class="members-page-span members-alert">{{ profile.text }}</p>
+  {% endif %}
+</div>

@@ -4,6 +4,12 @@ import members.views as views
 
 app_name = "members"
 urlpatterns = [
+    # Members landing page
+    path(
+        '',
+        views.MembersPageView.as_view(),
+        name="members_page",
+    ),
     # Members app profile
     ## Update
     path(
@@ -36,20 +42,73 @@ urlpatterns = [
         views.MembersPageSectionDeleteView.as_view(),
         name='members_page_section_delete',
     ),
+    ## Update
     path(
-        '', 
+        'profile/update/<int:pk>/',
+        views.MemberProfileUpdateView.as_view(),
+        name='member_profile_update',
+    ),
+    # Profile page section views
+    ## Create
+    path(
+        'profile/add/section/',
+        views.MemberProfileSectionCreateView.as_view(),
+        name='member_profile_section_create',
+    ),
+    ## Detail
+    path(
+        'profile/sections/<int:pk>/',
+        views.MemberProfileSectionDetailView.as_view(),
+        name='member_page_section_detail',
+    ),
+    ## Update
+    path(
+        'profile/update/section/<int:pk>/', 
+        views.MemberProfileSectionUpdateView.as_view(),
+        name='member_profile_section_update',
+    ),
+    ## Delete
+    path(
+        'profile/delete/section/<int:pk>/',
+        views.MemberProfileSectionDeleteView.as_view(),
+        name='member_profile_section_delete',
+    ),
+    ## List
+    path(
+        'all/', 
         views.MemberListView.as_view(),
         name='member_list',
     ),
     path(
+        'contributors/', 
+        views.ContributorListView.as_view(),
+        name='contributor_list',
+    ),
+    path(
+        'artists/', 
+        views.ArtistListView.as_view(),
+        name='artist_list',
+    ),
+    path(
+        'musicians/', 
+        views.MusicianListView.as_view(),
+        name='musician_list',
+    ),
+    path(
+        'writers/', 
+        views.WriterListView.as_view(),
+        name='writer_list',
+    ),
+    path(
+        'staff/', 
+        views.StaffListView.as_view(),
+        name='staff_list',
+    ),
+    # Studio
+    path(
         'studio/',
         views.StudioView.as_view(),
         name='studio',
-    ),
-    path(
-        '<slug:slug>/', 
-        views.MemberProfileView.as_view(),
-        name='member_profile',
     ),
     path(
         '<slug:slug>/profile/', 
@@ -65,5 +124,11 @@ urlpatterns = [
         'register/<slug:invite>/', 
         views.member_registration,
         name='member_registration',
+    ),
+    # Profile page
+    path(
+        '<slug:slug>/', 
+        views.MemberProfileView.as_view(),
+        name='member_profile',
     ),
 ]

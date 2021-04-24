@@ -157,7 +157,7 @@ class MembersPageView(TemplateView, AppPageMixin):
         if self.request.user.has_perm('members.add_members'):
             context['show_member_invite_button'] = True
             context['create_member_invite_url'] = reverse(
-                'members:member_registration',
+                'invite',
             )
         # Update AppProfile button
         if self.request.user.has_perm('members.change_membersappprofile'):
@@ -284,7 +284,167 @@ class MemberListView(ListView):
         context['meta_title'] = "Members | {}".format(
             home.title,
         )
-        context['meta_desc'] = "Members of {}".format(
+        context['meta_desc'] = "Members of the {} online community.".format(
+            home.title,
+        )
+        # Create button
+        if self.request.user.has_perm('members.add_invitelink'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'invite',
+            )
+        return context
+
+class ContributorListView(ListView):
+
+    model = Member
+    context_object_name = 'members'
+    queryset = Member.objects.filter(groups__name='Contributors')
+
+    class Meta:
+        ordering = ['-date_joined']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        home, created = HomeAppProfile.objects.get_or_create(pk=1)
+        profile, created = MembersAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "{} Contributors".format(home.title)
+        # SEO stuff
+        context['meta_title'] = "Contributors | {}".format(
+            home.title,
+        )
+        context['meta_desc'] = """A community of artists, musicians, writers, \
+            philosophers, and researchers contributing content on {}""".format(
+            home.title,
+        )
+        # Create button
+        if self.request.user.has_perm('members.add_invitelink'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'invite',
+            )
+        return context
+
+class ArtistListView(ListView):
+
+    model = Member
+    context_object_name = 'members'
+    queryset = Member.objects.filter(groups__name='Artists')
+
+    class Meta:
+        ordering = ['-date_joined']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        home, created = HomeAppProfile.objects.get_or_create(pk=1)
+        profile, created = MembersAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "{} Artists".format(home.title)
+        # SEO stuff
+        context['meta_title'] = "Artists | {}".format(
+            home.title,
+        )
+        context['meta_desc'] = """A community of artists contributing content \
+            on {}""".format(
+            home.title,
+        )
+        # Create button
+        if self.request.user.has_perm('members.add_invitelink'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'invite',
+            )
+        return context
+
+class MusicianListView(ListView):
+
+    model = Member
+    context_object_name = 'members'
+    queryset = Member.objects.filter(groups__name='Musicians')
+
+    class Meta:
+        ordering = ['-date_joined']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        home, created = HomeAppProfile.objects.get_or_create(pk=1)
+        profile, created = MembersAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "{} Musicians".format(home.title)
+        # SEO stuff
+        context['meta_title'] = "Musicians | {}".format(
+            home.title,
+        )
+        context['meta_desc'] = """A community of musicians contributing content \
+            on {}""".format(
+            home.title,
+        )
+        # Create button
+        if self.request.user.has_perm('members.add_invitelink'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'invite',
+            )
+        return context
+
+class WriterListView(ListView):
+
+    model = Member
+    context_object_name = 'members'
+    queryset = Member.objects.filter(groups__name='Writers')
+
+    class Meta:
+        ordering = ['-date_joined']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        home, created = HomeAppProfile.objects.get_or_create(pk=1)
+        profile, created = MembersAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "{} Writers".format(home.title)
+        # SEO stuff
+        context['meta_title'] = "Writers | {}".format(
+            home.title,
+        )
+        context['meta_desc'] = """A community of writers contributing content \
+            on {}""".format(
+            home.title,
+        )
+        # Create button
+        if self.request.user.has_perm('members.add_invitelink'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'invite',
+            )
+        return context
+
+class StaffListView(ListView):
+
+    model = Member
+    context_object_name = 'members'
+    queryset = Member.objects.filter(is_staff=True)
+
+    class Meta:
+        ordering = ['-date_joined']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        home, created = HomeAppProfile.objects.get_or_create(pk=1)
+        profile, created = MembersAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = "{} Staff Contributors".format(home.title)
+        # SEO stuff
+        context['meta_title'] = "Staff Contributors | {}".format(
+            home.title,
+        )
+        context['meta_desc'] = """Staff Contributors \
+            on {}""".format(
             home.title,
         )
         # Create button

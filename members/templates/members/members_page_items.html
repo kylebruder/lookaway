@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-sm">
+    {% if new_bars.all.count > 0 %}
+      <ul class="list-group members-section">
+        <h4 class="members-page-title">New Bars</h4>
+        {% for bar in new_bars %}
+          <li class="list-group-item members-list-li">
+            {% include "./bar_item.html" %}
+          </li>
+        {% endfor %}
+      </ul>
+      <br>
+    {% endif %}
+    {% if new_bazs.all.count > 0 %}
+      <ul class="list-group members-section">
+        <h4 class="members-page-title">New Bazs</h4>
+        {% for baz in new_bazs %}
+          <li class="list-group-item members-list-li">
+            {% include "./baz_item.html" %}
+          </li>
+        {% endfor %}
+      </ul>
+      <br>
+    {% endif %}
+    {% if top_bars.all.count > 0 %}
+      <ul class="list-group members-section">
+        <h4 class="members-page-title">Top Bars</h4>
+        {% for bar in top_bars %}
+          <li class="list-group-item members-list-li">
+            {% include "./bar_item.html" %}
+          </li>
+        {% endfor %}
+      </ul>
+      <br>
+    {% endif %}
+    {% if top_bazs.count > 0 %}
+      <ul class="list-groupi members-section">
+        <h4 class="members-page-title">Top Bazs</h4>
+        {% for baz in top_bazs %}
+          <li class="list-group-item members-list-li">
+            {% include "./baz_item.html" %}
+          </li>
+        {% endfor %}
+      </ul>
+      <br>
+    {% endif %}
+  </div>
+</div>
+{% if profile.bitcoin_wallet or profile.litecoin_wallet %}
+  <div class="members-section">
+    <h4 class="members-page-title">Donate</h4>
+    {% with profile.bitcoin_wallet as bitcoin_wallet %}
+      {% with profile.litecoin_wallet as litecoin_wallet %}
+        {% include 'object_crypto_wallets.html' %}
+      {% endwith %}
+    {% endwith %}
+  </div>
+{% endif %}
+{% if profile.links.count > 0 %}
+  {% with profile.links.all as links %}
+    <div class="members-section">
+      <h4 class="members-page-title">External Links</h4>
+      {% include 'object_links.html' %}
+    </div>
+  {% endwith %}
+{% endif %}

@@ -13,11 +13,13 @@
       </a></strong>
     </h6>
     <p>
-      Joined on <span class="index-heading-span">{{ member.date_joined|date:"M d, Y" }}</span>
+      Member since <span class="index-heading-span">{{ member.date_joined|date:"M d, Y" }}</span>
     </p>
   </div>
 </div>
-<p>
-  {{ member.meta_description }}
-</p>
+{% if member.profile.meta_description %}
+  <p>
+    {{ member.profile.meta_description }}
+  </p>
+{% endif %}
 {% include './member_badges.html' %}

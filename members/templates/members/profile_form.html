@@ -1,63 +1,43 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class ="container create-bg">
-  <div class="row">
-    <div class="col-sm">
-      <h2 class="profile-title">Update Profile</h2>
-    </div>
-    <div class="col-sm">
-      <a href="{% url 'objects:image_create' %}?next={{ request.path }}">
-        <button class="btn btn-sm btn-primary float-right">+Image</button>
-      </a>
-    </div>
-  </div>
-  <br>
-  <div class="container">
-    {% if not object.member.email %}
-      <p class="alert alert-info"><i>We do not have an email contact for you. We do not require that you provide an email contact. However, please be aware that unless you provide a recovery email, you will be unable to reset your password. You may provide an email address by pressing the button below.</i></p>
-    {% endif %}
-    <p>
-      <a href="{% url 'password_change' %}">
-        <button class="btn btn-sm btn-danger">Update Password</button>
-      </a>
-      <a href="{% url 'email_change' object.member.pk %}">
-        <button class="btn btn-sm btn-warning">Update Personally Identifiable Information</button>
-      </a>
-    </p>
-    <br>
-    <form  method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <!-- Custom multiple model choice form field for Profile Image -->
-      <h5 class="form-label">{{ form.image.field.label }}</h5>
-      {% if form.image.field.help_text %}
-        <p class="form-help">{{ form.image.field.help_text|linebreaksbr }}<p>
-      {% endif %}
-      <p>{{ form.image.errors }}</p>
-      {% if form.image.field.choices.queryset.all|length == 0 %}
-        <p><i>You haven't published any images yet.</i></p>
-      {% else %}
-        <div class="form-image-selection">
-          {% for value in form.image.field.choices %}
-            {% if value|first != '' %}
-              <div class="form-image-card float-left" style="background-image:url('{{ value.2.thumbnail_file.url }}')">
-                <p>&nbsp;<input type="radio" value="{{ value|first }}" name="image" {% if object.image.pk == value|first %}checked{% endif %}></p>
-              </div>
-            {% endif %}
-          {% endfor %}
-          <div class="clear"></div>
+{% extends 'form.html' %}
+{% block header_block %}
+{% include './members_form_header.html' %}
+<br>
+{% if sections %}
+  <div class="form-field">
+    <div class="row">
+      <div class="col-sm">
+        <h4 class="form-label">Landing Page Sections</h4>
+      </div>
+      <div class="col-">
+        <div class="container">
+         <a class="btn btn-sm btn-primary" href="{% url 'members:member_profile_section_create' %}?next={{ request.path }}">+Section</a>
         </div>
-      {% endif %}
-      <br>
-      <!-- Standard field iterator -->
-      {% for field in form %}
-        {% if field != form.image %}
-          {% include 'form_field.html' %}
-        {% endif %}
+      </div>
+    </div>
+    <table class="">
+      {% for section in sections %}
+        <tr>
+          <td>
+            <a class="form-label" href="{% url 'members:member_profile_section_detail' section.pk %}">{{ section }}</a>
+          </td>
+          <td>
+            {% if section.is_enabled %}
+              <span class="badge badge-success">Enabled</span>
+            {% else %}
+              <span class="badge badge-secondary">Disabled</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'members:members_page_section_update' section.pk %}"><button class="btn btn-sm btn-warning edit-button">&#9998;</button></a>
+            <a href="{% url 'members:members_page_section_delete' section.pk %}"><button class="btn btn-sm btn-danger delete-button">X</button></a>
+          </td>
+        </tr>
       {% endfor %}
-      <br>
-      <input type="submit" value="Submit" class="btn btn-success">
-    </form>
+    </table>  
   </div>
-  <br>
-</div>
+{% else %}
+  <div class="container-fluid">
+    <a class="btn btn-sm btn-primary" href="{% url 'members:member_profile_section_create' %}?next={{ request.path }}">+Section</a>
+  </div>
+{% endif %}
 {% endblock %}
