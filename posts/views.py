@@ -687,7 +687,7 @@ class MemberResponsePostView(ListView):
         # App profile
         profile, created = PostsAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
-        context['app_list_context'] = "Responses"
+        context['app_list_context'] = "Responses by {}".format(member)
         context['meta_title'] = "Responses by {} | {}".format(
             member,
             profile.title,
@@ -843,7 +843,7 @@ def add_marshmallow_to_responsepost_view(request, pk):
                 messages.ERROR,
                 'You are not allowed to give marshmallows at this time'
             )
-    return HttpResponseRedirect(reverse('posts:public_response_posts'))
+    return HttpResponseRedirect(reverse('posts:member_responses', kwargs={'member': instance.owner.username}))
 
 class ReportPostCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 

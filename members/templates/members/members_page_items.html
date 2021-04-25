@@ -1,33 +1,22 @@
 <div class="row">
   <div class="col-sm">
-    {% if new_bars.all.count > 0 %}
+    {% if members.all.count > 0 %}
       <ul class="list-group members-section">
-        <h4 class="members-page-title">New Bars</h4>
-        {% for bar in new_bars %}
+        <h4 class="members-page-title">New Members</h4>
+        {% for member in members %}
           <li class="list-group-item members-list-li">
-            {% include "./bar_item.html" %}
+            {% include "./member_item.html" %}
           </li>
         {% endfor %}
       </ul>
       <br>
     {% endif %}
-    {% if new_bazs.all.count > 0 %}
+    {% if contributors.all.count > 0 %}
       <ul class="list-group members-section">
-        <h4 class="members-page-title">New Bazs</h4>
-        {% for baz in new_bazs %}
+        <h4 class="members-page-title">New Contributors</h4>
+        {% for member in contributors %}
           <li class="list-group-item members-list-li">
-            {% include "./baz_item.html" %}
-          </li>
-        {% endfor %}
-      </ul>
-      <br>
-    {% endif %}
-    {% if top_bars.all.count > 0 %}
-      <ul class="list-group members-section">
-        <h4 class="members-page-title">Top Bars</h4>
-        {% for bar in top_bars %}
-          <li class="list-group-item members-list-li">
-            {% include "./bar_item.html" %}
+            {% include "./member_item.html" %}
           </li>
         {% endfor %}
       </ul>

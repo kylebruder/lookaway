@@ -209,7 +209,7 @@ class AppPageMixin:
     A collection of methods for use with Lookaway app landing views.
     '''
 
-    def get_sets(self, model, n, show_new=True, show_top=True):
+    def get_sets(self, model, n, show_new=True, show_top=True, member=None):
         '''
         A method for fetching two model querysets from a Django model.
         Given a model, it will return a list of the newest n items
@@ -238,9 +238,15 @@ class AppPageMixin:
         '''
         # Initialize variables.
         try:
-            public_instances = model.objects.filter(is_public=True).exclude(members_only=True)
+            public_instances = model.objects.filter(
+                is_public=True,
+            ).exclude(members_only=True)
+            if member != None:
+                public_instances = public_instances.all().filter(owner=member)
         except:
             public_instances = model.objects.filter(is_public=True)
+            if member != None:
+                public_instances = public_instances.all().filter(owner=member)
         new_instances = model.objects.none()
         top_instances = model.objects.none()
         # If there are public instances and we want to show the newest n
@@ -266,7 +272,6 @@ class AppPageMixin:
                 )[:n]
             # Unless new instances aren't being shown, of course
             else:
-                print("yep")
                 top_instances = public_instances.order_by('-weight')[:n]
         # In the event there are less than n instances,
         # include them in the new model list.

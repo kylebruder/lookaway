@@ -147,12 +147,18 @@ class MembersPageView(TemplateView, AppPageMixin):
         ).order_by(
             'order',
         )
-        context['members'] = Member.objects.filter(
+        members = Member.objects.filter(
             groups__name="Members",
+        ).exclude(
+            groups__name="Contributors",
+        ).order_by(
+            '-date_joined',
+        )[:profile.n_members]
+        context['members'] = members
+        contributors = Member.objects.filter(
+            groups__name="Contributors",
         ).order_by('-date_joined')
-        context['contributors'] = Member.objects.exclude(
-            groups__name="Members",
-        ).order_by('-date_joined')
+        context['contributors'] = contributors.all()[:profile.n_contributors]
         # Create Members button
         if self.request.user.has_perm('members.add_members'):
             context['show_member_invite_button'] = True
@@ -469,7 +475,7 @@ class MemberProfileView(DetailView, AppPageMixin):
         context['meta_desc'] = profile.meta_description
         # Sections
         sections = MemberProfileSection.objects.filter(
-            owner=self.request.user,
+            owner=self.object.member,
             is_enabled = True,
         ).order_by(
             'order',
@@ -486,6 +492,7 @@ class MemberProfileView(DetailView, AppPageMixin):
             profile.n_posts,
             show_new=profile.show_new_posts,
             show_top=profile.show_top_posts,
+            member=self.object.member,
         )
         # Responses
         context['new_responses'], context['top_responses'] = self.get_sets(
@@ -493,6 +500,7 @@ class MemberProfileView(DetailView, AppPageMixin):
             profile.n_responses,
             show_new=profile.show_new_responses,
             show_top=profile.show_top_responses,
+            member=self.object.member,
         )
         # Articles
         context['new_articles'], context['top_articles'] = self.get_sets(
@@ -500,6 +508,7 @@ class MemberProfileView(DetailView, AppPageMixin):
             profile.n_articles,
             show_new=profile.show_new_articles,
             show_top=profile.show_top_articles,
+            member=self.object.member,
         )
         # Stories
         context['new_stories'], context['top_stories'] = self.get_sets(
@@ -507,6 +516,7 @@ class MemberProfileView(DetailView, AppPageMixin):
             profile.n_stories,
             show_new=profile.show_new_stories,
             show_top=profile.show_top_stories,
+            member=self.object.member,
         )
         # Documents
         context['new_documents'], context['top_documents'] = self.get_sets(
@@ -514,6 +524,7 @@ class MemberProfileView(DetailView, AppPageMixin):
             profile.n_documents,
             show_new=profile.show_new_documents,
             show_top=profile.show_top_documents,
+            member=self.object.member,
         )
         # Visuals
         context['new_visuals'], context['top_visuals'] = self.get_sets(
@@ -521,6 +532,7 @@ class MemberProfileView(DetailView, AppPageMixin):
             profile.n_visuals,
             show_new=profile.show_new_visuals,
             show_top=profile.show_top_visuals,
+            member=self.object.member,
         )
         # Galleries
         context['new_galleries'], context['top_galleries'] = self.get_sets(
@@ -528,6 +540,7 @@ class MemberProfileView(DetailView, AppPageMixin):
             profile.n_galleries,
             show_new=profile.show_new_galleries,
             show_top=profile.show_top_galleries,
+            member=self.object.member,
         )
         # Tracks
         context['new_tracks'], context['top_tracks'] = self.get_sets(
@@ -535,6 +548,7 @@ class MemberProfileView(DetailView, AppPageMixin):
             profile.n_tracks,
             show_new=profile.show_new_tracks,
             show_top=profile.show_top_tracks,
+            member=self.object.member,
         )
         # Albums
         context['new_albums'], context['top_albums'] = self.get_sets(
@@ -542,7 +556,19 @@ class MemberProfileView(DetailView, AppPageMixin):
             profile.n_albums,
             show_new=profile.show_new_albums,
             show_top=profile.show_top_albums,
+            member=self.object.member,
         )
+
+        # Update profile buttons
+        if self.request.user == self.object.member:
+            context['show_profile_edit_button'] = True
+            context['profile_edit_url'] = reverse(
+                'members:member_profile_update',
+                kwargs={'slug': self.object.member.username},
+            )
+        if self.request.user.has_perm('members.add_invite'):
+            context['show_invite_add_button'] = True
+
         # Turning these off for now
         ## Images
         #context['images'] = Image.objects.filter(
@@ -619,6 +645,7 @@ class MemberProfileSettingsUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Profile
     form_class = ProfileSettingsForm
+    template_name = 'members/memberprofilesettings_form.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -662,7 +689,7 @@ class MemberProfileSectionCreateView(LoginRequiredMixin, MemberCreateMixin, Crea
         # App profile
         profile = get_object_or_404(Profile, member=self.request.user)
         context['profile'] = profile
-        context['meta_title'] = "New Page Section"
+        context['meta_title'] = "New Profile Page Section"
         context['meta_desc'] = "Add a section to your profile page"
         return context
 
@@ -856,3 +883,7 @@ class InviteLinkDetailView(FormMixin, DetailView):
 
     def get_success_url(self):
         return reverse('login')
+
+class PasswordChangeDone(TemplateView):
+
+    template_name = 'members/password_change_done.html'

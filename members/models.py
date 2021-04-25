@@ -211,7 +211,7 @@ class Member(User):
             return True, m.weight, amount
         else:
             print("could not allocate weight")
-            return False, 0
+            return False, 0, 0
         
     def __str__(self):
         if self.first_name and self.last_name:

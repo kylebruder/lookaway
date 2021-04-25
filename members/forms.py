@@ -8,6 +8,7 @@ from art.models import Visual, Gallery
 from documentation.models import Article, Story, SupportDocument
 from music.models import Track, Album
 from objects.models import Image, Sound, Video, Code, Link
+from posts.models import Post, ResponsePost
 from .models import Member, MembersAppProfile, MembersPageSection, Profile, MemberProfileSection, InviteLink 
 
 class CustomModelChoiceIterator(forms.models.ModelChoiceIterator):
@@ -339,7 +340,7 @@ class MembersAppProfileForm(forms.ModelForm):
             }
         ),
     )
-    n_bars = forms.IntegerField(
+    n_contributors = forms.IntegerField(
         max_value=1000,
         min_value=0,
         label="Number of contributors to show on the landing page (n)",
@@ -349,20 +350,20 @@ class MembersAppProfileForm(forms.ModelForm):
             }
         ),
     )
-    member_list_pagination = forms.IntegerField(
+    members_list_pagination = forms.IntegerField(
         max_value=1000,
         min_value=1,
-        label="Number of foos to show in lists",
+        label="Number of members to show in lists",
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-text-field',
             }
         ),
     )
-    contributor_list_pagination = forms.IntegerField(
+    contributors_list_pagination = forms.IntegerField(
         max_value=1000,
         min_value=1,
-        label="Number of bars to show in lists",
+        label="Number of contributors to show in lists",
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-text-field',
@@ -392,7 +393,7 @@ class MembersAppProfileForm(forms.ModelForm):
             'bg_image',
             'n_members',
             'n_contributors',
-            'member_list_pagination',
+            'members_list_pagination',
             'contributors_list_pagination',
             'show_members',
             'show_contributors',
@@ -494,6 +495,9 @@ class ProfileForm(forms.ModelForm):
             'text',
             'banner',
             'bg_image',
+            'links',
+            'bitcoin_wallet',
+            'litecoin_wallet',
             'show_email',
         )
         help_texts = {
@@ -828,6 +832,11 @@ class MemberProfileSectionForm(forms.ModelForm):
         required=False,
         help_text="Choose one or more Images to include in this Section",
     )
+    visuals = CustomModelMultipleChoiceField(
+        queryset = Visual.objects.all(),
+        required=False,
+        help_text="Choose one or more visuals to feature in this Section",
+    )
     title = forms.CharField(
         help_text="""The section title will appear in the header of this \
             Section""",
@@ -954,7 +963,7 @@ class MemberProfileSectionForm(forms.ModelForm):
         ).order_by(
             '-last_modified',
         )
-        self.fields['responses'].queryset = Response.objects.filter(
+        self.fields['responses'].queryset = ResponsePost.objects.filter(
             owner=user.pk,
             is_public=True,
         ).order_by(
@@ -966,7 +975,7 @@ class MemberProfileSectionForm(forms.ModelForm):
         ).order_by(
             '-last_modified',
         )
-        self.fields['stories'].queryset = Stories.objects.filter(
+        self.fields['stories'].queryset = Story.objects.filter(
             owner=user.pk,
             is_public=True,
         ).order_by(

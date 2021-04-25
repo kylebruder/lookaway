@@ -6,7 +6,7 @@
   {% include './home_page_header.html' %}
   <br>
   {% if new_posts.count < 1 and new_responses.count <  1 and new_articles.count < 1 and new_stories.count < 1 and new_documents.count < 1 and new_visuals.count < 1 and new_galleries.count < 1 and new_tracks.count < 1 and new_albums.count < 1 %}
-    <span class="home-page-span"><i>Coming Soon...</i></p>
+    <span class="home-page-span"><i>Coming Soon...</i></span>
   {% else %}
     {% if sections %}
       <div class="row">
@@ -27,10 +27,15 @@
       </div>
     {% else %}
       <!-- List of new and top items -->
-      {% include './home_page_items_without_sections.html' %}
+          {% if tags.all.count > 0 %}
+            <div class="home-section">
+              {% include './home_page_tags.html' %}
+            </div>
+          {% endif %}
+      {% include './home_page_items.html' %}
       {% include './home_page_links.html' %}
-      <br>
     {% endif %}
+    <br>
   {% endif %}
 </div>
 {% endblock %}

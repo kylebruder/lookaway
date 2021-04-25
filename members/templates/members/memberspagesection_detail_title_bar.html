@@ -6,15 +6,11 @@
   </div>
   {% if section.owner.pk == request.user.pk %}
     <div class="col-">
-      <a href="{% url 'members:members_page_section_delete' section.pk %}">
-        <button type="button" class="btn btn-sm  btn-danger float-right">Delete</button>
-      </a>
-      <a href="{% url 'members:members_page_section_update' section.pk %}">
-        <button type="button" class="btn btn-sm btn-warning float-right">Edit</button>
-      </a>
-      <a href="{% url 'members:members_page_section_create' %}">
-        <button type="button" class="btn btn-sm btn-primary float-right">Add Section</button>
-      </a>
+      <div class="container">
+       {% include './memberspagesection_add_button.html' %}
+       {% include './memberspagesection_edit_button.html' %}
+       {% include './memberspagesection_delete_button.html' %}
+      </div>
     </div>
   {% endif %}
 </div>

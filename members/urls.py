@@ -13,7 +13,7 @@ urlpatterns = [
     # Members app profile
     ## Update
     path(
-        'profile/update/<int:pk>/', 
+        'app-profile/update/<int:pk>/', 
         views.MembersAppProfileUpdateView.as_view(),
         name='members_app_profile_update',
     ),
@@ -42,13 +42,19 @@ urlpatterns = [
         views.MembersPageSectionDeleteView.as_view(),
         name='members_page_section_delete',
     ),
+    # Member profile
     ## Update
     path(
         'profile/update/<int:pk>/',
         views.MemberProfileUpdateView.as_view(),
         name='member_profile_update',
     ),
-    # Profile page section views
+    path(
+        'profile/settings/update/<int:pk>/',
+        views.MemberProfileSettingsUpdateView.as_view(),
+        name='member_profile_settings_update',
+    ),
+    # Member profile page section views
     ## Create
     path(
         'profile/add/section/',
@@ -59,7 +65,7 @@ urlpatterns = [
     path(
         'profile/sections/<int:pk>/',
         views.MemberProfileSectionDetailView.as_view(),
-        name='member_page_section_detail',
+        name='member_profile_section_detail',
     ),
     ## Update
     path(

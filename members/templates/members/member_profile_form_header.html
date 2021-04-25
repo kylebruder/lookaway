@@ -28,6 +28,20 @@
         <div class="container">
           <p>
             {% include 'object_create_buttons.html' %}
+            {% if not profile.member.email %}
+              <p class="alert alert-info"><i>We do not have an email contact for you. We do not require that you provide an email contact. However, please be aware that unless you provide a recovery email, you will be unable to reset your password. You may provide an email address by pressing the <span class="index-heading-span">"Update Personally Identifiable Information"</span> button below.</i></p>
+            {% endif %}
+            <p>
+              <a href="{% url 'email_change' profile.pk %}">
+                <button class="btn btn-sm btn-warning">Update Personally Identifiable Information</button>
+              </a>
+              <a href="{% url 'password_change' %}">
+                <button class="btn btn-sm btn-danger">Update Password</button>
+              </a>
+            </p>
+            <p>
+              {% include './member_crypto_buttons.html' %}
+            </p>
           </p>
         </div>
       </div>

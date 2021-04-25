@@ -19,7 +19,7 @@ from django.contrib.sitemaps.views import sitemap
 from django.contrib.staticfiles.urls import static, staticfiles_urlpatterns
 from django.urls import include, path
 from home.sitemaps import whole_site
-from members.views import InviteLinkCreateView, InviteLinkDetailView, MemberUpdateView, MemberProfileView
+from members.views import InviteLinkCreateView, InviteLinkDetailView, MemberUpdateView, MemberProfileView, PasswordChangeDone
 from . import settings
 
 urlpatterns = [
@@ -78,6 +78,11 @@ urlpatterns = [
         'change-password/',
          auth_views.PasswordChangeView.as_view(template_name='password_change.html'),
          name='password_change',
+    ),
+    path(
+        'change-password-done/',
+         PasswordChangeDone.as_view(template_name='password_change_done.html'),
+         name='password_change_done',
     ),
     path(
         'update-info/<int:pk>/',

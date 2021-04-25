@@ -1,0 +1,3 @@
+{% extends 'small_delete_button.html' %}
+{% block button_url %}{% url 'members:member_profile_section_delete' section.pk %}{% endblock %}
+{% block parameters %}?next={{ request.path }}{% if section %}&order={{ section.next_order }}{% endif %}{% endblock %}

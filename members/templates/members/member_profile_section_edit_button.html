@@ -1,0 +1,3 @@
+{% extends 'small_edit_button.html' %}
+{% block button_url %}{% url 'members:member_profile_section_update' section.pk %}{% endblock %}
+{% block parameters %}?next={{ request.path }}{% if section %}&order={{ section.next_order }}{% endif %}{% endblock %}

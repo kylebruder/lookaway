@@ -15,7 +15,7 @@
           {% else %}
             <img class="section-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
           {% endif %}
-        </a><br><br>
+        </a><br>
         <span class="">
           {% if image.text %}
             {{ image.text }}<br>
@@ -28,7 +28,7 @@
               <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
             </a>
           {% endif %}
-        </span>
+        </span><br><br>
       </div>
     {% endfor %}
   {% endif %}
