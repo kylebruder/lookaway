@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from crypto.models import CryptoWalletsMixin
 from members.mixins import MarshmallowMixin
 from lookaway.mixins import AppProfile, Section
-from objects.models import MetaDataMixin
+from objects.mixins import MetaDataMixin
 
 # Create your models here.
 class PostsAppProfile(AppProfile, CryptoWalletsMixin):

@@ -95,6 +95,12 @@ class ImageUpdateForm(forms.ModelForm):
         max_length=1024,
         required=False,
     )
+    order = forms.DecimalField(
+        help_text="""Choose the order in which the image will appear. \
+            Lower values will appear first""",
+        max_digits=8,
+        initial=0,
+    )
     credit = forms.CharField(
         max_length=256,
         help_text="""Give credit to the original creator of the image file\
@@ -104,6 +110,7 @@ class ImageUpdateForm(forms.ModelForm):
     )
 
     title.widget.attrs.update({'class': 'form-text-field'})
+    order.widget.attrs.update({'class': 'form-text-field'})
     credit.widget.attrs.update({'class': 'form-text-field'})
 
     class Meta:
@@ -111,6 +118,7 @@ class ImageUpdateForm(forms.ModelForm):
         fields = [
             'title',
             'text',
+            'order',
             'credit',
             'tags',
         ]
@@ -184,6 +192,12 @@ class SoundUpdateForm(forms.ModelForm):
         max_length=1024,
         required=False,
     )
+    order = forms.DecimalField(
+        help_text="""Choose the order in which the sound will appear. \
+            Lower values will appear first""",
+        max_digits=8,
+        initial=0,
+    )
     credit = forms.CharField(
         help_text="""Give credit to the original creator of the Sound file
             Obtain expressed permission before uploading sounds with exclusive \
@@ -193,6 +207,7 @@ class SoundUpdateForm(forms.ModelForm):
     )
 
     title.widget.attrs.update({'class': 'form-text-field'})
+    order.widget.attrs.update({'class': 'form-text-field'})
     credit.widget.attrs.update({'class': 'form-text-field'})
 
     class Meta:
@@ -200,6 +215,7 @@ class SoundUpdateForm(forms.ModelForm):
         fields = [
             'title',
             'text',
+            'order',
             'credit',
             'tags',
         ]
@@ -283,6 +299,13 @@ class VideoUpdateForm(forms.ModelForm):
     )
 
     title.widget.attrs.update({'class': 'form-text-field'})
+    order = forms.DecimalField(
+        help_text="""Choose the order in which the video will appear. \
+            Lower values will appear first""",
+        max_digits=8,
+        initial=0,
+    )
+    order.widget.attrs.update({'class': 'form-text-field'})
     credit.widget.attrs.update({'class': 'form-text-field'})
 
 
@@ -291,6 +314,7 @@ class VideoUpdateForm(forms.ModelForm):
         fields = [
             'title',
             'text',
+            'order',
             'credit',
             'tags',
         ]
@@ -316,6 +340,12 @@ class CodeForm(forms.ModelForm):
         label="Comments",
         max_length=1024,
         required=False,
+    )
+    order = forms.DecimalField(
+        help_text="""Choose the order in which the code will appear. \
+            Lower values will appear first""",
+        max_digits=8,
+        initial=0,
     )
     code = forms.CharField(
         widget=forms.Textarea(
@@ -354,6 +384,7 @@ class CodeForm(forms.ModelForm):
         required=False,
     )
 
+    order.widget.attrs.update({'class': 'form-text-field'})
     language.widget.attrs.update({'class': 'form-text-field'})
     language_version.widget.attrs.update({'class': 'form-text-field'})
     file_path.widget.attrs.update({'class': 'form-text-field'})
@@ -372,6 +403,7 @@ class CodeForm(forms.ModelForm):
             'file_path',
             'source',
             'source_url',
+            'order',
             'tags',
         ]
         widgets = {
@@ -425,10 +457,17 @@ class LinkForm(forms.ModelForm):
         max_length=256,
         required=False,
     )
+    order = forms.DecimalField(
+        help_text="""Choose the order in which the link will appear. \
+            Lower values will appear first""",
+        max_digits=8,
+        initial=0,
+    )
     title.widget.attrs.update({'class': 'form-text-field'})
     text.widget.attrs.update({'class': 'form-text-field'})
     url.widget.attrs.update({'class': 'form-text-field'})
     favicon_href.widget.attrs.update({'class': 'form-text-field'})
+    order.widget.attrs.update({'class': 'form-text-field'})
 
     class Meta:
         model = Link
@@ -437,6 +476,7 @@ class LinkForm(forms.ModelForm):
             'url',
             'text',
             'favicon_href',
+            'order',
             'tags',
         ]
         help_texts = {

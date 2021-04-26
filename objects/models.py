@@ -3,7 +3,10 @@ from itertools import chain
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from lookaway.mixins import AppProfile, Section
+from crypto.models import CryptoWalletsMixin
 from members.mixins import MarshmallowMixin
+from .mixins import MetaDataMixin
 
 
 # Create your models here.
@@ -12,6 +15,132 @@ from members.mixins import MarshmallowMixin
 ### Tags and metadata
 
 ## Tag - Key value pairs which can be added to site objects
+
+class ObjectsAppProfile(AppProfile, CryptoWalletsMixin):
+
+    show_images = models.BooleanField(default=True)
+    show_sounds = models.BooleanField(default=True)
+    show_videos = models.BooleanField(default=True)
+    show_codes = models.BooleanField(default=True)
+    show_links = models.BooleanField(default=True)
+    n_images = models.PositiveIntegerField(default=10)
+    n_sounds = models.PositiveIntegerField(default=10)
+    n_videos = models.PositiveIntegerField(default=10)
+    n_codes = models.PositiveIntegerField(default=10)
+    n_links = models.PositiveIntegerField(default=10)
+    images_list_pagination = models.PositiveIntegerField(default=25)
+    sounds_list_pagination = models.PositiveIntegerField(default=10)
+    videos_list_pagination = models.PositiveIntegerField(default=10)
+    codes_list_pagination = models.PositiveIntegerField(default=10)
+    links_list_pagination = models.PositiveIntegerField(default=10)
+    logo = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='objects_logo'
+    )
+    banner = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='objects_banner'
+    )
+    bg_image = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='objects_bg_image'
+    )
+
+    # Media transcoding options
+    ## Path ffmpeg binary (you must have this installed)
+    ffmpeg_path = models.CharField(
+        max_length=64,
+    )
+
+    ## Image dimensions in pixels
+    image_max_height = models.PositiveIntegerField(default=2500)
+    image_max_width = models.PositiveIntegerField(default=2500)
+    thumbnail_max_height = models.PositiveIntegerField(default=250)
+    thumbnail_max_width = models.PositiveIntegerField(default=250)
+
+    ## Media formats
+    image_format = models.CharField(
+        max_length=4,
+    )
+    sound_format = models.CharField(
+        max_length=4,
+    )
+    video_format = models.CharField(
+        max_length=4,
+    )
+    ## Bitrate in Kbps
+    sound_bitrate = models.PositiveIntegerField(default=1000)
+    video_bitrate = models.PositiveIntegerField(default=1000)
+    ## Lower value is better quality for these settings
+    sound_crf = models.PositiveIntegerField(default=250)
+    sound_qmin = models.PositiveIntegerField(default=250)
+    sound_qmax = models.PositiveIntegerField(default=250)
+    video_crf = models.PositiveIntegerField(default=250)
+    video_qmin = models.PositiveIntegerField(default=250)
+    video_qmax = models.PositiveIntegerField(default=250)
+
+    class Meta:
+        verbose_name = "App Profile"
+
+    def __str__(self):
+        return self.title
+
+class ObjectsPageSection(Section):
+
+    info = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    alert = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    images = models.ManyToManyField(
+        'objects.image',
+        blank=True,
+        related_name='section_images'
+    )
+    sounds = models.ManyToManyField(
+        'objects.sound',
+        blank=True,
+        related_name='section_sounds'
+    )
+    videos = models.ManyToManyField(
+        'objects.video',
+        blank=True,
+        related_name='section_videos'
+    )
+    codes = models.ManyToManyField(
+        'objects.code',
+        blank=True,
+        related_name='section_codes'
+    )
+    links = models.ManyToManyField(
+        'objects.link',
+        blank=True,
+        related_name='section_links'
+    )
+    is_enabled = models.BooleanField(default=False)
+    members_only = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Landing Page Section"
+        verbose_name_plural = "Landing Page Sections"
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
 
 class Tag(models.Model):
 
@@ -50,70 +179,6 @@ class Tag(models.Model):
         if self.value:
             return '{}: {}'.format(self.key, self.value)
         else: return '{}'.format(self.key) 
-
-## Metadata Mixin - Common meta data for site objects
-
-class MetaDataMixin(models.Model):
-    '''
-    A model Mixin that adds meta data and methods which are common to
-    all site objects.
-    '''
-
-    class Meta:
-        abstract = True
-
-    owner = models.ForeignKey(
-        'members.member',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-
-    )
-    creation_date = models.DateTimeField(
-        default=timezone.now,
-    )
-    last_modified = models.DateTimeField(
-        default=timezone.now,
-    )
-    is_public = models.BooleanField(
-        default=False,
-    )
-    publication_date = models.DateTimeField(
-        blank=True,
-        null=True,
-    )
-    order = models.DecimalField(
-        max_digits=8,
-        decimal_places=4,
-        default=0,
-    )
-    tags = models.ManyToManyField(
-        Tag,
-        blank=True,
-    )
-
-    def publish(self, instance, member):
-        '''
-        If the instance passed belongs to the user then set
-        it to public and set the publication date to now.
-
-        Arguments:
-        instance - Any instance of a DB model instance that uses MetaDataMixin
-        user - Pass request.user when calling from a view
-
-        Returns:
-        True - If the instance belongs to the user
-        False - If the above condition is not met
-        '''
-        if instance.owner == member:
-            instance.is_public = True
-            print("publishing {} on {}".format(instance, timezone.now()))
-            instance.publication_date = timezone.now()
-            instance.save()
-            return True
-        else:
-            return False
-
 
 ### Site Objects
 

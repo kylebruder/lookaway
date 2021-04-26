@@ -1,5 +1,5 @@
 from django.db import models
-from objects.models import MetaDataMixin
+from objects.mixins import MetaDataMixin
 from crypto.models import CryptoWalletsMixin
 from members.mixins import MarshmallowMixin
 

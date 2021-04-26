@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from members.mixins import MarshmallowMixin
-from objects.models import MetaDataMixin
+from objects.mixins import MetaDataMixin
 from crypto.models import CryptoWalletsMixin
 from lookaway.mixins import AppProfile, Section, Doc
 
