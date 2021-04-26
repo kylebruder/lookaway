@@ -7,11 +7,11 @@
     {{ code.text }}<br>
   {% endif %}
   {% if code.source and code.source_url %}
-    Source: <a href="{{ code.source_url }}">{{ code.source }}</a><br>
+    <i>Source: <a href="{{ code.source_url }}">{{ code.source }}</a></i><br>
   {% elif code.source %}
-    Source: {{ code.source }}</p>
+    <i>Source: {{ code.source }}</i>
   {% elif code.source_url %}
-    Source: <a href="{{ code.source_url }}">{{ code.source_url }}</a><br>
+    <i>Source: <a href="{{ code.source_url }}">{{ code.source_url }}</a></i><br>
   {% endif %}
   {% if code.owner.pk == request.user.pk %}
     <a href="{% url 'objects:code_update' code.pk %}?next={{ request.path }}">

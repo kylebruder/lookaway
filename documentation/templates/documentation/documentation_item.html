@@ -1,40 +1,33 @@
-<div class="col-sm-4 documentation-list-card">
-  <div class="row">
-    <div class="col-">
-      {% if item.image %}
-        <div class="float-right documentation-list-image" style="background-image:url('{{ item.image.thumbnail_file.url }}')"></div>
-      {% elif item.owner.profile.image %}
-        <div class="float-right documentation-list-image" style="background-image:url('{{ item.owner.profile.image.thumbnail_file.url }}')"></div>
-      {% else %}
-        <div class="float-right documentation-list-image" style="background-image:url('/static/icon.webp')"></div>
-      {% endif %}
-    </div>
-    <div class="col-sm">
-      <h5 class="documentation-title">
-        <a href="{% url 'documentation:article_detail' item.slug %}">
-          {{ item.title }}
-        </a>
-      </h5>
-      <p class="documentation-meta">
-        Contributed by <a href="{% url 'members:member_profile' item.owner.username %}"><span class="index-heading-span">{{ item.owner }}</span></a>{% if item.publication_date %} on {{ item.publication_date|date:"M d, Y" }}{% endif %}
-      </p>
-      {% if item.members_only %}
-        <span class="badge badge-warning">Members Only</span>
-      {% endif %}
-      {% if not item.is_public %}
-        <span class="badge badge-dark">Unpublished</span>
-      {% endif %}
-      {% if item.tags.all.count > 0 %}
-        {% with article as object %}
-          {% include 'object_tags.html' %}
-        {% endwith %}
-      {% endif %}
-    </div>
+<div class="row">
+  <div class="col-">
+    {% if item.cover %}
+      <div class="documentation-item-list-image" style="background-image:url('{{ item.cover.thumbnail_file.url }}')"></div>
+    {% elif item.owner.profile.image %}
+      <div class="documentation-item-list-image" style="background-image:url('{{ item.owner.profile.image.thumbnail_file.url }}')"></div>
+    {% else %}
+      <div class="documentation-item-list-image" style="background-image:url('/static/icon.webp')"></div>
+    {% endif %}
   </div>
-  {% if item.meta_description %}
-    <br>
-    <p class="">
-      {{ item.meta_description }}<br>
+  <div class="col-sm">
+    <h5 class="documentation-title">
+      <a href="{% url 'documentation:item_detail' item.slug %}">
+        {{ item.title }}
+      </a>
+    </h5>
+    <p>
+      Contributed by <a href="{% url 'members:member_profile' item.owner.username %}"><span class="index-heading-span">{{ item.owner }}</span></a> on {{ item.creation_date|date:"M d, Y" }}<br><br>
     </p>
-  {% endif %}
+  </div>
 </div>
+<p>
+  {{ item.meta_description }}
+</p>
+{% if not item.is_public %}
+	<span class="badge badge-dark">Unpublished</span>
+{% endif %}
+{% if item.tags.all.count > 0 %}
+  {% with item as object %}
+    {% include 'object_tags.html' %}
+  {% endwith %}
+{% endif %}
+

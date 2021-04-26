@@ -13,6 +13,7 @@
         <div class="col-sm">
           {% for section in sections %}
             {% include './artpagesection.html' %}
+            {% include './art_page_links.html' %}
           {% endfor %}
         </div>
         <div class="col-sm">
@@ -21,9 +22,8 @@
       </div>
     {% else %}
       <!-- List of new and top items -->
-      <div class="container-fluid">
-        {% include './art_page_items_without_sections.html' %}
-      </div>
+      {% include './art_page_items.html' %}
+      {% include './art_page_links.html' %}
       <br>
     {% endif %}
   {% endif %}

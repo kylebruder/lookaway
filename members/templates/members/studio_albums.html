@@ -12,14 +12,30 @@
     <ul class="list-group">
       {% for album in albums %}
         <li class="list-group-item music-list-li">
-          <p>
-            <a href="{% url 'music:album_detail' album.slug %}">
-              {{ album.title }}
-            </a>
-            {% if not album.is_public %}
-              <span class="badge badge-secondary">Unpublished</span>
-            {% endif %}
-          </p>
+          <div class="row">
+            <div class="col-">
+              {% if album.cover %}
+                <div class="music-album-list-image" style="background-image:url('{{ album.cover.thumbnail_file.url }}')"></div>
+              {% elif album.owner.profile.image %}
+                <div class="music-album-list-image" style="background-image:url('{{ album.owner.profile.image.thumbnail_file.url }}')"></div>
+              {% else %}
+                <div class="music-album-list-image" style="background-image:url('/static/icon.webp')"></div>
+              {% endif %}
+            </div>
+            <div class="col-sm">
+              <h5 class="music-title">
+                <a href="{% url 'music:album_detail' album.slug %}">
+                  {{ album.title }}
+                </a>
+              </h5>
+              <p>
+                Music by <span class="index-page-span">{{ album.artist }}</span><br>
+              </p>
+            </div>
+          </div>
+          {% if not album.is_public %}
+          	<span class="badge badge-dark">Unpublished</span>
+          {% endif %}
         </li>
       {% endfor %}
     </ul>

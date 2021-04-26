@@ -18,26 +18,40 @@
       {% endif %}
       <!-- List of new and top items -->
       <div class="col-sm">
-        <ul class="list-group documentation-list">
-          {% for document in new_articles %}
-            {% include './documentation_page_article_item.html' %}
-          {% endfor %}
-          {% for document in new_stories %}
-            {% include './documentation_page_story_item.html' %}
-          {% endfor %}
-          {% for document in new_documents %}
-            {% include './documentation_page_supportdocument_item.html' %}
-          {% endfor %}
-          {% for document in top_articles %}
-            {% include './documentation_page_article_item.html' %}
-          {% endfor %}
-          {% for document in top_stories %}
-            {% include './documentation_page_story_item.html' %}
-          {% endfor %}
-          {% for document in top_documents %}
-            {% include './documentation_page_supportdocument_item.html' %}
-          {% endfor %}
-        </ul>
+        <div class="documentation-section">
+          <ul class="list-group documentation-list">
+            {% for document in new_articles %}
+              <li class="list-group-item documentation-list-li">
+                {% include './documentation_page_article_item.html' %}
+              </li>
+            {% endfor %}
+            {% for document in new_stories %}
+              <li class="list-group-item documentation-list-li">
+                {% include './documentation_page_story_item.html' %}
+              </li>
+            {% endfor %}
+            {% for document in new_documents %}
+              <li class="list-group-item documentation-list-li">
+                {% include './documentation_page_supportdocument_item.html' %}
+              </li>
+            {% endfor %}
+            {% for document in top_articles %}
+              <li class="list-group-item documentation-list-li">
+                {% include './documentation_page_article_item.html' %}
+              </li>
+            {% endfor %}
+            {% for document in top_stories %}
+              <li class="list-group-item documentation-list-li">
+                {% include './documentation_page_story_item.html' %}
+              </li>
+            {% endfor %}
+            {% for document in top_documents %}
+              <li class="list-group-item documentation-list-li">
+                {% include './documentation_page_supportdocument_item.html' %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
         <br>
         {% if profile.bitcoin_wallet or profile.litecoin_wallet %}
           <div class="documentation-section">

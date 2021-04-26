@@ -1,40 +1,36 @@
-<div class="col-sm-4 documentation-list-card">
-  <div class="row">
-    <div class="col-">
-      {% if article.image %}
-        <div class="float-right documentation-list-image" style="background-image:url('{{ article.image.thumbnail_file.url }}')"></div>
-      {% elif article.owner.profile.image %}
-        <div class="float-right documentation-list-image" style="background-image:url('{{ article.owner.profile.image.thumbnail_file.url }}')"></div>
-      {% else %}
-        <div class="float-right documentation-list-image" style="background-image:url('/static/icon.webp')"></div>
-      {% endif %}
-    </div>
-    <div class="col-sm">
-      <h5 class="documentation-title">
-        <a href="{% url 'documentation:article_detail' article.slug %}">
-          {{ article.title }}
-        </a>
-      </h5>
-      <p class="documentation-meta">
-        Written by <a href="{% url 'members:member_profile' article.owner.username %}"><span class="index-heading-span">{{ article.owner }}</span></a>{% if article.publication_date %}, published on {{ article.publication_date|date:"M d, Y" }}{% endif %}
-      </p>
-      {% if article.members_only %}
-        <span class="badge badge-warning">Members Only</span>
-      {% endif %}
-      {% if not article.is_public %}
-        <span class="badge badge-dark">Unpublished</span>
-      {% endif %}
-      {% if article.tags.all.count > 0 %}
-        {% with article as object %}
-          {% include 'object_tags.html' %}
-        {% endwith %}
-      {% endif %}
-    </div>
+<div class="row">
+  <div class="col-">
+    {% if article.cover %}
+      <div class="documentation-article-list-image" style="background-image:url('{{ article.cover.thumbnail_file.url }}')"></div>
+    {% elif article.owner.profile.image %}
+      <div class="documentation-article-list-image" style="background-image:url('{{ article.owner.profile.image.thumbnail_file.url }}')"></div>
+    {% else %}
+      <div class="documentation-article-list-image" style="background-image:url('/static/icon.webp')"></div>
+    {% endif %}
   </div>
-  {% if article.meta_description %}
-    <br>
-    <p class="">
-      {{ article.meta_description }}<br>
+  <div class="col-sm">
+    <h5 class="documentation-title">
+      <a href="{% url 'documentation:article_detail' article.slug %}">
+        {{ article.title }}
+      </a>
+    </h5>
+    <p>
+      Written by <a href="{% url 'members:member_profile' article.owner.username %}"><span class="index-heading-span">{{ article.owner }}</span></a><br>
+      Published on {{ article.creation_date|date:"M d, Y" }}<br><br>
     </p>
-  {% endif %}
+  </div>
 </div>
+{% if article.meta_description %}
+  <p>
+    {{ article.meta_description }}
+  </p>
+{% endif %}
+{% if not article.is_public %}
+	<span class="badge badge-dark">Unpublished</span>
+{% endif %}
+{% if article.tags.all.count > 0 %}
+  {% with article as object %}
+    {% include 'object_tags.html' %}
+  {% endwith %}
+{% endif %}
+

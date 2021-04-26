@@ -32,44 +32,55 @@ class StudioView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(pk=self.request.user.pk)
+        # App profile
+        profile, created = Profile.objects.get_or_create(member=member)
+        context['profile'] = profile
+        # SEO stuff
+        context['meta_title'] = "{}'s Digital Studio".format(profile.member)
+        context['meta_desc'] = "Manage your content"
 
         context['member'] = member
         # Visuals
         context['visuals'] = Visual.objects.filter(
             owner=member
-        ).order_by('is_public', '-last_modified')[:16]
+        ).order_by('is_public', '-last_modified')[:profile.visual_list_pagination]
         # Galleries
         context['galleries'] = Gallery.objects.filter(
             owner=member
-        ).order_by('is_public', '-last_modified')[:16]
+        ).order_by('is_public', '-last_modified')[:profile.gallery_list_pagination]
         # Tracks
         context['tracks'] = Track.objects.filter(
             owner=member
-        ).order_by('is_public', '-last_modified')[:16]
+        ).order_by('is_public', '-last_modified')[:profile.track_list_pagination]
         # Albums
         context['albums'] = Album.objects.filter(
             owner=member
-        ).order_by('is_public', '-last_modified')[:16]
+        ).order_by('is_public', '-last_modified')[:profile.album_list_pagination]
         # Posts
         context['posts'] = Post.objects.filter(
             owner=member
-        ).order_by('is_public', '-last_modified')[:16]
+        ).order_by('is_public', '-last_modified')[:profile.post_list_pagination]
+        # Responses
+        context['responses'] = ResponsePost.objects.filter(
+            owner=member
+        ).order_by('is_public', '-last_modified')[:profile.response_list_pagination]
+        # Stories
         # Stories
         context['stories'] = Story.objects.filter(
             owner=member
-        ).order_by('is_public', '-last_modified')[:16]
+        ).order_by('is_public', '-last_modified')[:profile.story_list_pagination]
         # Articles
         context['articles'] = Article.objects.filter(
             owner=member
-        ).order_by('is_public', '-last_modified')[:16]
+        ).order_by('is_public', '-last_modified')[:profile.article_list_pagination]
         #Documents
         context['support_documents'] = SupportDocument.objects.filter(
             owner=member
-        ).order_by('is_public', '-last_modified')[:16]
+        ).order_by('is_public', '-last_modified')[:profile.document_list_pagination]
         # Images
         context['images'] = Image.objects.filter(
             owner=member
-        ).order_by('is_public', '-last_modified')[:16]
+        ).order_by('is_public', '-last_modified')[:10]
         # Sounds
         context['sounds'] = Sound.objects.filter(
             owner=member

@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h4 class="studio-title">Your Responses</h4>
+    </div>
+  </div>
+  {% if responses.all.count > 0 %}
+    <ul class="list-group">
+      {% for post in responses %}
+        <li class="list-group-item music-list-li">
+          <p>
+            <a href="{% url 'posts:post_detail' post.slug %}">
+              {{ post.title }}
+            </a>
+            {% if not post.is_public %}
+              <span class="badge badge-secondary">Unpublished</span>
+            {% endif %}
+            {% if post.members_only %}
+              <span class="badge badge-warning">Members Only</span>
+            {% endif %}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+    <p>
+      <a href="{% url 'posts:member_responses' request.user.username %}">more ...</a>
+    </p>
+  {% else %}
+    <p>You have responded to anything yet.</p>
+  {% endif %}
+</div>

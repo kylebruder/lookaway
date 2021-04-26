@@ -7,17 +7,17 @@
     {% endif %}
   </div>
   <div class="col-sm">
-    <h6 class="posts-title">
-      <strong><a href="{% url 'posts:response_detail' response.slug %}">
-        {{ response.title }}
-      </a></strong>
-    </h6>
     <p>
       {% include './re_links.html' %}
       Posted by <a href="{% url 'members:member_profile' response.owner.username %}"><span class="index-heading-span">{{ response.owner }}</span></a> on <span class="index-heading-span">{{ response.creation_date|date:"M d, Y" }}</span>
     </p>
   </div>
 </div>
+    <h6 class="posts-title">
+      <strong><a href="{% url 'posts:response_detail' response.slug %}">
+        {{ response.title }}
+      </a></strong>
+    </h6>
 <p>
   {{ response.text|truncatechars:155 }}
 </p>
