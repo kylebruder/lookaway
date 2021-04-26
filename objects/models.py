@@ -82,6 +82,11 @@ class MetaDataMixin(models.Model):
         blank=True,
         null=True,
     )
+    order = models.DecimalField(
+        max_digits=8,
+        decimal_places=4,
+        default=0,
+    )
     tags = models.ManyToManyField(
         Tag,
         blank=True,
