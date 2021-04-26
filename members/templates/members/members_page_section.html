@@ -2,7 +2,7 @@
   <!-- Anchor for URI fragments to Offset the Nav Bar-->
   <span id="section-{{ section.pk }}" class="members-section-anchor"></span>
   <!-- Section Title -->
-  {% include './memberspagesection_detail_title_bar.html' %}
+  {% include './members_page_section_detail_title_bar.html' %}
     <!-- Section Information Message -->
   {% if section.info %}
     <div class="alert alert-primary members-alert">{{ section.info }}</div><br>
@@ -42,20 +42,6 @@
     {% with section.code.all as codes %}
       {% include 'section_codes.html' %}
     {% endwith %}
-  {% endif %}
-  {% if section.visuals.count > 0 %}
-    {% for visual in section.visuals.all %}
-      <a href="{% url 'members:visual_detail' visual.slug %}">
-       <img class="members-visual-image" src="{{ visual.image.image_file.url }}">
-      </a>
-      <br> 
-    {% endfor %}
-  {% endif %}
-  {% if section.bars.count > 0 %}
-    {% for bar in section.bars.all %}
-      {% include './bar_item.html' %}
-    {% endfor %}
-    <br>
   {% endif %}
   {% if section.links.count > 0  %}
     {% with section.links.all as links%}

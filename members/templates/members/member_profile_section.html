@@ -2,7 +2,7 @@
   <!-- Anchor for URI fragments to Offset the Nav Bar-->
   <span id="section-{{ section.pk }}" class="members-section-anchor"></span>
   <!-- Section Title -->
-  {% include './memberspagesection_detail_title_bar.html' %}
+  {% include './member_profile_section_detail_title_bar.html' %}
     <!-- Section Information Message -->
   {% if section.info %}
     <div class="alert alert-primary members-alert">{{ section.info }}</div><br>
@@ -43,14 +43,66 @@
       {% include 'section_codes.html' %}
     {% endwith %}
   {% endif %}
-  {% if section.members.count > 0 %}
-    <ul class="list-group">
-      {% for post in section.members.all %}
-        <li class="list-group-item members-list-li">
-          {% include './post_item.html' %}
-        </li>
-      {% endfor %}
-    </ul>
+  {% if section.bars.count > 0 %}
+    {% for bar in section.bars.all %}
+      {% include './bar_item.html' %}
+    {% endfor %}
+    <br>
+  {% endif %}
+  {% if section.posts.count > 0 %}
+    {% for post in section.posts.all %}
+      {% include './member_profile_section_post_item.html' %}
+    {% endfor %}
+    <br>
+  {% endif %}
+  {% if section.responseposts.count > 0 %}
+    {% for post in section.responseposts.all %}
+      {% include './member_profile_section_post_item.html' %}
+    {% endfor %}
+    <br>
+  {% endif %}
+  {% if section.articles.count > 0 %}
+    {% for article in section.articles.all %}
+      {% include './member_profile_section_article_item.html' %}
+    {% endfor %}
+    <br>
+  {% endif %}
+  {% if section.stories.count > 0 %}
+    {% for story in section.stories.all %}
+      {% include './member_profile_section_story_item.html' %}
+    {% endfor %}
+    <br>
+  {% endif %}
+  {% if section.documents.count > 0 %}
+    {% for document in section.documents.all %}
+      {% include './member_profile_section_document_item.html' %}
+    {% endfor %}
+    <br>
+  {% endif %}
+  {% if section.visuals.count > 0 %}
+    {% for visual in section.visuals.all %}
+      <a href="{% url 'members:visual_detail' visual.slug %}">
+       <img class="members-visual-image" src="{{ visual.image.image_file.url }}">
+      </a>
+      <br> 
+    {% endfor %}
+  {% endif %}
+  {% if section.galleries.count > 0 %}
+    {% for gallery in section.galleries.all %}
+      {% include './member_profile_section_gallery_item.html' %}
+    {% endfor %}
+    <br>
+  {% endif %}
+  {% if section.tracks.count > 0 %}
+    {% for track in section.tracks.all %}
+      {% include './member_profile_section_track_item.html' %}
+    {% endfor %}
+    <br>
+  {% endif %}
+  {% if section.albums.count > 0 %}
+    {% for album in section.albums.all %}
+      {% include './member_profile_section_album_item.html' %}
+    {% endfor %}
     <br>
   {% endif %}
   {% if section.links.count > 0  %}

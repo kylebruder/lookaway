@@ -182,6 +182,7 @@ class MembersPageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, 
 
     def get_form_kwargs(self):
         kwargs = super(MembersPageSectionCreateView, self).get_form_kwargs()
+        kwargs['order'] = self.request.GET.get('order')
         kwargs['user'] = self.request.user
         return kwargs
 
@@ -682,6 +683,7 @@ class MemberProfileSectionCreateView(LoginRequiredMixin, MemberCreateMixin, Crea
     def get_form_kwargs(self):
         kwargs = super(MemberProfileSectionCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
+        kwargs['order'] = self.request.GET.get('order')
         return kwargs
 
     def get_context_data(self, **kwargs):

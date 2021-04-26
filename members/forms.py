@@ -252,6 +252,12 @@ class MembersPageSectionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
+        # Populate order field
+        if 'order' in kwargs:
+            bar = kwargs.pop('order')
+            kwargs.update(initial={
+                'order': bar
+            })
         super(MembersPageSectionForm, self).__init__(*args, **kwargs)
         self.fields['images'].queryset = Image.objects.filter(
             owner=user.pk,
@@ -936,6 +942,12 @@ class MemberProfileSectionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
+        # Populate order field
+        if 'order' in kwargs:
+            bar = kwargs.pop('order')
+            kwargs.update(initial={
+                'order': bar
+            })
         super(MemberProfileSectionForm, self).__init__(*args, **kwargs)
         self.fields['images'].queryset = Image.objects.filter(
             owner=user.pk,

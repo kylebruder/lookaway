@@ -2,7 +2,7 @@
 {% block body_block %}
 {% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container members-bg">
-  <p><i>From <a href="{% url 'members:index' %}">{{ member }}</a>'s profile page.</i></p>
+  <p><i>From <a href="{% url 'members:members_page' %}">{{ profile.title }}</a>'s profile page.</i></p>
   {% include './memberspagesection.html' %}
   {% if section.is_public %}
     Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}<br>
