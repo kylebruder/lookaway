@@ -59,6 +59,7 @@ class ObjectsAppProfile(AppProfile, CryptoWalletsMixin):
     ## Path ffmpeg binary (you must have this installed)
     ffmpeg_path = models.CharField(
         max_length=64,
+        default="/usr/bin/ffmpeg"
     )
 
     ## Image dimensions in pixels
@@ -78,15 +79,15 @@ class ObjectsAppProfile(AppProfile, CryptoWalletsMixin):
         max_length=4,
     )
     ## Bitrate in Kbps
-    sound_bitrate = models.PositiveIntegerField(default=1000)
-    video_bitrate = models.PositiveIntegerField(default=1000)
+    sound_bitrate = models.PositiveIntegerField(default=320)
+    video_bitrate = models.PositiveIntegerField(default=2048)
     ## Lower value is better quality for these settings
-    sound_crf = models.PositiveIntegerField(default=250)
-    sound_qmin = models.PositiveIntegerField(default=250)
-    sound_qmax = models.PositiveIntegerField(default=250)
-    video_crf = models.PositiveIntegerField(default=250)
-    video_qmin = models.PositiveIntegerField(default=250)
-    video_qmax = models.PositiveIntegerField(default=250)
+    sound_crf = models.PositiveIntegerField(default=10)
+    sound_qmin = models.PositiveIntegerField(default=0)
+    sound_qmax = models.PositiveIntegerField(default=51)
+    video_crf = models.PositiveIntegerField(default=10)
+    video_qmin = models.PositiveIntegerField(default=0)
+    video_qmax = models.PositiveIntegerField(default=51)
 
     class Meta:
         verbose_name = "App Profile"

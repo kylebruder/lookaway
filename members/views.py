@@ -152,12 +152,19 @@ class MembersPageView(TemplateView, AppPageMixin):
         # SEO stuff
         context['meta_title'] = profile.title
         context['meta_desc'] = profile.meta_description
+
         # Sections
-        context['sections'] = MembersPageSection.objects.filter(
+        sections = MembersPageSection.objects.filter(
             is_enabled = True,
         ).order_by(
             'order',
         )
+        if self.request.user.is_authenticated:
+            context['sections'] = sections
+        else:
+            context['sections'] = sections.exclude(
+                members_only=True
+            )
         members = Member.objects.filter(
             groups__name="Members",
         ).exclude(

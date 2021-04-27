@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body_block %}
+<div class="container-fluid objects-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
+  <!-- Heading -->
+  {% include './objects_page_header.html' %}
+  <br>
+  {% if new_posts.count < 1 and new_responses.count <  1 and new_articles.count < 1 and new_stories.count < 1 and new_documents.count < 1 and new_visuals.count < 1 and new_galleries.count < 1 and new_tracks.count < 1 and new_albums.count < 1 %}
+    <span class="objects-page-span"><i>Coming Soon...</i></span>
+  {% else %}
+    {% if sections %}
+      <div class="row">
+        <div class="col-sm">
+          {% for section in sections %}
+            {% include './objectspagesection.html' %}
+          {% endfor %}
+          {% include './objects_page_links.html' %}
+        </div>
+        <div class="col-sm">
+          {% if tags.all.count > 0 %}
+            <div class="objects-section">
+              {% include './objects_page_tags.html' %}
+            </div>
+          {% endif %}
+          {% include './objects_page_items.html' %}
+        </div>
+      </div>
+    {% else %}
+      <!-- List of new and top items -->
+          {% if tags.all.count > 0 %}
+            <div class="objects-section">
+              {% include './objects_page_tags.html' %}
+            </div>
+          {% endif %}
+      {% include './objects_page_items.html' %}
+      {% include './objects_page_links.html' %}
+    {% endif %}
+    <br>
+  {% endif %}
+</div>
+{% endblock %}

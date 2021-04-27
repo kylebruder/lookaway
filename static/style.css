@@ -18,6 +18,7 @@
 @import "css/music.css";
 @import "css/art.css";
 @import "css/crypto.css";
+@import "css/objects.css";
 
 table, th, td {
   padding: 5px;

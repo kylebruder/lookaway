@@ -12,21 +12,250 @@ from django.template import loader
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone, text
 from django.views.decorators.http import require_POST
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from documentation.models import Article, Story, SupportDocument
+from lookaway.mixins import AppPageMixin
 from lookaway.settings import BASE_DIR
 from art.models import Gallery, Visual
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from music.models import Album, Track
 from posts.models import Post
-from .forms import (ImageCreateForm, ImageUpdateForm, SoundCreateForm,
-    SoundUpdateForm, VideoCreateForm, VideoUpdateForm, CodeForm, LinkCreateForm, 
-    LinkForm, TagForm)
-from .models import Tag, Image, Sound, Video, Code, Link
+from .utils import Text
+from .forms import (ObjectsAppProfileForm, ObjectsPageSectionForm, 
+    ObjectsAppTranscoderSettingsForm, ImageCreateForm, ImageUpdateForm, 
+    SoundCreateForm, SoundUpdateForm, VideoCreateForm, VideoUpdateForm, 
+    CodeForm, LinkCreateForm, LinkForm, TagForm)
+from .models import ObjectsAppProfile, ObjectsPageSection, Tag, Image, Sound, Video, Code, Link
 # Create your views here.
+
+class ObjectsAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+
+    permission_required = 'objects.change_objectsappprofile'
+    model = ObjectsAppProfile
+    form_class = ObjectsAppProfileForm
+
+    def get_form_kwargs(self):
+        kwargs = super(ObjectsAppProfileUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        # SEO stuff
+        context['meta_title'] = profile.title
+        context['meta_desc'] = "Update \"{}\" profile".format(profile.title)
+        context['sections'] = ObjectsPageSection.objects.all().order_by(
+            'order',
+        )
+        return context
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('objects:objects_page')
+
+class ObjectsAppTranscoderSettingsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, MemberUpdateMixin):
+
+    permission_required = 'objects.change_objectsappprofile'
+    model = ObjectsAppProfile
+    form_class = ObjectsAppTranscoderSettingsForm
+    template_name = 'objects/objects_app_transcoder_settings_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        # SEO stuff
+        context['meta_title'] = profile.title
+        context['meta_desc'] = "Update \"{}\" transcoder settings".format(profile.title)
+        return context
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse('objects:objects_page')
+
+class ObjectsPageView(TemplateView, AppPageMixin):
+
+    template_name = 'objects/objects_page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        # SEO stuff
+        context['meta_title'] = profile.title
+        context['meta_desc'] = profile.meta_description
+        # Sections
+        sections = ObjectsPageSection.objects.filter(
+            is_enabled = True,
+        ).order_by(
+            'order',
+        )
+        if self.request.user.is_authenticated:
+            context['sections'] = sections
+        else:
+            context['sections'] = sections.exclude(
+                members_only=True
+            )
+        # Images
+        context['new_images'], context['top_images'] = self.get_sets(
+            Image,
+            profile.n_images,
+            show_new=profile.show_images,
+            show_top=profile.show_images,
+        )
+        # Sounds
+        context['new_sounds'], context['top_sounds'] = self.get_sets(
+            Sound,
+            profile.n_sounds,
+            show_new=profile.show_sounds,
+            show_top=profile.show_sounds,
+        )
+        # Videos
+        context['new_videos'], context['top_videos'] = self.get_sets(
+            Video,
+            profile.n_videos,
+            show_new=profile.show_videos,
+            show_top=profile.show_videos,
+        )
+        # Code
+        context['new_codes'], context['top_codes'] = self.get_sets(
+            Code,
+            profile.n_codes,
+            show_new=profile.show_codes,
+            show_top=profile.show_codes,
+        )
+        # Links
+        context['new_links'], context['top_links'] = self.get_sets(
+            Link,
+            profile.n_links,
+            show_new=profile.show_links,
+            show_top=profile.show_links,
+        )
+        # Create Objects button
+        if self.request.user.has_perm('objects.add_objects'):
+            context['show_member_invite_button'] = True
+            context['create_member_invite_url'] = reverse(
+                'invite',
+            )
+        # Update AppProfile button
+        if self.request.user.has_perm('objects.change_objectsappprofile'):
+            context['show_edit_profile_button'] = True
+            context['edit_profile_url'] = reverse(
+                'objects:objects_app_profile_update',
+                kwargs={'pk': 1},
+            )
+        return context
+
+class ObjectsPageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
+
+    permission_required = 'objects.add_objectspagesection'
+    model = ObjectsPageSection
+    form_class = ObjectsPageSectionForm
+
+    def get_form_kwargs(self):
+        kwargs = super(ObjectsPageSectionCreateView, self).get_form_kwargs()
+        kwargs['order'] = self.request.GET.get('order')
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "New Page Section"
+        context['meta_desc'] = "Add a section to the {} landing page.".format(profile.title)
+        context['profile'] = profile
+        return context
+
+    def form_valid(self, form):
+        member = Member.objects.get(pk=self.request.user.pk)
+        form.instance.creation_date = timezone.now()
+        form.instance.owner = member
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse(
+                'objects:objects_page_section_detail',
+                kwargs={'pk': self.object.pk},
+            )
+
+class ObjectsPageSectionDetailView(LoginRequiredMixin, DetailView):
+
+    model = ObjectsPageSection
+    context_object_name = 'section'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = profile.title
+        return context
+
+class ObjectsPageSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
+
+    permission_required = 'objects.change_objectspagesection'
+    model = ObjectsPageSection
+    form_class = ObjectsPageSectionForm
+
+    def get_form_kwargs(self):
+        kwargs = super(ObjectsPageSectionUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "Update \"{}\"".format(self.object.title)
+        context['meta_desc'] = "Make changes to this landing page section.".format(self.object.title)
+        return context
+
+    def form_valid(self, form):
+        # Update last modified date for the Section
+        form.instance.last_modified = timezone.now()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        else:
+            return reverse(
+                'objects:objects_page_section_detail',
+                kwargs={'pk': self.object.pk},
+            )
+
+class ObjectsPageSectionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+
+    permission_required = 'objects.delete_objectspagesection'
+    model = ObjectsPageSection
+    context_object_name = "section"
+
+    def get_success_url(self):
+        return reverse(
+            'objects:objects_page',
+        )
 
 # Image Views
 class ImageCreateView(LoginRequiredMixin, CreateView):

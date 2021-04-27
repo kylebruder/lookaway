@@ -2,7 +2,7 @@
 {% block body_block %}
 <div class="container sound-bg">
   {% if sound.is_public or sound.owner.pk == request.user.pk %}
-    {% include './sound_detail_button_bar.html %}
+    {% include './sound_detail_button_bar.html' %}
     <audio controls="controls">
       {% include 'audio_mime_types.html' %}
     </audio>
