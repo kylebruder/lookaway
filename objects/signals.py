@@ -118,7 +118,6 @@ def handle_sound_upload(sender, instance, created, *args, **kwargs):
         qmax = str(profile.sound_qmax)
         if profile.sound_format == "MP3":
             snd_ext = ".mp3"
-            print("Yes, detected MP4")
         else:
             snd_ext = ".ogg"
 

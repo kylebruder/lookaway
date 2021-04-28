@@ -61,7 +61,10 @@ class ObjectsAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, U
         if next_url:
             return next_url
         else:
-            return reverse('objects:objects_page')
+            return reverse(
+                'objects:objects_page_section_detail',
+                kwargs={'pk': self.object.pk},
+            )
 
 class ObjectsAppTranscoderSettingsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, MemberUpdateMixin):
 

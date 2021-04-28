@@ -18,7 +18,7 @@ from documentation.models import Article, Story, SupportDocument
 from art.models import Gallery, Visual
 from home.models import HomeAppProfile
 from music.models import Album, Track
-from objects.models import Image, Sound, Video, Code, Link
+from objects.models import ObjectsAppProfile, Image, Sound, Video, Code, Link
 from posts.models import Post, ResponsePost
 from .forms import MemberForm, MembersAppProfileForm, MembersPageSectionForm, ProfileForm, ProfileSettingsForm, UserRegistrationForm, MemberProfileSectionForm, InviteLinkCreateForm
 from .mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
@@ -34,6 +34,7 @@ class StudioView(LoginRequiredMixin, TemplateView):
         member = Member.objects.get(pk=self.request.user.pk)
         # App profile
         profile, created = Profile.objects.get_or_create(member=member)
+        objects_profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         # SEO stuff
         context['meta_title'] = "{}'s Digital Studio".format(profile.member)
@@ -80,23 +81,23 @@ class StudioView(LoginRequiredMixin, TemplateView):
         # Images
         context['images'] = Image.objects.filter(
             owner=member
-        ).order_by('is_public', '-last_modified')[:10]
+        ).order_by('is_public', '-last_modified')[:objects_profile.n_images]
         # Sounds
         context['sounds'] = Sound.objects.filter(
             owner=member
-        ).order_by('is_public', '-last_modified')[:10]
+        ).order_by('is_public', '-last_modified')[:objects_profile.n_sounds]
         # Videos
         context['videos'] = Video.objects.filter(
             owner=member
-        ).order_by('is_public', '-last_modified')[:10]
+        ).order_by('is_public', '-last_modified')[:objects_profile.n_videos]
         # Code
         context['codes'] = Code.objects.filter(
             owner=member
-        ).order_by('is_public', '-last_modified')[:10]
+        ).order_by('is_public', '-last_modified')[:objects_profile.n_codes]
         # Links
         context['links'] = Link.objects.filter(
             owner=member
-        ).order_by( '-last_modified')[:10]
+        ).order_by( '-last_modified')[:objects_profile.n_links]
         # Check media storage
         has_free, free, used = member.check_free_media_capacity(
             directory='media/member_' + str(member.pk),
