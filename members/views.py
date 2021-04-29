@@ -25,6 +25,7 @@ from .mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from .models import Member, MembersAppProfile, MembersPageSection, Profile, InviteLink, MemberProfileSection
 # Create your views here.
 
+# Digital content workflow view
 class StudioView(LoginRequiredMixin, TemplateView):
 
     template_name = 'members/studio.html'
@@ -41,63 +42,77 @@ class StudioView(LoginRequiredMixin, TemplateView):
         context['meta_desc'] = "Manage your content"
 
         context['member'] = member
-        # Visuals
-        context['visuals'] = Visual.objects.filter(
-            owner=member
-        ).order_by('is_public', '-last_modified')[:profile.visual_list_pagination]
-        # Galleries
-        context['galleries'] = Gallery.objects.filter(
-            owner=member
-        ).order_by('is_public', '-last_modified')[:profile.gallery_list_pagination]
-        # Tracks
-        context['tracks'] = Track.objects.filter(
-            owner=member
-        ).order_by('is_public', '-last_modified')[:profile.track_list_pagination]
-        # Albums
-        context['albums'] = Album.objects.filter(
-            owner=member
-        ).order_by('is_public', '-last_modified')[:profile.album_list_pagination]
-        # Posts
-        context['posts'] = Post.objects.filter(
-            owner=member
-        ).order_by('is_public', '-last_modified')[:profile.post_list_pagination]
-        # Responses
-        context['responses'] = ResponsePost.objects.filter(
-            owner=member
-        ).order_by('is_public', '-last_modified')[:profile.response_list_pagination]
-        # Stories
-        # Stories
-        context['stories'] = Story.objects.filter(
-            owner=member
-        ).order_by('is_public', '-last_modified')[:profile.story_list_pagination]
-        # Articles
-        context['articles'] = Article.objects.filter(
-            owner=member
-        ).order_by('is_public', '-last_modified')[:profile.article_list_pagination]
-        #Documents
-        context['support_documents'] = SupportDocument.objects.filter(
-            owner=member
-        ).order_by('is_public', '-last_modified')[:profile.document_list_pagination]
-        # Images
-        context['images'] = Image.objects.filter(
-            owner=member
-        ).order_by('is_public', '-last_modified')[:objects_profile.n_images]
-        # Sounds
-        context['sounds'] = Sound.objects.filter(
-            owner=member
-        ).order_by('is_public', '-last_modified')[:objects_profile.n_sounds]
-        # Videos
-        context['videos'] = Video.objects.filter(
-            owner=member
-        ).order_by('is_public', '-last_modified')[:objects_profile.n_videos]
-        # Code
-        context['codes'] = Code.objects.filter(
-            owner=member
-        ).order_by('is_public', '-last_modified')[:objects_profile.n_codes]
-        # Links
-        context['links'] = Link.objects.filter(
-            owner=member
-        ).order_by( '-last_modified')[:objects_profile.n_links]
+        # Members
+        if member.groups.filter(name="Members").exists():
+            context['show_posts_buttons'] = True
+            ## Posts
+            context['posts'] = Post.objects.filter(
+                owner=member
+            ).order_by('is_public', '-last_modified')[:profile.post_list_pagination]
+            ## Responses
+            context['responses'] = ResponsePost.objects.filter(
+                owner=member
+            ).order_by('is_public', '-last_modified')[:profile.response_list_pagination]
+        # Contributors
+        if member.groups.filter(name="Contributors").exists():
+            context['show_objects_buttons'] = True
+            ## Images
+            context['images'] = Image.objects.filter(
+                owner=member,
+            ).order_by('-last_modified')[:objects_profile.n_images]
+            ## Sounds
+            context['sounds'] = Sound.objects.filter(
+                owner=member,
+            ).order_by('-last_modified')[:objects_profile.n_sounds]
+            ## Videos
+            context['videos'] = Video.objects.filter(
+                owner=member,
+            ).order_by('-last_modified')[:objects_profile.n_videos]
+            ## Code
+            context['codes'] = Code.objects.filter(
+                owner=member,
+            ).order_by('-last_modified')[:objects_profile.n_codes]
+            ## Links
+            context['links'] = Link.objects.filter(
+                owner=member,
+            ).order_by( '-last_modified')[:objects_profile.n_links]
+        # Writers
+        if member.groups.filter(name="Writers").exists():
+            ## Articles
+            context['show_documentation_buttons'] = True
+            context['articles'] = Article.objects.filter(
+                owner=member
+            ).order_by('is_public', '-last_modified')[:profile.article_list_pagination]
+            ## Stories
+            context['stories'] = Story.objects.filter(
+                owner=member
+            ).order_by('is_public', '-last_modified')[:profile.story_list_pagination]
+            ## Documents
+            context['support_documents'] = SupportDocument.objects.filter(
+                owner=member
+            ).order_by('is_public', '-last_modified')[:profile.document_list_pagination]
+        # Artists
+        if member.groups.filter(name="Artists").exists():
+            context['show_art_buttons'] = True
+            ## Visuals
+            context['visuals'] = Visual.objects.filter(
+                owner=member
+            ).order_by('is_public', '-last_modified')[:profile.visual_list_pagination]
+            ## Galleries
+            context['galleries'] = Gallery.objects.filter(
+                owner=member
+            ).order_by('is_public', '-last_modified')[:profile.gallery_list_pagination]
+        # Musicians
+        if member.groups.filter(name="Musicians").exists():
+            context['show_music_buttons'] = True
+            ## Tracks
+            context['tracks'] = Track.objects.filter(
+                owner=member
+            ).order_by('is_public', '-last_modified')[:profile.track_list_pagination]
+            ## Albums
+            context['albums'] = Album.objects.filter(
+                owner=member
+            ).order_by('is_public', '-last_modified')[:profile.album_list_pagination]
         # Check media storage
         has_free, free, used = member.check_free_media_capacity(
             directory='media/member_' + str(member.pk),
@@ -111,6 +126,7 @@ class StudioView(LoginRequiredMixin, TemplateView):
             context['media_percent_used'] = 100
         return context
 
+# Members app profile form
 class MembersAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
     permission_required = 'members.change_membersappprofile'
@@ -133,6 +149,20 @@ class MembersAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, U
         context['sections'] = MembersPageSection.objects.all().order_by(
             'order',
         )
+        # Add members page section button
+        if self.request.user.has_perm('members.add_memberspagesection'):
+            context['show_members_page_section_add_button'] = True
+            context['members_page_section_add_button'] = {
+                'url': reverse(
+                    'members:members_page_section_create',
+                ),
+            }
+        # Edit members page section button
+        if self.request.user.has_perm('members.change_memberspagesection'):
+            context['show_members_page_section_edit_button'] = True
+        # Delete members page section button
+        if self.request.user.has_perm('members.delete_memberspagesection'):
+            context['show_members_page_section_delete_button'] = True
         return context
 
     def get_success_url(self):
@@ -142,6 +172,7 @@ class MembersAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, U
         else:
             return reverse('members:members_page')
 
+# Members page
 class MembersPageView(TemplateView, AppPageMixin):
 
     template_name = 'members/members_page.html'
@@ -181,9 +212,10 @@ class MembersPageView(TemplateView, AppPageMixin):
         # Create Members button
         if self.request.user.has_perm('members.add_members'):
             context['show_member_invite_button'] = True
-            context['create_member_invite_url'] = reverse(
-                'invite',
-            )
+            context['invite_add_button'] = {
+                'url': reverse('invite'),
+                'text': "+Invite",
+            }
         # Update AppProfile button
         if self.request.user.has_perm('members.change_membersappprofile'):
             context['show_edit_profile_button'] = True
@@ -191,8 +223,23 @@ class MembersPageView(TemplateView, AppPageMixin):
                 'members:members_app_profile_update',
                 kwargs={'pk': 1},
             )
+        # Add members page section button
+        if self.request.user.has_perm('members.add_memberspagesection'):
+            context['show_members_page_section_add_button'] = True
+            context['members_page_section_add_button'] = {
+                'url': reverse(
+                    'members:members_page_section_create',
+                ),
+            }
+        # Edit members page section button
+        if self.request.user.has_perm('members.change_memberspagesection'):
+            context['show_members_page_section_edit_button'] = True
+        # Delete members page section button
+        if self.request.user.has_perm('members.delete_memberspagesection'):
+            context['show_members_page_section_delete_button'] = True
         return context
 
+# Add members page section form
 class MembersPageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
     permission_required = 'members.add_memberspagesection'
@@ -231,6 +278,7 @@ class MembersPageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, 
                 kwargs={'pk': self.object.pk},
             )
 
+# Member page section detail
 class MembersPageSectionDetailView(LoginRequiredMixin, DetailView):
 
     model = MembersPageSection
@@ -244,6 +292,7 @@ class MembersPageSectionDetailView(LoginRequiredMixin, DetailView):
         context['meta_title'] = profile.title
         return context
 
+# Edit member page section form
 class MembersPageSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
     permission_required = 'members.change_memberspagesection'
@@ -279,6 +328,7 @@ class MembersPageSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, 
                 kwargs={'pk': self.object.pk},
             )
 
+# Delete a members page section
 class MembersPageSectionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
     permission_required = 'members.delete_memberspagesection'
@@ -290,6 +340,7 @@ class MembersPageSectionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, 
             'members:members_page',
         )
 
+# A list of all members
 class MemberListView(ListView):
 
     model = Member
@@ -315,10 +366,13 @@ class MemberListView(ListView):
         )
         # Create button
         if self.request.user.has_perm('members.add_invitelink'):
-            context['show_create_button'] = True
-            context['create_button_url'] = reverse(
-                'invite',
-            )
+            context['show_invite_add_button'] = True
+            context['invite_add_button'] = {
+                'url': reverse(
+                    'invite',
+                ),
+                'text': "+Invite",
+            }
         return context
 
 class ContributorListView(ListView):
@@ -347,10 +401,13 @@ class ContributorListView(ListView):
         )
         # Create button
         if self.request.user.has_perm('members.add_invitelink'):
-            context['show_create_button'] = True
-            context['create_button_url'] = reverse(
-                'invite',
-            )
+            context['show_invite_add_button'] = True
+            context['invite_add_button'] = {
+                'url': reverse(
+                    'invite',
+                ),
+                'text': "+Invite",
+            }
         return context
 
 class ArtistListView(ListView):
@@ -379,10 +436,13 @@ class ArtistListView(ListView):
         )
         # Create button
         if self.request.user.has_perm('members.add_invitelink'):
-            context['show_create_button'] = True
-            context['create_button_url'] = reverse(
-                'invite',
-            )
+            context['show_invite_add_button'] = True
+            context['invite_add_button'] = {
+                'url': reverse(
+                    'invite',
+                ),
+                'text': "+Invite",
+            }
         return context
 
 class MusicianListView(ListView):
@@ -411,10 +471,13 @@ class MusicianListView(ListView):
         )
         # Create button
         if self.request.user.has_perm('members.add_invitelink'):
-            context['show_create_button'] = True
-            context['create_button_url'] = reverse(
-                'invite',
-            )
+            context['show_invite_add_button'] = True
+            context['invite_add_button'] = {
+                'url': reverse(
+                    'invite',
+                ),
+                'text': "+Invite",
+            }
         return context
 
 class WriterListView(ListView):
@@ -443,10 +506,13 @@ class WriterListView(ListView):
         )
         # Create button
         if self.request.user.has_perm('members.add_invitelink'):
-            context['show_create_button'] = True
-            context['create_button_url'] = reverse(
-                'invite',
-            )
+            context['show_invite_add_button'] = True
+            context['invite_add_button'] = {
+                'url': reverse(
+                    'invite',
+                ),
+                'text': "+Invite",
+            }
         return context
 
 class StaffListView(ListView):
@@ -475,10 +541,13 @@ class StaffListView(ListView):
         )
         # Create button
         if self.request.user.has_perm('members.add_invitelink'):
-            context['show_create_button'] = True
-            context['create_button_url'] = reverse(
-                'invite',
-            )
+            context['show_invite_add_button'] = True
+            context['invite_add_button'] = {
+                'url': reverse(
+                    'invite',
+                ),
+                'text': "+Invite",
+            }
         return context
 
 class MemberProfileView(DetailView, AppPageMixin):
@@ -582,13 +651,36 @@ class MemberProfileView(DetailView, AppPageMixin):
         # Update profile buttons
         if self.request.user == self.object.member:
             context['show_profile_edit_button'] = True
-            context['profile_edit_url'] = reverse(
-                'members:member_profile_update',
-                kwargs={'slug': self.object.member.username},
-            )
+            context['profile_edit_button'] = {
+                'url': reverse(
+                    'members:member_profile_update',
+                    kwargs={'slug': self.object.member.username},
+                ),
+                'text': "Edit Profile",
+            }
         if self.request.user.has_perm('members.add_invite'):
             context['show_invite_add_button'] = True
-
+            context['invite_add_button'] = {
+                'url': reverse(
+                    'invite',
+                ),
+                'text': "+Invite",
+            }
+        # Add member profile section button
+        if self.request.user.has_perm('members.add_memberprofilesection'):
+            context['show_member_profile_section_add_button'] = True
+            context['member_profile_section_add_button'] = {
+                'url': reverse(
+                    'members:member_profile_section_create',
+                ),
+            }
+        # Edit member profile section button
+        if self.request.user.has_perm('members.change_memberprofilesection'):
+            context['show_member_profile_section_edit_button'] = True
+        # Delete member profile section button
+        if self.request.user.has_perm('members.delete_memberprofilesection'):
+            context['show_member_profile_section_delete_button'] = True
+        return context
         # Turning these off for now
         ## Images
         #context['images'] = Image.objects.filter(
@@ -642,6 +734,50 @@ class MemberProfileUpdateView(LoginRequiredMixin, UpdateView):
         ).order_by(
             'order',
         )
+        # Profile buttons
+        ## Update personally identifiable info button
+        context['show_pid_edit_button'] = True
+        context['pid_edit_button'] = {
+            'url': reverse(
+                'email_change',
+                kwargs={'pk':  profile.pk},
+            ),
+            'text': "Update Personally Identifiable Information",
+        }
+        ## Update password button
+        context['show_password_edit_button'] = True
+        context['password_edit_button'] = {
+            'url': reverse(
+                'password_change',
+            ),
+            'text': "Update Password",
+        }
+        ## Member profile settings
+        context['show_member_profile_settings_edit_button'] = True
+        context['member_profile_settings_edit_button'] = {
+            'url': reverse(
+                'members:member_profile_settings_update',
+                kwargs = {'pk': profile.pk}
+            ),
+            'text': "Update Settings",
+        }
+        ## Bitcoin wallet list button
+        context['show_bitcoin_button'] = True
+        context['show_litecoin_button'] = True
+        # Add members page section button
+        if self.request.user.has_perm('members.add_memberprofilesection'):
+            context['show_member_profile_section_add_button'] = True
+            context['member_profile_section_add_button'] = {
+                'url': reverse(
+                    'members:member_profile_section_create',
+                ),
+            }
+        # Edit members page section button
+        if self.request.user.has_perm('members.change_memberprofilesection'):
+            context['show_member_profile_section_edit_button'] = True
+        # Delete members page section button
+        if self.request.user.has_perm('members.delete_memberprofilesection'):
+            context['show_member_profile_section_delete_button'] = True
         return context
 
     def form_valid(self, form):

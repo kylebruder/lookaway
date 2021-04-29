@@ -21,11 +21,19 @@
       <div class="col-">
         <div class="container">
           <p>
-            {% if show_edit_site_profile_button %} 
-              {% include './site_profile_edit_button.html' %}
+            {% if show_site_profile_edit_button %} 
+              {% with site_profile_edit_button as button %}
+                {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+                  {% include 'edit_button.html' %}
+                {% endwith %}
+              {% endwith %}
             {% endif %}
-            {% if show_edit_profile_button %} 
-              {% include './homeappprofile_edit_button.html' %}
+            {% if show_profile_edit_button %} 
+              {% with profile_edit_button as button %}
+                {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+                  {% include 'edit_button.html' %}
+                {% endwith %}
+              {% endwith %}
             {% endif %}
           </p>
         </div>

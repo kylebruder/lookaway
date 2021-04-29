@@ -1,3 +1,4 @@
+from django.template.defaulttags import register
 from lookaway.settings import INSTALLED_APPS as APPS
 from home.models import HomeAppProfile
 '''
@@ -75,6 +76,14 @@ def nav_buttons(request):
     if profile.nav_members_image:
         buttons['nav_members_image'] = profile.nav_members_image.image_file.url
     return buttons
+
+# Buttons
+
+# Thanks culebrón! (So obvious now, *facepalm*)
+# https://stackoverflow.com/questions/8000022/django-template-how-to-look-up-a-dictionary-value-with-a-variable
+@register.filter
+def lookup(dictionary, key):
+    return dictionary.get(key)
 
 # Footer
 def lookaway_footer(request):

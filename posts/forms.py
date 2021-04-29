@@ -375,7 +375,6 @@ class PostForm(forms.ModelForm):
             'tags',
             'bitcoin_wallet',
             'litecoin_wallet',
-            're',
             'members_only',
         )
         help_texts = {

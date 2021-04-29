@@ -537,7 +537,6 @@ class HomePageSectionForm(forms.ModelForm):
             the home page. \
             Lower values will appear first.""",
         max_digits=8,
-        initial=0,
     )
     hide_title = forms.BooleanField(
         help_text ="""Choose this option if you do not want \
@@ -596,7 +595,7 @@ class HomePageSectionForm(forms.ModelForm):
         if 'order' in kwargs:
             order = kwargs.pop('order')
             kwargs.update(initial={
-                'order': order
+                'order': order,
             })
         super(HomePageSectionForm, self).__init__(*args, **kwargs)
         self.fields['images'].queryset = Image.objects.filter(

@@ -18,6 +18,7 @@ from .models import HomeAppProfile, HomePageSection
 
 # Create your views here.
 
+# Big form with global site settings
 class SiteProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
     permission_required = 'home.change_homeappprofile'
@@ -49,6 +50,8 @@ class SiteProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
             return next_url
         else:
             return reverse('home:index')
+
+# Landing page form
 class HomeAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
     permission_required = 'home.change_homeappprofile'
@@ -71,6 +74,30 @@ class HomeAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Upda
         context['sections'] = HomePageSection.objects.all().order_by(
             'order',
         )
+        # Add home page section button
+        if self.request.user.has_perm('home.add_homepagesection'):
+            context['show_home_page_section_add_button'] = True
+            context['home_page_section_add_button'] = {
+                'url': reverse(
+                    'home:home_page_section_create',
+                ),
+            }
+        # Edit home page section button
+        if self.request.user.has_perm('home.change_homepagesection'):
+            context['show_home_page_section_edit_button'] = True
+        # Delete home page section button
+        if self.request.user.has_perm('home.delete_homepagesection'):
+            context['show_home_page_section_delete_button'] = True
+        # Edit home app settings button
+        if self.request.user.has_perm('home.change_homeappprofile'):
+            context['show_home_app_profile_settings_edit_button'] = True
+            context['home_app_profile_settings_edit_button'] = {
+                'url': reverse(
+                    'home:home_app_profile_settings_update',
+                    kwargs={'pk': 1},
+                ),
+                'text': "Edit Settings",
+            }
         return context
 
     def get_success_url(self):
@@ -80,6 +107,7 @@ class HomeAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Upda
         else:
             return reverse('home:index')
 
+# Big form with landing page settings
 class HomeAppProfileSettingsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, MemberUpdateMixin):
 
     permission_required = 'home.change_homeappprofile'
@@ -102,8 +130,9 @@ class HomeAppProfileSettingsUpdateView(LoginRequiredMixin, PermissionRequiredMix
         if next_url:
             return next_url
         else:
-            return reverse('home:home_page')
+            return reverse('home:index')
 
+# The main landing home page
 class IndexView(TemplateView, AppPageMixin):
 
     template_name = 'home/home_page.html'
@@ -199,16 +228,38 @@ class IndexView(TemplateView, AppPageMixin):
         )
         # Update AppProfile button
         if self.request.user.has_perm('home.change_homeappprofile'):
-            context['show_edit_site_profile_button'] = True
-            context['edit_site_profile_url'] = reverse(
-                'home:site_profile_update',
-                kwargs={'pk': 1},
-            )
-            context['show_edit_profile_button'] = True
-            context['edit_profile_url'] = reverse(
-                'home:home_app_profile_update',
-                kwargs={'pk': 1},
-            )
+            context['show_site_profile_edit_button'] = True
+            context['site_profile_edit_button'] = {
+                'url': reverse(
+                    'home:site_profile_update',
+                    kwargs={'pk': 1},
+                ),
+                'parameters': "",
+                'text': "Site Settings",
+            }
+            context['show_profile_edit_button'] = True
+            context['profile_edit_button'] = {
+                'url': reverse(
+                    'home:home_app_profile_update',
+                    kwargs={'pk': 1},
+                ),
+                'parameters': "",
+                'text': "Edit Profile",
+            }
+        # Add home page section button
+        if self.request.user.has_perm('home.add_homepagesection'):
+            context['show_home_page_section_add_button'] = True
+            context['home_page_section_add_button'] = {
+                'url': reverse(
+                    'home:home_page_section_create',
+                ),
+            }
+        # Edit home page section button
+        if self.request.user.has_perm('home.change_homepagesection'):
+            context['show_home_page_section_edit_button'] = True
+        # Delete home page section button
+        if self.request.user.has_perm('home.delete_homepagesection'):
+            context['show_home_page_section_delete_button'] = True
         return context
 
 class HomePageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):

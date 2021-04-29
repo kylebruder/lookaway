@@ -46,7 +46,9 @@
       {% endif %}
       {% for field in form %}
         {% if field != form.image and field != form.images and field != form.logo and field != form.banner and field != form.bg_image and field != form.visuals and field != form.cover %}
-          {% include 'form_field.html' %}
+          {% if not field.field.choices.queryset.count < 1 %}
+            {% include 'form_field.html' %}
+          {% endif %}
         {% endif %}
       {% endfor %}
     </div>

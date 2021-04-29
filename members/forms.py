@@ -498,6 +498,7 @@ class ProfileForm(forms.ModelForm):
             'image',
             'display_name',
             'meta_description',
+            'show_desc',
             'text',
             'banner',
             'bg_image',

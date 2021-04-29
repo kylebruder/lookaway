@@ -52,6 +52,7 @@ class Section(MetaDataMixin):
     order = models.DecimalField(
         max_digits=8,
         decimal_places=4,
+        default=0,
     )
     members_only = models.BooleanField(default=False)
     hide_title = models.BooleanField(default=False)

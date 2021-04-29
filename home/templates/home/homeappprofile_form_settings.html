@@ -1,13 +1,19 @@
-<div class="form-field">
-  <div class="row">
-    <div class="col-sm">
-      <h4 class="form-label">Profile Settings</h4>
-      <p>Change what appears on your homepage</p>
-    </div>
-    <div class="col-">
-      <div class="container">
-        {% include './homeappprofile_settings_edit_button.html' %}
+{% if show_home_app_profile_settings_edit_button %}
+  <div class="form-field">
+    <div class="row">
+      <div class="col-sm">
+        <h4 class="form-label">Profile Settings</h4>
+        <p>Change what appears on your homepage</p>
+      </div>
+      <div class="col-">
+        <div class="container">
+          {% with home_app_profile_settings_edit_button as button %}
+            {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+              {% include 'edit_button.html' %}
+            {% endwith %}
+          {% endwith %}
+        </div>
       </div>
     </div>
   </div>
-</div>
+{% endif %}
