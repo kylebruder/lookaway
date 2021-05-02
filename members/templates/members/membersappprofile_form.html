@@ -2,42 +2,9 @@
 {% block header_block %}
 {% include './members_form_header.html' %}
 <br>
-{% if sections %}
-  <div class="form-field">
-    <div class="row">
-      <div class="col-sm">
-        <h4 class="form-label">Landing Page Sections</h4>
-      </div>
-      <div class="col-">
-        <div class="container">
-         <a class="btn btn-sm btn-primary" href="{% url 'members:members_page_section_create' %}?next={{ request.path }}">+Section</a> 
-        </div>
-      </div>
-    </div>
-    <table class="">
-      {% for section in sections %}
-        <tr>
-          <td>
-            <a class="form-label" href="{% url 'members:members_page_section_detail' section.pk %}">{{ section }}</a>
-          </td>
-          <td>
-            {% if section.is_enabled %}
-              <span class="badge badge-success">Enabled</span>
-            {% else %}
-              <span class="badge badge-secondary">Disabled</span>
-            {% endif %}
-          </td>
-          <td>
-            <a href="{% url 'members:members_page_section_update' section.pk %}"><button class="btn btn-sm btn-warning edit-button">&#9998;</button></a>
-            <a href="{% url 'members:members_page_section_delete' section.pk %}"><button class="btn btn-sm btn-danger delete-button">X</button></a>
-          </td>
-        </tr>
-      {% endfor %}
-    </table>  
+<div class="row">
+  <div class="col-sm">
+    {% include './members_page_profile_form_sections.html' %}
   </div>
-{% else %}
-  <div class="container-fluid">
-    <a class="btn btn-sm btn-primary" href="{% url 'members:members_page_section_create' %}?next={{ request.path }}">+Section</a> 
-  </div>
-{% endif %}
+</div>
 {% endblock %}

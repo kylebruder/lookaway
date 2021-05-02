@@ -47,6 +47,21 @@ class PostsAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Upd
         context['sections'] = PostsPageSection.objects.all().order_by(
             'order',
         )
+        # Add posts page section button
+        if self.request.user.has_perm('posts.add_postspagesection'):
+            context['show_posts_page_section_add_button'] = True
+            context['posts_page_section_add_button'] = { 
+                'url': reverse(
+                    'posts:posts_page_section_create',
+                ),
+            }
+        # Edit posts page section button
+        if self.request.user.has_perm('posts.change_postspagesection'):
+            context['show_posts_page_section_edit_button'] = True
+        # Delete posts page section button
+        if self.request.user.has_perm('posts.delete_postspagesection'):
+            context['show_posts_page_section_delete_button'] = True
+
         return context
 
     def get_success_url(self):
@@ -92,7 +107,7 @@ class PostsPageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, Me
                 'posts:posts_page_section_detail',
                 kwargs={'pk': self.object.pk},
             )
-
+# Posts app landing page
 class PostsPageView(TemplateView, AppPageMixin):
 
     template_name = 'posts/posts_page.html'
@@ -130,19 +145,36 @@ class PostsPageView(TemplateView, AppPageMixin):
             show_new=profile.show_new_responses,
             show_top=profile.show_top_responses,
         )
-        # Create Posts button
-        if self.request.user.has_perm('posts.add_posts'):
-            context['show_create_posts_button'] = True
-            context['create_posts_url'] = reverse(
-                'posts:post_create',
-            )
+        # Create Post button
+        if self.request.user.has_perm('posts.add_post'):
+            context['show_post_add_button'] = True
+            context['add_post_button'] = {
+                'url': reverse('posts:post_create'),
+                'text': "+Post",
+            }
         # Update AppProfile button
         if self.request.user.has_perm('posts.change_postsappprofile'):
-            context['show_edit_profile_button'] = True
-            context['edit_profile_url'] = reverse(
-                'posts:posts_app_profile_update',
-                kwargs={'pk': 1},
-            )
+            context['show_profile_edit_button'] = True
+            context['profile_edit_button'] = {
+                'url': reverse('posts:posts_app_profile_update',
+                    kwargs={'pk': 1},
+                ),
+                'text': "Edit App"
+            }
+        # Add posts page section button
+        if self.request.user.has_perm('posts.add_postspagesection'):
+            context['show_posts_page_section_add_button'] = True
+            context['posts_page_section_add_button'] = { 
+                'url': reverse(
+                    'posts:posts_page_section_create',
+                ),
+            }
+        # Edit posts page section button
+        if self.request.user.has_perm('posts.change_postspagesection'):
+            context['show_posts_page_section_edit_button'] = True
+        # Delete posts page section button
+        if self.request.user.has_perm('posts.delete_postspagesection'):
+            context['show_posts_page_section_delete_button'] = True
         return context
 
 class PostsPageSectionDetailView(LoginRequiredMixin, DetailView):

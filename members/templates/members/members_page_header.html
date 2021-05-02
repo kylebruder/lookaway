@@ -7,16 +7,16 @@
         </div>
       </div>
     {% endif %}
-    {% if profile.show_title or profile.show_desc %}
-      <div class="col-sm">
+    <div class="col-sm">
+      {% if profile.show_title or profile.show_desc %}
         {% if profile.title and profile.show_title %}
           <h3 class="brand-title members-page-span members-alert">{{ meta_title }}</h3>
         {% endif %}
         {% if meta_desc and profile.show_desc %}
           <br><p class="members-page-span members-alert"><i>{{ meta_desc }}</i></p>
         {% endif %}
-      </div>
-    {% endif %}
+      {% endif %}
+    </div>
     {% if request.user.is_authenticated %}
       <div class="col-">
         <div class="container">

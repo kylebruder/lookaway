@@ -7,30 +7,26 @@
         </div>
       </div>
     {% endif %}
-    {% if profile.show_title or profile.show_desc %}
-      <div class="col-sm">
+    <div class="col-sm">
+      {% if profile.show_title or profile.show_desc %}
         {% if profile.title and profile.show_title %}
           <h3 class="brand-title posts-page-span posts-alert">{{ meta_title }}</h3>
         {% endif %}
         {% if meta_desc and profile.show_desc %}
           <br><p class="posts-page-span posts-alert"><i>{{ meta_desc }}</i></p>
         {% endif %}
-      </div>
-    {% endif %}
+      {% endif %}
+    </div>
     {% if request.user.is_authenticated %}
       <div class="col-">
         <div class="container">
           <p>
-            {% if show_create_post_button %} 
-              <a class="btn btn-sm btn-primary" href="{% url 'posts:post_create' %}">+Post</a>
-            {% endif %}
-            {% if show_create_responses_button %} 
-              <a class="btn btn-sm btn-primary" href="{% url 'posts:responses_create' %}">+Response</a>
-            {% endif %}
-            {% if show_edit_profile_button %} 
-              <a href="{% url 'posts:posts_app_profile_update' 1 %}?next={{ request.path }}">
-                <button class="btn btn-sm btn-warning">Edit App</button>
-              </a>
+            {% if show_profile_edit_button %} 
+              {% with profile_edit_button as button %}
+                {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+                  {% include 'edit_button.html' %}
+                {% endwith %}
+              {% endwith %}
             {% endif %}
           </p>
         </div>
@@ -40,5 +36,9 @@
   {% if profile.text %}
     <p class="posts-page-span posts-alert">{{ profile.text }}</p>
   {% endif %}
-  {% include './posts_page_navbar.html' %}
+  <div class="row">
+    <div class="col-sm">
+      {% include './posts_page_navbar.html' %}
+    </div>
+  </div>
 </div>
