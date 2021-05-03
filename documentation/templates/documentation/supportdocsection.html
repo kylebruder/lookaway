@@ -17,22 +17,22 @@
 <!-- Section Images -->
 {% if section.images.count > 0 %}
   {% with section.images.all as images %}
-    {% include 'section_images.html' %}
+    {% include 'sections/section_images.html' %}
   {% endwith %}
 {% endif %}
 {% if section.sounds.count > 0 %}
   {% with section.sounds.all as sounds %}
-    {% include 'section_sounds.html' %}
+    {% include 'sections/section_sounds.html' %}
   {% endwith %}
 {% endif %}
 {% if section.videos.count > 0  %}
   {% with section.videos.all as videos %}
-    {% include 'section_videos.html' %}
+    {% include 'sections/section_videos.html' %}
   {% endwith %}
 {% endif %}
 {% if section.code.count > 0  %}
   {% with section.code.all as codes %}
-    {% include 'section_codes.html' %}
+    {% include 'sections/section_codes.html' %}
   {% endwith %}
 {% endif %}
 {% if section.support_reference %}
@@ -43,6 +43,6 @@
 {% endif %}
 {% if section.links.count > 0  %}
   {% with section.links.all as links %}
-    {% include 'object_links.html' %}
+    {% include 'objects/object_links.html' %}
   {% endwith %}
 {% endif %}

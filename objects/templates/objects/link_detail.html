@@ -10,7 +10,7 @@
       <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
     {% endif %}
     <a href="{{ link.url }}" class="link-url"><p class="links-list-link">{{ link.url|truncatechars:128 }}</p></a>
-    {% include './object_tags.html' %}
+    {% include 'objects/object_tags.html' %}
     <br>
     {% include './object_meta_data.html' %}
     <br>

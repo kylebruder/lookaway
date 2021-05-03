@@ -42,17 +42,17 @@
     {% if story.links.count > 0 %}
       <h4 class="documentation-title">Links</h4>
       {% with story.links.all as links %}
-        {% include 'object_links.html' %}
+        {% include 'objects/object_links.html' %}
       {% endwith %}
       <br>
     {% endif %}
     {% with story.bitcoin_wallet as bitcoin_wallet %}
       {% with story.litecoin_wallet as litecoin_wallet %}
-        {% include 'object_crypto_wallets.html' %}
+        {% include 'objects/object_crypto_wallets.html' %}
       {% endwith %}
     {% endwith %}
     {% if story.tags.count > 0 %}
-      {% include './object_tags.html' %}
+      {% include 'objects/object_tags.html' %}
     {% endif %}
   {% else %}
     <p>This Story has not been published yet.</p>

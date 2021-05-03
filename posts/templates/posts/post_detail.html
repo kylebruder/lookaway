@@ -41,23 +41,23 @@
     {% endif %}
     {% if post.sound %}
       {% with post.sound as sound %}
-        {% include 'object_sound.html' %}
+        {% include 'objects/object_sound.html' %}
       {% endwith %}
     {% endif %}
     {% if post.video %}
       {% with post.video as video %}
-        {% include 'object_video.html' %}
+        {% include 'objects/object_video.html' %}
       {% endwith %}
     {% endif %}
     {% if post.code %}
       {% with post.code as code %}
-        {% include 'object_code.html' %}
+        {% include 'objects/object_code.html' %}
       {% endwith %}
     {% endif %}
     <div class="clear"></div>
     {% if post.link %}
       {% with post.link as link %}
-        {% include 'object_link.html' %}
+        {% include 'objects/object_link.html' %}
         <br>
       {% endwith %}
     {% endif %}
@@ -85,7 +85,7 @@
       <ul class="list-group">
         {% for response in responses %}
           <li class="list-group-item posts-list-li">
-            {% include 'object_response_item.html' %}
+            {% include 'objects/object_response_item.html' %}
           </li>
         {% endfor %}
       </ul>
@@ -96,13 +96,13 @@
       <br>
       {% with post.bitcoin_wallet as bitcoin_wallet %}
         {% with post.litecoin_wallet as litecoin_wallet %}
-          {% include 'object_crypto_wallets.html' %}
+          {% include 'objects/object_crypto_wallets.html' %}
         {% endwith %}
       {% endwith %}
     {% endif %}
     <div class="row">
       <div class="col-sm">
-        {% include 'object_tags.html' %}
+        {% include 'objects/object_tags.html' %}
       </div>
       {% if post.is_public %}
         <div class="col-">

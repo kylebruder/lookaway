@@ -14,28 +14,28 @@
     </p>
     {% if response.text or response.image %}
       {% with response.text as text and response.image as image %}
-        {% include 'object_image_text.html' %}
+        {% include 'objects/object_image_text.html' %}
         <br>
       {% endwith %}
     {% endif %}
     {% if response.sound %}
       {% with response.sound as sound %}
-        {% include 'object_sound.html' %}
+        {% include 'objects/object_sound.html' %}
       {% endwith %}
     {% endif %}
     {% if response.video %}
       {% with response.video as video %}
-        {% include 'object_video.html' %}
+        {% include 'objects/object_video.html' %}
       {% endwith %}
     {% endif %}
     {% if response.code %}
       {% with response.code as code %}
-        {% include 'object_code.html' %}
+        {% include 'objects/object_code.html' %}
       {% endwith %}
     {% endif %}
     {% if response.link %}
       {% with response.link as link %}
-        {% include 'object_link.html' %}
+        {% include 'objects/object_link.html' %}
         <br>
       {% endwith %}
     {% endif %}
@@ -64,13 +64,13 @@
       <br>
       {% with response.bitcoin_wallet as bitcoin_wallet %}
         {% with response.litecoin_wallet as litecoin_wallet %}
-          {% include 'object_crypto_wallets.html' %}
+          {% include 'objects/object_crypto_wallets.html' %}
         {% endwith %}
       {% endwith %}
     {% endif %}
     <div class="row">
       <div class="col-sm">
-        {% include 'object_tags.html' %}
+        {% include 'objects/object_tags.html' %}
       </div>
       {% if response.is_public and can_add_marshmallow %}
         <div class="col-">

@@ -16,13 +16,13 @@
     {% with section.images.all as images %}
       <!-- Section Text -->
       {% if section.text %}
-        {% include 'section_images_text.html' %}
+        {% include 'sections/section_images_text.html' %}
       {% elif section.images.count == 1 %}
         {% with section.images.first as image %}
-          {% include 'section_image.html' %}
+          {% include 'sections/section_image.html' %}
         {% endwith %}
       {% else %}
-        {% include 'section_images.html' %}
+        {% include 'sections/section_images.html' %}
       {% endif %}
     {% endwith %}
   {% elif section.text %}
@@ -30,17 +30,17 @@
   {% endif %}
   {% if section.sounds.count > 0 %}
     {% with section.sounds.all as sounds %}
-      {% include 'section_sounds.html' %}
+      {% include 'sections/section_sounds.html' %}
     {% endwith %}
   {% endif %}
   {% if section.videos.count > 0  %}
     {% with section.videos.all as videos %}
-      {% include 'section_videos.html' %}
+      {% include 'sections/section_videos.html' %}
     {% endwith %}
   {% endif %}
   {% if section.code.count > 0  %}
     {% with section.code.all as codes %}
-      {% include 'section_codes.html' %}
+      {% include 'sections/section_codes.html' %}
     {% endwith %}
   {% endif %}
   {% if section.posts.count > 0 %}
@@ -55,7 +55,7 @@
   {% endif %}
   {% if section.links.count > 0  %}
     {% with section.links.all as links%}
-      {% include 'object_links.html' %}
+      {% include 'objects/object_links.html' %}
     {% endwith %}
   {% endif %}
 </div>

@@ -16,7 +16,7 @@
       {% if video.credit %}Credit: {{ video.credit }}{% endif %}
     </p>
     {% if video.tags.all.count > 0 %}
-      {% include './object_tags.html' %}
+      {% include 'objects/object_tags.html' %}
       <br>
     {% endif %}
     {% include './object_meta_data.html' %}

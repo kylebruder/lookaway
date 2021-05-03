@@ -24,14 +24,14 @@
             {% if show_site_profile_edit_button %} 
               {% with site_profile_edit_button as button %}
                 {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
-                  {% include 'edit_button.html' %}
+                  {% include 'buttons/edit_button.html' %}
                 {% endwith %}
               {% endwith %}
             {% endif %}
             {% if show_profile_edit_button %} 
               {% with profile_edit_button as button %}
                 {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
-                  {% include 'edit_button.html' %}
+                  {% include 'buttons/edit_button.html' %}
                 {% endwith %}
               {% endwith %}
             {% endif %}

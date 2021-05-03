@@ -1,0 +1,25 @@
+<li class="list-group-item documentation-list-li">
+  <div class="row">
+    <div class="col-">
+      {% if article.image %}
+        <div class="documentation-article-list-image" style="background-image:url('{{ article.visuals.first.image.thumbnail_file.url }}')"></div>
+      {% elif article.owner.profile.image %}
+        <div class="documentation-article-list-image" style="background-image:url('{{ article.owner.profile.image.thumbnail_file.url }}')"></div>
+      {% else %}
+        <div class="documentation-article-list-image" style="background-image:url('/static/icon.webp')"></div>
+      {% endif %}
+    </div>
+    <div class="col-sm">
+      <h5 class="music-title">
+        <a href="{% url 'documentation:article_detail' article.slug %}">{{ article.title }}</a>
+      </h5>
+      {% if article.publication_date %}
+        <p>
+          Written by <a href="{% url 'members:member_profile' article.owner.username %}"><span class="index-heading-span">{{ article.owner }}</span></a> on <span class="index-heading-span">{{ article.creation_date|date:"M d, Y" }}</span>
+        </p>
+      {% else %}
+        {% include 'objects/unpublished.html' %}
+      {% endif %}
+    </div>
+  </div>
+</li>

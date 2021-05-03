@@ -29,6 +29,6 @@
 {% endif %}
 {% if response.tags.all.count > 0 %}
   {% with response as object %}
-    {% include 'object_tags.html' %}
+    {% include 'objects/object_tags.html' %}
   {% endwith %}
 {% endif %}

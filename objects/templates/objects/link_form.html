@@ -21,7 +21,7 @@
       {% csrf_token %}
       <!-- Standard field iterator -->
       {% for field in form %}
-        {% include 'form_field.html' %}
+        {% include 'forms/form_field.html' %}
       {% endfor %}
       <br>
       <input type="submit" value="Submit" class="btn btn-success">

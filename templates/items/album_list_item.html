@@ -15,9 +15,13 @@
           {{ album.title }}
         </a>
       </h5>
+      {% if album.publication_date %}
         <p>
         Released by <a href="{% url 'members:member_profile' album.owner.username %}"><span class="index-heading-span">{{ album.owner }}</span></a> on <span class="index-heading-span">{{ album.creation_date|date:"M d, Y" }}</span>
         </p>
+      {% else %}
+        {% include 'objects/unpublications.html' %}
+      {% endif %}
     </div>
   </div>
 </li>

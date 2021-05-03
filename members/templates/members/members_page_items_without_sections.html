@@ -53,7 +53,7 @@
     <h4 class="members-page-title">Donate</h4>
     {% with profile.bitcoin_wallet as bitcoin_wallet %}
       {% with profile.litecoin_wallet as litecoin_wallet %}
-        {% include 'object_crypto_wallets.html' %}
+        {% include 'objects/object_crypto_wallets.html' %}
       {% endwith %}
     {% endwith %}
   </div>
@@ -62,7 +62,7 @@
   {% with profile.links.all as links %}
     <div class="members-section">
       <h4 class="members-page-title">External Links</h4>
-      {% include 'object_links.html' %}
+      {% include 'objects/object_links.html' %}
     </div>
   {% endwith %}
 {% endif %}

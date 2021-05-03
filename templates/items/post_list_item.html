@@ -1,0 +1,27 @@
+<li class="list-group-item posts-list-li">
+  <div class="row">
+    <div class="col-">
+      {% if post.image %}
+        <div class="posts-list-image" style="background-image:url('{{ post.image.thumbnail_file.url }}')"></div>
+      {% elif post.owner.profile.image %}
+        <div class="posts-list-image" style="background-image:url('{{ post.owner.profile.image.thumbnail_file.url }}')"></div>
+      {% else %}
+        <div class="posts-list-image" style="background-image:url('/static/icon.webp')"></div>
+      {% endif %}
+    </div>
+    <div class="col-sm">
+      <h5 class="posts-title">
+        <a href="{% url 'posts:post_detail' post.slug %}">
+          {{ post.title }}
+        </a>
+      </h5>
+      {% if post.publication_date %}
+        <p>
+        Posted by <a href="{% url 'members:member_profile' post.owner.username %}"><span class="index-heading-span">{{ post.owner }}</span></a> on <span class="index-heading-span">{{ post.creation_date|date:"M d, Y" }}</span>
+        </p>
+      {% else %}
+        {% include 'objects/unpublished.html' %}
+      {% endif %}
+    </div>
+  </div>
+</li>

@@ -18,7 +18,7 @@
     {% endif %}
     MD5 hash: {{ code.md5 }}</p>
     {% if code.tags.all.count > 0 %}
-      {% include './object_tags.html' %}
+      {% include 'objects/object_tags.html' %}
       <br>
     {% endif %}
     {% include './object_meta_data.html' %}

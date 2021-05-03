@@ -59,17 +59,17 @@
     {% if document.links.count > 0 %}
       <h4 class="documentation-title">Links</h4>
       {% with document.links.all as links%}
-        {% include 'object_links.html' %}
+        {% include 'objects/object_links.html' %}
       {% endwith %}
       <br>
     {% endif %}
     {% with object.bitcoin_wallet as bitcoin_wallet %}
       {% with object.litecoin_wallet as litecoin_wallet %}
-        {% include 'object_crypto_wallets.html' %}
+        {% include 'objects/object_crypto_wallets.html' %}
       {% endwith %}
     {% endwith %}
     {% if document.tags.count > 0 %}
-      {% include 'object_tags.html' %}
+      {% include 'objects/object_tags.html' %}
     {% endif %}
     <br>
   {% else %}

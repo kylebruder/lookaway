@@ -72,7 +72,7 @@
     {% if gallery.links.count > 0 %}
       <h4 class="art-title">Links</h4>
       {% with gallery.links.all as links %}
-        {% include 'object_links.html' %}
+        {% include 'objects/object_links.html' %}
       {% endwith %}
     {% endif %}
     <!-- Wallets -->
@@ -80,7 +80,7 @@
       {% with gallery.bitcoin_wallet as bitcoin_wallet %}
         {% with gallery.litecoin_wallet as litecoin_wallet %}
           <h4 class="art-title">Donate</h4>
-          {% include 'object_crypto_wallets.html' %}
+          {% include 'objects/object_crypto_wallets.html' %}
         {% endwith %}
       {% endwith %}
     {% endif %}
@@ -97,7 +97,7 @@
     {% endif %}
     <!-- Tags -->
     {% if gallery.tags.count > 0 %}
-      {% include './object_tags.html' %}
+      {% include 'objects/object_tags.html' %}
     {% endif %}
   {% else %}
     <p>This Gallery has not been published yet.</p>

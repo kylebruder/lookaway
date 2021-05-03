@@ -27,7 +27,7 @@
         {% endif %}
         {% if post.tags.all.count > 0 %}
           {% with post as object %}
-            {% include 'object_tags.html' %}
+            {% include 'objects/object_tags.html' %}
           {% endwith %}
         {% endif %}
       </p>

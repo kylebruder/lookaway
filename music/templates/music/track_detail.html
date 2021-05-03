@@ -93,7 +93,7 @@
     {% if track.links.count > 0 %}
       <h4 class="music-title">Links</h4>
       {% with track.links.all as links %}
-        {% include 'object_links.html' %}
+        {% include 'objects/object_links.html' %}
       {% endwith %}
     {% endif %}
     <!-- Wallets -->
@@ -101,7 +101,7 @@
       {% with track.bitcoin_wallet as bitcoin_wallet %}
         {% with track.litecoin_wallet as litecoin_wallet %}
           <h4 class="music-title">Donate</h4> 
-          {% include 'object_crypto_wallets.html' %}
+          {% include 'objects/object_crypto_wallets.html' %}
         {% endwith %}
       {% endwith %}
     {% endif %}
@@ -118,7 +118,7 @@
     {% endif %}
     <!-- Tags -->
     {% if track.tags.count > 0 %}
-      {% include './object_tags.html' %}
+      {% include 'objects/object_tags.html' %}
       <br>
     {% endif %}
   {% else %}

@@ -15,9 +15,13 @@
           {{ track.title }}
         </a>
       </h5>
+      {% if track.publication_date %}
         <p>
         Released by <a href="{% url 'members:member_profile' track.owner.username %}"><span class="index-heading-span">{{ track.owner }}</span></a> on <span class="index-heading-span">{{ track.creation_date|date:"M d, Y" }}</span>
         </p>
+      {% else %}
+        {% include 'objects/unpublished.html' %}
+      {% endif %}
     </div>
   </div>
 </li>

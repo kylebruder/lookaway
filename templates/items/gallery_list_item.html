@@ -15,9 +15,13 @@
           {{ gallery.title }}
         </a>
       </h5>
+      {% if gallery.publication_date %}
         <p>
         Curated by <a href="{% url 'members:member_profile' gallery.owner.username %}"><span class="index-heading-span">{{ gallery.owner }}</span></a> on <span class="index-heading-span">{{ gallery.creation_date|date:"M d, Y" }}</span>
         </p>
+      {% else %}
+        {% include 'objects/unpublished.html' %}
+      {% endif %}
     </div>
   </div>
 </li>

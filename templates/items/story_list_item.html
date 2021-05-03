@@ -1,0 +1,25 @@
+<li class="list-group-item documentation-list-li">
+  <div class="row">
+    <div class="col-">
+      {% if story.image %}
+        <div class="documentation-story-list-image" style="background-image:url('{{ story.visuals.first.image.thumbnail_file.url }}')"></div>
+      {% elif story.owner.profile.image %}
+        <div class="documentation-story-list-image" style="background-image:url('{{ story.owner.profile.image.thumbnail_file.url }}')"></div>
+      {% else %}
+        <div class="documentation-story-list-image" style="background-image:url('/static/icon.webp')"></div>
+      {% endif %}
+    </div>
+    <div class="col-sm">
+      <h5 class="music-title">
+        <a href="{% url 'documentation:story_detail' story.slug %}">{{ story.title }}</a>
+      </h5>
+      {% if story.publication_date %}
+        <p>
+          Published by <a href="{% url 'members:member_profile' story.owner.username %}"><span class="index-heading-span">{{ story.owner }}</span></a> on <span class="index-heading-span">{{ story.creation_date|date:"M d, Y" }}</span>
+        </p>
+      {% else %}
+        {% include 'objects/unpublished.html' %}
+      {% endif %}
+    </div>
+  </div>
+</li>
