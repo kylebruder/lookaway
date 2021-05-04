@@ -1,32 +1,39 @@
-<div class="container">
+<div class="members-section">
   <div class="row">
     <div class="col">
-      <h5 class="sound-title">Your Sounds
-        <a href="{% url 'objects:sound_create' %}">
-          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-        </a>
+      <h5 class="sound-title">Your Sound Files
       </h5>
+    </div>
+    <div class="col-">
+      <div class="container">
+        {% if show_objects_buttons %}
+          {% with sound_add_button as button %}
+            {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
+              {% include 'buttons/small_add_button.html' %}
+            {% endwith %}
+          {% endwith %}
+        {% endif %}
+      </div>
     </div>
   </div>
   {% if sounds.all.count > 0 %}
-    <ul class="list-group">
+    <table class="studio-table">
+      <tr>
+        <th>Title</th>
+        <th>Uploaded</th>
+      </th>
       {% for sound in sounds %}
-        <li class="list-group-item sound-list-li">
-          <a class="sound-title" href="{% url 'objects:sound_detail' pk=sound.pk %}">
-            {{ sound.title }}
-          </a>
-          {% if not sound.is_public %}
-            <div class="container">
-              <span class="badge badge-secondary">Unpublished</span>
-            </div>
-          {% endif %}
-        </li>
+        <tr>
+          <td><a href="{% url 'objects:sound_detail' sound.pk %}">{{ sound.title|truncatechars:20 }}</a></td>
+          <td>{{ sound.creation_date|date:"M d, Y" }}</td>
+        </tr>
       {% endfor %}
-    </ul>
+    </table>
+    <br>
     <p>
       <a href="{% url 'objects:member_sounds' request.user.username %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not uploaded any Sounds yet.</p>
+    <p>You have not contributed any Posts yet.</p>
   {% endif %}
 </div>

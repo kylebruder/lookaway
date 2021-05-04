@@ -22,6 +22,17 @@
   border-radius: 5px;
 }
 
+.posts-item-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-left: 15px;
+  margin-bottom: 10px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
 .posts-list-card {
   color: #ffffff;
   background-color: #222222;
@@ -37,8 +48,8 @@
 
 .posts-list-image {
   display: block;
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   margin-left: 15px;
   margin-bottom: 10px;
   background-repeat: no-repeat;

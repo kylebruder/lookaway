@@ -46,6 +46,10 @@ class StudioView(LoginRequiredMixin, TemplateView):
         if member.groups.filter(name="Members").exists():
             context['show_posts_buttons'] = True
             ## Posts
+            if member.has_perm('posts.add_post'):
+                context['post_add_button'] = {
+                    'url': reverse('posts:post_create'),
+                }
             context['posts'] = Post.objects.filter(
                 owner=member
             ).order_by('is_public', '-last_modified')[:profile.post_list_pagination]
@@ -57,22 +61,37 @@ class StudioView(LoginRequiredMixin, TemplateView):
         if member.groups.filter(name="Contributors").exists():
             context['show_objects_buttons'] = True
             ## Images
+            context['image_add_button'] = {
+                'url': reverse('objects:image_create'),
+            }
             context['images'] = Image.objects.filter(
                 owner=member,
             ).order_by('-last_modified')[:objects_profile.n_images]
             ## Sounds
+            context['sound_add_button'] = {
+                'url': reverse('objects:sound_create'),
+            }
             context['sounds'] = Sound.objects.filter(
                 owner=member,
             ).order_by('-last_modified')[:objects_profile.n_sounds]
             ## Videos
+            context['video_add_button'] = {
+                'url': reverse('objects:video_create'),
+            }
             context['videos'] = Video.objects.filter(
                 owner=member,
             ).order_by('-last_modified')[:objects_profile.n_videos]
             ## Code
+            context['code_add_button'] = {
+                'url': reverse('objects:code_create'),
+            }
             context['codes'] = Code.objects.filter(
                 owner=member,
             ).order_by('-last_modified')[:objects_profile.n_codes]
             ## Links
+            context['link_add_button'] = {
+                'url': reverse('objects:link_create'),
+            }
             context['links'] = Link.objects.filter(
                 owner=member,
             ).order_by( '-last_modified')[:objects_profile.n_links]
@@ -80,14 +99,26 @@ class StudioView(LoginRequiredMixin, TemplateView):
         if member.groups.filter(name="Writers").exists():
             ## Articles
             context['show_documentation_buttons'] = True
+            if member.has_perm('documentation.add_article'):
+                context['article_add_button'] = {
+                    'url': reverse('documentation:article_create'),
+                }
             context['articles'] = Article.objects.filter(
                 owner=member
             ).order_by('is_public', '-last_modified')[:profile.article_list_pagination]
             ## Stories
+            if member.has_perm('documentation.add_story'):
+                context['story_add_button'] = {
+                    'url': reverse('documentation:story_create'),
+                }
             context['stories'] = Story.objects.filter(
                 owner=member
             ).order_by('is_public', '-last_modified')[:profile.story_list_pagination]
             ## Documents
+            if member.has_perm('documentation.add_supportdocument'):
+                context['document_add_button'] = {
+                    'url': reverse('documentation:support_document_create'),
+                }
             context['support_documents'] = SupportDocument.objects.filter(
                 owner=member
             ).order_by('is_public', '-last_modified')[:profile.document_list_pagination]
@@ -95,10 +126,18 @@ class StudioView(LoginRequiredMixin, TemplateView):
         if member.groups.filter(name="Artists").exists():
             context['show_art_buttons'] = True
             ## Visuals
+            if member.has_perm('art.add_visual'):
+                context['visual_add_button'] = {
+                    'url': reverse('art:visual_create'),
+                }
             context['visuals'] = Visual.objects.filter(
                 owner=member
             ).order_by('is_public', '-last_modified')[:profile.visual_list_pagination]
             ## Galleries
+            if member.has_perm('art.add_gallery'):
+                context['gallery_add_button'] = {
+                    'url': reverse('art:gallery_create'),
+                }
             context['galleries'] = Gallery.objects.filter(
                 owner=member
             ).order_by('is_public', '-last_modified')[:profile.gallery_list_pagination]
@@ -106,10 +145,18 @@ class StudioView(LoginRequiredMixin, TemplateView):
         if member.groups.filter(name="Musicians").exists():
             context['show_music_buttons'] = True
             ## Tracks
+            if member.has_perm('music.add_track'):
+                context['track_add_button'] = {
+                    'url': reverse('music:track_create'),
+                }
             context['tracks'] = Track.objects.filter(
                 owner=member
             ).order_by('is_public', '-last_modified')[:profile.track_list_pagination]
             ## Albums
+            if member.has_perm('music.add_album'):
+                context['album_add_button'] = {
+                    'url': reverse('music:album_create'),
+                }
             context['albums'] = Album.objects.filter(
                 owner=member
             ).order_by('is_public', '-last_modified')[:profile.album_list_pagination]
@@ -197,6 +244,7 @@ class MembersPageView(TemplateView, AppPageMixin):
             context['sections'] = sections.exclude(
                 members_only=True
             )
+        # Show members on the landing page
         members = Member.objects.filter(
             groups__name="Members",
         ).exclude(
@@ -211,18 +259,21 @@ class MembersPageView(TemplateView, AppPageMixin):
         context['contributors'] = contributors.all()[:profile.n_contributors]
         # Create Members button
         if self.request.user.has_perm('members.add_members'):
-            context['show_member_invite_button'] = True
+            context['show_invite_add_button'] = True
             context['invite_add_button'] = {
                 'url': reverse('invite'),
                 'text': "+Invite",
             }
         # Update AppProfile button
         if self.request.user.has_perm('members.change_membersappprofile'):
-            context['show_edit_profile_button'] = True
-            context['edit_profile_url'] = reverse(
-                'members:members_app_profile_update',
-                kwargs={'pk': 1},
-            )
+            context['show_profile_edit_button'] = True
+            context['profile_edit_button'] = {
+                'url': reverse(
+                    'members:members_app_profile_update',
+                    kwargs={'pk': 1},
+                ),
+                'text': "Edit App",
+            }
         # Add members page section button
         if self.request.user.has_perm('members.add_memberspagesection'):
             context['show_members_page_section_add_button'] = True
@@ -346,6 +397,7 @@ class MemberListView(ListView):
     model = Member
     context_object_name = 'members'
     queryset = Member.objects.filter(groups__name='Members')
+    paginate_by = MembersAppProfile.objects.get(pk=1).members_list_pagination
 
     class Meta:
         ordering = ['-date_joined']    
@@ -380,6 +432,7 @@ class ContributorListView(ListView):
     model = Member
     context_object_name = 'members'
     queryset = Member.objects.filter(groups__name='Contributors')
+    paginate_by = MembersAppProfile.objects.get(pk=1).contributors_list_pagination
 
     class Meta:
         ordering = ['-date_joined']
@@ -415,6 +468,7 @@ class ArtistListView(ListView):
     model = Member
     context_object_name = 'members'
     queryset = Member.objects.filter(groups__name='Artists')
+    paginate_by = MembersAppProfile.objects.get(pk=1).contributors_list_pagination
 
     class Meta:
         ordering = ['-date_joined']
@@ -450,6 +504,7 @@ class MusicianListView(ListView):
     model = Member
     context_object_name = 'members'
     queryset = Member.objects.filter(groups__name='Musicians')
+    paginate_by = MembersAppProfile.objects.get(pk=1).contributors_list_pagination
 
     class Meta:
         ordering = ['-date_joined']
@@ -485,6 +540,7 @@ class WriterListView(ListView):
     model = Member
     context_object_name = 'members'
     queryset = Member.objects.filter(groups__name='Writers')
+    paginate_by = MembersAppProfile.objects.get(pk=1).contributors_list_pagination
 
     class Meta:
         ordering = ['-date_joined']
@@ -520,6 +576,7 @@ class StaffListView(ListView):
     model = Member
     context_object_name = 'members'
     queryset = Member.objects.filter(is_staff=True)
+    paginate_by = MembersAppProfile.objects.get(pk=1).contributors_list_pagination
 
     class Meta:
         ordering = ['-date_joined']

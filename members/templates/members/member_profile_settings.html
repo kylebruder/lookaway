@@ -9,7 +9,7 @@
         {% if show_member_profile_settings_edit_button %}
           {% with member_profile_settings_edit_button as button %}
             {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
-              {% include './member_profile_settings_edit_button.html' %}
+              {% include 'buttons/edit_button.html' %}
             {% endwith %}
           {% endwith %}
         {% endif %}

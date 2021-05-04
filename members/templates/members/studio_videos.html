@@ -1,30 +1,40 @@
-<div class="container">
+<div class="members-section">
   <div class="row">
     <div class="col">
       <h5 class="video-title">Your Video Files
-        <a href="{% url 'objects:video_create' %}">
-          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-        </a>
       </h5>
+    </div>
+    <div class="col-">
+      <div class="container">
+        {% if show_objects_buttons %}
+          {% with video_add_button as button %}
+            {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
+              {% include 'buttons/small_add_button.html' %}
+            {% endwith %}
+          {% endwith %}
+        {% endif %}
+      </div>
     </div>
   </div>
   {% if videos.all.count > 0 %}
-    <ul class="list-group">
+    <table class="studio-table">
+      <tr>
+        <th>Title</th>
+        <th>Uploaded</th>
+      </th>
       {% for video in videos %}
-        <li class="list-group-item video-list-li">
-          <a class="video-title" href="{% url 'objects:video_detail' pk=video.pk %}">
-            {{ video.title }}
-          </a>
-          {% if not video.is_public %}
-            <span class="badge badge-secondary">Unpublished</span>
-          {% endif %}
-        </li>
+        <tr>
+          <td><a href="{% url 'objects:video_detail' video.pk %}">{{ video.title|truncatechars:20 }}</a></td>
+          <td>{{ video.creation_date|date:"M d, Y" }}</td>
+        </tr>
       {% endfor %}
-    </ul>
+    </table>
+    <br>
     <p>
       <a href="{% url 'objects:member_videos' request.user.username %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not uploaded any Videos yet.</p>
+    <p>You have not uploaded any videos yet.</p>
   {% endif %}
 </div>
+

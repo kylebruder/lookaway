@@ -1770,7 +1770,7 @@ class ImageByTag(LoginRequiredMixin, ListView):
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
-        print(Image.objects.filter(tags__slug__exact=self.kwargs['slug']))
+        #print(Image.objects.filter(tags__slug__exact=self.kwargs['slug']))
         return Image.objects.filter(tags__slug__exact=self.kwargs['slug'])
 
     def get_context_data(self, **kwargs):
@@ -1786,7 +1786,7 @@ class SoundByTag(LoginRequiredMixin, ListView):
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
-        print(Sound.objects.filter(tags__slug__exact=self.kwargs['slug']))
+        #print(Sound.objects.filter(tags__slug__exact=self.kwargs['slug']))
         return Sound.objects.filter(tags__slug__exact=self.kwargs['slug'])
 
     def get_context_data(self, **kwargs):
@@ -1802,7 +1802,7 @@ class VideoByTag(LoginRequiredMixin, ListView):
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
-        print(Video.objects.filter(tags__slug__exact=self.kwargs['slug']))
+        #print(Video.objects.filter(tags__slug__exact=self.kwargs['slug']))
         return Video.objects.filter(tags__slug__exact=self.kwargs['slug'])
 
     def get_context_data(self, **kwargs):
@@ -1818,7 +1818,7 @@ class CodeByTag(LoginRequiredMixin, ListView):
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
-        print(Code.objects.filter(tags__slug__exact=self.kwargs['slug']))
+        #print(Code.objects.filter(tags__slug__exact=self.kwargs['slug']))
         return Code.objects.filter(tags__slug__exact=self.kwargs['slug'])
 
     def get_context_data(self, **kwargs):
@@ -1834,7 +1834,7 @@ class LinkByTag(LoginRequiredMixin, ListView):
     ordering = ['-weight', '-creation_date']
 
     def get_queryset(self, *args, **kwargs):
-        print(Link.objects.filter(tags__slug__exact=self.kwargs['slug']))
+        #print(Link.objects.filter(tags__slug__exact=self.kwargs['slug']))
         return Link.objects.filter(tags__slug__exact=self.kwargs['slug'])
 
     def get_context_data(self, **kwargs):

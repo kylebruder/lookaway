@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-">
+    {% if member.profile.image %}
+      <div class="members-list-image" style="background-image:url('{{ member.profile.image.thumbnail_file.url }}')"></div>
+    {% else %}
+      <div class="members-list-image" style="background-image:url('/static/icon.webp')"></div>
+    {% endif %}
+  </div>
+  <div class="col-sm">
+    <h5 class="members-title">
+      <strong><a href="{% url 'members:member_profile' member.username %}">
+        {{ member }}
+      </a></strong>
+    </h5>
+    <p>{% include './member_badges.html' %}</p>
+  </div>
+</div>
+{% if member.profile.meta_description %}
+  <p>
+    {{ member.profile.meta_description }}
+  </p>
+{% endif %}

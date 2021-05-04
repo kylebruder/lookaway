@@ -186,7 +186,6 @@ class AppPageMixin:
                 )[:n]
             # Unless new instances aren't being shown, of course
             else:
-                print("yep")
                 top_instances = public_instances.order_by('-weight')[:n]
         # In the event there are less than n instances,
         # include them in the new model list.
@@ -201,7 +200,6 @@ class AppPageMixin:
                     '-weight',
                 )
         # Return the querysets
-        print({}, ":",  top_instances)
         return new_instances, top_instances
 
 # View mixins
@@ -287,6 +285,5 @@ class AppPageMixin:
                     '-weight',
                 )
         # Return the querysets
-        print({}, ":",  top_instances)
         return new_instances, top_instances
 

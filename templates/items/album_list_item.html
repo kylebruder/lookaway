@@ -11,17 +11,14 @@
     </div>
     <div class="col-sm">
       <h5 class="music-title">
-        <a href="{% url 'music:album_detail' album.slug %}">
-          {{ album.title }}
-        </a>
+        <a href="{% url 'music:album_detail' album.slug %}">{{ album.title }}</a>
+        {% if not album.is_public %}
+          {% include 'objects/unpublished.html' %}
+        {% endif %}
       </h5>
-      {% if album.publication_date %}
-        <p>
-        Released by <a href="{% url 'members:member_profile' album.owner.username %}"><span class="index-heading-span">{{ album.owner }}</span></a> on <span class="index-heading-span">{{ album.creation_date|date:"M d, Y" }}</span>
-        </p>
-      {% else %}
-        {% include 'objects/unpublications.html' %}
-      {% endif %}
+      <p>
+        {% if album.meta_description %}{{ album.meta_description }}{% endif %}
+      </p>
     </div>
   </div>
 </li>

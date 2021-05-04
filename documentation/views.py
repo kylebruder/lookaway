@@ -576,9 +576,6 @@ class ArticleSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Memb
         # Update last modified date for the ArticleSection
         form.instance.last_modified = timezone.now()
         # Update last modified date for the parent Article too
-        print(Article.objects.get(
-            pk=form.instance.article.pk
-        ) )
         s = Article.objects.get(
             pk=form.instance.article.pk
         )
@@ -810,7 +807,6 @@ class SupportDocumentDetailView(DetailView):
         for s in sections:
             if s.support_document not in context['refs']:
                 context['refs'][s.support_document] = s.pk
-        print(context['refs'])
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
             if member.check_can_allocate() and not member.check_is_new():
@@ -1012,9 +1008,6 @@ class SupportDocSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, M
         # Update last modified date for the SupportDocSection
         form.instance.last_modified = timezone.now()
         # Update last modified date for the parent SupportDocument too
-        print(SupportDocument.objects.get(
-            pk=form.instance.support_document.pk
-        ) )
         s = SupportDocument.objects.get(
             pk=form.instance.support_document.pk
         )
@@ -1440,9 +1433,6 @@ class StorySectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Member
         # Update last modified date for the StorySection
         form.instance.last_modified = timezone.now()
         # Update last modified date for the parent Story too
-        print(Story.objects.get(
-            pk=form.instance.story.pk
-        ) )
         s = Story.objects.get(
             pk=form.instance.story.pk
         )

@@ -5,8 +5,8 @@
   <!-- Heading -->
   {% include './members_page_header.html' %}
   <br>
-  {% if new_memberss.count < 1 and new_bars.count <  1 and top_memberss.count < 1 and top_bars.count < 1 %}
-    <span class="members-page-span"><i>Coming Soon...</i></p>
+  {% if members.count < 1 and contributors.count <  1 %}
+    <span class="members-page-span"><i>Coming Soon...</i></span>
   {% else %}
     {% if sections %}
       <div class="row">
@@ -14,6 +14,7 @@
           {% for section in sections %}
             {% include './members_page_section.html' %}
           {% endfor %}
+          {% include './members_page_links.html' %}
         </div>
         <div class="col-sm">
           {% include './members_page_items.html' %}
@@ -21,11 +22,10 @@
       </div>
     {% else %}
       <!-- List of new and top items -->
-      <div class="container-fluid">
-        {% include './members_page_items.html' %}
-      </div>
-      <br>
+      {% include './members_page_items.html' %}
+      {% include './members_page_links.html' %}
     {% endif %}
+    <br>
   {% endif %}
 </div>
 {% endblock %}

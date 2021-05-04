@@ -11,17 +11,14 @@
     </div>
     <div class="col-sm">
       <h5 class="music-title">
-        <a href="{% url 'art:gallery_detail' gallery.slug %}">
-          {{ gallery.title }}
-        </a>
+        <a href="{% url 'art:gallery_detail' gallery.slug %}">{{ gallery.title }}</a>
+        {% if not gallery.is_public %}
+          {% include 'objects/unpublished.html' %}
+        {% endif %}
       </h5>
-      {% if gallery.publication_date %}
-        <p>
-        Curated by <a href="{% url 'members:member_profile' gallery.owner.username %}"><span class="index-heading-span">{{ gallery.owner }}</span></a> on <span class="index-heading-span">{{ gallery.creation_date|date:"M d, Y" }}</span>
-        </p>
-      {% else %}
-        {% include 'objects/unpublished.html' %}
-      {% endif %}
+      <p>
+        {% if gallery.meta_description %}{{ gallery.meta_description }}{% endif %}
+      </p>
     </div>
   </div>
 </li>

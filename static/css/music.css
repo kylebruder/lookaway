@@ -46,8 +46,8 @@
 
 .music-album-list-image {
   display: block;
-  width: 107px;
-  height: 100px;
+  width: 80px;
+  height: 75px;
   margin-left: 15px;
   margin-bottom: 15px;
   background-repeat: no-repeat;
@@ -94,8 +94,8 @@
 
 .music-list-image {
   display: block;
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   margin-left: 15px;
   margin-bottom: 15px;
   background-repeat: no-repeat;
@@ -185,8 +185,8 @@
 
 .music-track-list-image {
   display: block;
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   margin-left: 15px;
   margin-bottom: 15px;
   background-repeat: no-repeat;

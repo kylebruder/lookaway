@@ -64,7 +64,7 @@ class Text:
         try:
             [existing_slugs.append(str(i.slug)) for i in model.objects.all()]
         except:
-            print("There was no slug field found for {}".format(model))
+            print("slugify_unique failure! There was no slug field found for {}".format(model))
             return slug
         if slug in existing_slugs:
             date_slug = slug + "-" + timezone.now().strftime("%Y%m%d")

@@ -1,44 +1,48 @@
-<div class="container">
+<div class="members-section">
   <div class="row">
     <div class="col">
       <h4 class="studio-title">Your Albums
-        <a href="{% url 'music:album_create' %}">
-          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-        </a>
       </h4>
+    </div>
+    <div class="col-">
+      <div class="container">
+        {% if show_music_buttons %}
+          {% with album_add_button as button %}
+            {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
+              {% include 'buttons/small_add_button.html' %}
+            {% endwith %}
+          {% endwith %}
+        {% endif %}
+      </div>
     </div>
   </div>
   {% if albums.all.count > 0 %}
-    <ul class="list-group">
+    <table class="studio-table">
+      <tr>
+        <th>Title</th>
+        <th>Modified</th>
+        <th>Created</th>
+        <th>Published</th>
+      </th>
       {% for album in albums %}
-        <li class="list-group-item music-list-li">
-          <div class="row">
-            <div class="col-">
-              {% if album.cover %}
-                <div class="music-album-list-image" style="background-image:url('{{ album.cover.thumbnail_file.url }}')"></div>
-              {% elif album.owner.profile.image %}
-                <div class="music-album-list-image" style="background-image:url('{{ album.owner.profile.image.thumbnail_file.url }}')"></div>
-              {% else %}
-                <div class="music-album-list-image" style="background-image:url('/static/icon.webp')"></div>
-              {% endif %}
-            </div>
-            <div class="col-sm">
-              <h5 class="music-title">
-                <a href="{% url 'music:album_detail' album.slug %}">
-                  {{ album.title }}
-                </a>
-              </h5>
-              <p>
-                Music by <span class="index-page-span">{{ album.artist }}</span><br>
-              </p>
-            </div>
-          </div>
-          {% if not album.is_public %}
-          	<span class="badge badge-dark">Unpublished</span>
-          {% endif %}
-        </li>
+        <tr>
+          <td><a href="{% url 'music:album_detail' album.slug %}">{{ album.title|truncatechars:20 }}</a></td>
+          <td>{{ album.last_modified|date:"M d, Y" }}</td>
+          <td>{{ album.creation_date|date:"M d, Y" }}</td>
+          <td>
+            {% if album.is_public %}
+              {{ album.publication_date|date:"M d, Y" }}
+            {% else %}
+              {% include 'objects/unpublished.html' %}
+            {% endif %}
+            {% if album.members_only %}
+              {% include 'objects/members_only.html' %}
+            {% endif %}
+          </td>
+        </tr>
       {% endfor %}
-    </ul>
+    </table>
+    <br>
     <p>
       <a href="{% url 'music:member_albums' request.user.username %}">more ...</a>
     </p>
@@ -46,3 +50,4 @@
     <p>You have not contributed any Albums yet.</p>
   {% endif %}
 </div>
+

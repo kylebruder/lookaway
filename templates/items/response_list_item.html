@@ -1,27 +1,11 @@
 <li class="list-group-item posts-list-li">
-  <div class="row">
-    <div class="col-">
-      {% if response.image %}
-        <div class="posts-list-image" style="background-image:url('{{ response.image.thumbnail_file.url }}')"></div>
-      {% elif response.owner.profile.image %}
-        <div class="posts-list-image" style="background-image:url('{{ response.owner.profile.image.thumbnail_file.url }}')"></div>
-      {% else %}
-        <div class="posts-list-image" style="background-image:url('/static/icon.webp')"></div>
-      {% endif %}
-    </div>
-    <div class="col-sm">
-      <h5 class="posts-title">
-        <a href="{% url 'posts:response_detail' response.slug %}">
-          {{ response.title }}
-        </a>
-      </h5>
-      {% if post.is_public %}
-        <p>
-          Posted by <a href="{% url 'members:member_profile' response.owner.username %}"><span class="index-heading-span">{{ response.owner }}</span></a> on <span class="index-heading-span">{{ response.publication_date|date:"M d, Y" }}</span>
-        </p>
-      {% else %}
-        {% include 'objects/unpublished.html' %}
-      {% endif %}
-    </div>
-  </div>
+  <h6 class="posts-title">
+    <a href="{% url 'posts:response_detail' response.slug %}">{{ response.title }}</a>
+    {% if not response.is_public %}
+      {% include 'objects/unpublished.html' %}
+    {% endif %}
+  </h6>
+  {% if response.meta_description %}
+    <p>{{ response.meta_description }}</p>
+  {% endif %}
 </li>

@@ -1,31 +1,48 @@
-<div class="container">
+<div class="members-section">
   <div class="row">
     <div class="col">
       <h4 class="studio-title">Your Posts
-        <a href="{% url 'posts:post_create' %}">
-          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-        </a>
       </h4>
+    </div>
+    <div class="col-">
+      <div class="container">
+        {% if show_posts_buttons %}
+          {% with post_add_button as button %}
+            {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
+              {% include 'buttons/small_add_button.html' %}
+            {% endwith %}
+          {% endwith %}
+        {% endif %}
+      </div>
     </div>
   </div>
   {% if posts.all.count > 0 %}
-    <ul class="list-group">
+    <table class="studio-table">
+      <tr>
+        <th>Title</th>
+        <th>Modified</th>
+        <th>Created</th>
+        <th>Published</th>
+      </th>
       {% for post in posts %}
-        <li class="list-group-item music-list-li">
-          <p>
-            <a href="{% url 'posts:post_detail' post.slug %}">
-              {{ post.title }}
-            </a>
-            {% if not post.is_public %}
-              <span class="badge badge-secondary">Unpublished</span>
+        <tr>
+          <td><a href="{% url 'posts:post_detail' post.slug %}">{{ post.title|truncatechars:20 }}</a></td>
+          <td>{{ post.last_modified|date:"M d, Y" }}</td>
+          <td>{{ post.creation_date|date:"M d, Y" }}</td>
+          <td>
+            {% if post.is_public %}
+              {{ post.publication_date|date:"M d, Y" }}
+            {% else %}
+              {% include 'objects/unpublished.html' %}
             {% endif %}
             {% if post.members_only %}
-              <span class="badge badge-warning">Members Only</span>
+              {% include 'objects/members_only.html' %}
             {% endif %}
-          </p>
-        </li>
+          </td>
+        </tr>
       {% endfor %}
-    </ul>
+    </table>
+    <br>
     <p>
       <a href="{% url 'posts:member_posts' request.user.username %}">more ...</a>
     </p>

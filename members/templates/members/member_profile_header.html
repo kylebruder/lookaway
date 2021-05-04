@@ -11,7 +11,7 @@
       <h3 class="brand-title members-page-span members-alert">{{ profile.member }}</h3><br>
       <p class="members-page-span members-alert">
         Member since <span class="index-heading-span">{{ member.date_joined|date:"M d, Y" }}</span><br>
-        {% include './member_badges.html' %}
+        {% include 'items/member_badges.html' %}
       </p>
       {% if meta_desc and profile.show_desc %}
         <br><p class="members-page-span members-alert"><i>{{ meta_desc }}</i></p>
@@ -24,16 +24,14 @@
             {% if show_invite_add_button %}
               {% with invite_add_button as button %}
                 {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
-                  {% include 'add_button.html' %}
+                  {% include 'buttons/add_button.html' %}
                 {% endwith %}
               {% endwith %}
-            {% endif %}
-            {% if show_responses_add_button %} 
             {% endif %}
             {% if show_profile_edit_button %} 
               {% with profile_edit_button as button %}
                 {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
-                  {% include 'edit_button.html' %}
+                  {% include 'buttons/edit_button.html' %}
                 {% endwith %}
               {% endwith %}
             {% endif %}

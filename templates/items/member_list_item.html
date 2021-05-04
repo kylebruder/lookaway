@@ -1,0 +1,22 @@
+<li class="list-group-item art-list-li">
+  <div class="row">
+    <div class="col-">
+      {% if member.profile.image %}
+        <div class="members-list-image" style="background-image:url('{{ member.profile.image.thumbnail_file.url }}')"></div>
+      {% else %}
+        <div class="members-list-image" style="background-image:url('/static/icon.webp')"></div>
+      {% endif %}
+    </div>
+    <div class="col-sm">
+      <h6 class="members-title">
+        <strong><a href="{% url 'members:member_profile' member.username %}">
+          {{ member }}
+        </a></strong>
+      </h6>
+      <p>
+        Member since <span class="index-heading-span">{{ member.date_joined|date:"M d, Y" }}</span><br>
+        {% include './member_badges.html' %}
+      </p>
+    </div>
+  </div>
+</li>

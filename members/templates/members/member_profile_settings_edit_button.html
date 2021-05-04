@@ -1,4 +1,0 @@
-{% extends 'edit_button.html' %}
-{% block button_url %}{% url 'members:member_profile_settings_update' profile.pk %}{% endblock %}
-{% block parameters %}?next={{ request.path }}{% endblock %}
-{% block button_text %}Edit App{% endblock %}

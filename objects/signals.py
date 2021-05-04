@@ -174,7 +174,6 @@ def handle_video_upload(sender, instance, created, *args, **kwargs):
     '''
     if created:
         vid_file = instance.video_file.path
-        print(vid_file)
         # Thanks derekkwok!
         # https://gist.github.com/derekkwok/4077509
         # Video settings
