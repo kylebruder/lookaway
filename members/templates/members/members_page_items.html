@@ -1,24 +1,16 @@
 <div class="row">
-  <div class="col-sm">
-    {% if members.all.count > 0 %}
-      <ul class="list-group members-section">
-        <h4 class="members-page-title">New Members</h4>
-        {% for member in members %}
-          {% include "items/member_item.html" %}
-        {% endfor %}
-      </ul>
-      <br>
-    {% endif %}
-    {% if contributors.all.count > 0 %}
-      <ul class="list-group members-section">
-        <h4 class="members-page-title">New Contributors</h4>
-        {% for member in contributors %}
-          <div class="members-section">
-            {% include "items/member_item.html" %}
-          </div>
-        {% endfor %}
-      </ul>
-      <br>
-    {% endif %}
-  </div>
+  {% if members.all.count > 0 %}
+    {% for member in members %}
+      <div class="col-6 col-sm-6 members-list-card">
+        {% include "items/member_item.html" %}
+      </div>
+    {% endfor %}
+  {% endif %}
+  {% if contributors.all.count > 0 %}
+    {% for member in contributors %}
+      <div class="col-6 col-sm-6 members-list-card">
+        {% include "items/member_item.html" %}
+      </div>
+    {% endfor %}
+  {% endif %}
 </div>

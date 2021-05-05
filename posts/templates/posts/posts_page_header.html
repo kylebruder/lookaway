@@ -7,16 +7,16 @@
         </div>
       </div>
     {% endif %}
-    <div class="col-sm">
-      {% if profile.show_title or profile.show_desc %}
+    {% if profile.show_title or profile.show_desc %}
+      <div class="col-sm">
         {% if profile.title and profile.show_title %}
           <h3 class="brand-title posts-page-span posts-alert">{{ meta_title }}</h3>
         {% endif %}
         {% if meta_desc and profile.show_desc %}
           <br><p class="posts-page-span posts-alert"><i>{{ meta_desc }}</i></p>
         {% endif %}
-      {% endif %}
-    </div>
+      </div>
+    {% endif %}
     {% if request.user.is_authenticated %}
       <div class="col-">
         <div class="container">
@@ -24,7 +24,7 @@
             {% if show_profile_edit_button %} 
               {% with profile_edit_button as button %}
                 {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
-                  {% include 'edit_button.html' %}
+                  {% include 'buttons/edit_button.html' %}
                 {% endwith %}
               {% endwith %}
             {% endif %}

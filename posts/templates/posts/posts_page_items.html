@@ -5,7 +5,7 @@
         <h4 class="posts-page-title">New Posts</h4>
         {% for post in new_posts %}
           <li class="list-group-item posts-list-li">
-            {% include "./post_item.html" %}
+            {% include "items/post_item.html" %}
           </li>
         {% endfor %}
       </ul>
@@ -16,7 +16,7 @@
         <h4 class="posts-page-title">New Responses</h4>
         {% for response in new_responses %}
           <li class="list-group-item posts-list-li">
-            {% include "./response_item.html" %}
+            {% include "items/response_item.html" %}
           </li>
         {% endfor %}
       </ul>
@@ -29,7 +29,7 @@
         <h4 class="posts-page-title">Top Posts</h4>
         {% for post in top_posts %}
           <li class="list-group-item posts-list-li">
-            {% include "./post_item.html" %}
+            {% include "items/post_item.html" %}
           </li>
         {% endfor %}
       </ul>
@@ -40,7 +40,7 @@
         <h4 class="posts-page-title">Top Responses</h4>
         {% for response in top_responses %}
           <li class="list-group-item posts-list-li">
-            {% include "./response_item.html" %}
+            {% include "items/response_item.html" %}
           </li>
         {% endfor %}
       </ul>

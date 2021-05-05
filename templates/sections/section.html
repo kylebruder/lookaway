@@ -43,3 +43,11 @@
     {% include 'objects/object_links.html' %}
   {% endwith %}
 {% endif %}
+{% if section.posts.count > 0 %}
+  {% for post in section.posts.all %}
+    <li class="list-group-item posts-list-li">
+      {% include 'items/post_item.html' %}
+    </li>
+  {% endfor %}
+  <br>
+{% endif %}
