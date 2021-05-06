@@ -5,27 +5,31 @@
   <!-- Heading -->
   {% include './members_page_header.html' %}
   <br>
-  {% if members.count < 1 and contributors.count <  1 %}
-    <span class="members-page-span"><i>Coming Soon...</i></span>
-  {% else %}
-    {% if sections %}
-      <div class="row">
+  {% if members or contributors or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals or new_galleries or new_tracks or new_albums or sections or profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+    <div class="row">
+      {% if sections %}
         <div class="col-sm">
           {% for section in sections %}
             {% include './members_page_section.html' %}
           {% endfor %}
           {% include './members_page_links.html' %}
         </div>
+      {% endif %}
+      {% if members or contributors %}
         <div class="col-sm">
           {% include './members_page_items.html' %}
+          {% if not sections %}
+            {% include './members_page_links.html' %}
+          {% endif %}
         </div>
-      </div>
-    {% else %}
-      <!-- List of new and top items -->
-      {% include './members_page_items.html' %}
-      {% include './members_page_links.html' %}
-    {% endif %}
-    <br>
+      {% endif %}
+      {% if not sections and not new_responses and not top_responses %}
+        {% include './members_page_links.html' %}
+      {% endif %}
+    </div>
+  {% else %}
+    <span class="members-page-span"><i>Coming Soon...</i></span>
+    <br><br>
   {% endif %}
 </div>
 {% endblock %}

@@ -51,3 +51,11 @@
   {% endfor %}
   <br>
 {% endif %}
+{% if section.members.count > 0 %}
+  {% for member in section.members.all %}
+    <li class="list-group-item members-list-li">
+      {% include 'items/member_item.html' %}
+    </li>
+  {% endfor %}
+  <br>
+{% endif %}

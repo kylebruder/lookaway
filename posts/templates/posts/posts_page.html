@@ -5,27 +5,31 @@
   <!-- Heading -->
   {% include './posts_page_header.html' %}
   <br>
-  {% if new_posts.count < 1 and new_responses.count < 1 %}
-    <span class="posts-page-span"><i>Coming Soon...</i></span>
-  {% else %}
-    {% if sections %}
-      <div class="row">
+  {% if new_posts or new_responses or sections or profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+    <div class="row">
+      {% if sections %}
         <div class="col-sm">
           {% for section in sections %}
             {% include './posts_page_section.html' %}
           {% endfor %}
           {% include './posts_page_links.html' %}
         </div>
+      {% endif %}
+      {% if new_posts or new_responses %}
         <div class="col-sm">
           {% include './posts_page_items.html' %}
+          {% if not sections %}
+            {% include './posts_page_links.html' %}
+          {% endif %}
         </div>
-      </div>
-    {% else %}
-      <!-- List of new and top items -->
-      {% include './posts_page_items.html' %}
-      {% include './posts_page_links.html' %}
-    {% endif %}
-    <br>
+      {% endif %}
+      {% if not sections and not new_responses and not top_resposnes %}
+        {% include './posts_page_links.html' %}
+      {% endif %}
+    </div>
+  {% else %}
+    <span class="posts-page-span"><i>Coming Soon...</i></span>
+    <br><br>
   {% endif %}
 </div>
 {% endblock %}

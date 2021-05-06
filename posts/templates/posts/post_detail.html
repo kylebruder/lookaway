@@ -6,11 +6,31 @@
     <!-- Title bar-->
     {% include './post_detail_title_bar.html' %}
     <!-- Meta data -->
-    <p>
       {% if post.members_only %}
-        <i>This Post is only visible to authenticated members</i><br>
+        <p><i>This Post is only visible to authenticated members</i></p>
       {% endif %}
-    </p>
+      {% if not object.is_public %}
+        <p>{% include 'objects/unpublished.html' %}</p>
+      {% endif %}
+      {% if post.is_public %}
+        <p>
+          Posted by
+          <span class="index-page-span"><a href="{% url 'members:member_profile' post.owner.profile.slug %}">{{ post.owner }}</a></span>
+          on <span class="index-page-span">{{ post.publication_date|date:"M d, Y" }}</span>
+          {% if post.location %}
+            from <span class="index-page-span">{{ post.location }}</span>
+          {% endif %}<br>
+          {% if post.last_modified > post.publication_date %}
+            Last updated on
+            <span class="index-page-span">{{ post.last_modified|date:"M d, Y" }}</span>
+          {% endif %}
+        </p>
+      {% else %}
+        <p>
+          Owned by <a href="{% url 'members:member_profile' post.owner.profile.slug %}">{{ post.owner }}</a>, created on {{ post.creation_date }}
+          <span class="badge badge-dark">Unpublished</span>
+        </p>
+      {% endif %}
     <!-- Image -->
     <div class="col-sm-6 float-right">
       {% if post.image %}
@@ -37,7 +57,6 @@
     <!-- Main content -->
     {% if post.text %}
       {{ post.text|linebreaks }}
-      <br>
     {% endif %}
     {% if post.sound %}
       {% with post.sound as sound %}
@@ -61,31 +80,13 @@
         <br>
       {% endwith %}
     {% endif %}
-    <p>
-      {% if post.is_public %}
-        Posted by
-        <span class="index-page-span"><a href="{% url 'members:member_profile' post.owner.profile.slug %}">{{ post.owner }}</a></span>
-        on <span class="index-page-span">{{ post.publication_date|date:"M d, Y" }}</span>
-        {% if post.location %}
-          from <span class="index-page-span">{{ post.location }}</span>
-        {% endif %}<br>
-      {% else %}
-        Owned by <a href="{% url 'members:member_profile' post.owner.profile.slug %}">{{ post.owner }}</a>, created on {{ post.creation_date }}
-        <span class="badge badge-dark">Unpublished</span>
-      {% endif %}
-      {% if post.last_modified > post.publication_date %}
-        Last updated on
-        <span class="index-page-span">{{ post.last_modified|date:"M d, Y" }}</span>
-      {% endif %}
-    </p>
-    <br>
     <!-- Responses -->
     {% if responses.count > 0 %}
       <h4 class="posts-title">Responses</h4>
       <ul class="list-group">
         {% for response in responses %}
           <li class="list-group-item posts-list-li">
-            {% include 'objects/object_response_item.html' %}
+            {% include 'items/response_item.html' %}
           </li>
         {% endfor %}
       </ul>

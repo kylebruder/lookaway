@@ -5,7 +5,7 @@
       {% include 'objects/unpublished.html' %}
     {% endif %}
   </h6>
-  {% if response.meta_description %}
-    <p>{{ response.meta_description }}</p>
+  {% if response.text %}
+    <p>{{ response.text|truncatechars:155 }}</p>
   {% endif %}
 </li>

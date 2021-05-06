@@ -15,12 +15,12 @@
       </a></strong>
     </h6>
     <p>
-      Posted by <a href="{% url 'members:member_profile' post.owner.username %}"><span class="index-heading-span">{{ post.owner }}</span></a> on <span class="index-heading-span">{{ post.creation_date|date:"M d, Y" }}</span>
+      Posted by <a href="{% url 'members:member_profile' post.owner.username %}"><span class="index-heading-span">{{ post.owner }}</span></a>{% if post.publication_date %} on <span class="index-heading-span">{{ post.publication_date|date:"M d, Y" }}</span>{% endif %}{% if post.location %} from <span class="index-heading-span">{{ post.location }}</span>{% endif %}
     </p>
   </div>
 </div>
 <p>
-  {{ post.meta_description }}
+  {{ post.text|truncatechars:155 }}
 </p>
 {% if not post.is_public %}
   <span class="badge badge-dark">Unpublished</span>

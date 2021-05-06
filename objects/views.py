@@ -54,6 +54,30 @@ class ObjectsAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, U
         context['sections'] = ObjectsPageSection.objects.all().order_by(
             'order',
         )
+        # Add objects page section button
+        if self.request.user.has_perm('objects.add_objectspagesection'):
+            context['show_objects_page_section_add_button'] = True
+            context['objects_page_section_add_button'] = {
+                'url': reverse(
+                    'objects:objects_page_section_create',
+                ),
+            }
+        # Edit objects page section button
+        if self.request.user.has_perm('objects.change_objectspagesection'):
+            context['show_objects_page_section_edit_button'] = True
+        # Delete objects page section button
+        if self.request.user.has_perm('objects.delete_objectspagesection'):
+            context['show_objects_page_section_delete_button'] = True
+        # Edit objects app settings button
+        if self.request.user.has_perm('objects.change_objectsappprofile'):
+            context['show_objects_app_profile_settings_edit_button'] = True
+            context['objects_app_profile_settings_edit_button'] = {
+                'url': reverse(
+                    'objects:objects_app_transcoder_settings_update',
+                    kwargs={'pk': 1},
+                ),
+                'text': "Edit Settings",
+            }
         return context
 
     def get_success_url(self):
@@ -62,8 +86,7 @@ class ObjectsAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, U
             return next_url
         else:
             return reverse(
-                'objects:objects_page_section_detail',
-                kwargs={'pk': self.object.pk},
+                'objects:objects_page',
             )
 
 class ObjectsAppTranscoderSettingsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, MemberUpdateMixin):
@@ -156,11 +179,14 @@ class ObjectsPageView(TemplateView, AppPageMixin):
             )
         # Update AppProfile button
         if self.request.user.has_perm('objects.change_objectsappprofile'):
-            context['show_edit_profile_button'] = True
-            context['edit_profile_url'] = reverse(
-                'objects:objects_app_profile_update',
-                kwargs={'pk': 1},
-            )
+            context['show_profile_edit_button'] = True
+            context['profile_edit_button'] = {
+                'url': reverse(
+                    'objects:objects_app_profile_update',
+                    kwargs={'pk': 1},
+                ),
+                'text': "Edit App",
+            }
         return context
 
 class ObjectsPageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):

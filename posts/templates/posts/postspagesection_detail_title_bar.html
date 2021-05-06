@@ -1,20 +1,27 @@
+<!-- Posts Page Section Detail Title Bar -->
 <div class="row">
   <div class="col">
     {% if not section.hide_title %}
       <h4 class="posts-page-title">{{ section.title }}</h4>
     {% endif %}
   </div>
-  {% if section.owner == request.user %}
+  {% if section.owner.pk == request.user.pk %}
     <div class="col-">
       <div class="container">
         {% if show_posts_page_section_add_button %}
-          <a href="{{ posts_page_section_add_button|lookup:"url" }}{% if sections %}?order={{ section.next_order }}{% else %}?order=0{% endif %}"><button type="button" class="btn btn-sm btn-primary create-button">+</button></a>
+          <td>
+            <a href="{{ posts_page_section_add_button|lookup:"url" }}?order={{ section.next_order }}"><button type="button" class="btn btn-sm btn-primary create-button">+</button></a>
+          </td>
         {% endif %}
         {% if show_posts_page_section_edit_button %}
-          <a href="{% url 'posts:posts_page_section_update' section.pk %}"><button type="button" class="btn btn-sm btn-warning edit-button">&#9998;</button></a>
+          <td>
+            <a href="{% url 'posts:posts_page_section_update' section.pk %}"><button type="button" class="btn btn-sm btn-warning edit-button">&#9998;</button></a>
+          </td>
         {% endif %}
         {% if show_posts_page_section_edit_button %}
-          <a href="{% url 'posts:posts_page_section_delete' section.pk %}"><button type="button" class="btn btn-sm btn-danger delete-button">X</button></a>
+          <td>
+            <a href="{% url 'posts:posts_page_section_delete' section.pk %}"><button type="button" class="btn btn-sm btn-danger delete-button">X</button></a>
+          </td>
         {% endif %}
       </div>
     </div>

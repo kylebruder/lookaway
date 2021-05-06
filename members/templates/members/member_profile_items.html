@@ -12,6 +12,7 @@
         {% endfor %}
       {% endif %}
     </p>
+    <a href="{% url 'posts:member_posts' profile.member.username %}">more...</a>
   </div>
 {% endif %}
 <!-- Responses -->

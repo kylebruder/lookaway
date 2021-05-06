@@ -5,7 +5,9 @@
   {% if codes %}
     {% include "page_control.html" %}
     <ul class="list-group">
-      {% include "./code_list_item.html" %}
+      {% for code in codes %}
+        {% include "./code_list_item.html" %}
+      {% endfor %}
     </ul>
     {% include "page_control.html" %}
     <br>

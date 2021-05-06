@@ -189,6 +189,21 @@ class PostsPageSectionDetailView(LoginRequiredMixin, DetailView):
         profile, created = PostsAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         context['meta_title'] = profile.title
+        # Add posts page section button
+        if self.request.user.has_perm('posts.add_postspagesection'):
+            context['show_posts_page_section_add_button'] = True
+            context['posts_page_section_add_button'] = {
+                'url': reverse(
+                    'posts:posts_page_section_create',
+                ),
+            }
+        # Edit posts page section button
+        if self.request.user.has_perm('posts.change_postspagesection'):
+            context['show_posts_page_section_edit_button'] = True
+        # Delete posts page section button
+        if self.request.user.has_perm('posts.delete_postspagesection'):
+            context['show_posts_page_section_delete_button'] = True
+
         return context
 
 class PostsPageSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
@@ -284,15 +299,14 @@ class PostListView(ListView):
     def get_queryset(self, *args, **kwargs):
         if self.request.user.is_authenticated:
             return Post.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
+                Q(is_public=True),
             ).order_by(
                 'is_public',
                 '-publication_date',
             )
         else:
             return Post.objects.filter(
-                is_public=True,
-                members_only=False,
+                Q(is_public=True) | Q(members_only=False),
             ).order_by(
                 '-publication_date',
             )
@@ -328,15 +342,14 @@ class TopPostListView(ListView):
     def get_queryset(self, *args, **kwargs):
         if self.request.user.is_authenticated:
             return Post.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
+                Q(is_public=True),
             ).order_by(
                 '-weight',
                 '-publication_date',
             )
         else:
             return Post.objects.filter(
-                is_public=True,
-                members_only=False,
+                Q(is_public=True) | Q(members_only=False)
             ).order_by(
                 '-weight',
                 '-publication_date',
@@ -623,15 +636,13 @@ class ResponsePostListView(ListView):
     def get_queryset(self, *args, **kwargs):
         if self.request.user.is_authenticated:
             return ResponsePost.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
+                Q(is_public=True)
             ).order_by(
-                'is_public',
                 '-publication_date',
             )
         else:
             return ResponsePost.objects.filter(
-                is_public=True,
-                members_only=False,
+                Q(is_public=True) | Q(members_only=False),
             ).order_by(
                 '-publication_date',
             )
@@ -661,15 +672,14 @@ class TopResponsePostListView(ListView):
     def get_queryset(self, *args, **kwargs):
         if self.request.user.is_authenticated:
             return ResponsePost.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
+                Q(is_public=True),
             ).order_by(
                 '-weight',
                 '-publication_date',
             )
         else:
             return ResponsePost.objects.filter(
-                is_public=True,
-                members_only=False,
+                Q(is_public=True) | Q(members_only=False)
             ).order_by(
                 '-weight',
                 '-publication_date',

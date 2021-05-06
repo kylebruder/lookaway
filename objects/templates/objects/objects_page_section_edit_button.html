@@ -1,3 +1,0 @@
-{% extends 'small_edit_button.html' %}
-{% block button_url %}{% url 'objects:objects_page_section_update' section.pk %}{% endblock %}
-{% block parameters %}?next={{ request.path }}{% endblock %}

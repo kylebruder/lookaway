@@ -6,10 +6,27 @@
     <!-- Title bar-->
     {% include './response_detail_title_bar.html' %}
     <!-- Meta data -->
-    {% include './re_links.html' %}
     <p>
+      {% if response.is_public %}
+        Posted by
+        <span class="index-page-span"><a href="{% url 'members:member_profile' response.owner.profile.slug %}">{{ response.owner }}</a></span>
+        on <span class="index-page-span">{{ response.publication_date|date:"M d, Y" }}</span>
+        {% if response.location %}
+          from <span class="index-page-span">{{ response.location }}</span>
+        {% endif %}
+      {% else %}
+        Owned by <a href="{% url 'members:member_profile' response.owner.profile.slug %}">{{ response.owner }}</a>, created on {{ response.creation_date }}
+        {% if not post.is_public %}
+          <span class="badge badge-dark">Unpublished</span><br>
+        {% endif %}
+      {% endif %}
+      {% if response.last_modified > response.publication_date %}
+        Last updated on
+        <span class="index-page-span">{{ response.last_modified|date:"M d, Y" }}</span>
+      {% endif %}
+      <br>{% include 'items/re_links.html' %}
       {% if response.members_only %}
-        <i>This Post is only visible to authenticated members</i><br>
+        <i>This Post is only visible to authenticated members</i>
       {% endif %}
     </p>
     {% if response.text or response.image %}
@@ -39,25 +56,6 @@
         <br>
       {% endwith %}
     {% endif %}
-    <p>
-      {% if response.is_public %}
-        Posted by
-        <span class="index-page-span"><a href="{% url 'members:member_profile' response.owner.profile.slug %}">{{ response.owner }}</a></span>
-        on <span class="index-page-span">{{ response.publication_date|date:"M d, Y" }}</span>
-        {% if response.location %}
-          from <span class="index-page-span">{{ response.location }}</span>
-        {% endif %}
-      {% else %}
-        Owned by <a href="{% url 'members:member_profile' response.owner.profile.slug %}">{{ response.owner }}</a>, created on {{ response.creation_date }}
-        {% if not post.is_public %}
-          <span class="badge badge-dark">Unpublished</span><br>
-        {% endif %}
-      {% endif %}
-      {% if response.last_modified > response.publication_date %}
-        Last updated on
-        <span class="index-page-span">{{ response.last_modified|date:"M d, Y" }}</span>
-      {% endif %}
-    </p>
     <br>
     {% if response.bitcoin_wallet or response.litecoin_wallet %}
       <h4 class="posts-title">Donate</h4>

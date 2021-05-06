@@ -1,0 +1,19 @@
+{% if show_objects_app_profile_settings_edit_button %}
+  <div class="form-field">
+    <div class="row">
+      <div class="col-sm">
+        <h4 class="form-label">Transcoder Settings</h4>
+        <p>When media files are uploaded to the site, they need to be validated and optimized for performance. This process is known as transcoding. You can change the quality, size and format settings used in the transcoding process.</p>
+      </div>
+      <div class="col-">
+        <div class="container">
+          {% with objects_app_profile_settings_edit_button as button %}
+            {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+              {% include 'buttons/edit_button.html' %}
+            {% endwith %}
+          {% endwith %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
