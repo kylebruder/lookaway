@@ -9,9 +9,6 @@
       {% if post.members_only %}
         <p><i>This Post is only visible to authenticated members</i></p>
       {% endif %}
-      {% if not object.is_public %}
-        <p>{% include 'objects/unpublished.html' %}</p>
-      {% endif %}
       {% if post.is_public %}
         <p>
           Posted by
@@ -108,16 +105,8 @@
       {% if post.is_public %}
         <div class="col-">
           <div class="container">
-            {% if can_add_marshmallow %}
-              <a href="{% url 'posts:post_marshmallow' post.pk %}">
-                <button type="button" class="btn btn-sm btn-light marshmallow-button float-right">M</button>
-              </a>
-            {% endif %}
-            {% if can_add_response %}
-              <a href="{% url 'posts:response_post_create' model='post' pk=post.pk members_only=post.members_only %}">
-                <button type="button" class="btn btn-sm btn-primary float-right">+Response</button>
-              </a>
-            {% endif %}
+            {% include 'buttons/response_button.html' %}
+            {% include 'buttons/marshmallow_button.html' %}
           </div>
         </div>
       {% endif %}

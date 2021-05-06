@@ -3,7 +3,7 @@
 <div class="container posts-bg">
   <div class="container">
     <form method="post">{% csrf_token %}
-      <p>Are you sure you want to delete the response with the title "{{ response.title }}"?</p>
+      <p>Are you sure you want to delete the response with the title "{{ object.title }}"?</p>
       <input type="submit" value="Confirm" class="btn btn-danger">
     </form>
   </div>

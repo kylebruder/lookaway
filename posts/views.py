@@ -384,7 +384,7 @@ class MemberPostView(ListView):
     context_object_name = 'posts'
 
     def get_queryset(self, *args, **kwargs):
-        member = self.request.user
+        member = Member.objects.get(username=self.kwargs['member'])
         if self.request.user.is_authenticated:
             return Post.objects.filter(
                 owner=member
@@ -435,10 +435,59 @@ class PostDetailView(DetailView):
         context['profile'] = profile
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
+            # Post Actions
+            if self.object.owner.pk == member.pk:
+                if not self.object.is_public:
+                    context['show_publish_button'] = True
+                    context['publish_button'] = {
+                        'url': reverse(
+                            'posts:publish_post',
+                            kwargs={
+                                'pk': self.object.pk,
+                            },
+                        )
+                    }
+                context['show_edit_button'] = True
+                context['edit_button'] = {
+                     'url': reverse(
+                        'posts:post_update',
+                        kwargs={
+                            'slug': self.object.slug,
+                        },
+                    )
+                }
+                context['show_delete_button'] = True
+                context['delete_button'] = {
+                     'url': reverse(
+                        'posts:post_delete',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    )
+                }
+            # Marshmallow button
             if member.check_can_allocate() and not member.check_is_new():
                 context['can_add_marshmallow'] = True
-            else:
-                context['can_add_marshmallow'] = False
+                context['marshmallow_button'] = {
+                    'url': reverse(
+                        'posts:post_marshmallow',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    ),
+                }
+            # Response button
+                context['can_respond'] = True
+                context['response_button'] = {
+                    'url': reverse(
+                        'posts:response_post_create',
+                        kwargs={
+                            'model': "post",
+                            'pk': self.object.pk,
+                            'members_only': self.object.members_only,
+                        },
+                    ),
+                }
             # Get the posts that are a response to this post
             context['responses'] = ResponsePost.objects.filter(
                 post=self.object,
@@ -494,7 +543,7 @@ class PostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMi
     model = Post
 
     def get_success_url(self):
-        return reverse('members:studio')
+        return reverse('posts:member_posts', kwargs={'member': self.request.user.username})
 
 def add_marshmallow_to_post_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -516,7 +565,7 @@ def add_marshmallow_to_post_view(request, pk):
                 messages.ERROR,
                 'You are not allowed to give marshmallows at this time'
             )
-    return HttpResponseRedirect(reverse('posts:public_posts'))
+    return HttpResponseRedirect(reverse('posts:top_posts'))
 
 def publish_post_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -708,7 +757,7 @@ class MemberResponsePostView(ListView):
     context_object_name = 'responses'
 
     def get_queryset(self, *args, **kwargs):
-        member = self.request.user
+        member = Member.objects.get(username=self.kwargs['member'])
         if self.request.user.is_authenticated:
             return ResponsePost.objects.filter(
                 owner=member
@@ -752,13 +801,50 @@ class ResponsePostDetailView(DetailView):
         context['profile'] = profile
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
+            # Post Actions
+            if self.object.owner.pk == member.pk:
+                if not self.object.is_public:
+                    context['show_publish_button'] = True
+                    context['publish_button'] = {
+                        'url': reverse(
+                            'posts:publish_response',
+                            kwargs={
+                                'pk': self.object.pk,
+                            },
+                        )
+                    }
+                context['show_edit_button'] = True
+                context['edit_button'] = {
+                     'url': reverse(
+                        'posts:response_update',
+                        kwargs={
+                            'slug': self.object.slug,
+                        },
+                    )
+                }
+                context['show_delete_button'] = True
+                context['delete_button'] = {
+                     'url': reverse(
+                        'posts:response_delete',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    )
+                }
+            # Marshmallow button
             if member.check_can_allocate() and not member.check_is_new():
                 context['can_add_marshmallow'] = True
-            else:
-                context['can_add_marshmallow'] = False
+                context['marshmallow_button'] = {
+                    'url': reverse(
+                        'posts:response_marshmallow',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    ),
+                }
         return context
 
-class ResponsePostUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class ResponsePostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
     permission_required = 'posts.change_responsepost'
     model = ResponsePost
@@ -817,12 +903,13 @@ class ResponsePostUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class ResponsePostDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class ResponsePostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = ResponsePost
+    permission_required = 'posts.delete_responsepost'
 
     def get_success_url(self):
-        return reverse('members:studio')
+        return reverse('posts:member_responses', kwargs={'member': self.request.user.username})
 
 def publish_responsepost_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -886,7 +973,7 @@ def add_marshmallow_to_responsepost_view(request, pk):
                 messages.ERROR,
                 'You are not allowed to give marshmallows at this time'
             )
-    return HttpResponseRedirect(reverse('posts:member_responses', kwargs={'member': instance.owner.username}))
+    return HttpResponseRedirect(reverse('posts:top_responses'))
 
 class ReportPostCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
@@ -1018,4 +1105,4 @@ class ReportPostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteVi
     model = ReportPost
 
     def get_success_url(self):
-        return reverse('members:studio')
+        return reverse('posts:member_posts', kwargs={'member': self.request.user.username})

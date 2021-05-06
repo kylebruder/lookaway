@@ -50,8 +50,8 @@
     {% endblock %}
     {% if page_obj.has_other_pages %}<span class="posts-page-span posts-nav">{% include 'page_control.html' %}</span>{% endif %}
   {% else %}
-    <p class="posts-page-span">No {{ app_list_context }} have been published yet. Check back soon!</p>
     <br>
+    <p class="posts-page-span posts-alert">No {{ app_list_context }} have been published yet. Check back soon!</p>
   {% endif %}
   <br>
 </div>

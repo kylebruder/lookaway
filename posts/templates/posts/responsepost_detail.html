@@ -4,7 +4,7 @@
 <div class="container posts-bg">
   {% if response.is_public or response.owner.pk == request.user.pk %}
     <!-- Title bar-->
-    {% include './response_detail_title_bar.html' %}
+    {% include './responsepost_detail_title_bar.html' %}
     <!-- Meta data -->
     <p>
       {% if response.is_public %}
@@ -70,15 +70,11 @@
       <div class="col-sm">
         {% include 'objects/object_tags.html' %}
       </div>
-      {% if response.is_public and can_add_marshmallow %}
-        <div class="col-">
-          <div class="container">
-            <a href="{% url 'posts:response_marshmallow' response.pk %}">
-              <button type="button" class="btn btn-sm btn-light marshmallow-button float-right">M</button>
-            </a>
-          </div>
+      <div class="col-">
+        <div class="container">
+          {% include 'buttons/marshmallow_button.html/' %}
         </div>
-      {% endif %}
+      </div>
     </div>
     <br>
   {% else %}

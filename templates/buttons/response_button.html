@@ -1,0 +1,7 @@
+{% if can_respond %}
+  {% with response_button as button %}
+    {% with button|lookup:"url" as button_url %}
+      <a href="{{ button_url }}"><button type="button" class="btn btn-sm btn-light marshmallow-button">Respond</button></a>
+    {% endwith %}
+  {% endwith %}
+{% endif %}

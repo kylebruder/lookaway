@@ -4,9 +4,10 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.forms import ValidationError
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, reverse, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect, reverse, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone, text
 from django.views.generic import ListView, TemplateView
@@ -773,6 +774,9 @@ class MemberProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = ProfileForm
 
+    def __init__(self, *args, **kwargs):
+        super(MemberProfileUpdateView, self).__init__()
+
     def get_form_kwargs(self):
         kwargs = super(MemberProfileUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
@@ -780,6 +784,8 @@ class MemberProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        if self.request.user != self.object.member:
+            raise PermissionDenied
         # App profile
         profile = self.object
         context['profile'] = profile
@@ -838,11 +844,11 @@ class MemberProfileUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        if self.request.user.pk == self.object.pk:
+        if self.request.user.pk == self.object.member.pk:
             return super().form_valid(form)
         else:
             return reverse_lazy('members:member_profile',
-                kwargs={'slug': self.object.username}
+                kwargs={'slug': self.object.member.username}
             )
             
     def get_success_url(self):
@@ -862,6 +868,8 @@ class MemberProfileSettingsUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        if self.request.user != self.object.member:
+            raise PermissionDenied
         # App profile
         profile = self.object
         context['profile'] = profile
@@ -986,6 +994,12 @@ class MemberUpdateView(LoginRequiredMixin, UpdateView):
     model = Member
     form_class = MemberForm 
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user != self.object:
+            raise PermissionDenied
+        return context
+
     def form_valid(self, form):
         if self.request.user == self.object:
             return super().form_valid(form)
@@ -1004,11 +1018,10 @@ class MemberUpdateView(LoginRequiredMixin, UpdateView):
             )
 
 def member_registration(request, *args, **kwargs):
+    invite = InviteLink.objects.get(
+        pk=request.POST.get('invite'),
+    )
     if request.method == 'POST':
-        global invite 
-        invite = InviteLink.objects.get(
-            pk=request.POST.get('invite'),
-        )
         if invite.expiration_date > timezone.now():
             f = UserCreationForm(request.POST)
             if f.is_valid():
@@ -1018,21 +1031,14 @@ def member_registration(request, *args, **kwargs):
                     request,
                     "Welcome! Please log in using your provided credentials."
                 )
-                return HttpResponseRedirect(reverse('login'))
+                return redirect('login')
         else:
             messages.info(
                 request,
                 "The invite link is expired and can no longer be used."
             )
-            return HttpResponseRedirect(reverse('login'))
-    return HttpResponseRedirect(
-        reverse_lazy(
-            'members:invite_link_detail',
-            kwargs={
-                'slug': invite.slug,
-            },
-        )
-    )
+            invite.delete()
+            return redirect('index')
 
 class InviteLinkCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
@@ -1087,7 +1093,7 @@ class InviteLinkDetailView(FormMixin, DetailView):
                     "This invite link has expired! Please request a new one from the site administrator.",
                 )
                 invite.delete()
-                return reverse('home:index')
+                return redirect('home:index')
         else:
             return self.form_invalid(form)
 

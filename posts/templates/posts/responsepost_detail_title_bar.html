@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col">
-    <h4 class="posts-page-title">{{ post.title }}</h4>
+    <h4 class="posts-page-title">{{ response.title }}</h4>
   </div>
-  {% if post.owner.pk == request.user.pk %}
+  {% if response.owner.pk == request.user.pk %}
     <div class="col-">
       <div class="container">
         <div class="btn-group" role="group" aria-label="Post Actions">

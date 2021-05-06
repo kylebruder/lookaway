@@ -10,7 +10,7 @@
     <form method="post">
     {% csrf_token %}
     {% for field in form %}
-      {% include 'form_field.html' %}
+      {% include 'forms/form_field.html' %}
     {% endfor %}
     <input type="submit" class="btn btn-sm btn-success" value="Submit">
   </form>
