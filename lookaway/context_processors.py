@@ -46,12 +46,17 @@ def nav_apps(request):
         show_music = True
     else:
         show_music = False
+    if profile.nav_show_objects:
+        show_objects = True
+    else:
+        show_objects = False
     return {
         "nav_show_posts": show_posts,
         "nav_show_members": show_members,
         "nav_show_documentation": show_documentation,
         "nav_show_art": show_art,
         "nav_show_music": show_music,
+        "nav_show_objects": show_objects,
     }
 
 ## Each app has a name and, optionally, an image.
@@ -64,6 +69,7 @@ def nav_buttons(request):
         "nav_art_name": profile.nav_art_name,
         "nav_music_name": profile.nav_music_name,
         "nav_members_name": profile.nav_members_name,
+        "nav_objects_name": profile.nav_objects_name,
     }
     if profile.nav_posts_image:
         buttons['nav_posts_image'] = profile.nav_posts_image.image_file.url
@@ -75,6 +81,8 @@ def nav_buttons(request):
         buttons['nav_music_image'] = profile.nav_music_image.image_file.url
     if profile.nav_members_image:
         buttons['nav_members_image'] = profile.nav_members_image.image_file.url
+    if profile.nav_objects_image:
+        buttons['nav_objects_image'] = profile.nav_objects_image.image_file.url
     return buttons
 
 # Buttons

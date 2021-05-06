@@ -93,6 +93,19 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
         null=True,
         related_name='nav_members_image',
     )
+    ## Objects
+    nav_show_objects = models.BooleanField(default=True)
+    nav_objects_name = models.CharField(
+        max_length=64,
+        default='Objects',
+    )
+    nav_objects_image = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='nav_objects_image',
+    )
 
     # Posts settings
     n_posts = models.PositiveIntegerField(default=5)

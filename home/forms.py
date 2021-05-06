@@ -100,6 +100,19 @@ class SiteProfileForm(forms.ModelForm):
         help_text="""Set the name of the Members app in the navbar.""",
         max_length=64,
     )
+    nav_show_objects = forms.BooleanField(
+        label="Show a link to the Objects app in the navbar.",
+        required=False,
+    )
+    nav_objects_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-text-field',
+            }
+        ),
+        help_text="""Set the name of the Objects app in the navbar.""",
+        max_length=64,
+    )
     legal_notice = forms.CharField(
         widget=forms.Textarea(
             attrs={
@@ -160,6 +173,9 @@ class SiteProfileForm(forms.ModelForm):
             'nav_show_members',
             'nav_members_name',
             'nav_members_image',
+            'nav_show_objects',
+            'nav_objects_name',
+            'nav_objects_image',
             'legal_notice',
             'admin_email',
             'css_path',
