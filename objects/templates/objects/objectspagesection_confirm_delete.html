@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container objects-bg">
+  <div class="container">
+    <form method="post">{% csrf_token %}
+      <p>Are you sure you want to delete the Objects Page Section with the title "{{ section.title }}"?</p>
+      <input type="submit" value="Confirm" class="btn btn-danger">
+    </form>
+  </div>
+  <br>
+</div>
+{% endblock %}

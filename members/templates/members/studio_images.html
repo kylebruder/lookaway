@@ -7,9 +7,9 @@
     </div>
     <div class="col-">
       <div class="container">
-        {% if show_posts_buttons %}
-          {% with post_add_button as button %}
-            {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
+        {% if show_objects_buttons %}
+          {% with image_add_button as button %}
+            {% with button|lookup:"url" as button_url %}
               {% include 'buttons/small_add_button.html' %}
             {% endwith %}
           {% endwith %}

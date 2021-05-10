@@ -124,6 +124,8 @@ class Post(MetaDataMixin, PostMetaData, MarshmallowMixin, CryptoWalletsMixin):
         return self.title
 
     class Meta:
+        verbose_name = "Post"
+        verbose_name_plural = "Posts"
         ordering = ['-publication_date', '-creation_date']
 
 class PostForeignModels(models.Model):
@@ -186,6 +188,8 @@ class ResponsePost(MetaDataMixin, PostMetaData, PostForeignModels, MarshmallowMi
         return self.title
 
     class Meta:
+        verbose_name = "Response"
+        verbose_name_plural = "Responses"
         ordering = ['-publication_date', '-creation_date']
 
 class ReportPost(MetaDataMixin, PostMetaData, PostForeignModels):
@@ -204,4 +208,6 @@ class ReportPost(MetaDataMixin, PostMetaData, PostForeignModels):
         return self.title
 
     class Meta:
+        verbose_name = "Report"
+        verbose_name_plural = "Reports"
         ordering = ['-publication_date', '-creation_date']

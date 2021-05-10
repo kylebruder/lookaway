@@ -294,8 +294,8 @@ class MembersPageView(TemplateView, AppPageMixin):
 # Add members page section form
 class MembersPageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
-    permission_required = 'members.add_memberspagesection'
     model = MembersPageSection
+    permission_required = 'members.add_memberspagesection'
     form_class = MembersPageSectionForm
 
     def get_form_kwargs(self):
@@ -347,8 +347,8 @@ class MembersPageSectionDetailView(LoginRequiredMixin, DetailView):
 # Edit member page section form
 class MembersPageSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
-    permission_required = 'members.change_memberspagesection'
     model = MembersPageSection
+    permission_required = 'members.change_memberspagesection'
     form_class = MembersPageSectionForm
 
     def get_form_kwargs(self):
@@ -1042,8 +1042,8 @@ def member_registration(request, *args, **kwargs):
 
 class InviteLinkCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
-    permission_required = 'members.add_invitelink'
     model = InviteLink
+    permission_required = 'members.add_invitelink'
     form_class= InviteLinkCreateForm
 
     def form_valid(self, form):

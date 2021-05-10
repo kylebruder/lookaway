@@ -1,21 +1,11 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class="container image-bg">
-  {% include "./image_list_button_bar.html" %}
-  <br>
-  {% if object_list %}
-    {% include "page_control.html" %}
+{% extends './objects_list.html' %}
+{% block items_block %}
+  <div class="objects-section">
     <div class="image-matrix">
       {% for image in images %}
         {% include "./image_list_card.html" %}
       {% endfor %}
     </div>
     <div class="clear"></div>
-    {% include "page_control.html" %}
-    <br>
-  {% else %}
-    <p>There are no images yet. Check back soon!</p>
-    <br>
-  {% endif %}
-</div>
-{% endblock %} 
+  </div>
+{% endblock %}

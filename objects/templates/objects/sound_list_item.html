@@ -1,0 +1,9 @@
+<li class="list-group-item sound-list-li">
+  <a href="{% url 'objects:sound_detail' sound.pk %}">
+    <p class="sound-title">{{ sound.title }}</p>
+  </a>
+  <p>{{ sound.credit }}</p>
+  {% if not sound.is_public %}
+    <span class="badge badge-secondary">Unpublished</span>
+  {% endif %}
+</li>

@@ -1,19 +1,8 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class="container video-bg">
-  {% include "./video_list_button_bar.html" %}
-  {% if videos %}
-    {% include "page_control.html" %}
-      <ul class="list-group">
-        {% for video in videos %}
-          {% include "./video_list_item.html" %}
-        {% endfor %}
-      </ul>
-    {% include "page_control.html" %}
-    <br>
-  {% else %}
-    <p>There are no videos yet. Check back soon!</p>
-    <br>
-  {% endif %}
-</div>
-{% endblock %} 
+{% extends './objects_list.html' %}
+{% block items_block %}
+  <ul class="list-group">
+    {% for video in videos %}
+      {% include "./video_list_item.html" %}
+    {% endfor %}
+  </ul>
+{% endblock %}

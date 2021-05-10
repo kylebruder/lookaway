@@ -19,6 +19,7 @@ from django.views.generic.list import ListView
 from documentation.models import Article, Story, SupportDocument
 from lookaway.mixins import AppPageMixin
 from lookaway.settings import BASE_DIR
+from home.models import HomeAppProfile
 from art.models import Gallery, Visual
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
@@ -29,9 +30,11 @@ from .forms import (ObjectsAppProfileForm, ObjectsPageSectionForm,
     ObjectsAppTranscoderSettingsForm, ImageCreateForm, ImageUpdateForm, 
     SoundCreateForm, SoundUpdateForm, VideoCreateForm, VideoUpdateForm, 
     CodeForm, LinkCreateForm, LinkForm, TagForm)
+from .app_profile_mixins import ModelListMixin, ModelByTagMixin
 from .models import ObjectsAppProfile, ObjectsPageSection, Tag, Image, Sound, Video, Code, Link
 # Create your views here.
 
+# Objects App Form
 class ObjectsAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
     permission_required = 'objects.change_objectsappprofile'
@@ -89,6 +92,7 @@ class ObjectsAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, U
                 'objects:objects_page',
             )
 
+# Objects App transcoder form
 class ObjectsAppTranscoderSettingsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, MemberUpdateMixin):
 
     permission_required = 'objects.change_objectsappprofile'
@@ -187,6 +191,30 @@ class ObjectsPageView(TemplateView, AppPageMixin):
                 ),
                 'text': "Edit App",
             }
+        # Add objects page section button
+        if self.request.user.has_perm('objects.add_objectspagesection'):
+            context['show_objects_page_section_add_button'] = True
+            context['objects_page_section_add_button'] = {
+                'url': reverse(
+                    'objects:objects_page_section_create',
+                ),
+            }
+        # Edit objects page section button
+        if self.request.user.has_perm('objects.change_objectspagesection'):
+            context['show_objects_page_section_edit_button'] = True
+        # Delete objects page section button
+        if self.request.user.has_perm('objects.delete_objectspagesection'):
+            context['show_objects_page_section_delete_button'] = True
+        # Edit objects app settings button
+        if self.request.user.has_perm('objects.change_objectsappprofile'):
+            context['show_objects_app_profile_settings_edit_button'] = True
+            context['objects_app_profile_settings_edit_button'] = {
+                'url': reverse(
+                    'objects:objects_app_transcoder_settings_update',
+                    kwargs={'pk': 1},
+                ),
+                'text': "Edit Settings",
+            }
         return context
 
 class ObjectsPageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
@@ -238,6 +266,31 @@ class ObjectsPageSectionDetailView(LoginRequiredMixin, DetailView):
         profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         context['meta_title'] = profile.title
+        context['sections'] = True
+        # Add objects page section button
+        if self.request.user.has_perm('objects.add_objectspagesection'):
+            context['show_objects_page_section_add_button'] = True
+            context['objects_page_section_add_button'] = {
+                'url': reverse(
+                    'objects:objects_page_section_create',
+                ),
+            }
+        # Edit objects page section button
+        if self.request.user.has_perm('objects.change_objectspagesection'):
+            context['show_objects_page_section_edit_button'] = True
+        # Delete objects page section button
+        if self.request.user.has_perm('objects.delete_objectspagesection'):
+            context['show_objects_page_section_delete_button'] = True
+        # Edit objects app settings button
+        if self.request.user.has_perm('objects.change_objectsappprofile'):
+            context['show_objects_app_profile_settings_edit_button'] = True
+            context['objects_app_profile_settings_edit_button'] = {
+                'url': reverse(
+                    'objects:objects_app_transcoder_settings_update',
+                    kwargs={'pk': 1},
+                ),
+                'text': "Edit Settings",
+            }
         return context
 
 class ObjectsPageSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
@@ -287,16 +340,17 @@ class ObjectsPageSectionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, 
         )
 
 # Image Views
-class ImageCreateView(LoginRequiredMixin, CreateView):
+class ImageCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
     model = Image
+    permission_required = 'objects.add_image'
     form_class = ImageCreateForm
     template_name_suffix = '_create_form'
 
     def form_valid(self, form):
         
         member = Member.objects.get(pk=self.request.user.pk)
-        # CHeck disk space before uploading
+        # Check disk space before uploading
         has_free_space, free, used = member.check_free_media_capacity(
             BASE_DIR + '/media/member_{}/'.format(member.pk),
         )
@@ -350,17 +404,13 @@ class ImageCreateView(LoginRequiredMixin, CreateView):
         else:
             return reverse_lazy('objects:image_detail', kwargs={'pk': self.object.pk})
 
-class ImageListView(LoginRequiredMixin, ListView):
+class ImageListView(ModelListMixin, LoginRequiredMixin, ListView):
 
     model = Image
     paginate_by = 36
     queryset = Image.objects.filter(is_public=True)
     context_object_name = 'images'
     ordering = ['-weight', '-creation_date']
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
 class MemberImageView(LoginRequiredMixin, ListView):
 
@@ -399,9 +449,10 @@ class ImageDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = False
         return context
 
-class ImageUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class ImageUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Image
+    permission_required = 'objects.change_image'
     form_class = ImageUpdateForm    
     template_name_suffix = '_update_form'
 
@@ -420,9 +471,10 @@ class ImageUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         else:
             return reverse('objects:image_detail', kwargs={'pk': self.object.pk})
 
-class ImageDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class ImageDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Image
+    permission_required = 'objects.delete_image'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -496,9 +548,10 @@ def publish_image_view(request, pk):
         return HttpResponseRedirect(reverse('member:studio'))
 
 # Sound Views
-class SoundCreateView(LoginRequiredMixin, CreateView):
+class SoundCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
     model = Sound
+    permission_required = 'objects.add_sound'
     form_class = SoundCreateForm
     template_name_suffix = '_create_form'
 
@@ -551,17 +604,13 @@ class SoundCreateView(LoginRequiredMixin, CreateView):
         else:
             return reverse('objects:sound_detail', kwargs={'pk': self.object.pk})
 
-class SoundListView(LoginRequiredMixin, ListView):
+class SoundListView(ModelListMixin, LoginRequiredMixin, ListView):
 
     model = Sound
     paginate_by = 6
     queryset = Sound.objects.filter(is_public=True)
     context_object_name = 'sounds'
     ordering = ['-weight', '-creation_date']
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
 class MemberSoundView(LoginRequiredMixin, ListView):
 
@@ -600,9 +649,10 @@ class SoundDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = False
         return context
 
-class SoundUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class SoundUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Sound
+    permission_required = 'objects.change_sound'
     form_class = SoundUpdateForm
     template_name_suffix = '_update_form'
 
@@ -621,9 +671,10 @@ class SoundUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         else:
             return reverse('objects:sound_detail', kwargs={'pk': self.object.pk})
 
-class SoundDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class SoundDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Sound
+    permission_required = 'objects.delete_sound'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -697,9 +748,10 @@ def publish_sound_view(request, pk):
         return HttpResponseRedirect(reverse('member:studio'))
 
 # Video Views
-class VideoCreateView(LoginRequiredMixin, CreateView):
+class VideoCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
     model = Video
+    permission_required = 'objects.add_video'
     form_class = VideoCreateForm
     template_name_suffix = '_create_form'
 
@@ -752,7 +804,7 @@ class VideoCreateView(LoginRequiredMixin, CreateView):
         else:
             return reverse('objects:video_detail', kwargs={'pk': self.object.pk})
 
-class VideoListView(LoginRequiredMixin, ListView):
+class VideoListView(ModelListMixin, LoginRequiredMixin, ListView):
 
     model = Video
     paginate_by = 6
@@ -801,9 +853,10 @@ class VideoDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = False
         return context
 
-class VideoUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class VideoUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Video
+    permission_required = 'objects.change_video'
     form_class = VideoUpdateForm
     template_name_suffix = '_update_form'
 
@@ -822,9 +875,10 @@ class VideoUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         else:
             return reverse('objects:video_detail', kwargs={'pk': self.object.pk})
 
-class VideoDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class VideoDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Video
+    permission_required = 'objects.delete_video'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -898,9 +952,10 @@ def publish_video_view(request, pk):
         return HttpResponseRedirect(reverse('member:studio'))
 
 # Code Views
-class CodeCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+class CodeCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
     model = Code
+    permission_required = 'objects.add_code'
     form_class = CodeForm
     template_name_suffix = '_form'
 
@@ -921,17 +976,13 @@ class CodeCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         else:
             return reverse('objects:code_detail', kwargs={'pk': self.object.pk})
 
-class CodeListView(LoginRequiredMixin, ListView):
+class CodeListView(ModelListMixin, LoginRequiredMixin, ListView):
 
     model = Code
     paginate_by = 6
     queryset = Code.objects.filter(is_public=True)
     context_object_name = 'codes'
     ordering = ['-weight', '-creation_date']
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
 class MemberCodeView(LoginRequiredMixin, ListView):
 
@@ -970,9 +1021,10 @@ class CodeDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = False
         return context
 
-class CodeUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class CodeUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Code
+    permission_required = 'objects.change_code'
     form_class = CodeForm
     template_name_suffix = '_form'
 
@@ -992,9 +1044,10 @@ class CodeUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         else:
             return reverse('objects:code_detail', kwargs={'pk': self.object.pk})
 
-class CodeDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class CodeDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Code
+    permission_required = 'objects.code_delete'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1068,9 +1121,10 @@ def publish_code_view(request, pk):
         return HttpResponseRedirect(reverse('member:studio'))
 
 # Link Views
-class LinkCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+class LinkCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
     model = Link
+    permission_required = 'objects.add_link'
     form_class = LinkCreateForm
     template_name_suffix = '_form'
 
@@ -1090,17 +1144,13 @@ class LinkCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
         else:
             return reverse('objects:link_detail', kwargs={'pk': self.object.pk})
 
-class LinkListView(LoginRequiredMixin, ListView):
+class LinkListView(ModelListMixin, LoginRequiredMixin, ListView):
 
     model = Link
     paginate_by = 6
     queryset = Link.objects.filter(is_public=True)
     context_object_name = 'links'
     ordering = ['-weight', '-creation_date']
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
 class MemberLinkView(LoginRequiredMixin, ListView):
 
@@ -1139,9 +1189,10 @@ class LinkDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = False
         return context
 
-class LinkUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class LinkUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Link
+    permission_required = 'objects.change_link'
     form_class = LinkForm
     template_name_suffix = '_form'
 
@@ -1160,9 +1211,10 @@ class LinkUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
         else:
             return reverse('objects:link_detail', kwargs={'pk': self.object.pk})
 
-class LinkDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class LinkDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Link
+    permission_required = 'objects.delete_link'
 
     def get_success_url(self):
         return reverse('members:studio')
@@ -1236,9 +1288,10 @@ def publish_link_view(request, pk):
         return HttpResponseRedirect(reverse('member:studio'))
 
 # Tag Views
-class TagCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+class TagCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
     model = Tag
+    permission_required = 'objects.add_tag'
     form_class = TagForm
     template_name_suffix = '_form'
 
@@ -1498,9 +1551,10 @@ class TagDetailView(DetailView):
                 context['no_member_objects'] = True
         return context
 
-class TagUpdateView(LoginRequiredMixin, UpdateView):
+class TagUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
     model = Tag
+    permission_required = 'objects.change_tag'
     form_class = TagForm
     template_name_suffix = '_form'
 
@@ -1569,224 +1623,53 @@ def get_tag_detail(request, *args, **kwargs):
     )
 
 # By Tag Views
-class VisualByTag(ListView):
+class VisualByTag(ModelByTagMixin, ListView):
 
     model = Visual
     context_object_name = 'visuals'
     paginate_by = 32
 
-    def get_queryset(self, *args, **kwargs):
-        slug = self.kwargs['slug']
-        if self.request.user.is_authenticated:
-            return self.model.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-                tags__slug__exact=slug,
-            ).order_by(
-                'is_public',
-                '-weight',
-            )
-        else:
-            return self.model.objects.filter(
-                is_public=True,
-                tags__slug__exact=self.slug,
-            ).order_by('-weight')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
-        return context
-
-class GalleryByTag(ListView):
+class GalleryByTag(ModelByTagMixin, ListView):
 
     model = Gallery
     context_object_name = 'galleries'
     paginate_by = 5
 
-    def get_queryset(self, *args, **kwargs):
-        slug = self.kwargs['slug']
-        if self.request.user.is_authenticated:
-            return self.model.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-                tags__slug__exact=slug,
-            ).order_by(
-                'is_public',
-                '-weight',
-            )
-        else:
-            return self.model.objects.filter(
-                is_public=True,
-                tags__slug__exact=self.slug,
-            ).order_by('-weight')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
-        return context
-
-class AlbumByTag(ListView):
+class AlbumByTag(ModelByTagMixin, ListView):
 
     model = Album
     context_object_name = 'albums'
     paginate_by = 5
 
-    def get_queryset(self, *args, **kwargs):
-        slug = self.kwargs['slug']
-        if self.request.user.is_authenticated:
-            return self.model.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-                tags__slug__exact=slug,
-            ).order_by(
-                'is_public',
-                '-weight',
-            )
-        else:
-            return self.model.objects.filter(
-                is_public=True,
-                tags__slug__exact=self.slug,
-            ).order_by('-weight')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
-        return context
-
-class TrackByTag(ListView):
+class TrackByTag(ModelByTagMixin, ListView):
 
     model = Track
     context_object_name = 'tracks'
     paginate_by = 5
 
-    def get_queryset(self, *args, **kwargs):
-        slug = self.kwargs['slug']
-        if self.request.user.is_authenticated:
-            return self.model.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-                tags__slug__exact=slug,
-            ).order_by(
-                'is_public',
-                '-weight',
-            )
-        else:
-            return self.model.objects.filter(
-                is_public=True,
-                tags__slug__exact=self.slug,
-            ).order_by('-weight')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
-        return context
-
-class StoryByTag(ListView):
-
-    model = Story
-    context_object_name = 'stories'
-    paginate_by = 5
-
-    def get_queryset(self, *args, **kwargs):
-        slug = self.kwargs['slug']
-        if self.request.user.is_authenticated:
-            return self.model.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-                tags__slug__exact=slug,
-            ).order_by(
-                'is_public',
-                '-weight',
-            )
-        else:
-            return self.model.objects.filter(
-                is_public=True,
-                tags__slug__exact=self.slug,
-            ).order_by('-weight')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
-        return context
-
-class PostByTag(ListView):
+class PostByTag(ModelByTagMixin, ListView):
 
     model = Post
     context_object_name = 'posts'
     paginate_by = 5
 
-    def get_queryset(self, *args, **kwargs):
-        slug = self.kwargs['slug']
-        if self.request.user.is_authenticated:
-            return self.model.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-                tags__slug__exact=slug,
-            ).order_by(
-                'is_public',
-                '-weight',
-            )
-        else:
-            return self.model.objects.filter(
-                is_public=True,
-                tags__slug__exact=self.slug,
-            ).order_by('-weight')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
-        return context
-
-class ArticleByTag(ListView):
+class ArticleByTag(ModelByTagMixin, ListView):
 
     model = Article
     context_object_name = 'articles'
     paginate_by = 5
 
-    def get_queryset(self, *args, **kwargs):
-        slug = self.kwargs['slug']
-        if self.request.user.is_authenticated:
-            return self.model.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-                tags__slug__exact=slug,
-            ).order_by(
-                'is_public',
-                '-weight',
-            )
-        else:
-            return self.model.objects.filter(
-                is_public=True,
-                tags__slug__exact=self.slug,
-            ).order_by('-weight')
+class StoryByTag(ModelByTagMixin, ListView):
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
-        return context
+    model = Story
+    context_object_name = 'stories'
+    paginate_by = 5
 
-class SupportDocumentByTag(ListView):
+class SupportDocumentByTag(ModelByTagMixin, ListView):
     
     model = SupportDocument
     context_object_name = 'documents'
     paginate_by = 5
-
-    def get_queryset(self, *args, **kwargs):
-        slug = self.kwargs['slug']
-        if self.request.user.is_authenticated:
-            return self.model.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-                tags__slug__exact=slug,
-            ).order_by(
-                'is_public',
-                '-weight',
-            )
-        else:
-            return self.model.objects.filter(
-                is_public=True,
-                tags__slug__exact=self.slug,
-            ).order_by('-weight')
-
-    def get_queryset(self, *args, **kwargs):
-        return SupportDocument.objects.filter(tags__slug__exact=self.kwargs['slug'])
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
-        return context
 
 class ImageByTag(LoginRequiredMixin, ListView):
     

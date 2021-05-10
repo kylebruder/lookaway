@@ -14,8 +14,8 @@
       {% endif %}
       <div class="col-sm">
         <h3 class="brand-title members-page-span members-alert">
-          {% if profile.title and app_list_context and profile.show_title %}
-            <span class="index-heading-span">{{ app_list_context }}</span>
+          {% if profile.title and profile.show_title %}
+            <span class="index-heading-span">{{ profile.title }}</span>
           {% else %}
             {{ app_list_context }}
           {% endif %}
@@ -25,7 +25,9 @@
       {% if show_create_button and create_button_url %}
         <div class="col-">
           <div class="container">
-            {% include './member_invite_button.html' %}
+            <a href="{{ create_button_url }}">
+              <button type="button" class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+            </a>
           </div>
         </div>
       {% endif %}
@@ -37,8 +39,8 @@
     {% endblock %}
     {% if page_obj.has_other_pages %}<span class="members-page-span members-nav">{% include 'page_control.html' %}</span>{% endif %}
   {% else %}
-    <p class="members-page-span">No {{ app_list_context }} have joined yet. Check back soon!</p>
     <br>
+    <p class="members-page-span members-alert">No {{ app_list_context }} have been published yet. Check back soon!</p>
   {% endif %}
   <br>
 </div>
