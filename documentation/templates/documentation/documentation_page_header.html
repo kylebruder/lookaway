@@ -21,6 +21,27 @@
       <div class="col-">
         <div class="container">
           <p>
+            {% if show_article_add_button %} 
+              {% with article_add_button as button %}
+                {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+                  {% include 'buttons/add_button.html' %}
+                {% endwith %}
+              {% endwith %}
+            {% endif %}
+            {% if show_story_add_button %} 
+              {% with story_add_button as button %}
+                {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+                  {% include 'buttons/add_button.html' %}
+                {% endwith %}
+              {% endwith %}
+            {% endif %}
+            {% if show_document_add_button %} 
+              {% with document_add_button as button %}
+                {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+                  {% include 'buttons/add_button.html' %}
+                {% endwith %}
+              {% endwith %}
+            {% endif %}
             {% if show_profile_edit_button %} 
               {% with profile_edit_button as button %}
                 {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}

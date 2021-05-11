@@ -149,7 +149,7 @@ class PostsPageView(TemplateView, AppPageMixin):
         # Create Post button
         if self.request.user.has_perm('posts.add_post'):
             context['show_post_add_button'] = True
-            context['add_post_button'] = {
+            context['post_add_button'] = {
                 'url': reverse('posts:post_create'),
                 'text': "+Post",
             }

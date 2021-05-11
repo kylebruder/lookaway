@@ -26,7 +26,7 @@
   </p>
 {% endif %}
 {% if not article.is_public %}
-	<span class="badge badge-dark">Unpublished</span>
+  <span class="badge badge-dark">Unpublished</span>
 {% endif %}
 {% if article.tags.all.count > 0 %}
   {% with article as object %}

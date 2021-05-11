@@ -5,9 +5,9 @@
   {% if story.is_public or story.owner.pk == request.user.pk %}
     {% include './story_detail_title_bar.html' %}
     {% if story.is_public %}
-      <p>As told by {{ object.author }}<br>Published by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}{% if object.last_modified > object.publication_date %}<br>Last updated on {{ object.last_modified }}{% endif %}</p><br>
+      <p>As told by <span class="index-heading-span">{{ object.author }}</span><br>Published by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span> on {{ object.publication_date|date:"M d, Y" }}{% if object.last_modified > object.publication_date %}<br>Last updated on <span class="index-heading-span">{{ object.last_modified|date:"M d, Y" }}</span>{% endif %}</p><br>
     {% else %}
-      <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}{% include 'objects/unpublished.html' %}</p><br>
+      <p>Owned by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span><br>Created on <span class="index-heading-span">{{ object.creation_date }}</span><br>{% include 'objects/unpublished.html' %}</p><br>
     {% endif %}
     <!-- Heading -->
     <div class="row">
@@ -18,8 +18,6 @@
         {% include './header_image.html' %}
       {% endwith %}
     </div>
-    <br>
-    <br>
     {% if story.intro %}
       <h4 class="documentation-title">Foreword</h4>
       {{ story.intro|linebreaks }}

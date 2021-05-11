@@ -7,9 +7,9 @@
     {% include './article_detail_title_bar.html' %}
     <!-- Meta data -->
     {% if article.is_public %}
-      <p>Written by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, published on {{ object.publication_date|date:"M d, Y" }}{% if object.last_modified > object.publication_date %}<br>Last updated on {{ object.last_modified|date:"M d, Y" }}{% endif %}</p><br>
+      <p>Written by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span><br>Published on <span class="index-heading-span">{{ object.publication_date|date:"M d, Y" }}</span>{% if object.last_modified > object.publication_date %}<br>Last updated on <span class="index-heading-span">{{ object.last_modified|date:"M d, Y" }}</span>{% endif %}</p>
     {% else %}
-      <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}{% include 'objects/unpublished.html' %}</p><br>
+      <p>Owned by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span><br>Created on <span class="index-heading-span">{{ object.creation_date }}</span><br>{% include 'objects/unpublished.html' %}</p>
     {% endif %}
     <!-- Heading -->
     <div class="row">
@@ -20,8 +20,6 @@
         {% include './header_image.html' %}
       {% endwith %}
     </div>
-    <br>
-    <br>
     {% if article.intro %}
       {{ article.intro|linebreaks }}
       <br>

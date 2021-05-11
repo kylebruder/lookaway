@@ -5,9 +5,9 @@
   {% if document.is_public or document.owner.pk == request.user.pk %}
     {% include './supportdocument_detail_title_bar.html' %}
     {% if document.is_public %}
-      <p>Documented by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}{% if object.last_modified > object.publication_date %}<br>Last updated on {{ object.last_modified }}{% endif %}</p><br>
+      <p>Documented by <span class="index-header-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span> on <span class="index-header-span">{{ object.publication_date|date:"M d, Y" }}</span>{% if object.last_modified > object.publication_date %}<br>Last updated on <span class="index-header-span">{{ object.last_modified|date:"M d, Y" }}</span>{% endif %}</p><br>
     {% else %}
-      <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}{% include 'objects/unpublished.html' %}</p><br>
+      <p>Owned by <span class="index-header-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span><br>Created on <span class="index-header-span">{{ object.creation_date }}</span><br>{% include 'objects/unpublished.html' %}</p><br>
     {% endif %}
     <!-- Heading -->
     <div class="row">
@@ -22,8 +22,6 @@
         {% include './header_image.html' %}
       {% endwith %}
     </div>
-    <br>
-    <br>
     {% if document.intro %}
       {{ document.intro|linebreaks }}
       <br>
@@ -34,14 +32,12 @@
           {% for section in sections %}
             <li class="list-group-item documentation-section documentation-section-li">
               {% include './supportdocsection.html' %}
-              <br>
             </li>
           {% endfor %}
         </ol>
       {% else %}
         {% for section in sections %}
           {% include './supportdocsection.html' %}
-          <br>
         {% endfor %}
       {% endif %}
     {% endif %}

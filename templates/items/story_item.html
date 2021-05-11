@@ -14,30 +14,29 @@
         {{ story.title }}
       </a>
     </h5>
-    <p class="documentation-meta">
-      {% if story.author %}Written by {{ story.author }}, {% endif %}published by <a href="{% url 'members:member_profile' story.owner.username %}"><span class="index-heading-span">{{ story.owner }}</span></a>{% if story.publication_date %}, on {{ story.publication_date|date:"M d, Y" }}{% endif %}
+    <p class="">
+      {% if story.author %}As told by {{ story.author }}{% endif %}<br>Published by <a href="{% url 'members:member_profile' story.owner.username %}"><span class="index-heading-span">{{ story.owner }}</span></a>{% if story.publication_date %}, on <span class="index-heading-span">{{ story.publication_date|date:"M d, Y" }}</span>{% endif %}
     </p>
-    {% if story.members_only %}
-      <span class="badge badge-warning">Members Only</span>
-    {% endif %}
-    {% if not story.is_public %}
-      <span class="badge badge-dark">Unpublished</span>
-    {% endif %}
-    {% if story.is_fiction %}
-      <span class="badge badge-primary">Fiction</span>
-    {% else %}
-      <span class="badge badge-success">True Story</span>
-    {% endif %}
-    {% if story.tags.all.count > 0 %}
-      {% with story as object %}
-        {% include 'objects/object_tags.html' %}
-      {% endwith %}
-    {% endif %}
   </div>
 </div>
-<br>
 {% if story.meta_description %}
   <p class="">
     {{ story.meta_description }}<br>
   </p>
+{% endif %}
+{% if story.members_only %}
+  <span class="badge badge-warning">Members Only</span>
+{% endif %}
+{% if not story.is_public %}
+  <span class="badge badge-dark">Unpublished</span>
+{% endif %}
+{% if story.is_fiction %}
+  <span class="badge badge-primary">Fiction</span>
+{% else %}
+  <span class="badge badge-success">True Story</span>
+{% endif %}
+{% if story.tags.all.count > 0 %}
+  {% with story as object %}
+    {% include 'objects/object_tags.html' %}
+  {% endwith %}
 {% endif %}

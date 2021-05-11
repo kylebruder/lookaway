@@ -94,7 +94,7 @@ class DocumentationPageView(TemplateView, AppPageMixin):
         # Create Article button
         if self.request.user.has_perm('documentation.add_article'):
             context['show_article_add_button'] = True
-            context['add_article_button'] = {
+            context['article_add_button'] = {
                 'url': reverse('documentation:article_create'),
                 'text': "+Article",
             }
@@ -103,14 +103,14 @@ class DocumentationPageView(TemplateView, AppPageMixin):
             context['show_story_add_button'] = True
             context['story_add_button'] = {
                 'url': reverse('documentation:story_create'),
-                'text': "+S",
+                'text': "+Story",
             }
         # Create Document button
         if self.request.user.has_perm('documentation.add_supportdocument'):
             context['show_document_add_button'] = True
             context['document_add_button'] = {
-                'url': reverse('documentation:article_create'),
-                'text': "+Article",
+                'url': reverse('documentation:support_document_create'),
+                'text': "+Info",
             }
         # Update AppProfile button
         if self.request.user.has_perm('documentation.change_documentationappprofile'):
@@ -501,7 +501,7 @@ class ArticleDetailView(DetailView):
             ).order_by('weight', '-publication_date')[:5]
         else:
             context['responses'] = ResponsePost.objects.filter(
-                post=self.object,
+                article=self.object,
                 is_public=True,
                 members_only=False,
             ).order_by('weight', '-publication_date')[:5]
@@ -1021,7 +1021,7 @@ class SupportDocumentDetailView(DetailView):
             ).order_by('weight', '-publication_date')[:5]
         else:
             context['responses'] = ResponsePost.objects.filter(
-                post=self.object,
+                document=self.object,
                 is_public=True,
                 members_only=False,
             ).order_by('weight', '-publication_date')[:5]
@@ -1535,7 +1535,7 @@ class StoryDetailView(DetailView):
             ).order_by('weight', '-publication_date')[:5]
         else:
             context['responses'] = ResponsePost.objects.filter(
-                post=self.object,
+                story=self.object,
                 is_public=True,
                 members_only=False,
             ).order_by('weight', '-publication_date')[:5]
