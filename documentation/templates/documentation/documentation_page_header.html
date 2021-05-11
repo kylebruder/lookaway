@@ -3,37 +3,30 @@
     {% if profile.logo %}
       <div class="col-sm-">
         <div class="container">
-          <img class="documentation-logo" src="{{ profile.logo.image_file.url }}" alt="{{ profile.logo.thumbnail_file.title }}">
+          <img class="documentation-logo" src="{{ profile.logo.image_file.url }}" alt="{{ profile.logo.title }}">
         </div>
       </div>
     {% endif %}
-    {% if profile.show_title or profile.show_desc %}
-      <div class="col-sm">
+    <div class="col-sm">
+      {% if profile.show_title or profile.show_desc %}
         {% if profile.title and profile.show_title %}
           <h3 class="brand-title documentation-page-span documentation-alert">{{ meta_title }}</h3>
         {% endif %}
         {% if meta_desc and profile.show_desc %}
           <br><p class="documentation-page-span documentation-alert"><i>{{ meta_desc }}</i></p>
         {% endif %}
-      </div>
-    {% endif %}
+      {% endif %}
+    </div>
     {% if request.user.is_authenticated %}
       <div class="col-">
         <div class="container">
           <p>
-            {% if perms.documentation.add_article %}
-              <a class="btn btn-sm btn-primary" href="{% url 'documentation:article_create' %}">+Article</a>
-            {% endif %}
-            {% if perms.documentation.add_story %}
-              <a class="btn btn-sm btn-primary" href="{% url 'documentation:story_create' %}">+Story</a>
-            {% endif %}
-            {% if perms.documentation.add_supportdocument %}
-              <a class="btn btn-sm btn-primary" href="{% url 'documentation:support_document_create' %}">+Document</a>
-            {% endif %}
-            {% if perms.documentation.change_documentationappprofile %}
-              <a href="{% url 'documentation:documentation_app_profile_update' 1 %}?next={{ request.path }}">
-                <button class="btn btn-sm btn-warning">Edit App</button>
-              </a>
+            {% if show_profile_edit_button %} 
+              {% with profile_edit_button as button %}
+                {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+                  {% include 'buttons/edit_button.html' %}
+                {% endwith %}
+              {% endwith %}
             {% endif %}
           </p>
         </div>
@@ -43,5 +36,10 @@
   {% if profile.text %}
     <p class="documentation-page-span documentation-alert">{{ profile.text }}</p>
   {% endif %}
-  {% include './documentation_page_navbar.html' %}
+  <div class="row">
+    <div class="col-sm">
+      {% include './documentation_page_navbar.html' %}
+    </div>
+  </div>
 </div>
+

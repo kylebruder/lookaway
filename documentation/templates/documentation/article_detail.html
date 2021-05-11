@@ -9,7 +9,7 @@
     {% if article.is_public %}
       <p>Written by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, published on {{ object.publication_date|date:"M d, Y" }}{% if object.last_modified > object.publication_date %}<br>Last updated on {{ object.last_modified|date:"M d, Y" }}{% endif %}</p><br>
     {% else %}
-      <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}</p><br>
+      <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}{% include 'objects/unpublished.html' %}</p><br>
     {% endif %}
     <!-- Heading -->
     <div class="row">
@@ -43,14 +43,40 @@
       {% endwith %}
       <br>
     {% endif %}
-    {% with article.bitcoin_wallet as bitcoin_wallet %}
-      {% with article.litecoin_wallet as litecoin_wallet %}
-        {% include 'objects/object_crypto_wallets.html' %}
-      {% endwith %}
-    {% endwith %}
-    {% if article.tags.count > 0 %}
-      {% include 'objects/object_tags.html' %}
+    <!-- Responses -->
+    {% if responses.count > 0 %}
+      <h4 class="documentation-title">Responses</h4>
+      <ul class="list-group">
+        {% for response in responses %}
+          <li class="list-group-item documentation-list-li">
+            {% include 'items/response_item.html' %}
+          </li>
+        {% endfor %}
+      </ul>
+      <br>
     {% endif %}
+    {% if article.bitcoin_wallet or article.litecoin_wallet %}
+      <h4 class="documentation-title">Donate</h4>
+      <br>
+      {% with article.bitcoin_wallet as bitcoin_wallet %}
+        {% with article.litecoin_wallet as litecoin_wallet %}
+          {% include 'objects/object_crypto_wallets.html' %}
+        {% endwith %}
+      {% endwith %}
+    {% endif %}
+    <div class="row">
+      <div class="col-sm">
+        {% include 'objects/object_tags.html' %}
+      </div>
+      {% if article.is_public %}
+        <div class="col-">
+          <div class="container">
+            {% include 'buttons/response_button.html' %}
+            {% include 'buttons/marshmallow_button.html' %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
     <br>
   {% else %}
     <p>This Article has not been published yet.</p>

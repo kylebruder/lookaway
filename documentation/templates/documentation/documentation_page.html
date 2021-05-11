@@ -5,75 +5,31 @@
   <!-- Heading -->
   {% include './documentation_page_header.html' %}
   <br>
-  {% if new_articles.all.count < 1 and new_stories.all.count < 1 and new_documents.all.count < 1 %}
-    <span class="documentation-page-span"><i>Coming Soon...</i></p> 
-  {% else %}
+  {% if new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.count or new_galleries or new_tracks or new_albums or sections or profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
     <div class="row">
       {% if sections %}
         <div class="col-sm">
           {% for section in sections %}
-            {% include './documentationpagesection.html' %}
+            {% include './documentation_page_section.html' %}
           {% endfor %}
+          {% include './documentation_page_links.html' %}
         </div>
       {% endif %}
-      <!-- List of new and top items -->
-      <div class="col-sm">
-        <div class="documentation-section">
-          <ul class="list-group documentation-list">
-            {% for document in new_articles %}
-              <li class="list-group-item documentation-list-li">
-                {% include './documentation_page_article_item.html' %}
-              </li>
-            {% endfor %}
-            {% for document in new_stories %}
-              <li class="list-group-item documentation-list-li">
-                {% include './documentation_page_story_item.html' %}
-              </li>
-            {% endfor %}
-            {% for document in new_documents %}
-              <li class="list-group-item documentation-list-li">
-                {% include './documentation_page_supportdocument_item.html' %}
-              </li>
-            {% endfor %}
-            {% for document in top_articles %}
-              <li class="list-group-item documentation-list-li">
-                {% include './documentation_page_article_item.html' %}
-              </li>
-            {% endfor %}
-            {% for document in top_stories %}
-              <li class="list-group-item documentation-list-li">
-                {% include './documentation_page_story_item.html' %}
-              </li>
-            {% endfor %}
-            {% for document in top_documents %}
-              <li class="list-group-item documentation-list-li">
-                {% include './documentation_page_supportdocument_item.html' %}
-              </li>
-            {% endfor %}
-          </ul>
+      {% if new_articles or new_stories or new_documents %}
+        <div class="col-sm">
+          {% include './documentation_page_items.html' %}
+          {% if not sections %}
+            {% include './documentation_page_links.html' %}
+          {% endif %}
         </div>
-        <br>
-        {% if profile.bitcoin_wallet or profile.litecoin_wallet %}
-          <div class="documentation-section">
-            <h4 class="documentation-title">Donate</h4>
-            {% with profile.bitcoin_wallet as bitcoin_wallet %}
-              {% with profile.litecoin_wallet as litecoin_wallet %}
-                {% include 'objects/object_crypto_wallets.html' %}
-              {% endwith %}
-            {% endwith %}
-          </div>
-        {% endif %}
-        {% if profile.links.count > 0 %}
-          {% with profile.links.all as links %}
-            <div class="documentation-section">
-              <h4 class="documentation-title">External Links</h4>
-              {% include 'objects/object_links.html' %}
-            </div>
-          {% endwith %}
-        {% endif %}
-      </div>
+      {% endif %}
+      {% if not sections and not new_responses and not top_resposnes %}
+        {% include './documentation_page_links.html' %}
+      {% endif %}
     </div>
-    <br>
+  {% else %}
+    <span class="documentation-page-span"><i>Coming Soon...</i></span>
+    <br><br>
   {% endif %}
 </div>
 {% endblock %}

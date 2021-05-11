@@ -2,9 +2,9 @@
   <span class="badge badge-success">New</span>
 {% endif %}
 {% if member.is_superuser %}
-  <span class="badge badge-danger">Admin</span>
+  <span class="badge badge-dark">Admin</span>
 {% elif member.is_staff %}
-  <span class="badge badge-warning">Staff</span>
+  <span class="badge badge-dark">Staff</span>
 {% endif %}
 {% if member.check_is_writer %}
   <span class="badge badge-info">Writer</span>
@@ -15,7 +15,7 @@
 {% if member.check_is_musician %}
   <span class="badge badge-info">Musician</span>
 {% endif %}
-{% if member.check_is_contributor %}
+{% if not member.is_staff and member.check_is_contributor %}
   <span class="badge badge-primary">Contributor</span>
 {% endif %}
 {% if member.check_is_founder %}

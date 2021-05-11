@@ -17,6 +17,7 @@ from lookaway.mixins import AppPageMixin
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from objects.utils import Text
+from posts.models import ResponsePost
 from .forms import ArticleForm, ArticleSectionForm, DocumentationAppProfileForm, DocumentationPageSectionForm, StoryForm, StorySectionForm, SupportDocumentForm, SupportDocSectionForm
 from .models import Article, ArticleSection, DocumentationAppProfile, DocumentationPageSection, Story, StorySection, SupportDocument, SupportDocSection
 
@@ -48,6 +49,20 @@ class DocumentationAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMi
         context['sections'] = DocumentationPageSection.objects.all().order_by(
             'order',
         )
+        # Add documentation page section button
+        if self.request.user.has_perm('documentation.add_documentationpagesection'):
+            context['show_documentation_page_section_add_button'] = True
+            context['documentation_page_section_add_button'] = {
+                'url': reverse(
+                    'documentation:documentation_page_section_create',
+                ),
+            }
+        # Edit documentation page section button
+        if self.request.user.has_perm('documentation.change_documentationpagesection'):
+            context['show_documentation_page_section_edit_button'] = True
+        # Delete documentation page section button
+        if self.request.user.has_perm('documentation.delete_documentationpagesection'):
+            context['show_documentation_page_section_delete_button'] = True
         return context
 
     def get_success_url(self):
@@ -76,6 +91,50 @@ class DocumentationPageView(TemplateView, AppPageMixin):
         ).order_by(
             'order',
         )
+        # Create Article button
+        if self.request.user.has_perm('documentation.add_article'):
+            context['show_article_add_button'] = True
+            context['add_article_button'] = {
+                'url': reverse('documentation:article_create'),
+                'text': "+Article",
+            }
+        # Create Story button
+        if self.request.user.has_perm('documentation.add_story'):
+            context['show_story_add_button'] = True
+            context['story_add_button'] = {
+                'url': reverse('documentation:story_create'),
+                'text': "+S",
+            }
+        # Create Document button
+        if self.request.user.has_perm('documentation.add_supportdocument'):
+            context['show_document_add_button'] = True
+            context['document_add_button'] = {
+                'url': reverse('documentation:article_create'),
+                'text': "+Article",
+            }
+        # Update AppProfile button
+        if self.request.user.has_perm('documentation.change_documentationappprofile'):
+            context['show_profile_edit_button'] = True
+            context['profile_edit_button'] = {
+                'url': reverse('documentation:documentation_app_profile_update',
+                    kwargs={'pk': 1},
+                ),
+                'text': "Edit App"
+            }
+        # Add documentation page section button
+        if self.request.user.has_perm('documentation.add_documentationpagesection'):
+            context['show_documentation_page_section_add_button'] = True
+            context['documentation_page_section_add_button'] = {
+                'url': reverse(
+                    'documentation:documentation_page_section_create',
+                ),
+            }
+        # Edit documentation page section button
+        if self.request.user.has_perm('documentation.change_documentationpagesection'):
+            context['show_documentation_page_section_edit_button'] = True
+        # Delete documentation page section button
+        if self.request.user.has_perm('documentation.delete_documentationpagesection'):
+            context['show_documentation_page_section_delete_button'] = True
         if self.request.user.is_authenticated:
             context['sections'] = sections
         else:
@@ -376,15 +435,90 @@ class ArticleDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
-        if self.request.user.is_authenticated:
-            member = Member.objects.get(pk=self.request.user.pk)
-            if member.check_can_allocate() and not member.check_is_new():
-                context['can_add_marshmallow'] = True
-            else:
-                context['can_add_marshmallow'] = False
         context['sections'] = ArticleSection.objects.filter(
             article=self.get_object(),
         ).order_by('order')
+        if self.request.user.is_authenticated:
+            member = Member.objects.get(pk=self.request.user.pk)
+            # Post Actions
+            if self.object.owner.pk == member.pk:
+                if not self.object.is_public:
+                    context['show_publish_button'] = True
+                    context['publish_button'] = {
+                        'url': reverse(
+                            'documentation:publish_article',
+                            kwargs={
+                                'pk': self.object.pk,
+                            },
+                        )
+                    }
+                context['show_edit_button'] = True
+                context['edit_button'] = {
+                     'url': reverse(
+                        'documentation:article_update',
+                        kwargs={
+                            'slug': self.object.slug,
+                        },
+                    )
+                }
+                context['show_delete_button'] = True
+                context['delete_button'] = {
+                     'url': reverse(
+                        'documentation:article_delete',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    )
+                }
+            # Marshmallow button
+            if member.check_can_allocate() and not member.check_is_new():
+                context['can_add_marshmallow'] = True
+                context['marshmallow_button'] = {
+                    'url': reverse(
+                        'documentation:article_marshmallow',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    ),
+                }
+            # Response button
+            if self.request.user.has_perms('documentation:add_response'):
+                context['can_respond'] = True
+                context['response_button'] = {
+                    'url': reverse(
+                        'posts:response_post_create',
+                        kwargs={
+                            'model': "article",
+                            'pk': self.object.pk,
+                            'members_only': False,
+                        },
+                    ),
+                }
+            # Get the posts that are a response to this article
+            context['responses'] = ResponsePost.objects.filter(
+                article=self.object,
+                is_public=True,
+            ).order_by('weight', '-publication_date')[:5]
+        else:
+            context['responses'] = ResponsePost.objects.filter(
+                post=self.object,
+                is_public=True,
+                members_only=False,
+            ).order_by('weight', '-publication_date')[:5]
+        # Add section button
+        if self.request.user.has_perm('documentation.add_articlepagesection'):
+            context['show_section_add_button'] = True
+            context['section_add_button'] = {
+                'url': reverse(
+                    'documentation:article_section_create',
+                ),
+            }
+        # Edit documentation page section button
+        if self.request.user.has_perm('documentation.change_articlepagesection'):
+            context['show_section_edit_button'] = True
+        # Delete documentation page section button
+        if self.request.user.has_perm('documentation.delete_articlepagesection'):
+            context['show_section_delete_button'] = True
         return context
 
 class ArticleUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
@@ -546,6 +680,20 @@ class ArticleSectionDetailView(LoginRequiredMixin, DetailView):
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
+        # Add section button
+        if self.request.user.has_perm('documentation.add_articlepagesection'):
+            context['show_section_add_button'] = True
+            context['section_add_button'] = {
+                'url': reverse(
+                    'documentation:article_section_create',
+                ),
+            }
+        # Edit documentation page section button
+        if self.request.user.has_perm('documentation.change_articlepagesection'):
+            context['show_section_edit_button'] = True
+        # Delete documentation page section button
+        if self.request.user.has_perm('documentation.delete_articlepagesection'):
+            context['show_section_delete_button'] = True
         return context
 
 class ArticleSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
@@ -807,15 +955,90 @@ class SupportDocumentDetailView(DetailView):
         for s in sections:
             if s.support_document not in context['refs']:
                 context['refs'][s.support_document] = s.pk
-        if self.request.user.is_authenticated:
-            member = Member.objects.get(pk=self.request.user.pk)
-            if member.check_can_allocate() and not member.check_is_new():
-                context['can_add_marshmallow'] = True
-            else:
-                context['can_add_marshmallow'] = False
         context['sections'] = SupportDocSection.objects.filter(
             support_document=self.get_object(),
         ).order_by('order')
+        if self.request.user.is_authenticated:
+            member = Member.objects.get(pk=self.request.user.pk)
+            # Post Actions
+            if self.object.owner.pk == member.pk:
+                if not self.object.is_public:
+                    context['show_publish_button'] = True
+                    context['publish_button'] = {
+                        'url': reverse(
+                            'documentation:publish_support_document',
+                            kwargs={
+                                'pk': self.object.pk,
+                            },
+                        )
+                    }
+                context['show_edit_button'] = True
+                context['edit_button'] = {
+                     'url': reverse(
+                        'documentation:support_document_update',
+                        kwargs={
+                            'slug': self.object.slug,
+                        },
+                    )
+                }
+                context['show_delete_button'] = True
+                context['delete_button'] = {
+                     'url': reverse(
+                        'documentation:support_document_delete',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    )
+                }
+            # Marshmallow button
+            if member.check_can_allocate() and not member.check_is_new():
+                context['can_add_marshmallow'] = True
+                context['marshmallow_button'] = {
+                    'url': reverse(
+                        'documentation:support_document_marshmallow',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    ),
+                }
+            # Response button
+            if self.request.user.has_perms('documentation:add_response'):
+                context['can_respond'] = True
+                context['response_button'] = {
+                    'url': reverse(
+                        'posts:response_post_create',
+                        kwargs={
+                            'model': "support_document",
+                            'pk': self.object.pk,
+                            'members_only': False,
+                        },
+                    ),
+                }
+            # Get the posts that are a response to this support_document
+            context['responses'] = ResponsePost.objects.filter(
+                document=self.object,
+                is_public=True,
+            ).order_by('weight', '-publication_date')[:5]
+        else:
+            context['responses'] = ResponsePost.objects.filter(
+                post=self.object,
+                is_public=True,
+                members_only=False,
+            ).order_by('weight', '-publication_date')[:5]
+        # Add section button
+        if self.request.user.has_perm('documentation.add_support_documentpagesection'):
+            context['show_section_add_button'] = True
+            context['section_add_button'] = {
+                'url': reverse(
+                    'documentation:support_doc_section_create',
+                ),
+            }
+        # Edit documentation page section button
+        if self.request.user.has_perm('documentation.change_support_documentpagesection'):
+            context['show_section_edit_button'] = True
+        # Delete documentation page section button
+        if self.request.user.has_perm('documentation.delete_support_documentpagesection'):
+            context['show_section_delete_button'] = True
         return context
 
 class SupportDocumentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
@@ -978,6 +1201,20 @@ class SupportDocSectionDetailView(LoginRequiredMixin, DetailView):
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
+        # Add section button
+        if self.request.user.has_perm('documentation.add_support_documentpagesection'):
+            context['show_section_add_button'] = True
+            context['section_add_button'] = {
+                'url': reverse(
+                    'documentation:support_doc_section_create',
+                ),
+            }
+        # Edit documentation page section button
+        if self.request.user.has_perm('documentation.change_support_documentpagesection'):
+            context['show_section_edit_button'] = True
+        # Delete documentation page section button
+        if self.request.user.has_perm('documentation.delete_support_documentpagesection'):
+            context['show_section_delete_button'] = True
         return context
 
 class SupportDocSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
@@ -1232,15 +1469,90 @@ class StoryDetailView(DetailView):
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
-        if self.request.user.is_authenticated:
-            member = Member.objects.get(pk=self.request.user.pk)
-            if member.check_can_allocate() and not member.check_is_new():
-                context['can_add_marshmallow'] = True
-            else:
-                context['can_add_marshmallow'] = False
         context['sections'] = StorySection.objects.filter(
             story=self.get_object(),
         ).order_by('order')
+        if self.request.user.is_authenticated:
+            member = Member.objects.get(pk=self.request.user.pk)
+            # Post Actions
+            if self.object.owner.pk == member.pk:
+                if not self.object.is_public:
+                    context['show_publish_button'] = True
+                    context['publish_button'] = {
+                        'url': reverse(
+                            'documentation:publish_story',
+                            kwargs={
+                                'pk': self.object.pk,
+                            },
+                        )
+                    }
+                context['show_edit_button'] = True
+                context['edit_button'] = {
+                     'url': reverse(
+                        'documentation:story_update',
+                        kwargs={
+                            'slug': self.object.slug,
+                        },
+                    )
+                }
+                context['show_delete_button'] = True
+                context['delete_button'] = {
+                     'url': reverse(
+                        'documentation:story_delete',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    )
+                }
+            # Marshmallow button
+            if member.check_can_allocate() and not member.check_is_new():
+                context['can_add_marshmallow'] = True
+                context['marshmallow_button'] = {
+                    'url': reverse(
+                        'documentation:story_marshmallow',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    ),
+                }
+            # Response button
+            if self.request.user.has_perms('documentation:add_response'):
+                context['can_respond'] = True
+                context['response_button'] = {
+                    'url': reverse(
+                        'posts:response_post_create',
+                        kwargs={
+                            'model': "story",
+                            'pk': self.object.pk,
+                            'members_only': False,
+                        },
+                    ),
+                }
+            # Get the posts that are a response to this story
+            context['responses'] = ResponsePost.objects.filter(
+                story=self.object,
+                is_public=True,
+            ).order_by('weight', '-publication_date')[:5]
+        else:
+            context['responses'] = ResponsePost.objects.filter(
+                post=self.object,
+                is_public=True,
+                members_only=False,
+            ).order_by('weight', '-publication_date')[:5]
+        # Add section button
+        if self.request.user.has_perm('documentation.add_storypagesection'):
+            context['show_section_add_button'] = True
+            context['section_add_button'] = {
+                'url': reverse(
+                    'documentation:story_section_create',
+                ),
+            }
+        # Edit documentation page section button
+        if self.request.user.has_perm('documentation.change_storypagesection'):
+            context['show_section_edit_button'] = True
+        # Delete documentation page section button
+        if self.request.user.has_perm('documentation.delete_storypagesection'):
+            context['show_section_delete_button'] = True
         return context
 
 class StoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
@@ -1403,6 +1715,20 @@ class StorySectionDetailView(LoginRequiredMixin, DetailView):
         # App profile
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
+        # Add section button
+        if self.request.user.has_perm('documentation.add_storypagesection'):
+            context['show_section_add_button'] = True
+            context['section_add_button'] = {
+                'url': reverse(
+                    'documentation:story_section_create',
+                ),
+            }
+        # Edit documentation page section button
+        if self.request.user.has_perm('documentation.change_storypagesection'):
+            context['show_section_edit_button'] = True
+        # Delete documentation page section button
+        if self.request.user.has_perm('documentation.delete_storypagesection'):
+            context['show_section_delete_button'] = True
         return context
 
 class StorySectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):

@@ -1,47 +1,10 @@
 {% extends './documentation_list.html' %}
 {% block items_block %}
-<div class="row">
-  {% for document in documents %}
-    <div class="col-sm-4 documentation-list-card">
-      <div class="row">
-        <div class="col-">
-          {% if document.image %}
-            <div class="float-right documentation-list-image" style="background-image:url('{{ document.image.thumbnail_file.url }}')"></div>
-          {% elif document.owner.profile.image %}
-            <div class="float-right documentation-list-image" style="background-image:url('{{ document.owner.profile.image.thumbnail_file.url }}')"></div>
-          {% else %}
-            <div class="float-right documentation-list-image" style="background-image:url('/static/icon.webp')"></div>
-          {% endif %}
-        </div>
-        <div class="col-sm">
-          <h5 class="documentation-title">
-            <a href="{% url 'documentation:support_document_detail' document.slug %}">
-              {{ document.title }}
-            </a>
-          </h5>
-          <p class="documentation-meta">
-            Documented by <a href="{% url 'members:member_profile' document.owner.username %}"><span class="index-heading-span">{{ document.owner }}</span></a>{% if document.publication_date %}, last updated {{ document.last_modified|date:"M d, Y" }}{% endif %}
-          </p>
-          {% if document.members_only %}
-            <span class="badge badge-warning">Members Only</span>
-          {% endif %}
-          {% if not document.is_public %}
-            <span class="badge badge-dark">Unpublished</span>
-          {% endif %}
-          {% if document.tags.all.count > 0 %}
-            {% with document as object %}
-              {% include 'objects/object_tags.html' %}
-            {% endwith %}
-          {% endif %}
-        </div>
+  <div class="row">
+    {% for document in documents %}
+      <div class="col-4-sm documentation-list-card">
+        {% include 'items/document_item.html' %}
       </div>
-      {% if document.meta_description %}
-        <br>
-        <p class="">
-          {{ document.meta_description }}<br>
-        </p>
-      {% endif %}
-    </div>
-  {% endfor %}
-</div>
+    {% endfor %}
+  </div>
 {% endblock %}

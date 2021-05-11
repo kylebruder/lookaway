@@ -260,7 +260,7 @@ urlpatterns = [
     ## Story marshmallow views
     path(
         'story/<int:pk>/add-marshmallow', 
-        views.add_marshmallow_to_article_view,
+        views.add_marshmallow_to_story_view,
         name='story_marshmallow',
     ),
     ## SupportDocument marshmallow views

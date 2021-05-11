@@ -21,7 +21,7 @@
         {% endif %}
       {% endif %}
       {% if response.last_modified > response.publication_date %}
-        Last updated on
+        <br>Last updated on
         <span class="index-page-span">{{ response.last_modified|date:"M d, Y" }}</span>
       {% endif %}
       <br>{% include 'items/re_links.html' %}

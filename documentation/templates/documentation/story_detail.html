@@ -3,11 +3,11 @@
 {% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container documentation-bg">
   {% if story.is_public or story.owner.pk == request.user.pk %}
-    {% include './story_detail_button_bar.html' %}
+    {% include './story_detail_title_bar.html' %}
     {% if story.is_public %}
-      <p>Written by {{ object.author }}<br>Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}{% if object.last_modified > object.publication_date %}<br>Last updated on {{ object.last_modified }}{% endif %}</p><br>
+      <p>As told by {{ object.author }}<br>Published by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}{% if object.last_modified > object.publication_date %}<br>Last updated on {{ object.last_modified }}{% endif %}</p><br>
     {% else %}
-      <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}</p><br>
+      <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}{% include 'objects/unpublished.html' %}</p><br>
     {% endif %}
     <!-- Heading -->
     <div class="row">
@@ -46,14 +46,36 @@
       {% endwith %}
       <br>
     {% endif %}
+    <!-- Responses -->
+    {% if responses.count > 0 %}
+      <h4 class="documentation-title">Responses</h4>
+      <ul class="list-group">
+        {% for response in responses %}
+          <li class="list-group-item documentation-list-li">
+            {% include 'items/response_item.html' %}
+          </li>
+        {% endfor %}
+      </ul>
+      <br>
+    {% endif %}
     {% with story.bitcoin_wallet as bitcoin_wallet %}
       {% with story.litecoin_wallet as litecoin_wallet %}
         {% include 'objects/object_crypto_wallets.html' %}
       {% endwith %}
     {% endwith %}
-    {% if story.tags.count > 0 %}
-      {% include 'objects/object_tags.html' %}
-    {% endif %}
+    <div class="row">
+      <div class="col-sm">
+        {% include 'objects/object_tags.html' %}
+      </div>
+      {% if story.is_public %}
+        <div class="col-">
+          <div class="container">
+            {% include 'buttons/response_button.html' %}
+            {% include 'buttons/marshmallow_button.html' %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
   {% else %}
     <p>This Story has not been published yet.</p>
     <br>

@@ -477,6 +477,7 @@ class PostDetailView(DetailView):
                     ),
                 }
             # Response button
+            if self.request.user.has_perms('posts:add_response'):
                 context['can_respond'] = True
                 context['response_button'] = {
                     'url': reverse(
@@ -493,8 +494,6 @@ class PostDetailView(DetailView):
                 post=self.object,
                 is_public=True,
             ).order_by('weight', '-publication_date')[:5]
-            if self.request.user.has_perms('posts:add_response'):
-                context['can_add_response'] = True
         else:
             context['responses'] = ResponsePost.objects.filter(
                 post=self.object,
@@ -624,8 +623,8 @@ class ResponsePostCreateView(LoginRequiredMixin, PermissionRequiredMixin, Member
             target = Article.objects.get(pk=pk)
         elif model == 'story':
             target = Story.objects.get(pk=pk)
-        elif model == 'document':
-            target = SupportDocuement.objects.get(pk=pk)
+        elif model == 'support_document':
+            target = SupportDocument.objects.get(pk=pk)
         elif model == 'visual':
             target = Visual.objects.get(pk=pk)
         elif model == 'gallery':
@@ -657,8 +656,25 @@ class ResponsePostCreateView(LoginRequiredMixin, PermissionRequiredMixin, Member
 
     def form_valid(self, form):
         member = self.request.user
+        model = self.kwargs['model']
+        pk = self.kwargs['pk']
         if self.kwargs['model'] == 'post':
-            form.instance.post = Post.objects.get(pk=self.kwargs['pk'])
+            form.instance.post = self.get_target()
+        elif self.kwargs['model'] == 'article':
+            form.instance.article = self.get_target()
+        elif self.kwargs['model'] == 'story':
+            form.instance.story = self.get_target()
+        elif self.kwargs['model'] == 'document':
+            form.instance.document = self.get_target()
+        elif self.kwargs['model'] == 'visual':
+            form.instance.visual = self.get_target()
+        elif self.kwargs['model'] == 'gallery':
+            form.instance.gallery = self.get_target()
+        elif self.kwargs['model'] == 'track':
+            form.instance.track = self.get_target()
+        elif self.kwargs['model'] == 'album':
+            form.instance.album = self.get_target()
+
         if self.kwargs['members_only']:
             form.instance.members_only = self.kwargs['members_only']
         form.instance.creation_date = timezone.now()
