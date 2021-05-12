@@ -13,6 +13,9 @@
             {% else %}
               <span class="badge badge-secondary">Disabled</span>
             {% endif %}
+            {% with section as object %}
+              {% include 'objects/members_only.html' %}
+            {% endwith %}
           </td>
           {% if show_home_page_section_add_button %}
             <td>

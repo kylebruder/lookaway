@@ -47,6 +47,20 @@ class ArtAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Updat
         context['sections'] = ArtPageSection.objects.all().order_by(
             'order',
         )
+        # Add art page section button
+        if self.request.user.has_perm('art.add_artpagesection'):
+            context['show_art_page_section_add_button'] = True
+            context['art_page_section_add_button'] = { 
+                'url': reverse(
+                    'art:art_page_section_create',
+                ),
+            }
+        # Edit art page section button
+        if self.request.user.has_perm('art.change_artpagesection'):
+            context['show_art_page_section_edit_button'] = True
+        # Delete art page section button
+        if self.request.user.has_perm('art.delete_artpagesection'):
+            context['show_art_page_section_delete_button'] = True
         return context
 
     def get_success_url(self):
@@ -93,25 +107,43 @@ class ArtPageView(TemplateView, AppPageMixin):
             show_new=profile.show_new_visuals,
             show_top=profile.show_top_visuals,
         )
-        # Create visual button
-        if self.request.user.has_perm('art.add_visual'):
-            context['show_create_visual_button'] = True
-            context['create_visual_url'] = reverse(
-                'art:visual_create',
-            )
-        # Create gallery button
+        # Create Visual button
+        if self.request.user.has_perm('art.add_post'):
+            context['show_visual_add_button'] = True
+            context['visual_add_button'] = {
+                'url': reverse('art:visual_create'),
+                'text': "+Visual",
+            }
+        # Create Gallery button
         if self.request.user.has_perm('art.add_gallery'):
-            context['show_create_gallery_button'] = True
-            context['create_gallery_url'] = reverse(
-                'art:gallery_create',
-            )
-        # Update app profile button
+            context['show_gallery_add_button'] = True
+            context['gallery_add_button'] = {
+                'url': reverse('art:gallery_create'),
+                'text': "+Gallery",
+            }
+        # Update AppProfile button
         if self.request.user.has_perm('art.change_artappprofile'):
-            context['show_edit_profile_button'] = True
-            context['edit_profile_url'] = reverse(
-                'art:art_app_profile_update',
-                kwargs={'pk': 1},
-            )
+            context['show_profile_edit_button'] = True
+            context['profile_edit_button'] = {
+                'url': reverse('art:art_app_profile_update',
+                    kwargs={'pk': 1},
+                ),
+                'text': "Edit App"
+            }
+        # Add art page section button
+        if self.request.user.has_perm('art.add_artpagesection'):
+            context['show_art_page_section_add_button'] = True
+            context['art_page_section_add_button'] = { 
+                'url': reverse(
+                    'art:art_page_section_create',
+                ),
+            }
+        # Edit art page section button
+        if self.request.user.has_perm('art.change_artpagesection'):
+            context['show_art_page_section_edit_button'] = True
+        # Delete art page section button
+        if self.request.user.has_perm('art.delete_artpagesection'):
+            context['show_art_page_section_delete_button'] = True
         return context
 
 # Art Page Section Views
@@ -162,6 +194,20 @@ class ArtPageSectionDetailView(LoginRequiredMixin, DetailView):
         profile, created = ArtAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         context['meta_title'] = profile.title
+        # Add art page section button
+        if self.request.user.has_perm('art.add_artpagesection'):
+            context['show_art_page_section_add_button'] = True
+            context['art_page_section_add_button'] = {
+                'url': reverse(
+                    'art:art_page_section_create',
+                ),
+            }
+        # Edit art page section button
+        if self.request.user.has_perm('art.change_artpagesection'):
+            context['show_art_page_section_edit_button'] = True
+        # Delete art page section button
+        if self.request.user.has_perm('art.delete_artpagesection'):
+            context['show_art_page_section_delete_button'] = True
         return context
 
 class ArtPageSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):

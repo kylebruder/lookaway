@@ -1,39 +1,10 @@
 {% extends './art_list.html' %}
 {% block items_block %}
-<div class="row">
-  {% for gallery in galleries %}
-    <div class="art-list-card">
-      <div class="row">
-        <div class="col-">
-          {% if gallery.visuals.all.count > 0 %}
-            <div class="art-gallery-list-image" style="background-image:url('{{ gallery.visuals.first.image.thumbnail_file.url }}')"></div>
-          {% elif gallery.owner.profile.image %}
-            <div class="art-gallery-list-image" style="background-image:url('{{ gallery.owner.profile.image.thumbnail_file.url }}')"></div>
-          {% else %}
-            <div class="art-gallery-list-image" style="background-image:url('/static/icon.webp')"></div>
-          {% endif %}
-        </div>
-        <div class="col-sm">
-          <h5 class="music-title">
-            <a href="{% url 'art:gallery_detail' gallery.slug %}">
-              {{ gallery.title }}
-            </a>
-          </h5>
-          <p class="">
-            Works by {{ gallery.artist }}, curated by <a href="{% url 'members:member_profile' gallery.owner.username %}"><span class="index-heading-span">{{ gallery.owner }}</span></a> on {{ gallery.creation_date|date:"M d, Y" }}<br>
-            {{ gallery.meta_description }}
-          </p>
-          {% if not gallery.is_public %}
-            <span class="badge badge-dark">Unpublished</span>
-          {% endif %}
-          {% if gallery.tags.all.count > 0 %}
-            {% with gallery as object %}
-              {% include 'objects/object_tags.html' %}
-            {% endwith %}
-          {% endif %}
-        </div>
+  <div class="row">
+    {% for gallery in galleries %}
+      <div class="col-4-sm art-list-card">
+        {% include 'items/gallery_item.html' %}
       </div>
-    </div>
-  {% endfor %}
-</div>
+    {% endfor %}
+  </div>
 {% endblock %}

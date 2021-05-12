@@ -9,10 +9,10 @@
     {% endif %}
     {% if profile.show_title or profile.show_desc %}
       <div class="col-sm">
-        {% if profile.title and profile.show_title %}
+        {% if meta_title %}
           <h3 class="art-title art-page-span art-alert">{{ meta_title }}</h3>
         {% endif %}
-        {% if meta_desc and profile.show_desc %}
+        {% if meta_desc %}
           <br><p class="art-page-span art-alert"><i>{{ meta_desc }}</i></p>
         {% endif %}
       </div>
@@ -21,7 +21,7 @@
       <div class="col-">
         <div class="container">
           <p>
-            {% include 'object_create_buttons.html' %}
+            {% include 'objects/object_create_buttons.html' %}
           </p>
         </div>
       </div>

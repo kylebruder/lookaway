@@ -21,13 +21,13 @@
       <div class="col-">
         <div class="container">
           <p>
-            {% if show_create_visual_button %} 
+            {% if show_visual_add_button %} 
               <a class="btn btn-sm btn-primary" href="{% url 'art:visual_create' %}">+Visual</a>
             {% endif %}
-            {% if show_create_gallery_button %} 
+            {% if show_gallery_add_button %} 
               <a class="btn btn-sm btn-primary" href="{% url 'art:gallery_create' %}">+Gallery</a>
             {% endif %}
-            {% if show_edit_profile_button %} 
+            {% if show_profile_edit_button %} 
               <a href="{% url 'art:art_app_profile_update' 1 %}?next={{ request.path }}">
                 <button class="btn btn-sm btn-warning">Edit App</button>
               </a>

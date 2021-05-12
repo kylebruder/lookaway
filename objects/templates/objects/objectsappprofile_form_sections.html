@@ -9,6 +9,9 @@
           </td>
           <td>
             {% include 'sections/enabled.html' %}
+            {% with section as object %}
+              {% include 'objects/members_only.html' %}
+            {% endwith %}
           </td>
           {% if show_objects_page_section_add_button %}
             <td>

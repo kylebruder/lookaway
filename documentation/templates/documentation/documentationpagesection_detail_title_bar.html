@@ -13,7 +13,7 @@
         {% if show_documentation_page_section_edit_button %}
           <a href="{% url 'documentation:documentation_page_section_update' section.pk %}"><button type="button" class="btn btn-sm btn-warning edit-button">&#9998;</button></a>
         {% endif %}
-        {% if show_documentation_page_section_edit_button %}
+        {% if show_documentation_page_section_delete_button %}
           <a href="{% url 'documentation:documentation_page_section_delete' section.pk %}"><button type="button" class="btn btn-sm btn-danger delete-button">X</button></a>
         {% endif %}
       </div>
