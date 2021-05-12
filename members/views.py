@@ -342,6 +342,20 @@ class MembersPageSectionDetailView(LoginRequiredMixin, DetailView):
         profile, created = MembersAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         context['meta_title'] = profile.title
+        # Add members page section button
+        if self.request.user.has_perm('members.add_memberspagesection'):
+            context['show_members_page_section_add_button'] = True
+            context['members_page_section_add_button'] = {
+                'url': reverse(
+                    'members:members_page_section_create',
+                ),
+            }
+        # Edit members page section button
+        if self.request.user.has_perm('members.change_memberspagesection'):
+            context['show_members_page_section_edit_button'] = True
+        # Delete members page section button
+        if self.request.user.has_perm('members.delete_memberspagesection'):
+            context['show_members_page_section_delete_button'] = True
         return context
 
 # Edit member page section form

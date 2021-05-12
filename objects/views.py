@@ -391,7 +391,9 @@ class ImageCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
                 'Upload FAIL. Your media directory is over capacity.',
             )
             return redirect(reverse('members:studio'))
-            
+
+    def get_from_kwargs(self):
+        kwargs = super(ImageUpdateView, self).get_from_kwargs()
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -447,6 +449,13 @@ class ImageDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = True
         else:
             context['can_add_marshmallow'] = False
+        if self.request.user.has_perm('art.add_visual'):
+            context['show_visual_add_button'] = True
+            context['visual_add_button'] = {
+                'url': reverse('art:visual_create'),
+                'parameters': "?image={}".format(self.object.pk),
+                'text': "+Visual",
+            }
         return context
 
 class ImageUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):

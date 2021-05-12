@@ -623,6 +623,8 @@ class VisualCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreate
     def get_form_kwargs(self):
         kwargs = super(VisualCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
+        if 'image' in self.request.GET:
+            kwargs['image'] = self.request.GET.get('image')
         return kwargs
 
     def get_context_data(self, **kwargs):

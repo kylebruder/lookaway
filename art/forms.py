@@ -526,6 +526,29 @@ class VisualForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
+        if 'image' in kwargs:
+            image = Image.objects.get(pk=kwargs.pop('image'))
+            if image.credit:
+                artist = image.credit
+            else:
+                artist = image.owner
+            if image.text:
+                if len(image.text) > 150:
+                    description = "{}...".format(image.text[:150])
+                else:
+                    description = image.text
+            else:
+                description = "Fresh visual art by {}".format(artist)
+            artist = image.owner
+            print(int(image.pk))
+            kwargs.update(initial={
+                'image': int(image.pk),
+                'title': image.title,
+                'meta_description': description,
+                'text': image.text,
+                'artist': artist,
+                'year': int(image.creation_date.strftime('%Y'))
+            })
         super(VisualForm, self).__init__(*args, **kwargs)
         self.fields['image'].queryset = Image.objects.filter(
             owner=user.pk,

@@ -16,6 +16,11 @@
   margin-bottom: 40px;
 }
 
+.crypto-hr {
+  border-width: 3px;
+  border-color: #111111;
+}
+  
 .crypto-list-image {
   display: block;
   width: 100px;
