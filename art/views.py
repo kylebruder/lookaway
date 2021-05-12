@@ -17,6 +17,7 @@ from lookaway.mixins import AppPageMixin
 from objects.utils import Text
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
+from posts.models import ResponsePost
 from .forms import ArtAppProfileForm, ArtPageSectionForm, GalleryForm, VisualForm
 from .models import ArtAppProfile, ArtPageSection, Gallery, Visual
 # Create your views here.
@@ -392,10 +393,71 @@ class GalleryDetailView(DetailView):
         context['profile'] = profile
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
+            # Post Actions
+            if self.object.owner.pk == member.pk:
+                if not self.object.is_public:
+                    context['show_publish_button'] = True
+                    context['publish_button'] = {
+                        'url': reverse(
+                            'art:publish_gallery',
+                            kwargs={
+                                'pk': self.object.pk,
+                            },
+                        )
+                    }
+                context['show_edit_button'] = True
+                context['edit_button'] = {
+                     'url': reverse(
+                        'art:gallery_update',
+                        kwargs={
+                            'slug': self.object.slug,
+                        },
+                    )
+                }
+                context['show_delete_button'] = True
+                context['delete_button'] = {
+                     'url': reverse(
+                        'art:gallery_delete',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    )
+                }
+            # Marshmallow button
             if member.check_can_allocate() and not member.check_is_new():
                 context['can_add_marshmallow'] = True
-            else:
-                context['can_add_marshmallow'] = False
+                context['marshmallow_button'] = {
+                    'url': reverse(
+                        'art:gallery_marshmallow',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    ),
+                }
+            # Response button
+            if self.request.user.has_perms('posts:add_response'):
+                context['can_respond'] = True
+                context['response_button'] = {
+                    'url': reverse(
+                        'posts:response_post_create',
+                        kwargs={
+                            'model': "gallery",
+                            'pk': self.object.pk,
+                            'members_only': False
+                        },
+                    ),
+                }
+            # Get the posts that are a response to this gallery
+            context['responses'] = ResponsePost.objects.filter(
+                gallery=self.object,
+                is_public=True,
+            ).order_by('weight', '-publication_date')[:5]
+        else:
+            context['responses'] = ResponsePost.objects.filter(
+                gallery=self.object,
+                is_public=True,
+                members_only=False,
+            ).order_by('weight', '-publication_date')[:5]
         return context
 
 class MemberGalleryView(ListView):
@@ -683,13 +745,73 @@ class VisualDetailView(DetailView):
             visuals__pk=self.object.pk,
             is_public=True,
         )
-        # Check whether or not to display the Marshmallow button
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
+            # Post Actions
+            if self.object.owner.pk == member.pk:
+                if not self.object.is_public:
+                    context['show_publish_button'] = True
+                    context['publish_button'] = {
+                        'url': reverse(
+                            'art:publish_visual',
+                            kwargs={
+                                'pk': self.object.pk,
+                            },
+                        )
+                    }
+                context['show_edit_button'] = True
+                context['edit_button'] = {
+                     'url': reverse(
+                        'art:visual_update',
+                        kwargs={
+                            'slug': self.object.slug,
+                        },
+                    )
+                }
+                context['show_delete_button'] = True
+                context['delete_button'] = {
+                     'url': reverse(
+                        'art:visual_delete',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    )
+                }
+            # Marshmallow button
             if member.check_can_allocate() and not member.check_is_new():
                 context['can_add_marshmallow'] = True
-            else:
-                context['can_add_marshmallow'] = False
+                context['marshmallow_button'] = {
+                    'url': reverse(
+                        'art:visual_marshmallow',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    ),
+                }
+            # Response button
+            if self.request.user.has_perms('posts:add_response'):
+                context['can_respond'] = True
+                context['response_button'] = {
+                    'url': reverse(
+                        'posts:response_post_create',
+                        kwargs={
+                            'model': "visual",
+                            'pk': self.object.pk,
+                            'members_only': False
+                        },
+                    ),
+                }
+            # Get the posts that are a response to this post
+            context['responses'] = ResponsePost.objects.filter(
+                visual=self.object,
+                is_public=True,
+            ).order_by('weight', '-publication_date')[:5]
+        else:
+            context['responses'] = ResponsePost.objects.filter(
+                post=self.object,
+                is_public=True,
+                members_only=False,
+            ).order_by('weight', '-publication_date')[:5]
         return context
 
 class MemberVisualView(ListView):

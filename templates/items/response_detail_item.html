@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-">
+    {% if response.owner.profile.image %}
+      <div class="posts-list-image" style="background-image:url('{{ response.owner.profile.image.thumbnail_file.url }}')"></div>
+    {% else %}
+      <div class="posts-list-image" style="background-image:url('/static/icon.webp')"></div>
+    {% endif %}
+  </div>
+  <div class="col-sm">
+    <p class="responses-title">
+      <strong><a href="{% url 'posts:response_detail' response.slug %}">
+        {{ response.title }}
+      </a></strong>
+      {{ response.text|truncatechars:155 }}<br>
+      Posted by <a href="{% url 'members:member_profile' response.owner.username %}"><span class="index-heading-span">{{ response.owner }}</span></a>{% if response.publication_date %} on <span class="index-heading-span">{{ response.publication_date|date:"M d, Y" }}</span>{% endif %}{% if response.location %} from <span class="index-heading-span">{{ response.location }}</span>{% endif %}
+    </p>
+  </div>
+</div>
