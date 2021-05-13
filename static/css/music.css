@@ -32,6 +32,20 @@
   font-family: 'Baloo Paaji 2', sans-serif;
 }
 
+.music-album-card-image {
+  display: block;
+  width: 110px;
+  height: 100px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  border-style: solid;
+  border-width: 3px 3px 3px 7px;
+  border-radius: 5px;
+ }
+
 .music-album-image {
   width: 350px;
   height: 350px;
@@ -82,7 +96,7 @@
 .music-list-card {
   color: #ffffff;
   background-color: #222222;
-  max-width: 550px;
+  max-width: 330px;
   display: block;
   padding: 10px;
   margin: 15px;
@@ -182,6 +196,20 @@
 .music-track-card-container {
   display: block;
 }
+
+.music-track-card-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 100%;
+ }
 
 .music-track-list-image {
   display: block;

@@ -5,30 +5,32 @@
   <!-- Heading -->
   {% include './music_page_header.html' %}
   <br>
-  {% if new_tracks.all.count < 1 and new_albums.all.count < 1 %}
-    <p><i>Coming Soon...</i></p><br>
-  {% else %} 
-    {% if sections %}
-      <div class="row">
+  {% if new_tracks.count > 0 or new_albums.count > 0 or top_tracks.count > 0 or top_albums.count > 0 %}
+    <div class="row">
+      {% if sections %}
         <div class="col-sm">
           {% for section in sections %}
-            {% include './musicpagesection.html' %}
+            {% include './music_page_section.html' %}
           {% endfor %}
+          {% include './music_page_links.html' %}
         </div>
+      {% endif %}
+      {% if new_tracks or new_albums %}
         <div class="col-sm">
           {% include './music_page_items.html' %}
+          {% if not sections %}
+            {% include './music_page_links.html' %}
+          {% endif %}
         </div>
-      </div>
-    {% else %}
-      <!-- List of new and top items -->
-      <div class="container-fluid">
-        {% include './music_page_items_without_sections.html' %}
-      </div>
-      <br>
-    {% endif %}
-    <div class="row">
+      {% endif %}
+      {% if not sections and not new_tracks and not new_albums %}
+        {% include './music_page_links.html' %}
+      {% endif %}
     </div>
-    <br>
+  {% else %}
+    <span class="music-page-span"><i>Coming Soon...</i></span>
+    <br><br>
   {% endif %}
 </div>
 {% endblock %}
+

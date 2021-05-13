@@ -530,6 +530,29 @@ class TrackForm(forms.ModelForm):
         }
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
+        if 'sound' in kwargs:
+            sound = Sound.objects.get(pk=kwargs.pop('sound'))
+            if sound.credit:
+                artist = sound.credit
+            else:
+                artist = sound.owner
+            if sound.text:
+                if len(sound.text) > 150:
+                    description = "{}...".format(sound.text[:150])
+                else:
+                    description = sound.text
+            else:
+                description = "Fresh visual art by {}".format(artist)
+            artist = sound.owner
+            print(int(sound.pk))
+            kwargs.update(initial={
+                'sound': int(sound.pk),
+                'title': sound.title,
+                'meta_description': description,
+                'text': sound.text,
+                'artist': artist,
+                'year': int(sound.creation_date.strftime('%Y'))
+            })
         super(TrackForm, self).__init__(*args, **kwargs)
         self.fields['image'].queryset = Image.objects.filter(
             owner=user.pk,

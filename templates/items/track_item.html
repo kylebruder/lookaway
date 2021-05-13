@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-">
     {% if track.image %}
-      <div class="music-track-list-image" style="background-image:url('{{ track.image.thumbnail_file.url }}')"></div>
+      <div class="music-track-card-image" style="background-image:url('{{ track.image.thumbnail_file.url }}')"></div>
     {% elif track.owner.profile.image %}
-      <div class="music-track-list-image" style="background-image:url('{{ track.owner.profile.image.thumbnail_file.url }}')"></div>
+      <div class="music-track-card-image" style="background-image:url('{{ track.owner.profile.image.thumbnail_file.url }}')"></div>
     {% else %}
-      <div class="music-track-list-image" style="background-image:url('/static/icon.webp')"></div>
+      <div class="music-track-card-image" style="background-image:url('/static/icon.webp')"></div>
     {% endif %}
   </div>
   <div class="col-sm">
@@ -15,8 +15,8 @@
       </a>
     </h5>
     <p>
-      Performed by <span class="index-page-span">{{ track.artist }}</span><br>
-      Released by <a href="{% url 'members:member_profile' track.owner.username %}"><span class="index-heading-span">{{ track.owner }}</span></a> on {{ track.creation_date|date:"M d, Y" }}<br><br>
+      Performed by <span class="index-heading-span">{{ track.artist }}</span><br>
+      Released by <a href="{% url 'members:member_profile' track.owner.username %}"><span class="index-heading-span">{{ track.owner }}</span></a> on <span class="index-heading-span">{{ track.creation_date|date:"M d, Y" }}</span>
     </p>
   </div>
 </div>

@@ -7,30 +7,32 @@
         </div>
       </div>
     {% endif %}
-    {% if profile.show_title or profile.show_desc %}
-      <div class="col-sm">
+    <div class="col-sm">
+      {% if profile.show_title or profile.show_desc %}
         {% if profile.title and profile.show_title %}
           <h3 class="brand-title music-page-span music-alert">{{ meta_title }}</h3>
         {% endif %}
         {% if meta_desc and profile.show_desc %}
           <br><p class="music-page-span music-alert"><i>{{ meta_desc }}</i></p>
         {% endif %}
-      </div>
-    {% endif %}
+      {% endif %}
+    </div>
     {% if request.user.is_authenticated %}
       <div class="col-">
         <div class="container">
           <p>
-            {% if show_create_track_button %} 
+            {% if show_track_add_button %}
               <a class="btn btn-sm btn-primary" href="{% url 'music:track_create' %}">+Track</a>
             {% endif %}
-            {% if show_create_album_button %} 
+            {% if show_album_add_button %}
               <a class="btn btn-sm btn-primary" href="{% url 'music:album_create' %}">+Album</a>
             {% endif %}
-            {% if show_edit_profile_button %} 
-              <a href="{% url 'music:music_app_profile_update' 1 %}?next={{ request.path }}">
-                <button class="btn btn-sm btn-warning">Edit App</button>
-              </a>
+            {% if show_profile_edit_button %} 
+              {% with profile_edit_button as button %}
+                {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+                  {% include 'buttons/edit_button.html' %}
+                {% endwith %}
+              {% endwith %}
             {% endif %}
           </p>
         </div>
@@ -40,5 +42,9 @@
   {% if profile.text %}
     <p class="music-page-span music-alert">{{ profile.text }}</p>
   {% endif %}
-  {% include './music_page_navbar.html' %}
+  <div class="row">
+    <div class="col-sm">
+      {% include './music_page_navbar.html' %}
+    </div>
+  </div>
 </div>

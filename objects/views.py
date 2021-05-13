@@ -449,7 +449,7 @@ class ImageDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = True
         else:
             context['can_add_marshmallow'] = False
-        if self.request.user.has_perm('art.add_visual'):
+        if self.request.user.has_perm('art.add_visual') and self.request.user.pk == self.object.owner.pk:
             context['show_visual_add_button'] = True
             context['visual_add_button'] = {
                 'url': reverse('art:visual_create'),
@@ -656,6 +656,13 @@ class SoundDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = True
         else:
             context['can_add_marshmallow'] = False
+        if self.request.user.has_perm('music.add_track') and self.request.user.pk == self.object.owner.pk:
+            context['show_track_add_button'] = True
+            context['track_add_button'] = {
+                'url': reverse('music:track_create'),
+                'parameters': "?sound={}".format(self.object.pk),
+                'text': "+Track",
+            }
         return context
 
 class SoundUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):

@@ -45,6 +45,20 @@ class MusicAppProfileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Upd
         context['sections'] = MusicPageSection.objects.all().order_by(
             'order',
         )
+        # Add music page section button
+        if self.request.user.has_perm('music.add_musicpagesection'):
+            context['show_music_page_section_add_button'] = True
+            context['music_page_section_add_button'] = { 
+                'url': reverse(
+                    'music:music_page_section_create',
+                ),
+            }
+        # Edit music page section button
+        if self.request.user.has_perm('music.change_musicpagesection'):
+            context['show_music_page_section_edit_button'] = True
+        # Delete music page section button
+        if self.request.user.has_perm('music.delete_musicpagesection'):
+            context['show_music_page_section_delete_button'] = True
         return context
 
     def get_success_url(self):
@@ -94,23 +108,41 @@ class MusicPageView(TemplateView, AppPageMixin):
         )
         # Create Track button
         if self.request.user.has_perm('music.add_track'):
-            context['show_create_track_button'] = True
-            context['create_track_url'] = reverse(
-                'music:track_create',
-            )
+            context['show_track_add_button'] = True
+            context['track_add_button'] = {
+                'url': reverse('music:track_create'),
+                'text': "+Track",
+            }
         # Create Album button
         if self.request.user.has_perm('music.add_album'):
-            context['show_create_album_button'] = True
-            context['create_album_url'] = reverse(
-                'music:album_create',
-            )
+            context['show_album_add_button'] = True
+            context['album_add_button'] = {
+                'url': reverse('music:album_create'),
+                'text': "+Album",
+            }
         # Update AppProfile button
         if self.request.user.has_perm('music.change_musicappprofile'):
-            context['show_edit_profile_button'] = True
-            context['edit_profile_url'] = reverse(
-                'music:music_app_profile_update',
-                kwargs={'pk': 1},
-            )
+            context['show_profile_edit_button'] = True
+            context['profile_edit_button'] = {
+                'url': reverse('music:music_app_profile_update',
+                    kwargs={'pk': 1},
+                ),
+                'text': "Edit App"
+            }
+        # Add music page section button
+        if self.request.user.has_perm('music.add_musicpagesection'):
+            context['show_music_page_section_add_button'] = True
+            context['music_page_section_add_button'] = { 
+                'url': reverse(
+                    'music:music_page_section_create',
+                ),
+            }
+        # Edit music page section button
+        if self.request.user.has_perm('music.change_musicpagesection'):
+            context['show_music_page_section_edit_button'] = True
+        # Delete music page section button
+        if self.request.user.has_perm('music.delete_musicpagesection'):
+            context['show_music_page_section_delete_button'] = True
         return context
 
 class MusicPageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
@@ -161,6 +193,20 @@ class MusicPageSectionDetailView(LoginRequiredMixin, DetailView):
         profile, created = MusicAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         context['meta_title'] = profile.title
+        # Add music page section button
+        if self.request.user.has_perm('music.add_musicpagesection'):
+            context['show_music_page_section_add_button'] = True
+            context['music_page_section_add_button'] = {
+                'url': reverse(
+                    'music:music_page_section_create',
+                ),
+            }
+        # Edit music page section button
+        if self.request.user.has_perm('music.change_musicpagesection'):
+            context['show_music_page_section_edit_button'] = True
+        # Delete music page section button
+        if self.request.user.has_perm('music.delete_musicpagesection'):
+            context['show_music_page_section_delete_button'] = True
         return context
 
 class MusicPageSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
@@ -504,6 +550,8 @@ class TrackCreateView(LoginRequiredMixin, CreateView):
     def get_form_kwargs(self):
         kwargs = super(TrackCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
+        if 'sound' in self.request.GET:
+            kwargs['sound'] = self.request.GET.get('sound')
         return kwargs
 
     def form_valid(self, form):
