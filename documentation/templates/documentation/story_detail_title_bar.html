@@ -3,21 +3,23 @@
     <h3 class="documentation-title">{{ story.title }}</h3>
   </div>
   <div class="col-">
-    {% if story.owner.pk == request.user.pk %}
-      <a href="{% url 'documentation:story_delete' story.pk %}">
-        <button type="button" class="btn btn-sm btn-danger float-right">Delete</button>
-      </a>
-      <a href="{% url 'documentation:story_update' story.slug %}">
-        <button type="button" class="btn btn-sm btn-warning float-right">Edit</button>
-      </a>
-      <a href="{% url 'documentation:story_section_create' %}?story={{ story.pk }}">
-        <button type="button" class="btn btn-sm btn-primary float-right">+Section</button>
-      </a>
-      {% if not story.is_public %}
-        <a href="{% url 'documentation:publish_story' story.pk %}">
-          <button type="button" class="btn btn-sm btn-success float-right">Publish</button>
+    <div class="container">
+      {% if story.owner.pk == request.user.pk %}
+        <a href="{% url 'documentation:story_delete' story.pk %}">
+          <button type="button" class="btn btn-sm btn-danger float-right">Delete</button>
         </a>
+        <a href="{% url 'documentation:story_update' story.slug %}">
+          <button type="button" class="btn btn-sm btn-warning float-right">Edit</button>
+        </a>
+        <a href="{% url 'documentation:story_section_create' %}?story={{ story.pk }}">
+          <button type="button" class="btn btn-sm btn-primary float-right">+Section</button>
+        </a>
+        {% if not story.is_public %}
+          <a href="{% url 'documentation:publish_story' story.pk %}">
+            <button type="button" class="btn btn-sm btn-success float-right">Publish</button>
+          </a>
+        {% endif %}
       {% endif %}
-    {% endif %}
+    </div>
   </div>
 </div>

@@ -155,6 +155,7 @@ class MusicPageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, Me
     def get_form_kwargs(self):
         kwargs = super(MusicPageSectionCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
+        kwargs['order'] = self.request.GET.get('order')
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -380,7 +381,7 @@ class AlbumDetailView(DetailView):
         # App profile
         profile, created = MusicAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
-        context['meta_title'] = profile.title
+        context['meta_title'] = self.object.title
 
         # Check whether or not to display the Marshmallow button
         if self.request.user.is_authenticated:
@@ -452,7 +453,7 @@ class AlbumDetailView(DetailView):
             ).order_by('weight', '-publication_date')[:5]
         else:
             context['responses'] = ResponsePost.objects.filter(
-                post=self.object,
+                album=self.object,
                 is_public=True,
                 members_only=False,
             ).order_by('weight', '-publication_date')[:5]
@@ -740,7 +741,7 @@ class TrackDetailView(DetailView):
         # App profile
         profile, created = MusicAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
-        context['meta_title'] = profile.title
+        context['meta_title'] = self.object.title
         # Albums that have the Track on their list
         context['albums'] = Album.objects.filter(
             tracks__title=self.object.title,
@@ -816,7 +817,7 @@ class TrackDetailView(DetailView):
             ).order_by('weight', '-publication_date')[:5]
         else:
             context['responses'] = ResponsePost.objects.filter(
-                post=self.object,
+                track=self.object,
                 is_public=True,
                 members_only=False,
             ).order_by('weight', '-publication_date')[:5]

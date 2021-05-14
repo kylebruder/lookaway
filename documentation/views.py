@@ -1488,7 +1488,7 @@ class StoryDetailView(DetailView):
         ).order_by('order')
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
-            # Post Actions
+            # Story Actions
             if self.object.owner.pk == member.pk:
                 if not self.object.is_public:
                     context['show_publish_button'] = True

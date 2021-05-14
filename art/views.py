@@ -811,7 +811,7 @@ class VisualDetailView(DetailView):
             ).order_by('weight', '-publication_date')[:5]
         else:
             context['responses'] = ResponsePost.objects.filter(
-                post=self.object,
+                visual=self.object,
                 is_public=True,
                 members_only=False,
             ).order_by('weight', '-publication_date')[:5]

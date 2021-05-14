@@ -2,7 +2,10 @@
 {% block body_block %}
 {% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container posts-bg">
-  {% if post.is_public or post.owner.pk == request.user.pk %}
+  {% if not request.user.is_authenticated and post.members_only %}
+    <p><i>This Post is only visible to authenticated members.</i></p>
+    <br>
+  {% elif post.is_public or post.owner.pk == request.user.pk %}
     <!-- Title bar-->
     {% include './post_detail_title_bar.html' %}
     <!-- Meta data -->

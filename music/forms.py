@@ -291,6 +291,11 @@ class MusicPageSectionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
+        if 'order' in kwargs:
+            order = kwargs.pop('order')
+            kwargs.update(initial={
+                'order': order
+            })
         super(MusicPageSectionForm, self).__init__(*args, **kwargs)
         self.fields['images'].queryset = Image.objects.filter(
             owner=user.pk,
@@ -516,6 +521,8 @@ class TrackForm(forms.ModelForm):
             'video',
             'links',
             'tags',
+            'bitcoin_wallet',
+            'litecoin_wallet',
         )
         help_texts = {
             'cover': """Choose an image to represent the Album cover

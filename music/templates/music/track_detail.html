@@ -10,9 +10,6 @@
         <br>{% include 'objects/unpublished.html' %}
       </p>
     {% endif %}
-    {% if track.members_only %}
-      <p class="music-meta"><i>This Track is only avaialble for Members of the site.</i></p>
-    {% endif %}
     <div class="row">
       <div class="col-sm-6 ">
         <p class="music-track-info">
@@ -128,15 +125,6 @@
         {% endfor %}
       </ul>
       <br>
-    {% endif %}
-    {% if track.bitcoin_wallet or track.litecoin_wallet %}
-      <h4 class="music-title">Donate</h4>
-      <br>
-      {% with track.bitcoin_wallet as bitcoin_wallet %}
-        {% with track.litecoin_wallet as litecoin_wallet %}
-          {% include 'objects/object_crypto_wallets.html' %}
-        {% endwith %}
-      {% endwith %}
     {% endif %}
     <div class="row">
       <div class="col-sm">

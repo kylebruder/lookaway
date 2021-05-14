@@ -43,7 +43,7 @@ class ModelByTagMixin:
         else:
             return self.model.objects.filter(
                 is_public=True,
-                tags__slug__exact=self.slug,
+                tags__slug__exact=slug,
             ).order_by('-weight')
 
     def get_context_data(self, **kwargs):

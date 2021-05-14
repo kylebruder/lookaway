@@ -306,7 +306,7 @@ class PostListView(ListView):
             )
         else:
             return Post.objects.filter(
-                Q(is_public=True) | Q(members_only=False),
+                Q(is_public=True) & Q(members_only=False),
             ).order_by(
                 '-publication_date',
             )
@@ -349,7 +349,7 @@ class TopPostListView(ListView):
             )
         else:
             return Post.objects.filter(
-                Q(is_public=True) | Q(members_only=False)
+                Q(is_public=True) & Q(members_only=False)
             ).order_by(
                 '-weight',
                 '-publication_date',
@@ -707,7 +707,7 @@ class ResponsePostListView(ListView):
             )
         else:
             return ResponsePost.objects.filter(
-                Q(is_public=True) | Q(members_only=False),
+                Q(is_public=True) & Q(members_only=False),
             ).order_by(
                 '-publication_date',
             )
@@ -744,7 +744,7 @@ class TopResponsePostListView(ListView):
             )
         else:
             return ResponsePost.objects.filter(
-                Q(is_public=True) | Q(members_only=False)
+                Q(is_public=True) & Q(members_only=False)
             ).order_by(
                 '-weight',
                 '-publication_date',
