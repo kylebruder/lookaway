@@ -12,7 +12,8 @@
       </p>
     {% else %}
       <p>
-        Created by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span> on <span class="index-heading-span">{{ object.creation_date }}</span>
+        Owned by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span> on <span class="index-heading-span">{{ object.creation_date }}</span>
+        <br>{% include 'objects/unpublished.html' %}
       <p>
     {% endif %}
     <!-- Image -->

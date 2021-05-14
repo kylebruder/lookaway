@@ -4,19 +4,5 @@
   <!-- Section Title -->
   {% include './artpagesection_detail_title_bar.html' %}
   {% include 'sections/section.html' %}
-  {% if section.visuals.count > 0 %}
-    {% for visual in section.visuals.all %}
-      <a href="{% url 'art:visual_detail' visual.slug %}">
-       <img class="art-visual-image" src="{{ visual.image.image_file.url }}">
-      </a>
-      <br> 
-    {% endfor %}
-  {% endif %}
-  {% if section.galleries.count > 0 %}
-    {% for gallery in section.galleries.all %}
-      {% include './gallery_item.html' %}
-    {% endfor %}
-    <br>
-  {% endif %}
 </div>
 

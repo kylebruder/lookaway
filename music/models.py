@@ -71,6 +71,13 @@ class MusicMetaData(models.Model):
     class Meta:
         abstract = True
 
+    def is_original_release(self):
+        if self.publication_date:
+            if int(self.year) == int(self.publication_date.strftime("%Y")):
+                return True
+        else:
+            return False
+
     title = models.CharField(
         max_length=128,
         unique=True,

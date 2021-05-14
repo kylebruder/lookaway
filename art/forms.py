@@ -299,6 +299,11 @@ class ArtPageSectionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
+        if 'order' in kwargs:
+            order = kwargs.pop('order')
+            kwargs.update(initial={
+                'order': order
+            })
         super(ArtPageSectionForm, self).__init__(*args, **kwargs)
         self.fields['images'].queryset = Image.objects.filter(
             owner=user.pk,

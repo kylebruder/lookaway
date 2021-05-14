@@ -16,7 +16,7 @@
     </h5>
     <p>
       Music by <span class="index-heading-span">{{ album.artist }}</span><br>
-      Released by <a href="{% url 'members:member_profile' album.owner.username %}"><span class="index-heading-span">{{ album.owner }}</span></a> on <span class="index-heading-span">{{ album.creation_date|date:"M d, Y" }}</span>
+      {% if album.is_original_release %}Released{% else %}Rereleased{% endif %} by <a href="{% url 'members:member_profile' album.owner.username %}"><span class="index-heading-span">{{ album.owner }}</span></a> on <span class="index-heading-span">{{ album.creation_date|date:"M d, Y" }}</span>
     </p>
   </div>
 </div>

@@ -132,78 +132,6 @@ class Doc(MetaDataMixin, MarshmallowMixin, CryptoWalletsMixin):
 
 # View mixins
 class AppPageMixin:
-
-    def get_sets(self, model, n, show_new=True, show_top=True):
-        '''
-        A method for fetching two model querysets from a Django model.
-        Given a model, it will return a list of the newest n items
-        whose 'is_public' field is set to true.
-        If the number of public models is sufficent, it will
-        also return a queryset of at most, the top n items by 'weight'.
-        Items that appear in the 'new' queryset will be excluded from
-        the 'top' queryset.
-
-        Args:
-        instance -  A Django instance with 'is_public', 'publication_date'
-                    and 'weight' fields.
-        n -         The number of items in each queryset.
-        show_new -  If set to False, the 'new_instances' queryset will be empty.
-        show_top -  If set to False, the 'top_instances' queryset will be empty.
-
-        Returns:
-        new_instances - A queryset of n new public instances of the given instance.
-                     Queryset may be less than n if the number of instances
-                     is insufficent.
-        top_instances - A queryset of the top n public instances by weight
-                     of the given instance excluding instances in new_instances.
-                     Queryset may be less than n if the number of instances
-                     is insufficent.
-        '''
-        # Initialize variables.
-        public_instances = model.objects.filter(is_public=True)
-        new_instances = model.objects.none()
-        top_instances = model.objects.none()
-        # If there are public instances and we want to show the newest n
-        if n > 0 and public_instances.count() >= n and show_new:
-            # Get the n newest instances.
-            new_instances = public_instances.order_by(
-                '-publication_date',
-            )[:n]
-        # If there are public instances and we want to show the top n
-        if n > 0 and public_instances.count() >= n and show_top:
-            # Get the date of the nth newest instance
-            # if there are n or more instances.
-            last_new_instance_date = public_instances.order_by(
-                '-publication_date',
-            )[n-1].publication_date
-            # Exclude any instance that appears in the new instances list
-            # from the top instance list.
-            if show_new:
-                top_instances = public_instances.order_by(
-                    '-weight',
-                ).exclude(
-                    publication_date__gte=last_new_instance_date,
-                )[:n]
-            # Unless new instances aren't being shown, of course
-            else:
-                top_instances = public_instances.order_by('-weight')[:n]
-        # In the event there are less than n instances,
-        # include them in the new model list.
-        elif n > 0:
-            if show_new:
-                new_instances = public_instances.order_by(
-                    '-publication_date',
-                )
-            # Or in the top list if we don't want to show new_models
-            elif show_top:
-                top_instances = public_instances.order_by(
-                    '-weight',
-                )
-        # Return the querysets
-        return new_instances, top_instances
-
-# View mixins
-class AppPageMixin:
     '''
     A collection of methods for use with Lookaway app landing views.
     '''
@@ -278,12 +206,12 @@ class AppPageMixin:
             if show_new:
                 new_instances = public_instances.order_by(
                     '-publication_date',
-                )
+                )[:n]
             # Or in the top list if we don't want to show new_models
             elif show_top:
                 top_instances = public_instances.order_by(
                     '-weight',
-                )
+                )[:n]
         # Return the querysets
         return new_instances, top_instances
 

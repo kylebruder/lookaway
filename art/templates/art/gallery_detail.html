@@ -18,6 +18,7 @@
       </p>
     {% else %}
       <p class="gallery-meta">Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
+      {% include 'objects/unpublished.html' %}
       <br>
     {% endif %}
     {% include './carousel.html' %}

@@ -277,6 +277,9 @@ class HomeAppProfileForm(forms.ModelForm):
             'title',
             'meta_description',
             'text',
+            'links',
+            'bitcoin_wallet',
+            'litecoin_wallet',
         )
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')

@@ -17,6 +17,7 @@ from lookaway.mixins import AppPageMixin
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from objects.utils import Text
+from posts.models import ResponsePost
 from .forms import MusicAppProfileForm, MusicPageSectionForm, AlbumForm, TrackForm
 from .models import MusicAppProfile, MusicPageSection, Album, Track
 
@@ -380,12 +381,81 @@ class AlbumDetailView(DetailView):
         profile, created = MusicAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         context['meta_title'] = profile.title
+
+        # Check whether or not to display the Marshmallow button
         if self.request.user.is_authenticated:
             member = Member.objects.get(pk=self.request.user.pk)
             if member.check_can_allocate() and not member.check_is_new():
                 context['can_add_marshmallow'] = True
             else:
                 context['can_add_marshmallow'] = False
+        if self.request.user.is_authenticated:
+            member = Member.objects.get(pk=self.request.user.pk)
+            # Post Actions
+            if self.object.owner.pk == member.pk:
+                if not self.object.is_public:
+                    context['show_publish_button'] = True
+                    context['publish_button'] = {
+                        'url': reverse(
+                            'music:publish_album',
+                            kwargs={
+                                'pk': self.object.pk,
+                            },
+                        )
+                    }
+                context['show_edit_button'] = True
+                context['edit_button'] = {
+                     'url': reverse(
+                        'music:album_update',
+                        kwargs={
+                            'slug': self.object.slug,
+                        },
+                    )
+                }
+                context['show_delete_button'] = True
+                context['delete_button'] = {
+                     'url': reverse(
+                        'music:album_delete',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    )
+                }
+            # Marshmallow button
+            if member.check_can_allocate() and not member.check_is_new():
+                context['can_add_marshmallow'] = True
+                context['marshmallow_button'] = {
+                    'url': reverse(
+                        'music:album_marshmallow',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    ),
+                }
+            # Response button
+            if self.request.user.has_perms('posts:add_response'):
+                context['can_respond'] = True
+                context['response_button'] = {
+                    'url': reverse(
+                        'posts:response_post_create',
+                        kwargs={
+                            'model': "album",
+                            'pk': self.object.pk,
+                            'members_only': False
+                        },
+                    ),
+                }
+            # Get the music that are a response to this post
+            context['responses'] = ResponsePost.objects.filter(
+                album=self.object,
+                is_public=True,
+            ).order_by('weight', '-publication_date')[:5]
+        else:
+            context['responses'] = ResponsePost.objects.filter(
+                post=self.object,
+                is_public=True,
+                members_only=False,
+            ).order_by('weight', '-publication_date')[:5]
         return context
 
 class MemberAlbumView(ListView):
@@ -683,6 +753,73 @@ class TrackDetailView(DetailView):
                 context['can_add_marshmallow'] = True
             else:
                 context['can_add_marshmallow'] = False
+        if self.request.user.is_authenticated:
+            member = Member.objects.get(pk=self.request.user.pk)
+            # Post Actions
+            if self.object.owner.pk == member.pk:
+                if not self.object.is_public:
+                    context['show_publish_button'] = True
+                    context['publish_button'] = {
+                        'url': reverse(
+                            'music:publish_track',
+                            kwargs={
+                                'pk': self.object.pk,
+                            },
+                        )
+                    }
+                context['show_edit_button'] = True
+                context['edit_button'] = {
+                     'url': reverse(
+                        'music:track_update',
+                        kwargs={
+                            'slug': self.object.slug,
+                        },
+                    )
+                }
+                context['show_delete_button'] = True
+                context['delete_button'] = {
+                     'url': reverse(
+                        'music:track_delete',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    )
+                }
+            # Marshmallow button
+            if member.check_can_allocate() and not member.check_is_new():
+                context['can_add_marshmallow'] = True
+                context['marshmallow_button'] = {
+                    'url': reverse(
+                        'music:track_marshmallow',
+                        kwargs={
+                            'pk': self.object.pk,
+                        },
+                    ),
+                }
+            # Response button
+            if self.request.user.has_perms('posts:add_response'):
+                context['can_respond'] = True
+                context['response_button'] = {
+                    'url': reverse(
+                        'posts:response_post_create',
+                        kwargs={
+                            'model': "track",
+                            'pk': self.object.pk,
+                            'members_only': False
+                        },
+                    ),
+                }
+            # Get the music that are a response to this post
+            context['responses'] = ResponsePost.objects.filter(
+                track=self.object,
+                is_public=True,
+            ).order_by('weight', '-publication_date')[:5]
+        else:
+            context['responses'] = ResponsePost.objects.filter(
+                post=self.object,
+                is_public=True,
+                members_only=False,
+            ).order_by('weight', '-publication_date')[:5]
         return context
 
 class MemberTrackView(ListView):

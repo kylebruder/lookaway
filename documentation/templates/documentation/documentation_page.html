@@ -5,26 +5,31 @@
   <!-- Heading -->
   {% include './documentation_page_header.html' %}
   <br>
-  {% if new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.count or new_galleries or new_tracks or new_albums or sections or profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+  {% if members or contributors or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.all.count > 0 or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals.all.count > 0 or top_galleries or top_tracks or top_albums or sections or profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
     <div class="row">
       {% if sections %}
         <div class="col-sm">
           {% for section in sections %}
             {% include './documentation_page_section.html' %}
           {% endfor %}
-          {% include './documentation_page_links.html' %}
+          {% if profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+            {% include './documentation_page_links.html' %}
+          {% endif %}
         </div>
       {% endif %}
-      {% if new_articles or new_stories or new_documents %}
+      {% if members or contributors or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.all.count > 0 or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals.all.count > 0 or top_galleries or top_tracks or top_albums %}
         <div class="col-sm">
           {% include './documentation_page_items.html' %}
           {% if not sections %}
             {% include './documentation_page_links.html' %}
           {% endif %}
         </div>
-      {% endif %}
-      {% if not sections and not new_articles and not new_stories and not new_documents %}
-        {% include './documentation_page_links.html' %}
+      {% elif profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+        {% if not sections %}
+          <div class="col-sm">
+            {% include './documentation_page_links.html' %}
+          </div>
+        {% endif %}
       {% endif %}
     </div>
   {% else %}

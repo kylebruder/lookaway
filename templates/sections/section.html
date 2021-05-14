@@ -44,12 +44,40 @@
   {% endwith %}
 {% endif %}
 {% if section.posts.count > 0 %}
-  {% for post in section.posts.all %}
-    <li class="list-group-item posts-list-li">
-      {% include 'items/post_item.html' %}
-    </li>
-  {% endfor %}
-  <br>
+  <ul class="list-group">
+    {% for post in section.posts.all %}
+      <li class="list-group-item posts-list-li">
+        {% include 'items/post_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if section.articles.count > 0 %}
+  <ul class="list-group">
+    {% for article in section.articles.all %}
+      <li class="list-group-item documentation-list-li">
+        {% include 'items/article_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if section.stories.count > 0 %}
+  <ul class="list-group">
+    {% for story in section.stories.all %}
+      <li class="list-group-item documentation-list-li">
+        {% include 'items/story_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if section.documents.count > 0 %}
+  <ul class="list-group">
+    {% for document in section.documents.all %}
+      <li class="list-group-item documentation-list-li">
+        {% include 'items/document_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
 {% endif %}
 {% if section.visuals.count > 0 %}
   {% for visual in section.visuals.all %}
@@ -60,16 +88,38 @@
   {% endfor %}
 {% endif %}
 {% if section.galleries.count > 0 %}
-  {% for gallery in section.galleries.all %}
-    {% include 'items/gallery_item.html' %}
-  {% endfor %}
-  <br>
+  <ul class="list-group">
+    {% for gallery in section.galleries.all %}
+      <li class="list-group-item art-list-li">
+        {% include 'items/gallery_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if section.tracks.count > 0 %}
+  <ul class="list-group">
+    {% for track in section.tracks.all %}
+      <li class="list-group-item music-list-li">
+        {% include 'items/track_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if section.albums.count > 0 %}
+  <ul class="list-group">
+    {% for album in section.albums.all %}
+      <li class="list-group-item music-list-li">
+        {% include 'items/album_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
 {% endif %}
 {% if section.members.count > 0 %}
-  {% for member in section.members.all %}
-    <li class="list-group-item members-list-li">
-      {% include 'items/member_item.html' %}
-    </li>
-  {% endfor %}
-  <br>
+  <ul class="list-group">
+    {% for member in section.members.all %}
+      <li class="list-group-item members-list-li">
+        {% include 'items/member_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
 {% endif %}
