@@ -7,28 +7,22 @@
         </div>
       </div>
     {% endif %}
-    {% if profile.show_title or profile.show_desc %}
-      <div class="col-sm">
-        {% if profile.title and profile.show_title %}
-          <h3 class="art-title art-page-span art-alert">{{ meta_title }}</h3>
-        {% endif %}
-        {% if meta_desc and profile.show_desc %}
-          <br><p class="art-page-span art-alert"><i>{{ meta_desc }}</i></p>
-        {% endif %}
+    <div class="col-sm">
+      {% if profile.title %}
+        <h3 class="art-title art-page-span art-alert">{{ meta_title }}</h3>
+      {% endif %}
+      {% if meta_desc %}
+        <br><p class="art-page-span art-alert"><i>{{ meta_desc }}</i></p>
+      {% endif %}
+    </div>
+    {% if request.user.is_authenticated %}
+      <div class="col-">
+        <div class="container">
+          <p>
+            {% include 'objects/object_create_buttons.html' %}
+          </p>
+        </div>
       </div>
     {% endif %}
-    <div class="col-">
-      <div class="container">
-        {% if perms.art.add_visual %}
-          <a class="btn btn-sm btn-primary" href="{% url 'art:visual_create' %}?next={{ request.path }}">+Visual</a>
-        {% endif %}
-        {% if perms.objects.add_link %}
-          <a class="btn btn-sm btn-primary" href="{% url 'objects:link_create' %}?next={{ request.path }}">+Link</a>
-        {% endif %}
-        {% if perms.objects.add_tag %}
-          <a class="btn btn-sm btn-primary" href="{% url 'objects:tag_create' %}?next={{ request.path }}">+Tag</a>
-        {% endif %}
-      </div>
-    </div>
   </div>
 </div>

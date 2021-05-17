@@ -4,10 +4,10 @@
       Your Bitcoin Wallets
     </h3>
   </div>
-  {% if request.user.is_authenticated %}
+  {% if show_create_button and create_button_url %}
     <div class="col-">
       <div class="container">
-        <a href="{% url 'crypto:bitcoinwallet_create' %}">
+        <a href="{{ create_button_url }}">
           <button type="button" class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
         </a>
       </div>

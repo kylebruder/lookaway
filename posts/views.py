@@ -268,9 +268,9 @@ class PostCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMi
         # App profile
         profile, created = PostsAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
-        context['meta_title'] = """Submit a Post you wish to publish. Posts \
+        context['meta_title'] = "New Post"
+        context['meta_desc'] = """Submit a Post you wish to publish. Posts \
             are open ended and can contain your contributed media."""
-        context['meta_desc'] = "Enter the form instructions here"
         return context
 
     def form_valid(self, form):

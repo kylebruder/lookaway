@@ -547,7 +547,7 @@ class GalleryDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDelet
     model = Gallery
 
     def get_success_url(self):
-        return reverse('members:studio')
+        return reverse('art:member_galleries', kwargs={'member': self.request.user.username})
 
 def add_marshmallow_to_gallery_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -804,7 +804,7 @@ class VisualDetailView(DetailView):
                         },
                     ),
                 }
-            # Get the posts that are a response to this post
+            # Get the posts that are a response to this visual
             context['responses'] = ResponsePost.objects.filter(
                 visual=self.object,
                 is_public=True,
@@ -903,6 +903,7 @@ class VisualDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDelete
     model = Visual
 
     def get_success_url(self):
+        return reverse('art:member_visuals', kwargs={'member': self.request.user.username})
         return reverse('members:studio')
 
 def add_marshmallow_to_visual_view(request, pk):

@@ -257,9 +257,10 @@ class MusicPageSectionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, De
             'music:music_page',
         )
 # Album Views
-class AlbumCreateView(LoginRequiredMixin, CreateView):
+class AlbumCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
     model = Album
+    permission_required = 'music.add_album'
     form_class = AlbumForm
 
     def get_form_kwargs(self):
@@ -446,7 +447,7 @@ class AlbumDetailView(DetailView):
                         },
                     ),
                 }
-            # Get the music that are a response to this post
+            # Get the posts that are a response to this album
             context['responses'] = ResponsePost.objects.filter(
                 album=self.object,
                 is_public=True,
@@ -507,9 +508,10 @@ class MemberAlbumView(ListView):
         context['member'] = member
         return context
 
-class AlbumUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class AlbumUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Album
+    permission_required = 'music.change_album'
     form_class = AlbumForm
 
     def get_form_kwargs(self):
@@ -540,12 +542,13 @@ class AlbumUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class AlbumDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class AlbumDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Album
+    permission_required = 'music.delete_album'
 
     def get_success_url(self):
-        return reverse('members:studio')
+        return reverse('music:member_albums', kwargs={'member': self.request.user.username})
 
 def add_marshmallow_to_album_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
@@ -613,9 +616,10 @@ def publish_album_view(request, pk):
 
 # Track Views
 
-class TrackCreateView(LoginRequiredMixin, CreateView):
+class TrackCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
     model = Track
+    permission_required = 'music.add_track'
     form_class = TrackForm
 
     def get_form_kwargs(self):
@@ -810,7 +814,7 @@ class TrackDetailView(DetailView):
                         },
                     ),
                 }
-            # Get the music that are a response to this post
+            # Get the posts that are a response to this track
             context['responses'] = ResponsePost.objects.filter(
                 track=self.object,
                 is_public=True,
@@ -870,9 +874,10 @@ class MemberTrackView(ListView):
         context['member'] = member
         return context
 
-class TrackUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class TrackUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = Track
+    permission_required = 'music.change_track'
     form_class = TrackForm
 
     def get_form_kwargs(self):
@@ -903,12 +908,13 @@ class TrackUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class TrackDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class TrackDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = Track
+    permission_required = 'music.delete_track'
 
     def get_success_url(self):
-        return reverse('members:studio')
+        return reverse('music:member_tracks', kwargs={'member': self.request.user.username})
 
 def add_marshmallow_to_track_view(request, pk):
     member = Member.objects.get(pk=request.user.pk)
