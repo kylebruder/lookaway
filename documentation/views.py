@@ -318,7 +318,10 @@ class ArticleCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreat
 class ArticleListView(ListView):
 
     model = Article
-    paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    try:
+        paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'articles'
 
     def get_queryset(self, *args, **kwargs):
@@ -361,7 +364,10 @@ class ArticleListView(ListView):
 class TopArticleListView(ListView):
 
     model = Article
-    paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    try:
+        paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'articles'
 
     def get_queryset(self, *args, **kwargs):
@@ -396,7 +402,10 @@ class TopArticleListView(ListView):
 class MemberArticleView(ListView):
 
     model = Article
-    paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    try:
+        paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'articles'
 
     def get_queryset(self, *args, **kwargs):
@@ -833,7 +842,10 @@ class SupportDocumentCreateView(LoginRequiredMixin, PermissionRequiredMixin, Mem
 class SupportDocumentListView(ListView):
 
     model = SupportDocument
-    paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    try:
+        paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'documents'
 
     def get_queryset(self, *args, **kwargs):
@@ -875,7 +887,10 @@ class SupportDocumentListView(ListView):
 class TopSupportDocumentListView(ListView):
 
     model = SupportDocument
-    paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    try:
+        paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'documents'
 
     def get_queryset(self, *args, **kwargs):
@@ -910,7 +925,10 @@ class TopSupportDocumentListView(ListView):
 class MemberSupportDocumentView(ListView):
 
     model = SupportDocument
-    paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    try:
+        paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'documents'
 
     def get_queryset(self, *args, **kwargs):
@@ -1353,7 +1371,10 @@ class StoryCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateM
 class StoryListView(ListView):
 
     model = Story
-    paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    try:
+        paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'stories'
 
     def get_queryset(self, *args, **kwargs):
@@ -1395,7 +1416,10 @@ class StoryListView(ListView):
 class TopStoryListView(ListView):
 
     model = Story
-    paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    try:
+        paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'stories'
 
     def get_queryset(self, *args, **kwargs):
@@ -1430,7 +1454,10 @@ class TopStoryListView(ListView):
 class MemberStoryView(ListView):
 
     model = Story
-    paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    try:
+        paginate_by = DocumentationAppProfile.objects.get_or_create(pk=1)[0].list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'stories'
 
     def get_queryset(self, *args, **kwargs):

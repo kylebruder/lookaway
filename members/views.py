@@ -412,7 +412,10 @@ class MemberListView(ListView):
     model = Member
     context_object_name = 'members'
     queryset = Member.objects.filter(groups__name='Members')
-    paginate_by = MembersAppProfile.objects.get(pk=1).members_list_pagination
+    try:
+        paginate_by = MembersAppProfile.objects.get_or_create(pk=1)[0].members_list_pagination
+    except:
+        paginate_by = 10
 
     class Meta:
         ordering = ['-date_joined']    
@@ -447,7 +450,10 @@ class ContributorListView(ListView):
     model = Member
     context_object_name = 'members'
     queryset = Member.objects.filter(groups__name='Contributors')
-    paginate_by = MembersAppProfile.objects.get(pk=1).contributors_list_pagination
+    try:
+        paginate_by = MembersAppProfile.objects.get_or_create(pk=1)[0].contributors_list_pagination
+    except:
+        paginate_by = 10
 
     class Meta:
         ordering = ['-date_joined']
@@ -483,7 +489,10 @@ class ArtistListView(ListView):
     model = Member
     context_object_name = 'members'
     queryset = Member.objects.filter(groups__name='Artists')
-    paginate_by = MembersAppProfile.objects.get(pk=1).contributors_list_pagination
+    try:
+        paginate_by = MembersAppProfile.objects.get_or_create(pk=1)[0].contributors_list_pagination
+    except:
+        paginate_by = 10
 
     class Meta:
         ordering = ['-date_joined']
@@ -519,7 +528,10 @@ class MusicianListView(ListView):
     model = Member
     context_object_name = 'members'
     queryset = Member.objects.filter(groups__name='Musicians')
-    paginate_by = MembersAppProfile.objects.get(pk=1).contributors_list_pagination
+    try:
+        paginate_by = MembersAppProfile.objects.get_or_create(pk=1)[0].contributors_list_pagination
+    except:
+        paginate_by = 10
 
     class Meta:
         ordering = ['-date_joined']
@@ -555,7 +567,10 @@ class WriterListView(ListView):
     model = Member
     context_object_name = 'members'
     queryset = Member.objects.filter(groups__name='Writers')
-    paginate_by = MembersAppProfile.objects.get(pk=1).contributors_list_pagination
+    try:
+        paginate_by = MembersAppProfile.objects.get_or_create(pk=1)[0].contributors_list_pagination
+    except:
+        paginate_by = 10
 
     class Meta:
         ordering = ['-date_joined']
@@ -591,7 +606,10 @@ class StaffListView(ListView):
     model = Member
     context_object_name = 'members'
     queryset = Member.objects.filter(is_staff=True)
-    paginate_by = MembersAppProfile.objects.get(pk=1).contributors_list_pagination
+    try:
+        paginate_by = MembersAppProfile.objects.get_or_create(pk=1)[0].contributors_list_pagination
+    except:
+        paginate_by = 10
 
     class Meta:
         ordering = ['-date_joined']

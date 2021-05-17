@@ -19,12 +19,13 @@ from .utils import FileSystemOps
 logger = logging.getLogger(__name__)
 
 # Transcoder settings
-profile, new = ObjectsAppProfile.objects.get_or_create(pk=1)
+    
 
 # Upload handlers
 
 @receiver(post_save, sender=Image)
 def handle_image_upload(sender, instance, created, *args, **kwargs):
+    profile, new = ObjectsAppProfile.objects.get_or_create(pk=1)
     '''
     Resize images with a width or height > values
     from the main Lookaway settings file.
@@ -106,6 +107,7 @@ def handle_sound_upload(sender, instance, created, *args, **kwargs):
     Changes the filename on disk to a hard to guess name
     for added privacy.
     '''
+    profile, new = ObjectsAppProfile.objects.get_or_create(pk=1)
     if created:
         snd_file = instance.sound_file.path
         # Thanks derekkwok!
@@ -172,6 +174,7 @@ def handle_video_upload(sender, instance, created, *args, **kwargs):
     Changes the filename on disk to a hard to guess name
     for added privacy.
     '''
+    profile, new = ObjectsAppProfile.objects.get_or_create(pk=1)
     if created:
         vid_file = instance.video_file.path
         # Thanks derekkwok!

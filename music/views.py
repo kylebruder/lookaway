@@ -297,7 +297,10 @@ class AlbumCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 class AlbumListView(ListView):
 
     model = Album
-    paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].album_list_pagination
+    try:
+        paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].album_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'albums'
 
     def get_queryset(self, *args, **kwargs):
@@ -340,7 +343,10 @@ class AlbumListView(ListView):
 class TopAlbumListView(ListView):
 
     model = Album
-    paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].album_list_pagination
+    try:
+        paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].album_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'albums'
 
     def get_queryset(self, *args, **kwargs):
@@ -463,7 +469,10 @@ class AlbumDetailView(DetailView):
 class MemberAlbumView(ListView):
 
     model = Album
-    paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].album_list_pagination
+    try:
+        paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].album_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'albums'
 
     def get_queryset(self, *args, **kwargs):
@@ -659,7 +668,10 @@ class TrackCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 class TrackListView(ListView):
 
     model = Track
-    paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].track_list_pagination
+    try:
+        paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].track_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'tracks'
 
     def get_queryset(self, *args, **kwargs):
@@ -702,7 +714,10 @@ class TrackListView(ListView):
 class TopTrackListView(ListView):
 
     model = Track
-    paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].track_list_pagination
+    try:
+        paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].track_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'tracks'
 
     def get_queryset(self, *args, **kwargs):
@@ -830,7 +845,10 @@ class TrackDetailView(DetailView):
 class MemberTrackView(ListView):
 
     model = Track
-    paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].track_list_pagination
+    try:
+        paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].track_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'tracks'
 
     def get_queryset(self, *args, **kwargs):

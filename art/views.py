@@ -302,7 +302,10 @@ class GalleryCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreat
 class GalleryListView(ListView):
 
     model = Gallery
-    paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
+    try:
+        paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'galleries'
 
     def get_queryset(self, *args, **kwargs):
@@ -350,7 +353,10 @@ class GalleryListView(ListView):
 class TopGalleryListView(ListView):
 
     model = Gallery
-    paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
+    try:
+        paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'galleries'
 
     def get_queryset(self, *args, **kwargs):
@@ -464,7 +470,10 @@ class GalleryDetailView(DetailView):
 class MemberGalleryView(ListView):
 
     model = Gallery
-    paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
+    try:
+        paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'galleries'
 
     def get_queryset(self, *args, **kwargs):
@@ -659,7 +668,10 @@ class VisualCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreate
 class VisualListView(ListView):
 
     model = Visual
-    paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].visual_list_pagination
+    try:
+        paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].visual_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'visuals'
 
     def get_queryset(self, *args, **kwargs):
@@ -701,7 +713,10 @@ class VisualListView(ListView):
 class TopVisualListView(ListView):
 
     model = Visual
-    paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].visual_list_pagination
+    try:
+        paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'visuals'
 
     def get_queryset(self, *args, **kwargs):
@@ -820,7 +835,10 @@ class VisualDetailView(DetailView):
 class MemberVisualView(ListView):
 
     model = Visual
-    paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].visual_list_pagination
+    try:
+        paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'visuals'
 
     def get_queryset(self, *args, **kwargs):

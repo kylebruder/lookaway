@@ -293,7 +293,10 @@ class PostCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMi
 class PostListView(ListView):
 
     model = Post
-    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].post_list_pagination
+    try:
+        paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].post_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'posts'
 
     def get_queryset(self, *args, **kwargs):
@@ -336,7 +339,10 @@ class PostListView(ListView):
 class TopPostListView(ListView):
 
     model = Post
-    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].post_list_pagination
+    try:
+        paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].post_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'posts'
 
     def get_queryset(self, *args, **kwargs):
@@ -380,7 +386,10 @@ class TopPostListView(ListView):
 class MemberPostView(ListView):
 
     model = Post
-    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    try:
+        paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].post_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'posts'
 
     def get_queryset(self, *args, **kwargs):
@@ -695,7 +704,10 @@ class ResponsePostCreateView(LoginRequiredMixin, PermissionRequiredMixin, Member
 class ResponsePostListView(ListView):
 
     model = ResponsePost
-    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    try:
+        paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'responses'
 
     def get_queryset(self, *args, **kwargs):
@@ -731,7 +743,10 @@ class ResponsePostListView(ListView):
 class TopResponsePostListView(ListView):
 
     model = ResponsePost
-    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    try:
+        paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'responses'
 
     def get_queryset(self, *args, **kwargs):
@@ -769,7 +784,10 @@ class TopResponsePostListView(ListView):
 class MemberResponsePostView(ListView):
 
     model = ResponsePost
-    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    try:
+        paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'responses'
 
     def get_queryset(self, *args, **kwargs):
@@ -1029,7 +1047,10 @@ class ReportPostListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
 
     permission_required = 'posts:delete_reportpost'
     model = ReportPost
-    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    try:
+        paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'reports'
 
     def get_queryset(self, *args, **kwargs):
@@ -1067,7 +1088,10 @@ class MemberReportPostView(ListView, LoginRequiredMixin, PermissionRequiredMixin
 
     permission_required = 'posts:delete_reportpost'
     model = ReportPost
-    paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    try:
+        paginate_by = PostsAppProfile.objects.get_or_create(pk=1)[0].response_list_pagination
+    except:
+        paginate_by = 10
     context_object_name = 'reports'
 
     def get_queryset(self, *args, **kwargs):
