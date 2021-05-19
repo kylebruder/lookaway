@@ -34,7 +34,7 @@
       {% endif %}
       {% if request.user.is_authenticated and nav_show_objects %}
         <li class="nav-item">
-          <a class="nav-link nav-font" href="{% url 'objects:objects_page' %}">{% if nav_objects_image %}<img src="{{ nav_objects_image }}" class="nav-image" alt="{{ nav_objects_name }}">{% else %}<span class="index-header-span nav-font">{{ nav_objects_name }}</span>{% endif %}</a>
+          <a class="nav-link" href="{% url 'objects:objects_page' %}">{% if nav_objects_image %}<img src="{{ nav_objects_image }}" class="nav-image" alt="{{ nav_objects_name }}">{% else %}<span class="index-header-span nav-font">{{ nav_objects_name }}</span>{% endif %}</a>
         </li>
       {% endif %}
       <!-- Turning the objects off for now 

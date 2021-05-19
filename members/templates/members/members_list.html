@@ -14,8 +14,8 @@
       {% endif %}
       <div class="col-sm">
         <h3 class="brand-title members-page-span members-alert">
-          {% if profile.title and profile.show_title %}
-            <span class="index-heading-span">{{ profile.title }}</span>
+          {% if meta_title and profile.show_title %}
+            <span class="index-heading-span">{{ meta_title }}</span>
           {% else %}
             {{ app_list_context }}
           {% endif %}
@@ -40,7 +40,7 @@
     {% if page_obj.has_other_pages %}<span class="members-page-span members-nav">{% include 'page_control.html' %}</span>{% endif %}
   {% else %}
     <br>
-    <p class="members-page-span members-alert">No {{ app_list_context }} have been published yet. Check back soon!</p>
+    <p class="members-page-span members-alert">No {{ app_list_context }} have joined yet. Check back soon!</p>
   {% endif %}
   <br>
 </div>

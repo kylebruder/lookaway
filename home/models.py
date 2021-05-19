@@ -141,7 +141,7 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
     # Tags
     n_tags = models.PositiveIntegerField(default=50)
     show_tags = models.BooleanField(default=True)
-    # Hometer
+    # Footer
     legal_notice = models.TextField(
         max_length=2048,
         null=True,

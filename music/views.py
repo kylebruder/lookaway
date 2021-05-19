@@ -733,7 +733,7 @@ class TopTrackListView(ListView):
         # App profile
         profile, created = MusicAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
-        context['app_list_context'] = "New Tracks"
+        context['app_list_context'] = "Top Tracks"
         # SEO stuff
         context['meta_title'] = "{} | {}".format(
             context['app_list_context'],

@@ -50,7 +50,7 @@
     {% endblock %}
     {% if page_obj.has_other_pages %}<span class="music-page-span music-nav">{% include 'page_control.html' %}</span>{% endif %}
   {% else %}
-    <p class="music-page-span">No {{ app_list_context }} have been published yet. Check back soon!</p>
+    <p class="music-page-span music-alert">No {{ app_list_context }} have been published yet. Check back soon!</p>
     <br>
   {% endif %}
   <br>

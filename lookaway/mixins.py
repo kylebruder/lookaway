@@ -15,7 +15,7 @@ class AppProfile(models.Model):
 
     title = models.CharField(
         max_length=255,
-        default="Lookaway CMS"
+        default="Lookaway Information"
     )
     show_title = models.BooleanField(default=True)
     meta_description = models.TextField(
