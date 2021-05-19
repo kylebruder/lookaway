@@ -7,16 +7,28 @@
         </div>
       </div>
     {% endif %}
-    {% if profile.show_title or profile.show_desc %}
-      <div class="col-sm">
-        {% if meta_title %}
-          <h3 class="art-title art-page-span art-alert">{{ meta_title }}</h3>
-        {% endif %}
-        {% if meta_desc %}
-          <br><p class="art-page-span art-alert"><i>{{ meta_desc }}</i></p>
-        {% endif %}
-      </div>
-    {% endif %}
+    <div class="col-sm">
+      {% if meta_title %}
+        <h3 class="art-title art-page-span art-alert">{{ meta_title }}</h3>
+      {% endif %}
+      {% if meta_desc %}
+        <br><p class="art-page-span art-alert"><i>{{ meta_desc }}</i></p>
+      {% endif %}
+      {% if form.fields.image.queryset.all.count == 0 %}
+        <br>
+        <p class="alert alert-warning art-alert">
+          <i><strong>IMPORTANT:</strong>You must
+            <span class="index-heading-span"><a href="{% url 'objects:image_create' %}?next={{ request.path }}">upload an image</a> before you can add a {{ meta_title|lower }}!</i></span>&nbsp;
+        </p>
+      {% endif %}
+      {% if form.fields.visuals.queryset.all.count == 0 %}
+        <br>
+        <p class="alert alert-warning art-alert">
+          <i><strong>IMPORTANT:</strong>You must
+            <span class="index-heading-span"><a href="{% url 'art:visual_create' %}?next={{ request.path }}">add a visual</a> before you can add a {{ meta_title|lower }}!</i></span>&nbsp;
+        </p>
+      {% endif %}
+    </div>
     {% if request.user.is_authenticated %}
       <div class="col-">
         <div class="container">

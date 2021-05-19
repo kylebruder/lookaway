@@ -41,9 +41,13 @@
         </tr>
       {% endfor %}
     </table>
-  {% elif show_posts_page_section_add_button %}
-    <a href="{{ posts_page_section_add_button|lookup:"url" }}?order=0">
-      <button type="button" class="btn btn-sm btn-primary create-button">+</button>
-    </a>
+  {% else %}
+    {% if show_posts_page_section_add_button %}
+      <p>
+        <a href="{{ posts_page_section_add_button|lookup:"url" }}">
+          <button type="button" class="btn btn-sm btn-primary create-button">+</button>
+        </a>
+      </p>
+    {% endif %}
   {% endif %}
 </div>

@@ -52,7 +52,9 @@
       {% if page_obj.has_other_pages %}<span class="objects-page-span objects-nav">{% include 'page_control.html' %}</span>{% endif %}
     {% else %}
       <br>
-      <p class="objects-page-span objects-alert">No {{ app_list_context }} have been published yet. Check back soon!</p>
+      <div class="container">
+        <span class="objects-page-span objects-alert">No {{ app_list_context|lower }} have been published yet. Check back soon!</span>
+      </div>
     {% endif %}
     <br>
   </div>

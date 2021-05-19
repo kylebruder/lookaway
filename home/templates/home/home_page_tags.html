@@ -1,3 +1,4 @@
+{% if tags %}
 <div class="home-section">
   <form action="{% url 'objects:get_tag_detail' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -22,3 +23,4 @@
     </div>
   </form>
 </div>
+{% endif %}

@@ -31,7 +31,7 @@
             {% endif %}
           </h3>
         {% endif %}
-        <br><br>{% include './posts_page_navbar.html' %}
+        <br>{% include './posts_page_navbar.html' %}
       </div>
       {% if show_create_button and create_button_url %}
         <div class="col-">
@@ -51,7 +51,9 @@
     {% if page_obj.has_other_pages %}<span class="posts-page-span posts-nav">{% include 'page_control.html' %}</span>{% endif %}
   {% else %}
     <br>
-    <p class="posts-page-span posts-alert">No {{ app_list_context }} have been published yet. Check back soon!</p>
+    <div class="container-fluid">
+      <span class="posts-page-span posts-alert">No {{ app_list_context|lower }} have been published yet. Check back soon!</span>
+    </div>
   {% endif %}
   <br>
 </div>

@@ -20,7 +20,7 @@
             {{ app_list_context }}
           {% endif %}
         </h3>
-        <br><br>{% include './members_page_navbar.html' %}
+        <br>{% include './members_page_navbar.html' %}
       </div>
       {% if show_create_button and create_button_url %}
         <div class="col-">
@@ -40,7 +40,9 @@
     {% if page_obj.has_other_pages %}<span class="members-page-span members-nav">{% include 'page_control.html' %}</span>{% endif %}
   {% else %}
     <br>
-    <p class="members-page-span members-alert">No {{ app_list_context }} have joined yet. Check back soon!</p>
+    <div class="container-fluid">
+      <span class="members-page-span members-alert">No {{ app_list_context }} have joined yet. Check back soon!</span>
+    </div>
   {% endif %}
   <br>
 </div>

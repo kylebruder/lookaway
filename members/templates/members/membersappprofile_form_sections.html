@@ -42,6 +42,12 @@
       {% endfor %}
     </table>
   {% else %}
-    {% include './memberspagesection_add_button.html' %}
+    {% if show_members_page_section_add_button %}
+      <td>
+        <a href="{{ members_page_section_add_button|lookup:"url" }}">
+          <button type="button" class="btn btn-sm btn-primary create-button">+</button>
+        </a>
+      </td>
+    {% endif %}
   {% endif %}
 </div>
