@@ -671,7 +671,7 @@ class VisualListView(ListView):
     try:
         paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].visual_list_pagination
     except:
-        paginate_by = 10
+        paginate_by = 36
     context_object_name = 'visuals'
 
     def get_queryset(self, *args, **kwargs):
@@ -714,9 +714,9 @@ class TopVisualListView(ListView):
 
     model = Visual
     try:
-        paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
+        paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].visual_list_pagination
     except:
-        paginate_by = 10
+        paginate_by = 36
     context_object_name = 'visuals'
 
     def get_queryset(self, *args, **kwargs):
@@ -836,9 +836,9 @@ class MemberVisualView(ListView):
 
     model = Visual
     try:
-        paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
+        paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].visual_list_pagination
     except:
-        paginate_by = 10
+        paginate_by = 36
     context_object_name = 'visuals'
 
     def get_queryset(self, *args, **kwargs):

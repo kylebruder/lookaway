@@ -12,6 +12,9 @@
         {% endfor %}
       {% endif %}
     </p>
+    <p>
+      <a href="{% url 'posts:member_posts' profile.member.username %}">All posts posted by {{ profile.member }}</a>
+    </p>
   </div>
 {% endif %}
 <!-- Responses -->
@@ -27,6 +30,9 @@
           <span class="index-heading-span">&squf; <a href="{% url 'posts:response_detail' response.slug %}">{{ response.title }}</a></span>
         {% endfor %}
       {% endif %}
+    </p>
+    <p>
+      <a href="{% url 'posts:member_responses' profile.member.username %}">All responses posted by {{ profile.member }}</a>
     </p>
   </div>
 {% endif %}
@@ -44,6 +50,9 @@
         {% endfor %}
       {% endif %}
     </p>
+    <p>
+      <a href="{% url 'documentation:member_articles' profile.member.username %}">All articles written by {{ profile.member }}</a>
+    </p>
   </div>
 {% endif %}
 {% if new_stories.count > 0 %}
@@ -59,6 +68,9 @@
         {% endfor %}
       {% endif %}
     </p>
+    <p>
+      <a href="{% url 'documentation:member_stories' profile.member.username %}">All stories published by {{ profile.member }}</a>
+    </p>
   </div>
 {% endif %}
 {% if new_documents.count > 0 %}
@@ -73,6 +85,9 @@
           <span class="index-heading-span">&squf; <a href="{% url 'documentation:support_document_detail' document.slug %}">{{ document.title }}</a></span>
         {% endfor %}
       {% endif %}
+    </p>
+    <p>
+      <a href="{% url 'documentation:member_support_documents' profile.member.username %}">All information documented by {{ profile.member }}</a>
     </p>
   </div>
 {% endif %}
@@ -97,6 +112,10 @@
         </div>
       {% endif %}
     </div>
+    <br>
+    <p>
+      <a href="{% url 'art:member_visuals' profile.member.username %}">All visuals curated by {{ profile.member }}</a>
+    </p>
   </div>
 {% endif %}
 {% if new_galleries.count > 0 %}
@@ -118,6 +137,10 @@
         </div>
       {% endif %}
     </div>
+    <br>
+    <p>
+      <a href="{% url 'art:member_galleries' profile.member.username %}">All galleries curated by {{ profile.member }}</a>
+    </p>
   </div>
 {% endif %}
 <!-- Music -->
@@ -139,6 +162,10 @@
         </div>
       {% endif %}
     </div>
+    <br>
+    <p>
+      <a href="{% url 'music:member_tracks' profile.member.username %}">All tracks released by {{ profile.member }}</a>
+    </p>
   </div>
 {% endif %}
 {% if new_albums.count > 0 %}
@@ -159,5 +186,9 @@
         </div>
       {% endif %}
     </div>
+    <br>
+    <p>
+      <a href="{% url 'music:member_albums' profile.member.username %}">All albums released by {{ profile.member }}</a>
+    </p>
   </div>
 {% endif %}

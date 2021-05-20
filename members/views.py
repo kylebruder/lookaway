@@ -651,7 +651,7 @@ class MemberProfileView(DetailView, AppPageMixin):
         context['member'] = profile.member
         # SEO stuff
         context['meta_title'] = self.object.member
-        context['meta_desc'] = self.object.text
+        context['meta_desc'] = self.object.meta_description
         # Sections
         sections = MemberProfileSection.objects.filter(
             owner=self.object.member,

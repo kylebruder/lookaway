@@ -65,8 +65,8 @@
 }
 
 .members-logo {
-  max-height: 330px;
-  max-width: 330px;
+  max-height: 150px;
+  max-width: 250px;
   margin-right: 10px;
   margin-bottom: 10px;
 }
@@ -91,6 +91,13 @@
   padding: 10px;
   line-height: 1.75;
   border-radius: 5px;
+}
+
+.members-profile-logo {
+  max-height: 330px;
+  max-width: 330px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .members-section {

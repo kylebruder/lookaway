@@ -61,7 +61,11 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
             max_size = (w, h)
             image.thumbnail(max_size)
             info = image.info
-            image.save(instance.image_file.path, img_format, **info)
+            try:
+                image.save(instance.image_file.path, img_format, **info)
+            except:
+                img_format = 'webp'
+                image.save(instance.image_file.path, img_format, **info)
 
         # Give the image a random name and webp extenstion
         instance.title = original_name.split('.')[:-1][0]
@@ -90,7 +94,12 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
         p = Path(MEDIA_ROOT)
         q = p / thumb_dir
         Path.mkdir(q, parents=True, exist_ok=True)
-        image.save(q / thumb_file_name, img_format)
+        try:
+            image.save(q / thumb_file_name, img_format)
+        except:
+            img_format = 'webp'
+            image.save(q / thumb_file_name, img_format)
+            
         image.close()
         p = Path(thumb_dir)
         q = p / thumb_file_name
