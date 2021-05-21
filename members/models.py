@@ -223,11 +223,15 @@ class Member(User):
 
 class MembersAppProfile(AppProfile, CryptoWalletsMixin):
 
+    title = models.CharField(
+        max_length=255,
+        default="Members",
+    )
     show_members = models.BooleanField(default=True)
     show_contributors = models.BooleanField(default=True)
     n_members = models.PositiveIntegerField(default=25)
     n_contributors = models.PositiveIntegerField(default=25)
-    members_list_pagination = models.PositiveIntegerField(default=25)
+    members_list_pagination = models.PositiveIntegerField(default=10)
     contributors_list_pagination = models.PositiveIntegerField(default=1000)
     logo = models.ForeignKey(
         'objects.image',

@@ -37,7 +37,7 @@ class CustomModelMultipleChoiceField(forms.models.ModelMultipleChoiceField):
 class UserRegistrationForm(UserCreationForm):
 
     username = forms.CharField(
-        label="Member Login",
+        label="Login Name",
         max_length=32,
         help_text="""Use only lower case letters in your Member Login \
             Name. Your Member Login name is used to create a permanent URL for \
@@ -54,14 +54,12 @@ class UserRegistrationForm(UserCreationForm):
         label="Verify Password",
         )
     first_name = forms.CharField(
-        widget=forms.PasswordInput(),
         label="First Name (optional)",
         help_text="""You may use your real name or an alias or completely fake \
             name.""",
         required=False,
     )
     last_name = forms.CharField(
-        widget=forms.PasswordInput(),
         label="Last Name (optional)",
         help_text="""If you provide a first AND last name, they will be used  \
             to credit your contributions unless you choose a display name for \
@@ -81,6 +79,12 @@ class UserRegistrationForm(UserCreationForm):
             as you are authenticated to the site.""",
         required=False,
     )
+    accept_terms = forms.BooleanField(
+        label="Member Agreement",
+        help_text="""Check this box if you have read the Member Agreement and \
+            accept the terms.""",
+        required=True,
+    )
     username.widget.attrs.update({'class': 'form-text-field'})
     password1.widget.attrs.update({'class': 'form-text-field'})
     password2.widget.attrs.update({'class': 'form-text-field'})
@@ -97,6 +101,7 @@ class UserRegistrationForm(UserCreationForm):
             'first_name',
             'last_name',
             'email',
+            'accept_terms',
         )
 
     # Thanks to Junior Mayta

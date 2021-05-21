@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container sound-bg">
   {% if sound.is_public or sound.owner.pk == request.user.pk %}
     {% include './sound_detail_button_bar.html' %}
@@ -15,15 +16,13 @@
       Sound file: <a href="{{ sound.sound_file.url }}">{{ sound.sound_file.url }}</a><br>
       {% if sound.credit %}Credit: {{ sound.credit }}{% endif %}
     </p>
-    {% if sound.tags.all.count > 0 %}
-      {% include 'objects/object_tags.html' %}
-      <br>
-    {% endif %}
     {% include './object_meta_data.html' %}
+    {% include 'objects/object_tags.html' %}
     <br>
   {% else %}
     <p>This Sound has not been published yet.</p>
   {% endif %}
 </div>
 <br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

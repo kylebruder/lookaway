@@ -7,8 +7,13 @@ from lookaway.mixins import AppProfile, Section, Doc
 
 class DocumentationAppProfile(AppProfile, CryptoWalletsMixin):
 
+    title = models.CharField(
+        max_length=255,
+        default="Zine",
+    )
+
     n = models.PositiveIntegerField(default=3)
-    list_pagination = models.PositiveIntegerField(default=6)
+    list_pagination = models.PositiveIntegerField(default=10)
     show_new_articles = models.BooleanField(default=True)
     show_top_articles = models.BooleanField(default=True)
     show_new_stories = models.BooleanField(default=True)

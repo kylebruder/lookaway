@@ -8,10 +8,15 @@ from objects.mixins import MetaDataMixin
 # Create your models here.
 class PostsAppProfile(AppProfile, CryptoWalletsMixin):
 
+    title = models.CharField(
+        max_length=255,
+        default="Posts"
+    )
+
     n_posts = models.PositiveIntegerField(default=25)
-    n_responses = models.PositiveIntegerField(default=5)
-    post_list_pagination = models.PositiveIntegerField(default=25)
-    response_list_pagination = models.PositiveIntegerField(default=6)
+    n_responses = models.PositiveIntegerField(default=25)
+    post_list_pagination = models.PositiveIntegerField(default=10)
+    response_list_pagination = models.PositiveIntegerField(default=10)
     show_new_posts = models.BooleanField(default=True)
     show_top_posts = models.BooleanField(default=True)
     show_new_responses = models.BooleanField(default=True)

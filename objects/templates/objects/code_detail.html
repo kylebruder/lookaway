@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container code-bg">
   {% if code.is_public or code.owner.pk == request.user.pk %}
     {% include './code_detail_button_bar.html' %}
@@ -16,13 +17,13 @@
     {% if code.source_url %}
       <p>Source URL: <a href="{{ code.source_url }}">{{ code.source_url }}</a></p>
     {% endif %}
-    <p>{% include './object_meta_data.html' %}</p>
-    {% if code.tags.all.count > 0 %}
-      {% include 'objects/object_tags.html' %}<br>
-    {% endif %}
+    {% include './object_meta_data.html' %}
+    {% include 'objects/object_tags.html' %}<br>
   {% else %}
     <p>This Code sample has not been published yet.</p>
   {% endif %}
 </div>  
+<br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}
   

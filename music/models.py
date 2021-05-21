@@ -9,10 +9,15 @@ from lookaway.mixins import AppProfile, Section, Doc
 
 class MusicAppProfile(AppProfile, CryptoWalletsMixin):
 
+    title = models.CharField(
+        max_length=255,
+        default="Music",
+    )
+
     n_tracks = models.PositiveIntegerField(default=3)
     n_albums = models.PositiveIntegerField(default=3)
-    track_list_pagination = models.PositiveIntegerField(default=6)
-    album_list_pagination = models.PositiveIntegerField(default=6)
+    track_list_pagination = models.PositiveIntegerField(default=10)
+    album_list_pagination = models.PositiveIntegerField(default=10)
     show_new_tracks = models.BooleanField(default=True)
     show_top_tracks = models.BooleanField(default=True)
     show_new_albums = models.BooleanField(default=True)

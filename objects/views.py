@@ -409,7 +409,10 @@ class ImageCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 class ImageListView(ModelListMixin, LoginRequiredMixin, ListView):
 
     model = Image
-    paginate_by = 36
+    try:
+        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].image_list_pagination
+    except:
+        paginate_by = 36
     queryset = Image.objects.filter(is_public=True)
     context_object_name = 'images'
     ordering = ['-weight', '-creation_date']
@@ -445,6 +448,9 @@ class ImageDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(pk=self.request.user.pk)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
         if member.check_can_allocate() and not member.check_is_new():
             context['can_add_marshmallow'] = True
         else:
@@ -616,7 +622,10 @@ class SoundCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 class SoundListView(ModelListMixin, LoginRequiredMixin, ListView):
 
     model = Sound
-    paginate_by = 6
+    try:
+        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].sound_list_pagination
+    except:
+        paginate_by = 10
     queryset = Sound.objects.filter(is_public=True)
     context_object_name = 'sounds'
     ordering = ['-weight', '-creation_date']
@@ -652,6 +661,9 @@ class SoundDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(pk=self.request.user.pk)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
         if member.check_can_allocate() and not member.check_is_new():
             context['can_add_marshmallow'] = True
         else:
@@ -823,7 +835,10 @@ class VideoCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 class VideoListView(ModelListMixin, LoginRequiredMixin, ListView):
 
     model = Video
-    paginate_by = 6
+    try:
+        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].video_list_pagination
+    except:
+        paginate_by = 10
     queryset = Video.objects.filter(is_public=True)
     context_object_name = 'videos'
     ordering = ['-weight', '-creation_date']
@@ -863,6 +878,9 @@ class VideoDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(pk=self.request.user.pk)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
         if member.check_can_allocate() and not member.check_is_new():
             context['can_add_marshmallow'] = True
         else:
@@ -995,7 +1013,10 @@ class CodeCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMi
 class CodeListView(ModelListMixin, LoginRequiredMixin, ListView):
 
     model = Code
-    paginate_by = 6
+    try:
+        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].codes_list_pagination
+    except:
+        paginate_by = 10
     queryset = Code.objects.filter(is_public=True)
     context_object_name = 'codes'
     ordering = ['-weight', '-creation_date']
@@ -1031,6 +1052,9 @@ class CodeDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(pk=self.request.user.pk)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
         if member.check_can_allocate() and not member.check_is_new():
             context['can_add_marshmallow'] = True
         else:
@@ -1163,7 +1187,10 @@ class LinkCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMi
 class LinkListView(ModelListMixin, LoginRequiredMixin, ListView):
 
     model = Link
-    paginate_by = 6
+    try:
+        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].links_list_pagination
+    except:
+        paginate_by = 10
     queryset = Link.objects.filter(is_public=True)
     context_object_name = 'links'
     ordering = ['-weight', '-creation_date']
@@ -1199,6 +1226,9 @@ class LinkDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(pk=self.request.user.pk)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
         if member.check_can_allocate() and not member.check_is_new():
             context['can_add_marshmallow'] = True
         else:
@@ -1360,6 +1390,9 @@ class TagDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         slug = self.object.slug
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
         # Send the desired list length
         context['list_length'] = self.list_length
         ## Send object lists based on whether the requester is authenticated.

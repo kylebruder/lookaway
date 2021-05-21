@@ -18,16 +18,20 @@ from .mixins import MetaDataMixin
 
 class ObjectsAppProfile(AppProfile, CryptoWalletsMixin):
 
+    title = models.CharField(
+        max_length=255,
+        default="Multimedia",
+    )
     show_images = models.BooleanField(default=True)
     show_sounds = models.BooleanField(default=True)
     show_videos = models.BooleanField(default=True)
     show_codes = models.BooleanField(default=True)
     show_links = models.BooleanField(default=True)
-    n_images = models.PositiveIntegerField(default=10)
-    n_sounds = models.PositiveIntegerField(default=10)
-    n_videos = models.PositiveIntegerField(default=10)
-    n_codes = models.PositiveIntegerField(default=10)
-    n_links = models.PositiveIntegerField(default=10)
+    n_images = models.PositiveIntegerField(default=18)
+    n_sounds = models.PositiveIntegerField(default=5)
+    n_videos = models.PositiveIntegerField(default=5)
+    n_codes = models.PositiveIntegerField(default=5)
+    n_links = models.PositiveIntegerField(default=5)
     images_list_pagination = models.PositiveIntegerField(default=25)
     sounds_list_pagination = models.PositiveIntegerField(default=10)
     videos_list_pagination = models.PositiveIntegerField(default=10)
@@ -444,6 +448,9 @@ class Link(MetaDataMixin, MarshmallowMixin):
                 return self.url[0:64] + "..."
             else:
                 return self.url
+
+    def get_domain(self):
+        return urlparse(self.url).hostname
 
     def get_absolute_url(self):
         return reverse('objects:link_detail', kwargs={'pk': self.pk})

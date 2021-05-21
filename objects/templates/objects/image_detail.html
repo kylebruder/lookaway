@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container image-bg">
   {% include './image_detail_button_bar.html' %}
   <a href="{{ image.image_file.url }}">
@@ -15,11 +16,10 @@
     Thumbnail file: <a href="{{ image.thumbnail_file.url }}">{{ image.thumbnail_file.url }}</a><br>
     {% if image.credit %}Credit: {{ image.credit }}{% endif %}
   </p>
-  {% if image.tags.all.count > 0 %}
-    {% include 'objects/object_tags.html' %}
-    <br>
-  {% endif %}
   {% include './object_meta_data.html' %}
+  {% include 'objects/object_tags.html' %}
   <br>
 </div>
+<br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

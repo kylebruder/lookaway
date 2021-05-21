@@ -24,11 +24,11 @@
     <h5 class="objects-title">Sound Files</h5>
     <p class="sound-title">
       {% for sound in new_sounds %}
-        {% include 'items/sound_list_item.html' %}
+        {% include './sound_list_item.html' %}
       {% endfor %}
       {% if top_sounds.count > 0 %}
         {% for sound in top_sounds %}
-          {% include 'items/sound_list_item.html' %}
+          {% include './sound_list_item.html' %}
         {% endfor %}
       {% endif %}
     </p>

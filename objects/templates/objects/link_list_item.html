@@ -1,12 +1,16 @@
 <li class="list-group-item link-list-li">
-  {% if link.favicon_href %}
-      <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
-  {% endif %}
-  <a href="{% url 'objects:link_detail' link.pk %}">
-    <p class="link-title">{{ link.title }}</p>
-  </a>
-  <p class="link-list-link">{{ link.url|truncatechars:128 }}</p>
-  {% if not link.is_public %}
-    <span class="badge badge-secondary">Unpublished</span>
-  {% endif %}
+  <div class="row">
+    <div class="col-">
+      <h1>&#127758;</h1>
+    </div>
+    <div class="col-sm">
+      <h5 class="objects-title">
+        <a href="{% url 'objects:link_detail' link.pk %}">{{ link.title }}</a>
+      </h5>
+      <p>{{ link.url|get_domain }}</p>
+      {% if not link.is_public %}
+        <span class="badge badge-secondary">Unpublished</span>
+      {% endif %}
+    </div>
+  </div>
 </li>

@@ -14,15 +14,15 @@
       {% endif %}
       <div class="col-sm">
         {% if tag %}
-          <h3 class="documentation-title documentation-page-span documentation-alert">
+          <h3 class="brand-title documentation-page-span documentation-alert">
              {{ app_list_context }} tagged with <span class="badge badge-secondary">{{ tag }}
           </h3>
         {% elif member %}
-          <h3 class="documentation-title documentation-page-span documentation-alert">
+          <h3 class="brand-title documentation-page-span documentation-alert">
              {{ app_list_context }} contributed by <span class="index-page-heading">{{ member }}</span>
           </h3>
         {% else %}
-          <h3 class="documentation-title documentation-page-span documentation-alert">
+          <h3 class="brand-title documentation-page-span documentation-alert">
             {% if profile.title and app_list_context and profile.show_title %}
               <span class="index-heading-span">{{ profile.title }}</span>
               - <span class="index-heading-span">{{ app_list_context }}</span>

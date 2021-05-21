@@ -110,3 +110,10 @@ def lookaway_css_path(request):
         "lookaway_css_path": profile.css_path
     }
 
+## Objects
+
+@register.filter
+def get_domain(value):
+    from urllib.parse import urlparse
+    o = urlparse(value)
+    return o.hostname

@@ -1,3 +1,4 @@
+import socket
 from django.db import models
 from lookaway.mixins import AppProfile, Section
 from crypto.models import CryptoWalletsMixin
@@ -6,6 +7,15 @@ from crypto.models import CryptoWalletsMixin
 
 class HomeAppProfile(AppProfile, CryptoWalletsMixin):
 
+    try:
+        HOSTNAME = socket.gethostname()
+    except:
+        HOSTNAME = 'localhost'
+
+    title = models.CharField(
+        max_length=255,
+        default=HOSTNAME
+    )
     logo = models.ForeignKey(
         'objects.image',
         on_delete=models.SET_NULL,
@@ -97,7 +107,7 @@ class HomeAppProfile(AppProfile, CryptoWalletsMixin):
     nav_show_objects = models.BooleanField(default=True)
     nav_objects_name = models.CharField(
         max_length=64,
-        default='Objects',
+        default='Multimedia',
     )
     nav_objects_image = models.ForeignKey(
         'objects.image',

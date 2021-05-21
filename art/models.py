@@ -9,10 +9,14 @@ from lookaway.mixins import AppProfile, Section, Doc
 
 class ArtAppProfile(AppProfile, CryptoWalletsMixin):
 
-    n_visuals = models.PositiveIntegerField(default=25)
+    title = models.CharField(
+        max_length=255,
+        default="Art & Photo",
+    )
+    n_visuals = models.PositiveIntegerField(default=12)
     n_galleries = models.PositiveIntegerField(default=5)
-    visual_list_pagination = models.PositiveIntegerField(default=25)
-    gallery_list_pagination = models.PositiveIntegerField(default=6)
+    visual_list_pagination = models.PositiveIntegerField(default=24)
+    gallery_list_pagination = models.PositiveIntegerField(default=10)
     show_new_visuals = models.BooleanField(default=True)
     show_top_visuals = models.BooleanField(default=True)
     show_new_galleries= models.BooleanField(default=True)

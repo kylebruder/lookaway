@@ -1131,6 +1131,9 @@ class InviteLinkDetailView(FormMixin, DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = MembersAppProfile.objects.get_or_create(pk=1)
+        context['terms'] = profile.member_agreement
         return context
 
     def get_success_url(self):

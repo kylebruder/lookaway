@@ -10,8 +10,21 @@
     <form method="post">
     {% csrf_token %}
     {% for field in form %}
-      {% include 'forms/form_field.html' %}
+      {% if field != form.accept_terms %}
+        {% include 'forms/form_field.html' %}
+      {% endif %}
     {% endfor %}
+    <div class="col-md form-field">
+      <h5 class="form-label">{{ form.accept_terms.label }}</h5>
+      <div class="code-box">{{ terms|linebreaksbr }}</div>
+      <br>
+      {% if form.accept_terms.help_text %}
+        <p class="form-help">{{ form.accept_terms.help_text|linebreaksbr }}<p>
+      {% endif %}
+      <p>{{ form.accept_terms.errors }}</p>
+      <p>{{ form.accept_terms }}</p>
+    </div>
+    <br>
     <input type="submit" class="btn btn-sm btn-success" value="Submit">
   </form>
   <br>

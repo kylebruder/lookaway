@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container links-bg">
   {% if link.is_public or link.owner.pk == request.user.pk %}
     {% include './link_detail_button_bar.html' %}
@@ -10,12 +11,13 @@
       <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
     {% endif %}
     <a href="{{ link.url }}" class="link-url"><p class="links-list-link">{{ link.url|truncatechars:128 }}</p></a>
-    {% include 'objects/object_tags.html' %}
-    <br>
     {% include './object_meta_data.html' %}
+    {% include 'objects/object_tags.html' %}
     <br>
   {% else %}
     <p>This Link has not been published yet.</p>
   {% endif %}
 </div>
+<br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

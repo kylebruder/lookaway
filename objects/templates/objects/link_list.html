@@ -1,8 +1,10 @@
 {% extends './objects_list.html' %}
 {% block items_block %}
-  <ul class="list-group">
+  <div class="row">
     {% for link in links %}
-      {% include "./link_list_item.html" %}
+      <div class="col-4-sm posts-list-card">
+        {% include './link_list_item.html' %}
+      </div>
     {% endfor %}
-  </ul>
+  </div>
 {% endblock %}
