@@ -16,7 +16,7 @@
     </h5>
     <p>
       Performed by <span class="index-heading-span">{{ track.artist }}</span><br>
-      {% if album.is_original_release %}Released{% else %}Rereleased{% endif %} by <a href="{% url 'members:member_profile' track.owner.username %}"><span class="index-heading-span">{{ track.owner }}</span></a> on <span class="index-heading-span">{{ track.creation_date|date:"M d, Y" }}</span>
+      {% if track|is_original_release %}Released{% else %}Rereleased{% endif %} by <a href="{% url 'members:member_profile' track.owner.username %}"><span class="index-heading-span">{{ track.owner }}</span></a> on <span class="index-heading-span">{{ track.creation_date|date:"M d, Y" }}</span>
     </p>
   </div>
 </div>

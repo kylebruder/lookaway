@@ -78,7 +78,7 @@
     {% endif %}
     <!-- Credits -->
     {% if album.is_public %}
-      <p>{% if album.is_original_release %}Released{% else %}Rereleased{% endif %} by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> {% if album.publication_date %} on {{ album.publication_date|date:"M d, Y" }}{% endif %}{% if album.location %} from {{ album.location }}{% endif %}
+      <p>{% if album|is_original_release %}Released{% else %}Rereleased{% endif %} by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> {% if album.publication_date %} on {{ album.publication_date|date:"M d, Y" }}{% endif %}{% if album.location %} from {{ album.location }}{% endif %}
       {% if object.last_modified > object.creation_date %}
         <br>Last updated on {{ object.last_modified|date:"M d, Y" }}
       {% endif %}

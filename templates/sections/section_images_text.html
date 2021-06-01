@@ -1,22 +1,12 @@
-<div class="row">
-  {% if section.text %}
-    <div class="col-sm">
-      <div class="section-text">
-        {{ section.text|linebreaks }}
-      </div>
-    </div>
-  {% endif %}
-  {% if section.images.count > 0 %}
-    {% for image in images %}
-      <div class="col-sm">
-        <a href="{{ image.image_file.url }}">
-          {% if images.count > 3 %}
-            <img src="{{ image.thumbnail_file.url }}" alt="{{ image.title }}">
-          {% else %}
-            <img class="section-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
-          {% endif %}
-        </a><br>
-        <span class="">
+{% if section.images.count == 1 %}
+  {% with section.images.first as image %}
+    <!-- Image -->
+    <div class="col-sm-auto float-right">
+      <a href="{{ image.image_file.url }}">
+        <img class="images-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
+      </a>
+      <span class="image-text">
+        <p>
           {% if image.text %}
             {{ image.text }}<br>
           {% endif %}
@@ -26,10 +16,41 @@
           {% if image.owner.pk == request.user.pk %}
             <a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}">
               <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-            </a>
+            </a><br>
           {% endif %}
-        </span><br><br>
-      </div>
-    {% endfor %}
-  {% endif %}
-</div>
+        </p>
+      </span>
+    </div>
+      {% if section.text %}
+        {{ section.text|linebreaks }}
+      {% endif %}
+  {% endwith %}
+  <div class="clear"></div>
+{% elif section.images.count > 1 %}
+  {% for image in images %}
+    <div class="images-section-image float-right">
+      <a href="{{ image.image_file.url }}">
+        <img src="{{ image.thumbnail_file.url }}" alt="{{ image.title }}">
+      </a><br>
+      <span class="image-text">
+        <p>
+          {% if image.text %}
+            {{ image.text }}<br>
+          {% endif %}
+          {% if image.credit %}
+            <i>{{ image.credit }}</i><br>
+          {% endif %}
+          {% if image.owner.pk == request.user.pk %}
+            <a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}">
+              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+            </a><br>
+          {% endif %}
+        </p>
+      </span>
+    </div>
+  {% endfor %}
+    {% if section.text %}
+      {{ section.text|linebreaks }}
+    {% endif %}
+  <div class="clear"></div>
+{% endif %}
