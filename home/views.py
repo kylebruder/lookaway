@@ -311,6 +311,20 @@ class HomePageSectionDetailView(LoginRequiredMixin, DetailView):
         profile, created = HomeAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         context['meta_title'] = profile.title
+        # Add home page section button
+        if self.request.user.has_perm('home.add_homepagesection'):
+            context['show_home_page_section_add_button'] = True
+            context['home_page_section_add_button'] = {
+                'url': reverse(
+                    'home:home_page_section_create',
+                ),
+            }
+        # Edit home page section button
+        if self.request.user.has_perm('home.change_homepagesection'):
+            context['show_home_page_section_edit_button'] = True
+        # Delete home page section button
+        if self.request.user.has_perm('home.delete_homepagesection'):
+            context['show_home_page_section_delete_button'] = True
         return context
 
 class HomePageSectionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):

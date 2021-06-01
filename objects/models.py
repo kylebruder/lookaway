@@ -247,7 +247,7 @@ class Image(MetaDataMixin, MarshmallowMixin):
         return reverse('objects:image_detail', kwargs={'pk': self.pk})
    
     class Meta:
-        ordering = ['-creation_date']
+        ordering = ['order']
 
 def promote_image(request, pk):
     member = get_object_or_404(Member, pk=request.user.pk)
@@ -305,7 +305,7 @@ class Sound(MetaDataMixin, MarshmallowMixin):
     )
 
     class Meta:
-        ordering = ['-creation_date']
+        ordering = ['order']
 
     def __str__(self):
         return self.title
@@ -350,7 +350,7 @@ class Video(MetaDataMixin, MarshmallowMixin):
     )
 
     class Meta:
-        ordering = ['-creation_date']
+        ordering = ['order']
 
     def __str__(self):
         return self.title
@@ -398,7 +398,7 @@ class Code(MetaDataMixin, MarshmallowMixin):
     )
 
     class Meta:
-        ordering = ['title', 'language',]
+        ordering = ['order', 'title', 'language',]
 
     def __str__(self):
         return '{} - {} {}'.format(self.title, self.language, self.language_version,)
@@ -438,7 +438,7 @@ class Link(MetaDataMixin, MarshmallowMixin):
     )
 
     class Meta:
-        ordering = ['-creation_date']
+        ordering = ['order']
         
     def __str__(self):
         if self.title:
