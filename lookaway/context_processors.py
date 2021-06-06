@@ -89,9 +89,9 @@ def nav_buttons(request):
 
 # Thanks culebrón! (So obvious now, *facepalm*)
 # https://stackoverflow.com/questions/8000022/django-template-how-to-look-up-a-dictionary-value-with-a-variable
-@register.filter
 def lookup(dictionary, key):
     return dictionary.get(key)
+register.filter('lookup', lookup)
 
 # Footer
 def lookaway_footer(request):
