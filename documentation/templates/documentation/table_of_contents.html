@@ -2,9 +2,9 @@
   <div class="col-sm">
     {% for section in sections %}
       {% if not section.hide_title %}
-        <h5 class="documentation-title">
+        <p class="documentation-title">
           <a href="#section-{{ section.pk }}">{{ section.title }}</a>
-        </h5>
+        </p>
       {% endif %}
     {% endfor %}
   </div>

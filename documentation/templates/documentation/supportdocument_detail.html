@@ -10,7 +10,7 @@
       <p>Owned by <span class="index-header-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span><br>Created on <span class="index-header-span">{{ object.creation_date }}</span><br>{% include 'objects/unpublished.html' %}</p><br>
     {% endif %}
     <!-- Heading -->
-    <div class="row">
+    <div class="row documentation-section">
       <!-- Table of Contents -->
       {% if document.numbered %}
         {% include './numbered_table_of_contents.html' %}
@@ -23,6 +23,7 @@
       {% endwith %}
     </div>
     {% if document.intro %}
+      <h4 class="documentation-title">Introduction</h4>
       {{ document.intro|linebreaks }}
       <br>
     {% endif %}
@@ -38,10 +39,12 @@
       {% else %}
         {% for section in sections %}
           {% include './supportdocsection.html' %}
+          <br>
         {% endfor %}
       {% endif %}
     {% endif %}
     {% if document.outro %}
+      <h4 class="documentation-title">Conclusion</h4>
       {{ document.outro|linebreaks }}
       <br>
     {% endif %}

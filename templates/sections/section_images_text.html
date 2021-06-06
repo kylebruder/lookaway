@@ -1,9 +1,9 @@
 {% if section.images.count == 1 %}
   {% with section.images.first as image %}
     <!-- Image -->
-    <div class="col-sm-auto float-right">
+    <div class="col-sm-8 float-right">
       <a href="{{ image.image_file.url }}">
-        <img class="images-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
+        <img class="section-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
       </a>
       <span class="image-text">
         <p>
@@ -28,12 +28,12 @@
   <div class="clear"></div>
 {% elif section.images.count > 1 %}
   {% for image in images %}
-    <div class="images-section-image float-right">
+    <div class="section-thumbnail-container float-left">
       <a href="{{ image.image_file.url }}">
-        <img src="{{ image.thumbnail_file.url }}" alt="{{ image.title }}">
-      </a><br>
+        <img class="section-thumbnail" src="{{ image.thumbnail_file.url }}" alt="{{ image.title }}">
+      </a>
       <span class="image-text">
-        <p>
+        <p class="section-thumbnail-text">
           {% if image.text %}
             {{ image.text }}<br>
           {% endif %}
@@ -49,8 +49,8 @@
       </span>
     </div>
   {% endfor %}
-    {% if section.text %}
-      {{ section.text|linebreaks }}
-    {% endif %}
+  {% if section.text %}
+    {{ section.text|linebreaks }}
+  {% endif %}
   <div class="clear"></div>
 {% endif %}

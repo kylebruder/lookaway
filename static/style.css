@@ -91,8 +91,22 @@ table, th, td {
   max-height: auto;
 }
 
+.section-thumbnail {
+  margin-right: 20px;
+}
+
+.section-thumbnail-container {
+  max-width: 250px;
+  margin: 10px; 
+}
+
+.section-thumbnail-text {
+  max-width: 250px;
+  margin-right: 15px;
+}
+
 .section-video {
-  max-width: 100%;
+  width: 100%;
   max-height: auto;
 }
 

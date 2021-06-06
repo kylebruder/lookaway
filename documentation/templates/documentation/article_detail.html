@@ -12,7 +12,7 @@
       <p>Owned by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span><br>Created on <span class="index-heading-span">{{ object.creation_date }}</span><br>{% include 'objects/unpublished.html' %}</p>
     {% endif %}
     <!-- Heading -->
-    <div class="row">
+    <div class="row documentation-section">
       <!-- Table of Contents -->
         {% include './table_of_contents.html' %}
       <!-- Header Image -->
@@ -21,6 +21,7 @@
       {% endwith %}
     </div>
     {% if article.intro %}
+      <h4 class="documentation-title">Introduction</h4>
       {{ article.intro|linebreaks }}
       <br>
     {% endif %}
@@ -31,6 +32,7 @@
       {% endfor %}
     {% endif %}
     {% if article.outro %}
+      <h4 class="documentation-title">Conclusion</h4>
       {{ article.outro|linebreaks }}
       <br>
     {% endif %}
