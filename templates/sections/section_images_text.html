@@ -1,30 +1,8 @@
-{% if section.images.count == 1 %}
-  {% with section.images.first as image %}
-    <!-- Image -->
-    <div class="col-sm-8 float-right">
-      <a href="{{ image.image_file.url }}">
-        <img class="section-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
-      </a>
-      <span class="image-text">
-        <p>
-          {% if image.text %}
-            {{ image.text }}<br>
-          {% endif %}
-          {% if image.credit %}
-            <i>{{ image.credit }}</i><br>
-          {% endif %}
-          {% if image.owner.pk == request.user.pk %}
-            <a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}">
-              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-            </a><br>
-          {% endif %}
-        </p>
-      </span>
-    </div>
-      {% if section.text %}
-        {{ section.text|linebreaks }}
-      {% endif %}
-  {% endwith %}
+{% if section.images.count > 3 %}
+  {% if section.text %}
+    {{ section.text|linebreaks }}
+  {% endif %}
+  {% include 'sections/section_images.html' %}
   <div class="clear"></div>
 {% elif section.images.count > 1 %}
   {% for image in images %}
@@ -52,5 +30,33 @@
   {% if section.text %}
     {{ section.text|linebreaks }}
   {% endif %}
+  <div class="clear"></div>
+{% elif section.images.count == 1 %}
+  {% with section.images.first as image %}
+    <!-- Image -->
+    <div class="col-sm-8 float-right">
+      <a href="{{ image.image_file.url }}">
+        <img class="section-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
+      </a>
+      <span class="image-text">
+        <p>
+          {% if image.text %}
+            {{ image.text }}<br>
+          {% endif %}
+          {% if image.credit %}
+            <i>{{ image.credit }}</i><br>
+          {% endif %}
+          {% if image.owner.pk == request.user.pk %}
+            <a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}">
+              <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+            </a><br>
+          {% endif %}
+        </p>
+      </span>
+    </div>
+      {% if section.text %}
+        {{ section.text|linebreaks }}
+      {% endif %}
+  {% endwith %}
   <div class="clear"></div>
 {% endif %}
