@@ -2,8 +2,21 @@
 <span id="section-{{ section.pk }}" class="documentation-section-anchor"></span>
 <!-- Section Title -->
 {% include './supportdocsection_detail_title_bar.html' %}
-<!-- Section Text -->
-{% if section.text %}
+<!-- Section Images -->
+{% if section.images.count > 0 %}
+  {% with section.images.all as images %}
+    <!-- Section Text -->
+    {% if section.text %}
+      {% include 'sections/section_images_text.html' %}
+    {% elif section.images.count == 1 %}
+      {% with section.images.first as image %}
+        {% include 'sections/section_image.html' %}
+      {% endwith %}
+    {% else %}
+      {% include 'sections/section_images.html' %}
+    {% endif %}
+  {% endwith %}
+{% elif section.text %}
   {{ section.text|linebreaks }}
 {% endif %}
 <!-- Section Tip -->
@@ -13,12 +26,6 @@
 <!-- Section Warning -->
 {% if section.warning %}
   <div class="alert alert-warning documentation-alert"><strong>Caution:</strong> {{ section.warning }}</div><br>
-{% endif %}
-<!-- Section Images -->
-{% if section.images.count > 0 %}
-  {% with section.images.all as images %}
-    {% include 'sections/section_images.html' %}
-  {% endwith %}
 {% endif %}
 {% if section.sounds.count > 0 %}
   {% with section.sounds.all as sounds %}
