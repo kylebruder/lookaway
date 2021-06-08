@@ -1,7 +1,7 @@
 {% for image in images %}
-  <div class="images-section-image">
+  <div class="section-thumbnail-container float-left">
     <a href="{{ image.image_file.url }}">
-      <img class="documentation-image" src="{{ image.thumbnail_file.url }}" alt="{{ image.title }}">
+      <img class="section-image" src="{{ image.thumbnail_file.url }}" alt="{{ image.title }}">
     </a><br><br>
     <span class="">
       {% if image.text %}
