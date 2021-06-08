@@ -665,6 +665,7 @@ class ArticleSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, Memb
         kwargs = super(ArticleSectionCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         kwargs['article'] = self.request.GET.get('article')
+        kwargs['order'] = self.request.GET.get('order')
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -1194,6 +1195,7 @@ class SupportDocSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, M
         kwargs = super(SupportDocSectionCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         kwargs['support_document'] = self.request.GET.get('support_document')
+        kwargs['order'] = self.request.GET.get('order')
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -1717,6 +1719,7 @@ class StorySectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, Member
         kwargs = super(StorySectionCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         kwargs['story'] = self.request.GET.get('story')
+        kwargs['order'] = self.request.GET.get('order')
         return kwargs
 
     def get_context_data(self, **kwargs):

@@ -15,7 +15,7 @@
     <div class="col-">
       <div class="container">
         {% if show_section_add_button %}
-          <a href="{{ section_add_button|lookup:"url" }}?order={{ section.next_order }}"><button type="button" class="btn btn-sm btn-primary create-button">+</button></a>
+          <a href="{{ section_add_button|lookup:"url" }}?support_document={{ document.pk }}&order={{ section.next_order }}"><button type="button" class="btn btn-sm btn-primary create-button">+</button></a>
         {% endif %}
         {% if show_section_edit_button %}
           <a href="{% url 'documentation:support_doc_section_update' section.pk %}"><button type="button" class="btn btn-sm btn-warning edit-button">&#9998;</button></a>

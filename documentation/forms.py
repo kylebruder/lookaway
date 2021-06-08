@@ -401,6 +401,11 @@ class ArticleForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
+        if 'order' in kwargs:
+            order = kwargs.pop('order')
+            kwargs.update(initial={
+                'order': order,
+            })
         super(ArticleForm, self).__init__(*args, **kwargs)
         self.fields['image'].queryset = Image.objects.filter(
             owner=user.pk,
@@ -487,9 +492,11 @@ class ArticleSectionForm(forms.ModelForm):
         # Populate Article field
         if 'article' in kwargs:
             article = kwargs.pop('article')
-            kwargs.update(initial={
-                'article': article
-            })
+            kwargs['initial']['article'] = article
+        if 'order' in kwargs:
+            order = kwargs.pop('order')
+            kwargs['initial']['order'] = order
+
         super(ArticleSectionForm, self).__init__(*args, **kwargs)
         self.fields['article'].queryset = Article.objects.filter(
             owner=user.pk,
@@ -700,12 +707,13 @@ class SupportDocSectionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
-        # Populate Article field
+        # Populate SupportDocument field
         if 'support_document' in kwargs:
             support_document = kwargs.pop('support_document')
-            kwargs.update(initial={
-                'support_document': support_document
-            })
+            kwargs['initial']['support_document'] = support_document
+        if 'order' in kwargs:
+            order = kwargs.pop('order')
+            kwargs['initial']['order'] = order
         super(SupportDocSectionForm, self).__init__(*args, **kwargs)
         self.fields['support_document'].queryset = SupportDocument.objects.filter(
             owner=user.pk,
@@ -933,9 +941,11 @@ class StorySectionForm(forms.ModelForm):
         # Populate Story field
         if 'story' in kwargs:
             story = kwargs.pop('story')
-            kwargs.update(initial={
-                'story': story
-            })
+            kwargs['initial']['story'] = story
+        if 'order' in kwargs:
+            order = kwargs.pop('order')
+            kwargs['initial']['order'] = order
+
         super(StorySectionForm, self).__init__(*args, **kwargs)
         self.fields['story'].queryset = Story.objects.filter(
             owner=user.pk,
