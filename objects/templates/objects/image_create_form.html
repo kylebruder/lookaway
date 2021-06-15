@@ -1,28 +1,5 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class ="container create-bg">
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <h2 class="images-title">Upload an Image</h2>
-        <br>
-      </div>
-      <div class="col-">
-        {% include './new_tag.html' %}
-      </div>
-    </div>
-  </div>
-  <br>
-  <div class="container">
-    <form  method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% for field in form %}
-        {% include 'forms/form_field.html' %}
-      {% endfor %}
-      {% include './upload_message.html' %}
-      <input type="submit" value="Submit" class="btn btn-success">
-    </form>
-  </div>
-  <br>
-</div>
+{% extends 'form.html' %}
+{% block header_block %}
+{% include './objects_form_header.html' %}
+{% include './file_upload_warning.html' %}
 {% endblock %}

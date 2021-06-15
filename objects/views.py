@@ -397,6 +397,12 @@ class ImageCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "Upload an Image File"
+        context['meta_desc'] = """Submit an Image you wish to upload. Images \
+            will be optimized for web performance. Keep all originals."""
         return context
 
     def get_success_url(self):
@@ -477,6 +483,11 @@ class ImageUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateM
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "Update \"{}\"".format(self.object.title)
+        context['meta_desc'] = "Make changes to this Image."
         return context
 
     def get_success_url(self):
@@ -610,6 +621,12 @@ class SoundCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "Upload a Sound File"
+        context['meta_desc'] = """Submit a sound file you wish to upload. Sounds \
+            will be optimized for web performance. Keep all originals."""
         return context
 
     def get_success_url(self):
@@ -690,6 +707,11 @@ class SoundUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateM
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "Update \"{}\"".format(self.object.title)
+        context['meta_desc'] = "Make changes to this Sound."
         return context
 
     def get_success_url(self):
@@ -823,6 +845,12 @@ class VideoCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "Upload a Video File"
+        context['meta_desc'] = """Submit a Video you wish to upload. Videos \
+            will be optimized for web performance. Keep all originals."""
         return context
 
     def get_success_url(self):
@@ -900,6 +928,11 @@ class VideoUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateM
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "Update \"{}\"".format(self.object.title)
+        context['meta_desc'] = "Make changes to this Video."
         return context
 
     def get_success_url(self):
@@ -1001,6 +1034,12 @@ class CodeCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMi
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "New Code Sample"
+        context['meta_desc'] = """Add a sample of code that can be added to \
+            your pages."""
         return context
 
     def get_success_url(self):
@@ -1075,6 +1114,12 @@ class CodeUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMi
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "Update \"{}\"".format(self.object.title)
+        
+        context['meta_desc'] = "Make changes to this code sample."
         return context
 
     def get_success_url(self):

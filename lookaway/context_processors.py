@@ -118,6 +118,19 @@ def get_domain(value):
     o = urlparse(value)
     return o.hostname
 
+@register.filter
+def highlight_sytax(code, path):
+    from pygments import highlight
+    from pygments.lexers import guess_lexer, get_lexer_for_filename
+    from pygments.formatters import HtmlFormatter
+    if path:
+        lexer = get_lexer_for_filename(path)
+    else:
+        lexer = guess_lexer(code)
+    formatter = HtmlFormatter(linenos=True, cssclass="source")
+    return highlight(code, lexer, formatter)
+
+
 ## Music
 
 @register.filter

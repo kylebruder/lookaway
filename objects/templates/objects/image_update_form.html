@@ -1,28 +1,10 @@
-{% extends 'base.html' %}
-{% block body_block %}
-  <div class ="container edit-bg">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <h4 class="images-title">Edit "{{ image }}"</h4>
-        </div>
-        <div class="col-">
-          {% include './new_tag.html' %}
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <img class="form-preview-image" src="{{ image.image_file.url }}" alt="{{ image.title }}"><br>
-      <br>
-      <br>
-      <form  method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% for field in form %}
-          {% include 'forms/form_field.html' %}
-        {% endfor %}
-        <input type="submit" value="Submit" class="btn btn-success">
-      </form>
-      <br>
-    </div>
-  </div>
+{% extends 'form.html' %}
+{% block header_block %}
+{% include './objects_form_header.html' %}
+<br>
+<div class="objects-section objects-alert">
+  <img class="form-preview-image" src="{{ image.image_file.url }}" alt="{{ image.title }}"><br>
+</div>
+<br>
+
 {% endblock %}

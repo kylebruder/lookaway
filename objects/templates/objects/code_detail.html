@@ -7,7 +7,8 @@
     {% if code.file_path %}
       <span class="code-block"><strong>{{ code.file_path }}</strong></span><br>
     {% endif %}
-    <pre class="code-block">{{ code.code }}</pre>
+    {% load custom_filters %}
+    {{ code.code|highlight_syntax:code.file_path|safe }}
     {% if code.text %}
       <p>{{ code.text }}</p>
     {% endif %}
