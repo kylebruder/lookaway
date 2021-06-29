@@ -46,6 +46,7 @@
   </div>
   {% if object_list %}
     {% if page_obj.has_other_pages %}<span class="posts-page-span posts-nav">{% include 'page_control.html' %}</span>{% endif %}
+    <br>
     {% block items_block %}
     {% endblock %}
     {% if page_obj.has_other_pages %}<span class="posts-page-span posts-nav">{% include 'page_control.html' %}</span>{% endif %}
@@ -54,6 +55,7 @@
     <div class="container-fluid">
       <span class="posts-page-span posts-alert">No {{ app_list_context|lower }} have been published yet. Check back soon!</span>
     </div>
+    <br>
   {% endif %}
   <br>
 </div>

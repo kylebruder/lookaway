@@ -1,0 +1,16 @@
+<li class="list-group-item images-list-li">
+  <div class="row">
+    <div class="col-">
+      {% include './image_list_card.html' %}
+    </div>
+    <div class="col-sm">
+      <h5 class="images-title">
+        <a href="{% url 'objects:image_detail' image.pk %}">{{ image.title }}</a>
+      </h5>
+      <p>{{ image.credit }}</p>
+      {% if not image.is_public %}
+        <span class="badge badge-secondary">Unpublished</span>
+      {% endif %}
+    </div>
+  </div>
+</li>

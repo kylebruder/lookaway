@@ -19,7 +19,7 @@
           </h3>
         {% elif member %}
           <h3 class="objects-title objects-page-span objects-alert">
-             {{ app_list_context }} posted by <span class="index-page-heading">{{ member }}</span>
+             {{ app_list_context }} uploaded by <span class="index-page-heading">{{ member }}</span>
           </h3>
         {% else %}
           <h3 class="brand-title objects-page-span objects-alert">
@@ -46,6 +46,7 @@
   </div>
   {% if object_list %}
     {% if page_obj.has_other_pages %}<span class="objects-page-span objects-nav">{% include 'page_control.html' %}</span>{% endif %}
+    <br>
     {% block items_block %}
     {% endblock %}
     {% if page_obj.has_other_pages %}<span class="objects-page-span objects-nav">{% include 'page_control.html' %}</span>{% endif %}
@@ -54,6 +55,7 @@
     <div class="container-fluid">
       <span class="objects-page-span objects-alert">No {{ app_list_context|lower }} have been published yet. Check back soon!</span>
     </div>
+    <br>
   {% endif %}
   <br>
 </div>

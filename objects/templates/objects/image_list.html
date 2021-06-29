@@ -1,11 +1,11 @@
 {% extends './objects_list.html' %}
 {% block items_block %}
-  <div class="objects-section">
-    <div class="image-matrix">
+  <div class="row">
       {% for image in images %}
-        {% include "./image_list_card.html" %}
+        <div class="col-4-sm posts-list-card">
+          {% include "./image_list_item.html" %}
+        </div>
       {% endfor %}
-    </div>
     <div class="clear"></div>
   </div>
 {% endblock %}

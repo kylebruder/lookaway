@@ -30,7 +30,7 @@ from .forms import (ObjectsAppProfileForm, ObjectsPageSectionForm,
     ObjectsAppTranscoderSettingsForm, ImageCreateForm, ImageUpdateForm, 
     SoundCreateForm, SoundUpdateForm, VideoCreateForm, VideoUpdateForm, 
     CodeForm, LinkCreateForm, LinkForm, TagForm)
-from .app_profile_mixins import ModelListMixin, ModelByTagMixin
+from .app_profile_mixins import ModelListMixin, ModelByTagMixin, MemberViewMixin
 from .models import ObjectsAppProfile, ObjectsPageSection, Tag, Image, Sound, Video, Code, Link
 # Create your views here.
 
@@ -416,34 +416,31 @@ class ImageListView(ModelListMixin, LoginRequiredMixin, ListView):
 
     model = Image
     try:
-        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].image_list_pagination
+        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].images_list_pagination
     except:
-        paginate_by = 36
+        paginate_by = 30
     queryset = Image.objects.filter(is_public=True)
     context_object_name = 'images'
     ordering = ['-weight', '-creation_date']
 
-class MemberImageView(LoginRequiredMixin, ListView):
+class MemberImageView(MemberViewMixin, LoginRequiredMixin, ListView):
 
     model = Image
-    paginate_by = 30
+    try:
+        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].images_list_pagination
+    except:
+        paginate_by = 30
     context_object_name = 'images'
 
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.pk == member.pk:
-            return Image.objects.filter(owner=member)
-        else:
-            return Image.objects.filter(
-                is_public=True,
-                owner=member,
-            )
-
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        context['user_only'] = True
-        context['member'] = member
+        # Create button
+        if self.request.user.has_perm('objects.add_image'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:image_create',
+            )
+        context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
 class ImageDetailView(LoginRequiredMixin, DetailView):
@@ -640,34 +637,31 @@ class SoundListView(ModelListMixin, LoginRequiredMixin, ListView):
 
     model = Sound
     try:
-        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].sound_list_pagination
+        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].sounds_list_pagination
     except:
-        paginate_by = 10
+        paginate_by = 100
     queryset = Sound.objects.filter(is_public=True)
     context_object_name = 'sounds'
     ordering = ['-weight', '-creation_date']
 
-class MemberSoundView(LoginRequiredMixin, ListView):
+class MemberSoundView(MemberViewMixin, LoginRequiredMixin, ListView):
 
     model = Sound
-    paginate_by = 6
+    try:
+        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].sounds_list_pagination
+    except:
+        paginate_by = 100
     context_object_name = 'sounds'
-
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.pk == member.pk:
-            return Sound.objects.filter(owner=member)
-        else:
-            return Sound.objects.filter(
-                is_public=True,
-                owner=member,
-            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        context['user_only'] = True
-        context['member'] = member
+        # Create button
+        if self.request.user.has_perm('objects.add_sound'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:sound_create',
+            )
+        context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
 class SoundDetailView(LoginRequiredMixin, DetailView):
@@ -864,9 +858,9 @@ class VideoListView(ModelListMixin, LoginRequiredMixin, ListView):
 
     model = Video
     try:
-        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].video_list_pagination
+        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].videos_list_pagination
     except:
-        paginate_by = 10
+        paginate_by = 100
     queryset = Video.objects.filter(is_public=True)
     context_object_name = 'videos'
     ordering = ['-weight', '-creation_date']
@@ -875,27 +869,24 @@ class VideoListView(ModelListMixin, LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         return context
 
-class MemberVideoView(LoginRequiredMixin, ListView):
+class MemberVideoView(MemberViewMixin, LoginRequiredMixin, ListView):
 
     model = Video
-    paginate_by = 6
+    try:
+        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].videos_list_pagination
+    except:
+        paginate_by = 100
     context_object_name = 'videos'
 
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.pk == member.pk:
-            return Video.objects.filter(owner=member)
-        else:
-            return Video.objects.filter(
-                is_public=True,
-                owner=member,
-            )
-
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        context['user_only'] = True
-        context['member'] = member
+        # Create button
+        if self.request.user.has_perm('objects.add_video'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:video_create',
+            )
+        context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
 class VideoDetailView(LoginRequiredMixin, DetailView):
@@ -1055,32 +1046,28 @@ class CodeListView(ModelListMixin, LoginRequiredMixin, ListView):
     try:
         paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].codes_list_pagination
     except:
-        paginate_by = 10
-    queryset = Code.objects.filter(is_public=True)
+        paginate_by = 100
     context_object_name = 'codes'
     ordering = ['-weight', '-creation_date']
 
-class MemberCodeView(LoginRequiredMixin, ListView):
+class MemberCodeView(MemberViewMixin, LoginRequiredMixin, ListView):
 
     model = Code
-    paginate_by = 6
+    try:
+        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].codes_list_pagination
+    except:
+        paginate_by = 100
     context_object_name = 'codes'
 
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.pk == member.pk:
-            return Code.objects.filter(owner=member)
-        else:
-            return Code.objects.filter(
-                is_public=True,
-                owner=member,
-            )
-
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        context['user_only'] = True
-        context['member'] = member
+        # Create button
+        if self.request.user.has_perm('objects.add_code'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:code_create',
+            )
+        context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
 class CodeDetailView(LoginRequiredMixin, DetailView):
@@ -1220,6 +1207,11 @@ class LinkCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMi
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "New Link"
+        context['meta_desc'] = """Add a link to an external website."""
         return context
 
     def get_success_url(self):
@@ -1235,32 +1227,29 @@ class LinkListView(ModelListMixin, LoginRequiredMixin, ListView):
     try:
         paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].links_list_pagination
     except:
-        paginate_by = 10
+        paginate_by = 100
     queryset = Link.objects.filter(is_public=True)
     context_object_name = 'links'
     ordering = ['-weight', '-creation_date']
 
-class MemberLinkView(LoginRequiredMixin, ListView):
+class MemberLinkView(MemberViewMixin, LoginRequiredMixin, ListView):
 
     model = Link
-    paginate_by = 6
+    try:
+        paginate_by = ObjectsAppProfile.objects.get_or_create(pk=1)[0].links_list_pagination
+    except:
+        paginate_by = 100
     context_object_name = 'links'
 
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.pk == member.pk:
-            return Link.objects.filter(owner=member)
-        else:
-            return Link.objects.filter(
-                is_public=True,
-                owner=member,
-            )
-
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        context['user_only'] = True
-        context['member'] = member
+        # Create button
+        if self.request.user.has_perm('objects.add_link'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:link_create',
+            )
+        context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
 class LinkDetailView(LoginRequiredMixin, DetailView):
@@ -1293,6 +1282,11 @@ class LinkUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMi
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "Update Link"
+        context['meta_desc'] = """Change the URL and information about a link."""
         return context
 
     def get_success_url(self):
@@ -1406,6 +1400,11 @@ class TagCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMix
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "New Tag"
+        context['meta_desc'] = """Add a Tag that can be attached to any site object."""
         return context
 
     def get_success_url(self):
@@ -1415,7 +1414,7 @@ class TagCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMix
         else:
             return reverse('objects:tag_detail', kwargs={'slug': self.object.slug})
 
-class TagListView(ListView, LoginRequiredMixin):
+class TagListView(ModelListMixin, ListView, LoginRequiredMixin):
 
     model = Tag
     paginate_by = 150
@@ -1430,7 +1429,7 @@ class TagDetailView(DetailView):
 
     model = Tag
     context_object_name = 'tag'
-    list_length = 3
+    list_length = 6
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1765,7 +1764,7 @@ class SupportDocumentByTag(ModelByTagMixin, ListView):
     context_object_name = 'documents'
     paginate_by = 5
 
-class ImageByTag(LoginRequiredMixin, ListView):
+class ImageByTag(ModelByTagMixin, LoginRequiredMixin, ListView):
     
     model = Image
     context_object_name = 'images'

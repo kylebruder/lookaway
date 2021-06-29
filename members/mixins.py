@@ -74,4 +74,9 @@ class MemberDeleteMixin:
             return HttpResponseRedirect(self.get_success_url())
 
 class MemberOwnershipModel:
+    '''
+    This is here for compatibility reasons
+    (to satisfy early database migration requirements).
+    Do NOT remove!
+    '''
     pass

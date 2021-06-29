@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container tags-bg">
   {% if no_public_objects %}
     <p>Nothing has been tagged with "{{ tag }}" yet. Check back soon!</p>
@@ -22,4 +23,6 @@
   {% endif %}
   <br>
 </div>
+<br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}
