@@ -28,7 +28,113 @@
         <br>Last updated on
         <span class="index-page-span">{{ response.last_modified|date:"M d, Y" }}</span>
       {% endif %}
-      <br>{% include 'items/re_links.html' %}
+      <br>
+      {% if response.post %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.post as post %}
+                {% include 'items/post_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% elif response.article %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.article as article %}
+                {% include 'items/article_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% elif response.story %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.story as story %}
+                {% include 'items/story_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% elif response.document %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.document as document %}
+                {% include 'items/document_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% elif response.visual %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.visual as visual %}
+                {% include 'items/visual_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% elif response.gallery %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.gallery as gallery %}
+                {% include 'items/gallery_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% elif response.track %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.track as track %}
+                {% include 'items/track_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% elif response.album %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.album as album %}
+                {% include 'items/album_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% else %}
+      {% endif %}
       {% if response.members_only %}
         <i>This Post is only visible to authenticated members</i>
       {% endif %}

@@ -12,6 +12,7 @@ numpy==1.19.0
 Pillow==8.1.2
 psycopg2-binary==2.8.5
 pycparser==2.20
+Pygments==2.9.0
 pytz==2020.1
 qrcode==6.1
 six==1.15.0

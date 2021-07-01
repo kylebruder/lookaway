@@ -117,7 +117,7 @@ class ObjectsAppTranscoderSettingsUpdateView(LoginRequiredMixin, PermissionRequi
         else:
             return reverse('objects:objects_page')
 
-class ObjectsPageView(TemplateView, AppPageMixin):
+class ObjectsPageView(LoginRequiredMixin, TemplateView, AppPageMixin):
 
     template_name = 'objects/objects_page.html'
 
@@ -1414,7 +1414,7 @@ class TagCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMix
         else:
             return reverse('objects:tag_detail', kwargs={'slug': self.object.slug})
 
-class TagListView(ModelListMixin, ListView, LoginRequiredMixin):
+class TagListView(ListView, LoginRequiredMixin):
 
     model = Tag
     paginate_by = 150
@@ -1780,7 +1780,7 @@ class ImageByTag(ModelByTagMixin, LoginRequiredMixin, ListView):
         context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
         return context
 
-class SoundByTag(LoginRequiredMixin, ListView):
+class SoundByTag(ModelByTagMixin, LoginRequiredMixin, ListView):
     
     model = Sound
     context_object_name = 'sounds'
@@ -1796,7 +1796,7 @@ class SoundByTag(LoginRequiredMixin, ListView):
         context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
         return context
 
-class VideoByTag(LoginRequiredMixin, ListView):
+class VideoByTag(ModelByTagMixin, LoginRequiredMixin, ListView):
     
     model = Video
     context_object_name = 'videos'
@@ -1812,7 +1812,7 @@ class VideoByTag(LoginRequiredMixin, ListView):
         context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
         return context
 
-class CodeByTag(LoginRequiredMixin, ListView):
+class CodeByTag(ModelByTagMixin, LoginRequiredMixin, ListView):
     
     model = Code
     context_object_name = 'codes'
@@ -1828,7 +1828,7 @@ class CodeByTag(LoginRequiredMixin, ListView):
         context['tag'] = Tag.objects.get(slug=self.kwargs['slug'])
         return context
 
-class LinkByTag(LoginRequiredMixin, ListView):
+class LinkByTag(ModelByTagMixin, LoginRequiredMixin, ListView):
     
     model = Link
     context_object_name = 'links'
