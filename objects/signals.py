@@ -12,7 +12,7 @@ from hashlib import md5
 from pathlib import Path
 from PIL import Image as img
 from PIL import ImageOps
-from lookaway.settings import BASE_DIR, MEDIA_ROOT, MEDIA_SETTINGS
+from lookaway.settings import BASE_DIR, MEDIA_ROOT
 from .models import ObjectsAppProfile, Image, Sound, Video, Link
 from .utils import FileSystemOps
 
