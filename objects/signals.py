@@ -12,16 +12,20 @@ from hashlib import md5
 from pathlib import Path
 from PIL import Image as img
 from PIL import ImageOps
-from lookaway.settings import BASE_DIR, MEDIA_ROOT, MEDIA_SETTINGS
-from .models import Image, Sound, Video, Link
+from lookaway.settings import BASE_DIR, MEDIA_ROOT
+from .models import ObjectsAppProfile, Image, Sound, Video, Link
 from .utils import FileSystemOps
 
 logger = logging.getLogger(__name__)
+
+# Transcoder settings
+    
 
 # Upload handlers
 
 @receiver(post_save, sender=Image)
 def handle_image_upload(sender, instance, created, *args, **kwargs):
+    profile, new = ObjectsAppProfile.objects.get_or_create(pk=1)
     '''
     Resize images with a width or height > values
     from the main Lookaway settings file.
@@ -44,16 +48,24 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
                     instance.pk,
                 )
             )
+        # Image settings
+        h = profile.image_max_height
+        w = profile.image_max_width
+        if profile.image_format == "JPG":
+            img_format = "jpeg"
+        else:
+            img_format = "webp"
         # Resize the original if the height or width are 
         # larger than the height and width specidied in settings
-        h = MEDIA_SETTINGS['image']['max_height']
-        w = MEDIA_SETTINGS['image']['max_width']
-        img_format = "webp"
         if image.width > w or image.height > h:
             max_size = (w, h)
             image.thumbnail(max_size)
             info = image.info
-            image.save(instance.image_file.path, img_format, **info)
+            try:
+                image.save(instance.image_file.path, img_format, **info)
+            except:
+                img_format = 'webp'
+                image.save(instance.image_file.path, img_format, **info)
 
         # Give the image a random name and webp extenstion
         instance.title = original_name.split('.')[:-1][0]
@@ -65,10 +77,9 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
         instance.save()
 
         # Create a thumbnail based on the uploaded image
-        h = MEDIA_SETTINGS['image']['thumbnail']['max_height']
-        w = MEDIA_SETTINGS['image']['thumbnail']['max_width']
-        img_format = "webp"
-        max_size = (250, 250)
+        h = profile.thumbnail_max_height
+        w = profile.thumbnail_max_width
+        max_size = (h, w)
         image.thumbnail(max_size)
         owner = instance.owner.id
         thumb_dir = instance.creation_date.strftime(
@@ -83,7 +94,12 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
         p = Path(MEDIA_ROOT)
         q = p / thumb_dir
         Path.mkdir(q, parents=True, exist_ok=True)
-        image.save(q / thumb_file_name, img_format)
+        try:
+            image.save(q / thumb_file_name, img_format)
+        except:
+            img_format = 'webp'
+            image.save(q / thumb_file_name, img_format)
+            
         image.close()
         p = Path(thumb_dir)
         q = p / thumb_file_name
@@ -100,47 +116,43 @@ def handle_sound_upload(sender, instance, created, *args, **kwargs):
     Changes the filename on disk to a hard to guess name
     for added privacy.
     '''
+    profile, new = ObjectsAppProfile.objects.get_or_create(pk=1)
     if created:
         snd_file = instance.sound_file.path
         # Thanks derekkwok!
         # https://gist.github.com/derekkwok/4077509
-        ffmpeg_cmd = MEDIA_SETTINGS['ffmpeg_path']
-        bitrate = MEDIA_SETTINGS['sound']['bitrate']
-        crf = MEDIA_SETTINGS['sound']['crf']
-        qmin = MEDIA_SETTINGS['sound']['qmin']
-        qmax = MEDIA_SETTINGS['sound']['qmax']
+        # Sound settings
+        ffmpeg_cmd = profile.ffmpeg_path
+        bitrate = str(profile.sound_bitrate)
+        crf = str(profile.sound_crf)
+        qmin = str(profile.sound_qmin)
+        qmax = str(profile.sound_qmax)
+        if profile.sound_format == "MP3":
+            snd_ext = ".mp3"
+        else:
+            snd_ext = ".ogg"
 
         def encode(snd_file):
             path = ''.join(snd_file.split('.')[:-1])
-            output = '{}.ogg'.format(path)
+            output = '{}{}'.format(path, snd_ext)
             # Thanks Vestride
             # https://gist.github.com/Vestride/278e13915894821e1d6f
-            try:
-                command = [
-                    ffmpeg_cmd,
-                    '-y',
-                    '-i', snd_file,
-                    '-qmin', '0',
-                    '-qmax', '50',
-                    '-b:v', '1000K',
-                    '-crf', crf,
-                    '-deadline', 'realtime',
-                    '-acodec', 'libvorbis',
-                    output
-                ]
-                subprocess.call(command)
-                return output
-            except:
-                logger.error(
-                    'Transcoding failed for sound {} with pk {}'.format(
-                        instance,
-                        instance.pk,
-                    )
-                )
-            finally:
-                #Delete the original upload
-                fsop = FileSystemOps()
-                fsop._delete_file(instance.sound_file.path)
+            command = [
+                ffmpeg_cmd,
+                '-y',
+                '-i', snd_file,
+                '-qmin', qmin,
+                '-qmax', qmax,
+                '-b:v', bitrate,
+                '-crf', crf,
+                '-deadline', 'realtime',
+                output
+            ]
+            subprocess.call(command)
+            #Delete the original upload
+            fsop = FileSystemOps()
+            fsop._delete_file(instance.sound_file.path)
+            return output
 
         try:
             # Transcode the uploaded file
@@ -149,7 +161,7 @@ def handle_sound_upload(sender, instance, created, *args, **kwargs):
             original_name = Path(snd_file).name
             instance.title = original_name.split('.')[:-1][0][:63]
             seed = str(snd_path) + str(timezone.now())
-            safe_file_name = md5(seed.encode()).hexdigest() + ".ogg"
+            safe_file_name = md5(seed.encode()).hexdigest() + snd_ext
             new_path = snd_path.rename(snd_path.parent / safe_file_name)
             instance.sound_file = str(new_path.relative_to(MEDIA_ROOT))
             instance.save()
@@ -171,49 +183,43 @@ def handle_video_upload(sender, instance, created, *args, **kwargs):
     Changes the filename on disk to a hard to guess name
     for added privacy.
     '''
+    profile, new = ObjectsAppProfile.objects.get_or_create(pk=1)
     if created:
         vid_file = instance.video_file.path
         # Thanks derekkwok!
         # https://gist.github.com/derekkwok/4077509
-        ffmpeg_cmd = MEDIA_SETTINGS['ffmpeg_path']
-        bitrate = MEDIA_SETTINGS['video']['bitrate']
-        crf = MEDIA_SETTINGS['video']['crf']
-        qmin = MEDIA_SETTINGS['video']['qmin']
-        qmax = MEDIA_SETTINGS['video']['qmax']
+        # Video settings
+        ffmpeg_cmd = profile.ffmpeg_path
+        bitrate = str(profile.video_bitrate)
+        crf = str(profile.video_crf)
+        qmin = str(profile.video_qmin)
+        qmax = str(profile.video_qmax)
+        if profile.video_format == "MP4":
+            vid_ext = ".mp4"
+        else:
+            vid_ext = ".webm"
         
         def encode(vid_file):
             path = ''.join(vid_file.split('.')[:-1])
-            output = '{}.webm'.format(path)
+            output = '{}.{}'.format(path, vid_ext)
             # Thanks Vestride
             # https://gist.github.com/Vestride/278e13915894821e1d6f
-            try:
-                command = [
-                    ffmpeg_cmd,
-                    '-y',
-                    '-i', vid_file,
-                    '-vcodec', 'libvpx', 
-                    '-qmin', qmin,
-                    '-qmax', qmax,
-                    '-b:v', bitrate,
-                    '-crf', crf,
-                    '-deadline', 'realtime',
-                    '-acodec', 'libvorbis',
-                    output
-                ]
-                subprocess.call(command)
-                return output
-            except:
-                logger.error(
-                    'Transcoding failed for video {} with pk {}'.format(
-                        instance,
-                        instance.pk,
-                    )
-                )
-                return 1
-            finally:
-                #Delete the original upload
-                fsop = FileSystemOps()
-                fsop._delete_file(instance.video_file.path)
+            command = [
+                ffmpeg_cmd,
+                '-y',
+                '-i', vid_file,
+                '-qmin', qmin,
+                '-qmax', qmax,
+                '-b:v', bitrate,
+                '-crf', crf,
+                '-deadline', 'realtime',
+                output
+            ]
+            subprocess.call(command)
+            #Delete the original upload
+            fsop = FileSystemOps()
+            fsop._delete_file(instance.video_file.path)
+            return output
                 
         try:
             # Transcode the uploaded file
@@ -222,7 +228,7 @@ def handle_video_upload(sender, instance, created, *args, **kwargs):
             original_name = Path(vid_file).name
             instance.title = original_name.split('.')[:-1][0][:63]
             seed = str(vid_path) + str(timezone.now())
-            safe_file_name = md5(seed.encode()).hexdigest() + ".webm"
+            safe_file_name = md5(seed.encode()).hexdigest() + vid_ext
             new_path = vid_path.rename(vid_path.parent / safe_file_name)
             instance.video_file = str(new_path.relative_to(MEDIA_ROOT))
             instance.save()

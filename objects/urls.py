@@ -5,7 +5,49 @@ import objects.views as views
 app_name = 'objects'
 
 urlpatterns = [
-    # Read Views
+    # Landing page
+    path('', views.ObjectsPageView.as_view(), name='objects_page'),
+
+    # Home app profile
+    ## Update
+    path(
+        'profile/update/<int:pk>/transcoder/settings/', 
+        views.ObjectsAppTranscoderSettingsUpdateView.as_view(),
+        name='objects_app_transcoder_settings_update',
+    ),
+    path(
+        'profile/update/<int:pk>/', 
+        views.ObjectsAppProfileUpdateView.as_view(),
+        name='objects_app_profile_update',
+    ),
+    # Home landing page section views
+    ## Create
+    path(
+        'add/section/', 
+        views.ObjectsPageSectionCreateView.as_view(),
+        name='objects_page_section_create',
+    ),
+    ## Detail
+    path(
+        'sections/<int:pk>/',
+        views.ObjectsPageSectionDetailView.as_view(),
+        name='objects_page_section_detail',
+    ),
+    ## Update
+    path(
+        'update/section/<int:pk>/', 
+        views.ObjectsPageSectionUpdateView.as_view(),
+        name='objects_page_section_update',
+    ),
+    ## Delete
+    path(
+        'delete/section/<int:pk>/',
+        views.ObjectsPageSectionDeleteView.as_view(),
+        name='objects_page_section_delete',
+    ),
+
+    # Multimedia objects
+    ## Read views
     path(
         'images/',
         views.ImageListView.as_view(),

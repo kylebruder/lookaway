@@ -1,95 +1,68 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container art-bg">
   {% if gallery.is_public and gallery.members_only and not request.user.is_authenticated %}
     <div class="container">
       <p class="art-meta">This Gallery is only avaialble for Members of the site.</p>
     </div>
   {% elif gallery.is_public or gallery.owner.pk == request.user.pk %}
-    {% include './gallery_detail_button_bar.html' %}
-    {% if gallery.artist %}
-      <p>A collection of works by {{ gallery.artist }}</p>
-    {% endif %}
-    <!-- Visual list -->
-    {% if gallery.visuals.all.count > 0 %}
-      <div class="art-gallery-container">
-        <div id="visual_gallery" class="carousel slide" data-ride="carousel">
-          <div class="carousel-inner">
-            {% if gallery.text %}
-              <div class="carousel-item active">
-                <div class="art-gallery-image">
-                  <div class="d-block w-100">
-                    <p class="art-gallery-blurb">{{ gallery.text }}</p>
-                  </div>
-                </div>
-              </div>
-              {% for visual in gallery.visuals.all %}
-                <div class="carousel-item">
-                  <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
-                      <p class="art-gallery-message"><i>Tap the image for more detail</i></p>
-                      <img class="art-gallery-image" src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
-                  </a>
-                </div>
-              {% endfor %}
-            {% else %}
-              {% for visual in gallery.visuals.all %}
-                {% if visual.pk == gallery.visuals.all.0.pk %}
-                  <div class="carousel-item active">
-                    <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
-                      <div class="art-gallery-image">
-                        <p class="art-gallery-message"><i>Tap the image for more detail</i></p>
-                        <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
-                      </div>
-                    </a>
-                  </div>
-                {% else %}
-                  <div class="carousel-item">
-                    <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
-                      <div class="art-gallery-image">
-                        <p class="art-gallery-message"><i>Tap the image for more detail</i></p>
-                        <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
-                      </div>
-                    </a>
-                  </div>
-                {% endif %}
-              {% endfor %}
-            {% endif %}
-          </div>
-          <a class="carousel-control-prev" href="#visual_gallery" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#visual_gallery" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
-      </div>
+    {% include './gallery_detail_title_bar.html' %}
+    <p>
+      {% if gallery.artist %}
+        A collection of work by <span class="index-heading-span">{{ gallery.artist }}</span><br>
+      {% endif %}
+      <!-- Meta data -->
+      {% if gallery.is_public %}
+        Curated by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span>{% if gallery.publication_date %}, opened on <span class="index-heading-span">{{ gallery.publication_date|date:"M d, Y" }}</span>{% endif %}{% if gallery.location %} at <span class="index-heading-span">{{ gallery.location }}</span>{% endif %}
+      </p>
+    {% else %}
+      <p class="gallery-meta">Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
+      {% include 'objects/unpublished.html' %}
       <br>
     {% endif %}
+    {% include './carousel.html' %}
     <!-- Links -->
     {% if gallery.links.count > 0 %}
       <h4 class="art-title">Links</h4>
       {% with gallery.links.all as links %}
-        {% include 'object_links.html' %}
+        {% include 'objects/object_links.html' %}
       {% endwith %}
     {% endif %}
-    <!-- Tags -->
-    {% if gallery.tags.count > 0 %}
-      {% include './object_tags.html' %}
+    <!-- Responses -->
+    {% if responses.count > 0 %}
+      <h4 class="art-title">Responses</h4>
+      <ul class="list-group">
+        {% for response in responses %}
+          <li class="list-group-item art-list-li">
+            {% include 'items/response_detail_item.html' %}
+          </li>
+        {% endfor %}
+      </ul>
       <br>
     {% endif %}
-    <!-- Credits -->
-    {% if gallery.is_public %}
-      <p>Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> {% if gallery.publication_date %} on {{ gallery.publication_date }}{% endif %}{% if gallery.location %} from {{ gallery.location }}{% endif %}
-      {% if object.last_modified > object.creation_date %}
-        <br>Last updated on {{ object.last_modified }}
+    {% if gallery.bitcoin_wallet or gallery.litecoin_wallet %}
+      <h4 class="art-title">Donate</h4>
+      <br>
+      {% with gallery.bitcoin_wallet as bitcoin_wallet %}
+        {% with gallery.litecoin_wallet as litecoin_wallet %}
+          {% include 'objects/object_crypto_wallets.html' %}
+        {% endwith %}
+      {% endwith %}
+    {% endif %}
+    <div class="row">
+      <div class="col-sm">
+        {% include 'objects/object_tags.html' %}
+      </div>
+      {% if gallery.is_public %}
+        <div class="col-">
+          <div class="container">
+            {% include 'buttons/response_button.html' %}
+            {% include 'buttons/marshmallow_button.html' %}
+          </div>
+        </div>
       {% endif %}
-      </p>
-    {% else %}
-      <p class="gallery-meta">Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
-      <br>
-    {% endif %}
+    </div>
   {% else %}
     <p>This Gallery has not been published yet.</p>
     <br>
@@ -97,4 +70,6 @@
   {% endif %}
   <br>
 </div>
+<br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

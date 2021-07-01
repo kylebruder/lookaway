@@ -1,92 +1,83 @@
 from django.db import models
 from django.urls import reverse
-from objects.models import MetaDataMixin
 from crypto.models import CryptoWalletsMixin
-from members.mixins import MarshmallowMixin
+from lookaway.mixins import AppProfile, Section, Doc
 
 # Create your models here.
 
-class Section(MetaDataMixin):
-
-    class Meta:
-        abstract = True
-
-    order = models.DecimalField(
-        max_digits=8,
-        decimal_places=4,
-    )
-    hide_title = models.BooleanField(default=False)
-    title = models.CharField(
-        max_length=255,
-    )
-    text = models.TextField(
-        max_length=65535,
-        blank=True,
-        null=True,
-    )
-    images = models.ManyToManyField(
-        'objects.image',
-        blank=True,
-    )
-    sounds = models.ManyToManyField(
-        'objects.sound',
-        blank=True,
-    )
-    videos = models.ManyToManyField(
-        'objects.video',
-        blank=True,
-    )
-    code = models.ManyToManyField(
-        'objects.code',
-        blank=True,
-    )
-    links = models.ManyToManyField(
-        'objects.link',
-        blank=True,
-    )
-
-    def __str__(self):
-        return self.title
-
-class Doc(MetaDataMixin, MarshmallowMixin, CryptoWalletsMixin):
-
-    class Meta:
-        abstract = True
+class DocumentationAppProfile(AppProfile, CryptoWalletsMixin):
 
     title = models.CharField(
         max_length=255,
+        default="Zine",
     )
-    slug = models.SlugField(max_length=255, unique=True)
-    intro = models.TextField(
-        max_length=65535,
-        blank=True,
-        null=True,
-        )
-    outro = models.TextField(
-        max_length=65535,
-        blank=True,
-        null=True,
-)
-    image = models.ForeignKey(
+
+    n = models.PositiveIntegerField(default=3)
+    list_pagination = models.PositiveIntegerField(default=10)
+    show_new_articles = models.BooleanField(default=True)
+    show_top_articles = models.BooleanField(default=True)
+    show_new_stories = models.BooleanField(default=True)
+    show_top_stories = models.BooleanField(default=True)
+    show_new_support_documents = models.BooleanField(default=True)
+    show_top_support_documents = models.BooleanField(default=True)
+    logo = models.ForeignKey(
         'objects.image',
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
+        related_name='documentation_logo'
     )
-    links = models.ManyToManyField(
-        'objects.link',
+    banner = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
         blank=True,
+        null=True,
+        related_name='documentation_banner'
     )
-    meta_description = models.TextField(
-        max_length = 155,
+    bg_image = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='documentation_bg_image'
+    )
+    
+class DocumentationPageSection(Section):
+
+    info = models.TextField(
+        max_length=65535,
         blank=True,
         null=True,
     )
-    
-    def __str__(self):
-        return self.title
+    alert = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    articles = models.ManyToManyField(
+        'documentation.article',
+        blank=True,
+    )
+    stories = models.ManyToManyField(
+        'documentation.story',
+        blank=True,
+    )
+    support_documents = models.ManyToManyField(
+        'documentation.supportdocument',
+        blank=True,
+    )
+    is_enabled = models.BooleanField(default=False)
 
-class Article(Doc):
+    class Meta:
+        verbose_name = "Landing Page Section"
+        verbose_name_plural = "Landing Page Sections"
+        ordering = ['order']
+
+class Article(Doc, CryptoWalletsMixin):
+
+    class Meta:
+        verbose_name = "Article"
+        verbose_name_plural = "Articles"
 
     def get_absolute_url(self):
         return reverse('documentation:article_detail', kwargs={'slug': self.slug})
@@ -101,8 +92,11 @@ class ArticleSection(Section):
 
     class Meta:
         ordering = ['order']
+        verbose_name = "Article Section"
+        verbose_name_plural = "Article Sections"
 
-class Story(Doc):
+
+class Story(Doc, CryptoWalletsMixin):
 
     is_fiction = models.BooleanField(default=True)
     author = models.CharField(
@@ -134,6 +128,10 @@ class Story(Doc):
         null=True,
     )
 
+    class Meta:
+        verbose_name = "Story"
+        verbose_name_plural = "Stories"
+
     def get_absolute_url(self):
         return reverse('documentation:story_detail', kwargs={'slug': self.slug})
 
@@ -147,10 +145,16 @@ class StorySection(Section):
 
     class Meta:
         ordering = ['order']
+        verbose_name = "Story Section"
+        verbose_name_plural = "Story Sections"
 
-class SupportDocument(Doc):
+class SupportDocument(Doc, CryptoWalletsMixin):
 
     numbered = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Information"
+        verbose_name_plural = "Information"
 
     def get_absolute_url(self):
         return reverse('documentation:support_document_detail', kwargs={'slug': self.slug})
@@ -182,3 +186,5 @@ class SupportDocSection(Section):
 
     class Meta:
         ordering = ['order']
+        verbose_name = "Information Section"
+        verbose_name_plural = "Information Sections"

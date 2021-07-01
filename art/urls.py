@@ -11,6 +11,38 @@ urlpatterns = [
         views.ArtPageView.as_view(),
         name="art_page",
     ),
+    # Art app profile
+    ## Update
+    path(
+        'profile/update/<int:pk>/', 
+        views.ArtAppProfileUpdateView.as_view(),
+        name='art_app_profile_update',
+    ),
+    # Art landing page section views
+    ## Create
+    path(
+        'add/section/', 
+        views.ArtPageSectionCreateView.as_view(),
+        name='art_page_section_create',
+    ),
+    ## Detail
+    path(
+        'sections/<int:pk>/', 
+        views.ArtPageSectionDetailView.as_view(),
+        name='art_page_section_detail',
+    ),
+    ## Update
+    path(
+        'update/section/<int:pk>/', 
+        views.ArtPageSectionUpdateView.as_view(),
+        name='art_page_section_update',
+    ),
+    ## Delete
+    path(
+        'delete/section/<int:pk>/', 
+        views.ArtPageSectionDeleteView.as_view(),
+        name='art_page_section_delete',
+    ),
     # Read Views
     path(
         'galleries/new/',

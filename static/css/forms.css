@@ -2,7 +2,6 @@
 .create-bg {
   background-color: #222222;
   color: #eeeeee;
-  max-width: 750px;
   border-radius: 0px 0px 25px 25px;
   padding: 10px;
   margin-bottom: 40px;
@@ -28,6 +27,15 @@
   overflow-y: scroll;
 }
 
+.form-field {
+  background-color: #222222;
+  color: #eeeeee;
+  border-radius: 5px;
+  margin: 5px;
+  min-width: 350px;
+  padding: 20px;
+}
+
 .form-image-card {
   display: block;
   width: 100px;
@@ -39,7 +47,8 @@
 
 .form-image-selection {
   overflow-y: auto;
-  max-height: 400px;
+  max-height: 300px;
+  max-width: 315px;
 }
 
 .form-label {
@@ -50,6 +59,10 @@
 .form-preview-image {
   max-width: 100%;
   max-height: 250px;
+}
+
+.form-submit-button {
+  margin: 10px;
 }
 
 .form-text-field {

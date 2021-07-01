@@ -1,0 +1,21 @@
+{% if x.field.choices.queryset.all|length == 0 %}
+  <div class="col-md form-field">
+    <p><i>No visuals found.</i></p>
+  </div>
+{% else %}
+  <div class="col-md form-field">
+    <h5 class="form-label">{{ x.label }}</h5>
+    <p>{{ x.help_text}}</p>
+    <p>{{ x.errors }}</p>
+    <div class="form-image-selection">
+      {% for value, label, obj in x.field.choices %}
+        {% if value != '' %}
+          <div class="form-image-card float-left" style="background-image:url('{{ obj.image.thumbnail_file.url }}')">
+            {% block input_block %}
+            {% endblock %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

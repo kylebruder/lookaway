@@ -1,18 +1,10 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class="container documentation-bg">
-  {% include "./article_list_button_bar.html" %}
-  {% include './documentation_page_navbar.html' %}
-  {% if articles %}
-    {% include 'page_control.html' %}
-    <ul class="list-group">
-      {% include "./article_list_item.html" %}
-    </ul>
-    {% include "page_control.html" %}
-    <br>
-  {% else %}
-    <p>No articles have been published yet. Check back soon!</p>
-    <br>
-  {% endif %}
-</div>
+{% extends './documentation_list.html' %}
+{% block items_block %}
+  <div class="row">
+    {% for article in articles %}
+      <div class="col-4-sm documentation-list-card">
+        {% include 'items/article_item.html' %}
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}

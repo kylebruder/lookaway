@@ -1,0 +1,57 @@
+<!-- Visual list -->
+{% if gallery.visuals.all.count > 0 %}
+  <div class="art-gallery-container">
+    <div id="visual_gallery" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        {% if gallery.text %}
+          <div class="carousel-item active">
+            <div class="art-gallery-image">
+              <div class="d-block w-100">
+                <p class="art-gallery-blurb">{{ gallery.text }}</p>
+              </div>
+            </div>
+          </div>
+          {% for visual in gallery.visuals.all %}
+            <div class="carousel-item">
+              <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
+                  <p class="art-gallery-message"><i>Tap the image for more detail</i></p>
+                  <img class="art-gallery-image" src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
+              </a>
+            </div>
+          {% endfor %}
+        {% else %}
+          {% for visual in gallery.visuals.all %}
+            {% if visual.pk == gallery.visuals.all.0.pk %}
+              <div class="carousel-item active">
+                <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
+                  <div class="art-gallery-image">
+                    <p class="art-gallery-message"><i>Tap the image for more detail</i></p>
+                    <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
+                  </div>
+                </a>
+              </div>
+            {% else %}
+              <div class="carousel-item">
+                <a class="text-light" href="{% url 'art:visual_detail' visual.slug %}">
+                  <div class="art-gallery-image">
+                    <p class="art-gallery-message"><i>Tap the image for more detail</i></p>
+                    <img src="{{ visual.image.image_file.url }}" class="d-block w-100" alt="visual.image.title">
+                  </div>
+                </a>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+      <a class="carousel-control-prev" href="#visual_gallery" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#visual_gallery" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+  <br>
+{% endif %}

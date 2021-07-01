@@ -1,0 +1,19 @@
+<div class="form-field">
+  <div class="row">
+    <div class="col-sm">
+      <h4 class="form-label">Profile Settings</h4>
+      <p>Change what appears on your profile page</p>
+    </div>
+    <div class="col-">
+      <div class="container">
+        {% if show_member_profile_settings_edit_button %}
+          {% with member_profile_settings_edit_button as button %}
+            {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+              {% include 'buttons/edit_button.html' %}
+            {% endwith %}
+          {% endwith %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

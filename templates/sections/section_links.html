@@ -1,0 +1,22 @@
+{% for link in links %}
+  <p>
+    {% if link.favicon_href %}
+      <img class="link-favicon" src="{{ link.favicon_href }}" alt="&#127760;">
+    {% else %}
+      <img class="link-favicon" src="/static/earth.ico" alt="&#127760;">
+    {% endif %}
+    {% if link.title %}
+      <a href="{{ link.url }}" class="links-list-link">{{ link.title }}</a><br>
+    {% else %}
+      <a href="{{ link.url }}" class="links-list-link">{{ link.url|truncatechars:64 }}</a><br>
+    {% endif %}
+    {% if link.text %}
+      {{ link.text|truncatechars:280 }}<br>
+    {% endif %}
+    {% if link.owner.pk == request.user.pk %}
+      <a href="{% url 'objects:link_update' link.pk %}?next={{ request.path }}">
+        <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+      </a>
+    {% endif %}
+  </p>
+{% endfor %}

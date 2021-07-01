@@ -1,0 +1,44 @@
+<div class="music-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
+  <div class="row">
+    {% if profile.logo %}
+      <div class="col-sm-">
+        <div class="container">
+          <img class="music-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
+        </div>
+      </div>
+    {% endif %}
+    {% if profile.show_title or profile.show_desc %}
+      <div class="col-sm">
+        {% if meta_title %}
+          <h3 class="music-title music-page-span music-alert">{{ meta_title }}</h3>
+        {% endif %}
+        {% if meta_desc %}
+          <br><p class="music-page-span music-alert"><i>{{ meta_desc }}</i></p>
+        {% endif %}
+        {% if form.fields.sound.queryset.all.count == 0 %}
+        <br>
+        <p class="alert alert-warning music-alert">
+          <i><strong>IMPORTANT:</strong>You must
+            <span class="index-heading-span"><a href="{% url 'objects:sound_create' %}?next={{ request.path }}">upload a sound file</a> before you can add a {{ meta_title|lower }}!</i></span>&nbsp;
+        </p>
+      {% endif %}
+      {% if form.fields.tracks.queryset.all.count == 0 %}
+        <br>
+        <p class="alert alert-warning music-alert">
+          <i><strong>IMPORTANT:</strong>You must
+            <span class="index-heading-span"><a href="{% url 'music:track_create' %}?next={{ request.path }}">add a track</a> before you can add a {{ meta_title|lower }}!</i></span>&nbsp;
+        </p>
+      {% endif %}
+      </div>
+    {% endif %}
+    {% if request.user.is_authenticated %}
+      <div class="col-">
+        <div class="container">
+          <p>
+            {% include 'objects/object_create_buttons.html' %}
+          </p>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>

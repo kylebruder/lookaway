@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-">
+    {% if post.image %}
+      <div class="posts-item-image" style="background-image:url('{{ post.image.thumbnail_file.url }}')"></div>
+    {% elif post.owner.profile.image %}
+      <div class="posts-item-image" style="background-image:url('{{ post.owner.profile.image.thumbnail_file.url }}')"></div>
+    {% else %}
+      <div class="posts-item-image" style="background-image:url('/static/icon.webp')"></div>
+    {% endif %}
+  </div>
+  <div class="col-sm">
+    <h6 class="posts-title">
+      <strong><a href="{% url 'posts:post_detail' post.slug %}">
+        {{ post.title }}
+      </a></strong>
+    </h6>
+    <p>
+      Posted by <a href="{% url 'members:member_profile' post.owner.username %}"><span class="index-heading-span">{{ post.owner }}</span></a>{% if post.publication_date %} on <span class="index-heading-span">{{ post.publication_date|date:"M d, Y" }}</span>{% endif %}{% if post.location %} from <span class="index-heading-span">{{ post.location }}</span>{% endif %}
+    </p>
+  </div>
+</div>
+<p>
+  {{ post.text|truncatechars:155 }}
+</p>
+{% if not post.is_public %}
+  <span class="badge badge-dark">Unpublished</span>
+{% endif %}
+{% if post.members_only %}
+  <span class="badge badge-warning">Members Only</span>
+{% endif %}
+{% if post.tags.all.count > 0 %}
+  {% with post as object %}
+    {% include 'objects/object_tags.html' %}
+  {% endwith %}
+{% endif %}

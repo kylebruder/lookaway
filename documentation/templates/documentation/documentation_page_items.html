@@ -1,0 +1,34 @@
+<div class="documentation-section">
+  <ul class="list-group documentation-list">
+    {% for article in new_articles %}
+      <li class="list-group-item documentation-list-li">
+        {% include 'items/article_item.html' %}
+      </li>
+    {% endfor %}
+    {% for story in new_stories %}
+      <li class="list-group-item documentation-list-li">
+        {% include 'items/story_item.html' %}
+      </li>
+    {% endfor %}
+    {% for document in new_documents %}
+      <li class="list-group-item documentation-list-li">
+        {% include 'items/document_item.html' %}
+      </li>
+    {% endfor %}
+    {% for article in top_articles %}
+      <li class="list-group-item documentation-list-li">
+        {% include 'items/article_item.html' %}
+      </li>
+    {% endfor %}
+    {% for story in top_stories %}
+      <li class="list-group-item documentation-list-li">
+        {% include 'items/story_item.html' %}
+      </li>
+    {% endfor %}
+    {% for document in top_documents %}
+      <li class="list-group-item documentation-list-li">
+        {% include 'items/document_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>

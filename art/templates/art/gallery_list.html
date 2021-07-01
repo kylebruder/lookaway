@@ -1,16 +1,10 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class="container art-bg">
-  {% include "./gallery_list_button_bar.html" %}
-  {% include './art_page_navbar.html' %}
-  {% if galleries %}
-    {% include "page_control.html" %}
-    {% include "./gallery_list_item.html" %}
-    {% include "page_control.html" %}
-    <br>
-  {% else %}
-    <p>No galleries have been published yet. Check back soon!</p>
-    <br>
-  {% endif %}
-</div>
+{% extends './art_list.html' %}
+{% block items_block %}
+  <div class="row">
+    {% for gallery in galleries %}
+      <div class="col-4-sm art-list-card">
+        {% include 'items/gallery_item.html' %}
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}

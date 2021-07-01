@@ -1,32 +1,52 @@
-<div class="container">
+<div class="members-section">
   <div class="row">
     <div class="col">
       <h4 class="studio-title">Your Stories
-        <a href="{% url 'documentation:story_create' %}">
-          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-        </a>
       </h4>
+    </div>
+    <div class="col-">
+      <div class="container">
+        {% if show_documentation_buttons %}
+          {% with story_add_button as button %}
+            {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
+              {% include 'buttons/small_add_button.html' %}
+            {% endwith %}
+          {% endwith %}
+        {% endif %}
+      </div>
     </div>
   </div>
   {% if stories.all.count > 0 %}
-    <ul class="list-group">
+    <table class="studio-table">
+      <tr>
+        <th>Title</th>
+        <th>Modified</th>
+        <th>Created</th>
+        <th>Published</th>
+      </th>
       {% for story in stories %}
-        <li class="list-group-item documentation-list-li">
-          <p>
-            <a href="{% url 'documentation:story_detail' story.slug %}">
-              {{ story.title }}
-            </a>
-            {% if not story.is_public %}
-              <span class="badge badge-secondary">Unpublished</span>
+        <tr>
+          <td><a href="{% url 'documentation:story_detail' story.slug %}">{{ story.title|truncatechars:20 }}</a></td>
+          <td>{{ story.last_modified|date:"M d, Y" }}</td>
+          <td>{{ story.creation_date|date:"M d, Y" }}</td>
+          <td>
+            {% if story.is_public %}
+              {{ story.publication_date|date:"M d, Y" }}
+            {% else %}
+              {% include 'objects/unpublished.html' %}
             {% endif %}
-          </p>
-        </li>
+            {% if story.members_only %}
+              {% include 'objects/members_only.html' %}
+            {% endif %}
+          </td>
+        </tr>
       {% endfor %}
-    </ul>
+    </table>
+    <br>
     <p>
       <a href="{% url 'documentation:member_stories' request.user.username %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not created any stories yet.</p>
+    <p>You have not contributed any Stories yet.</p>
   {% endif %}
 </div>

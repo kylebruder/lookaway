@@ -3,17 +3,23 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  {% if object.title %}
-    <title>{{ object.title }}</title>
-  {% elif meta_title %}
+  {% if meta_title %}
     <title>{{ meta_title }}</title>
+  {% elif object.title %}
+    <title>{{ object.title }}</title>
+  {% elif lookaway_title %}
+    <title>{{ object.title }}</title>
   {% else %}
     <title>Lookaway Information</title>
   {% endif %}
-  {% if object.meta_description %}
-    <meta name="description" content="{{ object.meta_description }}">
-  {% elif meta_desc %}
+  {% if meta_desc %}
     <meta name="description" content="{{ meta_desc }}">
+  {% elif object.meta_description %}
+    <meta name="description" content="{{ object.meta_description }}">
+  {% elif lookaway_desc %}
+    <meta name="description" content="{{ lookaway_desc }}">
+  {% else %}
+    <meta name="description" content="New and top media by lookaway members.">
   {% endif %}
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" type="image/webp" href="{% static 'favicon.ico' %}"/>
@@ -38,6 +44,6 @@
     <!-- Anything outside of this will be inhereited if you extend! -->
   {% endblock %}
   <!-- FOOTER -->
-  {% include 'index_footer.html' %}
+  {% include 'base_footer.html' %}
 </body>
 </html>

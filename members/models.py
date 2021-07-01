@@ -7,7 +7,9 @@ from django.db import models
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils import timezone
+from lookaway.mixins import AppProfile, Section
 from lookaway.settings import BASE_DIR, DEFAULT_MEMBER_STORAGE, FOUNDER_CUTOFF
+from crypto.models import CryptoWalletsMixin
 from objects.models import Image
 
 
@@ -15,6 +17,11 @@ class Member(User):
 
     class Meta:
         proxy = True
+        ordering = [
+            'is_staff',
+            'is_superuser',
+            '-date_joined',
+        ]
 
     def check_is_founder(self):
         '''
@@ -40,6 +47,21 @@ class Member(User):
         else:
             return True
 
+    def check_is_contributor(self):
+        return self.groups.filter(name="Contributors").exists()
+
+    def check_is_member(self):
+        return self.groups.filter(name="Members").exists()
+
+    def check_is_writer(self):
+        return self.groups.filter(name="Writers").exists()
+
+    def check_is_artist(self):
+        return self.groups.filter(name="Artists").exists()
+
+    def check_is_musician(self):
+        return self.groups.filter(name="Musicians").exists()
+
     def check_can_allocate(self, n=300):
         '''
         Returns True if the Member's last Marshmallow allocation occurred more
@@ -49,7 +71,7 @@ class Member(User):
         # get n seconds ago
         t = timezone.now() - datetime.timedelta(seconds=n)
         try:
-            q = Profile.objects.select_related('member').get(member=self).last_marshmallow_allocation
+            q = Profile.objects.select_related('member').get(member=self).last_marshmallow_time
             if t > q:
                 return True
             else:
@@ -123,7 +145,8 @@ class Member(User):
             q = Marshmallow.objects.filter(member=self, date__gte=t).count()
         if q == 0:
             q += 1
-        print('number of marshmalows allocated in last {0} days by {1}: {2}'.format(n, q, self))
+        # Debug line
+        #print('number of marshmalows allocated in last {0} days by {1}: {2}'.format(n, q, self))
         # weight allocation period
         p = n / q 
         # apply the multiplier
@@ -183,12 +206,12 @@ class Member(User):
             else:
                 amount = "a spec of marshmallow"
             p = Profile.objects.select_related('member').get(member=self)
-            p.last_marshmallow_allocation = timezone.now()
+            p.last_marshmallow_time = timezone.now()
             p.save()
             return True, m.weight, amount
         else:
             print("could not allocate weight")
-            return False, 0
+            return False, 0, 0
         
     def __str__(self):
         if self.first_name and self.last_name:
@@ -198,7 +221,86 @@ class Member(User):
         else:
             return self.username
 
-class Profile(models.Model):
+class MembersAppProfile(AppProfile, CryptoWalletsMixin):
+
+    title = models.CharField(
+        max_length=255,
+        default="Members",
+    )
+    show_members = models.BooleanField(default=True)
+    show_contributors = models.BooleanField(default=True)
+    n_members = models.PositiveIntegerField(default=25)
+    n_contributors = models.PositiveIntegerField(default=25)
+    members_list_pagination = models.PositiveIntegerField(default=10)
+    contributors_list_pagination = models.PositiveIntegerField(default=1000)
+    logo = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='members_logo'
+    )
+    banner = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='members_banner'
+    )
+    bg_image = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='members_bg_image'
+    )
+    member_agreement = models.TextField(
+        max_length = 65535,
+        blank=True,
+        null=True,
+    )
+
+    class Meta:
+        verbose_name = "App Profile"
+
+    def accepting_new_contributors(self):
+        if Member.objects.count() <= self.max_members:
+            return True
+        else:
+            return False
+
+    def __str__(self):
+        return self.title
+
+class MembersPageSection(Section):
+
+    info = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    alert = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    members = models.ManyToManyField(
+        'members.member',
+        blank=True,
+        related_name='section_members'
+    )
+    is_enabled = models.BooleanField(default=False)
+    members_only = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Landing Page Section"
+        verbose_name_plural = "Landing Page Sections"
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
+
+class Profile(AppProfile, CryptoWalletsMixin):
 
     member = models.OneToOneField(Member, on_delete=models.CASCADE)
     display_name = models.CharField(
@@ -208,21 +310,136 @@ class Profile(models.Model):
         null=True,
     )
     slug = models.SlugField(max_length=255, unique=True)
-    last_marshmallow_allocation = models.DateTimeField(default=timezone.now)
-    media_capacity = models.BigIntegerField(default=DEFAULT_MEMBER_STORAGE)
+    # Member profile blurb
     text = models.TextField(
         blank=True,
         null=True,
     )
+    # Profile picture
     image = models.ForeignKey(
         Image,
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
     )
+    # Profile banner
+    banner = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='member_banner'
+    )
+    # Profile background image
+    bg_image = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='member_bg_image'
+    )
+    show_email = models.BooleanField(default=False)
+    # Posts settings
+    n_posts = models.PositiveIntegerField(default=5)
+    n_responses = models.PositiveIntegerField(default=5)
+    post_list_pagination = models.PositiveIntegerField(default=6)
+    response_list_pagination = models.PositiveIntegerField(default=6)
+    show_new_posts = models.BooleanField(default=True)
+    show_top_posts = models.BooleanField(default=True)
+    show_new_responses = models.BooleanField(default=False)
+    show_top_responses = models.BooleanField(default=False)
+    # Documentation settings
+    n_articles = models.PositiveIntegerField(default=5)
+    n_stories = models.PositiveIntegerField(default=5)
+    n_documents = models.PositiveIntegerField(default=5)
+    article_list_pagination = models.PositiveIntegerField(default=6)
+    story_list_pagination = models.PositiveIntegerField(default=6)
+    document_list_pagination = models.PositiveIntegerField(default=6)
+    show_new_articles = models.BooleanField(default=True)
+    show_top_articles = models.BooleanField(default=True)
+    show_new_stories = models.BooleanField(default=True)
+    show_top_stories = models.BooleanField(default=True)
+    show_new_documents = models.BooleanField(default=True)
+    show_top_documents = models.BooleanField(default=True)
+    # Art settings
+    n_visuals = models.PositiveIntegerField(default=25)
+    n_galleries = models.PositiveIntegerField(default=5)
+    visual_list_pagination = models.PositiveIntegerField(default=25)
+    gallery_list_pagination = models.PositiveIntegerField(default=6)
+    show_new_visuals = models.BooleanField(default=True)
+    show_top_visuals = models.BooleanField(default=True)
+    show_new_galleries = models.BooleanField(default=True)
+    show_top_galleries = models.BooleanField(default=True)
+    # Music settings
+    n_tracks = models.PositiveIntegerField(default=5)
+    n_albums = models.PositiveIntegerField(default=5)
+    track_list_pagination = models.PositiveIntegerField(default=6)
+    album_list_pagination = models.PositiveIntegerField(default=6)
+    show_new_tracks = models.BooleanField(default=True)
+    show_top_tracks = models.BooleanField(default=True)
+    show_new_albums = models.BooleanField(default=True)
+    show_top_albums = models.BooleanField(default=True)
+    # How much the Member can store on disk
+    media_capacity = models.BigIntegerField(default=DEFAULT_MEMBER_STORAGE)
+    # Feedback timestamps
+    last_marshmallow_time = models.DateTimeField(default=timezone.now)
+    last_post_time = models.DateTimeField(default=timezone.now)
+    last_response_post_time = models.DateTimeField(default=timezone.now)
+    last_report_post_time = models.DateTimeField(default=timezone.now)
+    
 
     def __str__(self):
         return str(self.member)
+
+class MemberProfileSection(Section):
+
+    # Profile Section TLOs
+    posts = models.ManyToManyField(
+        'posts.post',
+        blank=True,
+    )
+    responses = models.ManyToManyField(
+        'posts.responsepost',
+        blank=True,
+    )
+    articles = models.ManyToManyField(
+        'documentation.article',
+        blank=True,
+    )
+    stories = models.ManyToManyField(
+        'documentation.story',
+        blank=True,
+    )
+    documents = models.ManyToManyField(
+        'documentation.supportdocument',
+        blank=True,
+    )
+    visuals = models.ManyToManyField(
+        'art.visual',
+        blank=True,
+    )
+    galleries = models.ManyToManyField(
+        'art.gallery',
+        blank=True,
+    )
+    tracks = models.ManyToManyField(
+        'music.track',
+        blank=True,
+    )
+    albums = models.ManyToManyField(
+        'music.album',
+        blank=True,
+    )
+    is_enabled = models.BooleanField(default=False)
+    members_only = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Member Page Section"
+        verbose_name_plural = "Member Page Sections"
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
 
 class Marshmallow(models.Model):
 

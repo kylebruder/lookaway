@@ -1,0 +1,37 @@
+<div class="form-field">
+  <div class="row">
+    <div class="col-sm">
+      <h4 class="form-label">Landing Page Sections</h4>
+    </div>
+    {% if not sections %}
+      <div class="col-">
+        <div class="container">
+         <a class="btn btn-sm btn-primary" href="{% url 'objects:objects_page_section_create' %}?next={{ request.path }}">+Section</a>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+  {% if sections %}
+    <table class="">
+      {% for section in sections %}
+        <tr>
+          <td>
+            <a class="form-label" href="{% url 'objects:objects_page_section_detail' section.pk %}">{{ section }}</a>
+          </td>
+          <td>
+            {% if section.is_enabled %}
+              <span class="badge badge-success">Enabled</span>
+            {% else %}
+              <span class="badge badge-secondary">Disabled</span>
+            {% endif %}
+          </td>
+          <td>
+            {% include './objects_page_section_add_button.html' %}
+            {% include './objects_page_section_edit_button.html' %}
+            {% include './objects_page_section_delete_button.html' %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+</div>

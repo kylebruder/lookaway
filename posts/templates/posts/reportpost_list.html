@@ -1,0 +1,10 @@
+{% extends './posts_list.html' %}
+{% block items_block %}
+  <div class="row">
+    {% for post in posts %}
+      <div class="col-4-sm posts-list-card">
+        {% include './post_item.html' %}
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

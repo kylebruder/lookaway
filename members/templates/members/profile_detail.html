@@ -1,74 +1,42 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load static %}
 {% block body_block %}
-<div class="container-fluid members-bg">
-  <div class="row">
-    {% if profile.image %}
-      <div class="col-sm-">
-        <div class="container">
-          <img src="{{ profile.image.thumbnail_file.url }}">
-        </div>
-      </div>
-    {% endif %}
-    <div class="col-sm">
-      <h1 class="profile-title">{{ profile.member }}</h1>
-      <p>
-        {% with profile.member as member %}
-          {% include './member_badges.html' %}
-        {% endwith %}
-      </p>
-      <p>Member since {{ profile.member.date_joined|date:"M d, Y" }}</p>
-      <p>
-      </p>
-    </div>
-    <div class="col-">
-      <div class="container">
-        {% if request.user.pk == member.pk %}
-          {% if profile.member.is_superuser %}
-            <a href="{% url 'invite' %}">
-              <button class="btn btn-sm btn-light btn-margin">+Invite Link</button>
-            </a>
-            <br>
+<div class="container-fluid members-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
+  <!-- Heading -->
+  {% include './member_profile_header.html' %}
+  <br>
+  {% if members or contributors or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.all.count > 0 or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals.all.count > 0 or top_galleries or top_tracks or top_albums or sections or profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+    <div class="row">
+      {% if sections %}
+        <div class="col-sm">
+          {% for section in sections %}
+            {% include './member_profile_section.html' %}
+          {% endfor %}
+          {% if profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+            {% include './member_profile_links.html' %}
           {% endif %}
-          <a href="{% url 'members:member_profile_update' request.user.username %}">
-            <button class="btn btn-sm btn-warning btn-margin">Edit Profile</button>
-          </a>
-          <br>
-          {% load static %}
-          <a href="{% url 'crypto:member_bitcoinwallets' request.user.username %}"><button class="btn btn-sm btn-dark btn-margin"><img src="{% static 'bitcoin_logo_sm.webp' %}" alt="Bitecoin Wallet"> Bitcoin Wallets</button></a>
-          <br>
-          <a href="{% url 'crypto:member_litecoinwallets' request.user.username %}"><button class="btn btn-sm btn-dark btn-margin"><img src="{% static 'litecoin_logo_sm.webp' %}" alt="Litecoin Wallet"> Litecoin Wallets</button></a> 
+        </div>
+      {% endif %}
+      {% if members or contributors or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.all.count > 0 or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals.all.count > 0 or top_galleries or top_tracks or top_albums %}
+        <div class="col-sm">
+          {% include './member_profile_items.html' %}
+          {% if not sections %}
+            {% include './member_profile_links.html' %}
+          {% endif %}
+        </div>
+      {% elif profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+        {% if not sections %}
+          <div class="col-sm">
+            {% include './member_profile_links.html' %}
+          </div>
         {% endif %}
-      </div>
+      {% endif %}
     </div>
-  </div>
-  <br>
-  {% if profile.text %}
-    <p>{{ profile.text }}</p>
+  {% else %}
+    <div class="container-fluid">
+      <span class="members-page-span members-alert"><i>Coming Soon...</i></span>
+    </div>
+    <br>
   {% endif %}
-  <br>
-  <div class="row">
-    {% include './profile_posts.html' %}
-    {% include './profile_articles.html' %}
-    {% include './profile_stories.html' %}
-    {% include './profile_supportdocuments.html' %}
-  </div>
-  <br>
-  <div class="row">
-    {% include './profile_visuals.html' %}
-    {% include './profile_galleries.html' %}
-    {% include './profile_tracks.html' %}
-    {% include './profile_albums.html' %}
-  </div>
-  <br>
-  <div class="row">
-  {% if request.user.is_authenticated %}
-    {% include './profile_images.html' %}
-    {% include './profile_videos.html' %}
-    {% include './profile_sounds.html' %}
-    {% include './profile_code.html' %}
-    {% include './profile_links.html' %}
-  {% endif %}
-  <br>
-  </div>
 </div>
 {% endblock %}

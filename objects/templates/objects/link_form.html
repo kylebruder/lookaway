@@ -1,32 +1,4 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class ="container create-bg">
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        {% if object.title %}
-          <h4 class="images-title">Edit "{{ object.title }}"</h4>
-        {% else %}
-          <h2 class="images-title">Add a Link</h2>
-        {% endif %}
-        <br>
-      </div>
-      <div class="col-">
-        {% include './new_tag.html' %}
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <form  method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <!-- Standard field iterator -->
-      {% for field in form %}
-        {% include 'form_field.html' %}
-      {% endfor %}
-      <br>
-      <input type="submit" value="Submit" class="btn btn-success">
-    </form>
-    <br>
-  </div>
-</div>
+{% extends 'form.html' %}
+{% block header_block %}
+{% include './objects_form_header.html' %}
 {% endblock %}

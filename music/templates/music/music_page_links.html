@@ -1,0 +1,18 @@
+{% if profile.bitcoin_wallet or profile.litecoin_wallet %}
+  <div class="music-section">
+    <h4 class="music-title">Donate</h4>
+    {% with profile.bitcoin_wallet as bitcoin_wallet %}
+      {% with profile.litecoin_wallet as litecoin_wallet %}
+        {% include 'objects/object_crypto_wallets.html' %}
+      {% endwith %}
+    {% endwith %}
+  </div>
+{% endif %}
+{% if profile.links.count > 0 %}
+  {% with profile.links.all as links %}
+    <div class="music-section">
+      <h4 class="music-title">External Links</h4>
+      {% include 'objects/object_links.html' %}
+    </div>
+  {% endwith %}
+{% endif %}

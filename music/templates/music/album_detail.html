@@ -1,21 +1,19 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container music-bg">
-  {% if album.is_public and album.members_only and not request.user.is_authenticated %}
-    <p class="music-meta">This Album is only avaialble for Members of the site.</p>
-  {% elif album.is_public or album.owner.pk == request.user.pk %}
-    {% include './album_detail_button_bar.html' %}
-    {% if album.members_only %}
-      <p class="music-meta"><i>This Album is only avaialble for Members of the site.</i></p>
+  {% if album.is_public or album.owner.pk == request.user.pk %}
+    {% include './album_detail_title_bar.html' %}
+    {% if not album.is_public %}
+      <p class="album-meta">Owned by <span class="index-heading-span">
+        <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span>
+        <br>Created on <span class="index-heading-span">{{ object.creation_date }}</span>
+        <br>{% include 'objects/unpublished.html' %}
+      </p>
     {% endif %}
     <div class="row">
-      <div class="col-sm-6">
-        <!!-- Cover -->
-        {% if album.cover %}
-          <div class="col- music-album-image" style="background-image: url('{{ album.cover.image_file.url }}')"></div>   
-          <br>
-        {% endif %}
-        <p>
+      <div class="col-sm">
+        <p class="music-album-info">
           {% if album.artist %}
             <span>{{ album.artist }}</span><br>
           {% endif %}
@@ -29,15 +27,20 @@
             <span>{{ album.genre }}</span><br>
           {% endif %}
         </p>
+        <!!-- Cover -->
+        {% if album.cover %}
+          <div class="col- music-album-image" style="background-image: url('{{ album.cover.image_file.url }}')"></div>   
+          <br>
+        {% endif %}
         <!-- Blurb -->
         {% if album.text %}
           <p class="music-album-blurb">{{ album.text|linebreaks }}</p>
           <br>
         {% endif %}
       </div>
-      <div class="col-sm-6">
-        <!-- Track list -->
-        {% if album.tracks.all.count > 0 %}
+      {% if album.tracks.all.count > 0 %}
+        <div class="col-sm">
+          <!-- Track list -->
           {% for track in album.tracks.all %}
             {% if track.is_public %}
               <h5 class="music-title">
@@ -45,7 +48,7 @@
               </h5>
               <!-- Sound -->
               {% with track.sound as sound %}
-                <audio controls="controls">
+                <audio controls="controls" preload="none">
                   {% include 'audio_mime_types.html' %}
                 </audio>
                 <br>
@@ -53,33 +56,68 @@
               {% endwith %}
             {% endif %}
           {% endfor %}
-        {% endif %}
-      </div>
+        </div>
+      {% endif %}
     </div>
     <!-- Links -->
     {% if album.links.count > 0 %}
       <h4 class="music-title">Links</h4>
       {% with album.links.all as links %}
-        {% include 'object_links.html' %}
+        {% include 'objects/object_links.html' %}
       {% endwith %}
     {% endif %}
     <div class="clear"></div>
-    <!-- Tags -->
-    {% if album.tags.count > 0 %}
-      {% include './object_tags.html' %}
-      <br>
+    <!-- Wallets -->
+    {% if album.bitcoin_wallet or foo.litecoin_wallet %}
+      {% with album.bitcoin_wallet as bitcoin_wallet %}
+        {% with album.litecoin_wallet as litecoin_wallet %}
+          <h4 class="music-title">Donate</h4> 
+          {% include 'objects/object_crypto_wallets.html' %}
+        {% endwith %}
+      {% endwith %}
     {% endif %}
     <!-- Credits -->
     {% if album.is_public %}
-      <p>Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> {% if album.publication_date %} on {{ album.publication_date }}{% endif %}{% if album.location %} from {{ album.location }}{% endif %}
+      <p>{% if album|is_original_release %}Released{% else %}Rereleased{% endif %} by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> {% if album.publication_date %} on {{ album.publication_date|date:"M d, Y" }}{% endif %}{% if album.location %} from {{ album.location }}{% endif %}
       {% if object.last_modified > object.creation_date %}
-        <br>Last updated on {{ object.last_modified }}
+        <br>Last updated on {{ object.last_modified|date:"M d, Y" }}
       {% endif %}
       </p>
-    {% else %}
-      <p class="album-meta">Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
+    {% endif %}
+    <!-- Responses -->
+    {% if responses.count > 0 %}
+      <h4 class="music-title">Responses</h4>
+      <ul class="list-group">
+        {% for response in responses %}
+          <li class="list-group-item music-list-li">
+            {% include 'items/response_detail_item.html' %}
+          </li>
+        {% endfor %}
+      </ul>
       <br>
     {% endif %}
+    {% if album.bitcoin_wallet or album.litecoin_wallet %}
+      <h4 class="music-title">Donate</h4>
+      <br>
+      {% with album.bitcoin_wallet as bitcoin_wallet %}
+        {% with album.litecoin_wallet as litecoin_wallet %}
+          {% include 'objects/object_crypto_wallets.html' %}
+        {% endwith %}
+      {% endwith %}
+    {% endif %}
+    <div class="row">
+      <div class="col-sm">
+        {% include 'objects/object_tags.html' %}
+      </div>
+      {% if album.is_public %}
+        <div class="col-">
+          <div class="container">
+            {% include 'buttons/response_button.html' %}
+            {% include 'buttons/marshmallow_button.html' %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
   {% else %}
     <p>This Album has not been published yet.</p>
     <br>
@@ -87,4 +125,6 @@
   {% endif %}
   <br>
 </div>
+<br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

@@ -1,0 +1,10 @@
+{% extends './posts_list.html' %}
+{% block items_block %}
+  <div class="row">
+    {% for response in responses %}
+      <div class="col-4-sm posts-list-card">
+        {% include 'items/response_item.html' %}
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,3 +1,10 @@
+.art-alert {
+  display: inline-block;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #111111;
+}
+
 .art-bg {
   background-color: #222222;
   color: #eeeeee;
@@ -50,8 +57,8 @@
 
 .art-gallery-list-image {
   display: block;
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   margin-left: 15px;
   margin-bottom: 15px;
   background-repeat: no-repeat;
@@ -86,21 +93,51 @@
   padding: 3px;
 }
 
-.art-list-image {
+.art-header {
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.art-item-image {
   display: block;
   width: 100px;
   height: 100px;
+  margin-left: 15px;
+  margin-bottom: 15px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #222222;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #000000;
+}
+
+.art-list-card {
+  color: #ffffff;
+  background-color: #222222;
+  max-width: 330px;
+  display: block;
+  padding: 10px;
+  margin: 15px;
+  border-style: solid;
+  border-width: 5px 5px 5px 5px;
+  border-color: #111111;
+  border-radius: 5px;
 }
 
 .art-list-li {
   background-color: #222222;
   color: #ffffff;
   border-style: solid;
-  border-width: 0px 5px 5px 5px;
+  border-width: 0px 3px 3px 3px;
   border-color: #111111;
+}
+
+.art-logo {
+  max-height: 150px;
+  max-width: 250px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .art-meta {
@@ -117,12 +154,30 @@
   margin: 5px;
 }
 
+.art-page-span {
+  color: #ffffff;
+  background-color: #222222;
+  padding: 10px;
+  line-height: 1.75;
+  border-radius: 5px;
+}
+
 .art-page-title {
   font-family: 'Permanent Marker', sans-serif;
 }
 
 .art-page-visual-matrix {
-  max-width: 750px;
+  max-width: 875px;
+}
+
+.art-section {
+  color: #eeeeee;
+  background-color: #222222;
+  max-width: 100%;
+  padding: 15px;
+  margin-bottom: 10px;
+  position: relative;
+  border-radius: 5px;
 }
 
 .art-title {
@@ -156,15 +211,24 @@
   display: block;
 }
 
+.art-visual-list-image {
+  display: block;
+  width: 75px;
+  height: 75px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
 .art-visual-matrix {
-  max-width: 750px;
+  max-width: 850px;
   margin-left: auto;
   margin-right: auto;
   display: block;
 }
 
 .art-video-md {
-  max-width: auto;
+  max-width: 100%;
   max-height: auto;
   margin-left: auto;
   margin-right: auto;

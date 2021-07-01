@@ -14,31 +14,47 @@
     <div class="col-md-8">
       <div class="container">
         <div class="row">
+          <!-- Posts app studio buttons -->
+          {% if show_posts_buttons %}
+            <div class="col-sm">
+              <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#posts" aria-expanded="false" aria-controls="posts">Posts</button>
+              <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#responses" aria-expanded="false" aria-controls="responses">Responses</button>
+            </div>
+          {% endif %}
+          <!-- Documentation app studio buttons -->
+          {% if show_documentation_buttons %}
           <div class="col-sm">
-            <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#posts" aria-expanded="false" aria-controls="posts">Posts</button>
-          </div>
-          <div class="col-sm">
-            <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#articles" aria-expanded="false" aria-controls="articles">Articles</button>
-            <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#stories" aria-expanded="false" aria-controls="stories">Stories</button>
-            {% if member.is_staff %}
-              <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#support_documents" aria-expanded="false" aria-controls="information">Information</button>
-            {% endif %}
-          </div>
-          <div class="col-sm">
-            <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#tracks" aria-expanded="false" aria-controls="tracks">Tracks</button>
-            <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#albums" aria-expanded="false" aria-controls="albums">Albums</button>
-          </div>
-          <div class="col-sm">
-            <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#visuals" aria-expanded="false" aria-controls="visuals">Visuals</button>
-            <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#galleries" aria-expanded="false" aria-controls="galleries">Galleries</button>
-          </div>
-          <div class="col-sm">
-            <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#images" aria-expanded="false" aria-controls="images">Images</button>
-            <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#videos" aria-expanded="false" aria-controls="videos">Videos</button>
-            <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#sounds" aria-expanded="false" aria-controls="images">Sounds</button>
-            <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#code" aria-expanded="false" aria-controls="code">Code</button>
-            <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#links" aria-expanded="false" aria-controls="links">Links</button>
-          </div>
+              <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#articles" aria-expanded="false" aria-controls="articles">Articles</button>
+              <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#stories" aria-expanded="false" aria-controls="stories">Stories</button>
+              {% if member.is_staff %}
+                <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#support_documents" aria-expanded="false" aria-controls="information">Information</button>
+              {% endif %}
+            </div>
+          {% endif %}
+          <!-- Art app studio buttons -->
+          {% if show_art_buttons %}
+            <div class="col-sm">
+              <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#visuals" aria-expanded="false" aria-controls="visuals">Visuals</button>
+              <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#galleries" aria-expanded="false" aria-controls="galleries">Galleries</button>
+            </div>
+          {% endif %}
+          <!-- Music app studio buttons -->
+          {% if show_music_buttons %}
+            <div class="col-sm">
+              <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#tracks" aria-expanded="false" aria-controls="tracks">Tracks</button>
+              <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#albums" aria-expanded="false" aria-controls="albums">Albums</button>
+            </div>
+          {% endif %}
+          <!-- Objects app studio buttons -->
+          {% if show_objects_buttons %}
+            <div class="col-sm">
+              <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#images" aria-expanded="false" aria-controls="images">Images</button>
+              <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#videos" aria-expanded="false" aria-controls="videos">Videos</button>
+              <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#sounds" aria-expanded="false" aria-controls="images">Sounds</button>
+              <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#code" aria-expanded="false" aria-controls="code">Code</button>
+              <button class="btn btn-sm btn-outline-secondary studio-button " type="button" data-toggle="collapse" data-target="#links" aria-expanded="false" aria-controls="links">Links</button>
+            </div>
+          {% endif %}
         </div>
       </div>
     </div>

@@ -1,17 +1,16 @@
-{% for code in codes %}
-  {% if code.is_public or code.owner.pk == request.user.pk %}
-    <li class="list-group-item code-list-li">
-      <p class="code-title">
-        <a href="{% url 'objects:code_detail' code.pk %}">
-          {{ code.title }}
-        </a>
-      </p>
-      <p>
-        {{ code.language }} {{ code.language_version }}
-        {% if not code.is_public %}
-          <span class="badge badge-secondary">Unpublished</span>
-        {% endif %}
-      </p>
-    </li>
-  {% endif %}
-{% endfor %}
+<li class="list-group-item code-list-li">
+  <div class="row">
+    <div class="col-">
+      <h1><></h1>
+    </div>
+    <div class="col-sm">
+      <h5 class="code-title">
+        <a href="{% url 'objects:code_detail' code.pk %}">{{ code.title }}</a>
+      </h5>
+      <p>{{ code.language }} {{ code.language_version }}</p>
+      {% if not code.is_public %}
+        <span class="badge badge-secondary">Unpublished</span>
+      {% endif %}
+    </div>
+  </div>
+</li>

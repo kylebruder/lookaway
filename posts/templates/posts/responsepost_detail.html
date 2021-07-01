@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
+<div class="container posts-bg">
+  {% if not request.user.is_authenticated and response.members_only %}
+    {% include './responsepost_detail_title_bar.html' %}
+    <p><i>This Response is only visible to authenticated members.</i></p>
+    <br>
+  {% elif response.is_public or response.owner.pk == request.user.pk %}
+    <!-- Title bar-->
+    {% include './responsepost_detail_title_bar.html' %}
+    <!-- Meta data -->
+    <p>
+      {% if response.is_public %}
+        Posted by
+        <span class="index-page-span"><a href="{% url 'members:member_profile' response.owner.profile.slug %}">{{ response.owner }}</a></span>
+        on <span class="index-page-span">{{ response.publication_date|date:"M d, Y" }}</span>
+        {% if response.location %}
+          from <span class="index-page-span">{{ response.location }}</span>
+        {% endif %}
+      {% else %}
+        Owned by <a href="{% url 'members:member_profile' response.owner.profile.slug %}">{{ response.owner }}</a>, created on {{ response.creation_date }}
+        {% if not post.is_public %}
+          <span class="badge badge-dark">Unpublished</span><br>
+        {% endif %}
+      {% endif %}
+      {% if response.last_modified > response.publication_date %}
+        <br>Last updated on
+        <span class="index-page-span">{{ response.last_modified|date:"M d, Y" }}</span>
+      {% endif %}
+      <br>
+      {% if response.post %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.post as post %}
+                {% include 'items/post_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% elif response.article %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.article as article %}
+                {% include 'items/article_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% elif response.story %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.story as story %}
+                {% include 'items/story_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% elif response.document %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.document as document %}
+                {% include 'items/document_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% elif response.visual %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.visual as visual %}
+                {% include 'items/visual_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% elif response.gallery %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.gallery as gallery %}
+                {% include 'items/gallery_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% elif response.track %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.track as track %}
+                {% include 'items/track_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% elif response.album %}
+        <table>
+          <tr>
+            <td>
+              <h4><i>Re:</i><h4>
+            </td> 
+            <td>
+              {% with response.album as album %}
+                {% include 'items/album_list_item.html' %}
+              {% endwith %}
+            </td>
+          </tr>
+        </table>
+      {% else %}
+      {% endif %}
+      {% if response.members_only %}
+        <i>This Post is only visible to authenticated members</i>
+      {% endif %}
+    </p>
+    {% if response.text or response.image %}
+      {% with response.text as text and response.image as image %}
+        {% include 'objects/object_image_text.html' %}
+        <br>
+      {% endwith %}
+    {% endif %}
+    {% if response.sound %}
+      {% with response.sound as sound %}
+        {% include 'objects/object_sound.html' %}
+      {% endwith %}
+    {% endif %}
+    {% if response.video %}
+      {% with response.video as video %}
+        {% include 'objects/object_video.html' %}
+      {% endwith %}
+    {% endif %}
+    {% if response.code %}
+      {% with response.code as code %}
+        {% include 'objects/object_code.html' %}
+      {% endwith %}
+    {% endif %}
+    {% if response.link %}
+      {% with response.link as link %}
+        {% include 'objects/object_link.html' %}
+        <br>
+      {% endwith %}
+    {% endif %}
+    <br>
+    {% if response.bitcoin_wallet or response.litecoin_wallet %}
+      <h4 class="posts-title">Donate</h4>
+      <br>
+      {% with response.bitcoin_wallet as bitcoin_wallet %}
+        {% with response.litecoin_wallet as litecoin_wallet %}
+          {% include 'objects/object_crypto_wallets.html' %}
+        {% endwith %}
+      {% endwith %}
+    {% endif %}
+    <div class="row">
+      <div class="col-sm">
+        {% include 'objects/object_tags.html' %}
+      </div>
+      <div class="col-">
+        <div class="container">
+          {% include 'buttons/marshmallow_button.html/' %}
+        </div>
+      </div>
+    </div>
+    <br>
+  {% else %}
+    <p>This response has not been published yet.</p>
+    <br>
+  {% endif %}
+</div>  
+<br>
+{% if profile.bg_image %}</div>{% endif %}
+{% endblock %}

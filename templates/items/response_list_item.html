@@ -1,0 +1,11 @@
+<li class="list-group-item posts-list-li">
+  <h6 class="posts-title">
+    <a href="{% url 'posts:response_detail' response.slug %}">{{ response.title }}</a>
+    {% if not response.is_public %}
+      {% include 'objects/unpublished.html' %}
+    {% endif %}
+  </h6>
+  {% if response.text %}
+    <p>{{ response.text|truncatechars:155 }}</p>
+  {% endif %}
+</li>

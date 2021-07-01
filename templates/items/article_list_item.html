@@ -1,0 +1,11 @@
+<li class="list-group-item documentation-list-li">
+  <h6 class="documentation-title">
+    <a href="{% url 'documentation:article_detail' article.slug %}">{{ article.title }}</a>
+    {% if not article.is_public %}
+      {% include 'objects/unpublished.html' %}
+    {% endif %}
+  </h6>
+  {% if article.meta_description %}
+    <p>{{ article.meta_description }}</p>
+  {% endif %}
+</li>

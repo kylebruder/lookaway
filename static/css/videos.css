@@ -13,12 +13,20 @@
 
 .video-player {
   max-width: 100%;
-  max-height: auto;
+  height: auto;
+  border-color: #111111;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 5px;
 }
 
 .video-player-sm {
-  max-width: 100%;
-  max-height: 400px;
+  max-width: 500px;
+  max-height: 500px;
+  border-color: #111111;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 5px;
 }
 
 .video-title {

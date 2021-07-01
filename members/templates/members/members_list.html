@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container-fluid members-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
+  <div class="members-header" style="{% if profile.banner %} background-image: url('{{ profile.banner.image_file.url }}');{% endif %}">
+    <div class="row">
+      {% if profile.logo %}
+        <div class="col-sm-">
+          <div class="container">
+            <a href="{% url 'members:members_page' %}">
+              <img class="members-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
+            </a>
+          </div>
+        </div>
+      {% endif %}
+      <div class="col-sm">
+        <h3 class="brand-title members-page-span members-alert">
+          {% if meta_title and profile.show_title %}
+            <span class="index-heading-span">{{ meta_title }}</span>
+          {% else %}
+            {{ app_list_context }}
+          {% endif %}
+        </h3>
+        <br>{% include './members_page_navbar.html' %}
+      </div>
+      {% if show_create_button and create_button_url %}
+        <div class="col-">
+          <div class="container">
+            <a href="{{ create_button_url }}">
+              <button type="button" class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  {% if object_list %}
+    {% if page_obj.has_other_pages %}<span class="members-page-span members-nav">{% include 'page_control.html' %}</span>{% endif %}
+    {% block items_block %}
+    {% endblock %}
+    {% if page_obj.has_other_pages %}<span class="members-page-span members-nav">{% include 'page_control.html' %}</span>{% endif %}
+  {% else %}
+    <br>
+    <div class="container-fluid">
+      <span class="members-page-span members-alert">No {{ app_list_context }} have joined yet. Check back soon!</span>
+    </div>
+  {% endif %}
+  <br>
+</div>
+{% endblock %}

@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {% block body_block %}
-<div class="container documentation-story-bg">
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
+<div class="container documentation-bg">
   {% if story.is_public or story.owner.pk == request.user.pk %}
-    {% include './story_detail_button_bar.html' %}
+    {% include './story_detail_title_bar.html' %}
     {% if story.is_public %}
-      <p>Written by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></p><br>
+      <p>As told by <span class="index-heading-span">{{ object.author }}</span><br>Published by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span> on {{ object.publication_date|date:"M d, Y" }}{% if object.last_modified > object.publication_date %}<br>Last updated on <span class="index-heading-span">{{ object.last_modified|date:"M d, Y" }}</span>{% endif %}</p><br>
     {% else %}
-      <p>Owned by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a>, created on {{ object.creation_date }}</p><br>
+      <p>Owned by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span><br>Created on <span class="index-heading-span">{{ object.creation_date }}</span><br>{% include 'objects/unpublished.html' %}</p><br>
     {% endif %}
     <!-- Heading -->
-    <div class="row">
+    <div class="row documentation-section">
       <!-- Table of Contents -->
         {% include './table_of_contents.html' %}
       <!-- Header Image -->
@@ -17,16 +18,15 @@
         {% include './header_image.html' %}
       {% endwith %}
     </div>
-    <br>
-    <br>
     {% if story.intro %}
-      <h4 class="documentation-title">Foreward</h4>
+      <h4 class="documentation-title">Foreword</h4>
       {{ story.intro|linebreaks }}
       <br>
     {% endif %}
     {% if sections %}
       {% for section in sections %}
         {% include './storysection.html' %}
+        <br>
       {% endfor %}
       <div class="clear"></div>
       <br>
@@ -37,23 +37,53 @@
       <br>
     {% endif %}
     {% include './story_data.html' %}
+    <br>
     {% if story.links.count > 0 %}
       <h4 class="documentation-title">Links</h4>
       {% with story.links.all as links %}
-        {% include 'object_links.html' %}
+        {% include 'objects/object_links.html' %}
       {% endwith %}
       <br>
     {% endif %}
-    {% include 'object_crypto_wallets.html' %}
-    {% if story.tags.count > 0 %}
-      {% include './object_tags.html' %}
+    <!-- Responses -->
+    {% if responses.count > 0 %}
+      <h4 class="documentation-title">Responses</h4>
+      <ul class="list-group">
+        {% for response in responses %}
+          <li class="list-group-item documentation-list-li">
+            {% include 'items/response_detail_item.html' %}
+          </li>
+        {% endfor %}
+      </ul>
       <br>
     {% endif %}
-    {% include 'object_meta_data.html' %}
-    <br>
+    {% if story.bitcoin_wallet or story.litecoin_wallet %}
+      <h4 class="documentation-title">Donate</h4>
+      {% with story.bitcoin_wallet as bitcoin_wallet %}
+        {% with story.litecoin_wallet as litecoin_wallet %}
+          {% include 'objects/object_crypto_wallets.html' %}
+        {% endwith %}
+      {% endwith %}
+    {% endif %}
+    <div class="row">
+      <div class="col-sm">
+        {% include 'objects/object_tags.html' %}
+      </div>
+      {% if story.is_public %}
+        <div class="col-">
+          <div class="container">
+            {% include 'buttons/response_button.html' %}
+            {% include 'buttons/marshmallow_button.html' %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
   {% else %}
     <p>This Story has not been published yet.</p>
     <br>
   {% endif %}
+  <br>
 </div>  
+<br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

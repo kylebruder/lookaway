@@ -1,3 +1,10 @@
+.posts-alert {
+  display: inline-block;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #111111;
+}
+
 .posts-bg {
   background-color: #222222;
   color: #eeeeee;
@@ -6,130 +13,16 @@
   margin-bottom: 40px;
 }
 
-.post-image-matrix {
-  max-height: 600px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
+.posts-brand-name {
+  font-family: 'Baloo Paaji 2', sans-serif;
 }
 
-.post-title {
-  font-family: 'Ibarra Real Nova', serif;
-}
-
-.post-caption {
-  text-align: left;
-  margin: 5px;
-}
-
-.post-card {
-  display: block;
-  width: 100px;
-  height: 100px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-color: #222222;
-}
-
-.post-card-container {
-  display: block;
-}
-
-.post-card-title {
-  font-size: 0.75em;
-  color: #eeeeee;
-  background: #222222;
-  padding: 5px;
-}
-
-.post-credit {
-  text-align: right;
-  margin: 5px;
-}
-
-.post-form-selector {
-  scrollbar-color: dark;
-  overflow-y: scroll;
-  max-height: 400px;
-} 
-
-.post-gallery-bg {
-  background-color: #222222;
-  color: #ffffff;
-  border-radius: 0px 0px 25px 25px;
-  margin-bottom: 40px;
-}
-
-.post-gallery-carousel {
-  width: 100%;
-  height: 700px;
-}
-
-.post-gallery-credit {
-  font-family: 'IBM Plex Mono', monospace;
-}
-
-.post-gallery-image {
-  max-width: 100%;
-  max-height: 650px;
-  display: block;
-  margin: auto;
+.posts-header {
+  padding: 15px;
   border-radius: 5px;
 }
 
-.post-gallery-li {
-  background-color: #222222;
-  color: #ffffff;
-  padding: 20px;
-  border-bottom: solid 2px #111111;
-}
-
-.post-gallery-list-image {
-  max-width: 100%;
-  max-height: 650px;
-  display: block;
-  margin: auto;
-  border-radius: 5px;
-}
-
-.post-gallery-thumbnail {
-  display: block;
-  max-width: 100%;
-  max-height: 100px;
-  border-radius: 10px;
-  margin-right: 20px;
-}
-
-.post-image {
-  display: inherit;
-  max-width: 100%;
-  max-height: auto;
-  margin-right: auto;
-  margin-left: auto;
-  border-radius: 5px;
-  display: block;
-}
-
-.post-image-container {
-  display: block;
-  max-width: 50%;
-  min-width: 375px;
-  margin-right: 15px;
-  float: left;
-}
-
-.post-image-text {
-  display: block;
-  font-size: 0.8em;
-  text-align: center;
-  margin-right: 15px;
-  max-width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-.post-list-image {
+.posts-item-image {
   display: block;
   width: 100px;
   height: 100px;
@@ -140,45 +33,78 @@
   background-color: #222222;
 }
 
-.post-link {
+.posts-list-card {
   color: #ffffff;
+  background-color: #222222;
+  max-width: 330px;
+  display: block;
+  padding: 10px;
+  margin: 15px;
+  border-style: solid;
+  border-width: 5px 5px 5px 5px;
+  border-color: #111111;
+  border-radius: 5px;
 }
 
-.post-list-li {
+.posts-list-image {
+  display: block;
+  width: 75px;
+  height: 75px;
+  margin-left: 15px;
+  margin-bottom: 10px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
+.posts-list-li {
   background-color: #222222;
   color: #ffffff;
   border-style: solid;
-  border-width: 0px 5px 5px 5px;
+  border-width: 0px 3px 3px 3px;
   border-color: #111111;
 }
 
-.post-meta {
+.posts-logo {
+  max-height: 150px;
+  max-width: 250px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.posts-meta {
   font-size: 0.8em;
 }
 
-.post-section {
-  display: block;
-  max-width: 100%;
-}
-
-.post-section-li {
-  background-color: #222222;
-  color: #ffffff;
-}
-
-.post-section-title {
-  font-family: 'Ibarra Real Nova', serif;
-}
-
-.post-thumbnail {
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 15px;
-  padding: 10px;
+.posts-page-header {
   margin: auto;
+  display: block;
 }
 
-.post-title {
-  font-family: 'Ibarra Real Nova', serif;
+.posts-page-section {
+  padding: 3px;
+  margin: 3px;
+}
+
+.posts-page-span {
+  color: #ffffff;
+  background-color: #222222;
+  padding: 10px;
+  line-height: 1.75;
+  border-radius: 5px;
+}
+
+.posts-section {
+  color: #eeeeee;
+  background-color: #222222;
+  max-width: 100%;
+  padding: 15px;
+  margin-bottom: 10px;
+  position: relative;
+  border-radius: 5px;
+}
+
+
+.posts-title {
+  font-family: 'Arial', sans-serif;
 }

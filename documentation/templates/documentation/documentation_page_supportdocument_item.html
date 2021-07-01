@@ -1,0 +1,6 @@
+{% extends './documentation_page_item.html' %}
+{% block detail_block %}
+<a href="{% url 'documentation:support_document_detail' document.slug %}">
+  {{ document.title }}
+</a>
+{% endblock %}

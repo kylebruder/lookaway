@@ -1,18 +1,10 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class="container documentation-bg">
-  {% include "./supportdocument_list_button_bar.html" %}
-  {% include './documentation_page_navbar.html' %}
-  {% if documents %}
-    {% include "page_control.html" %}
-    <ul class="list-group">
-      {% include "./supportdocument_list_item.html" %}
-    </ul>
-    {% include "page_control.html" %}
-    <br>
-  {% else %}
-    <p>No documentation has been published yet. Check back soon!</p>
-    <br>
-  {% endif %}
-</div>
+{% extends './documentation_list.html' %}
+{% block items_block %}
+  <div class="row">
+    {% for document in documents %}
+      <div class="col-4-sm documentation-list-card">
+        {% include 'items/document_item.html' %}
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}

@@ -18,9 +18,10 @@ from .models import BitcoinWallet, LitecoinWallet
 # Create your views here.
 
 # BitcoinWallet Views
-class BitcoinWalletCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+class BitcoinWalletCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
     model = BitcoinWallet
+    permission_required = 'crypto.add_bitcoinwallet'
     form_class = BitcoinWalletForm
     template_name_suffix = '_form'
 
@@ -53,6 +54,12 @@ class BitcoinWalletListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('crypto.add_bitcoinwallet'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'crypto:bitcoinwallet_create',
+            )
         return context
 
 class MemberBitcoinWalletView(LoginRequiredMixin, ListView):
@@ -70,6 +77,11 @@ class MemberBitcoinWalletView(LoginRequiredMixin, ListView):
         member = Member.objects.get(username=self.kwargs['member'])
         context['user_only'] = True
         context['member'] = member
+        if self.request.user.has_perm('crypto.add_bitcoinwallet'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'crypto:bitcoinwallet_create',
+            )
         return context
 
 class BitcoinWalletDetailView(LoginRequiredMixin, DetailView):
@@ -86,9 +98,10 @@ class BitcoinWalletDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = False
         return context
 
-class BitcoinWalletUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class BitcoinWalletUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = BitcoinWallet
+    permission_required = 'crypto.change_bitcoinwallet'
     form_class = BitcoinWalletForm
     template_name_suffix = '_form'
 
@@ -110,9 +123,10 @@ class BitcoinWalletUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView)
                 kwargs={'pk': self.object.pk},
             )
 
-class BitcoinWalletDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class BitcoinWalletDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = BitcoinWallet
+    permission_required = 'crpyto.delete_bitcoinwallet'
 
     def get_success_url(self):
         return reverse(
@@ -125,9 +139,10 @@ class BitcoinWalletDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView)
         return context
 
 # LitecoinWallet Views
-class LitecoinWalletCreateView(LoginRequiredMixin, MemberCreateMixin, CreateView):
+class LitecoinWalletCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
     model = LitecoinWallet
+    permission_required = 'crypto.add_litecoinwallet'
     form_class = LitecoinWalletForm
     template_name_suffix = '_form'
 
@@ -160,6 +175,11 @@ class LitecoinWalletListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        if self.request.user.has_perm('crypto.add_litecoinwallet'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'crypto:litecoinwallet_create',
+            )
         return context
 
 class MemberLitecoinWalletView(LoginRequiredMixin, ListView):
@@ -175,6 +195,11 @@ class MemberLitecoinWalletView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(username=self.kwargs['member'])
+        if self.request.user.has_perm('crypto.add_litecoinwallet'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'crypto:litecoinwallet_create',
+            )
         context['user_only'] = True
         context['member'] = member
         return context
@@ -193,9 +218,10 @@ class LitecoinWalletDetailView(LoginRequiredMixin, DetailView):
             context['can_add_marshmallow'] = False
         return context
 
-class LitecoinWalletUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):
+class LitecoinWalletUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
 
     model = LitecoinWallet
+    permission_required = 'crypto.change_litecoinwallet'
     form_class = LitecoinWalletForm
     template_name_suffix = '_form'
 
@@ -217,9 +243,10 @@ class LitecoinWalletUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView
                 kwargs={'pk': self.object.pk},
             )
             
-class LitecoinWalletDeleteView(LoginRequiredMixin, MemberDeleteMixin, DeleteView):
+class LitecoinWalletDeleteView(LoginRequiredMixin, PermissionRequiredMixin, MemberDeleteMixin, DeleteView):
 
     model = LitecoinWallet
+    permission_required = 'crypto.delete_litecoinwallet'
 
     def get_success_url(self):
         return reverse(

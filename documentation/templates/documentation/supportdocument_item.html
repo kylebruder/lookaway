@@ -1,4 +1,4 @@
-<li class="list-group-item documentation-list-li">
+<div class="col-sm-4 documentation-list-card">
   <div class="row">
     <div class="col-">
       {% if document.image %}
@@ -16,8 +16,7 @@
         </a>
       </h5>
       <p class="documentation-meta">
-        Documented by <a href="{% url 'members:member_profile' document.owner.username %}"><span class="index-heading-span">{{ document.owner }}</span></a>, published on {{ document.publication_date|date:"M d, Y" }}<br>
-        {{ document.meta_description }}<br>
+        Documented by <a href="{% url 'members:member_profile' document.owner.username %}"><span class="index-heading-span">{{ document.owner }}</span></a>{% if document.publication_date %}, published on {{ document.publication_date|date:"M d, Y" }}{% endif %}
       </p>
       {% if document.members_only %}
         <span class="badge badge-warning">Members Only</span>
@@ -27,10 +26,15 @@
       {% endif %}
       {% if document.tags.all.count > 0 %}
         {% with document as object %}
-          {% include 'object_tags.html' %}
+          {% include 'objects/object_tags.html' %}
         {% endwith %}
       {% endif %}
     </div>
   </div>
-</li>
-
+  <br>
+  {% if document.meta_description %}
+    <p class="">
+      {{ document.meta_description }}<br>
+    </p>
+  {% endif %}
+</div>

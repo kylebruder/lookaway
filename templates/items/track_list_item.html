@@ -1,0 +1,24 @@
+<li class="list-group-item music-list-li">
+  <div class="row">
+    <div class="col-">
+      {% if track.image %}
+        <div class="music-track-list-image" style="background-image:url('{{ track.image.thumbnail_file.url }}')"></div>
+      {% elif track.owner.profile.image %}
+        <div class="music-track-list-image" style="background-image:url('{{ track.owner.profile.image.thumbnail_file.url }}')"></div>
+      {% else %}
+        <div class="music-track-list-image" style="background-image:url('/static/icon.webp')"></div>
+      {% endif %}
+    </div>
+    <div class="col-sm">
+      <h5 class="music-title">
+        <a href="{% url 'music:track_detail' track.slug %}">{{ track.title }}</a>
+        {% if not track.is_public %}
+          {% include 'objects/unpublished.html' %}
+        {% endif %}
+      </h5>
+      <p>
+        {% if track.meta_description %}{{ track.meta_description }}{% endif %}
+      </p>
+    </div>
+  </div>
+</li>

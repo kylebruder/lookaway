@@ -1,0 +1,53 @@
+<div class="form-field">
+  <h4 class="form-label">Landing Page Sections</h4>
+  {% if sections %}
+    <table class="">
+      {% for section in sections %}
+        <tr>
+          <td>
+            <a class="form-label" href="{% url 'documentation:documentation_page_section_detail' section.pk %}">{{ section }}</a>
+          </td>
+          <td>
+            {% if section.is_enabled %}
+              <span class="badge badge-success">Enabled</span>
+            {% else %}
+              <span class="badge badge-secondary">Disabled</span>
+            {% endif %}
+            {% with section as object %}
+              {% include 'objects/members_only.html' %}
+            {% endwith %}
+          </td>
+          {% if show_documentation_page_section_add_button %}
+            <td>
+              <a href="{{ documentation_page_section_add_button|lookup:"url" }}{% if sections %}?order={{ section.next_order }}{% else %}?order=0{% endif %}">
+                <button type="button" class="btn btn-sm btn-primary create-button">+</button>
+              </a>
+            </td>
+          {% endif %}
+          {% if show_documentation_page_section_edit_button %}
+            <td>
+              <a href="{% url 'documentation:documentation_page_section_update' section.pk %}">
+                <button type="button" class="btn btn-sm btn-warning edit-button">&#9998;</button>
+              </a>
+            </td>
+          {% endif %}
+          {% if show_documentation_page_section_edit_button %}
+            <td>
+              <a href="{% url 'documentation:documentation_page_section_delete' section.pk %}">
+                <button type="button" class="btn btn-sm btn-danger delete-button">X</button>
+              </a>
+            </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    {% if show_documentation_page_section_add_button %}
+      <p>
+        <a href="{{ documentation_page_section_add_button|lookup:"url" }}">
+          <button type="button" class="btn btn-sm btn-primary create-button">+</button>
+        </a>
+      </p>
+    {% endif %}
+  {% endif %}
+</div>

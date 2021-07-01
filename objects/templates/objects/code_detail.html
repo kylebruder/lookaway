@@ -1,31 +1,30 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container code-bg">
   {% if code.is_public or code.owner.pk == request.user.pk %}
     {% include './code_detail_button_bar.html' %}
     {% if code.file_path %}
       <span class="code-block"><strong>{{ code.file_path }}</strong></span><br>
     {% endif %}
-    <pre class="code-block">{{ code.code }}</pre>
+    {% load custom_filters %}
+    {{ code.code|highlight_syntax:code.file_path|safe }}
     {% if code.text %}
       <p>{{ code.text }}</p>
     {% endif %}
     {% if code.source %}
-      <p>Source: {{ code.source }}<br>
+      <p>Source: {{ code.source }}</p>
     {% endif %}
     {% if code.source_url %}
-      Source URL: <a href="{{ code.source_url }}">{{ code.source_url }}</a><br>
-    {% endif %}
-    MD5 hash: {{ code.md5 }}</p>
-    {% if code.tags.all.count > 0 %}
-      {% include './object_tags.html' %}
-      <br>
+      <p>Source URL: <a href="{{ code.source_url }}">{{ code.source_url }}</a></p>
     {% endif %}
     {% include './object_meta_data.html' %}
-    <br>
+    {% include 'objects/object_tags.html' %}<br>
   {% else %}
     <p>This Code sample has not been published yet.</p>
   {% endif %}
 </div>  
+<br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}
   

@@ -2,7 +2,7 @@ import qrcode, hashlib, base58, binascii
 import uuid
 from sys import argv
 from django.db import models
-from objects.models import MetaDataMixin
+from objects.mixins import MetaDataMixin
 
 # Create your models here.
 

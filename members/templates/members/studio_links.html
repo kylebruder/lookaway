@@ -1,36 +1,40 @@
-<div class="container">
+<div class="members-section">
   <div class="row">
     <div class="col">
-      <h5 class="link-title">Your External Links
-        <a href="{% url 'objects:link_create' %}">
-          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-        </a>
+      <h5 class="link-title">Your Links
       </h5>
+    </div>
+    <div class="col-">
+      <div class="container">
+        {% if show_objects_buttons %}
+          {% with link_add_button as button %}
+            {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
+              {% include 'buttons/small_add_button.html' %}
+            {% endwith %}
+          {% endwith %}
+        {% endif %}
+      </div>
     </div>
   </div>
   {% if links.all.count > 0 %}
-    <ul class="list-group">
+    <table class="studio-table">
+      <tr>
+        <th>Title</th>
+        <th>Uploaded</th>
+      </th>
       {% for link in links %}
-        <li class="list-group-item link-list-li">
-          <p>
-            <a class="link-url link-title" href="{% url 'objects:link_detail' link.pk %}">
-              {% if link.title %}
-                {{ link.title }}
-              {% else %}
-                {{ link.url|truncatechars:64 }}
-              {% endif %}
-            </a>
-            {% if not link.is_public %}
-              <span class="badge badge-secondary">Unpublished</span>
-            {% endif %}
-          </p>
-        </li>
+        <tr>
+          <td><a href="{% url 'objects:link_detail' link.pk %}">{{ link.title|truncatechars:20 }}</a></td>
+          <td>{{ link.creation_date|date:"M d, Y" }}</td>
+        </tr>
       {% endfor %}
-    </ul>
+    </table>
+    <br>
     <p>
       <a href="{% url 'objects:member_links' request.user.username %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not added any links yet.</p>
+    <p>You have not contributed any links yet.</p>
   {% endif %}
 </div>
+

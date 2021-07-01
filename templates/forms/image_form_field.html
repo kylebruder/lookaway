@@ -1,0 +1,4 @@
+{% extends 'forms/image_choice_selector.html' %}
+{% block input_block %}
+<p>&nbsp;<input type="radio" value="{{ value|first }}" name="{{ x.name }}" {% if object.image.pk == value|first or x.initial == value|first %}checked{% endif %}></p>
+{% endblock %}

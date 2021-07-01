@@ -1,81 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block body_block %}
-<div class="container-fluid index-bg">
+<div class="container-fluid documentation-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
   <!-- Heading -->
-  {% include './documentation_page_button_bar.html' %}
-  {% include './documentation_page_navbar.html' %}
-  {% if new_articles.all.count < 1 and new_stories.all.count < 1 and new_documents.all.count < 1 %}
-    <p><i>Coming Soon...</i></p> 
-  {% else %}
+  {% include './documentation_page_header.html' %}
+  <br>
+  {% if members or contributors or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.all.count > 0 or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals.all.count > 0 or top_galleries or top_tracks or top_albums or sections or profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
     <div class="row">
-      {% if new_articles.all.count > 0 %}
-        <div class="col-sm documentation-page-section">
-          <h4 class="documentation-title">New Articles</h4>
-          <ul class="list-group">
-            {% for article in new_articles %}
-              {% include "./article_item.html" %}
-            {% endfor %}
-          </ul>
-          <p><a href="{% url 'documentation:new_articles' %}">all new articles</a></p>
+      {% if sections %}
+        <div class="col-sm">
+          {% for section in sections %}
+            {% include './documentation_page_section.html' %}
+          {% endfor %}
+          {% if profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+            {% include './documentation_page_links.html' %}
+          {% endif %}
         </div>
       {% endif %}
-      {% if new_stories.all.count > 0 %}
-        <div class="col-sm documentation-page-section">
-          <h4 class="documentation-title">New Stories</h4>
-          {% for story in new_stories %}
-            {% include "./story_item.html" %}
-          {% endfor %}
-          <div class="clear"></div>
-          <p><a href="{% url 'documentation:new_stories' %}">all new stories</a></p>
+      {% if members or contributors or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.all.count > 0 or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals.all.count > 0 or top_galleries or top_tracks or top_albums %}
+        <div class="col-sm">
+          {% include './documentation_page_items.html' %}
+          {% if not sections %}
+            {% include './documentation_page_links.html' %}
+          {% endif %}
         </div>
-      {% endif %}
-      {% if new_documents.count > 0 %}
-        <div class="col-sm documentation-page-section">
-          <h4 class="documentation-title">New Information</h4>
-          {% for document in new_documents %}
-            {% include "./document_item.html" %}
-          {% endfor %}
-          <div class="clear"></div>
-          <p><a href="{% url 'documentation:new_support_documents' %}">all new information</a></p>
-        </div>
+      {% elif profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+        {% if not sections %}
+          <div class="col-sm">
+            {% include './documentation_page_links.html' %}
+          </div>
+        {% endif %}
       {% endif %}
     </div>
-    <div class="row">
-      {% if top_articles.all.count > 0 %}
-        <div class="col-sm documentation-page-section">
-          <h4 class="documentation-title">Top Articles</h4>
-          <ul class="list-group">
-            {% for article in top_articles %}
-              {% include "./article_item.html" %}
-            {% endfor %}
-          </ul>
-          <p><a href="{% url 'documentation:top_articles' %}">all top articles</a></p>
-        </div>
-      {% endif %}
-      {% if top_stories.count > 0 %}
-        <div class="col-sm documentation-page-section">
-          <h4 class="documentation-title">Top Stories</h4>
-          {% for story in top_stories %}
-            {% include "./story_item.html" %}
-          {% endfor %}
-          <div class="clear"></div>
-          <p><a href="{% url 'documentation:top_stories' %}">all top stories</a></p>
-        </div>
-      {% endif %}
-      {% if top_documents.count > 0 %}
-        <div class="col-sm documentation-page-section">
-          <h4 class="documentation-title">Top Information</h4>
-          {% for document in top_documents %}
-            {% include "./document_item.html" %}
-          {% endfor %}
-          <div class="clear"></div>
-          <p><a href="{% url 'documentation:top_support_documents' %}">all top information</a></p>
-        </div>
-      {% endif %}
+  {% else %}
+    <div class="container-fluid">
+      <span class="documentation-page-span documentation-alert"><i>Coming Soon...</i></span>
     </div>
     <br>
   {% endif %}
-  <div class="clear"></div>
 </div>
 {% endblock %}

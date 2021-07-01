@@ -1,0 +1,29 @@
+<!-- Art Page Section Detail Title Bar -->
+<div class="row">
+  <div class="col">
+    {% if not section.hide_title %}
+      <h4 class="music-title">{{ section.title }}</h4>
+    {% endif %}
+  </div>
+  {% if section.owner.pk == request.user.pk %}
+    <div class="col-">
+      <div class="container">
+        {% if show_music_page_section_add_button %}
+          <td>
+            <a href="{{ music_page_section_add_button|lookup:"url" }}?order={{ section.next_order }}"><button type="button" class="btn btn-sm btn-primary create-button">+</button></a>
+          </td>
+        {% endif %}
+        {% if show_music_page_section_edit_button %}
+          <td>
+            <a href="{% url 'music:music_page_section_update' section.pk %}"><button type="button" class="btn btn-sm btn-warning edit-button">&#9998;</button></a>
+          </td>
+        {% endif %}
+        {% if show_music_page_section_delete_button %}
+          <td>
+            <a href="{% url 'music:music_page_section_delete' section.pk %}"><button type="button" class="btn btn-sm btn-danger delete-button">X</button></a>
+          </td>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+</div>

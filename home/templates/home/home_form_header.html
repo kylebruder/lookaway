@@ -1,0 +1,30 @@
+<div class="home-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
+  <div class="row">
+    {% if profile.logo %}
+      <div class="col-sm-">
+        <div class="container">
+          <img class="home-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
+        </div>
+      </div>
+    {% endif %}
+    {% if profile.show_title or profile.show_desc %}
+      <div class="col-sm">
+        {% if profile.title and profile.show_title %}
+          <h3 class="home-title home-page-span home-alert">{{ meta_title }}</h3>
+        {% endif %}
+        {% if meta_desc and profile.show_desc %}
+          <br><p class="home-page-span home-alert"><i>{{ meta_desc }}</i></p>
+        {% endif %}
+      </div>
+    {% endif %}
+    {% if request.user.is_authenticated %}
+      <div class="col-">
+        <div class="container">
+          <p>
+            {% include 'objects/object_create_buttons.html' %}
+          </p>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>

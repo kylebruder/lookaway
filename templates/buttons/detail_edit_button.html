@@ -1,0 +1,7 @@
+{% if show_edit_button %}
+  {% with edit_button as button %}
+    {% with button|lookup:"url" as button_url %}
+      <a href="{{ button_url }}"><button type="button" class="btn btn-sm btn-warning">Edit</button></a>
+    {% endwith %}
+  {% endwith %}
+{% endif %}

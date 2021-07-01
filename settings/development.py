@@ -26,31 +26,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 DEFAULT_MEMBER_STORAGE = 10**9*2 # 2GB
 
-MEDIA_SETTINGS = {
-    'ffmpeg_path': '/usr/bin/ffmpeg',
-    'image': {
-        'max_height': 2500,
-        'max_width': 2500,
-        'thumbnail': {
-            'max_height': 250,
-            'max_width': 250,
-        },
-    },
-    'sound': {
-        'bitrate': '1000K',
-        'crf': '10', # Lower value means better quality
-        'qmin': '0', # "
-        'qmax': '50',# "
-    },
-    'video': {
-        'bitrate': '1000K',
-        'crf': '10', # Lower value means better quality
-        'qmin': '0', # "
-        'qmax': '50',# "
-
-    },
-}
-
 # Any member that joined before the FOUNDER_CUTOFF date
 # will be considered a founder.
                        # year, mo, day
@@ -93,6 +68,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
+    'home',
     'members',
     'objects',
     'documentation',
@@ -125,6 +102,11 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'lookaway.context_processors.lookaway_seo',
+                'lookaway.context_processors.nav_apps',
+                'lookaway.context_processors.nav_buttons',
+                'lookaway.context_processors.lookaway_footer',
+                'lookaway.context_processors.lookaway_css_path',
             ],
         },
     },
@@ -143,6 +125,8 @@ DATABASES = {
     }
 }
 
+# Fix for Changes in Django 3.2
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -206,4 +190,3 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_FROM_EMAIL = "test" 
-

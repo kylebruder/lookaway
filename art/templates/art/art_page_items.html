@@ -1,0 +1,50 @@
+{% if new_visuals.count > 0 %}
+  <div class="art-section">
+    <h4 class="art-title">Visuals</h4>
+    <div class="art-visual-matrix">
+      {% for visual in new_visuals %}
+        {% include 'items/visual_item.html' %}
+      {% endfor %}
+      <div class="clear"></div>
+      {% if top_visuals.count > 0 %}
+        {% for visual in top_visuals %}
+          {% include 'items/visual_item.html' %}
+        {% endfor %}
+        <div class="clear"></div>
+      {% endif %}
+    </div>
+    <br>
+  </div>
+{% elif top_visuals.count > 0 %}
+  <div class="art-section">
+    <div class="art-visual-matrix">
+      {% for visual in top_visuals %}
+        {% include 'items/visual_item.html' %}
+      {% endfor %}
+    </div>
+  </div>
+  <div class="clear"></div>
+  <br>
+{% endif %}
+{% if new_galleries.count > 0 or top_galleries.count > 0%}
+  {% if new_galleries.count > 0 %}
+    <div class="art-section">
+      <h4 class="art-title">Galleries</h4>
+      {% for gallery in new_galleries %}
+        <li class="list-group-item art-list-li">
+          {% include 'items/gallery_item.html' %}<br>
+        </li>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% if top_galleries.count > 0 %}
+    <div class="art-section">
+      {% for gallery in top_galleries %}
+        <li class="list-group-item art-list-li">
+          {% include 'items/gallery_item.html' %}<br>
+        </li>
+      {% endfor %}
+    </div>
+  {% endif %}
+  <br>
+{% endif %}

@@ -1,11 +1,16 @@
-{% if video.is_public or video.owner.pk == request.user.pk %}
-  <li class="list-group-item video-list-li">
-    <a href="{% url 'objects:video_detail' video.pk %}">
-      <p class="video-title">{{ video.title }}</p>
-    </a>
-    <p>{{ video.credit }}</p>
-    {% if not video.is_public %}
-      <span class="badge badge-secondary">Unpublished</span>
-    {% endif %}
-  </li>
-{% endif %}
+<li class="list-group-item video-list-li">
+  <div class="row">
+    <div class="col-">
+      <h1>&#128249;</h1>
+    </div>
+    <div class="col-sm">
+      <h5 class="video-title">
+        <a href="{% url 'objects:video_detail' video.pk %}">{{ video.title }}</a>
+      </h5>
+      <p>{{ video.credit }}</p>
+      {% if not video.is_public %}
+        <span class="badge badge-secondary">Unpublished</span>
+      {% endif %}
+    </div>
+  </div>
+</li>

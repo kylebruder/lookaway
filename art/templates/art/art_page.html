@@ -1,62 +1,40 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block body_block %}
-<div class="container-fluid art-bg">
+<div class="container-fluid art-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
   <!-- Heading -->
-  {% include './art_page_button_bar.html' %}
-  {% include './art_page_navbar.html' %}
-  {% if new_visuals.all.count < 1 and new_galleries.all.count < 1 %}
-  <p><i>Coming Soon...</i></p><br>
+  {% include './art_page_header.html' %}
+  <br>
+  {% if members or contributors or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.all.count > 0 or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals.all.count > 0 or top_galleries or top_tracks or top_albums or sections or profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+    <div class="row">
+      {% if sections %}
+        <div class="col-sm">
+          {% for section in sections %}
+            {% include './art_page_section.html' %}
+          {% endfor %}
+          {% if profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+            {% include './art_page_links.html' %}
+          {% endif %}
+        </div>
+      {% endif %}
+      {% if members or contributors or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.all.count > 0 or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals.all.count > 0 or top_galleries or top_tracks or top_albums %}
+        <div class="col-sm">
+          {% include './art_page_items.html' %}
+          {% if not sections %}
+            {% include './art_page_links.html' %}
+          {% endif %}
+        </div>
+      {% elif profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+        {% if not sections %}
+          <div class="col-sm">
+            {% include './art_page_links.html' %}
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
   {% else %}
     <div class="container-fluid">
-      <div class="row">
-        {% if new_visuals.all.count > 0 %}
-          <div class="col-sm art-page-section">
-            <h4 class="art-page-title">New Visuals</h4>
-            <div class="art-page-visual-matrix">
-              {% for visual in new_visuals %}
-                {% include "./visual_item.html" %}
-              {% endfor %}
-            </div>
-            <div class="clear"></div>
-            <p><a href="{% url 'art:new_visuals' %}">all new visuals</a></p>
-          </div>
-        {% endif %}
-        {% if new_galleries.all.count > 0 %}
-          <div class="col-sm art-page-section">
-            <h4 class="art-page-title">New Galleries</h4>
-            {% for gallery in new_galleries %}
-              {% include "./gallery_item.html" %}
-            {% endfor %}
-            <div class="clear"></div>
-            <p><a href="{% url 'art:new_galleries' %}">all new galleries</a></p>
-          </div>
-        {% endif %}
-      </div>
-      <div class="row">
-        {% if top_visuals.all.count > 0 %}
-          <div class="col-sm art-page-section">
-            <h4 class="art-page-title">Top Visuals</h4>
-            <div class="art-page-visual-matrix">
-              {% for visual in top_visuals %}
-                {% include "./visual_item.html" %}
-              {% endfor %}
-              <div class="clear"></div>
-              <p><a href="{% url 'art:top_visuals' %}">all top visuals</a></p>
-            </div>
-          </div>
-        {% endif %}
-        {% if top_galleries.count > 0 %}
-          <div class="col-sm art-page-section">
-            <h4 class="art-page-title">Top Galleries</h4>
-            {% for gallery in top_galleries %}
-              {% include "./gallery_item.html" %}
-            {% endfor %}
-            <div class="clear"></div>
-            <p><a href="{% url 'art:top_galleries' %}">all top galleries</a></p>
-          </div>
-        {% endif %}
-      </div>
+      <span class="art-page-span art-alert"><i>Coming Soon...</i></span>
     </div>
     <br>
   {% endif %}

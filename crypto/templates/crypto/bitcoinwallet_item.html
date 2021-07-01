@@ -19,7 +19,7 @@
         {{ bitcoinwallet.text }}<br>
         {% if bitcoinwallet.tags.all.count > 0 %}
           {% with bitcoinwallet as object %}
-            {% include 'object_tags.html' %}
+            {% include 'objects/object_tags.html' %}
           {% endwith %}
         {% endif %}
       </p>

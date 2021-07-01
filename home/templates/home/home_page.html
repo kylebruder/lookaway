@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body_block %}
+<div class="container-fluid home-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
+  <!-- Heading -->
+  {% include './home_page_header.html' %}
+  <br>
+  {% if members or contributors or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.all.count > 0 or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals.all.count > 0 or top_galleries or top_tracks or top_albums or sections or profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+    <div class="row">
+      {% if sections %}
+        <div class="col-sm">
+          {% include './home_page_tags.html' %}
+          {% for section in sections %}
+            {% include './home_page_section.html' %}
+          {% endfor %}
+          {% if profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+            {% include './home_page_links.html' %}
+          {% endif %}
+        </div>
+      {% endif %}
+      {% if members or contributors or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.all.count > 0 or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals.all.count > 0 or top_galleries or top_tracks or top_albums %}
+        <div class="col-sm">
+          {% if not sections %}
+            {% include './home_page_tags.html' %}
+          {% endif %}
+          {% include './home_page_items.html' %}
+          {% if not sections %}
+            {% include './home_page_links.html' %}
+          {% endif %}
+        </div>
+      {% elif profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+        {% if not sections %}
+          <div class="col-sm">
+            {% include './home_page_tags.html' %}
+            {% include './home_page_links.html' %}
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="container-fluid">
+      <span class="home-page-span home-alert"><i>Coming Soon...</i></span>
+    </div>
+    <br>
+  {% endif %}
+</div>
+{% endblock %}

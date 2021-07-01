@@ -1,9 +1,75 @@
 from django.db import models
 from django.urls import reverse
 from members.mixins import MarshmallowMixin
-from objects.models import MetaDataMixin
+from objects.mixins import MetaDataMixin
+from crypto.models import CryptoWalletsMixin
+from lookaway.mixins import AppProfile, Section, Doc
 
 # Create your models here.
+
+class MusicAppProfile(AppProfile, CryptoWalletsMixin):
+
+    title = models.CharField(
+        max_length=255,
+        default="Music",
+    )
+
+    n_tracks = models.PositiveIntegerField(default=3)
+    n_albums = models.PositiveIntegerField(default=3)
+    track_list_pagination = models.PositiveIntegerField(default=10)
+    album_list_pagination = models.PositiveIntegerField(default=10)
+    show_new_tracks = models.BooleanField(default=True)
+    show_top_tracks = models.BooleanField(default=True)
+    show_new_albums = models.BooleanField(default=True)
+    show_top_albums = models.BooleanField(default=True)
+    logo = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='music_logo'
+    )
+    banner = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='music_banner'
+    )
+    bg_image = models.ForeignKey(
+        'objects.image',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='music_bg_image'
+    )
+    
+class MusicPageSection(Section):
+
+    info = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    alert = models.TextField(
+        max_length=65535,
+        blank=True,
+        null=True,
+    )
+    tracks = models.ManyToManyField(
+        'music.track',
+        blank=True,
+    )
+    albums = models.ManyToManyField(
+        'music.album',
+        blank=True,
+    )
+    is_enabled = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Landing Page Section"
+        verbose_name_plural = "Landing Page Sections"
+        ordering = ['order']
 
 class MusicMetaData(models.Model):
 
@@ -40,7 +106,7 @@ class MusicMetaData(models.Model):
     )
 
 
-class Track(MetaDataMixin, MusicMetaData, MarshmallowMixin):
+class Track(MetaDataMixin, MusicMetaData, MarshmallowMixin, CryptoWalletsMixin):
 
     order = models.DecimalField(
         max_digits=8,
@@ -76,7 +142,7 @@ class Track(MetaDataMixin, MusicMetaData, MarshmallowMixin):
     class Meta:
         ordering = ['order']
 
-class Album(MetaDataMixin, MusicMetaData, MarshmallowMixin):
+class Album(MetaDataMixin, MusicMetaData, MarshmallowMixin, CryptoWalletsMixin):
 
     cover = models.ForeignKey(
         'objects.image',

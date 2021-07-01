@@ -1,0 +1,7 @@
+{% if show_delete_button %}
+  {% with delete_button as button %}
+    {% with button|lookup:"url" as button_url %}
+      <a href="{{ button_url }}"><button type="button" class="btn btn-sm btn-danger">Delete</button></a>
+    {% endwith %}
+  {% endwith %}
+{% endif %}

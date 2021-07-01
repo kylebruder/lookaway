@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container-fluid create-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
+  {% block header_block %}{% endblock %}
+  <br>
+  <div class="container-fluid">
+  <form method="post" enctype="multipart/form-data">
+    <div class="row">
+      {% csrf_token %}
+      {% if form.image %}
+        {% with form.image as x %}
+          {% include 'forms/image_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% if form.logo %}
+        {% with form.logo as x %}
+          {% include 'forms/logo_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% if form.banner %}
+        {% with form.banner as x %}
+          {% include 'forms/banner_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% if form.bg_image %}
+        {% with form.bg_image as x %}
+          {% include 'forms/bg_image_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% if form.cover %}
+        {% with form.cover as x %}
+          {% include 'forms/cover_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% if form.images %}
+        {% with form.images as x %}
+          {% include 'forms/images_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% if form.visuals %}
+        {% with form.visuals as x %}
+            {% include 'forms/visuals_form_field.html' %}
+        {% endwith %}
+      {% endif %}
+      {% for field in form %}
+        {% if field != form.image and field != form.images and field != form.logo and field != form.banner and field != form.bg_image and field != form.visuals and field != form.cover %}
+          {% if not field.field.choices.queryset.count < 1 %}
+            {% include 'forms/form_field.html' %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+    <br>
+    <div class="fixed-bottom">
+      <input type="submit" value="Submit" class="btn btn-success form-submit-button float-right">
+    </div>
+  </form>
+  </div>
+  <br>
+</div>
+{% endblock %}

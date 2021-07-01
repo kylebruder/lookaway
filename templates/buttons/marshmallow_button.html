@@ -1,0 +1,7 @@
+{% if can_add_marshmallow %}
+  {% with marshmallow_button as button %}
+    {% with button|lookup:"url" as button_url %}
+      <a href="{{ button_url }}{{ button_parameters }}"><button type="button" class="btn btn-sm btn-light marshmallow-button">M</button></a>
+    {% endwith %}
+  {% endwith %}
+{% endif %}

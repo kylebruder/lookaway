@@ -1,0 +1,13 @@
+{% extends 'form.html' %}
+{% block header_block %}
+{% include './home_form_header.html' %}
+<br>
+<div class="row">
+  <div class="col-sm">
+    {% include './homeappprofile_form_sections.html' %}
+  </div>
+  <div class="col-sm">
+    {% include './homeappprofile_form_settings.html' %}
+  </div>
+</div>
+{% endblock %}

@@ -1,25 +1,25 @@
-<div class="col-sm-4 member-card">
-  <div class="row">
-    <div class="col">
-      <div class="container">
-        {% if member.profile.image %}
-          <img class="member-list-image" src="{{ member.profile.image.thumbnail_file.url }}">
-        {% else %}
-          <img class="member-list-image" src="/static/icon.jpg">
-        {% endif %}
-      </div>
-    </div>
-    <div class="col">
-      <h4>
-        <a href="{% url 'members:member_profile' member.username %}">
-          <h4 class="member-badge">
-            {{ member }}
-          </h4>
-        </a>
-      </h4>
-      <p>
-        {% include './member_badges.html' %}
-      </p>
-    </div>
+<div class="row">
+  <div class="col-">
+    {% if member.profile.image %}
+      <div class="members-list-image" style="background-image:url('{{ member.profile.image.thumbnail_file.url }}')"></div>
+    {% else %}
+      <div class="members-list-image" style="background-image:url('/static/icon.webp')"></div>
+    {% endif %}
+  </div>
+  <div class="col-sm">
+    <h6 class="members-title">
+      <strong><a href="{% url 'members:member_profile' member.username %}">
+        {{ member }}
+      </a></strong>
+    </h6>
+    <p>
+      Member since <span class="index-heading-span">{{ member.date_joined|date:"M d, Y" }}</span><br>
+      {% include './member_badges.html' %}
+    </p>
   </div>
 </div>
+{% if member.profile.meta_description %}
+  <p>
+    {{ member.profile.meta_description }}
+  </p>
+{% endif %}

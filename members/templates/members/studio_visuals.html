@@ -1,26 +1,48 @@
-<div class="container">
+<div class="members-section">
   <div class="row">
     <div class="col">
       <h4 class="studio-title">Your Visuals
-        <a href="{% url 'art:visual_create' %}">
-          <button class="btn btn-sm btn-primary create-button">+</button>
-        </a>
       </h4>
+    </div>
+    <div class="col-">
+      <div class="container">
+        {% if show_art_buttons %}
+          {% with visual_add_button as button %}
+            {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
+              {% include 'buttons/small_add_button.html' %}
+            {% endwith %}
+          {% endwith %}
+        {% endif %}
+      </div>
     </div>
   </div>
   {% if visuals.all.count > 0 %}
-    <div class="profile-image-matrix">
-      {% for i in visuals %}
-        <a href="{% url 'art:visual_detail' i.slug %}">
-          <div class="profile-image-card float-left" style="background-image:url('{{ i.image.thumbnail_file.url }}')">
-            {% if not i.is_public %}
-              <span class="badge badge-secondary">Unpublished</span>
+    <table class="studio-table">
+      <tr>
+        <th>Title</th>
+        <th>Modified</th>
+        <th>Created</th>
+        <th>Published</th>
+      </th>
+      {% for visual in visuals %}
+        <tr>
+          <td><a href="{% url 'art:visual_detail' visual.slug %}">{{ visual.title|truncatechars:20 }}</a></td>
+          <td>{{ visual.last_modified|date:"M d, Y" }}</td>
+          <td>{{ visual.creation_date|date:"M d, Y" }}</td>
+          <td>
+            {% if visual.is_public %}
+              {{ visual.publication_date|date:"M d, Y" }}
+            {% else %}
+              {% include 'objects/unpublished.html' %}
             {% endif %}
-          </div>
-        </a>
+            {% if visual.members_only %}
+              {% include 'objects/members_only.html' %}
+            {% endif %}
+          </td>
+        </tr>
       {% endfor %}
-    </div>
-    <div class="clear"></div>
+    </table>
+    <br>
     <p>
       <a href="{% url 'art:member_visuals' request.user.username %}">more ...</a>
     </p>

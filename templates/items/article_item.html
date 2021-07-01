@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-">
+    {% if article.image %}
+      <div class="documentation-list-image" style="background-image:url('{{ article.image.thumbnail_file.url }}')"></div>
+    {% elif article.owner.profile.image %}
+      <div class="documentation-list-image" style="background-image:url('{{ article.owner.profile.image.thumbnail_file.url }}')"></div>
+    {% else %}
+      <div class="documentation-list-image" style="background-image:url('/static/icon.webp')"></div>
+    {% endif %}
+  </div>
+  <div class="col-sm">
+    <h5 class="documentation-title">
+      <a href="{% url 'documentation:article_detail' article.slug %}">
+        {{ article.title }}
+      </a>
+    </h5>
+    <p>
+      Written by <a href="{% url 'members:member_profile' article.owner.username %}"><span class="index-heading-span">{{ article.owner }}</span></a><br>
+      Published on {{ article.creation_date|date:"M d, Y" }}<br><br>
+    </p>
+  </div>
+</div>
+{% if article.meta_description %}
+  <p>
+    {{ article.meta_description }}
+  </p>
+{% endif %}
+{% if not article.is_public %}
+  <span class="badge badge-dark">Unpublished</span>
+{% endif %}
+{% if article.tags.all.count > 0 %}
+  {% with article as object %}
+    {% include 'objects/object_tags.html' %}
+  {% endwith %}
+{% endif %}
+

@@ -1,0 +1,194 @@
+<!-- Posts -->
+{% if new_posts.count > 0 %}
+  <div class="members-section">
+    <h5 class="members-title">Posts</h5>
+    <p class="posts-title">
+      {% for post in new_posts %}
+        <span class="index-heading-span">&squf; <a href="{% url 'posts:post_detail' post.slug %}">{{ post.title }}</a></span>
+      {% endfor %}
+      {% if top_posts.count > 0 %}
+        {% for post in top_posts %}
+          <span class="index-heading-span">&squf; <a href="{% url 'posts:post_detail' post.slug %}">{{ post.title }}</a></span>
+        {% endfor %}
+      {% endif %}
+    </p>
+    <p>
+      <a href="{% url 'posts:member_posts' profile.member.username %}">All posts posted by {{ profile.member }}</a>
+    </p>
+  </div>
+{% endif %}
+<!-- Responses -->
+{% if new_responses.count > 0 %}
+  <div class="members-section">
+    <h5 class="members-title">Responses</h5>
+    <p class="responses-title">
+      {% for response in new_responses %}
+        <span class="index-heading-span">&squf; <a href="{% url 'posts:response_detail' response.slug %}">{{ response.title }}</a></span>
+      {% endfor %}
+      {% if top_responses.count > 0 %}
+        {% for response in top_responses %}
+          <span class="index-heading-span">&squf; <a href="{% url 'posts:response_detail' response.slug %}">{{ response.title }}</a></span>
+        {% endfor %}
+      {% endif %}
+    </p>
+    <p>
+      <a href="{% url 'posts:member_responses' profile.member.username %}">All responses posted by {{ profile.member }}</a>
+    </p>
+  </div>
+{% endif %}
+<!-- Documentation -->
+{% if new_articles.count > 0 %}
+  <div class="members-section">
+    <h5 class="members-title">Articles</h5>
+    <p class="documentation-title">
+      {% for article in new_articles %}
+        <span class="index-heading-span">&squf; <a href="{% url 'documentation:article_detail' article.slug %}">{{ article.title }}</a></span>
+      {% endfor %}
+      {% if top_articles.count > 0 %}
+        {% for article in top_articles %}
+          <span class="index-heading-span">&squf; <a href="{% url 'documentation:article_detail' article.slug %}">{{ article.title }}</a></span>
+        {% endfor %}
+      {% endif %}
+    </p>
+    <p>
+      <a href="{% url 'documentation:member_articles' profile.member.username %}">All articles written by {{ profile.member }}</a>
+    </p>
+  </div>
+{% endif %}
+{% if new_stories.count > 0 %}
+  <div class="members-section">
+    <h5 class="members-title">Stories</h5>
+    <p class="documentation-title">
+      {% for story in new_stories %}
+        <span class="index-heading-span">&squf; <a href="{% url 'documentation:story_detail' story.slug %}">{{ story.title }}</a></span>
+      {% endfor %}
+      {% if top_stories.count > 0 %}
+        {% for story in top_stories %}
+          <span class="index-heading-span">&squf; <a href="{% url 'documentation:story_detail' story.slug %}">{{ story.title }}</a></span>
+        {% endfor %}
+      {% endif %}
+    </p>
+    <p>
+      <a href="{% url 'documentation:member_stories' profile.member.username %}">All stories published by {{ profile.member }}</a>
+    </p>
+  </div>
+{% endif %}
+{% if new_documents.count > 0 %}
+  <div class="members-section">
+    <h5 class="members-title">Information</h5>
+    <p class="documentation-title">
+      {% for document in new_documents %}
+        <span class="index-heading-span">&squf; <a href="{% url 'documentation:support_document_detail' document.slug %}">{{ document.title }}</a></span>
+      {% endfor %}
+      {% if top_documents.count > 0 %}
+        {% for document in top_documents %}
+          <span class="index-heading-span">&squf; <a href="{% url 'documentation:support_document_detail' document.slug %}">{{ document.title }}</a></span>
+        {% endfor %}
+      {% endif %}
+    </p>
+    <p>
+      <a href="{% url 'documentation:member_support_documents' profile.member.username %}">All information documented by {{ profile.member }}</a>
+    </p>
+  </div>
+{% endif %}
+<!-- Art -->
+{% if new_visuals.count > 0 %}
+  <div class="members-section">
+    <div class="row">
+      <div class="col-sm">
+        <h5 class="members-title">New Visuals</h5>
+        {% for visual in new_visuals %}
+          {% include 'items/visual_tile.html' %}
+        {% endfor %}
+        <div class="clear"></div>
+      </div>
+      {% if top_visuals.count > 0 %}
+        <div class="col-sm">
+          <h5 class="members-title">Top Visuals</h5>
+          {% for visual in top_visuals %}
+            {% include 'items/visual_tile.html' %}
+          {% endfor %}
+          <div class="clear"></div>
+        </div>
+      {% endif %}
+    </div>
+    <br>
+    <p>
+      <a href="{% url 'art:member_visuals' profile.member.username %}">All visuals curated by {{ profile.member }}</a>
+    </p>
+  </div>
+{% endif %}
+{% if new_galleries.count > 0 %}
+  <div class="members-section">
+    <div class="row">
+      <div class="col-sm">
+        <h5 class="members-title">New Galleries</h5>
+          {% for gallery in new_galleries %}
+            {% include 'items/gallery_list_item.html' %}
+          {% endfor %}
+        </p>
+      </div>
+      {% if top_galleries.count > 0 %}
+        <div class="col-sm">
+          <h5 class="members-title">Top Galleries</h5>
+          {% for gallery in top_galleries %}
+            {% include 'items/gallery_list_item.html' %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    <br>
+    <p>
+      <a href="{% url 'art:member_galleries' profile.member.username %}">All galleries curated by {{ profile.member }}</a>
+    </p>
+  </div>
+{% endif %}
+<!-- Music -->
+{% if new_tracks.count > 0 %}
+  <div class="members-section">
+    <div class="row">
+      <div class="col-sm">
+        <h5 class="members-title">New Tracks</h5>
+        {% for track in new_tracks %}
+          {% include 'items/track_list_item.html' %}
+        {% endfor %}
+      </div>
+      {% if top_tracks.count > 0 %}
+        <div class="col-sm">
+          <h5 class="members-title">Top Tracks</h5>
+          {% for track in top_tracks %}
+            {% include 'items/track_list_item.html' %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    <br>
+    <p>
+      <a href="{% url 'music:member_tracks' profile.member.username %}">All tracks released by {{ profile.member }}</a>
+    </p>
+  </div>
+{% endif %}
+{% if new_albums.count > 0 %}
+  <div class="members-section">
+    <div class="row">
+      <div class="col-sm">
+        <h5 class="members-title">New Albums</h5>
+        {% for album in new_albums %}
+          {% include 'items/album_list_item.html' %}
+        {% endfor %}
+      </div>
+      {% if top_albums.count > 0 %}
+        <div class="col-sm">
+          <h5 class="members-title">Top Albums</h5>
+          {% for album in top_albums %}
+            {% include 'items/album_list_item.html' %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    <br>
+    <p>
+      <a href="{% url 'music:member_albums' profile.member.username %}">All albums released by {{ profile.member }}</a>
+    </p>
+  </div>
+{% endif %}

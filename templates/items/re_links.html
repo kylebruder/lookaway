@@ -1,0 +1,19 @@
+{% if response.post %}
+  <i>Re: <a href="{% url 'posts:post_detail' response.post.slug %}">{{ response.post }}</a></i><br>
+{% elif response.article %}
+  <i>Re: <a href="{% url 'documentation:article_detail' response.article.slug %}">{{ response.article }}</a></i><br>
+{% elif response.story %}
+  <i>Re: <a href="{% url 'documentation:story_detail' response.story.slug %}">{{ response.story }}</a></i><br>
+{% elif response.document %}
+  <i>Re: <a href="{% url 'documentation:support_document_detail' response.document.slug %}">{{ response.document }}</a></i><br>
+{% elif response.visual %}
+  <i>Re: <a href="{% url 'art:visual_detail' response.visual.slug %}">{{ response.visual }}</a></i><br>
+{% elif response.gallery %}
+  <i>Re: <a href="{% url 'art:gallery_detail' response.gallery.slug %}">{{ response.gallery }}</a></i><br>
+{% elif response.track %}
+  <i>Re: <a href="{% url 'music:track_detail' response.track.slug %}">{{ response.track }}</a></i><br>
+{% elif response.album %}
+  <i>Re: <a href="{% url 'music:album_detail' response.album.slug %}">{{ response.album }}</a></i><br>
+{% else %}
+  <i>This is a Response to content that was removed by its publisher</i><br>
+{% endif %}

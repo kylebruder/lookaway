@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-">
+    {% if gallery.visuals %}
+      <div class="art-item-image" style="background-image:url('{{ gallery.visuals.first.image.thumbnail_file.url }}')"></div>
+    {% elif gallery.owner.profile.image %}
+      <div class="art-item-image" style="background-image:url('{{ gallery.owner.profile.image.thumbnail_file.url }}')"></div>
+    {% else %}
+      <div class="art-item-image" style="background-image:url('/static/icon.webp')"></div>
+    {% endif %}
+  </div>
+  <div class="col-sm">
+    <h5 class="art-title">
+      <a href="{% url 'art:gallery_detail' gallery.slug %}">
+        {{ gallery.title }}
+      </a>
+    </h5>
+    <p>
+      Works by <span class="index-page-span">{{ gallery.artist }}</span><br>
+      Curated by <a href="{% url 'members:member_profile' gallery.owner.username %}"><span class="index-heading-span">{{ gallery.owner }}</span></a> on {{ gallery.creation_date|date:"M d, Y" }}<br>
+    </p>
+  </div>
+</div>
+{% if gallery.meta_description %}
+  <p>
+    {{ gallery.meta_description }}
+  </p>
+{% endif %}
+{% if not gallery.is_public %}
+	<span class="badge badge-dark">Unpublished</span>
+{% endif %}
+{% if gallery.tags.all.count > 0 %}
+  {% with gallery as object %}
+    {% include 'objects/object_tags.html' %}
+  {% endwith %}
+{% endif %}
+

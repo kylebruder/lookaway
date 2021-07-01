@@ -5,11 +5,43 @@ import music.views as views
 app_name = 'music'
 
 urlpatterns = [
-    # Music front page
+    # Music landing page
     path(
         '',
         views.MusicPageView.as_view(),
         name="music_page",
+    ),
+    # Music app profile
+    ## Update
+    path(
+        'profile/update/<int:pk>/', 
+        views.MusicAppProfileUpdateView.as_view(),
+        name='music_app_profile_update',
+    ),
+    # Music landing page section views
+    ## Create
+    path(
+        'add/section/', 
+        views.MusicPageSectionCreateView.as_view(),
+        name='music_page_section_create',
+    ),
+    ## Detail
+    path(
+        'sections/<int:pk>/',
+        views.MusicPageSectionDetailView.as_view(),
+        name='music_page_section_detail',
+    ),
+    ## Update
+    path(
+        'update/section/<int:pk>/', 
+        views.MusicPageSectionUpdateView.as_view(),
+        name='music_page_section_update',
+    ),
+    ## Delete
+    path(
+        'delete/section/<int:pk>/',
+        views.MusicPageSectionDeleteView.as_view(),
+        name='music_page_section_delete',
     ),
     # Read Views
     path(

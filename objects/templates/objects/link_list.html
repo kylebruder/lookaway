@@ -1,19 +1,10 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class="container links-bg">
-  {% include "./link_list_button_bar.html" %}
-  {% if links %}
-    {% include "page_control.html" %}
-    <ul class="list-group">
-      {% for link in links %}
-        {% include "./link_list_item.html" %}
-      {% endfor %}
-    </ul>
-    {% include "page_control.html" %}
-    <br>
-  {% else %}
-    <p>There are no links yet. Check back soon!</p>
-    <br>
-  {% endif %}
-</div>
+{% extends './objects_list.html' %}
+{% block items_block %}
+  <div class="row">
+    {% for link in links %}
+      <div class="col-4-sm posts-list-card">
+        {% include './link_list_item.html' %}
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}

@@ -1,37 +1,35 @@
-<li class="list-group-item post-list-li">
-  <div class="row">
-    <div class="col-">
-      {% if post.image %}
-        <div class="post-list-image" style="background-image:url('{{ post.image.thumbnail_file.url }}')"></div>
-      {% elif post.owner.profile.image %}
-        <div class="post-list-image" style="background-image:url('{{ post.owner.profile.image.thumbnail_file.url }}')"></div>
-      {% else %}
-        <div class="post-list-image" style="background-image:url('/static/icon.webp')"></div>
-      {% endif %}
-    </div>
-    <div class="col-sm">
-      <h5 class="post-title">
-        <a href="{% url 'posts:post_detail' post.slug %}">
-          {{ post.title }}
-        </a>
-      </h5>
-      <p class="post-meta">
-        {% if post.re %}re: <a href="{% url 'posts:post_detail' post.re.slug %}"> {{ post.re.title }}</a><br>{% endif %}
-        Posted by <a href="{% url 'members:member_profile' post.owner.username %}"><span class="index-heading-span">{{ post.owner }}</span></a> on {{ post.creation_date|date:"M d, Y" }}<br>
-        {{ post.meta_description }}<br>
-      </p>
-      {% if post.members_only %}
-        <span class="badge badge-warning">Members Only</span>
-      {% endif %}
-      {% if not post.is_public %}
-        <span class="badge badge-dark">Unpublished</span>
-      {% endif %}
-      {% if post.tags.all.count > 0 %}
-        {% with post as object %}
-          {% include 'object_tags.html' %}
-        {% endwith %}
-      {% endif %}
-    </div>
+<div class="row">
+  <div class="col-">
+    {% if post.image %}
+      <div class="posts-list-image" style="background-image:url('{{ post.image.thumbnail_file.url }}')"></div>
+    {% elif post.owner.profile.image %}
+      <div class="posts-list-image" style="background-image:url('{{ post.owner.profile.image.thumbnail_file.url }}')"></div>
+    {% else %}
+      <div class="posts-list-image" style="background-image:url('/static/icon.webp')"></div>
+    {% endif %}
   </div>
-</li>
-
+  <div class="col-sm">
+    <h6 class="posts-title">
+      <strong><a href="{% url 'posts:post_detail' post.slug %}">
+        {{ post.title }}
+      </a></strong>
+    </h6>
+    <p>
+      Posted by <a href="{% url 'members:member_profile' post.owner.username %}"><span class="index-heading-span">{{ post.owner }}</span></a> on <span class="index-heading-span">{{ post.creation_date|date:"M d, Y" }}</span>
+    </p>
+  </div>
+</div>
+<p>
+  {{ post.meta_description }}
+</p>
+{% if not post.is_public %}
+  <span class="badge badge-dark">Unpublished</span>
+{% endif %}
+{% if post.members_only %}
+  <span class="badge badge-warning">Members Only</span>
+{% endif %}
+{% if post.tags.all.count > 0 %}
+  {% with post as object %}
+    {% include 'objects/object_tags.html' %}
+  {% endwith %}
+{% endif %}

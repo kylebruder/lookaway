@@ -1,17 +1,10 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class="container-fluid members-bg">
-  {% include "./member_list_button_bar.html" %}
-  {% if members %}
-    {% include "page_control.html" %}
-    <div class="row">
-      {% include "./member_list_item.html" %}
-    </div>
-    {% include "page_control.html" %}
-    <br>
-  {% else %}
-    <p>No members have joined yet. Check back soon!</p>
-    <br>
-  {% endif %}
-</div>
+{% extends './members_list.html' %}
+{% block items_block %}
+  <div class="row">
+    {% for member in members %}
+      <div class="col-sm-4 members-list-card">
+        {% include 'items/member_item.html' %}
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}

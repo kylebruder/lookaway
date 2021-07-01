@@ -1,0 +1,50 @@
+<div class="music-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
+  <div class="row">
+    {% if profile.logo %}
+      <div class="col-sm-">
+        <div class="container">
+          <img class="music-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
+        </div>
+      </div>
+    {% endif %}
+    <div class="col-sm">
+      {% if profile.show_title or profile.show_desc %}
+        {% if profile.title and profile.show_title %}
+          <h3 class="brand-title music-page-span music-alert">{{ meta_title }}</h3>
+        {% endif %}
+        {% if meta_desc and profile.show_desc %}
+          <br><p class="music-page-span music-alert"><i>{{ meta_desc }}</i></p>
+        {% endif %}
+      {% endif %}
+    </div>
+    {% if request.user.is_authenticated %}
+      <div class="col-">
+        <div class="container">
+          <p>
+            {% if show_track_add_button %}
+              <a class="btn btn-sm btn-primary" href="{% url 'music:track_create' %}">+Track</a>
+            {% endif %}
+            {% if show_album_add_button %}
+              <a class="btn btn-sm btn-primary" href="{% url 'music:album_create' %}">+Album</a>
+            {% endif %}
+            {% if show_profile_edit_button %} 
+              {% with profile_edit_button as button %}
+                {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+                  {% include 'buttons/edit_button.html' %}
+                {% endwith %}
+              {% endwith %}
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+  {% if profile.text %}
+    <p class="music-page-span music-alert">{{ profile.text }}</p>
+  {% endif %}
+  <div class="row">
+    <div class="col-sm">
+      {% include './music_page_navbar.html' %}
+    </div>
+  </div>
+</div>

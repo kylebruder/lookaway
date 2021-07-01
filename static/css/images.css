@@ -7,8 +7,8 @@
 }
 
 .image-matrix {
-  max-height: 600px;
-  max-width: 600px;
+  max-height: 1500px;
+  max-width: 1500px;
   margin-left: auto;
   margin-right: auto;
   display: block;
@@ -107,6 +107,11 @@
   border-radius: 5px;
 }
 
+.images-list-li {
+  background-color: #222222;
+  color: #ffffff;
+}
+
 .images-piece-card {
   display: block;
   width: 160px;
@@ -129,6 +134,14 @@
   color: #eeeeee;
   background: #222222;
   padding: 5px;
+}
+
+.images-section-image {
+  width: 335px;
+  margin: 15px;
+  font-size: 0.75em;
+  display: inline-block;
+  float: left;
 }
 
 .images-thumbnail {

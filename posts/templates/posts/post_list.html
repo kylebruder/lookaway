@@ -1,18 +1,10 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class="container posts-bg">
-  {% include "./post_list_button_bar.html" %}
-  {% if posts %}
-    <p><a href="{% url 'posts:top_posts' %}">top posts</a> | <a href="{% url 'posts:public_posts' %}">new posts</a></p>
-    {% include "page_control.html" %}
-    <ul class="list-group">
-      {% include "./post_list_item.html" %}
-    </ul>
-    {% include "page_control.html" %}
-    <br>
-  {% else %}
-    <p>No posts have been published yet. Check back soon!</p>
-    <br>
-  {% endif %}
-</div>
+{% extends './posts_list.html' %}
+{% block items_block %}
+  <div class="row">
+    {% for post in posts %}
+      <div class="col-4-sm posts-list-card">
+        {% include 'items/post_item.html' %}
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}

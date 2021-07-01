@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col">
+    {% if not section.hide_title %}
+      <h4 class="objects-page-title">{{ section.title }}</h4>
+    {% endif %}
+  </div>
+  {% if section.owner.pk == request.user.pk %}
+    <div class="col-">
+      <div class="container">
+       {% include './objects_page_section_add_button.html' %}
+       {% include './objects_page_section_edit_button.html' %}
+       {% include './objects_page_section_delete_button.html' %}
+      </div>
+    </div>
+  {% endif %}
+</div>

@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.http import HttpResponseRedirect
 
@@ -24,6 +25,12 @@ class MemberCreateMixin:
         return super().form_valid(form)
 
 class MemberUpdateMixin:
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user != self.object.owner:
+            raise PermissionDenied
+        return context
 
     def form_valid(self, form):
         if self.request.user.pk == self.object.owner.pk:
@@ -67,4 +74,9 @@ class MemberDeleteMixin:
             return HttpResponseRedirect(self.get_success_url())
 
 class MemberOwnershipModel:
+    '''
+    This is here for compatibility reasons
+    (to satisfy early database migration requirements).
+    Do NOT remove!
+    '''
     pass

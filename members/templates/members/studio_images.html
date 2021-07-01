@@ -1,11 +1,20 @@
-<div class="container">
+<div class="members-section">
   <div class="row">
     <div class="col">
       <h5 class="image-title">Your Image Files
-        <a href="{% url 'objects:image_create' %}">
-          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
         </a>
       </h5>
+    </div>
+    <div class="col-">
+      <div class="container">
+        {% if show_objects_buttons %}
+          {% with image_add_button as button %}
+            {% with button|lookup:"url" as button_url %}
+              {% include 'buttons/small_add_button.html' %}
+            {% endwith %}
+          {% endwith %}
+        {% endif %}
+      </div>
     </div>
   </div>
   {% if images.all.count > 0 %}

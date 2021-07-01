@@ -1,0 +1,26 @@
+{% if tags %}
+<div class="home-section">
+  <form action="{% url 'objects:get_tag_detail' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-sm-">
+        <div class="container">
+          <h4 class="home-title float-sm-right">Show Me:</h4>
+        </div>
+      </div>
+      <div class="col-sm">
+        <select class="form-text-field" required id="pk" name="pk">&nbps;
+          {% for tag in tags %}
+            <option value="{{ tag.pk }}">{{ tag }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-sm-">
+        <div class="container">
+          <input type="submit" class="btn btn-sm btn-danger" value="LOOK">
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endif %}

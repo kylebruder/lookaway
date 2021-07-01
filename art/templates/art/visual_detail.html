@@ -1,13 +1,20 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container art-bg">
-  {% if visual.is_public and visual.members_only and not request.user.is_authenticated %}
-    <p class="art-meta">This Visual is only avaialble for Members of the site.</p>
-  {% elif visual.is_public or visual.owner.pk == request.user.pk %}
-    {% include './visual_detail_button_bar.html' %}
-    <br>
-    {% if visual.members_only %}
-      <p class="art-meta"><i>This Visual is only avaialble for Members of the site.</i></p>
+  {% if visual.is_public or visual.owner.pk == request.user.pk %}
+    {% include './visual_detail_title_bar.html' %}
+    <!-- Meta data -->
+    {% if visual.is_public %}
+      <p>
+        Curated by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span>
+        {% if visual.publication_date %}<br>Published on <span class="index-heading-span">{{ visual.publication_date|date:"M d, Y" }}</span>{% endif %}{% if visual.location %} at <span class="index-heading-span">{{ visual.location }}</span>{% endif %}
+      </p>
+    {% else %}
+      <p>
+        Owned by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span> on <span class="index-heading-span">{{ object.creation_date }}</span>
+        <br>{% include 'objects/unpublished.html' %}
+      <p>
     {% endif %}
     <!-- Image -->
     {% if not visual.video %}
@@ -18,7 +25,7 @@
     <!-- Video -->
     {% if visual.video %}
       {% with visual.video as video %}
-        <video class="art-video-md video-player" preload="metadata" poster="{{ visual.image.image_file.url }}" controls>
+        <video class="art-video-md" preload="metadata" poster="{{ visual.image.image_file.url }}" controls>
           {% include 'video_mime_types.html' %}
         </video>
       {% endwith %}
@@ -58,25 +65,43 @@
     {% if visual.links.count > 0 %}
       <h4 class="art-title">Links</h4> 
       {% with visual.links.all as links %}
-        {% include 'object_links.html' %}
+        {% include 'objects/object_links.html' %}
       {% endwith %}
     {% endif %}
-    <!-- Tags -->
-    {% if visual.tags.count > 0 %}
-      {% include './object_tags.html' %}
+    <!-- Responses -->
+    {% if responses.count > 0 %}
+      <h4 class="art-title">Responses</h4>
+      <ul class="list-group">
+        {% for response in responses %}
+          <li class="list-group-item posts-list-li">
+            {% include 'items/response_detail_item.html' %}
+          </li>
+        {% endfor %}
+      </ul>
       <br>
     {% endif %}
-    <!-- Credits -->
-    {% if visual.is_public %}
-      <p>Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> {% if visual.publication_date %} on {{ visual.publication_date }}{% endif %}{% if visual.location %} from {{ visual.location }}{% endif %}
-      {% if object.last_modified > object.creation_date %}
-        <br>Last updated on {{ object.last_modified }}
+    <!-- Wallets -->
+    {% if visual.bitcoin_wallet or visual.litecoin_wallet %}
+      {% with visual.bitcoin_wallet as bitcoin_wallet %}
+        {% with visual.litecoin_wallet as litecoin_wallet %}
+          <h4 class="art-title">Donate</h4> 
+          {% include 'objects/object_crypto_wallets.html' %}
+        {% endwith %}
+      {% endwith %}
+    {% endif %}
+    <div class="row">
+      <div class="col-sm">
+        {% include 'objects/object_tags.html' %}
+      </div>
+      {% if visual.is_public %}
+        <div class="col-">
+          <div class="container">
+            {% include 'buttons/response_button.html' %}
+            {% include 'buttons/marshmallow_button.html' %}
+          </div>
+        </div>
       {% endif %}
-      </p>
-    {% else %}
-      <p class="visual-meta">Created by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.creation_date }}<p>
-      <br>
-    {% endif %}
+    </div>
   {% else %}
     <p>This Visual has not been published yet.</p>
     <br>
@@ -84,4 +109,6 @@
   {% endif %}
   <br>
 </div>
+<br>
+{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

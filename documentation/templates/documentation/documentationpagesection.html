@@ -1,0 +1,66 @@
+<div class="documentation-section">
+  <!-- Anchor for URI fragments to Offset the Nav Bar-->
+  <span id="section-{{ section.pk }}" class="documentation-section-anchor"></span>
+  <!-- Section Title -->
+  {% include './documentationpagesection_detail_title_bar.html' %}
+    <!-- Section Information Message -->
+  {% if section.info %}
+    <div class="alert alert-primary documentation-alert">{{ section.info }}</div><br>
+  {% endif %}
+  <!-- Section Alert Message -->
+  {% if section.alert %}
+    <div class="alert alert-danger documentation-alert">{{ section.alert }}</div><br>
+  {% endif %}
+  <!-- Section Images -->
+  {% if section.images.count > 0 %}
+    {% with section.images.all as images %}
+      <!-- Section Text -->
+      {% if section.text %}
+        {% include 'sections/section_images_text.html' %}
+      {% elif section.images.count == 1 %}
+        {% with section.images.first as image %}
+          {% include 'sections/section_image.html' %}
+        {% endwith %}
+      {% else %}
+        {% include 'sections/section_images.html' %}
+      {% endif %}
+    {% endwith %}
+  {% elif section.text %}
+    {{ section.text|linebreaks }}
+  {% endif %}
+  {% if section.sounds.count > 0 %}
+    {% with section.sounds.all as sounds %}
+      {% include 'sections/section_sounds.html' %}
+    {% endwith %}
+  {% endif %}
+  {% if section.videos.count > 0  %}
+    {% with section.videos.all as videos %}
+      {% include 'sections/section_videos.html' %}
+    {% endwith %}
+  {% endif %}
+  {% if section.code.count > 0  %}
+    {% with section.code.all as codes %}
+      {% include 'sections/section_codes.html' %}
+    {% endwith %}
+  {% endif %}
+  {% if section.articles.count > 0 %}
+    {% for article in section.articles.all %}
+      {% include './article_item.html' %}
+    {% endfor %}
+  {% endif %}
+  {% if section.stories.count > 0 %}
+    {% for story in section.stories.all %}
+      {% include './story_item.html' %}
+    {% endfor %}
+  {% endif %}
+  {% if section.support_documents.count > 0 %}
+    {% for document in section.support_documents.all %}
+      {% include './supportdocument_item.html' %}
+    {% endfor %}
+  {% endif %}
+  {% if section.links.count > 0  %}
+    {% with section.links.all as links%}
+      {% include 'objects/object_links.html' %}
+    {% endwith %}
+  {% endif %}
+</div>

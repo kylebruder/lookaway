@@ -1,63 +1,13 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class ="container create-bg">
-  <div class="row">
-    <div class="col-sm">
-      <h2 class="profile-title">Update Profile</h2>
-    </div>
-    <div class="col-sm">
-      <a href="{% url 'objects:image_create' %}?next={{ request.path }}">
-        <button class="btn btn-sm btn-primary float-right">+Image</button>
-      </a>
-    </div>
+{% extends 'form.html' %}
+{% block header_block %}
+{% include './member_profile_form_header.html' %}
+<br>
+<div class="row">
+  <div class="col-sm">
+    {% include './member_profile_sections.html' %}
   </div>
-  <br>
-  <div class="container">
-    {% if not object.member.email %}
-      <p class="alert alert-info"><i>We do not have an email contact for you. We do not require that you provide an email contact. However, please be aware that unless you provide a recovery email, you will be unable to reset your password. You may provide an email address by pressing the button below.</i></p>
-    {% endif %}
-    <p>
-      <a href="{% url 'password_change' %}">
-        <button class="btn btn-sm btn-danger">Update Password</button>
-      </a>
-      <a href="{% url 'email_change' object.member.pk %}">
-        <button class="btn btn-sm btn-warning">Update Personally Identifiable Information</button>
-      </a>
-    </p>
-    <br>
-    <form  method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <!-- Custom multiple model choice form field for Profile Image -->
-      <h5 class="form-label">{{ form.image.field.label }}</h5>
-      {% if form.image.field.help_text %}
-        <p class="form-help">{{ form.image.field.help_text|linebreaksbr }}<p>
-      {% endif %}
-      <p>{{ form.image.errors }}</p>
-      {% if form.image.field.choices.queryset.all|length == 0 %}
-        <p><i>You haven't published any images yet.</i></p>
-      {% else %}
-        <div class="form-image-selection">
-          {% for value in form.image.field.choices %}
-            {% if value|first != '' %}
-              <div class="form-image-card float-left" style="background-image:url('{{ value.2.thumbnail_file.url }}')">
-                <p>&nbsp;<input type="radio" value="{{ value|first }}" name="image" {% if object.image.pk == value|first %}checked{% endif %}></p>
-              </div>
-            {% endif %}
-          {% endfor %}
-          <div class="clear"></div>
-        </div>
-      {% endif %}
-      <br>
-      <!-- Standard field iterator -->
-      {% for field in form %}
-        {% if field != form.image %}
-          {% include 'form_field.html' %}
-        {% endif %}
-      {% endfor %}
-      <br>
-      <input type="submit" value="Submit" class="btn btn-success">
-    </form>
+  <div class="col-sm">
+    {% include './member_profile_settings.html' %}
   </div>
-  <br>
 </div>
 {% endblock %}

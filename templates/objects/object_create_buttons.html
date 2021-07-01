@@ -1,0 +1,18 @@
+{% if perms.objects.add_image %}
+  <a class="btn btn-sm btn-primary" href="{% url 'objects:image_create' %}?next={{ request.path }}">+Image</a>
+{% endif %}
+{% if perms.objects.add_sound %}
+  <a class="btn btn-sm btn-primary" href="{% url 'objects:sound_create' %}?next={{ request.path }}">+Sound</a>
+{% endif %}
+{% if perms.objects.add_video %}
+  <a class="btn btn-sm btn-primary" href="{% url 'objects:video_create' %}?next={{ request.path }}">+Video</a>
+{% endif %}
+{% if perms.objects.add_code %}
+  <a class="btn btn-sm btn-primary" href="{% url 'objects:code_create' %}?next={{ request.path }}">+Code</a>
+{% endif %}
+{% if perms.objects.add_link %}
+  <a class="btn btn-sm btn-primary" href="{% url 'objects:link_create' %}?next={{ request.path }}">+Link</a>
+{% endif %}
+{% if perms.objects.add_tag %}
+  <a class="btn btn-sm btn-primary" href="{% url 'objects:tag_create' %}?next={{ request.path }}">+Tag</a>
+{% endif %}

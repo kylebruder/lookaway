@@ -1,0 +1,68 @@
+<div class="row">
+  {% if new_members.all.count > 0 %}
+    <div class="col-sm">
+      <ul class="list-group members-section">
+        <h4 class="members-page-title">New Posts</h4>
+        {% for post in new_members %}
+          <li class="list-group-item members-list-li">
+            {% include "./post_item.html" %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  {% if top_members.all.count > 0 %}
+    <div class="col-sm">
+      <ul class="list-group members-section">
+        <h4 class="members-page-title">Top Posts</h4>
+        {% for post in top_members %}
+          <li class="list-group-item members-list-li">
+            {% include "./post_item.html" %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  {% if new_responses.all.count > 0 %}
+    <div class="col-sm">
+      <ul class="list-group members-section">
+        <h4 class="members-page-title">New Responses</h4>
+        {% for response in new_responses %}
+          <li class="list-group-item members-list-li">
+            {% include "./response_item.html" %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  {% if top_responses.count > 0 %}
+    <div class="col-sm">
+      <ul class="list-group members-section">
+        <h4 class="members-page-title">Top Responses</h4>
+        {% for response in top_responses %}
+          <li class="list-group-item members-list-li">
+            {% include "./response_item.html" %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</div>
+{% if profile.bitcoin_wallet or profile.litecoin_wallet %}
+  <div class="members-section">
+    <h4 class="members-page-title">Donate</h4>
+    {% with profile.bitcoin_wallet as bitcoin_wallet %}
+      {% with profile.litecoin_wallet as litecoin_wallet %}
+        {% include 'objects/object_crypto_wallets.html' %}
+      {% endwith %}
+    {% endwith %}
+  </div>
+{% endif %}
+{% if profile.links.count > 0 %}
+  {% with profile.links.all as links %}
+    <div class="members-section">
+      <h4 class="members-page-title">External Links</h4>
+      {% include 'objects/object_links.html' %}
+    </div>
+  {% endwith %}
+{% endif %}

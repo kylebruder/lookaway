@@ -1,0 +1,125 @@
+<!-- Section Information Message -->
+{% if section.info %}
+  <div class="alert alert-primary home-alert">{{ section.info }}</div><br>
+{% endif %}
+<!-- Section Alert Message -->
+{% if section.alert %}
+  <div class="alert alert-danger home-alert">{{ section.alert }}</div><br>
+{% endif %}
+<!-- Section Images -->
+{% if section.images.count > 0 %}
+  {% with section.images.all as images %}
+    <!-- Section Text -->
+    {% if section.text %}
+      {% include 'sections/section_images_text.html' %}
+    {% elif section.images.count == 1 %}
+      {% with section.images.first as image %}
+        {% include 'sections/section_image.html' %}
+      {% endwith %}
+    {% else %}
+      {% include 'sections/section_images.html' %}
+    {% endif %}
+  {% endwith %}
+{% elif section.text %}
+  {{ section.text|linebreaks }}
+{% endif %}
+{% if section.sounds.count > 0 %}
+  {% with section.sounds.all as sounds %}
+    {% include 'sections/section_sounds.html' %}
+  {% endwith %}
+{% endif %}
+{% if section.videos.count > 0  %}
+  {% with section.videos.all as videos %}
+    {% include 'sections/section_videos.html' %}
+  {% endwith %}
+{% endif %}
+{% if section.code.count > 0  %}
+  {% with section.code.all as codes %}
+    {% include 'sections/section_codes.html' %}
+  {% endwith %}
+{% endif %}
+{% if section.links.count > 0  %}
+  {% with section.links.all as links%}
+    {% include 'objects/object_links.html' %}
+  {% endwith %}
+{% endif %}
+{% if section.posts.count > 0 %}
+  <ul class="list-group">
+    {% for post in section.posts.all %}
+      <li class="list-group-item posts-list-li">
+        {% include 'items/post_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if section.articles.count > 0 %}
+  <ul class="list-group">
+    {% for article in section.articles.all %}
+      <li class="list-group-item documentation-list-li">
+        {% include 'items/article_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if section.stories.count > 0 %}
+  <ul class="list-group">
+    {% for story in section.stories.all %}
+      <li class="list-group-item documentation-list-li">
+        {% include 'items/story_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if section.documents.count > 0 %}
+  <ul class="list-group">
+    {% for document in section.documents.all %}
+      <li class="list-group-item documentation-list-li">
+        {% include 'items/document_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if section.visuals.count > 0 %}
+  {% for visual in section.visuals.all %}
+    <a href="{% url 'art:visual_detail' visual.slug %}">
+     <img class="art-visual-image" src="{{ visual.image.image_file.url }}">
+    </a>
+    <br> 
+  {% endfor %}
+{% endif %}
+{% if section.galleries.count > 0 %}
+  <ul class="list-group">
+    {% for gallery in section.galleries.all %}
+      <li class="list-group-item art-list-li">
+        {% include 'items/gallery_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if section.tracks.count > 0 %}
+  <ul class="list-group">
+    {% for track in section.tracks.all %}
+      <li class="list-group-item music-list-li">
+        {% include 'items/track_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if section.albums.count > 0 %}
+  <ul class="list-group">
+    {% for album in section.albums.all %}
+      <li class="list-group-item music-list-li">
+        {% include 'items/album_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if section.members.count > 0 %}
+  <ul class="list-group">
+    {% for member in section.members.all %}
+      <li class="list-group-item members-list-li">
+        {% include 'items/member_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}

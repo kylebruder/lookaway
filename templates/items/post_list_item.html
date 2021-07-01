@@ -1,0 +1,11 @@
+<li class="list-group-item posts-list-li">
+  <h6 class="posts-title">
+    <a href="{% url 'posts:post_detail' post.slug %}">{{ post.title }}</a>
+    {% if not post.is_public %}
+      {% include 'objects/unpublished.html' %}
+    {% endif %}
+  </h6>
+  {% if post.text %}
+    <p>{{ post.text|truncatechars:155 }}</p>
+  {% endif %}
+</li>

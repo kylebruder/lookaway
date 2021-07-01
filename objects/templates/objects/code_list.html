@@ -1,17 +1,10 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class="container code-bg">
-  {% include "./code_list_button_bar.html" %}
-  {% if codes %}
-    {% include "page_control.html" %}
-    <ul class="list-group">
-      {% include "./code_list_item.html" %}
-    </ul>
-    {% include "page_control.html" %}
-    <br>
-  {% else %}
-    <p>No code has been uploaded yet. Check back soon!</p>
-    <br>
-  {% endif %}
-</div>
+{% extends './objects_list.html' %}
+{% block items_block %}
+  <div class="row">
+    {% for code in codes %}
+      <div class="col-4-sm posts-list-card">
+        {% include './code_list_item.html' %}
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}

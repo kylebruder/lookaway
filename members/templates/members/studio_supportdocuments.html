@@ -1,35 +1,52 @@
-<div class="container">
+<div class="members-section">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Support Docs
-        <a href="{% url 'documentation:support_document_create' %}">
-          <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-        </a>
+      <h4 class="studio-title">Your Documents
       </h4>
+    </div>
+    <div class="col-">
+      <div class="container">
+        {% if show_documentation_buttons %}
+          {% with document_add_button as button %}
+            {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
+              {% include 'buttons/small_add_button.html' %}
+            {% endwith %}
+          {% endwith %}
+        {% endif %}
+      </div>
     </div>
   </div>
   {% if support_documents.all.count > 0 %}
-    <ul class="list-group">
+    <table class="studio-table">
+      <tr>
+        <th>Title</th>
+        <th>Modified</th>
+        <th>Created</th>
+        <th>Published</th>
+      </th>
       {% for document in support_documents %}
-        <li class="list-group-item documentation-list-li">
-          <p>
-            <a href="{% url 'documentation:support_document_detail' document.slug %}">
-              {{ document.title }}
-            </a>
-            {% if not document.is_public %}
-              <span class="badge badge-secondary">Unpublished</span>
+        <tr>
+          <td><a href="{% url 'documentation:support_document_detail' document.slug %}">{{ document.title|truncatechars:20 }}</a></td>
+          <td>{{ document.last_modified|date:"M d, Y" }}</td>
+          <td>{{ document.creation_date|date:"M d, Y" }}</td>
+          <td>
+            {% if document.is_public %}
+              {{ document.publication_date|date:"M d, Y" }}
+            {% else %}
+              {% include 'objects/unpublished.html' %}
             {% endif %}
             {% if document.members_only %}
-              <span class="badge badge-warning">Members Only</span>
+              {% include 'objects/members_only.html' %}
             {% endif %}
-          </p>
-        </li>
+          </td>
+        </tr>
       {% endfor %}
-    </ul>
+    </table>
+    <br>
     <p>
       <a href="{% url 'documentation:member_support_documents' request.user.username %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not contributed any Support Documents yet.</p>
+    <p>You have not contributed any Documents yet.</p>
   {% endif %}
 </div>

@@ -1,0 +1,4 @@
+{% extends 'forms/visual_multiple_choice_selector.html' %}
+{% block input_block %}
+<p>&nbsp;<input type="checkbox" value="{{ value }}" name="visuals" {% if obj in object.visuals.all %}checked{% endif %}></p>
+{% endblock %}

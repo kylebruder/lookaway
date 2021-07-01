@@ -1,19 +1,10 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class="container music-bg">
-  {% include './track_list_button_bar.html' %}
-  {% include './music_page_navbar.html' %}
-  {% if tracks %}
-    {% include "page_control.html" %}
-    <br>
-    <ul class="list-group">
-      {% include "./track_list_item.html" %}
-    </ul>
-    {% include "page_control.html" %}
-    <br>
-  {% else %}
-    <p>No tracks have been published yet. Check back soon!</p>
-    <br>
-  {% endif %}
-</div>
+{% extends './music_list.html' %}
+{% block items_block %}
+  <div class="row">
+    {% for track in tracks %}
+      <div class="col-4-sm music-list-card">
+        {% include 'items/track_item.html' %}
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}
