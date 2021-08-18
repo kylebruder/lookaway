@@ -2,14 +2,13 @@
   <div class="row">
     <div class="col">
       <h5 class="image-title">Your Image Files
-        </a>
       </h5>
     </div>
     <div class="col-">
       <div class="container">
         {% if show_objects_buttons %}
           {% with image_add_button as button %}
-            {% with button|lookup:"url" as button_url %}
+            {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
               {% include 'buttons/small_add_button.html' %}
             {% endwith %}
           {% endwith %}
@@ -18,22 +17,14 @@
     </div>
   </div>
   {% if images.all.count > 0 %}
-  <div class="studio-image-matrix">
-    {% for i in images %}
-      <a href="{% url 'objects:image_detail' i.pk %}">
-        <div class="studio-image-card float-left" style="background-image:url('{{ i.thumbnail_file.url }}')">
-          {% if not i.is_public %}
-            <span class="badge badge-secondary">Unpublished</span>
-          {% endif %}
-        </div>
-      </a>
-    {% endfor %}
-  </div>
-  <div class="clear"></div>
-  <p>
-    <a href="{% url 'objects:member_images' request.user.username %}">more ...</a>
-  </p>
+    {% with images as objects %}
+      {% include './studio_list.html' %}
+    {% endwith %}
+    <br>
+    <p>
+      <a href="{% url 'objects:image_studio_list' request.user.username %}">more ...</a>
+    </p>
   {% else %}
-    <p>You have not contributed any images yet.</p>
+    <p>You have not uploaded any image files yet.</p>
   {% endif %}
 </div>

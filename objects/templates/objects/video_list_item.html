@@ -7,7 +7,11 @@
       <h5 class="video-title">
         <a href="{% url 'objects:video_detail' video.pk %}">{{ video.title }}</a>
       </h5>
-      <p>{{ video.credit }}</p>
+      <p>
+        {% if video.credit %}
+          {{ video.credit }}
+        {% endif %}
+      </p>
       {% if not video.is_public %}
         <span class="badge badge-secondary">Unpublished</span>
       {% endif %}

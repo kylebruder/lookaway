@@ -5,7 +5,11 @@
     </div>
     <div class="col-sm">
       <h5 class="link-title">
-        <a href="{% url 'objects:link_detail' link.pk %}">{{ link.title }}</a>
+        {% if link.title %}
+          <a href="{% url 'objects:link_detail' link.pk %}" class="links-list-link">{{ link.title }}</a><br>
+        {% else %}
+          <a href="{% url 'objects:link_detail' link.pk %}" class="links-list-link">Untitled Link</a><br>
+        {% endif %}
       </h5>
       <p>{{ link.url|get_domain }}</p>
       {% if not link.is_public %}

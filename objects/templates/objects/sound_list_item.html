@@ -5,9 +5,17 @@
     </div>
     <div class="col-sm">
       <h5 class="sound-title">
-        <a href="{% url 'objects:sound_detail' sound.pk %}">{{ sound.title }}</a>
+        {% if sound.title %}
+          <a href="{% url 'objects:sound_detail' sound.pk %}" class="sounds-list-sound">{{ sound.title }}</a><br>
+        {% else %}
+          <a href="{% url 'objects:sound_detail' sound.pk %}" class="sounds-list-sound">Untitled Sound</a><br>
+        {% endif %}
       </h5>
-      <p>{{ sound.credit }}</p>
+      <p>
+        {% if sound.credit %}
+          {{ sound.credit }}
+        {% endif %}
+      </p>
       {% if not sound.is_public %}
         <span class="badge badge-secondary">Unpublished</span>
       {% endif %}

@@ -80,7 +80,6 @@ class ModelByTagMixin:
 class MemberViewMixin:
 
     def get_queryset(self, *args, **kwargs):
-        print('yas')
         member = Member.objects.get(username=self.kwargs['member'])
         if self.request.user.pk == member.pk:
             return self.model.objects.filter(owner=member)
@@ -107,6 +106,33 @@ class MemberViewMixin:
             member,
             profile.title,
         )
-        print(context)
         return context
 
+class StudioListMixin:
+
+    def get_queryset(self, *args, **kwargs):
+        member = Member.objects.get(username=self.kwargs['member'])
+        if self.request.user.pk == member.pk:
+            return self.model.objects.filter(owner=member).order_by(
+                '-last_modified',
+            )
+        else:
+            return self.model.objects.filter(
+                is_public=True,
+                owner=member,
+            ).order_by('-last_modified')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = Member.objects.get(username=self.kwargs['member'])
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['app_list_context'] = self.model._meta.verbose_name_plural.capitalize()
+        context['meta_title'] = "Your {}".format(
+            self.model._meta.verbose_name_plural.capitalize(),
+            )
+        context['meta_desc'] = "Your {}.".format(
+            self.model._meta.verbose_name_plural.capitalize(),
+        )
+        return context

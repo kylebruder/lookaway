@@ -17,24 +17,14 @@
     </div>
   </div>
   {% if videos.all.count > 0 %}
-    <table class="studio-table">
-      <tr>
-        <th>Title</th>
-        <th>Uploaded</th>
-      </th>
-      {% for video in videos %}
-        <tr>
-          <td><a href="{% url 'objects:video_detail' video.pk %}">{{ video.title|truncatechars:20 }}</a></td>
-          <td>{{ video.creation_date|date:"M d, Y" }}</td>
-        </tr>
-      {% endfor %}
-    </table>
+    {% with videos as objects %}
+      {% include './studio_list.html' %}
+    {% endwith %}
     <br>
     <p>
-      <a href="{% url 'objects:member_videos' request.user.username %}">more ...</a>
+      <a href="{% url 'objects:video_studio_list' request.user.username %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not uploaded any videos yet.</p>
+    <p>You have not uploaded any video files yet.</p>
   {% endif %}
 </div>
-

@@ -17,23 +17,14 @@
     </div>
   </div>
   {% if sounds.all.count > 0 %}
-    <table class="studio-table">
-      <tr>
-        <th>Title</th>
-        <th>Uploaded</th>
-      </th>
-      {% for sound in sounds %}
-        <tr>
-          <td><a href="{% url 'objects:sound_detail' sound.pk %}">{{ sound.title|truncatechars:20 }}</a></td>
-          <td>{{ sound.creation_date|date:"M d, Y" }}</td>
-        </tr>
-      {% endfor %}
-    </table>
+    {% with sounds as objects %}
+      {% include './studio_list.html' %}
+    {% endwith %}
     <br>
     <p>
-      <a href="{% url 'objects:member_sounds' request.user.username %}">more ...</a>
+      <a href="{% url 'objects:sound_studio_list' request.user.username %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not contributed any Posts yet.</p>
+    <p>You have not uploaded any sound files yet.</p>
   {% endif %}
 </div>

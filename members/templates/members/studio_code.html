@@ -1,7 +1,7 @@
 <div class="members-section">
   <div class="row">
     <div class="col">
-      <h5 class="code-title">Your Code Samples
+      <h5 class="code-title">Your Code Files
       </h5>
     </div>
     <div class="col-">
@@ -17,24 +17,14 @@
     </div>
   </div>
   {% if codes.all.count > 0 %}
-    <table class="studio-table">
-      <tr>
-        <th>Title</th>
-        <th>Contributed</th>
-      </th>
-      {% for code in codes %}
-        <tr>
-          <td><a href="{% url 'objects:code_detail' code.pk %}">{{ code.title|truncatechars:20 }}</a></td>
-          <td>{{ code.creation_date|date:"M d, Y" }}</td>
-        </tr>
-      {% endfor %}
-    </table>
+    {% with codes as objects %}
+      {% include './studio_list.html' %}
+    {% endwith %}
     <br>
     <p>
-      <a href="{% url 'objects:member_code' request.user.username %}">more ...</a>
+      <a href="{% url 'objects:code_studio_list' request.user.username %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not contributed any code yet.</p>
+    <p>You have not uploaded any code files yet.</p>
   {% endif %}
 </div>
-

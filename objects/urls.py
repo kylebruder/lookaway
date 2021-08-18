@@ -120,9 +120,19 @@ urlpatterns = [
         name='member_images',
     ),
     path(
+        'member/<slug:member>/studio/images/',
+        views.ImageStudoListView.as_view(),
+        name='image_studio_list',
+    ),
+    path(
         'member/<slug:member>/sounds/',
         views.MemberSoundView.as_view(),
         name='member_sounds',
+    ),
+    path(
+        'member/<slug:member>/studio/sounds/',
+        views.SoundStudoListView.as_view(),
+        name='sound_studio_list',
     ),
     path(
         'member/<slug:member>/videos/',
@@ -130,14 +140,29 @@ urlpatterns = [
         name='member_videos',
     ),
     path(
+        'member/<slug:member>/studio/videos/',
+        views.VideoStudoListView.as_view(),
+        name='video_studio_list',
+    ),
+    path(
         'member/<slug:member>/code/',
         views.MemberCodeView.as_view(),
         name='member_code',
     ),
     path(
+        'member/<slug:member>/studio/codes/',
+        views.CodeStudoListView.as_view(),
+        name='code_studio_list',
+    ),
+    path(
         'member/<slug:member>/links/',
         views.MemberLinkView.as_view(),
         name='member_links',
+    ),
+    path(
+        'member/<slug:member>/studio/links/',
+        views.LinkStudoListView.as_view(),
+        name='link_studio_list',
     ),
     # Create Views
     path(

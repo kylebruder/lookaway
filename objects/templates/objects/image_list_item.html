@@ -7,7 +7,11 @@
       <h5 class="images-title">
         <a href="{% url 'objects:image_detail' image.pk %}">{{ image.title }}</a>
       </h5>
-      <p>{{ image.credit }}</p>
+      <p>
+        {% if image.credit %}
+          {{ image.credit }}
+        {% endif %}
+      </p>
       {% if not image.is_public %}
         <span class="badge badge-secondary">Unpublished</span>
       {% endif %}

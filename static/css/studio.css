@@ -25,6 +25,12 @@
   max-width: 400px;
 }
 
+.studio-list-table {
+  background-color: #222222;
+  padding: 10px;
+  border-radius: 5px;
+}
+
 .studio-section {
   color: #eeeeee;
   background-color: #222222;

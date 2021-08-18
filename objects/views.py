@@ -30,7 +30,7 @@ from .forms import (ObjectsAppProfileForm, ObjectsPageSectionForm,
     ObjectsAppTranscoderSettingsForm, ImageCreateForm, ImageUpdateForm, 
     SoundCreateForm, SoundUpdateForm, VideoCreateForm, VideoUpdateForm, 
     CodeForm, LinkCreateForm, LinkForm, TagForm)
-from .app_profile_mixins import ModelListMixin, ModelByTagMixin, MemberViewMixin
+from .app_profile_mixins import ModelListMixin, ModelByTagMixin, MemberViewMixin, StudioListMixin
 from .models import ObjectsAppProfile, ObjectsPageSection, Tag, Image, Sound, Video, Code, Link
 # Create your views here.
 
@@ -443,6 +443,22 @@ class MemberImageView(MemberViewMixin, LoginRequiredMixin, ListView):
         context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
+class ImageStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
+
+    model = Image
+    template_name = 'objects/studio_list.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('objects.add_image'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:image_create',
+            )
+        context['member'] = Member.objects.get(username=self.kwargs['member'])
+        return context
+    
 class ImageDetailView(LoginRequiredMixin, DetailView):
 
     model = Image
@@ -654,6 +670,22 @@ class MemberSoundView(MemberViewMixin, LoginRequiredMixin, ListView):
     context_object_name = 'sounds'
 
     def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('objects.add_sound'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:sound_create',
+            )
+        context['member'] = Member.objects.get(username=self.kwargs['member'])
+        return context
+
+class SoundStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
+
+    model = Sound
+    template_name = 'objects/studio_list.html'
+
+    def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         # Create button
         if self.request.user.has_perm('objects.add_sound'):
@@ -889,6 +921,22 @@ class MemberVideoView(MemberViewMixin, LoginRequiredMixin, ListView):
         context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
+class VideoStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
+
+    model = Video
+    template_name = 'objects/studio_list.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('objects.add_video'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:video_create',
+            )
+        context['member'] = Member.objects.get(username=self.kwargs['member'])
+        return context
+
 class VideoDetailView(LoginRequiredMixin, DetailView):
 
     model = Video
@@ -1058,6 +1106,22 @@ class MemberCodeView(MemberViewMixin, LoginRequiredMixin, ListView):
     except:
         paginate_by = 100
     context_object_name = 'codes'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('objects.add_code'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:code_create',
+            )
+        context['member'] = Member.objects.get(username=self.kwargs['member'])
+        return context
+
+class CodeStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
+
+    model = Code
+    template_name = 'objects/studio_list.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1240,6 +1304,22 @@ class MemberLinkView(MemberViewMixin, LoginRequiredMixin, ListView):
     except:
         paginate_by = 100
     context_object_name = 'links'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('objects.add_link'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:link_create',
+            )
+        context['member'] = Member.objects.get(username=self.kwargs['member'])
+        return context
+
+class LinkStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
+
+    model = Link
+    template_name = 'objects/studio_list.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)

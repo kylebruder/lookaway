@@ -1,0 +1,12 @@
+<table class="studio-table">
+  <tr>
+    <th>Title</th>
+    <th>Last Modified</th>
+  </th>
+  {% for object in objects %}
+    <tr>
+      <td><a href="{{ object.get_absolute_url }}">{{ object.title|truncatechars:20 }}</a></td>
+      <td>{{ object.last_modified|date:"M d, Y" }}</td>
+    </tr>
+  {% endfor %}
+</table>

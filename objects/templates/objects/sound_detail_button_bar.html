@@ -1,6 +1,12 @@
 <div class="row">
   <div class="col">
-    <h3 class="sound-title">{{ sound.title }}</h3>
+    <h3 class="sound-title">
+      {% if sound.title %}
+        {{ sound.title }}
+      {% else %}
+        Untitled Sound
+      {% endif %}
+    </h3>
   </div>
   <div class="col-">
     <div class="container">
