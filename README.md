@@ -2,6 +2,46 @@
 
 Lookaway Content Management System is an open source project for publishing and information sharing. It is a utilitarian approach to making content and information available in which security, privacy and respect are deeply considered at each decision in development. As much of the processing as possible is done server side to provide a better experience on thin and low power clients.
 
+## Quick Start
+
+This example uses a bash terminal on Ubuntu 20 LTS. This should work on Debian based Linux systems.
+
+Install modules
+```
+$ sudo apt install ffmpeg mailutils
+```
+
+Setup virtual environment (highly recommended)
+```
+$ virtualenv lookaway
+$ cd lookaway/
+$ source bin/activate
+```
+
+Pull code
+```
+$ git clone https://github.com/kylebruder/lookaway
+```
+
+Initialize Lookaway and run the server locally
+```
+$ cd lookaway
+$ pip install -r requirements.txt
+$ cp settings/development.py lookaway/settings.py
+$ mkdir media
+$ python manage.py migrate
+$ python manage.py runserver 8000
+```
+Create a super user
+```
+$ python manage.py createsuperuser
+```
+
+Navigate to the site and login to try it out
+```
+https://localhost:8000
+```
+
 ## Motivation
 
 People want to participate in online discussions, forums, news media, and most importantly, to share their best work if it can possibly be expressed with the capabilities of the Internet. The open nature of the Internet has allowed diverse groups and individuals to create social media platforms in countless iterations over the years. By 2020 the social media market share has matured with only a few companies left in the race for category winner. However, when the task of providing social media platforms and stewarding our data is left to publicly traded corporations with a fiduciary obligation to increase profits over time, several conflicts of interest emerge.
