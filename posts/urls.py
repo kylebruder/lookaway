@@ -90,9 +90,19 @@ urlpatterns = [
         name='member_posts',
     ),
     path(
+        'studio/posts/',
+        views.PostStudioListView.as_view(),
+        name='post_studio_list',
+    ),
+    path(
         'responses/member/<slug:member>/', 
         views.MemberResponsePostView.as_view(),
         name='member_responses',
+    ),
+    path(
+        'studio/responses/',
+        views.ResponsePostStudioListView.as_view(),
+        name='response_studio_list',
     ),
     path(
         'reports/member/<slug:member>/', 

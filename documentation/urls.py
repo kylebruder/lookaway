@@ -117,17 +117,32 @@ urlpatterns = [
         views.MemberArticleView.as_view(),
         name='member_articles',
     ),
+    path(
+        'studio/articles/',
+        views.ArticleStudioListView.as_view(),
+        name='article_studio_list',
+    ),
     ## Member Stories
     path(
         'member/<slug:member>/stories/', 
         views.MemberStoryView.as_view(),
         name='member_stories',
     ),
+    path(
+        'studio/stories/',
+        views.StoryStudioListView.as_view(),
+        name='story_studio_list',
+    ),
     ## Member SupportDocuments
     path(
         'member/<slug:member>/information/', 
         views.MemberSupportDocumentView.as_view(),
         name='member_support_documents',
+    ),
+    path(
+        'studio/documents/',
+        views.SupportDocumentStudioListView.as_view(),
+        name='document_studio_list',
     ),
     # Create Views
     ## Article create views

@@ -1,12 +1,12 @@
 <div class="members-section">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Tracks
-      </h4>
+      <h5 class="track-title">Your Tracks
+      </h5>
     </div>
     <div class="col-">
       <div class="container">
-        {% if show_music_buttons %}
+        {% if show_objects_buttons %}
           {% with track_add_button as button %}
             {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
               {% include 'buttons/small_add_button.html' %}
@@ -17,37 +17,14 @@
     </div>
   </div>
   {% if tracks.all.count > 0 %}
-    <table class="studio-table">
-      <tr>
-        <th>Title</th>
-        <th>Modified</th>
-        <th>Created</th>
-        <th>Published</th>
-      </th>
-      {% for track in tracks %}
-        <tr>
-          <td><a href="{% url 'music:track_detail' track.slug %}">{{ track.title|truncatechars:20 }}</a></td>
-          <td>{{ track.last_modified|date:"M d, Y" }}</td>
-          <td>{{ track.creation_date|date:"M d, Y" }}</td>
-          <td>
-            {% if track.is_public %}
-              {{ track.publication_date|date:"M d, Y" }}
-            {% else %}
-              {% include 'objects/unpublished.html' %}
-            {% endif %}
-            {% if track.members_only %}
-              {% include 'objects/members_only.html' %}
-            {% endif %}
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
+    {% with tracks as objects %}
+      {% include './studio_list.html' %}
+    {% endwith %}
     <br>
     <p>
-      <a href="{% url 'music:member_tracks' request.user.username %}">more ...</a>
+      <a href="{% url 'music:track_studio_list' %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not contributed any Tracks yet.</p>
+    <p>You have not created any tracks yet.</p>
   {% endif %}
 </div>
-

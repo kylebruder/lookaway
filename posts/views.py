@@ -20,6 +20,7 @@ from art.models import Visual, Gallery
 from documentation.models import Article, Story, SupportDocument
 from music.models import Track, Album
 from objects.utils import Text
+from .app_profile_mixins import NewModelListMixin, TopModelListMixin, StudioListMixin, ModelByMemberMixin
 from .forms import PostsAppProfileForm, PostsPageSectionForm, PostForm, ResponsePostForm, ReportPostForm
 from .models import PostsAppProfile, PostsPageSection, Post, ResponsePost, ReportPost
 
@@ -290,7 +291,7 @@ class PostCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMi
                 kwargs={'slug': self.object.slug},
             )
 
-class PostListView(ListView):
+class PostListView(NewModelListMixin, ListView):
 
     model = Post
     try:
@@ -299,35 +300,8 @@ class PostListView(ListView):
         paginate_by = 10
     context_object_name = 'posts'
 
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Post.objects.filter(
-                Q(is_public=True),
-            ).order_by(
-                'is_public',
-                '-publication_date',
-            )
-        else:
-            return Post.objects.filter(
-                Q(is_public=True) & Q(members_only=False),
-            ).order_by(
-                '-publication_date',
-            )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "New Posts"
-        # SEO stuff
-        context['meta_title'] = "{} | {}".format(
-            context['app_list_context'],
-            profile.title,
-        )
-        context['meta_desc'] = "Recent posts by {} contributors.".format(
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('posts.add_post'):
             context['show_create_button'] = True
@@ -336,7 +310,7 @@ class PostListView(ListView):
             )
         return context
     
-class TopPostListView(ListView):
+class TopPostListView(TopModelListMixin, ListView):
 
     model = Post
     try:
@@ -345,36 +319,8 @@ class TopPostListView(ListView):
         paginate_by = 10
     context_object_name = 'posts'
 
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Post.objects.filter(
-                Q(is_public=True),
-            ).order_by(
-                '-weight',
-                '-publication_date',
-            )
-        else:
-            return Post.objects.filter(
-                Q(is_public=True) & Q(members_only=False)
-            ).order_by(
-                '-weight',
-                '-publication_date',
-            )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Top Posts"
-        # SEO stuff
-        context['meta_title'] = "{} | {}".format(
-            context['app_list_context'],
-            profile.title,
-        )
-        context['meta_desc'] = "The best posts by {} contributors.".format(
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('posts.add_post'):
             context['show_create_button'] = True
@@ -383,7 +329,7 @@ class TopPostListView(ListView):
             )
         return context
 
-class MemberPostView(ListView):
+class MemberPostView(ModelByMemberMixin, ListView):
 
     model = Post
     try:
@@ -392,38 +338,9 @@ class MemberPostView(ListView):
         paginate_by = 10
     context_object_name = 'posts'
 
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.is_authenticated:
-            return Post.objects.filter(
-                owner=member
-            ).order_by(
-                '-last_modified',
-            )
-        else: 
-            return Post.objects.filter(
-                owner=member,
-                members_only=False,
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = Member.objects.get(username=self.kwargs['member'])
-        # App profile
-        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Posts"
-        context['meta_title'] = "Posts by {} | {}".format(
-            member,
-            profile.title,
-            )
-        context['meta_desc'] = "Posts by {} on {}.".format(
-            member,
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('posts.add_post'):
             context['show_create_button'] = True
@@ -431,6 +348,21 @@ class MemberPostView(ListView):
                 'posts:post_create',
             )
         context['member'] = member
+        return context
+
+class PostStudioListView(StudioListMixin, LoginRequiredMixin, ListView):
+
+    model = Post
+    template_name = 'posts/studio_list.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('posts.add_post'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'posts:post_create',
+            )
         return context
 
 class PostDetailView(DetailView):
@@ -701,7 +633,7 @@ class ResponsePostCreateView(LoginRequiredMixin, PermissionRequiredMixin, Member
                 kwargs={'slug': self.object.slug},
             )
 
-class ResponsePostListView(ListView):
+class ResponsePostListView(NewModelListMixin, ListView):
 
     model = ResponsePost
     try:
@@ -709,38 +641,8 @@ class ResponsePostListView(ListView):
     except:
         paginate_by = 10
     context_object_name = 'responses'
-
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return ResponsePost.objects.filter(
-                Q(is_public=True)
-            ).order_by(
-                '-publication_date',
-            )
-        else:
-            return ResponsePost.objects.filter(
-                Q(is_public=True) & Q(members_only=False),
-            ).order_by(
-                '-publication_date',
-            )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "New Responses"
-        # SEO stuff
-        context['meta_title'] = "{} | {}".format(
-            context['app_list_context'],
-            profile.title,
-        )
-        context['meta_desc'] = "Recent responses to content on {}.".format(
-            profile.title,
-        )
-        return context
     
-class TopResponsePostListView(ListView):
+class TopResponsePostListView(TopModelListMixin, ListView):
 
     model = ResponsePost
     try:
@@ -749,39 +651,7 @@ class TopResponsePostListView(ListView):
         paginate_by = 10
     context_object_name = 'responses'
 
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return ResponsePost.objects.filter(
-                Q(is_public=True),
-            ).order_by(
-                '-weight',
-                '-publication_date',
-            )
-        else:
-            return ResponsePost.objects.filter(
-                Q(is_public=True) & Q(members_only=False)
-            ).order_by(
-                '-weight',
-                '-publication_date',
-            )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Top Responses"
-        # SEO stuff
-        context['meta_title'] = "{} | {}".format(
-            context['app_list_context'],
-            profile.title,
-        )
-        context['meta_desc'] = "The best responses to content on {}.".format(
-            profile.title,
-        )
-        return context
-
-class MemberResponsePostView(ListView):
+class MemberResponsePostView(ModelByMemberMixin, ListView):
 
     model = ResponsePost
     try:
@@ -790,39 +660,10 @@ class MemberResponsePostView(ListView):
         paginate_by = 10
     context_object_name = 'responses'
 
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.is_authenticated:
-            return ResponsePost.objects.filter(
-                owner=member
-            ).order_by(
-                '-last_modified',
-            )
-        else: 
-            return ResponsePost.objects.filter(
-                owner=member,
-                members_only=False,
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
+class ResponsePostStudioListView(StudioListMixin, LoginRequiredMixin, ListView):
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        # App profile
-        profile, created = PostsAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Responses by {}".format(member)
-        context['meta_title'] = "Responses by {} | {}".format(
-            member,
-            profile.title,
-            )
-        context['meta_desc'] = "Responses by {} on {}.".format(
-            member,
-            profile.title,
-        )
-        return context
+    model = ResponsePost
+    template_name = 'posts/studio_list.html'
 
 class ResponsePostDetailView(DetailView):
 
@@ -1011,7 +852,7 @@ def add_marshmallow_to_responsepost_view(request, pk):
 
 class ReportPostCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
-    permission_required = 'posts:add_reportpost'
+    permission_required = 'posts:add_report_post'
     model = ReportPost
     form_class = ReportPostForm
 

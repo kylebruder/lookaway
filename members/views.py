@@ -53,11 +53,11 @@ class StudioView(LoginRequiredMixin, TemplateView):
                 }
             context['posts'] = Post.objects.filter(
                 owner=member
-            ).order_by('is_public', '-last_modified')[:10]
+            ).order_by('-last_modified')[:10]
             ## Responses
             context['responses'] = ResponsePost.objects.filter(
                 owner=member
-            ).order_by('is_public', '-last_modified')[:10]
+            ).order_by('-last_modified')[:10]
         # Contributors
         if member.groups.filter(name="Contributors").exists():
             context['show_objects_buttons'] = True
@@ -106,7 +106,7 @@ class StudioView(LoginRequiredMixin, TemplateView):
                 }
             context['articles'] = Article.objects.filter(
                 owner=member
-            ).order_by('is_public', '-last_modified')[:10]
+            ).order_by('-last_modified')[:10]
             ## Stories
             if member.has_perm('documentation.add_story'):
                 context['story_add_button'] = {
@@ -114,15 +114,15 @@ class StudioView(LoginRequiredMixin, TemplateView):
                 }
             context['stories'] = Story.objects.filter(
                 owner=member
-            ).order_by('is_public', '-last_modified')[:10]
+            ).order_by('-last_modified')[:10]
             ## Documents
             if member.has_perm('documentation.add_supportdocument'):
                 context['document_add_button'] = {
                     'url': reverse('documentation:support_document_create'),
                 }
-            context['support_documents'] = SupportDocument.objects.filter(
+            context['documents'] = SupportDocument.objects.filter(
                 owner=member
-            ).order_by('is_public', '-last_modified')[:10]
+            ).order_by('-last_modified')[:10]
         # Artists
         if member.groups.filter(name="Artists").exists():
             context['show_art_buttons'] = True
@@ -141,7 +141,7 @@ class StudioView(LoginRequiredMixin, TemplateView):
                 }
             context['galleries'] = Gallery.objects.filter(
                 owner=member
-            ).order_by('is_public', '-last_modified')[:10]
+            ).order_by('-last_modified')[:10]
         # Musicians
         if member.groups.filter(name="Musicians").exists():
             context['show_music_buttons'] = True
@@ -152,7 +152,7 @@ class StudioView(LoginRequiredMixin, TemplateView):
                 }
             context['tracks'] = Track.objects.filter(
                 owner=member
-            ).order_by('is_public', '-last_modified')[:10]
+            ).order_by('-last_modified')[:10]
             ## Albums
             if member.has_perm('music.add_album'):
                 context['album_add_button'] = {
@@ -160,7 +160,7 @@ class StudioView(LoginRequiredMixin, TemplateView):
                 }
             context['albums'] = Album.objects.filter(
                 owner=member
-            ).order_by('is_public', '-last_modified')[:10]
+            ).order_by('-last_modified')[:10]
         # Check media storage
         has_free, free, used = member.check_free_media_capacity(
             directory='media/member_' + str(member.pk),

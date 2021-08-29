@@ -1,13 +1,13 @@
 <div class="members-section">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Stories
-      </h4>
+      <h5 class="article-title">Your Stories
+      </h5>
     </div>
     <div class="col-">
       <div class="container">
-        {% if show_documentation_buttons %}
-          {% with story_add_button as button %}
+        {% if show_objects_buttons %}
+          {% with article_add_button as button %}
             {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
               {% include 'buttons/small_add_button.html' %}
             {% endwith %}
@@ -17,36 +17,14 @@
     </div>
   </div>
   {% if stories.all.count > 0 %}
-    <table class="studio-table">
-      <tr>
-        <th>Title</th>
-        <th>Modified</th>
-        <th>Created</th>
-        <th>Published</th>
-      </th>
-      {% for story in stories %}
-        <tr>
-          <td><a href="{% url 'documentation:story_detail' story.slug %}">{{ story.title|truncatechars:20 }}</a></td>
-          <td>{{ story.last_modified|date:"M d, Y" }}</td>
-          <td>{{ story.creation_date|date:"M d, Y" }}</td>
-          <td>
-            {% if story.is_public %}
-              {{ story.publication_date|date:"M d, Y" }}
-            {% else %}
-              {% include 'objects/unpublished.html' %}
-            {% endif %}
-            {% if story.members_only %}
-              {% include 'objects/members_only.html' %}
-            {% endif %}
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
+    {% with stories as objects %}
+      {% include './studio_list.html' %}
+    {% endwith %}
     <br>
     <p>
-      <a href="{% url 'documentation:member_stories' request.user.username %}">more ...</a>
+      <a href="{% url 'documentation:story_studio_list' %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not contributed any Stories yet.</p>
+    <p>You have not create any stories yet.</p>
   {% endif %}
 </div>

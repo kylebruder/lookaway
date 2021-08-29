@@ -1,12 +1,12 @@
 <div class="members-section">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Posts
-      </h4>
+      <h5 class="post-title">Your Posts
+      </h5>
     </div>
     <div class="col-">
       <div class="container">
-        {% if show_posts_buttons %}
+        {% if show_objects_buttons %}
           {% with post_add_button as button %}
             {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
               {% include 'buttons/small_add_button.html' %}
@@ -17,36 +17,14 @@
     </div>
   </div>
   {% if posts.all.count > 0 %}
-    <table class="studio-table">
-      <tr>
-        <th>Title</th>
-        <th>Modified</th>
-        <th>Created</th>
-        <th>Published</th>
-      </th>
-      {% for post in posts %}
-        <tr>
-          <td><a href="{% url 'posts:post_detail' post.slug %}">{{ post.title|truncatechars:20 }}</a></td>
-          <td>{{ post.last_modified|date:"M d, Y" }}</td>
-          <td>{{ post.creation_date|date:"M d, Y" }}</td>
-          <td>
-            {% if post.is_public %}
-              {{ post.publication_date|date:"M d, Y" }}
-            {% else %}
-              {% include 'objects/unpublished.html' %}
-            {% endif %}
-            {% if post.members_only %}
-              {% include 'objects/members_only.html' %}
-            {% endif %}
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
+    {% with posts as objects %}
+      {% include './studio_list.html' %}
+    {% endwith %}
     <br>
     <p>
-      <a href="{% url 'posts:member_posts' request.user.username %}">more ...</a>
+      <a href="{% url 'posts:post_studio_list' %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not contributed any Posts yet.</p>
+    <p>You have not created any posts yet.</p>
   {% endif %}
 </div>

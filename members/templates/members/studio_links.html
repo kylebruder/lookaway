@@ -22,7 +22,7 @@
     {% endwith %}
     <br>
     <p>
-      <a href="{% url 'objects:link_studio_list' request.user.username %}">more ...</a>
+      <a href="{% url 'objects:link_studio_list' %}">more ...</a>
     </p>
   {% else %}
     <p>You have not uploaded any link files yet.</p>

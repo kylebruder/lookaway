@@ -18,6 +18,7 @@ from objects.utils import Text
 from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from posts.models import ResponsePost
+from .app_profile_mixins import NewModelListMixin, TopModelListMixin, ModelByMemberMixin, StudioListMixin
 from .forms import ArtAppProfileForm, ArtPageSectionForm, GalleryForm, VisualForm
 from .models import ArtAppProfile, ArtPageSection, Gallery, Visual
 # Create your views here.
@@ -299,7 +300,7 @@ class GalleryCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreat
                 kwargs={'slug': self.object.slug},
             )
 
-class GalleryListView(ListView):
+class GalleryListView(NewModelListMixin, ListView):
 
     model = Gallery
     try:
@@ -308,40 +309,8 @@ class GalleryListView(ListView):
         paginate_by = 10
     context_object_name = 'galleries'
 
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Gallery.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-            ).order_by(
-                'is_public',
-                '-publication_date',
-            )
-        else:
-            return Gallery.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-        # Create button
-        if self.request.user.has_perm('art.add_gallery'):
-            context['show_create_button'] = True
-            context['create_button_url'] = reverse(
-                'art:gallery_create',
-            )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "New Galleries"
-        # SEO stuff
-        context['meta_title'] = "New Galleries | {}".format(
-            profile.title,
-        )
-        context['meta_desc'] = "The latest galleries curated by {} contributors.".format(
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('art.add_gallery'):
             context['show_create_button'] = True
@@ -350,7 +319,7 @@ class GalleryListView(ListView):
             )
         return context
 
-class TopGalleryListView(ListView):
+class TopGalleryListView(TopModelListMixin, ListView):
 
     model = Gallery
     try:
@@ -359,27 +328,43 @@ class TopGalleryListView(ListView):
         paginate_by = 10
     context_object_name = 'galleries'
 
-    def get_queryset(self, *args, **kwargs):
-        return Gallery.objects.filter(
-            is_public=True,
-        ).order_by(
-            '-weight',
-            '-publication_date',
-        )
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('art.add_gallery'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'art:gallery_create',
+            )
+        return context
+
+class MemberGalleryView(ModelByMemberMixin, ListView):
+
+    model = Gallery
+    try:
+        paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
+    except:
+        paginate_by = 10
+    context_object_name = 'galleries'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Top Galleries"
-        # SEO stuff
-        context['meta_title'] = "Top Galleries | {}".format(
-            profile.title,
-        )
-        context['meta_desc'] = "Amazing galleries curated by {} contributors.".format(
-            profile.title,
-        )
+        member = Member.objects.get(username=self.kwargs['member'])
+        # Create button
+        if self.request.user.has_perm('art.add_gallery'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'art:gallery_create',
+            )
+        return context
+
+class GalleryStudioListView(StudioListMixin, ListView):
+
+    model = Gallery
+    template_name = 'art/studio_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         # Create button
         if self.request.user.has_perm('art.add_gallery'):
             context['show_create_button'] = True
@@ -465,55 +450,6 @@ class GalleryDetailView(DetailView):
                 is_public=True,
                 members_only=False,
             ).order_by('weight', '-publication_date')[:5]
-        return context
-
-class MemberGalleryView(ListView):
-
-    model = Gallery
-    try:
-        paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].gallery_list_pagination
-    except:
-        paginate_by = 10
-    context_object_name = 'galleries'
-
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.pk == member.pk:
-            return Gallery.objects.filter(
-                owner=member
-            ).order_by(
-                '-last_modified',
-            )
-        else:
-            return Gallery.objects.filter(
-                owner=member,
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        # App profile
-        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Galleries"
-        context['meta_title'] = "Galleries by {} | {}".format(
-            member,
-            profile.title,
-            )
-        context['meta_desc'] = "Galleries curated by {} for {}.".format(
-            member,
-            profile.title,
-        )
-        # Create button
-        if self.request.user.has_perm('art.add_gallery'):
-            context['show_create_button'] = True
-            context['create_button_url'] = reverse(
-                'art:gallery_create',
-            )
-        context['member'] = member
         return context
 
 class GalleryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
@@ -665,7 +601,7 @@ class VisualCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreate
                 kwargs={'slug': self.object.slug},
             )
 
-class VisualListView(ListView):
+class VisualListView(NewModelListMixin, ListView):
 
     model = Visual
     try:
@@ -674,34 +610,8 @@ class VisualListView(ListView):
         paginate_by = 36
     context_object_name = 'visuals'
 
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Visual.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-            ).order_by(
-                'is_public',
-                '-publication_date',
-            )
-        else:
-            return Visual.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "New Visuals"
-        # SEO stuff
-        context['meta_title'] = "New Visuals | {}".format(
-            profile.title,
-        )
-        context['meta_desc'] = "The latest visuals curated by {} contributors.".format(
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('art.add_visual'):
             context['show_create_button'] = True
@@ -710,7 +620,7 @@ class VisualListView(ListView):
             )
         return context
 
-class TopVisualListView(ListView):
+class TopVisualListView(TopModelListMixin, ListView):
 
     model = Visual
     try:
@@ -719,27 +629,43 @@ class TopVisualListView(ListView):
         paginate_by = 36
     context_object_name = 'visuals'
 
-    def get_queryset(self, *args, **kwargs):
-        return Visual.objects.filter(
-            is_public=True,
-        ).order_by(
-            '-weight',
-            '-publication_date',
-        )
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('art.add_visual'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'art:visual_create',
+            )
+        return context
+
+class MemberVisualView(ModelByMemberMixin, ListView):
+
+    model = Visual
+    try:
+        paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].visual_list_pagination
+    except:
+        paginate_by = 36
+    context_object_name = 'visuals'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Top Visuals"
-        # SEO stuff
-        context['meta_title'] = "Top Visuals | {}".format(
-            profile.title,
-        )
-        context['meta_desc'] = "Amazing visuals curated by {} contributors.".format(
-            profile.title,
-        )
+        member = Member.objects.get(username=self.kwargs['member'])
+        # Create button
+        if self.request.user.has_perm('art.add_visual'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'art:visual_create',
+            )
+        return context
+
+class VisualStudioListView(StudioListMixin, ListView):
+
+    model = Visual
+    template_name = 'art/studio_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         # Create button
         if self.request.user.has_perm('art.add_visual'):
             context['show_create_button'] = True
@@ -830,55 +756,6 @@ class VisualDetailView(DetailView):
                 is_public=True,
                 members_only=False,
             ).order_by('weight', '-publication_date')[:5]
-        return context
-
-class MemberVisualView(ListView):
-
-    model = Visual
-    try:
-        paginate_by = ArtAppProfile.objects.get_or_create(pk=1)[0].visual_list_pagination
-    except:
-        paginate_by = 36
-    context_object_name = 'visuals'
-
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.pk == member.pk:
-            return Visual.objects.filter(
-                owner=member
-            ).order_by(
-                '-last_modified',
-            )
-        else:
-            return Visual.objects.filter(
-                owner=member,
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        # App profile
-        profile, created = ArtAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Visuals"
-        context['meta_title'] = "Visuals by {} | {}".format(
-            member,
-            profile.title,
-            )
-        context['meta_desc'] = "Visuals curated by {} for {}.".format(
-            member,
-            profile.title,  
-        )
-        # Create button
-        if self.request.user.has_perm('art.add_visual'):
-            context['show_create_button'] = True
-            context['create_button_url'] = reverse(
-                'art:visual_create',
-            )
-        context['member'] = member
         return context
 
 class VisualUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):

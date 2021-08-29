@@ -1,12 +1,12 @@
 <div class="members-section">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Galleries
-      </h4>
+      <h5 class="gallery-title">Your Galleries
+      </h5>
     </div>
     <div class="col-">
       <div class="container">
-        {% if show_art_buttons %}
+        {% if show_objects_buttons %}
           {% with gallery_add_button as button %}
             {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
               {% include 'buttons/small_add_button.html' %}
@@ -17,37 +17,14 @@
     </div>
   </div>
   {% if galleries.all.count > 0 %}
-    <table class="studio-table">
-      <tr>
-        <th>Title</th>
-        <th>Modified</th>
-        <th>Created</th>
-        <th>Published</th>
-      </th>
-      {% for gallery in galleries %}
-        <tr>
-          <td><a href="{% url 'art:gallery_detail' gallery.slug %}">{{ gallery.title|truncatechars:20 }}</a></td>
-          <td>{{ gallery.last_modified|date:"M d, Y" }}</td>
-          <td>{{ gallery.creation_date|date:"M d, Y" }}</td>
-          <td>
-            {% if gallery.is_public %}
-              {{ gallery.publication_date|date:"M d, Y" }}
-            {% else %}
-              {% include 'objects/unpublished.html' %}
-            {% endif %}
-            {% if gallery.members_only %}
-              {% include 'objects/members_only.html' %}
-            {% endif %}
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
+    {% with galleries as objects %}
+      {% include './studio_list.html' %}
+    {% endwith %}
     <br>
     <p>
-      <a href="{% url 'art:member_galleries' request.user.username %}">more ...</a>
+      <a href="{% url 'art:gallery_studio_list' %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not contributed any Galleries yet.</p>
+    <p>You have not created any galleries yet.</p>
   {% endif %}
 </div>
-

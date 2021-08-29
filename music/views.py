@@ -18,6 +18,7 @@ from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from objects.utils import Text
 from posts.models import ResponsePost
+from .app_profile_mixins import NewModelListMixin, TopModelListMixin, ModelByMemberMixin, StudioListMixin
 from .forms import MusicAppProfileForm, MusicPageSectionForm, AlbumForm, TrackForm
 from .models import MusicAppProfile, MusicPageSection, Album, Track
 
@@ -294,7 +295,7 @@ class AlbumCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class AlbumListView(ListView):
+class AlbumListView(NewModelListMixin, ListView):
 
     model = Album
     try:
@@ -303,35 +304,8 @@ class AlbumListView(ListView):
         paginate_by = 10
     context_object_name = 'albums'
 
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Album.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-            ).order_by(
-                'is_public',
-                '-publication_date',
-            )
-        else:
-            return Album.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = MusicAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "New Albums"
-        # SEO stuff
-        context['meta_title'] = "{} | {}".format(
-            context['app_list_context'],
-            profile.title,
-        )
-        context['meta_desc'] = "New albums released by {} contributors.".format(
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('foo.add_album'):
             context['show_create_button'] = True
@@ -340,7 +314,7 @@ class AlbumListView(ListView):
             )
         return context
 
-class TopAlbumListView(ListView):
+class TopAlbumListView(TopModelListMixin, ListView):
 
     model = Album
     try:
@@ -349,29 +323,51 @@ class TopAlbumListView(ListView):
         paginate_by = 10
     context_object_name = 'albums'
 
-    def get_queryset(self, *args, **kwargs):
-        return Album.objects.filter(
-            is_public=True,
-        ).order_by(
-            '-weight',
-            '-publication_date',
-        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile, created = MusicAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Top Albums"
-        # SEO stuff
-        context['meta_title'] = "{} | {}".format(
-            context['app_list_context'],
-            profile.title,
-        )
-        context['meta_desc'] = "Top albums released by {} contributors.".format(
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('foo.add_album'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'music:album_create',
+            )
+        return context
+
+class MemberAlbumView(ModelByMemberMixin, ListView):
+
+    model = Album
+    try:
+        paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].album_list_pagination
+    except:
+        paginate_by = 10
+    context_object_name = 'albums'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = Member.objects.get(username=self.kwargs['member'])
+        # Create button
+        if self.request.user.has_perm('music.add_album'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'music:album_create',
+            )
+        return context
+
+class AlbumStudioListView(StudioListMixin, ListView):
+
+    model = Album
+    template_name = 'music/studio_list.html'
+    try:
+        paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].album_list_pagination
+    except:
+        paginate_by = 10
+    context_object_name = 'albums'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('music.add_album'):
             context['show_create_button'] = True
             context['create_button_url'] = reverse(
                 'music:album_create',
@@ -464,57 +460,6 @@ class AlbumDetailView(DetailView):
                 is_public=True,
                 members_only=False,
             ).order_by('weight', '-publication_date')[:5]
-        return context
-
-class MemberAlbumView(ListView):
-
-    model = Album
-    try:
-        paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].album_list_pagination
-    except:
-        paginate_by = 10
-    context_object_name = 'albums'
-
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.pk == member.pk:
-            return Album.objects.filter(
-                owner=member
-            ).order_by(
-                '-last_modified',
-            )
-        else:
-            return Album.objects.filter(
-                owner=member,
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        # App profile
-        profile, created = MusicAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Albums"
-        # SEO stuff
-        context['meta_title'] = "Albums released by {} | {}".format(
-            member,
-            profile.title,
-            )
-        context['meta_desc'] = "Music collections released by {} for {}.".format(
-            member,
-            profile.title,
-        )
-        # Create button
-        if self.request.user.has_perm('music.add_album'):
-            context['show_create_button'] = True
-            context['create_button_url'] = reverse(
-                'music:album_create',
-            )
-        context['member'] = member
         return context
 
 class AlbumUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):
@@ -665,7 +610,7 @@ class TrackCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
                 kwargs={'slug': self.object.slug},
             )
 
-class TrackListView(ListView):
+class TrackListView(NewModelListMixin, ListView):
 
     model = Track
     try:
@@ -674,35 +619,8 @@ class TrackListView(ListView):
         paginate_by = 10
     context_object_name = 'tracks'
 
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Track.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-            ).order_by(
-                'is_public',
-                '-publication_date',
-            )
-        else:
-            return Track.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = MusicAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "New Tracks"
-        # SEO stuff
-        context['meta_title'] = "{} | {}".format(
-            context['app_list_context'],
-            profile.title,
-        )
-        context['meta_desc'] = "New tracks released by {} contributors.".format(
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('music.add_track'):
             context['show_create_button'] = True
@@ -711,7 +629,7 @@ class TrackListView(ListView):
             )
         return context
 
-class TopTrackListView(ListView):
+class TopTrackListView(TopModelListMixin, ListView):
 
     model = Track
     try:
@@ -720,28 +638,44 @@ class TopTrackListView(ListView):
         paginate_by = 10
     context_object_name = 'tracks'
 
-    def get_queryset(self, *args, **kwargs):
-        return Track.objects.filter(
-            is_public=True,
-        ).order_by(
-            '-weight',
-            '-publication_date',
-        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = MusicAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Top Tracks"
-        # SEO stuff
-        context['meta_title'] = "{} | {}".format(
-            context['app_list_context'],
-            profile.title,
-        )
-        context['meta_desc'] = "Top tracks released by {} contributors.".format(
-            profile.title, 
-        )
+        # Create button
+        if self.request.user.has_perm('music.add_track'):
+            context['show_create_button'] = True  
+            context['create_button_url'] = reverse(
+                'music:track_create',
+            )
+        return context
+
+class MemberTrackView(ModelByMemberMixin, ListView):
+
+    model = Track
+    try:
+        paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].track_list_pagination
+    except:
+        paginate_by = 10
+    context_object_name = 'tracks'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = Member.objects.get(username=self.kwargs['member'])
+        # Create button
+        if self.request.user.has_perm('music.add_track'):
+            context['show_create_button'] = True  
+            context['create_button_url'] = reverse(
+                'music:track_create',
+            )
+        return context
+
+class TrackStudioListView(StudioListMixin, ListView):
+
+    model = Track
+    template_name = 'music/studio_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         # Create button
         if self.request.user.has_perm('music.add_track'):
             context['show_create_button'] = True  
@@ -840,56 +774,6 @@ class TrackDetailView(DetailView):
                 is_public=True,
                 members_only=False,
             ).order_by('weight', '-publication_date')[:5]
-        return context
-
-class MemberTrackView(ListView):
-
-    model = Track
-    try:
-        paginate_by = MusicAppProfile.objects.get_or_create(pk=1)[0].track_list_pagination
-    except:
-        paginate_by = 10
-    context_object_name = 'tracks'
-
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.pk == member.pk:
-            return Track.objects.filter(
-                owner=member
-            ).order_by(
-                '-last_modified',
-            )
-        else:
-            return Track.objects.filter(
-                owner=member,
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        # App profile
-        profile, created = MusicAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Tracks"
-        # SEO stuff
-        context['meta_title'] = "Tracks released by {} | {}".format(
-            member,
-            profile.title,
-            )
-        context['meta_desc'] = "Music released by {} for {}.".format(
-            member,
-            profile.title,  
-        )
-        # Create button
-        if self.request.user.has_perm('music.add_track'):
-            context['show_create_button'] = True  
-            context['create_button_url'] = reverse(
-                'music:track_create',
-            )
-        context['member'] = member
         return context
 
 class TrackUpdateView(LoginRequiredMixin, PermissionRequiredMixin, MemberUpdateMixin, UpdateView):

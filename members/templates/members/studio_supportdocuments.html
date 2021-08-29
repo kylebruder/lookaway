@@ -1,12 +1,12 @@
 <div class="members-section">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Documents
-      </h4>
+      <h5 class="document-title">Your Information
+      </h5>
     </div>
     <div class="col-">
       <div class="container">
-        {% if show_documentation_buttons %}
+        {% if show_objects_buttons %}
           {% with document_add_button as button %}
             {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
               {% include 'buttons/small_add_button.html' %}
@@ -16,37 +16,15 @@
       </div>
     </div>
   </div>
-  {% if support_documents.all.count > 0 %}
-    <table class="studio-table">
-      <tr>
-        <th>Title</th>
-        <th>Modified</th>
-        <th>Created</th>
-        <th>Published</th>
-      </th>
-      {% for document in support_documents %}
-        <tr>
-          <td><a href="{% url 'documentation:support_document_detail' document.slug %}">{{ document.title|truncatechars:20 }}</a></td>
-          <td>{{ document.last_modified|date:"M d, Y" }}</td>
-          <td>{{ document.creation_date|date:"M d, Y" }}</td>
-          <td>
-            {% if document.is_public %}
-              {{ document.publication_date|date:"M d, Y" }}
-            {% else %}
-              {% include 'objects/unpublished.html' %}
-            {% endif %}
-            {% if document.members_only %}
-              {% include 'objects/members_only.html' %}
-            {% endif %}
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
+  {% if documents.all.count > 0 %}
+    {% with documents as objects %}
+      {% include './studio_list.html' %}
+    {% endwith %}
     <br>
     <p>
-      <a href="{% url 'documentation:member_support_documents' request.user.username %}">more ...</a>
+      <a href="{% url 'documentation:document_studio_list' %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not contributed any Documents yet.</p>
+    <p>You have not created any support documents yet.</p>
   {% endif %}
 </div>

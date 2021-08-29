@@ -80,9 +80,19 @@ urlpatterns = [
         name='member_albums',
     ),
     path(
+        'studio/albums/',
+        views.AlbumStudioListView.as_view(),
+        name='album_studio_list',
+    ),
+    path(
         'member/<slug:member>/tracks/',
         views.MemberTrackView.as_view(),
         name='member_tracks',
+    ),
+    path(
+        'studio/tracks/',
+        views.TrackStudioListView.as_view(),
+        name='track_studio_list',
     ),
     # Create Views
     path(

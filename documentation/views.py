@@ -18,6 +18,7 @@ from members.models import Member
 from members.mixins import MemberCreateMixin, MemberUpdateMixin, MemberDeleteMixin
 from objects.utils import Text
 from posts.models import ResponsePost
+from .app_profile_mixins import NewModelListMixin, TopModelListMixin, StudioListMixin, ModelByMemberMixin
 from .forms import ArticleForm, ArticleSectionForm, DocumentationAppProfileForm, DocumentationPageSectionForm, StoryForm, StorySectionForm, SupportDocumentForm, SupportDocSectionForm
 from .models import Article, ArticleSection, DocumentationAppProfile, DocumentationPageSection, Story, StorySection, SupportDocument, SupportDocSection
 
@@ -316,7 +317,7 @@ class ArticleCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreat
                 kwargs={'slug': self.object.slug},
             )
 
-class ArticleListView(ListView):
+class ArticleListView(NewModelListMixin, ListView):
 
     model = Article
     try:
@@ -325,35 +326,8 @@ class ArticleListView(ListView):
         paginate_by = 10
     context_object_name = 'articles'
 
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Article.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-            ).order_by(
-                'is_public',
-                '-publication_date',
-            )
-        else:
-            return Article.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "New Articles"
-        # SEO stuff
-        context['meta_title'] = "{} | {}".format(
-            context['app_list_context'],
-            profile.title,
-        )
-        context['meta_desc'] = "Recently published articles by {} contributors.".format(
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
@@ -362,7 +336,7 @@ class ArticleListView(ListView):
             )
         return context   
 
-class TopArticleListView(ListView):
+class TopArticleListView(TopModelListMixin, ListView):
 
     model = Article
     try:
@@ -371,27 +345,8 @@ class TopArticleListView(ListView):
         paginate_by = 10
     context_object_name = 'articles'
 
-    def get_queryset(self, *args, **kwargs):
-        return Article.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-weight',
-                '-publication_date',
-            )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Top Articles"
-        # SEO stuff
-        context['meta_title'] = "Top Articles | {}".format(
-            profile.title,
-            )
-        context['meta_desc'] = "The all time greatest {} articles.".format(
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
@@ -400,7 +355,7 @@ class TopArticleListView(ListView):
             )
         return context   
 
-class MemberArticleView(ListView):
+class MemberArticleView(ModelByMemberMixin, ListView):
 
     model = Article
     try:
@@ -409,45 +364,30 @@ class MemberArticleView(ListView):
         paginate_by = 10
     context_object_name = 'articles'
 
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.pk == member.pk:
-            return Article.objects.filter(
-                owner=member
-            ).order_by(
-                '-last_modified',
-            )
-        else:
-            return Article.objects.filter(
-                owner=member,
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        # App profile
-        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Articles"
-        # SEO stuff
-        context['meta_title'] = "Articles by {} | {}".format(
-            member,
-            profile.title,
-            )
-        context['meta_desc'] = "Articles written by {} for {}.".format(
-            member,
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
             context['create_button_url'] = reverse(
                 'documentation:article_create',
             )
-        context['member'] = member
+        return context
+
+class ArticleStudioListView(StudioListMixin, ListView):
+
+    model = Article
+    context_object_name = 'articles'
+    template_name = 'documentation/studio_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('documentation.add_article'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'documentation:article_create',
+            )
         return context
 
 class ArticleDetailView(DetailView):
@@ -841,7 +781,7 @@ class SupportDocumentCreateView(LoginRequiredMixin, PermissionRequiredMixin, Mem
                 kwargs={'slug': self.object.slug},
             )
 
-class SupportDocumentListView(ListView):
+class SupportDocumentListView(NewModelListMixin, ListView):
 
     model = SupportDocument
     try:
@@ -850,34 +790,8 @@ class SupportDocumentListView(ListView):
         paginate_by = 10
     context_object_name = 'documents'
 
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return SupportDocument.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True),
-            ).order_by(
-                'is_public',
-                '-publication_date',
-            )
-        else:
-            return SupportDocument.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "New Information"
-        # SEO stuff
-        context['meta_title'] = "New Information | {}".format(
-            profile.title,
-            )
-        context['meta_desc'] = "Recently published documentation by {} staff contributors.".format(
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
@@ -886,7 +800,7 @@ class SupportDocumentListView(ListView):
             )
         return context   
 
-class TopSupportDocumentListView(ListView):
+class TopSupportDocumentListView(TopModelListMixin, ListView):
 
     model = SupportDocument
     try:
@@ -895,27 +809,8 @@ class TopSupportDocumentListView(ListView):
         paginate_by = 10
     context_object_name = 'documents'
 
-    def get_queryset(self, *args, **kwargs):
-        return SupportDocument.objects.filter(
-            is_public=True,
-        ).order_by(
-            '-weight',
-            '-publication_date',
-        )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Top Information"
-        # SEO stuff
-        context['meta_title'] = "Top Information | {}".format(
-            profile.title,
-            )
-        context['meta_desc'] = "Important information documented by {} contributors.".format(
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
@@ -924,7 +819,7 @@ class TopSupportDocumentListView(ListView):
             )
         return context
 
-class MemberSupportDocumentView(ListView):
+class MemberSupportDocumentView(ModelByMemberMixin, ListView):
 
     model = SupportDocument
     try:
@@ -933,45 +828,30 @@ class MemberSupportDocumentView(ListView):
         paginate_by = 10
     context_object_name = 'documents'
 
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.pk == member.pk:
-            return SupportDocument.objects.filter(
-                owner=member
-            ).order_by(
-                '-last_modified',
-            )
-        else:
-            return SupportDocument.objects.filter(
-                owner=member,
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        # App profile
-        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Information"
-        # SEO stuff
-        context['meta_title'] = "Information by {} | {}".format(
-            member,
-            profile.title,
-            )
-        context['meta_desc'] = "Information documented by {} for {}.".format(
-            member,
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
             context['create_button_url'] = reverse(
                 'documentation:support_document_create',
             )
-        context['member'] = member
+        return context
+
+class SupportDocumentStudioListView(StudioListMixin, ListView):
+
+    model = SupportDocument
+    context_object_name = 'document'
+    template_name = 'documentation/studio_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('documentation.add_article'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'documentation:support_document_create',
+            )
         return context
 
 class SupportDocumentDetailView(DetailView):
@@ -1371,7 +1251,7 @@ class StoryCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateM
                 kwargs={'slug': self.object.slug},
             )
 
-class StoryListView(ListView):
+class StoryListView(NewModelListMixin, ListView):
 
     model = Story
     try:
@@ -1380,34 +1260,8 @@ class StoryListView(ListView):
         paginate_by = 10
     context_object_name = 'stories'
 
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return Story.objects.filter(
-                Q(owner=self.request.user) | Q(is_public=True)
-            ).order_by(
-                'is_public',
-                '-publication_date',
-            )
-        else:
-            return Story.objects.filter(
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "New Stories"
-        # SEO stuff
-        context['meta_title'] = "New Stories | {}".format(
-            profile.title,
-        )
-        context['meta_desc'] = "Recent stories written by {} contributors.".format(
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
@@ -1416,7 +1270,7 @@ class StoryListView(ListView):
             )
         return context   
 
-class TopStoryListView(ListView):
+class TopStoryListView(TopModelListMixin, ListView):
 
     model = Story
     try:
@@ -1425,27 +1279,8 @@ class TopStoryListView(ListView):
         paginate_by = 10
     context_object_name = 'stories'
 
-    def get_queryset(self, *args, **kwargs):
-        return Story.objects.filter(
-            is_public=True,
-        ).order_by(
-            '-weight',
-            '-publication_date',
-        )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # App profile
-        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Top Stories"
-        # SEO stuff
-        context['meta_title'] = "Top Stories | {}".format(
-            profile.title,
-        )
-        context['meta_desc'] = "Excellent stories written by {} contributors.".format(
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
@@ -1454,7 +1289,7 @@ class TopStoryListView(ListView):
             )
         return context
 
-class MemberStoryView(ListView):
+class MemberStoryView(ModelByMemberMixin, ListView):
 
     model = Story
     try:
@@ -1463,44 +1298,29 @@ class MemberStoryView(ListView):
         paginate_by = 10
     context_object_name = 'stories'
 
-    def get_queryset(self, *args, **kwargs):
-        member = Member.objects.get(username=self.kwargs['member'])
-        if self.request.user.pk == member.pk:
-            return Story.objects.filter(
-                owner=member
-            ).order_by(
-                '-last_modified',
-            )
-        else:
-            return Story.objects.filter(
-                owner=member,
-                is_public=True,
-            ).order_by(
-                '-publication_date',
-            )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        member = Member.objects.get(username=self.kwargs['member'])
-        # App profile
-        profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
-        context['profile'] = profile
-        context['app_list_context'] = "Stories"
-        context['meta_title'] = "Stories by {} | {}".format(
-            member,
-            profile.title,
-            )
-        context['meta_desc'] = "Stories published by {} for {}.".format(
-            member,
-            profile.title,
-        )
         # Create button
         if self.request.user.has_perm('documentation.add_article'):
             context['show_create_button'] = True
             context['create_button_url'] = reverse(
                 'documentation:story_create',
             )
-        context['member'] = member
+        return context
+
+class StoryStudioListView(StudioListMixin, ListView):
+
+    model = Story
+    template_name= 'documentation/studio_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('documentation.add_article'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'documentation:story_create',
+            )
         return context
 
 class StoryDetailView(DetailView):

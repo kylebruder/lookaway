@@ -443,7 +443,7 @@ class MemberImageView(MemberViewMixin, LoginRequiredMixin, ListView):
         context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
-class ImageStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
+class ImageStudioListView(StudioListMixin, LoginRequiredMixin, ListView):
 
     model = Image
     template_name = 'objects/studio_list.html'
@@ -456,7 +456,6 @@ class ImageStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
             context['create_button_url'] = reverse(
                 'objects:image_create',
             )
-        context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
     
 class ImageDetailView(LoginRequiredMixin, DetailView):
@@ -680,7 +679,7 @@ class MemberSoundView(MemberViewMixin, LoginRequiredMixin, ListView):
         context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
-class SoundStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
+class SoundStudioListView(StudioListMixin, LoginRequiredMixin, ListView):
 
     model = Sound
     template_name = 'objects/studio_list.html'
@@ -693,7 +692,6 @@ class SoundStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
             context['create_button_url'] = reverse(
                 'objects:sound_create',
             )
-        context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
 class SoundDetailView(LoginRequiredMixin, DetailView):
@@ -921,7 +919,7 @@ class MemberVideoView(MemberViewMixin, LoginRequiredMixin, ListView):
         context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
-class VideoStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
+class VideoStudioListView(StudioListMixin, LoginRequiredMixin, ListView):
 
     model = Video
     template_name = 'objects/studio_list.html'
@@ -934,7 +932,6 @@ class VideoStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
             context['create_button_url'] = reverse(
                 'objects:video_create',
             )
-        context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
 class VideoDetailView(LoginRequiredMixin, DetailView):
@@ -1118,7 +1115,7 @@ class MemberCodeView(MemberViewMixin, LoginRequiredMixin, ListView):
         context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
-class CodeStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
+class CodeStudioListView(StudioListMixin, LoginRequiredMixin, ListView):
 
     model = Code
     template_name = 'objects/studio_list.html'
@@ -1131,7 +1128,6 @@ class CodeStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
             context['create_button_url'] = reverse(
                 'objects:code_create',
             )
-        context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
 class CodeDetailView(LoginRequiredMixin, DetailView):
@@ -1316,7 +1312,7 @@ class MemberLinkView(MemberViewMixin, LoginRequiredMixin, ListView):
         context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
-class LinkStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
+class LinkStudioListView(StudioListMixin, LoginRequiredMixin, ListView):
 
     model = Link
     template_name = 'objects/studio_list.html'
@@ -1329,7 +1325,6 @@ class LinkStudoListView(StudioListMixin, LoginRequiredMixin, ListView):
             context['create_button_url'] = reverse(
                 'objects:link_create',
             )
-        context['member'] = Member.objects.get(username=self.kwargs['member'])
         return context
 
 class LinkDetailView(LoginRequiredMixin, DetailView):

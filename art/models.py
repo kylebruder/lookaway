@@ -161,5 +161,8 @@ class Gallery(MetaDataMixin, ArtMetaData, MarshmallowMixin, CryptoWalletsMixin):
     def get_absolute_url(self):
         return reverse('art:gallery_detail', kwargs={'slug': self.slug})
 
+    class Meta:
+        verbose_name_plural = "galleries"
+
     def __str__(self):
         return self.title

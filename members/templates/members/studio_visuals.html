@@ -1,12 +1,12 @@
 <div class="members-section">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Visuals
-      </h4>
+      <h5 class="visual-title">Your Visuals
+      </h5>
     </div>
     <div class="col-">
       <div class="container">
-        {% if show_art_buttons %}
+        {% if show_objects_buttons %}
           {% with visual_add_button as button %}
             {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
               {% include 'buttons/small_add_button.html' %}
@@ -17,36 +17,14 @@
     </div>
   </div>
   {% if visuals.all.count > 0 %}
-    <table class="studio-table">
-      <tr>
-        <th>Title</th>
-        <th>Modified</th>
-        <th>Created</th>
-        <th>Published</th>
-      </th>
-      {% for visual in visuals %}
-        <tr>
-          <td><a href="{% url 'art:visual_detail' visual.slug %}">{{ visual.title|truncatechars:20 }}</a></td>
-          <td>{{ visual.last_modified|date:"M d, Y" }}</td>
-          <td>{{ visual.creation_date|date:"M d, Y" }}</td>
-          <td>
-            {% if visual.is_public %}
-              {{ visual.publication_date|date:"M d, Y" }}
-            {% else %}
-              {% include 'objects/unpublished.html' %}
-            {% endif %}
-            {% if visual.members_only %}
-              {% include 'objects/members_only.html' %}
-            {% endif %}
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
+    {% with visuals as objects %}
+      {% include './studio_list.html' %}
+    {% endwith %}
     <br>
     <p>
-      <a href="{% url 'art:member_visuals' request.user.username %}">more ...</a>
+      <a href="{% url 'art:visual_studio_list' %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not contributed any Visuals yet.</p>
+    <p>You have not created any visuals yet.</p>
   {% endif %}
 </div>

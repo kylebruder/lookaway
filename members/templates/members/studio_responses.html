@@ -1,41 +1,19 @@
 <div class="members-section">
   <div class="row">
     <div class="col">
-      <h4 class="studio-title">Your Responses
-      </h4>
+      <h5 class="post-title">Your Responses
+      </h5>
     </div>
   </div>
   {% if responses.all.count > 0 %}
-    <table class="">
-      <tr>
-        <th>Title</th>
-        <th>Last Modified</th>
-        <th>Date Created</th>
-        <th>Published</th>
-      </th>
-      {% for response in responses %}
-        <tr>
-          <td><a href="{% url 'posts:response_detail' response.slug %}">{{ response.title|truncatechars:20 }}</a></td>
-          <td>{{ response.last_modified|date:"M d, Y" }}</td>
-          <td>{{ response.creation_date|date:"M d, Y" }}</td>
-          <td>
-            {% if response.is_public %}
-              {{ response.publication_date|date:"M d, Y" }}
-            {% else %}
-              {% include 'objects/unpublished.html' %}
-            {% endif %}
-            {% if response.members_only %}
-              {% include 'objects/members_only.html' %}
-            {% endif %}
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
+    {% with responses as objects %}
+      {% include './studio_list.html' %}
+    {% endwith %}
     <br>
     <p>
-      <a href="{% url 'posts:member_responses' request.user.username %}">more ...</a>
+      <a href="{% url 'posts:response_studio_list' %}">more ...</a>
     </p>
   {% else %}
-    <p>You have not contributed any Responses yet.</p>
+    <p>You have not created any responses yet.</p>
   {% endif %}
 </div>

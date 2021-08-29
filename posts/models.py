@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from crypto.models import CryptoWalletsMixin
 from members.mixins import MarshmallowMixin
@@ -133,6 +134,9 @@ class Post(MetaDataMixin, PostMetaData, MarshmallowMixin, CryptoWalletsMixin):
         verbose_name_plural = "Posts"
         ordering = ['-publication_date', '-creation_date']
 
+    def get_absolute_url(self):
+        return reverse('posts:post_detail', kwargs={'slug': self.slug})
+
 class PostForeignModels(models.Model):
 
     class Meta:
@@ -197,6 +201,9 @@ class ResponsePost(MetaDataMixin, PostMetaData, PostForeignModels, MarshmallowMi
         verbose_name_plural = "Responses"
         ordering = ['-publication_date', '-creation_date']
 
+    def get_absolute_url(self):
+        return reverse('posts:response_detail', kwargs={'slug': self.slug})
+
 class ReportPost(MetaDataMixin, PostMetaData, PostForeignModels):
 
     class ReportChoices(models.TextChoices):
@@ -216,3 +223,6 @@ class ReportPost(MetaDataMixin, PostMetaData, PostForeignModels):
         verbose_name = "Report"
         verbose_name_plural = "Reports"
         ordering = ['-publication_date', '-creation_date']
+
+    def get_absolute_url(self):
+        return reverse('posts:report_detail', kwargs={'slug': self.slug})
