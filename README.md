@@ -8,7 +8,7 @@ This example uses a bash terminal on Ubuntu 20 LTS. This should work on Debian b
 
 Install modules
 ```
-$ sudo apt install ffmpeg mailutils
+$ sudo apt install postgresql postgresql-contrib git ffmpeg mailutils python3-virtualenv python3-pip
 ```
 
 Setup virtual environment (highly recommended)
@@ -28,6 +28,8 @@ Initialize Lookaway and run the server locally
 $ cd lookaway
 $ pip install -r requirements.txt
 $ cp settings/development.py lookaway/settings.py
+$ echo export DJANGO_SECRET_KEY=\"`python scripts/make_key.py`\" >> ~/.profile
+$ source ~/.profile
 $ mkdir media
 $ python manage.py migrate
 $ python manage.py runserver 8000

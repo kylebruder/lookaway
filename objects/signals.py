@@ -134,7 +134,12 @@ def handle_sound_upload(sender, instance, created, *args, **kwargs):
 
         def encode(snd_file):
             path = ''.join(snd_file.split('.')[:-1])
-            output = '{}{}'.format(path, snd_ext)
+            # Add a "1" to file name if the file is already using the extension configured.
+            # This avoids erroring when trying to convert a file to a new file of  the smae filename.
+            if snd_ext in snd_file:
+                output = '{}1{}'.format(path, snd_ext)
+            else:
+                output = '{}{}'.format(path, snd_ext)
             # Thanks Vestride
             # https://gist.github.com/Vestride/278e13915894821e1d6f
             command = [
@@ -201,6 +206,12 @@ def handle_video_upload(sender, instance, created, *args, **kwargs):
         
         def encode(vid_file):
             path = ''.join(vid_file.split('.')[:-1])
+            # Add a "1" to file name if the file is already using the extension configured.
+            # This avoids erroring when trying to convert a file to a new file of  the smae filename.
+            if vid_ext in vid_file:
+                output = '{}1{}'.format(path, vid_ext)
+            else:
+                output = '{}{}'.format(path, vid_ext)
             output = '{}.{}'.format(path, vid_ext)
             # Thanks Vestride
             # https://gist.github.com/Vestride/278e13915894821e1d6f

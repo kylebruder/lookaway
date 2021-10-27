@@ -90,6 +90,7 @@ def nav_buttons(request):
 # Thanks culebrón! (So obvious now, *facepalm*)
 # https://stackoverflow.com/questions/8000022/django-template-how-to-look-up-a-dictionary-value-with-a-variable
 def lookup(dictionary, key):
+    print(dictionary)
     return dictionary.get(key)
 register.filter('lookup', lookup)
 
