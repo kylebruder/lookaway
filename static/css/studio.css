@@ -15,7 +15,7 @@
   display: block;
   width: 100px;
   height: 100px;
-  background-color: #222222;
+  background-color: #eeeeee;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -26,24 +26,24 @@
 }
 
 .studio-list-table {
-  background-color: #222222;
+  background-color: #eeeeee;
   padding: 10px;
   border-radius: 5px;
 }
 
 .studio-section {
-  color: #eeeeee;
-  background-color: #222222;
+  color: #222222;
+  background-color: #eeeeee;
   max-width: 100%;
   padding: 15px;
   margin-bottom: 10px;
   position: relative;
-  border-color: #111111;
+  border-color: #ffffff;
   border-style: solid;
   border-width: 3px;
   border-radius: 5px;
 }
 
 .studio-title {
-  font-family: 'Averia Serif Libre', serif;
+  font-family: 'Times New Roman', serif;
 }

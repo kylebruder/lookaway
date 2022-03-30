@@ -1,0 +1,49 @@
+.studio-bg {
+  background-color: #333333;
+  border-radius: 0px 0px 25px 25px;
+}
+.studio-button {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.studio-col {
+  max-width: auto;
+}
+
+.studio-image-card {
+  display: block;
+  width: 100px;
+  height: 100px;
+  background-color: #222222;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.studio-image-matrix {
+  max-height: 400px;
+  max-width: 400px;
+}
+
+.studio-list-table {
+  background-color: #222222;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.studio-section {
+  color: #eeeeee;
+  background-color: #222222;
+  max-width: 100%;
+  padding: 15px;
+  margin-bottom: 10px;
+  position: relative;
+  border-color: #111111;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 5px;
+}
+
+.studio-title {
+  font-family: 'Averia Serif Libre', serif;
+}

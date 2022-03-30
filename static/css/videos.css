@@ -1,20 +1,20 @@
 .video-bg {
-  background-color: #222222;
-  color: #eeeeee;
+  background-color: #eeeeee;
+  color: #222222;
   border-radius: 0px 0px 25px 25px;
   padding-top: 15px;
   margin-bottom: 40px;
 }
 
 .video-list-li {
-  background-color: #222222;
-  color: #ffffff;
+  background-color: #eeeeee;
+  color: #111111;
 }
 
 .video-player {
   max-width: 100%;
   height: auto;
-  border-color: #111111;
+  border-color: #ffffff;
   border-style: solid;
   border-width: 3px;
   border-radius: 5px;
@@ -23,13 +23,13 @@
 .video-player-sm {
   max-width: 500px;
   max-height: 500px;
-  border-color: #111111;
+  border-color: #ffffff;
   border-style: solid;
   border-width: 3px;
   border-radius: 5px;
 }
 
 .video-title {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Courier New', monospace;
 }
 

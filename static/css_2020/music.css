@@ -1,0 +1,233 @@
+.music-alert {
+  display: inline-block;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #111111;
+}
+
+.music-bg {
+  background-color: #222222;
+  color: #eeeeee;
+  border-radius: 0px 0px 25px 25px;
+  padding-top: 15px;
+  margin-bottom: 40px;
+}
+
+.music-album {
+  width: 300px;
+  height: 275px;
+  padding: 10px;
+  margin: 10px;
+  border-style: solid;
+  border-width: 5px 5px 5px 20px;
+  border-radius: 5px;
+  border-color: #eeeeee;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  float: left;
+}
+
+.music-brand-name {
+  font-family: 'Baloo Paaji 2', sans-serif;
+}
+
+.music-album-card-image {
+  display: block;
+  width: 110px;
+  height: 100px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  border-style: solid;
+  border-width: 3px 3px 3px 7px;
+  border-radius: 5px;
+ }
+
+.music-album-image {
+  width: 350px;
+  height: 350px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
+.music-album-info {
+  font-size: 1.25em;
+}
+
+.music-album-list-image {
+  display: block;
+  width: 80px;
+  height: 75px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  border-style: solid;
+  border-width: 3px 3px 3px 7px;
+  border-radius: 5px;
+ }
+
+.music-album-meta {
+  font-color: #eeeeee;
+  font-size: 0.75em;
+  background-color: #222222;
+  margin: 3px;
+  padding: 3px; 
+}
+
+.music-album-title {
+  font-color: #eeeeee;
+  font-family: 'Averia Serif Libre', serif;
+  background-color: #222222;
+  margin: 3px;
+  padding: 3px;
+}
+
+.music-header {
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.music-list-card {
+  color: #ffffff;
+  background-color: #222222;
+  max-width: 330px;
+  display: block;
+  padding: 10px;
+  margin: 15px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #111111;
+  border-radius: 5px;
+}
+
+.music-list-image {
+  display: block;
+  width: 75px;
+  height: 75px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
+.music-list-li {
+  background-color: #222222;
+  color: #ffffff;
+  border-style: solid;
+  border-width: 0px 3px 3px 3px;
+  border-color: #111111;
+}
+
+.music-logo {
+  max-height: 150px;
+  max-width: 250px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.music-meta {
+  font-size: 0.8em;
+}
+
+.music-page-header {
+  margin: auto;
+  display: block;
+}
+
+.music-page-section {
+  padding: 5px;
+  margin: 5px;
+}
+
+.music-page-span {
+  color: #ffffff;
+  background-color: #222222;
+  padding: 10px;
+  line-height: 1.75;
+  border-radius: 5px;
+}
+
+.music-page-title {
+  font-family: 'Permanent Marker', sans-serif;
+}
+
+.music-section {
+  color: #eeeeee;
+  background-color: #222222;
+  max-width: 100%;
+  padding: 15px;
+  margin-bottom: 10px;
+  position: relative;
+  border-radius: 5px;
+}
+
+.music-title {
+  font-family: 'Permanent Marker', sans-serif;
+}
+.music-track-blurb {
+  margin-left: 15px;
+}
+
+.music-track-card {
+  width: 250px;
+  height: 250px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
+.music-track-info {
+  font-size: 1.25em;
+}
+
+.music-track-image {
+  max-width: 100%;
+  max-height: 500px;
+  display: block;
+}
+
+.music-track-card-container {
+  display: block;
+}
+
+.music-track-card-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 100%;
+ }
+
+.music-track-list-image {
+  display: block;
+  width: 75px;
+  height: 75px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 100%;
+ }
+
+.music-video-md {
+  width: 100%;
+  max-height: auto;
+  display: block;
+}
+

@@ -1,5 +1,5 @@
 .crypto-address-block {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Courier New', monospace;
   color: #dddddd;
   background-color: #000000;
   padding: 5px;
@@ -9,8 +9,8 @@
 }
 
 .crypto-bg {
-  background-color: #222222;
-  color: #eeeeee;
+  background-color: #eeeeee;
+  color: #222222;
   border-radius: 0px 0px 25px 25px;
   padding-top: 15px;
   margin-bottom: 40px;
@@ -18,7 +18,7 @@
 
 .crypto-hr {
   border-width: 3px;
-  border-color: #111111;
+  border-color: #ffffff;
 }
   
 .crypto-list-image {
@@ -29,15 +29,15 @@
   margin-bottom: 10px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
 }
 
 .crypto-list-li {
-  background-color: #222222;
-  color: #ffffff;
+  background-color: #eeeeee;
+  color: #111111;
   border-style: solid;
   border-width: 0px 5px 5px 5px;
-  border-color: #111111;
+  border-color: #ffffff;
 }
 
 .crypto-qr-lg {
@@ -66,5 +66,5 @@
 }
 
 .crypto-title {
-  font-family: 'Ibarra Real Nova', serif;
+  font-family: 'Times New Roman', serif;
 }

@@ -1,6 +1,6 @@
 .links-bg {
-  background-color: #222222;
-  color: #eeeeee;
+  background-color: #eeeeee;
+  color: #222222;
   border-radius: 0px 0px 25px 25px;
   padding-top: 15px;
   margin-bottom: 40px;
@@ -10,7 +10,7 @@
   display: block;
   width: 16px;
   height: 16px;
-  background-color: #222222;
+  background-color: #eeeeee;
   background-repeat: no-repeat;
   background-size: cover;
   margin-right: 5px;
@@ -23,25 +23,25 @@
 }
 
 .link-list-field {
-  color: #eeeeee;
-  background-color: #222222;
-  border-color: #eeeeee;
+  color: #222222;
+  background-color: #eeeeee;
+  border-color: #222222;
   max-width: 300px;
 }
 
 .link-list-li {
-  background-color: #222222;
-  color: #ffffff;
+  background-color: #eeeeee;
+  color: #111111;
 }
 
 .link-list-link {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Courier New', monospace;
   font-size: 0.75em;
   overflow-wrap: break-word;
 }
 
 .link-title {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Courier New', monospace;
 }
 
 .link-url {

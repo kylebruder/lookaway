@@ -1,0 +1,228 @@
+.documentation-bg {
+  color: #eeeeee;
+  background-color: #222222;
+  border-radius: 0px 0px 25px 25px;
+  padding-top: 15px;
+  margin-bottom: 40px;
+}
+
+.documentation-col {
+  color: inherit;
+  background-color: inherit;
+  width: 350px;
+  margin-bottom: 10px;
+  float: left;  
+}
+
+.documentation-story-bg {
+  color: inherit;
+  background-color: inherit;
+  border-radius: 0px 0px 25px 25px;
+  padding-top: 15px;
+  margin-bottom: 40px;
+}
+
+.documentation-alert {
+  display: inline-block;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #111111;
+}
+
+.documentation-image-matrix {
+  max-height: 600px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.documentation-caption {
+  text-align: left;
+  margin: 5px;
+}
+
+.documentation-card {
+  display: block;
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: inherit;
+}
+
+.documentation-card-container {
+  display: block;
+}
+
+.documentation-card-title {
+  font-size: 0.75em;
+  color: #eeeeee;
+  background: inherit;
+  padding: 5px;
+}
+
+.documentation-credit {
+  text-align: right;
+  margin: 5px;
+}
+
+.documentation-form-selector {
+  scrollbar-color: dark;
+  overflow-y: scroll;
+  max-height: 400px;
+} 
+
+.documentation-image {
+  max-width: 100%;
+  max-height: 800px;
+}
+
+.documentation-header {
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.documentation-header-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  max-height: 500px;
+}
+
+.documentation-list-card {
+  color: #ffffff;
+  background-color: #222222;
+  max-width: 330px;
+  display: block;
+  padding: 10px;
+  margin: 15px;
+  border-style: solid;
+  border-width: 3px 3px 3px 3px;
+  border-color: #111111;
+  border-radius: 5px;
+}
+
+.documentation-list-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: inherit;
+}
+
+.documentation-list-li {
+  color: #ffffff;
+  background-color: #222222;
+  border-style: solid;
+  border-width: 0px 3px 3px 3px;
+  border-color: #111111;
+}
+
+.documentation-logo {
+  max-height: 150px;
+  max-width: 250px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.documentation-meta {
+  background-color: inherit;
+  font-size: 0.8em;
+}
+
+.documentation-nav {
+  border-color: #111111;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 5px;
+}
+
+.documentation-page-span {
+  color: #ffffff;
+  background-color: #222222;
+  padding: 10px;
+  line-height: 1.75;
+  border-radius: 5px;
+}
+
+.documentation-page-section {
+  color: #eeeeee;
+  background-color: #222222;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.documentation-piece-card {
+  display: block;
+  width: 160px;
+  height: 160px;
+  background-color: inherit;
+  background-size: cover;
+  padding: 5px;
+  margin: 10px;
+}
+
+.documentation-section {
+  color: #eeeeee;
+  background-color: #222222;
+  max-width: 100%;
+  padding: 15px;
+  margin-bottom: 10px;
+  position: relative;
+  border-radius: 5px;
+}
+
+.documentation-section-anchor {
+  display: block;
+  position: relative;
+  width: 0;
+  height: 0;
+  z-index: -1;
+  top: -90px;
+  left: 0;
+  visibility: hidden;
+}
+
+.documentation-story-section-image {
+  width: 335px;
+  margin-right: 30px;
+  margin-bottom: 15px;
+  font-size: 0.75em;
+  display: inline-block;
+}
+
+.documentation-story-section-image-container {
+  max-width: 50%;
+  display: inline-block;
+}
+
+.documentation-story-section-text {
+  min-width: 50%;
+}
+
+.documentation-section-li {
+  background-color: inherit;
+  color: inherit;
+}
+
+.documentation-section-title {
+  font-family: 'Ibarra Real Nova', serif;
+}
+
+.documentation-thumbnail {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 15px;
+  padding: 10px;
+  margin: auto;
+}
+
+.documentation-title {
+  font-family: 'Ibarra Real Nova', serif;
+}

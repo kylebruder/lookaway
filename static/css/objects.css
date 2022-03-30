@@ -2,19 +2,19 @@
   display: inline-block;
   border-style: solid;
   border-width: 3px;
-  border-color: #111111;
+  border-color: #ffffff;
 }
 
 .objects-bg {
-  background-color: #222222;
-  color: #eeeeee;
+  background-color: #eeeeee;
+  color: #222222;
   border-radius: 0px 0px 25px 25px;
   padding-top: 15px;
   margin-bottom: 40px;
 }
 
 .objects-brand-name {
-  font-family: 'Baloo Paaji 2', sans-serif;
+  font-family: 'Veranda', sans-serif;
 }
 
 .objects-header {
@@ -23,15 +23,15 @@
 }
 
 .objects-list-card {
-  color: #ffffff;
-  background-color: #222222;
+  color: #111111;
+  background-color: #eeeeee;
   max-width: 550px;
   display: block;
   padding: 10px;
   margin: 15px;
   border-style: solid;
   border-width: 5px 5px 5px 5px;
-  border-color: #111111;
+  border-color: #ffffff;
   border-radius: 5px;
 }
 
@@ -43,15 +43,15 @@
   margin-bottom: 10px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
 }
 
 .objects-list-li {
-  background-color: #222222;
-  color: #ffffff;
+  background-color: #eeeeee;
+  color: #111111;
   border-style: solid;
   border-width: 0px 5px 5px 5px;
-  border-color: #111111;
+  border-color: #ffffff;
 }
 
 .objects-logo {
@@ -76,16 +76,16 @@
 }
 
 .objects-page-span {
-  color: #ffffff;
-  background-color: #222222;
+  color: #111111;
+  background-color: #eeeeee;
   padding: 10px;
   line-height: 1.75;
   border-radius: 5px;
 }
 
 .objects-section {
-  color: #eeeeee;
-  background-color: #222222;
+  color: #222222;
+  background-color: #eeeeee;
   max-width: 100%;
   padding: 15px;
   margin-bottom: 10px;
@@ -94,7 +94,7 @@
 }
 
 .objects-title {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Courier New', monospace;
 }
 
 .objects-video-md {

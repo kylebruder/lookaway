@@ -2,12 +2,12 @@
   display: inline-block;
   border-style: solid;
   border-width: 3px;
-  border-color: #111111;
+  border-color: #ffffff;
 }
 
 .music-bg {
-  background-color: #222222;
-  color: #eeeeee;
+  background-color: #eeeeee;
+  color: #222222;
   border-radius: 0px 0px 25px 25px;
   padding-top: 15px;
   margin-bottom: 40px;
@@ -21,15 +21,15 @@
   border-style: solid;
   border-width: 5px 5px 5px 20px;
   border-radius: 5px;
-  border-color: #eeeeee;
+  border-color: #222222;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
   float: left;
 }
 
 .music-brand-name {
-  font-family: 'Baloo Paaji 2', sans-serif;
+  font-family: 'Veranda', sans-serif;
 }
 
 .music-album-card-image {
@@ -40,7 +40,7 @@
   margin-bottom: 15px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
   border-style: solid;
   border-width: 3px 3px 3px 7px;
   border-radius: 5px;
@@ -51,7 +51,7 @@
   height: 350px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
 }
 
 .music-album-info {
@@ -66,24 +66,24 @@
   margin-bottom: 15px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
   border-style: solid;
   border-width: 3px 3px 3px 7px;
   border-radius: 5px;
  }
 
 .music-album-meta {
-  font-color: #eeeeee;
+  font-color: #222222;
   font-size: 0.75em;
-  background-color: #222222;
+  background-color: #eeeeee;
   margin: 3px;
   padding: 3px; 
 }
 
 .music-album-title {
-  font-color: #eeeeee;
-  font-family: 'Averia Serif Libre', serif;
-  background-color: #222222;
+  font-color: #222222;
+  font-family: 'Times New Roman', serif;
+  background-color: #eeeeee;
   margin: 3px;
   padding: 3px;
 }
@@ -94,15 +94,15 @@
 }
 
 .music-list-card {
-  color: #ffffff;
-  background-color: #222222;
+  color: #111111;
+  background-color: #eeeeee;
   max-width: 330px;
   display: block;
   padding: 10px;
   margin: 15px;
   border-style: solid;
   border-width: 3px;
-  border-color: #111111;
+  border-color: #ffffff;
   border-radius: 5px;
 }
 
@@ -114,15 +114,15 @@
   margin-bottom: 15px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
 }
 
 .music-list-li {
-  background-color: #222222;
-  color: #ffffff;
+  background-color: #eeeeee;
+  color: #111111;
   border-style: solid;
   border-width: 0px 3px 3px 3px;
-  border-color: #111111;
+  border-color: #ffffff;
 }
 
 .music-logo {
@@ -147,20 +147,20 @@
 }
 
 .music-page-span {
-  color: #ffffff;
-  background-color: #222222;
+  color: #111111;
+  background-color: #eeeeee;
   padding: 10px;
   line-height: 1.75;
   border-radius: 5px;
 }
 
 .music-page-title {
-  font-family: 'Permanent Marker', sans-serif;
+  font-family: 'Times New Roman', sans-serif;
 }
 
 .music-section {
-  color: #eeeeee;
-  background-color: #222222;
+  color: #222222;
+  background-color: #eeeeee;
   max-width: 100%;
   padding: 15px;
   margin-bottom: 10px;
@@ -169,7 +169,7 @@
 }
 
 .music-title {
-  font-family: 'Permanent Marker', sans-serif;
+  font-family: 'Times New Roman', sans-serif;
 }
 .music-track-blurb {
   margin-left: 15px;
@@ -180,7 +180,7 @@
   height: 250px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
 }
 
 .music-track-info {
@@ -205,7 +205,7 @@
   margin-bottom: 15px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
   border-style: solid;
   border-width: 2px;
   border-radius: 100%;
@@ -219,7 +219,7 @@
   margin-bottom: 15px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
   border-style: solid;
   border-width: 2px;
   border-radius: 100%;

@@ -1,0 +1,101 @@
+/* Defualt form background */
+.create-bg {
+  background-color: #222222;
+  color: #eeeeee;
+  border-radius: 0px 0px 25px 25px;
+  padding: 10px;
+  margin-bottom: 40px;
+}
+
+.edit-bg {
+  background-color: #222222;
+  color: #eeeeee;
+  max-width: 750px;
+  border-radius: 0px 0px 25px 25px;
+  padding: 10px;
+  margin-bottom: 40px;
+}
+
+.form-code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75em;
+  color: #222222;
+  background-color: #ffffff;
+  max-width: auto;
+  height: 400px;
+  overflow-x: scroll;
+  overflow-y: scroll;
+}
+
+.form-field {
+  background-color: #222222;
+  color: #eeeeee;
+  border-radius: 5px;
+  margin: 5px;
+  min-width: 350px;
+  padding: 20px;
+}
+
+.form-image-card {
+  display: block;
+  width: 100px;
+  height: 100px;
+  background-color: #222222;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.form-image-selection {
+  overflow-y: auto;
+  max-height: 300px;
+  max-width: 315px;
+}
+
+.form-label {
+  font-family: 'Averia Serif Libre', serif;
+}
+
+
+.form-preview-image {
+  max-width: 100%;
+  max-height: 250px;
+}
+
+.form-submit-button {
+  margin: 10px;
+}
+
+.form-text-field {
+  color: #eeeeee;
+  background-color: #222222;
+  border-color: #eeeeee;
+  width: 100%;
+}
+
+/* Selectize styles */
+
+.selectize-dropdown,
+.selectize-input,
+.selectize-input input {
+  color: #eeeeee;
+  background-color: #222222;
+  border-color: #eeeeee;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 18px;
+  -webkit-font-smoothing: inherit;
+}
+
+.selectize-input,
+.selectize-control.single .selectize-input.input-active {
+  color: #eeeeee;
+  background-color: #222222;
+  border-color: #eeeeee;
+  font-family: inherit;
+  cursor: text;
+  display: inline-block;
+}
+
+.selectize-input.full {
+  background-color: #222222;
+}

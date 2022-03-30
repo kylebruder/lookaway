@@ -1,0 +1,63 @@
+.links-bg {
+  background-color: #222222;
+  color: #eeeeee;
+  border-radius: 0px 0px 25px 25px;
+  padding-top: 15px;
+  margin-bottom: 40px;
+}
+
+.link-list-card {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-color: #222222;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-right: 5px;
+}
+
+.link-favicon {
+  height: 16px;
+  width: 16px;
+  margin-bottom: 5px;
+}
+
+.link-list-field {
+  color: #eeeeee;
+  background-color: #222222;
+  border-color: #eeeeee;
+  max-width: 300px;
+}
+
+.link-list-li {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+.link-list-link {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75em;
+  overflow-wrap: break-word;
+}
+
+.link-title {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.link-url {
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto
+}

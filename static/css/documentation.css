@@ -1,6 +1,6 @@
 .documentation-bg {
-  color: #eeeeee;
-  background-color: #222222;
+  color: #222222;
+  background-color: #eeeeee;
   border-radius: 0px 0px 25px 25px;
   padding-top: 15px;
   margin-bottom: 40px;
@@ -26,7 +26,7 @@
   display: inline-block;
   border-style: solid;
   border-width: 3px;
-  border-color: #111111;
+  border-color: #ffffff;
 }
 
 .documentation-image-matrix {
@@ -57,7 +57,7 @@
 
 .documentation-card-title {
   font-size: 0.75em;
-  color: #eeeeee;
+  color: #222222;
   background: inherit;
   padding: 5px;
 }
@@ -92,15 +92,15 @@
 }
 
 .documentation-list-card {
-  color: #ffffff;
-  background-color: #222222;
+  color: #111111;
+  background-color: #eeeeee;
   max-width: 330px;
   display: block;
   padding: 10px;
   margin: 15px;
   border-style: solid;
   border-width: 3px 3px 3px 3px;
-  border-color: #111111;
+  border-color: #ffffff;
   border-radius: 5px;
 }
 
@@ -116,11 +116,11 @@
 }
 
 .documentation-list-li {
-  color: #ffffff;
-  background-color: #222222;
+  color: #111111;
+  background-color: #eeeeee;
   border-style: solid;
   border-width: 0px 3px 3px 3px;
-  border-color: #111111;
+  border-color: #ffffff;
 }
 
 .documentation-logo {
@@ -136,23 +136,23 @@
 }
 
 .documentation-nav {
-  border-color: #111111;
+  border-color: #ffffff;
   border-style: solid;
   border-width: 3px;
   border-radius: 5px;
 }
 
 .documentation-page-span {
-  color: #ffffff;
-  background-color: #222222;
+  color: #111111;
+  background-color: #eeeeee;
   padding: 10px;
   line-height: 1.75;
   border-radius: 5px;
 }
 
 .documentation-page-section {
-  color: #eeeeee;
-  background-color: #222222;
+  color: #222222;
+  background-color: #eeeeee;
   margin: 10px;
   border-radius: 10px;
 }
@@ -168,8 +168,8 @@
 }
 
 .documentation-section {
-  color: #eeeeee;
-  background-color: #222222;
+  color: #222222;
+  background-color: #eeeeee;
   max-width: 100%;
   padding: 15px;
   margin-bottom: 10px;
@@ -211,7 +211,7 @@
 }
 
 .documentation-section-title {
-  font-family: 'Ibarra Real Nova', serif;
+  font-family: 'Times New Roman', serif;
 }
 
 .documentation-thumbnail {
@@ -224,5 +224,5 @@
 }
 
 .documentation-title {
-  font-family: 'Ibarra Real Nova', serif;
+  font-family: 'Times New Roman', serif;
 }

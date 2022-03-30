@@ -1,6 +1,6 @@
 .image-bg {
-  background-color: #222222;
-  color: #eeeeee;
+  background-color: #eeeeee;
+  color: #222222;
   border-radius: 0px 0px 25px 25px;
   padding-top: 15px;
   margin-bottom: 40px;
@@ -25,7 +25,7 @@
   height: 100px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
 }
 
 .images-card-container {
@@ -34,8 +34,8 @@
 
 .images-card-title {
   font-size: 0.75em;
-  color: #eeeeee;
-  background: #222222;
+  color: #222222;
+  background: #eeeeee;
   padding: 5px;
 }
 
@@ -51,8 +51,8 @@
 } 
 
 .images-gallery-bg {
-  background-color: #222222;
-  color: #ffffff;
+  background-color: #eeeeee;
+  color: #111111;
   border-radius: 0px 0px 25px 25px;
   margin-bottom: 40px;
 }
@@ -63,7 +63,7 @@
 }
 
 .images-gallery-credit {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Courier New', monospace;
 }
 
 .images-gallery-image {
@@ -75,10 +75,10 @@
 }
 
 .images-gallery-li {
-  background-color: #222222;
-  color: #ffffff;
+  background-color: #eeeeee;
+  color: #111111;
   padding: 20px;
-  border-bottom: solid 2px #111111;
+  border-bottom: solid 2px #ffffff;
 }
 
 .images-gallery-list-image {
@@ -98,7 +98,7 @@
 }
 
 .images-gallery-title {
-  font-family: 'Ibarra Real Nova', serif;
+  font-family: 'Times New Roman', serif;
 }
 
 .images-image {
@@ -108,15 +108,15 @@
 }
 
 .images-list-li {
-  background-color: #222222;
-  color: #ffffff;
+  background-color: #eeeeee;
+  color: #111111;
 }
 
 .images-piece-card {
   display: block;
   width: 160px;
   height: 160px;
-  background-color: #222222;
+  background-color: #eeeeee;
   background-size: cover;
   padding: 5px;
   margin: 10px;
@@ -129,10 +129,10 @@
 }
 
 .images-piece-card-title {
-  font-family: 'Tajawal', sans-serif;
+  font-family: 'Tahoma', sans-serif;
   font-size: 0.75em;
-  color: #eeeeee;
-  background: #222222;
+  color: #222222;
+  background: #eeeeee;
   padding: 5px;
 }
 
@@ -154,5 +154,5 @@
 }
 
 .image-title {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Courier New', monospace;
 }

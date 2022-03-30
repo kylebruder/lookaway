@@ -1,15 +1,15 @@
 /* Defualt form background */
 .create-bg {
-  background-color: #222222;
-  color: #eeeeee;
+  background-color: #eeeeee;
+  color: #222222;
   border-radius: 0px 0px 25px 25px;
   padding: 10px;
   margin-bottom: 40px;
 }
 
 .edit-bg {
-  background-color: #222222;
-  color: #eeeeee;
+  background-color: #eeeeee;
+  color: #222222;
   max-width: 750px;
   border-radius: 0px 0px 25px 25px;
   padding: 10px;
@@ -17,10 +17,10 @@
 }
 
 .form-code {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Courier New', monospace;
   font-size: 0.75em;
-  color: #222222;
-  background-color: #ffffff;
+  color: #eeeeee;
+  background-color: #111111;
   max-width: auto;
   height: 400px;
   overflow-x: scroll;
@@ -28,8 +28,8 @@
 }
 
 .form-field {
-  background-color: #222222;
-  color: #eeeeee;
+  background-color: #eeeeee;
+  color: #222222;
   border-radius: 5px;
   margin: 5px;
   min-width: 350px;
@@ -40,7 +40,7 @@
   display: block;
   width: 100px;
   height: 100px;
-  background-color: #222222;
+  background-color: #eeeeee;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -52,7 +52,7 @@
 }
 
 .form-label {
-  font-family: 'Averia Serif Libre', serif;
+  font-family: 'Times New Roman', serif;
 }
 
 
@@ -66,9 +66,9 @@
 }
 
 .form-text-field {
-  color: #eeeeee;
-  background-color: #222222;
-  border-color: #eeeeee;
+  color: #222222;
+  background-color: #eeeeee;
+  border-color: #ffffff;
   width: 100%;
 }
 
@@ -77,9 +77,9 @@
 .selectize-dropdown,
 .selectize-input,
 .selectize-input input {
-  color: #eeeeee;
-  background-color: #222222;
-  border-color: #eeeeee;
+  color: #222222;
+  background-color: #eeeeee;
+  border-color: #222222;
   font-family: inherit;
   font-size: 13px;
   line-height: 18px;
@@ -88,14 +88,14 @@
 
 .selectize-input,
 .selectize-control.single .selectize-input.input-active {
-  color: #eeeeee;
-  background-color: #222222;
-  border-color: #eeeeee;
+  color: #222222;
+  background-color: #eeeeee;
+  border-color: #222222;
   font-family: inherit;
   cursor: text;
   display: inline-block;
 }
 
 .selectize-input.full {
-  background-color: #222222;
+  background-color: #eeeeee;
 }

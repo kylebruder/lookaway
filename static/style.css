@@ -29,7 +29,7 @@ table, th, td {
 }
 
 .base-bg {
-  background-color: #111111;
+  background-color: #ffffff;
   /*background-image: url("/static/hexagon-pattern-2657990_960_720.jpg");*/
   color: #dddddd;
   background-size: 200px;
@@ -39,7 +39,7 @@ table, th, td {
 }
 
 .base-footer {
-  color: #ffffff;
+  color: #111111;
   font-size: 0.75em;
   color: #444444;
   text-align: center;
@@ -50,8 +50,8 @@ table, th, td {
 } 
 
 .brand-title {
-  color: #ffffff;
-  font-family: 'Baloo Paaji 2', sans-serif;
+  color: #111111;
+  font-family: 'Veranda', sans-serif;
 }
 
 .btn-margin {
@@ -78,7 +78,7 @@ table, th, td {
 }
 
 .object-title {
-  font-family: 'Ibarra Real Nova', serif;
+  font-family: 'Times New Roman', serif;
 }
 
 .pagination-span {
@@ -119,8 +119,8 @@ table, th, td {
 }
 
 /* Changing the default link color */
-a {color: #03d7fc;}
-a:hover {color: #03fcfc;}
+a {color: #338ab5;}
+a:hover {color: #46aadb;}
 
 /* Custom orderd list */
 /* https://css-tricks.com/custom-list-number-styling/ */
@@ -137,7 +137,7 @@ ol li::before {
   font-weight: bold;
   font-size: 2rem;
   margin-right: 0.5rem;
-  font-family: 'Averia Serif Libre', serif;
+  font-family: 'Times New Roman', serif;
   line-height: 1;
 }
 

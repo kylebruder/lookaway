@@ -1,14 +1,14 @@
 .sound-bg {
-  background-color: #222222;
-  color: #eeeeee;
+  background-color: #eeeeee;
+  color: #222222;
   border-radius: 0px 0px 25px 25px;
   padding-top: 15px;
   margin-bottom: 40px;
 }
 
 .sound-list-li {
-  background-color: #222222;
-  color: #ffffff;
+  background-color: #eeeeee;
+  color: #111111;
 }
 
 .sound-section-sound {
@@ -22,5 +22,5 @@
 }
 
 .sound-title {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Courier New', monospace;
 }

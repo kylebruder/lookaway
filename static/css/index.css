@@ -1,7 +1,7 @@
 .index-bg {
-  background-color: #222222;
-  font-family: 'Tajawal', sans-serif;
-  color: #eeeeee;
+  background-color: #eeeeee;
+  font-family: 'Tahoma', sans-serif;
+  color: #222222;
   border-radius: 0px 0px 25px 25px;
   padding-top: 15px;
   padding-bottom: 15px;
@@ -9,7 +9,7 @@
 }
 
 .index-brand-name {
-  font-family: 'Baloo Paaji 2', sans-serif;
+  font-family: 'Veranda', sans-serif;
   font-size: 3.5em;
 }
 
@@ -28,30 +28,30 @@
   padding: 10px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
   border-style: solid;
   border-width: 2px 2px 2px 5px;
   border-radius: 5px;
-  border-color: #eeeeee;
+  border-color: #222222;
   display: block;
 }
 
 .index-album-link {
-  font-color: #eeeeee;
+  font-color: #222222;
 }
 
 .index-album-meta {
-  font-color: #eeeeee;
+  font-color: #222222;
   font-size: 0.75em;
-  background-color: #222222;
+  background-color: #eeeeee;
   margin: 3px;
   padding: 3px;
 }
 
 .index-album-title {
-  font-color: #eeeeee;
-  font-family: 'Averia Serif Libre', serif;
-  background-color: #222222;
+  font-color: #222222;
+  font-family: 'Times New Roman', serif;
+  background-color: #eeeeee;
   margin: 3px;
   padding: 3px;
 }
@@ -71,21 +71,21 @@
   border-color: #000000; 
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
 }
 
 .index-gallery-meta {
-  font-color: #eeeeee;
+  font-color: #222222;
   font-size: 0.75em;
-  background-color: #222222;
+  background-color: #eeeeee;
   margin: 3px;
   padding: 3px;
 }
 
 .index-gallery-title {
-  font-color: #eeeeee;
-  font-family: 'Averia Serif Libre', serif;
-  background-color: #222222;
+  font-color: #222222;
+  font-family: 'Times New Roman', serif;
+  background-color: #eeeeee;
   margin: 3px;
   padding: 3px;
 }
@@ -118,15 +118,15 @@
   border-radius: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
 }
 
 .index-list-li {
-  background-color: #222222;
-  color: #ffffff;
+  background-color: #eeeeee;
+  color: #111111;
   border-style: solid;
   border-width: 0px 5px 5px 5px;
-  border-color: #111111;
+  border-color: #ffffff;
   border-radius: 10px;
 }
 
@@ -135,12 +135,12 @@
 }
 
 .index-post-title {
-  font-family: 'Averia Serif Libre', serif;
+  font-family: 'Times New Roman', serif;
   font-size: 1.1em;
 }
 
 .index-title {
-  font-family: 'Ibarra Real Nova', serif;
+  font-family: 'Times New Roman', serif;
 }
 
 .index-track-list-image {
@@ -150,11 +150,11 @@
   margin-bottom: 10px;
   border-style: solid;
   border-width: 1px;
-  border-color: #eeeeee; 
+  border-color: #222222; 
   border-radius: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
 } 
 
 .index-visual-box {
@@ -170,5 +170,5 @@
   margin: 3px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #222222;
+  background-color: #eeeeee;
 }

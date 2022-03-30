@@ -1,0 +1,26 @@
+.sound-bg {
+  background-color: #222222;
+  color: #eeeeee;
+  border-radius: 0px 0px 25px 25px;
+  padding-top: 15px;
+  margin-bottom: 40px;
+}
+
+.sound-list-li {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+.sound-section-sound {
+  width: 335px;
+  margin-right: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 0.75em;
+  display: inline-block;
+  float: left;
+}
+
+.sound-title {
+  font-family: 'IBM Plex Mono', monospace;
+}

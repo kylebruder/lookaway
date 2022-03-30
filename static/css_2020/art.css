@@ -1,0 +1,237 @@
+.art-alert {
+  display: inline-block;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #111111;
+}
+
+.art-bg {
+  background-color: #222222;
+  color: #eeeeee;
+  border-radius: 0px 0px 25px 25px;
+  padding-top: 15px;
+  margin-bottom: 40px;
+}
+
+.art-brand-name {
+  font-family: 'Baloo Paaji 2', sans-serif;
+}
+
+.art-gallery {
+  width: 300px;
+  height: 300px;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  float: left;
+}
+
+.art-gallery-container {
+  height: 650px;
+}
+
+.art-gallery-image {
+  max-width: 100%;
+  max-height: 625px;
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+}
+
+.art-gallery-blurb {
+  height: 650px;
+  width: 100%;
+  padding: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.art-gallery-info {
+  font-size: 1.25em;
+}
+
+.art-gallery-list-image {
+  display: block;
+  width: 75px;
+  height: 75px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #000000;
+}
+.art-gallery-visual {
+  font-size: 1.25em;
+}
+
+.art-gallery-message {
+  font-size: 0.75em;
+  text-align: center;
+}
+
+.art-gallery-meta {
+  font-color: #eeeeee;
+  font-size: 0.75em;
+  background-color: #222222;
+  margin: 3px;
+  padding: 3px;
+}
+
+.art-gallery-title {
+  font-color: #eeeeee;
+  font-family: 'Averia Serif Libre', serif;
+  background-color: #222222;
+  margin: 3px;
+  padding: 3px;
+}
+
+.art-header {
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.art-item-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #000000;
+}
+
+.art-list-card {
+  color: #ffffff;
+  background-color: #222222;
+  max-width: 330px;
+  display: block;
+  padding: 10px;
+  margin: 15px;
+  border-style: solid;
+  border-width: 5px 5px 5px 5px;
+  border-color: #111111;
+  border-radius: 5px;
+}
+
+.art-list-li {
+  background-color: #222222;
+  color: #ffffff;
+  border-style: solid;
+  border-width: 0px 3px 3px 3px;
+  border-color: #111111;
+}
+
+.art-logo {
+  max-height: 150px;
+  max-width: 250px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.art-meta {
+  font-size: 0.8em;
+}
+
+.art-page-header {
+  margin: auto;
+  display: block;
+}
+
+.art-page-section {
+  padding: 5px;
+  margin: 5px;
+}
+
+.art-page-span {
+  color: #ffffff;
+  background-color: #222222;
+  padding: 10px;
+  line-height: 1.75;
+  border-radius: 5px;
+}
+
+.art-page-title {
+  font-family: 'Permanent Marker', sans-serif;
+}
+
+.art-page-visual-matrix {
+  max-width: 875px;
+}
+
+.art-section {
+  color: #eeeeee;
+  background-color: #222222;
+  max-width: 100%;
+  padding: 15px;
+  margin-bottom: 10px;
+  position: relative;
+  border-radius: 5px;
+}
+
+.art-title {
+  font-family: 'Averia Serif Libre', serif;
+}
+
+.art-visual-blurb {
+  margin-left: 15px;
+}
+
+.art-visual-card {
+  width: 125px;
+  height: 125px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
+.art-visual-info {
+}
+
+.art-visual-image {
+  max-width: 100%;
+  max-height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.art-visual-card-container {
+  display: block;
+}
+
+.art-visual-list-image {
+  display: block;
+  width: 75px;
+  height: 75px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
+.art-visual-matrix {
+  max-width: 850px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.art-video-md {
+  max-width: 100%;
+  max-height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+

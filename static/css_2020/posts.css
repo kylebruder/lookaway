@@ -1,0 +1,110 @@
+.posts-alert {
+  display: inline-block;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #111111;
+}
+
+.posts-bg {
+  background-color: #222222;
+  color: #eeeeee;
+  border-radius: 0px 0px 25px 25px;
+  padding-top: 15px;
+  margin-bottom: 40px;
+}
+
+.posts-brand-name {
+  font-family: 'Baloo Paaji 2', sans-serif;
+}
+
+.posts-header {
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.posts-item-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-left: 15px;
+  margin-bottom: 10px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
+.posts-list-card {
+  color: #ffffff;
+  background-color: #222222;
+  max-width: 330px;
+  display: block;
+  padding: 10px;
+  margin: 15px;
+  border-style: solid;
+  border-width: 5px 5px 5px 5px;
+  border-color: #111111;
+  border-radius: 5px;
+}
+
+.posts-list-image {
+  display: block;
+  width: 75px;
+  height: 75px;
+  margin-left: 15px;
+  margin-bottom: 10px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #222222;
+}
+
+.posts-list-li {
+  background-color: #222222;
+  color: #ffffff;
+  border-style: solid;
+  border-width: 0px 3px 3px 3px;
+  border-color: #111111;
+}
+
+.posts-logo {
+  max-height: 150px;
+  max-width: 250px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.posts-meta {
+  font-size: 0.8em;
+}
+
+.posts-page-header {
+  margin: auto;
+  display: block;
+}
+
+.posts-page-section {
+  padding: 3px;
+  margin: 3px;
+}
+
+.posts-page-span {
+  color: #ffffff;
+  background-color: #222222;
+  padding: 10px;
+  line-height: 1.75;
+  border-radius: 5px;
+}
+
+.posts-section {
+  color: #eeeeee;
+  background-color: #222222;
+  max-width: 100%;
+  padding: 15px;
+  margin-bottom: 10px;
+  position: relative;
+  border-radius: 5px;
+}
+
+
+.posts-title {
+  font-family: 'Arial', sans-serif;
+}
