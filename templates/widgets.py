@@ -64,7 +64,7 @@ class FictionWidget(CheckboxInput):
           checked = ''
 
         template = '''<div class="custom-control custom-switch" style="padding-left: 0px;">\
-          <span class="float-left" style="padding-right: 50px;">Non-Fiction</span>
+          <span class="float-start" style="padding-right: 50px;">Non-Fiction</span>
           <input type="checkbox" class="custom-control-input" id="customSwitch1" name="{name}" {checked}>\
           <label class="custom-control-label" for="customSwitch1">\
           Fiction

@@ -7,12 +7,12 @@
   <div class="col-">
     {% if request.user.is_superuser %}
       <a href="{% url 'objects:tag_delete' tag.slug %}">
-        <button type="button" class="btn btn-sm btn-danger float-right">Delete</button>
+        <button type="button" class="btn btn-sm btn-danger float-end">Delete</button>
       </a>
     {% endif %}
     {% if can_add_marshmallow %}
       <a href="{% url 'objects:tag_marshmallow' tag.pk %}">
-        <button type="button" class="btn btn-sm btn-light marshmallow-button float-right">M</button>
+        <button type="button" class="btn btn-sm btn-light marshmallow-button float-end">M</button>
       </a>
     {% endif %}
   </div>

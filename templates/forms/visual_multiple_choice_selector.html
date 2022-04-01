@@ -10,7 +10,7 @@
     <div class="form-image-selection">
       {% for value, label, obj in x.field.choices %}
         {% if value != '' %}
-          <div class="form-image-card float-left" style="background-image:url('{{ obj.image.thumbnail_file.url }}')">
+          <div class="form-image-card float-start" style="background-image:url('{{ obj.image.thumbnail_file.url }}')">
             {% block input_block %}
             {% endblock %}
           </div>

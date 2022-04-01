@@ -8,7 +8,7 @@
       <p class="links-list-description">{{ link.text }}</p>
     {% endif %}
     {% if link.favicon_href %}
-      <div class="link-list-card float-left" style="background-image:url('{{ link.favicon_href }}')"></div>
+      <div class="link-list-card float-start" style="background-image:url('{{ link.favicon_href }}')"></div>
     {% endif %}
     <a href="{{ link.url }}" class="link-url"><p class="links-list-link">{{ link.url|truncatechars:128 }}</p></a>
     {% include './object_meta_data.html' %}

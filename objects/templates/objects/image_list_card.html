@@ -1,7 +1,7 @@
-<div class="images-card float-left">
+<div class="images-card float-start">
   <a href="{% url 'objects:image_detail' image.pk %}">
     {% if image.thumbnail_file %}
-      <div class="float-left images-card" style="background-image:url('{{ image.thumbnail_file.url }}">
+      <div class="float-start images-card" style="background-image:url('{{ image.thumbnail_file.url }}">
       </div>
     {% else %}
       <span class="images-piece-card-title">{{ image.title }}</span>

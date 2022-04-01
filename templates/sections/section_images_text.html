@@ -6,7 +6,7 @@
   <div class="clear"></div>
 {% elif section.images.count > 1 %}
   {% for image in images %}
-    <div class="section-thumbnail-container float-left">
+    <div class="section-thumbnail-container float-start">
       <a href="{{ image.image_file.url }}">
         <img class="section-thumbnail" src="{{ image.thumbnail_file.url }}" alt="{{ image.title }}">
       </a>
@@ -34,7 +34,7 @@
 {% elif section.images.count == 1 %}
   {% with section.images.first as image %}
     <!-- Image -->
-    <div class="col-sm-8 float-right">
+    <div class="col-sm-8 float-end">
       <a href="{{ image.image_file.url }}">
         <img class="section-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
       </a>

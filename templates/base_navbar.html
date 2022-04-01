@@ -7,7 +7,7 @@
     </button>
     <!-- NAVBAR -->
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav mr-auto">
+      <ul class="navbar-nav me-auto">
         {% if nav_show_posts %} 
           <li class="nav-item">
             <a class="nav-link" href="{% url 'posts:posts_page' %}">{% if nav_posts_image %}<img src="{{ nav_posts_image }}" class="nav-image" alt="{{ nav_posts_name }}">{% else %}<span class="index-header-span nav-font">{{ nav_posts_name }}</span>{% endif %}</a>
@@ -38,7 +38,6 @@
             <a class="nav-link" href="{% url 'objects:objects_page' %}">{% if nav_objects_image %}<img src="{{ nav_objects_image }}" class="nav-image" alt="{{ nav_objects_name }}">{% else %}<span class="index-header-span nav-font">{{ nav_objects_name }}</span>{% endif %}</a>
           </li>
         {% endif %}
-        <!-- Turning the objects off for now 
         {% if request.user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link nav-font-objects" href="{% url 'objects:public_videos' %}">Video Files</a>
@@ -56,14 +55,13 @@
             <a class="nav-link nav-font-objects" href="{% url 'objects:tags' %}">Tags</a>
           </li>
         {% endif %}
-        -->
       </ul>
       {% if request.user.is_authenticated %}
-        <span class="nav-text float-end">
-          <a class="" href="{% url 'members:member_profile' request.user.username %}"><button class="btn btn-sm btn-dark">Profile</button></a>
-          <a class="" href="{% url 'members:studio' %}"><button class="btn btn-sm btn-primary">Studio</button></a>
+        <span class="nav-text d-flex">
+          <a class="" href="{% url 'members:member_profile' request.user.username %}"><button class="btn btn-sm btn-dark me-2">Profile</button></a>
+          <a class="" href="{% url 'members:studio' %}"><button class="btn btn-sm btn-primary me-2">Studio</button></a>
           {% if request.user.is_superuser %}
-            <a class="" href="{% url 'admin:index' %}"><button class="btn btn-sm btn-warning">Admin</button></a>
+            <a class="" href="{% url 'admin:index' %}"><button class="btn btn-sm btn-warning me-2">Admin</button></a>
           {% endif %}
           <a href="{% url 'logout' %}"><button class="btn btn-sm btn-danger">Logout</button></a>
         </span>

@@ -2,11 +2,11 @@
   <div class="row">
     <div class="col-">
       {% if document.image %}
-        <div class="float-right documentation-list-image" style="background-image:url('{{ document.image.thumbnail_file.url }}')"></div>
+        <div class="float-end documentation-list-image" style="background-image:url('{{ document.image.thumbnail_file.url }}')"></div>
       {% elif document.owner.profile.image %}
-        <div class="float-right documentation-list-image" style="background-image:url('{{ document.owner.profile.image.thumbnail_file.url }}')"></div>
+        <div class="float-end documentation-list-image" style="background-image:url('{{ document.owner.profile.image.thumbnail_file.url }}')"></div>
       {% else %}
-        <div class="float-right documentation-list-image" style="background-image:url('/static/icon.webp')"></div>
+        <div class="float-end documentation-list-image" style="background-image:url('/static/icon.webp')"></div>
       {% endif %}
     </div>
     <div class="col-sm">

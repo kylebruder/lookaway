@@ -5,12 +5,12 @@
     <p>{{ x.errors }}{{ form.instance. }}</p>
     <!-- Null choice -->
     <div class="form-image-selection">
-      <div class="form-image-card float-left">
+      <div class="form-image-card float-start">
         <p>&nbsp;<input type="radio" value="" name="{{ x.name }}" {% if object.image.pk == value|first %}checked{% endif %}></p>
       </div>
       {% for value in x.field.choices %}
         {% if value|first != '' %}
-          <div class="form-image-card float-left" style="background-image:url('{{ value.2.thumbnail_file.url }}')">
+          <div class="form-image-card float-start" style="background-image:url('{{ value.2.thumbnail_file.url }}')">
             {% block input_block %}
             {% endblock %}
           </div>
