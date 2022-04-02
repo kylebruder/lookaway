@@ -1,13 +1,11 @@
 <div class="home-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
   <div class="row">
     {% if profile.logo %}
-      <div class="col-sm-">
-        <div class="container">
-          <img class="home-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
-        </div>
+      <div class="col-">
+        <img class="home-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
       </div>
     {% endif %}
-    <div class="col-sm">
+    <div class="col-md">
       {% if profile.show_title or profile.show_desc %}
         {% if profile.title and profile.show_title %}
           <h3 class="brand-title home-page-span home-alert">{{ meta_title }}</h3>
@@ -18,34 +16,31 @@
       {% endif %}
     </div>
     {% if request.user.is_authenticated %}
-      <div class="col-">
-        <div class="container">
-          <p>
-            {% if show_site_profile_edit_button %} 
-              {% with site_profile_edit_button as button %}
-                {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
-                  {% include 'buttons/edit_button.html' %}
-                {% endwith %}
+      <div class="col-sm">
+        <div class="float-end">
+          {% if show_site_profile_edit_button %} 
+            {% with site_profile_edit_button as button %}
+              {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+                {% include 'buttons/edit_button.html' %}
               {% endwith %}
-            {% endif %}
-            {% if show_profile_edit_button %} 
-              {% with profile_edit_button as button %}
-                {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
-                  {% include 'buttons/edit_button.html' %}
-                {% endwith %}
+            {% endwith %}
+          {% endif %}
+          {% if show_profile_edit_button %} 
+            {% with profile_edit_button as button %}
+              {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+                {% include 'buttons/edit_button.html' %}
               {% endwith %}
-            {% endif %}
-          </p>
+            {% endwith %}
+          {% endif %}
         </div>
       </div>
     {% endif %}
   </div>
   {% if profile.text %}
-    <p class="home-page-span home-alert">{{ profile.text }}</p>
-  {% endif %}
-  <div class="row">
-    <div class="col-sm">
-      {% include './home_page_navbar.html' %}
+    <div class="row">
+      <div class="col">
+        <p class="home-page-span home-alert">{{ profile.text }}</p>
+      </div>
     </div>
-  </div>
+  {% endif %}
 </div>

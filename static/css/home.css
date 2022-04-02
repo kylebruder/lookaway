@@ -18,7 +18,7 @@
 }
 
 .home-header {
-  padding: 15px;
+  padding: 10px;
   border-radius: 5px;
 }
 
@@ -78,7 +78,7 @@
 .home-page-span {
   color: #111111;
   background-color: #eeeeee;
-  padding: 10px;
+  padding: 0px 10px 0px 10px;
   line-height: 1.75;
   border-radius: 5px;
 }
