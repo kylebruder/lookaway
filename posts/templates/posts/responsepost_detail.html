@@ -21,7 +21,7 @@
       {% else %}
         Owned by <a href="{% url 'members:member_profile' response.owner.profile.slug %}">{{ response.owner }}</a>, created on {{ response.creation_date }}
         {% if not post.is_public %}
-          <span class="badge badge-dark">Unpublished</span><br>
+          <span class="badge bg-dark">Unpublished</span><br>
         {% endif %}
       {% endif %}
       {% if response.last_modified > response.publication_date %}

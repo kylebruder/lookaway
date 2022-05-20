@@ -15,7 +15,7 @@
         <p>
           <a class="tag-title" href="{% url 'music:album_detail' album.slug %}">{{ album.title }}</a>
           {% if not album.is_public %}
-            <span class="badge badge-dark">Unpublished</span>
+            <span class="badge bg-dark">Unpublished</span>
           {% endif %}
           <br>
           Music collection by {{ album.artist }}, released by <a href="{% url 'members:member_profile' album.owner.username %}"><span class="index-heading-span">{{ album.owner }}</span></a>{% if album.is_public %} on {{ album.publication_date|date:"M d, Y" }}{% endif %}.<br>

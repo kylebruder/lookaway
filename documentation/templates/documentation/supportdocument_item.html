@@ -19,10 +19,10 @@
         Documented by <a href="{% url 'members:member_profile' document.owner.username %}"><span class="index-heading-span">{{ document.owner }}</span></a>{% if document.publication_date %}, published on {{ document.publication_date|date:"M d, Y" }}{% endif %}
       </p>
       {% if document.members_only %}
-        <span class="badge badge-warning">Members Only</span>
+        <span class="badge bg-warning">Members Only</span>
       {% endif %}
       {% if not document.is_public %}
-        <span class="badge badge-dark">Unpublished</span>
+        <span class="badge bg-dark">Unpublished</span>
       {% endif %}
       {% if document.tags.all.count > 0 %}
         {% with document as object %}

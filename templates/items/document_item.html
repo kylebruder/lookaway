@@ -25,10 +25,10 @@
   </p>
 {% endif %}
 {% if document.members_only %}
-  <span class="badge badge-warning">Members Only</span>
+  <span class="badge bg-warning">Members Only</span>
 {% endif %}
 {% if not document.is_public %}
-  <span class="badge badge-dark">Unpublished</span>
+  <span class="badge bg-dark">Unpublished</span>
 {% endif %}
 {% if document.tags.all.count > 0 %}
   {% with document as object %}

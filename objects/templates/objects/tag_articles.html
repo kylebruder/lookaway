@@ -15,7 +15,7 @@
         <p>
           <a class="tag-title" href="{% url 'documentation:article_detail' article.slug %}">{{ article.title }}</a>
           {% if not article.is_public %}
-            <span class="badge badge-dark">Unpublished</span>
+            <span class="badge bg-dark">Unpublished</span>
           {% endif %}
           <br>
           Written by <a href="{% url 'members:member_profile' article.owner.username %}">{{ article.owner }}</a>{% if article.is_public %}, published on {{ article.publication_date|date:"M d, Y" }}{% endif %}.<br>

@@ -23,10 +23,10 @@
   {{ post.meta_description }}
 </p>
 {% if not post.is_public %}
-  <span class="badge badge-dark">Unpublished</span>
+  <span class="badge bg-dark">Unpublished</span>
 {% endif %}
 {% if post.members_only %}
-  <span class="badge badge-warning">Members Only</span>
+  <span class="badge bg-warning">Members Only</span>
 {% endif %}
 {% if post.tags.all.count > 0 %}
   {% with post as object %}

@@ -15,7 +15,7 @@
         <p>
           <a class="tag-title" href="{% url 'art:gallery_detail' gallery.slug %}">{{ gallery.title }}</a>
           {% if not gallery.is_public %}
-            <span class="badge badge-dark">Unpublished</span>
+            <span class="badge bg-dark">Unpublished</span>
           {% endif %}
           <br>
           Works by {{ gallery.artist }}, curated by <a href="{% url 'members:member_profile' gallery.owner.username %}">{{ gallery.owner }}</a>{% if gallery.is_public %} on {{ gallery.publication_date|date:"M d, Y" }}{% endif %}.<br>

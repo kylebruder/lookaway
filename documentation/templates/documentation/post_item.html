@@ -20,10 +20,10 @@
         Posted by <a href="{% url 'members:member_profile' post.owner.username %}">{{ post.owner }}</a> on {{ post.creation_date|date:"M d, Y" }}<br>
         {{ post.meta_description }}<br>
         {% if post.members_only %}
-          <span class="badge badge-warning">Members Only</span>
+          <span class="badge bg-warning">Members Only</span>
         {% endif %}
         {% if not post.is_public %}
-          <span class="badge badge-dark">Unpublished</span>
+          <span class="badge bg-dark">Unpublished</span>
         {% endif %}
         {% if post.tags.all.count > 0 %}
           {% with post as object %}

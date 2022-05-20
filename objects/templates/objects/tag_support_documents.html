@@ -15,7 +15,7 @@
         <p>
           <a class="tag-title" href="{% url 'documentation:support_document_detail' document.slug %}">{{ document.title }}</a>
           {% if not document.is_public %}
-            <span class="badge badge-dark">Unpublished</span>
+            <span class="badge bg-dark">Unpublished</span>
           {% endif %}
           <br>
           Documented by <a href="{% url 'members:member_profile' document.owner.username %}"><span class="index-heading-span">{{ document.owner }}</span></a>{% if document.is_public %}, last updated on {{ document.last_modified|date:"M d, Y" }}{% endif %}.<br>

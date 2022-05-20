@@ -2,7 +2,7 @@
   {% if visual.image.thumbnail_file %}
     <div class="float-start art-visual-card" style="background-image:url('{{ visual.image.thumbnail_file.url }}">
       {% if not visual.is_public %}
-        <span class="badge badge-secondary">Unpublished</span>
+        <span class="badge bg-secondary">Unpublished</span>
       {% endif %}
     </div>
   {% else %}

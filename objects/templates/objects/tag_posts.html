@@ -15,7 +15,7 @@
         <p>
           <a class="tag-title" href="{% url 'posts:post_detail' post.slug %}">{{ post.title }}</a>
           {% if not post.is_public %}
-            <span class="badge badge-dark">Unpublished</span>
+            <span class="badge bg-dark">Unpublished</span>
           {% endif %}
           <br>
           Posted by <a href="{% url 'members:member_profile' post.owner.username %}"><span class="index-heading-span">{{ post.owner }}</span></a>{% if post.is_public %} on {{ post.publication_date|date:"M d, Y" }}{% endif %}.<br>

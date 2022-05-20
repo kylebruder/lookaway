@@ -24,7 +24,7 @@
   {{ track.meta_description }}
 </p>
 {% if not track.is_public %}
-  <span class="badge badge-dark">Unpublished</span>
+  <span class="badge bg-dark">Unpublished</span>
 {% endif %}
 {% if track.tags.all.count > 0 %}
   {% with track as object %}

@@ -1,23 +1,23 @@
 {% if member.check_is_new %}
-  <span class="badge badge-success">New</span>
+  <span class="badge bg-success">New</span>
 {% endif %}
 {% if member.is_superuser %}
-  <span class="badge badge-dark">Admin</span>
+  <span class="badge bg-dark">Admin</span>
 {% elif member.is_staff %}
-  <span class="badge badge-dark">Staff</span>
+  <span class="badge bg-dark">Staff</span>
 {% endif %}
 {% if member.check_is_writer %}
-  <span class="badge badge-info">Writer</span>
+  <span class="badge bg-info">Writer</span>
 {% endif %}
 {% if member.check_is_artist %}
-  <span class="badge badge-info">Artist</span>
+  <span class="badge bg-info">Artist</span>
 {% endif %}
 {% if member.check_is_musician %}
-  <span class="badge badge-info">Musician</span>
+  <span class="badge bg-info">Musician</span>
 {% endif %}
 {% if not member.is_staff and member.check_is_contributor %}
-  <span class="badge badge-primary">Contributor</span>
+  <span class="badge bg-primary">Contributor</span>
 {% endif %}
 {% if member.check_is_founder %}
-  <span class="badge badge-light">Founder</span>
+  <span class="badge bg-light">Founder</span>
 {% endif %}

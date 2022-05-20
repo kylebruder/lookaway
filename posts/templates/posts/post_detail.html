@@ -28,7 +28,7 @@
       {% else %}
         <p>
           Owned by <a href="{% url 'members:member_profile' post.owner.profile.slug %}">{{ post.owner }}</a>, created on {{ post.creation_date }}
-          <span class="badge badge-dark">Unpublished</span>
+          <span class="badge bg-dark">Unpublished</span>
         </p>
       {% endif %}
     <!-- Image -->
