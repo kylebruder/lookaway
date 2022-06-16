@@ -44,6 +44,14 @@
   margin: 5px;
 }
 
+.images-center-cropped {
+/* Thanks gluecksmelodie https://stackoverflow.com/questions/11552380/how-to-automatically-crop-and-center-an-image */
+  object-fit: none; /* Do not scale the image */
+  object-position: center; /* Center the image within the element */
+  height: 100px;
+  width: 100px;
+}
+
 .images-form-selector {
   scrollbar-color: dark;
   overflow-y: scroll;

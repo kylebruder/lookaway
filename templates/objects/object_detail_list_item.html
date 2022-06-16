@@ -1,0 +1,36 @@
+<li class="list-group-item {{ li_css }}">
+  <div class="row">
+    {% if icon %}
+      <div class="col-sm">
+        <p>{{ icon }}<p>
+      </div>
+    {% endif %}
+    <div class="col">
+      <p class="{{ p_css }}">
+        <a href="{{ url }}">{{ title }}</a>
+      </p>
+    </div>
+    {% if field1 %}
+      <div class="col">
+        <p class="{{ p_css }}">{{ field1 }}</p>
+      </div>
+    {% endif %}
+    {% if field2 %}
+      <div class="col">
+        <p class="{{ p_css }}">{{ field2 }}</p>
+      </div>
+    {% endif %}
+    {% if field3 %}
+      <div class="col">
+        <p class="{{ p_css }}">{{ field3 }}</p>
+      </div>
+    {% endif %}
+    {% if not public %}
+      <div class="col">
+        <span class="badge bg-secondary">Unpublished</span>
+      </div>
+    {% endif %}
+    </div>
+  </div>
+</li>
+
