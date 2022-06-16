@@ -422,6 +422,16 @@ class ImageListView(ModelListMixin, LoginRequiredMixin, ListView):
     queryset = Image.objects.filter(is_public=True)
     context_object_name = 'images'
     ordering = ['-weight', '-creation_date']
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('objects.add_image'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:image_create',
+            )
+        return context
 
 class MemberImageView(MemberViewMixin, LoginRequiredMixin, ListView):
 
@@ -658,6 +668,16 @@ class SoundListView(ModelListMixin, LoginRequiredMixin, ListView):
     queryset = Sound.objects.filter(is_public=True)
     context_object_name = 'sounds'
     ordering = ['-weight', '-creation_date']
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('objects.add_sound'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:sound_create',
+            )
+        return context
 
 class MemberSoundView(MemberViewMixin, LoginRequiredMixin, ListView):
 
@@ -895,8 +915,14 @@ class VideoListView(ModelListMixin, LoginRequiredMixin, ListView):
     context_object_name = 'videos'
     ordering = ['-weight', '-creation_date']
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('objects.add_video'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:video_create',
+            )
         return context
 
 class MemberVideoView(MemberViewMixin, LoginRequiredMixin, ListView):
@@ -1095,6 +1121,16 @@ class CodeListView(ModelListMixin, LoginRequiredMixin, ListView):
     context_object_name = 'codes'
     ordering = ['-weight', '-creation_date']
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('objects.add_code'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:code_create',
+            )
+        return context
+
 class MemberCodeView(MemberViewMixin, LoginRequiredMixin, ListView):
 
     model = Code
@@ -1291,6 +1327,16 @@ class LinkListView(ModelListMixin, LoginRequiredMixin, ListView):
     queryset = Link.objects.filter(is_public=True)
     context_object_name = 'links'
     ordering = ['-weight', '-creation_date']
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create button
+        if self.request.user.has_perm('objects.add_link'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:link_create',
+            )
+        return context
 
 class MemberLinkView(MemberViewMixin, LoginRequiredMixin, ListView):
 
