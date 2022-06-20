@@ -1,121 +1,118 @@
 {% extends 'base.html' %}
 {% block body_block %}
 {% include './studio_button_bar.html' %}
-<div class="container-fluid studio-bg">
-  <br>
-  <div class="row">
-    <!-- Member Posts -->
-    <div class="col-sm">
-      <div class="collapse" id="posts">
-        <div class="container">
-          {% include './studio_posts.html' %}
+<div class="card-group studio-bg">
+  <!-- Member Posts -->
+  <div class="collapse" id="posts">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        {% include './studio_posts.html' %}
+      </div>
+    </div>
+  </div>
+  <!-- Member Responses -->
+  <div class="collapse" id="responses">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        {% include './studio_responses.html' %}
+      </div>
+    </div>
+  </div>
+  <!-- Articles -->
+  <div class="collapse" id="articles">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        {% include './studio_articles.html' %}
+      </div>
+    </div>
+  </div>
+  <!-- Stories -->
+  <div class="collapse" id="stories">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        {% include './studio_stories.html' %}
+      </div>
+    </div>
+  </div>
+  <!-- Information -->
+  {% if member.is_staff %}
+    <div class="collapse" id="support_documents">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          {% include './studio_supportdocuments.html' %}
         </div>
       </div>
     </div>
-    <!-- Member Responses -->
-    <div class="col-sm- studio-col">
-      <div class="collapse" id="responses">
-        <div class="container">
-          {% include './studio_responses.html' %}
-        </div>
+  {% endif %}
+  <!-- Member Visuals -->
+  <div class="collapse" id="visuals">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        {% include './studio_visuals.html' %}
       </div>
     </div>
-    <!-- Stories -->
-    <div class="col-sm- studio-col">
-      <div class="collapse" id="stories">
-        <div class="container">
-          {% include './studio_stories.html' %}
-        </div>
+  </div>
+  <!-- Member Galleries -->
+  <div class="collapse" id="galleries">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        {% include './studio_galleries.html' %}
       </div>
     </div>
-    <!-- Articles -->
-    <div class="col-sm- studio-col">
-      <div class="collapse" id="articles">
-        <div class="container">
-          {% include './studio_articles.html' %}
-        </div>
+  </div>
+  <!-- Member Tracks -->
+  <div class="collapse" id="tracks">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        {% include './studio_tracks.html' %}
       </div>
     </div>
-    <!-- Information -->
-    {% if member.is_staff %}
-      <div class="col-sm- studio-col">
-        <div class="collapse" id="support_documents">
-          <div class="container">
-            {% include './studio_supportdocuments.html' %}
-          </div>
-        </div>
-      </div>
-    {% endif %}
-    <!-- Member Tracks -->
-    <div class="col-sm- studio-col">
-      <div class="collapse" id="tracks">
-        <div class="container">
-          {% include './studio_tracks.html' %}
-        </div>
+  </div>
+  <!-- Member Albums -->
+  <div class="collapse" id="albums">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        {% include './studio_albums.html' %}
       </div>
     </div>
-    <!-- Member Albums -->
-    <div class="col-sm- studio-col">
-      <div class="collapse" id="albums">
-        <div class="container">
-          {% include './studio_albums.html' %}
-        </div>
+  </div>
+  <!-- Member Images -->
+  <div class="collapse" id="images">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+         {% include './studio_images.html' %}
       </div>
     </div>
-    <!-- Member Visuals -->
-    <div class="col-sm- studio-col">
-      <div class="collapse" id="visuals">
-        <div class="container">
-          {% include './studio_visuals.html' %}
-        </div>
+  </div>
+  <!-- Member Videos -->
+  <div class="collapse" id="videos">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        {% include './studio_videos.html' %}
       </div>
     </div>
-    <!-- Member Galleries -->
-    <div class="col-sm- studio-col">
-      <div class="collapse" id="galleries">
-        <div class="container">
-          {% include './studio_galleries.html' %}
-        </div>
+  </div>
+  <!-- Member Sounds -->
+  <div class="collapse" id="sounds">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        {% include './studio_sounds.html' %}
       </div>
     </div>
-    <!-- Member Images -->
-    <div class="col-sm- studio-col">
-      <div class="collapse" id="images">
-        <div class="container">
-          {% include './studio_images.html' %}
-        </div>
+  </div>
+  <!-- Member Code -->
+  <div class="collapse" id="code">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        {% include './studio_code.html' %}
       </div>
     </div>
-    <!-- Member Videos -->
-    <div class="col-sm- studio-col">
-      <div class="collapse" id="videos">
-        <div class="container">
-          {% include './studio_videos.html' %}
-        </div>
-      </div>
-    </div>
-    <!-- Member Sounds -->
-    <div class="col-sm- studio-col">
-      <div class="collapse" id="sounds">
-        <div class="container">
-          {% include './studio_sounds.html' %}
-        </div>
-      </div>
-    </div>
-    <!-- Member Code -->
-    <div class="col-sm- studio-col">
-      <div class="collapse" id="code">
-        <div class="container">
-          {% include './studio_code.html' %}
-        </div>
-      </div>
-    </div>
-    <!-- Member Links -->
-    <div class="col-sm- studio-col">
-      <div class="collapse" id="links">
-        <div class="container">
-          {% include './studio_links.html' %}
-        </div>
+  </div>
+  <!-- Member Links -->
+  <div class="collapse" id="links">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        {% include './studio_links.html' %}
       </div>
     </div>
   </div>

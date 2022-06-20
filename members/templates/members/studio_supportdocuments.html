@@ -1,30 +1,26 @@
-<div class="members-section">
-  <div class="row">
-    <div class="col">
-      <h5 class="document-title">Your Information
-      </h5>
-    </div>
-    <div class="col-">
-      <div class="container">
-        {% if show_documentation_buttons %}
-          {% with document_add_button as button %}
-            {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
-              {% include 'buttons/small_add_button.html' %}
-            {% endwith %}
+<div class="row">
+  <div class="col col-sm">
+    <h5 class="documentation-title">Your Support Documents</h5>
+  </div>
+  {% if show_documentation_buttons %}
+    <div class="col-auto">
+      <div class="float-end">
+        {% with document_add_button as button %}
+          {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
+            {% include 'buttons/small_add_button.html' %}
           {% endwith %}
-        {% endif %}
+        {% endwith %}
       </div>
     </div>
-  </div>
-  {% if documents.all.count > 0 %}
-    {% with documents as objects %}
-      {% include './studio_list.html' %}
-    {% endwith %}
-    <br>
-    <p>
-      <a href="{% url 'documentation:document_studio_list' %}">more ...</a>
-    </p>
-  {% else %}
-    <p>You have not created any support documents yet.</p>
   {% endif %}
 </div>
+{% if documents %}
+  {% with documents as items and "&#128221;" as icon and "objects-list-item" as li_css %}
+    {% include './studio_list.html' %}
+  {% endwith %}
+  <p>
+    <a href="{% url 'documentation:document_studio_list' %}" target="_blank" rel="noopener noreferrer">more ...</a>
+  </p>
+{% else %}
+  <p>You have not created any support documents yet.</p>
+{% endif %}

@@ -1,19 +1,11 @@
-<div class="members-section">
-  <div class="row">
-    <div class="col">
-      <h5 class="post-title">Your Responses
-      </h5>
-    </div>
-  </div>
-  {% if responses.all.count > 0 %}
-    {% with responses as objects %}
-      {% include './studio_list.html' %}
-    {% endwith %}
-    <br>
-    <p>
-      <a href="{% url 'posts:response_studio_list' %}">more ...</a>
-    </p>
-  {% else %}
-    <p>You have not created any responses yet.</p>
-  {% endif %}
-</div>
+<h5 class="posts-title">Your Responses</h5>
+{% if responses %}
+  {% with responses as items and "&#127955;" as icon and "objects-list-item" as li_css %}
+    {% include './studio_list.html' %}
+  {% endwith %}
+  <p>
+    <a href="{% url 'posts:response_studio_list' %}" target="_blank" rel="noopener noreferrer">more ...</a>
+  </p>
+{% else %}
+  <p>You have not created any responses yet.</p>
+{% endif %}

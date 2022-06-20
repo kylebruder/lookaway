@@ -1,12 +1,7 @@
-<table class="studio-table">
-  <tr>
-    <th>Title</th>
-    <th>Last Modified</th>
-  </th>
-  {% for object in objects %}
-    <tr>
-      <td><a href="{{ object.get_absolute_url }}">{{ object.title|truncatechars:20 }}</a></td>
-      <td>{{ object.last_modified|date:"M d, Y" }}</td>
-    </tr>
+<ul class="list-group">
+  {% for item in items %}
+    {% with item.title|truncatechars:24 as title and item.get_absolute_url as url and item.is_public as public %}
+      {% include './studio_list_item.html' %}
+    {% endwith %}
   {% endfor %}
-</table>
+</ul>

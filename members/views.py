@@ -43,6 +43,8 @@ class StudioView(LoginRequiredMixin, TemplateView):
         context['meta_desc'] = "Manage your content"
 
         context['member'] = member
+
+        # IAM Groups
         # Members
         if member.groups.filter(name="Members").exists():
             context['show_posts_buttons'] = True

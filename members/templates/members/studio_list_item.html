@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col col-sm">
       <p class="{{ p_css }}">
-        {% if icon %}{{ icon }} {% endif %}<a href="{{ url }}">{{ title }}</a>
+        {% if icon %}{{ icon }} {% endif %}<a href="{{ url }}" target="_blank" rel="noopener noreferrer">{{ title }}</a>
         {% if not public %}
           <span class="badge bg-secondary">Unpublished</span>
         {% endif %}
@@ -25,3 +25,4 @@
     {% endif %}
   </div>
 </li>
+
