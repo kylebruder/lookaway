@@ -49,8 +49,8 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
                 )
             )
         # Image settings
-        h = profile.image_max_height
         w = profile.image_max_width
+        h = profile.image_max_height
         if profile.image_format == "JPG":
             img_format = "jpeg"
         else:
@@ -68,7 +68,7 @@ def handle_image_upload(sender, instance, created, *args, **kwargs):
                 image.save(instance.image_file.path, img_format, **info)
 
         # Give the image a random name and webp extenstion
-        instance.title = original_name.split('.')[:-1][0]
+        instance.title = original_name.split('.')[:-1][0][0:63]
         img_path = Path(instance.image_file.path)
         seed = str(img_path) + str(timezone.now())
         safe_file_name = md5(seed.encode()).hexdigest() + '.' + img_format
