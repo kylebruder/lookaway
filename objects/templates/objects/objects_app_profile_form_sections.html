@@ -4,7 +4,7 @@
       <h4 class="form-label">Landing Page Sections</h4>
     </div>
     {% if not sections %}
-      <div class="col-">
+      <div class="col-auto">
         <div class="container">
          <a class="btn btn-sm btn-primary" href="{% url 'objects:objects_page_section_create' %}?next={{ request.path }}">+Section</a>
         </div>

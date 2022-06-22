@@ -4,7 +4,7 @@
       <span class="badge bg-secondary">{{ tag }}</span>
     </h2>
   </div>
-  <div class="col-">
+  <div class="col-auto">
     {% if request.user.is_superuser %}
       <a href="{% url 'objects:tag_delete' tag.slug %}">
         <button type="button" class="btn btn-sm btn-danger float-end">Delete</button>

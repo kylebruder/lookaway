@@ -2,7 +2,7 @@
   <h5 class="tag-title">Albums</h5>
   {% for album in albums %}
     <div class="row">
-      <div class="col-">
+      <div class="col-auto">
         {% if album.cover %}
           <div class="music-album-list-image" style="background-image:url('{{ album.cover.thumbnail_file.url }}')"></div>
         {% elif album.owner.profile.image %}

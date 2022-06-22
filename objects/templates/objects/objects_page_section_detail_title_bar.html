@@ -5,7 +5,7 @@
     {% endif %}
   </div>
   {% if section.owner.pk == request.user.pk %}
-    <div class="col-">
+    <div class="col-auto">
       <div class="container">
        {% include './objects_page_section_add_button.html' %}
        {% include './objects_page_section_edit_button.html' %}

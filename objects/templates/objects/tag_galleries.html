@@ -2,7 +2,7 @@
   <h5 class="tag-title">Galleries</h5>
   {% for gallery in galleries %}
     <div class="row">
-      <div class="col-">
+      <div class="col-auto">
         {% if gallery.visuals.all.count > 0 %}
           <div class="art-gallery-list-image" style="background-image:url('{{ gallery.visuals.first.image.thumbnail_file.url }}')"></div>
         {% elif gallery.owner.profile.image %}

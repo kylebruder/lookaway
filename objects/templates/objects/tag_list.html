@@ -6,7 +6,7 @@
       <h3 class="tag-title">Tags</h3>
     </div>
     {% if request.user.is_authenticated %}
-      <div class="col-">
+      <div class="col-auto">
         <div class="container">
           <a href="{% url 'objects:tag_create' %}">
             <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>

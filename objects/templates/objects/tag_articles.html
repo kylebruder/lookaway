@@ -2,7 +2,7 @@
   <h5 class="tag-title">Articles</h5>
   {% for article in articles %}
     <div class="row">
-      <div class="col-">
+      <div class="col-auto">
         {% if article.image %}
           <div class="tag-list-image" style="background-image:url('{{ article.image.thumbnail_file.url }}')"></div>
         {% elif article.owner.profile.image %}

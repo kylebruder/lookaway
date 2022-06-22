@@ -2,7 +2,7 @@
   <h5 class="tag-title">Tracks</h5>
   {% for track in tracks %}
     <div class="row">
-      <div class="col-">
+      <div class="col-auto">
         {% if track.image %}
           <div class="music-track-list-image" style="background-image:url('{{ track.image.thumbnail_file.url }}')"></div>
         {% elif track.owner.profile.image %}

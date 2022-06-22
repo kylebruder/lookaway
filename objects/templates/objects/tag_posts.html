@@ -2,7 +2,7 @@
   <h5 class="tag-title">Posts</h5>
   {% for post in posts %}
     <div class="row">
-      <div class="col-">
+      <div class="col-auto">
         {% if post.image %}
           <div class="tag-list-image" style="background-image:url('{{ post.image.thumbnail_file.url }}')"></div>
         {% elif post.owner.profile.image %}
