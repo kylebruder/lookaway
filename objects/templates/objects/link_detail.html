@@ -12,12 +12,22 @@
     {% endif %}
     <a href="{{ link.url }}" class="link-url"><p class="links-list-link">{{ link.url|truncatechars:128 }}</p></a>
     {% include './object_meta_data.html' %}
-    {% include 'objects/object_tags.html' %}
+    <div class="row">
+      <div class="col-sm">
+        {% include 'objects/object_tags.html' %}
+      </div>
+      <div class="col-auto float-end">
+        {% if link.is_public and can_add_marshmallow %}
+          <a href="{% url 'objects:link_marshmallow' link.pk %}">
+            <button type="button" class="btn btn-sm btn-light marshmallow-button float-end">M</button>
+          </a>
+        {% endif %}
+      </div>
+    </div>
     <br>
   {% else %}
-    <p>This Link has not been published yet.</p>
+    <p>This external link has not been published yet.</p><br>
   {% endif %}
 </div>
-<br>
 {% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

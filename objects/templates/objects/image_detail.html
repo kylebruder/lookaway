@@ -2,24 +2,38 @@
 {% block body_block %}
 {% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container image-bg">
-  {% include './image_detail_button_bar.html' %}
-  <a href="{{ image.image_file.url }}">
-    <img class="images-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
-  </a>
-  <br>
-  <br>
-  {% if image.text %}
-    <p>{{ image.text }}</p>
+  {% if image.is_public or image.owner.pk == request.user.pk %}
+    {% include './image_detail_button_bar.html' %}<br>
+    <a href="{{ image.image_file.url }}">
+      <img class="images-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
+    </a>
+    <br>
+    <br>
+    {% if image.text %}
+      <p>{{ image.text }}</p>
+    {% endif %}
+    <p>
+      Image file: <a href="{{ image.image_file.url }}">{{ image.image_file.url }}</a><br>
+      Thumbnail file: <a href="{{ image.thumbnail_file.url }}">{{ image.thumbnail_file.url }}</a><br>
+      {% if image.credit %}Credit: {{ image.credit }}{% endif %}
+    </p>
+    {% include './object_meta_data.html' %}
+    <div class="row">
+      <div class="col-sm">
+        {% include 'objects/object_tags.html' %}
+      </div>
+      <div class="col-auto float-end">
+        {% if image.is_public and can_add_marshmallow %}
+          <a href="{% url 'objects:image_marshmallow' image.pk %}">
+            <button type="button" class="btn btn-sm btn-light marshmallow-button float-end">M</button>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    <br>
+  {% else %}
+    <p>This image file has not been published yet.</p><br>
   {% endif %}
-  <p>
-    Image file: <a href="{{ image.image_file.url }}">{{ image.image_file.url }}</a><br>
-    Thumbnail file: <a href="{{ image.thumbnail_file.url }}">{{ image.thumbnail_file.url }}</a><br>
-    {% if image.credit %}Credit: {{ image.credit }}{% endif %}
-  </p>
-  {% include './object_meta_data.html' %}
-  {% include 'objects/object_tags.html' %}
-  <br>
 </div>
-<br>
 {% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

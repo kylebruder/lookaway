@@ -1,35 +1,27 @@
 <div class="row">
-  <div class="col">
+  <div class="col-sm">
     <h3 class="image-title">{{ image.title }}</h3>
   </div>
-  <div class="col-">
-    <div class="container">
-      {% if show_visual_add_button %}
-        {% with visual_add_button as button %}
-          {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
-            {% include 'buttons/add_button.html' %}
-          {% endwith %}
+  <div class="col-auto float-end">
+    {% if show_visual_add_button %}
+      {% with visual_add_button as button %}
+        {% with button|lookup:"url" as button_url and button|lookup:"parameters" as parameters and button|lookup:"text" as button_text %}
+          {% include 'buttons/add_button.html' %}
         {% endwith %}
-      {% endif %}
-      {% if image.owner.pk == request.user.pk %}
-        <a href="{% url 'objects:image_delete' image.pk %}">
-          <button type="button" class="btn btn-sm  btn-danger float-end">Delete</button>
-        </a>
-        <a href="{% url 'objects:image_update' image.pk %}">
-          <button type="button" class="btn btn-sm btn-warning float-end">Edit</button>
-        </a>
-        {% if not image.is_public %}
-          <a href="{% url 'objects:publish_image' image.pk %}">
-            <button type="button" class="btn btn-sm btn-success float-end">Publish</button>
-          </a>
-        {% endif %}
-      {% endif %}
-      {% if image.is_public and can_add_marshmallow %}
-        <a href="{% url 'objects:image_marshmallow' image.pk %}">
-          <button type="button" class="btn btn-sm btn-light marshmallow-button float-end">M</button>
+      {% endwith %}
+    {% endif %}
+    {% if image.owner.pk == request.user.pk %}
+      <a href="{% url 'objects:image_delete' image.pk %}">
+        <button type="button" class="btn btn-sm  btn-danger float-end">Delete</button>
+      </a>
+      <a href="{% url 'objects:image_update' image.pk %}">
+        <button type="button" class="btn btn-sm btn-warning float-end">Edit</button>
+      </a>
+      {% if not image.is_public %}
+        <a href="{% url 'objects:publish_image' image.pk %}">
+          <button type="button" class="btn btn-sm btn-success float-end">Publish</button>
         </a>
       {% endif %}
-    </div>
+    {% endif %}
   </div>
 </div>
-<br>

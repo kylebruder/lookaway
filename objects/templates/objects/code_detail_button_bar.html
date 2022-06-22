@@ -1,8 +1,8 @@
 <div class="row">
-  <div class="col">
+  <div class="col-sm">
     <h3 class="code-title">{{ code.title }}</h3>
   </div>
-  <div class="col-">
+  <div class="col-auto">
     {% if code.owner.pk == request.user.pk %}
       <a href="{% url 'objects:code_delete' code.pk %}">
         <button type="button" class="btn btn-sm  btn-danger float-end">Delete</button>
@@ -15,11 +15,6 @@
           <button type="button" class="btn btn-sm btn-success float-end">Publish</button>
         </a>
       {% endif %}
-    {% endif %}
-    {% if code.is_public and can_add_marshmallow %}
-      <a href="{% url 'objects:code_marshmallow' code.pk %}">
-        <button type="button" class="btn btn-sm btn-light marshmallow-button float-end">M</button>
-      </a>
     {% endif %}
   </div>
 </div>

@@ -19,12 +19,23 @@
       <p>Source URL: <a href="{{ code.source_url }}">{{ code.source_url }}</a></p>
     {% endif %}
     {% include './object_meta_data.html' %}
-    {% include 'objects/object_tags.html' %}<br>
+    <div class="row">
+      <div class="col-sm">
+        {% include 'objects/object_tags.html' %}
+      </div>
+      <div class="col-auto float-end">
+        {% if code.is_public and can_add_marshmallow %}
+          <a href="{% url 'objects:code_marshmallow' code.pk %}">
+            <button type="button" class="btn btn-sm btn-light marshmallow-button float-end">M</button>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    <br>
   {% else %}
-    <p>This Code sample has not been published yet.</p>
+    <p>This code sample has not been published yet.</p><br>
   {% endif %}
 </div>  
-<br>
 {% if profile.bg_image %}</div>{% endif %}
 {% endblock %}
   

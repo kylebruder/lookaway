@@ -17,12 +17,22 @@
       {% if sound.credit %}Credit: {{ sound.credit }}{% endif %}
     </p>
     {% include './object_meta_data.html' %}
-    {% include 'objects/object_tags.html' %}
+    <div class="row">
+      <div class="col-sm">
+        {% include 'objects/object_tags.html' %}
+      </div>
+      <div class="col-auto float-end">
+        {% if sound.is_public and can_add_marshmallow %}
+          <a href="{% url 'objects:sound_marshmallow' sound.pk %}">
+            <button type="button" class="btn btn-sm btn-light marshmallow-button float-end">M</button>
+          </a>
+        {% endif %}
+      </div>
+    </div>
     <br>
   {% else %}
-    <p>This Sound has not been published yet.</p>
+    <p>This sound file has not been published yet.</p><br>
   {% endif %}
 </div>
-<br>
 {% if profile.bg_image %}</div>{% endif %}
 {% endblock %}
