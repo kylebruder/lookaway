@@ -1,0 +1,5 @@
+<li class="list-group-item objects-list-li">
+  {% with code.title|truncatechars:64 as title and code.get_absolute_url as url and 'objects-title' as h_css and '<>' as icon and code.language as text %}
+    {% include 'items/preview_item.html' %}
+  {% endwith %}
+</li>

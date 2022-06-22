@@ -24,19 +24,11 @@
     <h5 class="objects-title">Sound Files</h5>
     <p class="sound-title">
       {% for sound in new_sounds %}
-        <li class="list-group-item objects-list-li">
-          {% with sound.title|truncatechars:64 as title and sound.get_absolute_url as url and 'objects-title' as h_css and '&#128266;' as icon and sound.text as text %}
-            {% include 'items/preview_item.html' %}
-          {% endwith %}
-        </li>
+        {% include './sound_preview_item.html' %}
       {% endfor %}
       {% if top_sounds.count > 0 %}
         {% for sound in top_sounds %}
-          <li class="list-group-item objects-list-li">
-            {% with sound.title|truncatechars:64 as title and sound.get_absolute_url as url and 'objects-title' as h_css and '&#128266;' as icon and sound.text as text %}
-              {% include 'items/preview_item.html' %}
-            {% endwith %}
-          </li>
+          {% include './sound_preview_item.html' %}
         {% endfor %}
       {% endif %}
     </p>
@@ -48,11 +40,11 @@
     <h5 class="objects-title">Video Files</h5>
     <p class="video-title">
       {% for video in new_videos %}
-        {% include './video_list_item.html' %}
+        {% include './video_preview_item.html' %}
       {% endfor %}
       {% if top_videos.count > 0 %}
         {% for video in top_videos %}
-          {% include './video_list_item.html' %}
+          {% include './video_preview_item.html' %}
         {% endfor %}
       {% endif %}
     </p>
@@ -64,11 +56,11 @@
     <h5 class="objects-title">Code Samples</h5>
     <p class="code-title">
       {% for code in new_codes %}
-        {% include './code_list_item.html' %}
+        {% include './code_preview_item.html' %}
       {% endfor %}
       {% if top_codes.count > 0 %}
         {% for code in top_codes %}
-          {% include './code_list_item.html' %}
+          {% include './code_preview_item.html' %}
         {% endfor %}
       {% endif %}
     </p>
@@ -80,11 +72,11 @@
     <h5 class="objects-title">External Links</h5>
     <p class="links-title">
       {% for link in new_links %}
-        {% include './link_list_item.html' %}
+        {% include './link_preview_item.html' %}
       {% endfor %}
       {% if top_links.count > 0 %}
         {% for link in top_links %}
-          {% include './link_list_item.html' %}
+          {% include './link_preview_item.html' %}
         {% endfor %}
       {% endif %}
     </p>
