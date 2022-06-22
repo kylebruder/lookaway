@@ -1,10 +1,9 @@
 {% extends './objects_list.html' %}
 {% block items_block %}
-  <div class="row">
-    {% for code in codes %}
-      <div class="col-4-sm posts-list-card">
-        {% include './code_list_item.html' %}
-      </div>
-    {% endfor %}
-  </div>
+<ul class="list-group">
+  {% for code in codes %}
+    {% include './code_list_item.html' %}
+  {% endfor %}
+</ul>
 {% endblock %}
+

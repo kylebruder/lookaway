@@ -24,11 +24,19 @@
     <h5 class="objects-title">Sound Files</h5>
     <p class="sound-title">
       {% for sound in new_sounds %}
-        {% include './sound_list_item.html' %}
+        <li class="list-group-item objects-list-li">
+          {% with sound.title|truncatechars:64 as title and sound.get_absolute_url as url and 'objects-title' as h_css and '&#128266;' as icon and sound.text as text %}
+            {% include 'items/preview_item.html' %}
+          {% endwith %}
+        </li>
       {% endfor %}
       {% if top_sounds.count > 0 %}
         {% for sound in top_sounds %}
-          {% include './sound_list_item.html' %}
+          <li class="list-group-item objects-list-li">
+            {% with sound.title|truncatechars:64 as title and sound.get_absolute_url as url and 'objects-title' as h_css and '&#128266;' as icon and sound.text as text %}
+              {% include 'items/preview_item.html' %}
+            {% endwith %}
+          </li>
         {% endfor %}
       {% endif %}
     </p>

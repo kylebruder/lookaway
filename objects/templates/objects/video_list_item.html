@@ -1,20 +1,5 @@
-<li class="list-group-item video-list-li">
-  <div class="row">
-    <div class="col-">
-      <h1>&#128249;</h1>
-    </div>
-    <div class="col-sm">
-      <h5 class="video-title">
-        <a href="{% url 'objects:video_detail' video.pk %}">{{ video.title }}</a>
-      </h5>
-      <p>
-        {% if video.credit %}
-          {{ video.credit }}
-        {% endif %}
-      </p>
-      {% if not video.is_public %}
-        <span class="badge bg-secondary">Unpublished</span>
-      {% endif %}
-    </div>
-  </div>
+<li class="list-group-item objects-list-li">
+  {% with video.title|truncatechars:64 as title and video.get_absolute_url as url and 'objects-title' as h_css and '&#128252;' as icon and video.text as text %}
+    {% include 'items/list_item.html' %}
+  {% endwith %}
 </li>

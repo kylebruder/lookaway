@@ -1,20 +1,11 @@
-<li class="list-group-item link-list-li">
-  <div class="row">
-    <div class="col-">
-      <h1>&#127758;</h1>
-    </div>
-    <div class="col-sm">
-      <h5 class="link-title">
-        {% if link.title %}
-          <a href="{% url 'objects:link_detail' link.pk %}" class="links-list-link">{{ link.title }}</a><br>
-        {% else %}
-          <a href="{% url 'objects:link_detail' link.pk %}" class="links-list-link">Untitled Link</a><br>
-        {% endif %}
-      </h5>
-      <p>{{ link.url|get_domain }}</p>
-      {% if not link.is_public %}
-        <span class="badge bg-secondary">Unpublished</span>
-      {% endif %}
-    </div>
-  </div>
+<li class="list-group-item objects-list-li">
+  {% if link.title %}
+    {% with link.title|truncatechars:64 as title and link.get_absolute_url as url and 'objects-title' as h_css and '&#127760;' as icon and link.text as text %}
+      {% include 'items/list_item.html' %}
+    {% endwith %}
+  {% else %}
+    {% with 'Untitled Link' as title and link.get_absolute_url as url and 'objects-title' as h_css and '&#127760;' as icon and link.text as text %}
+      {% include 'items/list_item.html' %}
+    {% endwith %}
+  {% endif %}
 </li>

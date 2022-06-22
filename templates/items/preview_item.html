@@ -1,0 +1,25 @@
+<div class="row">
+  {% if thumbnail %}
+    <div class="col-sm-auto float-start">
+      <div class="objects-list-image" style="background-image:url('{{ thumbnail }}')"></div>
+    </div>
+  {% endif %}
+  <div class="col">
+    <h5 class="{{ h_css }}">{% if icon %}{{ icon }} {% endif %}<a href="{{ url }}">{{ title }}</a></h5>
+    {% if meta_data %}
+      <p>{{ meta_data }}</p>
+    {% endif %}
+  </div>
+</div>
+<div class="row">
+  {% if text %}
+    <div class="col">
+      <p class="{{ p_css }}">{{ text }}</p>
+    </div>
+  {% endif %}
+  {% if tags %}
+    <div class="col-auto">
+      <p>{% for tag in tags %}<a href="{% url 'objects:tag_detail' tag.slug %}"><span class="badge bg-secondary">{{ tag }}</span></a> {% endfor %}</p>
+    </div>
+  {% endif %}
+</div>

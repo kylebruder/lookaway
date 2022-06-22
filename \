@@ -1,0 +1,12 @@
+{% extends './objects_list.html' %}
+{% block items_block %}
+<ul class="list-group">
+  {% for sound in sounds %}
+    <li class="list-group-item objects-list-li">
+      {% with sound.title|truncatechars:64 as title and sound.get_absolute_url as url and sound.is_public as public and 'objects-title' as h_css and '&#128266;' as icon and sound.text as text %}
+        {% include 'items/preview_item.html' %}
+      {% endwith %} 
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

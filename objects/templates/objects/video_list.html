@@ -1,10 +1,9 @@
 {% extends './objects_list.html' %}
 {% block items_block %}
-  <div class="row">
-    {% for video in videos %}
-      <div class="col-4-sm posts-list-card">
-        {% include './video_list_item.html' %}
-      </div>
-    {% endfor %}
-  </div>
+<ul class="list-group">
+  {% for video in videos %}
+    {% include './video_list_item.html' %}
+  {% endfor %}
+</ul>
 {% endblock %}
+

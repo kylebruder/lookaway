@@ -1,24 +1,5 @@
-<li class="list-group-item sound-list-li">
-  <div class="row">
-    <div class="col-">
-      <h1>&#128264;</h1>
-    </div>
-    <div class="col-sm">
-      <h5 class="sound-title">
-        {% if sound.title %}
-          <a href="{% url 'objects:sound_detail' sound.pk %}" class="sounds-list-sound">{{ sound.title }}</a><br>
-        {% else %}
-          <a href="{% url 'objects:sound_detail' sound.pk %}" class="sounds-list-sound">Untitled Sound</a><br>
-        {% endif %}
-      </h5>
-      <p>
-        {% if sound.credit %}
-          {{ sound.credit }}
-        {% endif %}
-      </p>
-      {% if not sound.is_public %}
-        <span class="badge bg-secondary">Unpublished</span>
-      {% endif %}
-    </div>
-  </div>
+<li class="list-group-item objects-list-li">
+  {% with sound.title|truncatechars:64 as title and sound.get_absolute_url as url and 'objects-title' as h_css and '&#128266;' as icon and sound.text as text %}
+    {% include 'items/list_item.html' %}
+  {% endwith %}
 </li>
