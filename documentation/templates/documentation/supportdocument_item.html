@@ -1,6 +1,6 @@
 <div class="col-sm-4 documentation-list-card">
   <div class="row">
-    <div class="col-">
+    <div class="col-auto">
       {% if document.image %}
         <div class="float-end documentation-list-image" style="background-image:url('{{ document.image.thumbnail_file.url }}')"></div>
       {% elif document.owner.profile.image %}

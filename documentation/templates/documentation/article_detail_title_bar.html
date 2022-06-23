@@ -2,7 +2,7 @@
   <div class="col">
     <h3 class="documentation-title">{{ article.title }}</h3>
   </div>
-  <div class="col-">
+  <div class="col-auto">
     <div class="container">
       {% if article.owner.pk == request.user.pk %}
         <a href="{% url 'documentation:article_delete' article.pk %}">

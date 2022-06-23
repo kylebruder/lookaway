@@ -1,6 +1,6 @@
 <li class="list-group-item post-list-li">
   <div class="row">
-    <div class="col-">
+    <div class="col-auto">
       {% if post.image %}
         <div class="post-list-image" style="background-image:url('{{ post.image.thumbnail_file.url }}')"></div>
       {% elif post.owner.profile.image %}

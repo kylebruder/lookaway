@@ -3,7 +3,7 @@
     <h4 class="music-title">{{ album.title }}</h4>
   </div>
   {% if album.owner.pk == request.user.pk %}
-    <div class="col-">
+    <div class="col-auto">
       <div class="container">
         <div class="btn-group" role="group" aria-label="Post Actions">
           {% include 'buttons/detail_publish_button.html' %}

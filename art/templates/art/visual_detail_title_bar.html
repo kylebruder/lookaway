@@ -3,7 +3,7 @@
     <h3 class="art-title">{{ visual.title }}</h3>
   </div>
   {% if visual.owner.pk == request.user.pk %}
-    <div class="col-">
+    <div class="col-auto">
       <div class="container">
         <div class="btn-group" role="group" aria-label="Visual Actions">
           {% include 'buttons/detail_publish_button.html' %}

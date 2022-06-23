@@ -12,7 +12,7 @@
     {% endif %}
   </div>
   {% if section.owner == request.user %}
-    <div class="col-">
+    <div class="col-auto">
       <div class="container">
         {% if show_section_add_button %}
           <a href="{{ section_add_button|lookup:"url" }}?article={{ article.pk }}&order={{ section.next_order }}"><button type="button" class="btn btn-sm btn-primary create-button">+</button></a>

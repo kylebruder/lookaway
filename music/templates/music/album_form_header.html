@@ -17,7 +17,7 @@
         {% endif %}
       </div>
     {% endif %}
-    <div class="col-">
+    <div class="col-auto">
       <div class="container">
         {% if perms.music.add_track %}
           <a class="btn btn-sm btn-primary" href="{% url 'music:track_create' %}?next={{ request.path }}">+Track</a>

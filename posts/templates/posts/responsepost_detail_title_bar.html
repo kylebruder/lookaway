@@ -3,7 +3,7 @@
     <h4 class="posts-page-title">{{ response.title }}</h4>
   </div>
   {% if response.owner.pk == request.user.pk %}
-    <div class="col-">
+    <div class="col-auto">
       <div class="container">
         <div class="btn-group" role="group" aria-label="Post Actions">
           {% include 'buttons/detail_publish_button.html' %}

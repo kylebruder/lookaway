@@ -7,7 +7,7 @@
     {% endif %}
   </div>
   {% if request.user.is_authenticated and request.user.is_staff %}
-    <div class="col-">
+    <div class="col-auto">
       <div class="container">
         <a href="{% url 'documentation:section_create' %}">
           <button type="button" class="btn btn-sm btn-primary">New Section</button>
