@@ -14,10 +14,7 @@
   padding: 10px;
   max-width: 100%;
   margin-bottom: 5px;
-  display: inline-block;
   border-radius: 5px;
-  overflow-x: auto;
-  overflow-y: auto;
 }
 
 .code-box {

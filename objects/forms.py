@@ -876,7 +876,7 @@ class CodeForm(forms.ModelForm):
         widget=forms.Textarea(
             attrs={
                 'wrap': 'off',
-                'class': 'code-box',
+                'class': 'code-block form-text-field',
             }
         ),
         help_text="Enter the code here",
@@ -934,7 +934,7 @@ class CodeForm(forms.ModelForm):
         widgets = {
             'code': Textarea(attrs={
                 'wrap': 'off',
-                'class': 'code-box',
+                'class': 'code-block',
             }),
         }
         help_texts = {

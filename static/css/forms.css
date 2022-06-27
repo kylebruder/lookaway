@@ -33,7 +33,7 @@
   border-radius: 5px;
   margin: 5px;
   min-width: 350px;
-  padding: 20px;
+  padding: 10px;
 }
 
 .form-image-card {
@@ -48,7 +48,6 @@
 .form-image-selection {
   overflow-y: auto;
   max-height: 300px;
-  max-width: 315px;
 }
 
 .form-label {
