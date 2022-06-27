@@ -193,18 +193,18 @@ class ObjectsPageView(LoginRequiredMixin, TemplateView, AppPageMixin):
             }
         # Add objects page section button
         if self.request.user.has_perm('objects.add_objectspagesection'):
-            context['show_objects_page_section_add_button'] = True
-            context['objects_page_section_add_button'] = {
+            context['show_section_add_button'] = True
+            context['section_add_button'] = {
                 'url': reverse(
                     'objects:objects_page_section_create',
                 ),
             }
         # Edit objects page section button
         if self.request.user.has_perm('objects.change_objectspagesection'):
-            context['show_objects_page_section_edit_button'] = True
+            context['show_section_edit_button'] = True
         # Delete objects page section button
         if self.request.user.has_perm('objects.delete_objectspagesection'):
-            context['show_objects_page_section_delete_button'] = True
+            context['show_section_delete_button'] = True
         # Edit objects app settings button
         if self.request.user.has_perm('objects.change_objectsappprofile'):
             context['show_objects_app_profile_settings_edit_button'] = True

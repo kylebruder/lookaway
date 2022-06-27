@@ -4,7 +4,7 @@
   <div class="posts-header" style="{% if profile.banner %} background-image: url('{{ profile.banner.image_file.url }}');{% endif %}">
     <div class="row">
       {% if profile.logo %}
-        <div class="col-sm-">
+        <div class="col-sm-auto">
           <div class="container">
             <a href="{% url 'posts:posts_page' %}">
               <img class="posts-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">

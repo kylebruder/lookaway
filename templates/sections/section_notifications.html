@@ -1,0 +1,26 @@
+<!-- Section Information Message -->
+{% if section.info %}
+  <div class="alert alert-primary">
+    <div class="row">
+      <div class="col-auto">
+        <h2>&#128161;</h2>
+      </div>
+      <div class="col">
+        <p>{{ section.info }}</p>
+      </div>
+    </div>
+  </div>
+{% endif %}
+<!-- Section Alert Message -->
+{% if section.alert %}
+  <div class="alert alert-danger">
+    <div class="row">
+      <div class="col-auto">
+        <h2>&#9888;</h2>
+      </div>
+      <div class="col">
+        <p>{{ section.alert }}</p>
+      </div>
+    </div>
+  </div>
+{% endif %}

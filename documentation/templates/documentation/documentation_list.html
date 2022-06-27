@@ -4,7 +4,7 @@
   <div class="documentation-header" style="{% if profile.banner %} background-image: url('{{ profile.banner.image_file.url }}');{% endif %}">
     <div class="row">
       {% if profile.logo %}
-        <div class="col-sm-">
+        <div class="col-sm-auto">
           <div class="container">
             <a href="{% url 'documentation:documentation_page' %}">
               <img class="documentation-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">

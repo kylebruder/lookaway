@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block body_block %}
-{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
-<div class="container sound-bg">
+<div class="container objects-bg">
   {% if sound.is_public or sound.owner.pk == request.user.pk %}
     {% include './sound_detail_button_bar.html' %}
     <audio controls="controls">
@@ -29,10 +28,9 @@
         {% endif %}
       </div>
     </div>
-    <br>
   {% else %}
     <p>This sound file has not been published yet.</p><br>
   {% endif %}
 </div>
-{% if profile.bg_image %}</div>{% endif %}
+<br>
 {% endblock %}

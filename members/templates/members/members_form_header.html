@@ -1,13 +1,13 @@
 <div class="members-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
   <div class="row">
     {% if profile.logo %}
-      <div class="col-sm-">
+      <div class="col-sm-auto">
         <div class="container">
           <img class="members-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
         </div>
       </div>
     {% elif profile.image %}
-      <div class="col-sm-">
+      <div class="col-sm-auto">
         <div class="container">
           <img class="members-logo" src="{{ profile.image.image_file.url }}" alt="{{ profile.image.thumbnail_file.title }}">
         </div>

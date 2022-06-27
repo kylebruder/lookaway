@@ -40,9 +40,11 @@
       </div>
     {% endfor %}
   {% endif %}
+  {% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
   {% block body_block %}
     <!-- Anything outside of this will be inhereited if you extend! -->
   {% endblock %}
+  {% if profile.bg_image %}</div>{% endif %}
   <!-- FOOTER -->
   {% include 'base_footer.html' %}
 </body>

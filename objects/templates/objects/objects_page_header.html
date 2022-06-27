@@ -8,7 +8,7 @@
     <div class="col-sm">
       {% if profile.show_title or profile.show_desc %}
         {% if profile.title and profile.show_title %}
-          <h3 class="objects-title objects-page-span objects-alert">{{ meta_title }}</h3>
+          <h3 class="objects-brand-title objects-page-span objects-alert">{{ meta_title }}</h3>
         {% endif %}
         {% if meta_desc and profile.show_desc %}
           <br><p class="objects-page-span objects-alert"><i>{{ meta_desc }}</i></p>
@@ -36,9 +36,6 @@
       </div>
     {% endif %}
   </div>
-  {% if profile.text %}
-    <p class="objects-page-span objects-alert">{{ profile.text }}</p>
-  {% endif %}
   <div class="row">
     <div class="col-sm">
       {% include './objects_page_navbar.html' %}

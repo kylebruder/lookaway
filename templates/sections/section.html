@@ -1,28 +1,5 @@
-<!-- Section Information Message -->
-{% if section.info %}
-  <div class="alert alert-primary home-alert">{{ section.info }}</div><br>
-{% endif %}
-<!-- Section Alert Message -->
-{% if section.alert %}
-  <div class="alert alert-danger home-alert">{{ section.alert }}</div><br>
-{% endif %}
-<!-- Section Images -->
-{% if section.images.count > 0 %}
-  {% with section.images.all as images %}
-    <!-- Section Text -->
-    {% if section.text %}
-      {% include 'sections/section_images_text.html' %}
-    {% elif section.images.count == 1 %}
-      {% with section.images.first as image %}
-        {% include 'sections/section_image.html' %}
-      {% endwith %}
-    {% else %}
-      {% include 'sections/section_images.html' %}
-    {% endif %}
-  {% endwith %}
-{% elif section.text %}
-  {{ section.text|linebreaks }}
-{% endif %}
+{% include 'sections/section_notifications.html' %}
+{% include 'sections/section_images_text.html' %}
 {% if section.sounds.count > 0 %}
   {% with section.sounds.all as sounds %}
     {% include 'sections/section_sounds.html' %}
@@ -40,7 +17,7 @@
 {% endif %}
 {% if section.links.count > 0  %}
   {% with section.links.all as links%}
-    {% include 'objects/object_links.html' %}
+    {% include 'sections/section_links.html' %}
   {% endwith %}
 {% endif %}
 {% if section.posts.count > 0 %}

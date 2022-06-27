@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block body_block %}
-{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
-<div class="container links-bg">
+<div class="container objects-bg">
   {% if link.is_public or link.owner.pk == request.user.pk %}
     {% include './link_detail_button_bar.html' %}
     {% if link.text %}
@@ -24,10 +23,9 @@
         {% endif %}
       </div>
     </div>
-    <br>
   {% else %}
     <p>This external link has not been published yet.</p><br>
   {% endif %}
 </div>
-{% if profile.bg_image %}</div>{% endif %}
+<br>
 {% endblock %}

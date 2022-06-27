@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block body_block %}
-{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
-<div class="container image-bg">
+<div class="container objects-bg">
   {% if image.is_public or image.owner.pk == request.user.pk %}
     {% include './image_detail_button_bar.html' %}<br>
     <a href="{{ image.image_file.url }}">
@@ -30,10 +29,9 @@
         {% endif %}
       </div>
     </div>
-    <br>
   {% else %}
     <p>This image file has not been published yet.</p><br>
   {% endif %}
 </div>
-{% if profile.bg_image %}</div>{% endif %}
+<br>
 {% endblock %}

@@ -9,10 +9,11 @@
   background-color: #eeeeee;
   color: #222222;
   border-radius: 0px 0px 25px 25px;
-  padding-bottom: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-.objects-brand-name {
+.objects-brand-title {
   font-family: 'Veranda', sans-serif;
 }
 
@@ -103,6 +104,7 @@
 
 .objects-title {
   font-family: 'Courier New', monospace;
+  font-weight: bold;
 }
 
 .objects-video-md {

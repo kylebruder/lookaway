@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% block body_block %}
-{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 
-<div class="container video-bg">
+<div class="container objects-bg">
   {% if video.is_public or video.owner.pk == request.user.pk %}
     {% include './video_detail_button_bar.html' %}
     <video class="video-player" preload="auto" controls>
@@ -30,10 +29,9 @@
         {% endif %}
       </div>
     </div>
-    <br>
   {% else %}
     <p>This video file has not been published yet.</p><br>
   {% endif %}
 </div>
-{% if profile.bg_image %}</div>{% endif %}
+<br>
 {% endblock %}
