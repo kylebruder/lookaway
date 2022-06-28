@@ -62,13 +62,12 @@
   display: block;
   width: 80px;
   height: 75px;
-  margin-left: 15px;
   margin-bottom: 15px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #eeeeee;
   border-style: solid;
-  border-width: 3px 3px 3px 7px;
+  border-width: 3px 3px 3px 3px;
   border-radius: 5px;
  }
 

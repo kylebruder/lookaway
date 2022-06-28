@@ -2,7 +2,7 @@
 {% block body_block %}
 <div class="container objects-bg">
   {% if code.is_public or code.owner.pk == request.user.pk %}
-    {% include './code_detail_button_bar.html' %}
+    {% include './code_detail_header.html' %}
     {% if code.file_path %}
       <span class="code-block"><strong>{{ code.file_path }}</strong></span><br>
     {% endif %}

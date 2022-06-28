@@ -2,7 +2,7 @@
 {% block body_block %}
 <div class="container objects-bg">
   {% if link.is_public or link.owner.pk == request.user.pk %}
-    {% include './link_detail_button_bar.html' %}
+    {% include './link_detail_header.html' %}
     {% if link.text %}
       <p class="links-list-description">{{ link.text }}</p>
     {% endif %}

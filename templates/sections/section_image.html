@@ -1,7 +1,7 @@
 {% if image.text or image.credit %}
   <div class="card" style="min-width: 250px;">
     <a href="{{ image.image_file.url }}">
-      <img class="card-img-top" src="{{ image.image_file.url }}" alt="{{ image.title }}">
+      <img class="card-img-top section-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
     </a>
     <div class="card-body">
       <div class="row">
@@ -27,7 +27,7 @@
 {% else %}
   <div class="card" style="min-width: 250px;">
     <a href="{{ image.image_file.url }}">
-      <img class="card-img-top" src="{{ image.image_file.url }}" alt="{{ image.title }}">
+      <img class="card-img-top section-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
     </a>
   </div>
   {% if image.owner.pk == request.user.pk %}

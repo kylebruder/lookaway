@@ -1544,6 +1544,11 @@ class TagListView(ListView, LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # App profile
+        profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
+        context['profile'] = profile
+        context['meta_title'] = "Tags"
+        context['meta_desc'] = """Find content grouped by key pair tags."""
         return context
 
 class TagDetailView(DetailView):

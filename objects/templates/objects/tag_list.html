@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block body_block %}
-<div class="container tags-bg">
+<div class="container objects-bg">
   <div class="row">
     <div class="col">
       <h3 class="tag-title">Tags</h3>
@@ -21,6 +21,7 @@
     <div class="row">
       <div class="col-sm-3">
         <select class="link-list-field" required id="pk" name="pk">&nbps;
+          <option value="none" selected disabled hidden>Choose a Tag</option>
           {% for tag in tags %}
             <option value="{{ tag.pk }}">{{ tag }}</option>
           {% endfor %}
@@ -47,7 +48,6 @@
   {% else %}
     <p>There are no tags yet. Check back soon!</p>
   {% endif %}
-  <br>
-  <br>
 </div>
+<br>
 {% endblock %}

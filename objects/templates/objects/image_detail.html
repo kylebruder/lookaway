@@ -2,7 +2,7 @@
 {% block body_block %}
 <div class="container objects-bg">
   {% if image.is_public or image.owner.pk == request.user.pk %}
-    {% include './image_detail_button_bar.html' %}<br>
+    {% include './image_detail_header.html' %}<br>
     <a href="{{ image.image_file.url }}">
       <img class="images-image" src="{{ image.image_file.url }}" alt="{{ image.title }}">
     </a>

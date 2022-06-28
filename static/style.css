@@ -87,7 +87,7 @@ table, th, td {
 
 .section-image {
   max-width: 100%;
-  max-height: auto;
+  max-height: 700px;
 }
 
 .section-thumbnail {
@@ -105,8 +105,8 @@ table, th, td {
 }
 
 .section-video {
-  width: 100%;
-  max-height: auto;
+  min-width: 100%;
+  max-height: 700px;
 }
 
 .section-text {

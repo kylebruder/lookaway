@@ -3,7 +3,7 @@
 
 <div class="container objects-bg">
   {% if video.is_public or video.owner.pk == request.user.pk %}
-    {% include './video_detail_button_bar.html' %}
+    {% include './video_detail_header.html' %}
     <video class="video-player" preload="auto" controls>
       {% include 'video_mime_types.html' %}
     </video>

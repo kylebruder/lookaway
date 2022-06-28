@@ -1,10 +1,25 @@
 {% extends "base.html" %}
 {% block body_block %}
-{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container objects-bg">
+  <div class="row">
+    <div class="col">
+      {% if not object.hide_title %}
+        <h4 class="objects-page-title">{{ object.title }}</h4>
+      {% endif %}
+    </div>
+    {% if object.owner.pk == request.user.pk %}
+      <div class="col-auto">
+        <a href="{% url 'objects:objects_page_section_create' %}?order={{ object.next_order }}"><button type="button" class="btn btn-sm btn-primary create-button">+</button></a>
+        <a href="{% url 'objects:objects_page_section_update' object.pk %}"><button type="button" class="btn btn-sm btn-warning edit-button">&#9998;</button></a>
+        <a href="{% url 'objects:objects_page_section_delete' object.pk %}"><button type="button" class="btn btn-sm btn-danger delete-button">X</button></a>
+      </div>
+    {% endif %}
+  </div>
   <p><i>From the <a href="{% url 'objects:objects_page' %}">{{ profile.title }}</a> landing page.</i></p>
-  {% include './objects_page_section.html' %}
-  {% if section.is_public %}
+  {% with object as section %}
+    {% include 'sections/section.html' %}
+  {% endwith %}
+  {% if object.is_public %}
     Contributed by <a href="{% url 'objects:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}<br>
     {% if object.last_modified > object.creation_date %}
       Last updated on {{ object.last_modified }}<br>
@@ -15,5 +30,4 @@
   <br>
 </div>
 <br>
-{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}
