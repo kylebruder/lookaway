@@ -1,23 +1,7 @@
 <div class="row">
 {% for video in videos %}
-  <div class="col-sm section-video">
-    <video class="video-player" preload="none" controls="controls">
-      {% include 'video_mime_types.html' %}
-    </video>
-    <br>
-    <p>
-      {% if video.text %}
-        {{ video.text }}<br>
-      {% endif %}
-      {% if video.credit %}
-        <i>{{ video.credit }}</i><br>
-      {% endif %}
-      {% if video.owner.pk == request.user.pk %}
-        <a href="{% url 'objects:video_update' video.pk %}?next={{ request.path }}">
-          <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-        </a>
-      {% endif %}
-    </p>
+  <div class="col-sm">
+    {% include 'objects/object_video.html' %}
   </div>
 {% endfor %}
 </div>

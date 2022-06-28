@@ -1,24 +1,3 @@
 {% for code in codes %}
-  {% if code.file_path %}
-    <span class="code-block"><strong>{{ code.file_path }}</strong></span><br>
-  {% endif %}
-  {% load custom_filters %}
-  {{ code.code|highlight_syntax:code.file_path|safe }}
-  <p>
-    {% if code.text %}
-      {{ code.text }}<br>
-    {% endif %}
-    {% if code.source and code.source_url %}
-      <i>Source: <a href="{{ code.source_url }}">{{ code.source }}</a></i><br>
-    {% elif code.source %}
-      <i>Source: {{ code.source }}</i>
-    {% elif code.source_url %}
-      <i>Source: <a href="{{ code.source_url }}">{{ code.source_url }}</a></i><br>
-    {% endif %}
-    {% if code.owner.pk == request.user.pk %}
-      <a href="{% url 'objects:code_update' code.pk %}?next={{ request.path }}">
-        <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
-      </a>
-    {% endif %}
-  </p>
+  {% include 'objects/object_code.html' %}
 {% endfor %}
