@@ -39,6 +39,7 @@ class ModelByTagMixin:
     def get_queryset(self, *args, **kwargs):
         slug = self.kwargs['slug']
         if self.request.user.is_authenticated:
+            # Show a Member's items first then show published items from other Members
             return self.model.objects.filter(
                 Q(owner=self.request.user) | Q(is_public=True),
                 tags__slug__exact=slug,
