@@ -82,6 +82,20 @@ class Article(Doc, CryptoWalletsMixin):
     def get_absolute_url(self):
         return reverse('documentation:article_detail', kwargs={'slug': self.slug})
 
+    def get_thumbnail(self):
+        '''
+        Returns a URL that points to a thumbnail image. If it exists,
+        the Article image will used. If there is no Article image,
+        use the owners profile image, otherwise use the site logo.
+        '''
+        try:
+            try:
+                return self.image.thumbnail_file.url
+            except:
+                return self.owner.profile.image.thumbnail_file.url
+        except:
+            return '/static/icon.webp'
+
 class ArticleSection(Section):
 
     article = models.ForeignKey(
@@ -135,6 +149,20 @@ class Story(Doc, CryptoWalletsMixin):
     def get_absolute_url(self):
         return reverse('documentation:story_detail', kwargs={'slug': self.slug})
 
+    def get_thumbnail(self):
+        '''
+        Returns a URL that points to a thumbnail image. If it exists,
+        the Story image will used. If there is no Story image,
+        use the owners profile image, otherwise use the site logo.
+        '''
+        try:
+            try:
+                return self.image.thumbnail_file.url
+            except:
+                return self.owner.profile.image.thumbnail_file.url
+        except:
+            return '/static/icon.webp'
+
 class StorySection(Section):
 
     story = models.ForeignKey(
@@ -158,6 +186,21 @@ class SupportDocument(Doc, CryptoWalletsMixin):
 
     def get_absolute_url(self):
         return reverse('documentation:support_document_detail', kwargs={'slug': self.slug})
+
+    def get_thumbnail(self):
+        '''
+        Returns a URL that points to a thumbnail image. If it exists,
+        the SupportDocument image will used. If there is no 
+        SupportDocument image, use the owners profile image, 
+        otherwise use the site logo.
+        '''
+        try:
+            try:
+                return self.image.thumbnail_file.url
+            except:
+                return self.owner.profile.image.thumbnail_file.url
+        except:
+            return '/static/icon.webp'
 
 class SupportDocSection(Section):
 

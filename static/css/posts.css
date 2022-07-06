@@ -22,11 +22,10 @@
   border-radius: 5px;
 }
 
-.posts-item-image {
+.posts-item-detail-image {
   display: block;
   width: 100px;
   height: 100px;
-  margin-left: 15px;
   margin-bottom: 10px;
   background-repeat: no-repeat;
   background-size: cover;

@@ -1,33 +1,28 @@
-<div class="row">
-  <div class="col-">
-    {% if track.image %}
-      <div class="music-track-card-image" style="background-image:url('{{ track.image.thumbnail_file.url }}')"></div>
-    {% elif track.owner.profile.image %}
-      <div class="music-track-card-image" style="background-image:url('{{ track.owner.profile.image.thumbnail_file.url }}')"></div>
-    {% else %}
-      <div class="music-track-card-image" style="background-image:url('/static/icon.webp')"></div>
-    {% endif %}
-  </div>
-  <div class="col-sm">
-    <h5 class="music-title">
-      <a href="{% url 'music:track_detail' track.slug %}">
-        {{ track.title }}
-      </a>
-    </h5>
-    <p>
-      Performed by <span class="index-heading-span">{{ track.artist }}</span><br>
-      {% if track|is_original_release %}Released{% else %}Rereleased{% endif %} by <a href="{% url 'members:member_profile' track.owner.username %}"><span class="index-heading-span">{{ track.owner }}</span></a> on <span class="index-heading-span">{{ track.creation_date|date:"M d, Y" }}</span>
-    </p>
-  </div>
-</div>
-<p>
-  {{ track.meta_description }}
-</p>
-{% if not track.is_public %}
-  <span class="badge bg-dark">Unpublished</span>
-{% endif %}
-{% if track.tags.all.count > 0 %}
-  {% with track as object %}
-    {% include 'objects/object_tags.html' %}
-  {% endwith %}
-{% endif %}
+{% extends 'items/detail_item.html' %}
+{% block thumbnail_block %}
+  <div class="music-track-detail-image" style="background-image:url('{{ track.image.thumbnail_file.url }}')"></div>
+{% endblock %}
+{% block title_block %}
+  <h5 class="music-title">
+    <a href="{% url 'music:track_detail' track.slug %}">
+      {{ track.title }}
+    </a>
+  </h5>
+{% endblock %}
+{% block meta_data_block %}
+  <p>
+    Performed by <span class="index-heading-span">{{ track.artist }}</span><br>
+    {% if track|is_original_release %}Released{% else %}Rereleased{% endif %} by <a href="{% url 'members:member_profile' track.owner.username %}"><span class="index-heading-span">{{ track.owner }}</span></a> on <span class="index-heading-span">{{ track.creation_date|date:"M d, Y" }}</span>
+  </p>
+{% endblock %}
+{% block text_block %}{{ track.meta_description }}{% endblock %}
+{% block tags_block %}
+  {% if not track.is_public %}
+    <span class="badge bg-dark">Unpublished</span>
+  {% endif %}
+  {% if track.tags.all.count > 0 %}
+    {% with track as object %}
+      {% include 'objects/object_tags.html' %}
+    {% endwith %}
+  {% endif %}
+{% endblock %}

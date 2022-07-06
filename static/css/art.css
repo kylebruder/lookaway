@@ -33,6 +33,19 @@
   height: 650px;
 }
 
+.art-item-detail-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #eeeeee;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #000000;
+}
+
 .art-gallery-image {
   max-width: 100%;
   max-height: 625px;

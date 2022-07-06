@@ -32,11 +32,10 @@
   font-family: 'Veranda', sans-serif;
 }
 
-.music-album-card-image {
+.music-album-detail-image {
   display: block;
-  width: 110px;
+  width: 100px;
   height: 100px;
-  margin-left: 15px;
   margin-bottom: 15px;
   background-repeat: no-repeat;
   background-size: cover;
@@ -196,11 +195,10 @@
   display: block;
 }
 
-.music-track-card-image {
+.music-track-detail-image {
   display: block;
   width: 100px;
   height: 100px;
-  margin-left: 15px;
   margin-bottom: 15px;
   background-repeat: no-repeat;
   background-size: cover;

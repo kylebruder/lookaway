@@ -81,6 +81,7 @@ class PostMetaData(models.Model):
         blank=True,
         null=True,
     )
+
     location = models.CharField(
         max_length=128,
         blank=True,
@@ -136,6 +137,20 @@ class Post(MetaDataMixin, PostMetaData, MarshmallowMixin, CryptoWalletsMixin):
 
     def get_absolute_url(self):
         return reverse('posts:post_detail', kwargs={'slug': self.slug})
+
+    def get_thumbnail(self):
+        '''
+        Returns a URL that points to a thumbnail image. If it exists,
+        the Post image will used. If there is no Post image,
+        use the owners profile image, otherwise use the site logo.
+        '''
+        try:
+            try:
+                return self.image.thumbnail_file.url
+            except:
+                return self.owner.profile.image.thumbnail_file.url
+        except:
+            return '/static/icon.webp'
 
 class PostForeignModels(models.Model):
 
@@ -204,6 +219,16 @@ class ResponsePost(MetaDataMixin, PostMetaData, PostForeignModels, MarshmallowMi
     def get_absolute_url(self):
         return reverse('posts:response_detail', kwargs={'slug': self.slug})
 
+    def get_thumbnail(self):
+        '''
+        Returns a URL that points to a thumbnail image. If it exists,
+        the ResponsePost owner profile image will used, otherwise use the site logo.
+        '''
+        try:
+            return self.owner.profile.image.thumbnail_file.url
+        except:
+            return '/static/icon.webp'
+
 class ReportPost(MetaDataMixin, PostMetaData, PostForeignModels):
 
     class ReportChoices(models.TextChoices):
@@ -226,3 +251,13 @@ class ReportPost(MetaDataMixin, PostMetaData, PostForeignModels):
 
     def get_absolute_url(self):
         return reverse('posts:report_detail', kwargs={'slug': self.slug})
+
+    def get_thumbnail(self):
+        '''
+        Returns a URL that points to a thumbnail image. If it exists,
+        the ResponsePost owner profile image will used, otherwise use the site logo.
+        '''
+        try:
+            return self.owner.profile.image.thumbnail_file.url
+        except:
+            return '/static/icon.webp'

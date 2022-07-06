@@ -1,27 +1,11 @@
-<li class="list-group-item {{ li_css }}">
-  <div class="row">
-    <div class="col col-sm">
-      <p class="{{ p_css }}">
-        {% if icon %}{{ icon }} {% endif %}<a href="{{ url }}">{{ title }}</a>
-        {% if not public %}
-          <span class="badge bg-secondary">Unpublished</span>
-        {% endif %}
-      </p>
-    </div>
-    {% if field1 %}
-      <div class="col col-sm">
-        <p class="{{ p_css }}">{{ field1 }}</p>
-      </div>
-    {% endif %}
-    {% if field2 %}
-      <div class="col col-sm">
-        <p class="{{ p_css }}">{{ field2 }}</p>
-      </div>
-    {% endif %}
-    {% if field3 %}
-      <div class="col col-sm">
-        <p class="{{ p_css }}">{{ field3 }}</p>
-      </div>
-    {% endif %}
+<div class="row">
+  <div class="col-sm-auto float-start">
+    {% block thumbnail_block %}{% endblock %}
   </div>
-</li>
+  <div class="col">
+    {% block title_block %}{% endblock %}
+    {% block meta_data_block %}{% endblock %}
+  </div>
+</div>
+<p>{% block text_block %}{% endblock %}</p>
+<p>{% block tags_block %}{% endblock %}</p>

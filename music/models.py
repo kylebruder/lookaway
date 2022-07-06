@@ -133,6 +133,20 @@ class Track(MetaDataMixin, MusicMetaData, MarshmallowMixin, CryptoWalletsMixin):
         blank=True,
     )
 
+    def get_thumbnail(self):
+        '''
+        Returns a URL that points to a thumbnail image. If it exists,
+        the Album cover will used. If there is no Album cover,
+        use the owners profile image, otherwise use the site logo.
+        '''
+        try:
+            try:
+                return self.image.thumbnail_file.url
+            except:
+                return self.owner.profile.image.thumbnail_file.url
+        except:
+            return '/static/icon.webp'
+
     def get_absolute_url(self):
         return reverse('music:track_detail', kwargs={'slug': self.slug})
 
@@ -158,6 +172,20 @@ class Album(MetaDataMixin, MusicMetaData, MarshmallowMixin, CryptoWalletsMixin):
         'objects.link',
         blank=True,
     )
+
+    def get_thumbnail(self):
+        '''
+        Returns a URL that points to a thumbnail image. If it exists,
+        the Album cover will used. If there is no Album cover,
+        use the owners profile image, otherwise use the site logo.
+        '''
+        try:
+            try:
+                return self.cover.thumbnail_file.url
+            except:
+                return self.owner.profile.image.thumbnail_file.url
+        except:
+            return '/static/icon.webp'
 
     def get_absolute_url(self):
         return reverse('music:album_detail', kwargs={'slug': self.slug})

@@ -166,3 +166,17 @@ class Gallery(MetaDataMixin, ArtMetaData, MarshmallowMixin, CryptoWalletsMixin):
 
     def __str__(self):
         return self.title
+
+    def get_thumbnail(self):
+        '''
+        Returns a URL that points to a thumbnail image. If it exists,
+        the Gallery image will used. If there is no Gallery image,
+        use the owners profile image, otherwise use the site logo.
+        '''
+        try:
+            try:
+                return self.image.thumbnail_file.url
+            except:
+                return self.owner.profile.image.thumbnail_file.url
+        except:
+            return '/static/icon.webp'

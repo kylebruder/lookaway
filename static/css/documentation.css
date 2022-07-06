@@ -91,6 +91,16 @@
   max-height: 500px;
 }
 
+.documentation-item-detail-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: inherit;
+}
+
 .documentation-list-card {
   color: #111111;
   background-color: #eeeeee;
