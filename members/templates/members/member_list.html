@@ -1,10 +1,8 @@
 {% extends './members_list.html' %}
 {% block items_block %}
-  <div class="row">
-    {% for member in members %}
-      <div class="col-sm-4 members-list-card">
-        {% include 'items/member_item.html' %}
-      </div>
-    {% endfor %}
-  </div>
+<ul class="list-group">
+  {% for member in members %}
+    {% include './member_list_item.html' %}
+  {% endfor %}
+</ul>
 {% endblock %}

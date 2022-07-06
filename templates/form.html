@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block body_block %}
-<div class="container create-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
+<div class="container">
   {% block header_block %}{% endblock %}
   <br>
   <form method="post" enctype="multipart/form-data">
@@ -77,6 +77,7 @@
         {% endwith %}
       {% endif %}
     </div>
+    <br>
     <div class="fixed-bottom">
       <input type="submit" value="Submit" class="btn btn-success form-submit-button float-end">
     </div>

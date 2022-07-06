@@ -1,13 +1,12 @@
 {% extends 'form.html' %}
 {% block header_block %}
-{% include './member_profile_form_header.html' %}
-<br>
+{% include './members_form_header.html' %}
 <div class="row">
   <div class="col-sm">
-    {% include './member_profile_sections.html' %}
+    {% include './profile_detail_sections_form.html' %}
   </div>
   <div class="col-sm">
-    {% include './member_profile_settings.html' %}
+    {% include './profile_detail_settings.html' %}
   </div>
 </div>
 {% endblock %}

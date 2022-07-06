@@ -23,6 +23,16 @@ class Member(User):
             '-date_joined',
         ]
 
+    def get_thumbnail(self):
+        '''
+        Returns a URL that points to a thumbnail image. If it exists, 
+        the member's profile image will used, otherwise use the site logo.
+        '''
+        try:
+            return self.profile.image.thumbnail_file.url
+        except:
+            return '/static/icon.webp' 
+
     def check_is_founder(self):
         '''
         Checks to see if the Member joined before the FOUNDER_CUTOFF date

@@ -1,22 +1,47 @@
 <div class="row">
-  <div class="col-">
-    {% if member.profile.image %}
-      <div class="members-list-image" style="background-image:url('{{ member.profile.image.thumbnail_file.url }}')"></div>
-    {% else %}
-      <div class="members-list-image" style="background-image:url('/static/icon.webp')"></div>
-    {% endif %}
-  </div>
   <div class="col-sm">
-    <h5 class="members-title">
-      <strong><a href="{% url 'members:member_profile' member.username %}">
-        {{ member }}
-      </a></strong>
-    </h5>
-    <p>{% include './member_badges.html' %}</p>
+    <div class="row">
+      <div class="col-auto float-start">
+        <div class="members-list-image" style="background-image:url('{{ member.get_thumbnail }}')"></div>
+      </div>
+      <div class="col-lg">
+        <h6 class="members-title">
+          <strong><a href="{% url 'members:member_profile' member.username %}">
+            {{ member }}
+          </a></strong>
+        </h6>
+        <p>
+        Member since <span class="index-heading-span">{{ member.date_joined|date:"M d, Y" }}</span><br>
+          {% if member.check_is_new %}
+            <span class="badge bg-success">New</span>
+          {% endif %}
+          {% if member.is_superuser %}
+            <span class="badge bg-dark">Admin</span>
+          {% elif member.is_staff %}
+            <span class="badge bg-dark">Staff</span>
+          {% endif %}
+          {% if member.check_is_writer %}
+            <span class="badge bg-info">Writer</span>
+          {% endif %}
+          {% if member.check_is_artist %}
+            <span class="badge bg-info">Artist</span>
+          {% endif %}
+          {% if member.check_is_musician %}
+            <span class="badge bg-info">Musician</span>
+          {% endif %}
+          {% if not member.is_staff and member.check_is_contributor %}
+            <span class="badge bg-primary">Contributor</span>
+          {% endif %}
+          {% if member.check_is_founder %}
+            <span class="badge bg-light text-dark">Founder</span>
+          {% endif %}
+        </p>
+      </div>
+    </div>
   </div>
+  {% if member.profile.meta_description %}
+    <div class="col-">
+      <p>{{ member.profile.meta_description }}</p>
+    </div>
+  {% endif %} 
 </div>
-{% if member.profile.meta_description %}
-  <p>
-    {{ member.profile.meta_description }}
-  </p>
-{% endif %}

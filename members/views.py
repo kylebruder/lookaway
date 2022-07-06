@@ -279,18 +279,18 @@ class MembersPageView(TemplateView, AppPageMixin):
             }
         # Add members page section button
         if self.request.user.has_perm('members.add_memberspagesection'):
-            context['show_members_page_section_add_button'] = True
-            context['members_page_section_add_button'] = {
+            context['show_section_add_button'] = True
+            context['section_add_button'] = {
                 'url': reverse(
                     'members:members_page_section_create',
                 ),
             }
         # Edit members page section button
         if self.request.user.has_perm('members.change_memberspagesection'):
-            context['show_members_page_section_edit_button'] = True
+            context['show_section_edit_button'] = True
         # Delete members page section button
         if self.request.user.has_perm('members.delete_memberspagesection'):
-            context['show_members_page_section_delete_button'] = True
+            context['show_section_delete_button'] = True
         return context
 
 # Add members page section form

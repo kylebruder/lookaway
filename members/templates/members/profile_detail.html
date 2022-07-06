@@ -1,39 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block body_block %}
-<div class="container-fluid members-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
+<div class="container">
   <!-- Heading -->
-  {% include './member_profile_header.html' %}
-  <br>
-  {% if members or contributors or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.all.count > 0 or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals.all.count > 0 or top_galleries or top_tracks or top_albums or sections or profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+  {% include './profile_detail_header.html' %}
+  {% if profile.text %}
+    <p class="members-page-span">{{ profile.text }}</p>
+  {% endif %}
+  {% if members or contributors or new_images or new_sounds or new_videos or new_codes or new_links or top_images or top_sounds or top_videos or top_codes or top_links or sections or profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
     <div class="row">
       {% if sections %}
-        <div class="col-sm">
-          {% for section in sections %}
-            {% include './member_profile_section.html' %}
-          {% endfor %}
+        <div class="col-lg">
+          {% include './profile_detail_sections.html' %}
           {% if profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
-            {% include './member_profile_links.html' %}
+            {% include './profile_detail_links.html' %}
           {% endif %}
         </div>
+        <div class="col-lg">
+          {% include './profile_detail_items.html' %}
+        </div>
       {% endif %}
-      {% if members or contributors or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.all.count > 0 or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals.all.count > 0 or top_galleries or top_tracks or top_albums %}
-        <div class="col-sm">
-          {% include './member_profile_items.html' %}
+      {% if members or contributors or new_images or new_sounds or new_videos or new_codes or new_links or top_images or top_sounds or top_videos or top_codes or top_links %}
+        <div class="col-lg">
+          {% include './profile_detail_items.html' %}
           {% if not sections %}
-            {% include './member_profile_links.html' %}
+            {% include './profile_detail_links.html' %}
           {% endif %}
         </div>
       {% elif profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
         {% if not sections %}
-          <div class="col-sm">
-            {% include './member_profile_links.html' %}
+          <div class="col-lg">
+            {% include './profile_detail_links.html' %}
           </div>
         {% endif %}
       {% endif %}
     </div>
   {% else %}
-    <div class="container-fluid">
+    <div class="container">
       <span class="members-page-span members-alert"><i>Coming Soon...</i></span>
     </div>
     <br>

@@ -29,7 +29,8 @@
 
 .members-header {
   padding: 15px;
-  border-radius: 5px;
+  margin-bottom: 15px;
+  margin-left: 0px;
 }
 
 .members-list-card {
@@ -49,7 +50,6 @@
   display: block;
   width: 100px;
   height: 100px;
-  margin-left: 15px;
   margin-bottom: 10px;
   background-repeat: no-repeat;
   background-size: cover;
@@ -60,7 +60,7 @@
   background-color: #eeeeee;
   color: #111111;
   border-style: solid;
-  border-width: 0px 3px 3px 3px;
+  border-width: 0px 5px 5px 5px;
   border-color: #ffffff;
 }
 

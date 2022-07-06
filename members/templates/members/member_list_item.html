@@ -1,5 +1,5 @@
-{% for member in members %}
-  {% if member.is_active %}
-    {% include './member_item.html' %}
-  {% endif %}
-{% endfor %}
+{% if member.is_active %}
+  <li class="list-group-item members-list-li">
+    {% include 'items/member_item.html' %}
+  </li>
+{% endif %}

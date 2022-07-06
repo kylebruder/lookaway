@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.html import escape, conditional_escape
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.safestring import mark_safe
 from django.forms.widgets import ClearableFileInput, CheckboxInput, Textarea
 
