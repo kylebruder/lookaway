@@ -2,33 +2,25 @@
   {% if section.text %}
     <p>{{ section.text|linebreaks }}</p>
   {% endif %}
-  <div class="row">
-    {% for image in section.images.all %}
-      <div class="col-sm">
-        {% include 'sections/section_image.html' %}
-      </div>
-    {% endfor %}
-  </div>
+  {% for image in section.images.all %}
+    {% include 'sections/section_image.html' %}
+  {% endfor %}
 {% elif section.images.count > 1 %}
   {% if section.text %}
     <p>{{ section.text|linebreaks }}</p>
   {% endif %}
-  <div class="row">
-    {% for image in section.images.all %}
-      <div class="col-md">
-        {% include 'sections/section_image.html' %}
-      </div>
-    {% endfor %}
-  </div>
+  {% for image in section.images.all %}
+    {% include 'sections/section_image.html' %}
+  {% endfor %}
 {% elif section.images.count == 1 %}
   <div class="row">
     {% if section.text %}
-      <div class="col-md">
+      <div class="col-sm">
         <p>{{ section.text|linebreaks }}</p>
       </div>
     {% endif %}
     {% with section.images.first as image %}
-      <div class="col-auto">
+      <div class="col-sm">
         {% include 'sections/section_image.html' %}
       </div>
     {% endwith %}
