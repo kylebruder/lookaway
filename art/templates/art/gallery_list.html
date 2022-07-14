@@ -1,10 +1,10 @@
 {% extends './art_list.html' %}
 {% block items_block %}
-  <div class="row">
+  <ul class="list-group">
     {% for gallery in galleries %}
-      <div class="col-4-sm art-list-card">
+      <li class="list-group-item art-list-li">
         {% include 'items/gallery_item.html' %}
-      </div>
+      </li>
     {% endfor %}
-  </div>
+  </ul>
 {% endblock %}

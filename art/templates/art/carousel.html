@@ -1,7 +1,7 @@
 <!-- Visual list -->
 {% if gallery.visuals.all.count > 0 %}
   <div class="art-gallery-container">
-    <div id="visual_gallery" class="carousel slide" data-ride="carousel">
+    <div id="visual_gallery" class="carousel carousel-dark slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         {% if gallery.text %}
           <div class="carousel-item active">
@@ -43,13 +43,13 @@
           {% endfor %}
         {% endif %}
       </div>
-      <a class="carousel-control-prev" href="#visual_gallery" role="button" data-slide="prev">
+      <a class="carousel-control-prev" href="#visual_gallery" role="button" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
+        <span class="sr-only"></span>
       </a>
-      <a class="carousel-control-next" href="#visual_gallery" role="button" data-slide="next">
+      <a class="carousel-control-next" href="#visual_gallery" role="button" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
+        <span class="sr-only"></span>
       </a>
     </div>
   </div>

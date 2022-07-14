@@ -1,16 +1,14 @@
 <div class="art-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
   <div class="row">
     {% if profile.logo %}
-      <div class="col-sm-auto">
-        <div class="container">
-          <img class="art-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
-        </div>
+      <div class="col-sm-auto float-start">
+        <img class="art-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
       </div>
     {% endif %}
     <div class="col-sm">
       {% if profile.show_title or profile.show_desc %}
         {% if profile.title and profile.show_title %}
-          <h3 class="brand-title art-page-span art-alert">{{ meta_title }}</h3>
+          <h3 class="art-brand-title art-page-span art-alert">{{ meta_title }}</h3>
         {% endif %}
         {% if meta_desc and profile.show_desc %}
           <br><p class="art-page-span art-alert"><i>{{ meta_desc }}</i></p>
@@ -18,30 +16,26 @@
       {% endif %}
     </div>
     {% if request.user.is_authenticated %}
-      <div class="col-auto">
-        <div class="container">
-          <p>
-            {% if show_visual_add_button %}
-              <a class="btn btn-sm btn-primary" href="{% url 'art:visual_create' %}">+Visual</a>
-            {% endif %}
-            {% if show_gallery_add_button %}
-              <a class="btn btn-sm btn-primary" href="{% url 'art:gallery_create' %}">+Gallery</a>
-            {% endif %}
-            {% if show_profile_edit_button %} 
-              {% with profile_edit_button as button %}
-                {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
-                  {% include 'buttons/edit_button.html' %}
-                {% endwith %}
+      <div class="col-auto float-right">
+        <p>
+          {% if show_settings_edit_button %}
+            {% with profile_settings_button as button %}
+              {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+                {% include 'buttons/edit_button.html' %}
               {% endwith %}
-            {% endif %}
-          </p>
-        </div>
+            {% endwith %}
+          {% endif %}
+          {% if show_profile_edit_button %}
+            {% with profile_edit_button as button %}
+              {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+                {% include 'buttons/edit_button.html' %}
+              {% endwith %}
+            {% endwith %}
+          {% endif %}
+        </p>
       </div>
     {% endif %}
   </div>
-  {% if profile.text %}
-    <p class="art-page-span art-alert">{{ profile.text }}</p>
-  {% endif %}
   <div class="row">
     <div class="col-sm">
       {% include './art_page_navbar.html' %}

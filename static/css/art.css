@@ -107,7 +107,8 @@
 
 .art-header {
   padding: 15px;
-  border-radius: 5px;
+  margin-bottom: 15px;
+  margin-left: 0px;
 }
 
 .art-item-image {
