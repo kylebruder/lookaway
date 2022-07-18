@@ -165,18 +165,18 @@ class PostsPageView(TemplateView, AppPageMixin):
             }
         # Add posts page section button
         if self.request.user.has_perm('posts.add_postspagesection'):
-            context['show_posts_page_section_add_button'] = True
-            context['posts_page_section_add_button'] = { 
+            context['show_section_add_button'] = True
+            context['section_add_button'] = { 
                 'url': reverse(
                     'posts:posts_page_section_create',
                 ),
             }
         # Edit posts page section button
         if self.request.user.has_perm('posts.change_postspagesection'):
-            context['show_posts_page_section_edit_button'] = True
+            context['show_section_edit_button'] = True
         # Delete posts page section button
         if self.request.user.has_perm('posts.delete_postspagesection'):
-            context['show_posts_page_section_delete_button'] = True
+            context['show_section_delete_button'] = True
         return context
 
 class PostsPageSectionDetailView(LoginRequiredMixin, DetailView):

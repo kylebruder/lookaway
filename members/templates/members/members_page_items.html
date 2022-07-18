@@ -1,20 +1,23 @@
-{% if members.all.count > 0 %}
-  <div class="members-section">
-    <h4 class="members-title">New Members</h4>
-    <ul class="list-group">
-      {% for member in members %}
-        {% include "./member_list_item.html" %}
-      {% endfor %}
-    </ul>
-  </div>
-{% endif %}
-{% if contributors.all.count > 0 %}
-  <div class="members-section">
-    <h4 class="members-title">New Contributors</h4>
-    <ul class="list-group">
-      {% for member in contributors %}
-        {% include "./member_list_item.html" %}
-      {% endfor %}
-    </ul>
-  </div>
+{% if members.all.count > 0 or contributors.all.count > 0 %}
+  {% if members.all.count > 0 %}
+    <div class="members-section">
+      <h4 class="members-title">New Members</h4>
+      <ul class="list-group">
+        {% for member in members %}
+          {% include "./member_list_item.html" %}
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  {% if contributors.all.count > 0 %}
+    <div class="members-section">
+      <h4 class="members-title">New Contributors</h4>
+      <ul class="list-group">
+        {% for member in contributors %}
+          {% include "./member_list_item.html" %}
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  <br>
 {% endif %}

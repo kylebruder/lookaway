@@ -1,50 +1,46 @@
-<div class="row">
-  <div class="col-sm">
-    {% if new_posts.all.count > 0 %}
-      <ul class="list-group posts-section">
-        <h4 class="posts-page-title">New Posts</h4>
-        {% for post in new_posts %}
-          <li class="list-group-item posts-list-li">
-            {% include "items/post_item.html" %}
-          </li>
-        {% endfor %}
-      </ul>
-      <br>
-    {% endif %}
-    {% if new_responses.all.count > 0 %}
-      <ul class="list-group posts-section">
-        <h4 class="posts-page-title">New Responses</h4>
-        {% for response in new_responses %}
-          <li class="list-group-item posts-list-li">
-            {% include "items/response_item.html" %}
-          </li>
-        {% endfor %}
-      </ul>
-      <br>
-    {% endif %}
-  </div>
-  <div class="col-sm">
-    {% if top_posts.all.count > 0 %}
-      <ul class="list-group posts-section">
-        <h4 class="posts-page-title">Top Posts</h4>
-        {% for post in top_posts %}
-          <li class="list-group-item posts-list-li">
-            {% include "items/post_item.html" %}
-          </li>
-        {% endfor %}
-      </ul>
-      <br>
-    {% endif %}
-    {% if top_responses.count > 0 %}
-      <ul class="list-group posts-section">
-        <h4 class="posts-page-title">Top Responses</h4>
-        {% for response in top_responses %}
-          <li class="list-group-item posts-list-li">
-            {% include "items/response_item.html" %}
-          </li>
-        {% endfor %}
-      </ul>
-      <br>
-    {% endif %}
-  </div>
-</div>
+{% if new_posts.count > 0 or top_posts.count > 0%}
+  {% if new_posts.count > 0 %}
+    <div class="posts-section">
+      <h4 class="posts-title">New Posts</h4>
+      {% for post in new_posts %}
+        <li class="list-group-item posts-list-li">
+          {% include 'items/post_item.html' %}
+        </li>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% if top_posts.count > 0 %}
+    <div class="posts-section">
+      <h4 class="posts-title">Top Posts</h4>
+      {% for post in top_posts %}
+        <li class="list-group-item posts-list-li">
+          {% include 'items/post_item.html' %}
+        </li>
+      {% endfor %}
+    </div>
+  {% endif %}
+  <br>
+{% endif %}
+{% if new_responses.count > 0 or top_responses.count > 0%}
+  {% if new_responses.count > 0 %}
+    <div class="posts-section">
+      <h4 class="posts-title">New Responses</h4>
+      {% for response in new_responses %}
+        <li class="list-group-item posts-list-li">
+          {% include 'items/response_item.html' %}
+        </li>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% if top_responses.count > 0 %}
+    <div class="posts-section">
+      <h4 class="posts-title">Top Responses</h4>
+      {% for response in top_responses %}
+        <li class="list-group-item posts-list-li">
+          {% include 'items/response_item.html' %}
+        </li>
+      {% endfor %}
+    </div>
+  {% endif %}
+  <br>
+{% endif %}

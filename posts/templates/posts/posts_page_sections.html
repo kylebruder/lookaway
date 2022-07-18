@@ -1,0 +1,25 @@
+{% for section in sections %}
+  <div class="posts-section">
+    <div class="row">
+      <div class="col">
+        {% if not section.hide_title %}
+          <h4 class="posts-page-title">{{ section.title }}</h4>
+        {% endif %}
+      </div>
+      {% if section.owner.pk == request.user.pk %}
+        <div class="col-auto">
+          {% if show_section_add_button %}
+            <a href="{{ section_add_button|lookup:"url" }}?order={{ section.next_order }}"><button type="button" class="btn btn-sm btn-primary create-button">+</button></a>
+          {% endif %}
+          {% if show_section_edit_button %}
+            <a href="{% url 'posts:posts_page_section_update' section.pk %}"><button type="button" class="btn btn-sm btn-warning edit-button">&#9998;</button></a>
+          {% endif %}
+          {% if show_section_edit_button %}
+            <a href="{% url 'posts:posts_page_section_delete' section.pk %}"><button type="button" class="btn btn-sm btn-danger delete-button">X</button></a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+    {% include 'sections/section.html' %}
+  </div>
+{% endfor %}
