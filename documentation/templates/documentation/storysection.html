@@ -1,20 +1,5 @@
 <!-- Anchor for URI fragments to Offset the Nav Bar-->
 <span id="section-{{ section.pk }}" class="documentation-section-anchor"></span>
 <!-- Section Title -->
-{% include './storysection_detail_title_bar.html' %}
-<!-- Section Images -->
-{% if section.images.count > 0  %}
-  {% with section.images.all as images %}
-    <!-- Section Text -->
-    {% if section.text %}
-      {% include 'sections/section_images_text.html' %}
-    {% elif section.images.count == 1 %}
-      {% with section.images.first as image %}
-        {% include 'sections/section_image.html' %}
-      {% endwith %}
-    {% else %}
-      {% include 'sections/section_images.html' %}
-    {% endif %}
-  {% endwith %}
-{% endif %}
-<div class="clear"></div>
+{% include './storysection_header.html' %}
+{% include 'sections/section.html' %}

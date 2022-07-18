@@ -10,7 +10,7 @@
       <p>Owned by <span class="index-header-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span><br>Created on <span class="index-header-span">{{ object.creation_date }}</span><br>{% include 'objects/unpublished.html' %}</p><br>
     {% endif %}
     <!-- Heading -->
-    <div class="row documentation-section">
+    <div class="row">
       <!-- Table of Contents -->
       {% if document.numbered %}
         {% include './numbered_table_of_contents.html' %}
@@ -22,6 +22,7 @@
         {% include './header_image.html' %}
       {% endwith %}
     </div>
+    <br>
     {% if document.intro %}
       <h4 class="documentation-title">Introduction</h4>
       {{ document.intro|linebreaks }}
@@ -54,6 +55,7 @@
         <h5><a class="documentation-title" href="{% url 'documentation:support_document_detail' r.slug %}#section-{{ s }}">{{ r }}</a></h5>
         <p>{{ r.meta_description }}</p>
       {% endfor %}
+      <br>
     {% endif %}
     {% if document.links.count > 0 %}
       <h4 class="documentation-title">Links</h4>

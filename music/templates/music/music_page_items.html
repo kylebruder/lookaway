@@ -1,7 +1,7 @@
 {% if new_tracks.count > 0 or top_tracks.count > 0%}
   {% if new_tracks.count > 0 %}
     <div class="music-section">
-      <h4 class="music-title">Tracks</h4>
+      <h4 class="music-title">New Tracks</h4>
       {% for track in new_tracks %}
         <li class="list-group-item music-list-li">
           {% include 'items/track_item.html' %}
@@ -11,6 +11,7 @@
   {% endif %}
   {% if top_tracks.count > 0 %}
     <div class="music-section">
+      <h4 class="music-title">Top Tracks</h4>
       {% for track in top_tracks %}
         <li class="list-group-item music-list-li">
           {% include 'items/track_item.html' %}
@@ -23,7 +24,7 @@
 {% if new_albums.count > 0 or top_albums.count > 0%}
   {% if new_albums.count > 0 %}
     <div class="music-section">
-      <h4 class="music-title">Albums</h4>
+      <h4 class="music-title">New Albums</h4>
       {% for album in new_albums %}
         <li class="list-group-item music-list-li">
           {% include 'items/album_item.html' %}
@@ -33,6 +34,7 @@
   {% endif %}
   {% if top_albums.count > 0 %}
     <div class="music-section">
+      <h4 class="music-title">Top Albums</h4>
       {% for album in top_albums %}
         <li class="list-group-item music-list-li">
           {% include 'items/album_item.html' %}

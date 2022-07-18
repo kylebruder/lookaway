@@ -134,18 +134,18 @@ class ArtPageView(TemplateView, AppPageMixin):
             }
         # Add art page section button
         if self.request.user.has_perm('art.add_artpagesection'):
-            context['show_art_page_section_add_button'] = True
-            context['art_page_section_add_button'] = { 
+            context['show_section_add_button'] = True
+            context['section_add_button'] = { 
                 'url': reverse(
                     'art:art_page_section_create',
                 ),
             }
         # Edit art page section button
         if self.request.user.has_perm('art.change_artpagesection'):
-            context['show_art_page_section_edit_button'] = True
+            context['show_section_edit_button'] = True
         # Delete art page section button
         if self.request.user.has_perm('art.delete_artpagesection'):
-            context['show_art_page_section_delete_button'] = True
+            context['show_section_delete_button'] = True
         return context
 
 # Art Page Section Views

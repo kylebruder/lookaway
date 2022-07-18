@@ -1,10 +1,14 @@
-{% if sections %}
-  <div class="col-sm">
-    <ol class="">
+{% if sections.all.count > 2 %}
+  <div class="col-sm-auto">
+    <ol>
       {% for section in sections %}
-        <li class="">
-          <a class="documentation-title" href="#section-{{ section.pk }}">{{ section.title }}</a><br>
-        </li>
+        {% if not section.hide_title %}
+          <li>
+            <h5 class="documentation-title">
+              <a href="#section-{{ section.pk }}">{{ section.title }}</a>
+            </h5>
+          </li>
+        {% endif %}
       {% endfor %}
     </ol>
   </div>

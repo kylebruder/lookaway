@@ -1,10 +1,10 @@
 {% extends './documentation_list.html' %}
 {% block items_block %}
-  <div class="row">
+  <ul class="list-group">
     {% for document in documents %}
-      <div class="col-4-sm documentation-list-card">
+      <li class="list-group-item documentation-list-li">
         {% include 'items/document_item.html' %}
-      </div>
+      </li>
     {% endfor %}
-  </div>
+  </ul>
 {% endblock %}

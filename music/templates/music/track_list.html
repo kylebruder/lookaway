@@ -1,10 +1,10 @@
 {% extends './music_list.html' %}
 {% block items_block %}
-  <div class="row">
+  <ul class="list-group">
     {% for track in tracks %}
-      <div class="col-4-sm music-list-card">
+      <li class="list-group-item music-list-li">
         {% include 'items/track_item.html' %}
-      </div>
+      </li>
     {% endfor %}
-  </div>
+  </ul>
 {% endblock %}

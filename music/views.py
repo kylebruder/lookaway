@@ -133,18 +133,18 @@ class MusicPageView(TemplateView, AppPageMixin):
             }
         # Add music page section button
         if self.request.user.has_perm('music.add_musicpagesection'):
-            context['show_music_page_section_add_button'] = True
-            context['music_page_section_add_button'] = { 
+            context['show_section_add_button'] = True
+            context['section_add_button'] = { 
                 'url': reverse(
                     'music:music_page_section_create',
                 ),
             }
         # Edit music page section button
         if self.request.user.has_perm('music.change_musicpagesection'):
-            context['show_music_page_section_edit_button'] = True
+            context['show_section_edit_button'] = True
         # Delete music page section button
         if self.request.user.has_perm('music.delete_musicpagesection'):
-            context['show_music_page_section_delete_button'] = True
+            context['show_section_delete_button'] = True
         return context
 
 class MusicPageSectionCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):

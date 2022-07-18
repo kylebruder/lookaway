@@ -1,55 +1,11 @@
 <!-- Anchor for URI fragments to Offset the Nav Bar-->
 <span id="section-{{ section.pk }}" class="documentation-section-anchor"></span>
 <!-- Section Title -->
-{% include './supportdocsection_detail_title_bar.html' %}
-<!-- Section Images -->
-{% if section.images.count > 0 %}
-  {% with section.images.all as images %}
-    <!-- Section Text -->
-    {% if section.text %}
-      {% include 'sections/section_images_text.html' %}
-    {% elif section.images.count == 1 %}
-      {% with section.images.first as image %}
-        {% include 'sections/section_image.html' %}
-      {% endwith %}
-    {% else %}
-      {% include 'sections/section_images.html' %}
-    {% endif %}
-  {% endwith %}
-{% elif section.text %}
-  {{ section.text|linebreaks }}
-{% endif %}
-<!-- Section Tip -->
-{% if section.tip %}
-  <div class="alert alert-primary documentation-alert"><strong>Tip:</strong> {{ section.tip }}</div><br>
-{% endif %}
-<!-- Section Warning -->
-{% if section.warning %}
-  <div class="alert alert-warning documentation-alert"><strong>Caution:</strong> {{ section.warning }}</div><br>
-{% endif %}
-{% if section.sounds.count > 0 %}
-  {% with section.sounds.all as sounds %}
-    {% include 'sections/section_sounds.html' %}
-  {% endwith %}
-{% endif %}
-{% if section.videos.count > 0  %}
-  {% with section.videos.all as videos %}
-    {% include 'sections/section_videos.html' %}
-  {% endwith %}
-{% endif %}
-{% if section.code.count > 0  %}
-  {% with section.code.all as codes %}
-    {% include 'sections/section_codes.html' %}
-  {% endwith %}
-{% endif %}
+{% include './supportdocsection_header.html' %}
+{% include 'sections/section.html' %}
 {% if section.support_reference %}
   <a href="{% url 'documentation:support_document_detail' section.support_reference.slug %}">
     <h5 class="documentation-title">{{ section.support_reference.title }}</h5>
   </a>
   <p>{{ section.support_reference.meta_description }}</p>
-{% endif %}
-{% if section.links.count > 0  %}
-  {% with section.links.all as links %}
-    {% include 'objects/object_links.html' %}
-  {% endwith %}
 {% endif %}

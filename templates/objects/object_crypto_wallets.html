@@ -3,10 +3,8 @@
 {% if bitcoin_wallet %}
   <div class="section">
     <div class="row">
-      <div class="col-">
-        <div class="container">
-          <img class="crypto-qr-sm" src="{{ bitcoin_wallet.qr_code_lg.url }}" alt="bitcoin:{{ bitcoin_wallet.public_address }}"><br>
-        </div>
+      <div class="col-auto">
+        <img class="crypto-qr-sm" src="{{ bitcoin_wallet.qr_code_lg.url }}" alt="bitcoin:{{ bitcoin_wallet.public_address }}"><br>
       </div>
       <div class="col">
         {% load static %}
@@ -35,10 +33,8 @@
 {% if litecoin_wallet %}
   <div class="section">
     <div class="row">
-      <div class="col-">
-        <div class="container">
-          <img class="crypto-qr-sm" src="{{ litecoin_wallet.qr_code_lg.url }}" alt="litecoin:{{ litecoin_wallet.public_address }}"><br>
-        </div>
+      <div class="col-auto">
+        <img class="crypto-qr-sm" src="{{ litecoin_wallet.qr_code_lg.url }}" alt="litecoin:{{ litecoin_wallet.public_address }}"><br>
       </div>
       <div class="col">
         {% load static %}
