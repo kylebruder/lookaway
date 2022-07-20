@@ -1,11 +1,5 @@
 <li class="list-group-item posts-list-li">
-  <h6 class="posts-title">
-    <a href="{% url 'posts:post_detail' post.slug %}">{{ post.title }}</a>
-    {% if not post.is_public %}
-      {% include 'objects/unpublished.html' %}
-    {% endif %}
-  </h6>
-  {% if post.text %}
-    <p>{{ post.text|truncatechars:155 }}</p>
-  {% endif %}
+  {% with 'posts-item-list-image' as t_css and post.get_thumbnail as thumbnail and 'posts-title' as h_css and post.title as title and post.get_absolute_url as url and post.meta_description as text and post.is_public as public %}
+    {% include 'items/list_item.html' %}
+  {% endwith %}
 </li>

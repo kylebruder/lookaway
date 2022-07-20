@@ -1,11 +1,30 @@
-<li class="list-group-item posts-list-li">
-  <h6 class="posts-title">
-    <a href="{% url 'posts:response_detail' response.slug %}">{{ response.title }}</a>
-    {% if not response.is_public %}
-      {% include 'objects/unpublished.html' %}
-    {% endif %}
-  </h6>
-  {% if response.text %}
-    <p>{{ response.text|truncatechars:155 }}</p>
+{% extends 'items/detail_item.html' %}
+{% block thumbnail_block %}
+  <div class="posts-item-detail-image" style="background-image:url('{{ response.get_thumbnail }}')"></div>
+{% endblock %}
+{% block title_block %}
+  <h5 class="posts-title">
+    <a href="{% url 'posts:response_detail' response.slug %}">
+      {{ response.title }}
+    </a>
+  </h5>
+{% endblock %}
+{% block meta_data_block %}
+  <p>
+    {% include './re_links.html' %}
+    {{ response.text|truncatechars:155 }}
+  </p>
+{% endblock %}
+{% block tags_block %}
+  {% if not response.is_public %}
+    <span class="badge bg-dark">Unpublished</span>
   {% endif %}
-</li>
+  {% if response.members_only %}
+    <span class="badge bg-warning">Members Only</span>
+  {% endif %}
+  {% if response.tags.all.count > 0 %}
+  {% with response as object %}
+    {% include 'objects/object_tags.html' %}
+  {% endwith %}
+  {% endif %}
+{% endblock %}

@@ -1,62 +1,20 @@
 {% extends 'base.html' %}
 {% block body_block %}
-<div class="container-fluid posts-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
-  <div class="posts-header" style="{% if profile.banner %} background-image: url('{{ profile.banner.image_file.url }}');{% endif %}">
-    <div class="row">
-      {% if profile.logo %}
-        <div class="col-sm-auto">
-          <div class="container">
-            <a href="{% url 'posts:posts_page' %}">
-              <img class="posts-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
-            </a>
-          </div>
-        </div>
-      {% endif %}
-      <div class="col-sm">
-        {% if tag %}
-          <h3 class="brand-title posts-page-span posts-alert">
-             {{ app_list_context }} tagged with <span class="badge bg-secondary">{{ tag }}
-          </h3>
-        {% elif member %}
-          <h3 class="brand-title posts-page-span posts-alert">
-             {{ app_list_context }} posted by <span class="index-page-heading">{{ member }}</span>
-          </h3>
-        {% else %}
-          <h3 class="brand-title posts-page-span posts-alert">
-            {% if profile.title and app_list_context and profile.show_title %}
-              <span class="index-heading-span">{{ profile.title }}</span>
-              - <span class="index-heading-span">{{ app_list_context }}</span>
-            {% else %}
-              {{ app_list_context }}
-            {% endif %}
-          </h3>
-        {% endif %}
-        <br>{% include './posts_page_navbar.html' %}
+  <div class="container">
+    {% include './posts_list_header.html' %}
+    {% if object_list %}
+      {% if page_obj.has_other_pages %}<span class="posts-page-span objects-nav">{% include 'page_control.html' %}</span>{% endif %}
+      <br>
+      {% block items_block %}
+      {% endblock %}
+      {% if page_obj.has_other_pages %}<span class="posts-page-span objects-nav">{% include 'page_control.html' %}</span>{% endif %}
+    {% else %}
+      <br>
+      <div class="container">
+        <span class="posts-page-span objects-alert">No {{ app_list_context|lower }} have been published yet. Check back soon!</span>
       </div>
-      {% if show_create_button and create_button_url %}
-        <div class="col-auto">
-          <div class="container">
-            <a href="{{ create_button_url }}">
-              <button type="button" class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-            </a>
-          </div>
-        </div>
-      {% endif %}
-    </div>
+      <br>
+    {% endif %}
+    <br>
   </div>
-  {% if object_list %}
-    {% if page_obj.has_other_pages %}<span class="posts-page-span posts-nav">{% include 'page_control.html' %}</span>{% endif %}
-    <br>
-    {% block items_block %}
-    {% endblock %}
-    {% if page_obj.has_other_pages %}<span class="posts-page-span posts-nav">{% include 'page_control.html' %}</span>{% endif %}
-  {% else %}
-    <br>
-    <div class="container-fluid">
-      <span class="posts-page-span posts-alert">No {{ app_list_context|lower }} have been published yet. Check back soon!</span>
-    </div>
-    <br>
-  {% endif %}
-  <br>
-</div>
 {% endblock %}

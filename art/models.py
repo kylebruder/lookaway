@@ -175,7 +175,7 @@ class Gallery(MetaDataMixin, ArtMetaData, MarshmallowMixin, CryptoWalletsMixin):
         '''
         try:
             try:
-                return self.image.thumbnail_file.url
+                return self.visuals.first().image.thumbnail_file.url
             except:
                 return self.owner.profile.image.thumbnail_file.url
         except:

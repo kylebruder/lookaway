@@ -2,9 +2,7 @@
 {% block items_block %}
   <ul class="list-group">
     {% for track in tracks %}
-      <li class="list-group-item music-list-li">
-        {% include 'items/track_item.html' %}
-      </li>
+      {% include 'items/track_list_item.html' %}
     {% endfor %}
   </ul>
 {% endblock %}

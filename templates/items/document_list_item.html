@@ -1,11 +1,5 @@
 <li class="list-group-item documentation-list-li">
-  <h6 class="documentation-title">
-    <a href="{% url 'documentation:support_document_detail' document.slug %}">{{ document.title }}</a>
-    {% if not document.is_public %}
-      {% include 'objects/unpublished.html' %}
-    {% endif %}
-  </h6>
-  {% if document.meta_description %}
-    <p>{{ document.meta_description }}</p>
-  {% endif %}
+  {% with 'documentation-item-list-image' as t_css and document.get_thumbnail as thumbnail and 'documentation-title' as h_css and document.title as title and document.get_absolute_url as url and document.meta_description as text and document.is_public as public %}
+    {% include 'items/list_item.html' %}
+  {% endwith %}
 </li>

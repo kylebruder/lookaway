@@ -2,9 +2,7 @@
 {% block items_block %}
   <ul class="list-group">
     {% for album in albums %}
-      <li class="list-group-item music-list-li">
-        {% include 'items/album_item.html' %}
-      </li>
+      {% include 'items/album_list_item.html' %}
     {% endfor %}
   </ul>
 {% endblock %}

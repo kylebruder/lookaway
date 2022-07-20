@@ -1,5 +1,5 @@
 <li class="list-group-item objects-list-li">
   {% with video.title|truncatechars:64 as title and video.get_absolute_url as url and 'objects-title' as h_css and '&#128252;' as icon and video.text as text %}
-    {% include 'items/list_item.html' %}
+    {% include 'items/studio_list_item.html' %}
   {% endwith %}
 </li>

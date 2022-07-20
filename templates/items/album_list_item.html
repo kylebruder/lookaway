@@ -1,24 +1,5 @@
 <li class="list-group-item music-list-li">
-  <div class="row">
-    <div class="col-">
-      {% if album.cover %}
-        <div class="music-album-list-image" style="background-image:url('{{ album.cover.thumbnail_file.url }}')"></div>
-      {% elif album.owner.profile.image %}
-        <div class="music-album-list-image" style="background-image:url('{{ album.owner.profile.image.thumbnail_file.url }}')"></div>
-      {% else %}
-        <div class="music-album-list-image" style="background-image:url('/static/icon.webp')"></div>
-      {% endif %}
-    </div>
-    <div class="col-sm">
-      <h5 class="music-title">
-        <a href="{% url 'music:album_detail' album.slug %}">{{ album.title }}</a>
-        {% if not album.is_public %}
-          {% include 'objects/unpublished.html' %}
-        {% endif %}
-      </h5>
-      <p>
-        {% if album.meta_description %}{{ album.meta_description }}{% endif %}
-      </p>
-    </div>
-  </div>
+  {% with 'music-album-list-image' as t_css and album.get_thumbnail as thumbnail and 'music-title' as h_css and album.title as title and album.get_absolute_url as url and album.meta_description as text and album.is_public as public %}
+    {% include 'items/list_item.html' %}
+  {% endwith %}
 </li>

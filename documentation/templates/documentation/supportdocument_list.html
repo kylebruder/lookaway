@@ -2,9 +2,7 @@
 {% block items_block %}
   <ul class="list-group">
     {% for document in documents %}
-      <li class="list-group-item documentation-list-li">
-        {% include 'items/document_item.html' %}
-      </li>
+      {% include 'items/document_list_item.html' %}
     {% endfor %}
   </ul>
 {% endblock %}

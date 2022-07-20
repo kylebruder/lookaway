@@ -1,24 +1,5 @@
 <li class="list-group-item art-list-li">
-  <div class="row">
-    <div class="col-">
-      {% if gallery.visuals.all.count > 0 %}
-        <div class="art-gallery-list-image" style="background-image:url('{{ gallery.visuals.first.image.thumbnail_file.url }}')"></div>
-      {% elif gallery.owner.profile.image %}
-        <div class="art-gallery-list-image" style="background-image:url('{{ gallery.owner.profile.image.thumbnail_file.url }}')"></div>
-      {% else %}
-        <div class="art-gallery-list-image" style="background-image:url('/static/icon.webp')"></div>
-      {% endif %}
-    </div>
-    <div class="col-sm">
-      <h5 class="music-title">
-        <a href="{% url 'art:gallery_detail' gallery.slug %}">{{ gallery.title }}</a>
-        {% if not gallery.is_public %}
-          {% include 'objects/unpublished.html' %}
-        {% endif %}
-      </h5>
-      <p>
-        {% if gallery.meta_description %}{{ gallery.meta_description }}{% endif %}
-      </p>
-    </div>
-  </div>
+  {% with 'art-item-list-image' as t_css and gallery.get_thumbnail as thumbnail and 'art-title' as h_css and gallery.title as title and gallery.get_absolute_url as url and gallery.meta_description as text and gallery.is_public as public %}
+    {% include 'items/list_item.html' %}
+  {% endwith %}
 </li>

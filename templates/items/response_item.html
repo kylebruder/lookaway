@@ -15,16 +15,16 @@
     Posted by <a href="{% url 'members:member_profile' response.owner.username %}"><span class="index-heading-span">{{ response.owner }}</span></a>{% if response.publication_date %} on <span class="index-heading-span">{{ response.publication_date|date:"M d, Y" }}</span>{% endif %}{% if response.location %} from <span class="index-heading-span">{{ response.location }}</span>{% endif %}
   </p>
 {% endblock %}
-{% block text_block %}{{ response.meta_description }}{% endblock %}
+{% block text_block %}{{ response.text|truncatechars:155 }}{% endblock %}
 {% block tags_block %}
-  {% if not post.is_public %}
+  {% if not response.is_public %}
     <span class="badge bg-dark">Unpublished</span>
   {% endif %}
-  {% if post.members_only %}
+  {% if response.members_only %}
     <span class="badge bg-warning">Members Only</span>
   {% endif %}
-  {% if post.tags.all.count > 0 %}
-  {% with post as object %}
+  {% if response.tags.all.count > 0 %}
+  {% with response as object %}
     {% include 'objects/object_tags.html' %}
   {% endwith %}
   {% endif %}

@@ -1,5 +1,5 @@
 <li class="list-group-item objects-list-li">
   {% with image.thumbnail_file.url as thumbnail and image.title|truncatechars:64 as title and image.get_absolute_url as url  and 'objects-title' as h_css and image.text as text %}
-    {% include 'items/list_item.html' %}
+    {% include 'items/studio_list_item.html' %}
   {% endwith %}
 </li>

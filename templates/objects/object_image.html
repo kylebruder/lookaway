@@ -1,0 +1,38 @@
+{% if image.text or image.credit %}
+  <div class="card border-0 bg-transparent text-center" style="min-width: 250px; max-width: 100%;">
+    <a href="{{ image.image_file.url }}">
+      <img class="card-img-top" src="{{ image.image_file.url }}" alt="{{ image.title }}">
+    </a>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm">
+          <p style="font-size: 0.8em;">
+            {% if image.text %}
+              {{ image.text }}<br>
+            {% endif %}
+            {% if image.credit %}
+              <i>{{ image.credit }}</i><br>
+            {% endif %}
+          </p>
+        </div>
+        {% if image.owner.pk == request.user.pk %}
+          <div class="col-auto">
+            <a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}"><button class="btn btn-sm btn-warning edit-button">&#9998;</button></a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <br>
+{% else %}
+  <div class="card border-0 bg-transparent text-center" style="min-width: 250px; max-width: 100%;">
+    <a href="{{ image.image_file.url }}">
+      <img class="card-img-top" src="{{ image.image_file.url }}" alt="{{ image.title }}">
+    </a>
+  </div>
+  {% if image.owner.pk == request.user.pk %}
+    <p><a href="{% url 'objects:image_update' image.pk %}?next={{ request.path }}">
+      <button class="btn btn-sm btn-warning edit-button">&#9998;</button>
+    </a></p>
+  {% endif %}
+{% endif %}

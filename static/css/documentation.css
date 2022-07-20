@@ -99,6 +99,15 @@
   background-color: inherit;
 }
 
+.documentation-item-list-image {
+  display: block;
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: inherit;
+}
+
 .documentation-list-card {
   color: #111111;
   background-color: #eeeeee;

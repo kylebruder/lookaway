@@ -1,9 +1,5 @@
-<li class="list-group-item sound-list-li">
-  <a href="{% url 'objects:sound_detail' sound.pk %}">
-    <p class="sound-title">{{ sound.title }}</p>
-  </a>
-  <p>{{ sound.credit }}</p>
-  {% if not sound.is_public %}
-    <span class="badge bg-secondary">Unpublished</span>
-  {% endif %}
+<li class="list-group-item objects-list-li">
+  {% with sound.title|truncatechars:64 as title and sound.get_absolute_url as url and 'objects-title' as h_css and '&#128266;' as icon and sound.text as text %}
+    {% include 'items/studio_list_item.html' %}
+  {% endwith %}
 </li>

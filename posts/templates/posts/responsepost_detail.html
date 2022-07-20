@@ -33,7 +33,7 @@
         <table>
           <tr>
             <td>
-              <h4><i>Re:</i><h4>
+              <h6><i>Re:</i><h6>
             </td> 
             <td>
               {% with response.post as post %}
@@ -139,10 +139,12 @@
         <i>This Post is only visible to authenticated members</i>
       {% endif %}
     </p>
-    {% if response.text or response.image %}
-      {% with response.text as text and response.image as image %}
-        {% include 'objects/object_image_text.html' %}
-        <br>
+    {% if response.text %}
+      {{ response.text|linebreaks }}
+    {% endif %}
+    {% if response.image %}
+      {% with response.image as image %}
+        {% include './post_image.html' %}
       {% endwith %}
     {% endif %}
     {% if response.sound %}
