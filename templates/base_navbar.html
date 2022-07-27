@@ -40,19 +40,22 @@
         {% endif %}
         {% if request.user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link nav-font-objects" href="{% url 'objects:public_videos' %}">Video Files</a>
+            <a class="nav-link nav-font-objects" href="{% url 'objects:public_images' %}">&#128247;</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-font-objects" href="{% url 'objects:public_sounds' %}">Sound Files</a>
+            <a class="nav-link nav-font-objects" href="{% url 'objects:public_sounds' %}">&#128266;</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-font-objects" href="{% url 'objects:public_links' %}">External Links</a>
+            <a class="nav-link nav-font-objects" href="{% url 'objects:public_videos' %}">&#128252;</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-font-objects" href="{% url 'objects:public_code' %}">Code Samples</a>
+            <a class="nav-link nav-font-objects" href="{% url 'objects:public_links' %}">&#127760;</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-font-objects" href="{% url 'objects:tags' %}">Tags</a>
+            <a class="nav-link nav-font-objects" href="{% url 'objects:public_code' %}"><></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-font-objects" href="{% url 'objects:tags' %}">&#128278;</a>
           </li>
         {% endif %}
       </ul>

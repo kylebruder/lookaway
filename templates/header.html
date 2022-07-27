@@ -1,0 +1,21 @@
+<div class="home-header" {% if profile.banner %}style="padding: 15px; background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
+  <div class="row">
+    {% if profile.logo or profile.image %}
+      <div class="col-auto">
+        {% block logo_block %}{% endblock %}
+      </div>
+    {% endif %}
+    <div class="col-md">
+      {% if meta_title and profile.show_title %}{% block title_block %}{% endblock %}{% endif %}
+      {% if meta_desc and profile.show_desc %}{% block desc_block %}{% endblock %}{% endif %}
+      {% block nav_block %}{% endblock %}
+    </div>
+    {% if request.user.is_authenticated %}
+      <div class="col-auto">
+        <div class="float-end">
+          {% block buttons_block %}{% endblock %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>

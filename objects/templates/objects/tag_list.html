@@ -1,21 +1,5 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class="container objects-bg">
-  <div class="row">
-    <div class="col">
-      <h3 class="tag-title">Tags</h3>
-    </div>
-    {% if request.user.is_authenticated %}
-      <div class="col-auto">
-        <div class="container">
-          <a href="{% url 'objects:tag_create' %}">
-            <button class="btn btn-sm btn-primary create-button"><strong>+</strong></button>
-          </a>
-        </div>
-      </div>
-    {% endif %}
-  </div>
-  <br>
+{% extends './objects_list.html' %}
+{% block items_block %}
   <form action="{% url 'objects:get_tag_detail' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row">
@@ -37,7 +21,7 @@
     {% include "page_control.html" %}
     <br>
     {% for tag in tags %}
-      <span class="badge bg-secondary">
+      <span class="objects-tag badge bg-secondary">
         <a href="{% url 'objects:tag_detail' tag.slug %}" class="tag-font">
           {{ tag.key }}{% if tag.value %}: {{ tag.value }}{% endif %}
         </a>

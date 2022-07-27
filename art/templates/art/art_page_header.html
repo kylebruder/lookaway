@@ -1,58 +1,40 @@
-<div class="art-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
-  <div class="row">
-    {% if profile.logo %}
-      <div class="col-sm-auto float-start">
-        <img class="art-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
-      </div>
-    {% endif %}
-    <div class="col-sm">
-      {% if profile.show_title or profile.show_desc %}
-        {% if profile.title and profile.show_title %}
-          <h3 class="art-brand-title art-page-span art-alert">{{ meta_title }}</h3>
-        {% endif %}
-        {% if meta_desc and profile.show_desc %}
-          <br><p class="art-page-span art-alert"><i>{{ meta_desc }}</i></p>
-        {% endif %}
-      {% endif %}
-    </div>
-    {% if request.user.is_authenticated %}
-      <div class="col-auto float-right">
-        <p>
-          {% if show_visual_add_button %} 
-            {% with visual_add_button as button %}
-              {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
-                {% include 'buttons/add_button.html' %}
-              {% endwith %}
-            {% endwith %}
-          {% endif %}
-          {% if show_gallery_add_button %}
-            {% with gallery_add_button as button %}
-              {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
-                {% include 'buttons/add_button.html' %}
-              {% endwith %}
-            {% endwith %}
-          {% endif %}
-          {% if show_settings_edit_button %}
-            {% with profile_settings_button as button %}
-              {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
-                {% include 'buttons/edit_button.html' %}
-              {% endwith %}
-            {% endwith %}
-          {% endif %}
-          {% if show_profile_edit_button %}
-            {% with profile_edit_button as button %}
-              {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
-                {% include 'buttons/edit_button.html' %}
-              {% endwith %}
-            {% endwith %}
-          {% endif %}
-        </p>
-      </div>
-    {% endif %}
-  </div>
-  <div class="row">
-    <div class="col-sm">
-      {% include './art_page_navbar.html' %}
-    </div>
-  </div>
-</div>
+{% extends 'header.html' %}
+{% block logo_block %}
+  <img class="art-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
+{% endblock %}
+{% if meta_title and profile.show_title %}
+  {% block title_block %}
+    <h3 class="art-brand-title art-page-span art-alert">{{ meta_title }}</h3><br>
+  {% endblock %}
+{% endif %}
+{% if meta_desc and profile.show_desc %}
+  {% block desc_block %}
+    <p class="art-page-span art-alert"><i>{{ meta_desc }}</i></p><br>
+  {% endblock %}
+{% endif %}
+{% block nav_block %}
+  {% include './art_page_navbar.html' %}
+{% endblock %}
+{% block buttons_block %}
+  {% if show_post_add_button %}
+    {% with post_add_button as button %}
+      {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+        {% include 'buttons/add_button.html' %}
+      {% endwith %}
+    {% endwith %}
+  {% endif %}
+  {% if show_settings_edit_button %}
+    {% with profile_settings_button as button %}
+      {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+        {% include 'buttons/edit_button.html' %}
+      {% endwith %}
+    {% endwith %}
+  {% endif %}
+  {% if show_profile_edit_button %}
+    {% with profile_edit_button as button %}
+      {% with button|lookup:"url" as button_url and button|lookup:"text" as button_text %}
+        {% include 'buttons/edit_button.html' %}
+      {% endwith %}
+    {% endwith %}
+  {% endif %}
+{% endblock %}

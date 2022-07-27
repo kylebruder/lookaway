@@ -1,37 +1,4 @@
 {% extends './posts_list.html' %}
 {% block items_block %}
-    <div style="overflow-x:auto;">
-      {% if object_list.all.count > 0 %}
-        <table class="studio-list-table">
-          <tr>
-            <th class="studio-list-table">Title</th>
-            <th class="studio-list-table">Status</th>
-            <th class="studio-list-table">Last Modified</th>
-            <th class="studio-list-table">Uploaded</th>
-          </th>
-          {% for object in object_list %}
-            <tr>
-              <td class="studio-list-table">
-                <a href="{{ object.get_absolute_url }}">
-                  {% if object.title %}
-                    {{ object.title|truncatechars:64 }}
-                  {% else %}
-                    Untitled
-                  {% endif %}
-                </a>
-              </td>
-              <td class="studio-list-table">
-                {% include 'objects/unpublished.html' %}
-                {% include 'objects/published.html' %}
-              </td>
-              <td class="studio-list-table">{{ object.last_modified|date:"M d, Y" }}</td>
-              <td class="studio-list-table">{{ object.creation_date|date:"M d, Y" }}</td>
-            </tr>
-          {% endfor %}
-        </table>
-        <br>
-      {% else %}
-        <p class="objects-section">There are no items to show yet.</p>
-      {% endif %}
-    </div>
+  {% include 'objects/objects_table.html' %}
 {% endblock %}

@@ -1,30 +1,17 @@
-<div class="documentation-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
-  <div class="row">
-    {% if profile.logo %}
-      <div class="col-sm-auto">
-        <div class="container">
-          <img class="documentation-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
-        </div>
-      </div>
-    {% endif %}
-    {% if profile.show_title or profile.show_desc %}
-      <div class="col-sm">
-        {% if profile.title and profile.show_title %}
-          <h3 class="documentation-title documentation-page-span documentation-alert">{{ meta_title }}</h3>
-        {% endif %}
-        {% if meta_desc and profile.show_desc %}
-          <br><p class="documentation-page-span documentation-alert"><i>{{ meta_desc }}</i></p>
-        {% endif %}
-      </div>
-    {% endif %}
-    {% if request.user.is_authenticated %}
-      <div class="col-auto">
-        <div class="container">
-          <p>
-            {% include 'objects/object_create_buttons.html' %}
-          </p>
-        </div>
-      </div>
-    {% endif %}
-  </div>
-</div>
+{% extends 'header.html' %}
+{% block logo_block %}
+  <img class="documentation-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
+{% endblock %}
+{% if meta_title %}
+  {% block title_block %}
+    <h3 class="documentation-page-title documentation-page-span documentation-alert">{{ meta_title }}</h3><br>
+  {% endblock %}
+{% endif %}
+{% if meta_desc %}
+  {% block desc_block %}
+    <p class="documentation-page-span documentation-alert"><i>{{ meta_desc }}</i></p><br>
+  {% endblock %}
+{% endif %}
+{% block buttons_block %}
+  {% include 'objects/object_create_buttons.html' %}
+{% endblock %}

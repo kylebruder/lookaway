@@ -1547,9 +1547,24 @@ class TagListView(ListView, LoginRequiredMixin):
         # App profile
         profile, created = ObjectsAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
-        context['meta_title'] = "Tags"
-        context['meta_desc'] = """Find content grouped by key pair tags."""
+        context['app_list_context'] = self.model._meta.verbose_name_plural.capitalize()
+        # SEO stuff
+        context['meta_title'] = "{} | {}".format(
+            context['app_list_context'],
+            profile.title,
+        )
+        context['meta_desc'] = "{} by {} contributors.".format(
+            context['app_list_context'],
+            profile.title,
+        )
+        # Create button
+        if self.request.user.has_perm('objects.add_tag'):
+            context['show_create_button'] = True
+            context['create_button_url'] = reverse(
+                'objects:tag_create',
+            )
         return context
+
 
 class TagDetailView(DetailView):
 

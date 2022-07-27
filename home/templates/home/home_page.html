@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block body_block %}
-<div class="container home-bg" style="{% if profile.bg_image %} background-image: url('{{ profile.bg_image.image_file.url }}');{% endif %}">
+<div class="container">
   <!-- Heading -->
   {% include './home_page_header.html' %}
   <br>
@@ -39,7 +39,6 @@
         {% endif %}
       {% endif %}
     </div>
-    {% include './home_page_navbar.html' %}
   {% else %}
     <span class="home-page-span home-alert"><i>Coming Soon...</i></span>
     <br><br>

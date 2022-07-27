@@ -1,39 +1,36 @@
-<div class="posts-header" style="{% if profile.banner %} background-image: url('{{ profile.banner.image_file.url }}');{% endif %}">
-  <div class="row">
-    {% if profile.logo %}
-      <div class="col-sm-auto float-stposts">
-        <a href="{% url 'posts:posts_page' %}">
-          <img class="posts-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
-        </a>
-      </div>
-    {% endif %}
-    <div class="col-sm">
-      {% if tag %}
-        <h3 class="posts-brand-title objects-page-span objects-alert">
-           {{ app_list_context }} tagged with <span class="badge bg-secondary">{{ tag }}
-        </h3>
-      {% elif member %}
-        <h3 class="posts-brand-title objects-page-span objects-alert">
-           {{ app_list_context }} uploaded by <span class="index-page-heading">{{ member }}</span>
-        </h3>
+{% extends 'header.html' %}
+{% block logo_block %}
+  <a href="{% url 'posts:posts_page' %}">
+    <img class="posts-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
+  </a>
+{% endblock %}
+{% block title_block %}
+  {% if tag %}
+    <h3 class="posts-brand-title objects-page-span objects-alert">
+      {{ app_list_context }} tagged with <span class="badge bg-secondary">{{ tag }}
+    </h3><br>
+  {% elif member %}
+    <h3 class="posts-brand-title objects-page-span objects-alert">
+      {{ app_list_context }} posted by <span class="index-page-heading">{{ member }}</span>
+    </h3><br>
+  {% else %}
+    <h3 class="posts-brand-title objects-page-span objects-alert">
+      {% if profile.title and app_list_context and profile.show_title %}
+        <span class="index-heading-span">{{ profile.title }}</span>
+        - <span class="index-heading-span">{{ app_list_context }}</span>
       {% else %}
-        <h3 class="posts-brand-title objects-page-span objects-alert">
-          {% if profile.title and app_list_context and profile.show_title %}
-            <span class="index-heading-span">{{ profile.title }}</span>
-            - <span class="index-heading-span">{{ app_list_context }}</span>
-          {% else %}
-            {{ app_list_context }}
-          {% endif %}
-        </h3>
+        {{ app_list_context }}
       {% endif %}
-      <br>{% include './posts_page_navbar.html' %}
-    </div>
-    {% if show_create_button and create_button_url %}
-      <div class="col-auto float-end">
-        {% with create_button_url as button_url %}
-          {% include 'buttons/small_add_button.html' %}
-        {% endwith %}
-      </div>
-    {% endif %}
-  </div>
-</div>
+    </h3><br>
+  {% endif %}
+{% endblock %}
+{% block nav_block %}
+  {% include './posts_page_navbar.html' %}
+{% endblock %}
+{% block buttons_block %}
+  {% if show_create_button and create_button_url %}
+    {% with create_button_url as button_url %}
+      {% include 'buttons/small_add_button.html' %}
+    {% endwith %}
+  {% endif %}
+{% endblock %}

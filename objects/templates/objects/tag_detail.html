@@ -6,19 +6,137 @@
     <br>
   {% else %}
     {% include './tag_detail_header.html' %}
-    {% include './tag_support_documents.html' %}
-    {% include './tag_posts.html' %}
-    {% include './tag_articles.html' %}
-    {% include './tag_stories.html' %}
-    {% include './tag_visuals.html' %}
-    {% include './tag_galleries.html' %}
-    {% include './tag_tracks.html' %}
-    {% include './tag_albums.html' %}
-    {% include './tag_images.html' %}
-    {% include './tag_videos.html' %}
-    {% include './tag_sounds.html' %}
-    {% include './tag_code.html' %}
-    {% include './tag_links.html' %}
+    {% if posts %}
+      <h4 class="tag-title">Posts</h4>
+      {% for post in posts %}
+        {% include 'items/post_list_item.html' %}
+      {% endfor %}
+      {% if total_posts > list_length %}
+        <p>all posts tagged with <a href="{% url 'objects:post_tag' tag.slug %}">"{{ tag }}"</a></p>
+      {% endif %}
+      <br>
+    {% endif %}
+    {% if articles %}
+      <h4 class="tag-title">Articles</h4>
+      {% for article in articles %}
+        {% include 'items/article_list_item.html' %}
+      {% endfor %}
+      {% if total_articles > list_length %}
+        <p>all articles tagged with <a href="{% url 'objects:article_tag' tag.slug %}">"{{ tag }}"</a></p>
+      {% endif %}
+      <br>
+    {% endif %}
+    {% if stories %}
+      <h4 class="tag-title">Stories</h4>
+      {% for story in stories %}
+        {% include 'items/story_list_item.html' %}
+      {% endfor %}
+      {% if total_stories > list_length %}
+        <p>all stories tagged with <a href="{% url 'objects:story_tag' tag.slug %}">"{{ tag }}"</a></p>
+      {% endif %}
+      <br>
+    {% endif %}
+    {% if documents %}
+      <h4 class="tag-title">Information</h4>
+      {% for document in documents %}
+        {% include 'items/document_list_item.html' %}
+      {% endfor %}
+      {% if total_documents > list_length %}
+        <p>all documents tagged with <a href="{% url 'objects:document_tag' tag.slug %}">"{{ tag }}"</a></p>
+      {% endif %}
+      <br>
+    {% endif %}
+    {% if visuals %}
+      <h4 class="tag-title">Visuals</h4>
+      {% for visual in visuals %}
+        {% include 'items/visual_item.html' %}
+      {% endfor %}
+      {% if total_visuals > list_length %}
+        <p>all visuals tagged with <a href="{% url 'objects:visual_tag' tag.slug %}">"{{ tag }}"</a></p>
+      {% endif %}
+      <div class="clear"></div>
+      <br>
+    {% endif %}
+    {% if galleries %}
+      <h4 class="tag-title">Galleries</h4>
+      {% for gallery in galleries %}
+        {% include 'items/gallery_list_item.html' %}
+      {% endfor %}
+      {% if total_galleries > list_length %}
+        <p>all galleries tagged with <a href="{% url 'objects:gallery_tag' tag.slug %}">"{{ tag }}"</a></p>
+      {% endif %}
+      <br>
+    {% endif %}
+    {% if tracks %}
+      <h4 class="tag-title">Tracks</h4>
+      {% for track in tracks %}
+        {% include 'items/track_list_item.html' %}
+      {% endfor %}
+      {% if total_tracks > list_length %}
+        <p>all tracks tagged with <a href="{% url 'objects:track_tag' tag.slug %}">"{{ tag }}"</a></p>
+      {% endif %}
+      <br>
+    {% endif %}
+    {% if albums %}
+      <h4 class="tag-title">Albums</h4>
+      {% for album in albums %}
+        {% include 'items/album_list_item.html' %}
+      {% endfor %}
+      {% if total_albums > list_length %}
+        <p>all albums tagged with <a href="{% url 'objects:album_tag' tag.slug %}">"{{ tag }}"</a></p>
+      {% endif %}
+      <br>
+    {% endif %}
+    {% if images %}
+      <h4 class="tag-title">Image Files</h4>
+      {% for image in images %}
+        {% include 'items/image_list_item.html' %}
+      {% endfor %}
+      {% if total_images > list_length %}
+        <p>all images tagged with <a href="{% url 'objects:image_tag' tag.slug %}">"{{ tag }}"</a></p>
+      {% endif %}
+      <br>
+    {% endif %}
+    {% if sounds %}
+      <h4 class="tag-title">Sound Files</h4>
+      {% for sound in sounds %}
+        {% include 'items/sound_list_item.html' %}
+      {% endfor %}
+      {% if total_sounds > list_length %}
+        <p>all sounds tagged with <a href="{% url 'objects:sound_tag' tag.slug %}">"{{ tag }}"</a></p>
+      {% endif %}
+      <br>
+    {% endif %}
+    {% if videos %}
+      <h4 class="tag-title">Video Files</h4>
+      {% for video in videos %}
+        {% include 'items/video_list_item.html' %}
+      {% endfor %}
+      {% if total_videos > list_length %}
+        <p>all videos tagged with <a href="{% url 'objects:video_tag' tag.slug %}">"{{ tag }}"</a></p>
+      {% endif %}
+      <br>
+    {% endif %}
+    {% if codes %}
+      <h4 class="tag-title">Code Samples</h4>
+      {% for code in codes %}
+        {% include 'items/code_list_item.html' %}
+      {% endfor %}
+      {% if total_codes > list_length %}
+        <p>all codes tagged with <a href="{% url 'objects:code_tag' tag.slug %}">"{{ tag }}"</a></p>
+      {% endif %}
+      <br>
+    {% endif %}
+    {% if links %}
+      <h4 class="tag-title">Links</h4>
+      {% for link in links %}
+        {% include 'items/link_list_item.html' %}
+      {% endfor %}
+      {% if total_links > list_length %}
+        <p>all links tagged with <a href="{% url 'objects:link_tag' tag.slug %}">"{{ tag }}"</a></p>
+      {% endif %}
+      <br>
+    {% endif %}
   {% endif %}
 </div>
 <br>
