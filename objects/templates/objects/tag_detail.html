@@ -42,7 +42,7 @@
         {% include 'items/document_list_item.html' %}
       {% endfor %}
       {% if total_documents > list_length %}
-        <p>all documents tagged with <a href="{% url 'objects:document_tag' tag.slug %}">"{{ tag }}"</a></p>
+        <p>all information tagged with <a href="{% url 'objects:support_document_tag' tag.slug %}">"{{ tag }}"</a></p>
       {% endif %}
       <br>
     {% endif %}
