@@ -7,24 +7,24 @@
   {% if profile.text %}
     <p class="art-page-span">{{ profile.text }}</p>
   {% endif %}
-  {% if sections or profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+  {% if sections or new_visuals or new_galleries or top_visuals or top_galleries or profile.links or profile.bitcoin_wallet or profile.litecoin_wallet %}
     <div class="row">
       {% if sections %}
         <div class="col-lg">
           {% include './art_page_sections.html' %}
-          {% if profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+          {% if profile.links or profile.bitcoin_wallet or profile.litecoin_wallet %}
             {% include './art_page_links.html' %}
           {% endif %}
         </div>
       {% endif %}
-      {% if new_visuals or new_galleries %}
+      {% if new_visuals or new_galleries or top_visuals or top_galleries %}
         <div class="col-lg">
           {% include './art_page_items.html' %}
           {% if not sections %}
             {% include './art_page_links.html' %}
           {% endif %}
         </div>
-      {% elif profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+      {% elif profile.links or profile.bitcoin_wallet or profile.litecoin_wallet %}
         {% if not sections %}
           <div class="col-lg">
             {% include './art_page_links.html' %}

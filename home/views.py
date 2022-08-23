@@ -244,7 +244,7 @@ class IndexView(TemplateView, AppPageMixin):
                     kwargs={'pk': 1},
                 ),
                 'parameters': "",
-                'text': "Edit Profile",
+                'text': "Edit App",
             }
         # Add home page section button
         if self.request.user.has_perm('home.add_homepagesection'):
@@ -370,5 +370,5 @@ class HomePageSectionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, Del
 
     def get_success_url(self):
         return reverse(
-            'home:home_page',
+            'home:index',
         )

@@ -4,8 +4,7 @@
 <div class="container">
   <!-- Heading -->
   {% include './home_page_header.html' %}
-  <br>
-  {% if members or contributors or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals.all.count > 0 or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals.all.count > 0 or top_galleries or top_tracks or top_albums or sections or profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+  {% if sections or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals or top_galleries or top_tracks or top_albums or profile.links or profile.bitcoin_wallet or profile.litecoin_wallet %}
     <div class="row">
       {% if sections %}
         <div class="col-sm">

@@ -119,6 +119,10 @@ p h1 h2 h3 h4 h5 h6 span {
   margin-bottom: 40px;
 }
 
+.art-brand-title {
+  font-family: 'Veranda', sans-serif;
+}
+
 .art-gallery {
   width: 300px;
   height: 300px;
@@ -490,12 +494,17 @@ green     #859900  operators, other keywords
 .crypto-title {
   font-family: 'Times New Roman', serif;
 }
+
 .documentation-bg {
   color: #222222;
   background-color: #eeeeee;
   border-radius: 0px 0px 25px 25px;
   padding-top: 15px;
   margin-bottom: 40px;
+}
+
+.documentation-brand-title {
+  font-family: 'Veranda', sans-serif;
 }
 
 .documentation-col {
@@ -520,8 +529,8 @@ green     #859900  operators, other keywords
 }
 
 .documentation-header-image {
-  max-width: 100%;
-  max-height: 500px;
+  width: auto;
+  margin: 10px;
 }
 
 .documentation-item-detail-image {
@@ -730,6 +739,10 @@ green     #859900  operators, other keywords
   margin-bottom: 40px;
 }
 
+.home-brand-title {
+  font-family: 'Veranda', sans-serif;
+}
+
 .home-header {
   border-radius: 0px 0px 10px 10px;
   padding-top: 15px;
@@ -746,7 +759,7 @@ green     #859900  operators, other keywords
 .home-page-span {
   color: #111111;
   background-color: #eeeeee;
-  padding: 0px 10px 0px 10px;
+  padding: 10px;
   line-height: 1.75;
   border-radius: 5px;
 }
@@ -903,6 +916,7 @@ green     #859900  operators, other keywords
   -webkit-hyphens: auto;
   hyphens: auto
 }
+
 .marshmallow-button {
   font-family: 'Courier New';
 }
@@ -920,6 +934,10 @@ green     #859900  operators, other keywords
   border-radius: 0px 0px 25px 25px;
   padding-top: 15px;
   margin-bottom: 40px;
+}
+
+.members-brand-title {
+  font-family: 'Veranda', sans-serif;
 }
 
 .members-header {
@@ -995,6 +1013,10 @@ green     #859900  operators, other keywords
   border-radius: 0px 0px 25px 25px;
   padding-top: 15px;
   margin-bottom: 40px;
+}
+
+.music-brand-title {
+  font-family: 'Veranda', sans-serif;
 }
 
 .music-album {
@@ -1271,6 +1293,10 @@ green     #859900  operators, other keywords
   border-radius: 0px 0px 25px 25px;
   padding-top: 15px;
   margin-bottom: 40px;
+}
+
+.posts-brand-title {
+  font-family: 'Veranda', sans-serif;
 }
 
 .posts-item-detail-image {
@@ -1701,11 +1727,17 @@ green     #859900  operators, other keywords
 .sound-title {
   font-family: 'Courier New', monospace;
 }
+
 .studio-bg {
   color: #222222;
-  background-color: #ffffff;
   border-radius: 0px 0px 25px 25px;
+  padding-bottom: 10px;
 }
+
+.studio-brand-title {
+  font-family: 'Veranda', sans-serif;
+}
+
 .studio-button {
   margin-bottom: 5px;
   margin-top: 5px;
@@ -1733,6 +1765,7 @@ green     #859900  operators, other keywords
 .studio-title {
   font-family: 'Times New Roman', serif;
 }
+
 .tags-bg {
   background-color: #eeeeee;
   color: #222222;

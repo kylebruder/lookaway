@@ -7,12 +7,12 @@
   {% if profile.text %}
     <p class="objects-page-span">{{ profile.text }}</p>
   {% endif %}
-  {% if members or contributors or new_images or new_sounds or new_videos or new_codes or new_links or top_images or top_sounds or top_videos or top_codes or top_links or sections or profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+  {% if members or contributors or new_images or new_sounds or new_videos or new_codes or new_links or top_images or top_sounds or top_videos or top_codes or top_links or sections or profile.links or profile.bitcoin_wallet or profile.litecoin_wallet %}
     <div class="row">
       {% if sections %}
         <div class="col-lg">
           {% include './objects_page_sections.html' %}
-          {% if profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+          {% if profile.links or profile.bitcoin_wallet or profile.litecoin_wallet %}
             {% include './objects_page_links.html' %}
           {% endif %}
         </div>
@@ -24,7 +24,7 @@
             {% include './objects_page_links.html' %}
           {% endif %}
         </div>
-      {% elif profile.links.all.count > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
+      {% elif profile.links or profile.bitcoin_wallet or profile.litecoin_wallet %}
         {% if not sections %}
           <div class="col-lg">
             {% include './objects_page_links.html' %}
