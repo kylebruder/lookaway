@@ -1,23 +1,25 @@
-<div class="documentation-section">
-  <h4 class="documentation-title">Recently Published</h4>
-  <ul class="list-group documentation-list">
-    {% for article in new_articles %}
-      <li class="list-group-item documentation-list-li">
-        {% include 'items/article_item.html' %}
-      </li>
-    {% endfor %}
-    {% for story in new_stories %}
-      <li class="list-group-item documentation-list-li">
-        {% include 'items/story_item.html' %}
-      </li>
-    {% endfor %}
-    {% for document in new_documents %}
-      <li class="list-group-item documentation-list-li">
-        {% include 'items/document_item.html' %}
-      </li>
-    {% endfor %}
-  </ul>
-</div>
+{% if new_articles or new_stories or new_documents %}
+  <div class="documentation-section">
+    <h4 class="documentation-title">Recently Published</h4>
+    <ul class="list-group documentation-list">
+      {% for article in new_articles %}
+        <li class="list-group-item documentation-list-li">
+          {% include 'items/article_item.html' %}
+        </li>
+      {% endfor %}
+      {% for story in new_stories %}
+        <li class="list-group-item documentation-list-li">
+          {% include 'items/story_item.html' %}
+        </li>
+      {% endfor %}
+      {% for document in new_documents %}
+        <li class="list-group-item documentation-list-li">
+          {% include 'items/document_item.html' %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
 {% if top_articles or top_stories or top_documents %}
   <div class="documentation-section">
     <h4 class="documentation-title">Popular</h4>

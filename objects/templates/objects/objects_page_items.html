@@ -1,85 +1,84 @@
 <!-- Images -->
-{% if new_images.count > 0 %}
+{% if new_images or top_images %}
   <div class="objects-section">
     <h5 class="objects-title">Image Files</h5>
-    <p>
-      <div class="image-matrix">
+    <div class="image-matrix">
+      {% if new_images %}
         {% for image in new_images %}
           {% include "./image_list_card.html" %}
         {% endfor %}
-        {% if top_images.count > 0 %}
-          {% for image in top_images %}
-            {% include "./image_list_card.html" %}
-          {% endfor %}
-        {% endif %}
-      </div>
+      {% endif %}
+      {% if top_images %}
+        {% for image in top_images %}
+          {% include "./image_list_card.html" %}
+        {% endfor %}
+      {% endif %}
       <div class="clear"></div>
-      <br>
-    </p>
+    </div>
   </div>
 {% endif %}
 <!-- Sounds -->
-{% if new_sounds.count > 0 %}
+{% if new_sounds or top_sounds %}
   <div class="objects-section">
     <h5 class="objects-title">Sound Files</h5>
-    <p>
+    {% if new_sounds %}
       {% for sound in new_sounds %}
         {% include './sound_preview_item.html' %}
       {% endfor %}
-      {% if top_sounds.count > 0 %}
-        {% for sound in top_sounds %}
-          {% include './sound_preview_item.html' %}
-        {% endfor %}
-      {% endif %}
-    </p>
+    {% endif %}
+    {% if top_sounds %}
+      {% for sound in top_sounds %}
+        {% include './sound_preview_item.html' %}
+      {% endfor %}
+    {% endif %}
   </div>
 {% endif %}
 <!-- Videos -->
-{% if new_videos.count > 0 %}
+{% if new_videos %}
   <div class="objects-section">
     <h5 class="objects-title">Video Files</h5>
-    <p>
+    {% if new_videos %}
       {% for video in new_videos %}
         {% include './video_preview_item.html' %}
       {% endfor %}
-      {% if top_videos.count > 0 %}
-        {% for video in top_videos %}
-          {% include './video_preview_item.html' %}
-        {% endfor %}
-      {% endif %}
-    </p>
+    {% endif %}
+    {% if top_videos %}
+      {% for video in top_videos %}
+        {% include './video_preview_item.html' %}
+      {% endfor %}
+    {% endif %}
   </div>
 {% endif %}
 <!-- Code -->
-{% if new_codes.count > 0 %}
+{% if new_codes %}
   <div class="objects-section">
     <h5 class="objects-title">Code Samples</h5>
-    <p>
+    {% if new_codes %}
       {% for code in new_codes %}
         {% include './code_preview_item.html' %}
       {% endfor %}
-      {% if top_codes.count > 0 %}
-        {% for code in top_codes %}
-          {% include './code_preview_item.html' %}
-        {% endfor %}
-      {% endif %}
-    </p>
+    {% endif %}
+    {% if top_codes %}
+      {% for code in top_codes %}
+        {% include './code_preview_item.html' %}
+      {% endfor %}
+    {% endif %}
   </div>
 {% endif %}
 <!-- Links -->
-{% if new_links.count > 0 %}
+{% if new_links %}
   <div class="objects-section">
     <h5 class="objects-title">External Links</h5>
-    <p>
+    {% if new_links %}
       {% for link in new_links %}
         {% include './link_preview_item.html' %}
       {% endfor %}
-      {% if top_links.count > 0 %}
-        {% for link in top_links %}
-          {% include './link_preview_item.html' %}
-        {% endfor %}
-      {% endif %}
-    </p>
+    {% endif %}
+    {% if top_links %}
+      {% for link in top_links %}
+        {% include './link_preview_item.html' %}
+      {% endfor %}
+    {% endif %}
   </div>
 {% endif %}
 <br>

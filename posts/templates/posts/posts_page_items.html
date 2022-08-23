@@ -1,5 +1,5 @@
-{% if new_posts.count > 0 or top_posts.count > 0%}
-  {% if new_posts.count > 0 %}
+{% if new_posts or top_posts %}
+  {% if new_posts %}
     <div class="posts-section">
       <h4 class="posts-title">New Posts</h4>
       {% for post in new_posts %}
@@ -9,7 +9,7 @@
       {% endfor %}
     </div>
   {% endif %}
-  {% if top_posts.count > 0 %}
+  {% if top_posts %}
     <div class="posts-section">
       <h4 class="posts-title">Top Posts</h4>
       {% for post in top_posts %}
@@ -19,10 +19,9 @@
       {% endfor %}
     </div>
   {% endif %}
-  <br>
 {% endif %}
-{% if new_responses.count > 0 or top_responses.count > 0%}
-  {% if new_responses.count > 0 %}
+{% if new_responses or top_responses %}
+  {% if new_responses %}
     <div class="posts-section">
       <h4 class="posts-title">New Responses</h4>
       {% for response in new_responses %}
@@ -32,7 +31,7 @@
       {% endfor %}
     </div>
   {% endif %}
-  {% if top_responses.count > 0 %}
+  {% if top_responses %}
     <div class="posts-section">
       <h4 class="posts-title">Top Responses</h4>
       {% for response in top_responses %}
@@ -42,5 +41,4 @@
       {% endfor %}
     </div>
   {% endif %}
-  <br>
 {% endif %}
