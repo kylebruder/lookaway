@@ -1,7 +1,7 @@
 {% if image.text or image.credit %}
-  <div class="card border-0 bg-transparent text-center" style="min-width: 250px;">
+  <div class="card border-0 bg-transparent text-center" style="max-width: 100%;">
     <a href="{{ image.image_file.url }}">
-      <img class="card-img-top" src="{{ image.image_file.url }}" alt="{{ image.title }}" style="max-height: 500px; width: auto;">
+      <img class="card-img-top" src="{{ image.image_file.url }}" alt="{{ image.title }}" style="max-height: 500px; width: 100%;">
     </a>
     <div class="card-body">
       <div class="row">
@@ -25,9 +25,9 @@
   </div>
   <br>
 {% else %}
-  <div class="card border-0 bg-transparent text-center" style="min-width: 250px; max-width: 100%; ">
+  <div class="card border-0 bg-transparent text-center" style="max-width: 100%;">
     <a href="{{ image.image_file.url }}">
-      <img class="card-img-top" src="{{ image.image_file.url }}" alt="{{ image.title }}" style="max-height: 500px; width: auto;">
+      <img class="card-img-top" src="{{ image.image_file.url }}" alt="{{ image.title }}" style="max-height: 500px; width: 100%;">
     </a>
   </div>
   {% if image.owner.pk == request.user.pk %}
