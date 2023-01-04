@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block body_block %}
-{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
-<div class="container posts-bg">
+<div class="container posts-bg" style="max-width: 720px;">
   {% if not request.user.is_authenticated and response.members_only %}
     {% include './responsepost_detail_title_bar.html' %}
     <p><i>This Response is only visible to authenticated members.</i></p>
@@ -195,5 +194,4 @@
   {% endif %}
 </div>  
 <br>
-{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

@@ -6,6 +6,19 @@ table, th, td {
   clear: both;
 }
 
+/* Thanks Ashfaq Ahmed for help with the footer
+https://codeconvey.com/footer-at-bottom-of-page-but-not-fixed/ */
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 .base-bg {
   background-color: #ffffff;
   /*background-image: url("/static/hexagon-pattern-2657990_960_720.jpg");*/
@@ -14,22 +27,31 @@ table, th, td {
 }
 
 .base-body {
+    position: relative;
+    min-height: 100%;
 }
 
 .base-footer {
-  color: #111111;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
   font-size: 0.75em;
   color: #444444;
   text-align: center;
-  left: 0;
-  bottom: 0;
   width: 100%;
   padding: 15px;
 } 
 
+.base-footerfix {
+  height:10rem;
+}
+
 .brand-title {
   color: #111111;
   font-family: 'Veranda', sans-serif;
+  font-weight: 600;
 }
 
 .btn-margin {
@@ -57,6 +79,7 @@ table, th, td {
 
 .object-title {
   font-family: 'Times New Roman', serif;
+  font-weight: 600;
 }
 
 .pagination-span {
@@ -77,9 +100,14 @@ table, th, td {
   min-width: 250px;
 }
 
+.wrapper {
+  position: relative;
+  overflow: auto;
+}
+
 /* Changing the default link color */
-a {color: #338ab5;}
-a:hover {color: #46aadb;}
+a {color: #338ab5; text-decoration: none; }
+a:hover {color: #46aadb; text-decoration: underline; }
 
 /* Custom orderd list */
 /* https://css-tricks.com/custom-list-number-styling/ */
@@ -121,6 +149,7 @@ p h1 h2 h3 h4 h5 h6 span {
 
 .art-brand-title {
   font-family: 'Veranda', sans-serif;
+  font-weight: 600;
 }
 
 .art-gallery {
@@ -230,6 +259,7 @@ p h1 h2 h3 h4 h5 h6 span {
 
 .art-page-title {
   font-family: 'Times New Roman', sans-serif;
+  font-weight: 500;
 }
 
 .art-section {
@@ -244,6 +274,7 @@ p h1 h2 h3 h4 h5 h6 span {
 
 .art-title {
   font-family: 'Times New Roman', serif;
+  font-weight: 600;
 }
 
 .art-visual-blurb {
@@ -328,6 +359,7 @@ p h1 h2 h3 h4 h5 h6 span {
 
 .code-title {
   font-family: 'Courier New', monospace;
+  font-weight: 600;
 }
 
 
@@ -493,6 +525,7 @@ green     #859900  operators, other keywords
 
 .crypto-title {
   font-family: 'Times New Roman', serif;
+  font-weight: 600;
 }
 
 .documentation-bg {
@@ -505,6 +538,7 @@ green     #859900  operators, other keywords
 
 .documentation-brand-title {
   font-family: 'Veranda', sans-serif;
+  font-weight: 600;
 }
 
 .documentation-col {
@@ -632,6 +666,7 @@ green     #859900  operators, other keywords
 
 .documentation-title {
   font-family: 'Times New Roman', serif;
+  font-weight: 600;
 }
 
 /* Default form background */
@@ -741,6 +776,7 @@ green     #859900  operators, other keywords
 
 .home-brand-title {
   font-family: 'Veranda', sans-serif;
+  font-weight: 600;
 }
 
 .home-header {
@@ -776,6 +812,7 @@ green     #859900  operators, other keywords
 
 .home-title {
   font-family: 'Times New Roman', serif;
+  font-weight: 600;
 }
 
 .image-matrix {
@@ -814,6 +851,7 @@ green     #859900  operators, other keywords
 .images-piece-card-title {
   font-family: 'Tahoma', sans-serif;
   font-size: 0.75em;
+  font-weight: 600;
   color: #222222;
   background: #eeeeee;
   padding: 5px;
@@ -821,6 +859,7 @@ green     #859900  operators, other keywords
 
 .image-title {
   font-family: 'Courier New', monospace;
+  font-weight: 600;
 }
 
 .index-bg {
@@ -862,6 +901,7 @@ green     #859900  operators, other keywords
 
 .index-title {
   font-family: 'Times New Roman', serif;
+  font-weight: 600;
 }
 
 .links-bg {
@@ -897,6 +937,7 @@ green     #859900  operators, other keywords
 
 .link-title {
   font-family: 'Courier New', monospace;
+  font-weight: 600;
 }
 
 .link-url {
@@ -938,6 +979,7 @@ green     #859900  operators, other keywords
 
 .members-brand-title {
   font-family: 'Veranda', sans-serif;
+  font-weight: 600;
 }
 
 .members-header {
@@ -998,6 +1040,7 @@ green     #859900  operators, other keywords
 
 .members-title {
   font-family: 'Arial', sans-serif;
+  font-weight: 600;
 }
 
 .music-alert {
@@ -1017,6 +1060,7 @@ green     #859900  operators, other keywords
 
 .music-brand-title {
   font-family: 'Veranda', sans-serif;
+  font-weight: 600;
 }
 
 .music-album {
@@ -1108,6 +1152,7 @@ green     #859900  operators, other keywords
 
 .music-page-title {
   font-family: 'Times New Roman', sans-serif;
+  font-weight: 600;
 }
 
 .music-section {
@@ -1122,6 +1167,7 @@ green     #859900  operators, other keywords
 
 .music-title {
   font-family: 'Times New Roman', sans-serif;
+  font-weight: 600;
 }
 .music-track-blurb {
   margin-left: 15px;
@@ -1209,6 +1255,7 @@ green     #859900  operators, other keywords
 
 .objects-brand-title {
   font-family: 'Veranda', sans-serif;
+  font-weight: 600;
 }
 
 .objects-header {
@@ -1277,7 +1324,7 @@ green     #859900  operators, other keywords
 
 .objects-title {
   font-family: 'Courier New', monospace;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .posts-alert {
@@ -1297,6 +1344,7 @@ green     #859900  operators, other keywords
 
 .posts-brand-title {
   font-family: 'Veranda', sans-serif;
+  font-weight: 600;
 }
 
 .posts-item-detail-image {
@@ -1378,6 +1426,7 @@ green     #859900  operators, other keywords
 
 .posts-title {
   font-family: 'Arial', sans-serif;
+  font-weight: 600;
 }
 
 /**
@@ -1726,6 +1775,7 @@ green     #859900  operators, other keywords
 
 .sound-title {
   font-family: 'Courier New', monospace;
+  font-weight: 600;
 }
 
 .studio-bg {
@@ -1736,6 +1786,7 @@ green     #859900  operators, other keywords
 
 .studio-brand-title {
   font-family: 'Veranda', sans-serif;
+  font-weight: 600;
 }
 
 .studio-button {
@@ -1764,6 +1815,7 @@ green     #859900  operators, other keywords
 
 .studio-title {
   font-family: 'Times New Roman', serif;
+  font-weight: 600;
 }
 
 .tags-bg {
@@ -1792,6 +1844,7 @@ green     #859900  operators, other keywords
 
 .tag-title {
   font-family: 'Times New Roman', serif;
+  font-weight: 600;
 }
 
 .video-player {
@@ -1814,5 +1867,6 @@ green     #859900  operators, other keywords
 
 .video-title {
   font-family: 'Courier New', monospace;
+  font-weight: 600;
 }
 

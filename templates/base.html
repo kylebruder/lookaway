@@ -27,7 +27,11 @@
   {% include 'base_css.html' %}
 </head>
 
-<body class="base-bg base-body">
+{% if profile.bg_image %}
+  <body class="base-bg base-body" style="background-image: url('{{ profile.bg_image.image_file.url }}'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">
+{% else %}
+  <body class="base-bg base-body">
+{% endif %}
   {% include 'base_js.html' %}
   {% include 'base_navbar.html' %}
   {% if messages %}
@@ -38,11 +42,11 @@
       </div>
     {% endfor %}
   {% endif %}
-  {% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
-  {% block body_block %}
-    <!-- Anything outside of this will be inhereited if you extend! -->
-  {% endblock %}
-  {% if profile.bg_image %}</div>{% endif %}
+  <div class="wrapper">
+    {% block body_block %}
+      <!-- Anything outside of this will be inhereited if you extend! -->
+    {% endblock %}
+  </div>
   <!-- FOOTER -->
   {% include 'base_footer.html' %}
 </body>
