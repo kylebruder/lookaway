@@ -78,7 +78,7 @@ html {
 }
 
 .object-title {
-  font-family: 'Times New Roman', serif;
+  font-family: 'Arial', sans-serif;
   font-weight: 600;
 }
 
@@ -124,7 +124,7 @@ ol li::before {
   font-weight: bold;
   font-size: 2rem;
   margin-right: 0.5rem;
-  font-family: 'Times New Roman', serif;
+  font-family: 'Arial', sans-serif;
   line-height: 1;
 }
 
@@ -258,7 +258,7 @@ p h1 h2 h3 h4 h5 h6 span {
 }
 
 .art-page-title {
-  font-family: 'Times New Roman', sans-serif;
+  font-family: 'Arial', sans-serif;
   font-weight: 500;
 }
 
@@ -273,7 +273,7 @@ p h1 h2 h3 h4 h5 h6 span {
 }
 
 .art-title {
-  font-family: 'Times New Roman', serif;
+  font-family: 'Arial', sans-serif;
   font-weight: 600;
 }
 
@@ -310,7 +310,6 @@ p h1 h2 h3 h4 h5 h6 span {
 }
 
 .art-visual-matrix {
-  max-width: 850px;
   margin-left: auto;
   margin-right: auto;
   display: block;
@@ -524,7 +523,7 @@ green     #859900  operators, other keywords
 }
 
 .crypto-title {
-  font-family: 'Times New Roman', serif;
+  font-family: 'Arial', sans-serif;
   font-weight: 600;
 }
 
@@ -665,7 +664,7 @@ green     #859900  operators, other keywords
 }
 
 .documentation-title {
-  font-family: 'Times New Roman', serif;
+  font-family: 'Arial', sans-serif;
   font-weight: 600;
 }
 
@@ -711,7 +710,7 @@ green     #859900  operators, other keywords
 }
 
 .form-label {
-  font-family: 'Times New Roman', serif;
+  font-family: 'Arial', sans-serif;
 }
 
 
@@ -811,7 +810,7 @@ green     #859900  operators, other keywords
 }
 
 .home-title {
-  font-family: 'Times New Roman', serif;
+  font-family: 'Arial', sans-serif;
   font-weight: 600;
 }
 
@@ -900,7 +899,7 @@ green     #859900  operators, other keywords
 }
 
 .index-title {
-  font-family: 'Times New Roman', serif;
+  font-family: 'Arial', sans-serif;
   font-weight: 600;
 }
 
@@ -1151,7 +1150,7 @@ green     #859900  operators, other keywords
 }
 
 .music-page-title {
-  font-family: 'Times New Roman', sans-serif;
+  font-family: 'Arial', sans-serif;
   font-weight: 600;
 }
 
@@ -1166,7 +1165,7 @@ green     #859900  operators, other keywords
 }
 
 .music-title {
-  font-family: 'Times New Roman', sans-serif;
+  font-family: 'Arial', sans-serif;
   font-weight: 600;
 }
 .music-track-blurb {
@@ -1814,7 +1813,7 @@ green     #859900  operators, other keywords
 }
 
 .studio-title {
-  font-family: 'Times New Roman', serif;
+  font-family: 'Arial', sans-serif;
   font-weight: 600;
 }
 
@@ -1843,7 +1842,7 @@ green     #859900  operators, other keywords
 }
 
 .tag-title {
-  font-family: 'Times New Roman', serif;
+  font-family: 'Arial', sans-serif;
   font-weight: 600;
 }
 
