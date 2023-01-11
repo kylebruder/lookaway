@@ -33,8 +33,10 @@
   <body class="base-bg base-body">
 {% endif %}
   {% include 'base_js.html' %}
+  <!-- Navigation Bar -->
   {% include 'base_navbar.html' %}
   {% if messages %}
+    <!-- Alert Messages -->
     {% for message in messages %}
       <div class="alert {{ message.tags }} alert-dismissable fade show" role="alert">
         {{ message }}
@@ -42,12 +44,12 @@
       </div>
     {% endfor %}
   {% endif %}
+  <!-- Main Body -->
   <div class="wrapper">
     {% block body_block %}
-      <!-- Anything outside of this will be inhereited if you extend! -->
     {% endblock %}
   </div>
-  <!-- FOOTER -->
+  <!-- Footer -->
   {% include 'base_footer.html' %}
 </body>
 </html>

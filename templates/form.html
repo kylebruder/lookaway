@@ -3,7 +3,7 @@
 <div class="container-fluid">
   {% block header_block %}{% endblock %}
   <br>
-  <form method="post" enctype="multipart/form-data">
+  <form method="post" style="padding: 10px;" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row">
       {% if form.title %}

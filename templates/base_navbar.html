@@ -39,6 +39,7 @@
           </li>
         {% endif %}
         {% if request.user.is_authenticated %}
+          <!-- Uncomment to show file object links on the navbar
           <li class="nav-item">
             <a class="nav-link nav-font-objects" href="{% url 'objects:public_images' %}">&#128247;</a>
           </li>
@@ -56,7 +57,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link nav-font-objects" href="{% url 'objects:tags' %}">&#128278;</a>
-          </li>
+          </li> -->
         {% endif %}
       </ul>
       {% if request.user.is_authenticated %}

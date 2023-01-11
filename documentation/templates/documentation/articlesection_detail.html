@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block body_block %}
-{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container documentation-bg">
   {% include './articlesection.html' %}
   {% if section.is_public %}
@@ -14,5 +13,4 @@
   <br>
 </div>  
 <br>
-{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

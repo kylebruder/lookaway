@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block body_block %}
-{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container music-bg">
   {% if track.is_public or track.owner.pk == request.user.pk %}
     {% include './track_detail_title_bar.html' %}
@@ -65,9 +64,7 @@
       {% elif track.image %}
         <!-- Image -->
         <div class="col-sm-auto">
-          <div class="container">
-            <img class="music-track-image" src="{{ track.image.image_file.url }}" alt="{{ track.image.title }}">   
-          </div>
+          <img class="music-track-image" src="{{ track.image.image_file.url }}" alt="{{ track.image.title }}">   
         </div>
       {% endif %}
       <!-- Sound -->
@@ -146,5 +143,4 @@
   <br>
 </div>
 <br>
-{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

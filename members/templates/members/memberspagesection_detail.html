@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block body_block %}
-{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container members-bg">
   <p><i>From the <a href="{% url 'members:members_page' %}">{{ profile.title }}</a> landing page.</i></p>
   {% include './members_page_section.html' %}
@@ -15,5 +14,4 @@
   <br>
 </div>
 <br>
-{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}

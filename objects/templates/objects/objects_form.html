@@ -1,37 +1,4 @@
-{% extends 'base.html' %}
-{% block body_block %}
-<div class="objects-header" style="{% if profile.banner %} background-image: url('{{ profile.banner.image_file.url }}');{% endif %}">
-  <div class="row">
-    {% if profile.logo %}
-      <div class="col-sm-auto">
-        <div class="container">
-          <a href="{% url 'objects:objects_page' %}">
-            <img class="objects-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
-          </a>
-        </div>
-      </div>
-    {% endif %}
-    <div class="col-sm">
-      {% if tag %}
-        <h3 class="objects-title objects-page-span objects-alert">
-           {{ app_list_context }} tagged with <span class="badge bg-secondary">{{ tag }}
-        </h3>
-      {% elif member %}
-        <h3 class="objects-title objects-page-span objects-alert">
-           {{ app_list_context }} posted by <span class="index-page-heading">{{ member }}</span>
-        </h3>
-      {% else %}
-        <h3 class="brand-title objects-page-span objects-alert">
-          {% if profile.title and app_list_context and profile.show_title %}
-            <span class="index-heading-span">{{ profile.title }}</span>
-            - <span class="index-heading-span">{{ app_list_context }}</span>
-          {% else %}
-            {{ app_list_context }}
-          {% endif %}
-        </h3>
-      {% endif %}
-    </div>
-    {% include 'objects/object_create_buttons.html' %}
-  </div>
-</div>
+{% extends 'form.html' %}
+{% block header_block %}
+{% include './objects_form_header.html' %}
 {% endblock %}

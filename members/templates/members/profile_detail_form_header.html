@@ -1,36 +1,25 @@
-<div class="members-header" {% if profile.banner %}style="background-image: url('{{ profile.banner.image_file.url }}');"{% endif %}>
-  <div class="row">
-    {% if profile.logo %}
-      <div class="col-sm-auto">
-        <div class="container">
-          <img class="members-logo" src="{{ profile.logo.thumbnail_file.url }}" alt="{{ profile.logo.title }}">
-        </div>
-      </div>
-    {% elif profile.image %}
-      <div class="col-sm-auto">
-        <div class="container">
-          <img class="members-logo" src="{{ profile.image.image_file.url }}" alt="{{ profile.image.thumbnail_file.title }}">
-        </div>
-      </div>
-    {% endif %}
-    {% if profile.show_title or profile.show_desc %}
-      <div class="col-sm">
-        {% if profile.title and profile.show_title %}
-          <h3 class="members-title members-page-span members-alert">{{ meta_title }}</h3>
-        {% endif %}
-        {% if meta_desc and profile.show_desc %}
-          <br><p class="members-page-span members-alert"><i>{{ meta_desc }}</i></p>
-        {% endif %}
-      </div>
-    {% endif %}
-    {% if request.user.is_authenticated %}
-      <div class="col-auto">
-        <div class="container">
-          <p>
-            {% include 'objects/object_create_buttons.html' %}
-            {% if not profile.member.email %}
-              <p class="alert alert-info"><i>We do not have an email contact for you. We do not require that you provide an email contact. However, please be aware that unless you provide a recovery email, you will be unable to reset your password. You may provide an email address by pressing the <span class="index-heading-span">"Update Personally Identifiable Information"</span> button below.</i></p>
-            {% endif %}
+{% extends 'header.html' %}
+{% if profile.image %}
+  {% block logo_block %}
+    <img class="members-logo" src="{{ profile.image.thumbnail_file.url }}" alt="{{ profile.image.title }}">
+  {% endblock %}
+{% endif %}
+{% if meta_title %}
+  {% block title_block %}
+    <h3 class="members-brand-title members-page-span members-alert">{{ meta_title }}</h3><br>
+  {% endblock %}
+{% endif %}
+{% if meta_desc %}
+  {% block desc_block %}
+    <p class="members-page-span members-alert"><i>{{ meta_desc }}</i></p><br>
+  {% endblock %}
+{% endif %}
+{% block buttons_block %}
+  {% include 'objects/object_create_buttons.html' %}
+  <br><br>
+  {% if not profile.member.email %}
+    <p class="alert alert-info"><i>We do not have an email contact for you. We do not require that you provide an email contact. However, please be aware that unless you provide a recovery email, you will be unable to reset your password. You may provide an email address by pressing the <span class="index-heading-span">"Update Personally Identifiable Information"</span> button below.</i></p>
+  {% endif %}
             <p>
               <a href="{% url 'email_change' profile.pk %}">
                 <button class="btn btn-sm btn-warning">Update Personally Identifiable Information</button>
@@ -42,9 +31,4 @@
             <p>
               {% include './member_crypto_buttons.html' %}
             </p>
-          </p>
-        </div>
-      </div>
-    {% endif %}
-  </div>
-</div>
+{% endblock %}

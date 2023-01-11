@@ -465,8 +465,10 @@ green     #859900  operators, other keywords
 .crypto-address-block {
   font-family: 'Courier New', monospace;
   color: #dddddd;
+  font-size: 0.9em;
   background-color: #000000;
   padding: 5px;
+  border-radius: 5px;
   max-width: auto;
   display: inline-block;
   whitespace: nowrap;
@@ -487,9 +489,9 @@ green     #859900  operators, other keywords
   
 .crypto-list-image {
   display: block;
-  width: 100px;
-  height: 100px;
-  margin-left: 15px;
+  width: 250px;
+  height: 250px;
+  border-radius: 25px;
   margin-bottom: 10px;
   background-repeat: no-repeat;
   background-size: cover;
@@ -512,6 +514,7 @@ green     #859900  operators, other keywords
 }
 
 .crypto-qr-sm {
+  border-radius: 15px;
   display: inherit;
   max-width: 150px;
   max-height: auto;
@@ -562,7 +565,7 @@ green     #859900  operators, other keywords
 }
 
 .documentation-header-image {
-  width: auto;
+  max-width: 100%;
   margin: 10px;
 }
 

@@ -2,28 +2,22 @@
   <div class="row">
     <div class="col-auto">
       {% if bitcoinwallet.qr_code_lg %}
-        <div class="crypto-list-image" style="background-image:url('{{ bitcoinwallet.qr_code_lg.url }}')"></div>
+        <img class="crypto-list-image" src="{{ bitcoinwallet.qr_code_lg.url }}" alt="{{ bitcoinwallet.title }} bitcoin wallet QR code">
       {% else %}
         <div class="crypto-list-image" style="background-image:url('/static/icon.webp')"></div>
       {% endif %}
     </div>
     <div class="col-sm">
       <h5 class="crypto-title">
-        <a href="{% url 'crypto:bitcoinwallet_detail' bitcoinwallet.pk %}">
+        <a href="{{ bitcoinwallet.get_absolute_url }}">
           {{ bitcoinwallet.title }}
         </a>
       </h5>
       <p class="crypto-meta">
         Added on {{ bitcoinwallet.creation_date|date:"M d, Y" }}<br>
-        Public Address: {{ bitcoinwallet.public_address }}<br>
+        Public Address: <span class="crypto-address-block">{{ bitcoinwallet.public_address }}</span><br><br>
         {{ bitcoinwallet.text }}<br>
-        {% if bitcoinwallet.tags.all.count > 0 %}
-          {% with bitcoinwallet as object %}
-            {% include 'objects/object_tags.html' %}
-          {% endwith %}
-        {% endif %}
       </p>
     </div>
   </div>
 </li>
-

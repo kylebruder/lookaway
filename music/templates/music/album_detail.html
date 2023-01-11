@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block body_block %}
-{% if profile.bg_image %}<div style="background-image: url('{{ profile.bg_image.image_file.url }}');">{% endif %}
 <div class="container music-bg">
   {% if album.is_public or album.owner.pk == request.user.pk %}
     {% include './album_detail_title_bar.html' %}
@@ -27,7 +26,7 @@
             <span>{{ album.genre }}</span><br>
           {% endif %}
         </p>
-        <!!-- Cover -->
+        <!-- Cover -->
         {% if album.cover %}
           <div class="col- music-album-image" style="background-image: url('{{ album.cover.image_file.url }}')"></div>   
           <br>
@@ -126,5 +125,4 @@
   <br>
 </div>
 <br>
-{% if profile.bg_image %}</div>{% endif %}
 {% endblock %}
