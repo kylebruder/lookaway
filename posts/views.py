@@ -418,7 +418,7 @@ class PostDetailView(DetailView):
                     ),
                 }
             # Response button
-            if self.request.user.has_perms('posts:add_response'):
+            if self.request.user.has_perm('posts:add_response'):
                 context['can_respond'] = True
                 context['response_button'] = {
                     'url': reverse(

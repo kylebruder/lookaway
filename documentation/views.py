@@ -446,7 +446,7 @@ class ArticleDetailView(DetailView):
                     ),
                 }
             # Response button
-            if self.request.user.has_perms('documentation:add_response'):
+            if self.request.user.has_perm('documentation:add_response'):
                 context['can_respond'] = True
                 context['response_button'] = {
                     'url': reverse(
@@ -916,7 +916,7 @@ class SupportDocumentDetailView(DetailView):
                     ),
                 }
             # Response button
-            if self.request.user.has_perms('documentation:add_response'):
+            if self.request.user.has_perm('documentation:add_response'):
                 context['can_respond'] = True
                 context['response_button'] = {
                     'url': reverse(
@@ -1380,7 +1380,7 @@ class StoryDetailView(DetailView):
                     ),
                 }
             # Response button
-            if self.request.user.has_perms('documentation:add_response'):
+            if self.request.user.has_perm('documentation:add_response'):
                 context['can_respond'] = True
                 context['response_button'] = {
                     'url': reverse(
