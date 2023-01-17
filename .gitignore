@@ -2,6 +2,7 @@ lookaway/settings.py
 *.sqlite3
 *.pyc
 *.sw*
+media/
 media/*
 
 
