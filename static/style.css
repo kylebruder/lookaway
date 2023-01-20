@@ -114,6 +114,7 @@ a:hover {color: #46aadb; text-decoration: underline; }
 ol {
   list-style: none;
   counter-reset: my-awesome-counter;
+  padding-left: 0px;
 }
 ol li {
   counter-increment: my-awesome-counter;
@@ -565,8 +566,9 @@ green     #859900  operators, other keywords
 }
 
 .documentation-header-image {
+  padding-bottom: 10px;
   max-width: 100%;
-  margin: 10px;
+  max-height: auto;
 }
 
 .documentation-item-detail-image {

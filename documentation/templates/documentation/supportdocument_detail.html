@@ -9,24 +9,25 @@
       <p>Owned by <span class="index-header-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span><br>Created on <span class="index-header-span">{{ object.creation_date }}</span><br>{% include 'objects/unpublished.html' %}</p><br>
     {% endif %}
     <!-- Heading -->
+    {% if document.intro %}
+      <h4 class="documentation-title">Introduction</h4>
+      {{ document.intro|linebreaks }}
+    {% endif %}
     <div class="row">
+      {% if document.image %}
+        <!-- Header Image -->
+        {% with document.image as image %}
+          {% include './header_image.html' %}
+        {% endwith %}
+      {% endif %}
       <!-- Table of Contents -->
       {% if document.numbered %}
         {% include './numbered_table_of_contents.html' %}
       {% else %}
         {% include './table_of_contents.html' %}
       {% endif %}
-      <!-- Header Image -->
-      {% with document.image as image %}
-        {% include './header_image.html' %}
-      {% endwith %}
     </div>
     <br>
-    {% if document.intro %}
-      <h4 class="documentation-title">Introduction</h4>
-      {{ document.intro|linebreaks }}
-      <br>
-    {% endif %}
     {% if sections %}
       {% if document.numbered %}
         <ol class="list-group">

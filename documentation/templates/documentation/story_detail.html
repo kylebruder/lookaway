@@ -9,20 +9,22 @@
       <p>Owned by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span><br>Created on <span class="index-heading-span">{{ object.creation_date }}</span><br>{% include 'objects/unpublished.html' %}</p><br>
     {% endif %}
     <!-- Heading -->
-    <div class="row">
-      <!-- Table of Contents -->
-        {% include './table_of_contents.html' %}
-      <!-- Header Image -->
-      {% with story.image as image %}
-        {% include './header_image.html' %}
-      {% endwith %}
-    </div>
-    <br>
     {% if story.intro %}
       <h4 class="documentation-title">Foreword</h4>
       {{ story.intro|linebreaks }}
       <br>
     {% endif %}
+    <div class="row">
+      {% if story.image %}
+        <!-- Header Image -->
+        {% with story.image as image %}
+          {% include './header_image.html' %}
+        {% endwith %}
+      {% endif %}
+      <!-- Table of Contents -->
+      {% include './table_of_contents.html' %}
+    </div>
+    <br>
     {% if sections %}
       {% for section in sections %}
         {% include './storysection.html' %}
