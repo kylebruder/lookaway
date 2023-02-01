@@ -10,33 +10,36 @@
     {% else %}
       <p>Owned by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span><br>Created on <span class="index-heading-span">{{ object.creation_date }}</span><br>{% include 'objects/unpublished.html' %}</p>
     {% endif %}
-    <!-- Heading -->
-    {% if article.intro %}
-      <h4 class="documentation-title">Introduction</h4>
-      {{ article.intro|linebreaks }}
-    {% endif %}
     <div class="row">
+      <!-- Table of Contents -->
+      {% include './table_of_contents.html' %}
       <!-- Header Image -->
       {% if article.image %}
         {% with article.image as image %}
           {% include './header_image.html' %}
         {% endwith %}
       {% endif %}
-      <!-- Table of Contents -->
-      {% include './table_of_contents.html' %}
     </div>
     <br>
+    <!-- Intro -->
+    {% if article.intro %}
+      <h4 class="documentation-title">Introduction</h4>
+      {{ article.intro|linebreaks }}
+    {% endif %}
+    <!-- Sections -->
     {% if sections %}
       {% for section in sections %}
         {% include './articlesection.html' %}
         <br>
       {% endfor %}
     {% endif %}
+    <!-- Outro -->
     {% if article.outro %}
       <h4 class="documentation-title">Conclusion</h4>
       {{ article.outro|linebreaks }}
       <br>
     {% endif %}
+    <!-- Links -->
     {% if article.links.count > 0 %}
       <h4 class="documentation-title">Links</h4>
       {% with article.links.all as links %}
@@ -56,6 +59,7 @@
       </ul>
       <br>
     {% endif %}
+    <!-- Crypto Wallets -->
     {% if article.bitcoin_wallet or article.litecoin_wallet %}
       <h4 class="documentation-title">Donate</h4>
       <br>
@@ -65,10 +69,12 @@
         {% endwith %}
       {% endwith %}
     {% endif %}
+    <!-- Tags -->
     <div class="row">
       <div class="col-sm">
         {% include 'objects/object_tags.html' %}
       </div>
+      <!-- Feedback Buttons -->
       {% if article.is_public %}
         <div class="col-auto">
           <div class="container">

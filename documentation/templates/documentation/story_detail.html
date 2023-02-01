@@ -8,36 +8,39 @@
     {% else %}
       <p>Owned by <span class="index-heading-span"><a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a></span><br>Created on <span class="index-heading-span">{{ object.creation_date }}</span><br>{% include 'objects/unpublished.html' %}</p><br>
     {% endif %}
-    <!-- Heading -->
-    {% if story.intro %}
-      <h4 class="documentation-title">Foreword</h4>
-      {{ story.intro|linebreaks }}
-      <br>
-    {% endif %}
     <div class="row">
+      <!-- Table of Contents -->
+      {% include './table_of_contents.html' %}
       {% if story.image %}
         <!-- Header Image -->
         {% with story.image as image %}
           {% include './header_image.html' %}
         {% endwith %}
       {% endif %}
-      <!-- Table of Contents -->
-      {% include './table_of_contents.html' %}
     </div>
     <br>
+    <!-- Intro -->
+    {% if story.intro %}
+      <h4 class="documentation-title">Foreword</h4>
+      {{ story.intro|linebreaks }}
+      <br>
+    {% endif %}
     {% if sections %}
       {% for section in sections %}
         {% include './storysection.html' %}
         <br>
       {% endfor %}
     {% endif %}
+    <!-- Outro -->
     {% if story.outro %}
       <h4 class="documentation-title">Afterword</h4>
       {{ story.outro|linebreaks }}
       <br>
     {% endif %}
+    <!-- Credits -->
     {% include './story_data.html' %}
     <br>
+    <!-- Links -->
     {% if story.links.count > 0 %}
       <h4 class="documentation-title">Links</h4>
       {% with story.links.all as links %}
@@ -57,6 +60,7 @@
       </ul>
       <br>
     {% endif %}
+    <!-- Crypto Wallets -->
     {% if story.bitcoin_wallet or story.litecoin_wallet %}
       <h4 class="documentation-title">Donate</h4>
       {% with story.bitcoin_wallet as bitcoin_wallet %}
@@ -66,9 +70,11 @@
       {% endwith %}
     {% endif %}
     <div class="row">
+      <!-- Tags -->
       <div class="col-sm">
         {% include 'objects/object_tags.html' %}
       </div>
+      <!-- Feedback Buttons -->
       {% if story.is_public %}
         <div class="col-auto">
           <div class="container">
