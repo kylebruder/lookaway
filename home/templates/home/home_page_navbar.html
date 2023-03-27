@@ -1,6 +1,17 @@
 <p class="home-page-span home-alert">
-  <a href="{% url 'posts:posts_page' %}">{{ profile.nav_posts_name }}</a> |
-  <a href="{% url 'documentation:documentation_page' %}">{{ profile.nav_documentation_name }}</a> |
-  <a href="{% url 'art:art_page' %}">{{ profile.nav_art_name }}</a> |
-  <a href="{% url 'music:music_page' %}">{{ profile.nav_music_name }}</a>
+  {% if nav_show_posts %}
+    <a href="{% url 'posts:posts_page' %}">{{ profile.nav_posts_name }}</a>
+  {% endif %}
+  {% if nav_show_documentation %}
+  | <a href="{% url 'documentation:documentation_page' %}">{{ profile.nav_documentation_name }}</a>
+  {% endif %}
+  {% if nav_show_art %}
+  | <a href="{% url 'art:art_page' %}">{{ profile.nav_art_name }}</a>
+  {% endif %}
+  {% if nav_show_music %}
+  | <a href="{% url 'music:music_page' %}">{{ profile.nav_music_name }}</a>
+  {% endif %}
+  {% if nav_show_members %}
+  | <a href="{% url 'members:members_page' %}">{{ profile.nav_members_name }}</a>
+  {% endif %}
 </p>
