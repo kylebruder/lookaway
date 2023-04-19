@@ -4,13 +4,13 @@
 <div class="container-fluid">
   <!-- Heading -->
   {% include './profile_detail_header.html' %}
-  {% if profile.text %}
-    <p class="members-page-span">{{ profile.text }}</p>
-  {% endif %}
   {% if sections or new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals or top_galleries or top_tracks or top_albums or new_images or new_sounds or new_videos or new_codes or new_links or top_images or top_sounds or top_videos or top_codes or top_links or profile.links or profile.bitcoin_wallet or profile.litecoin_wallet %}
     <div class="row">
       {% if sections %}
-        <div class="col-lg">
+        <div class="col-sm">
+          {% if profile.text %}
+            <p class="members-page-span">{{ profile.text }}</p>
+          {% endif %}
           {% include './profile_detail_sections.html' %}
           {% if profile.links or profile.bitcoin_wallet or profile.litecoin_wallet %}
             {% include './profile_detail_links.html' %}
@@ -18,7 +18,10 @@
         </div>
       {% endif %}
       {% if new_posts or new_responses or new_articles or new_stories or new_documents or new_visuals or new_galleries or new_tracks or new_albums or top_posts or top_responses or top_articles or top_stories or top_documents or top_visuals or top_galleries or top_tracks or top_albums or new_images or new_sounds or new_videos or new_codes or new_links or top_images or top_sounds or top_videos or top_codes or top_links %}
-        <div class="col-lg">
+        <div class="col-sm">
+          {% if not sections and profile.text %}
+            <p class="members-page-span">{{ profile.text }}</p>
+          {% endif %}
           {% include './profile_detail_items.html' %}
           {% if not sections %}
             {% include './profile_detail_links.html' %}
@@ -26,12 +29,14 @@
         </div>
       {% elif profile.links or profile.bitcoin_wallet or profile.litecoin_wallet %}
         {% if not sections %}
-          <div class="col-lg">
+          <div class="col-sm">
             {% include './profile_detail_links.html' %}
           </div>
         {% endif %}
       {% endif %}
     </div>
+  {% elif profile.text %}
+    <p class="members-page-span">{{ profile.text }}</p>
   {% else %}
     <div class="container">
       <span class="members-page-span members-alert"><i>Coming Soon...</i></span>

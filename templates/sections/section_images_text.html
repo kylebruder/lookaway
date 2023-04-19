@@ -2,20 +2,20 @@
   {% if section.text %}
     {{ section.text|linebreaks }}
   {% endif %}
-  {% for image in section.images.all %}
-    <div class="row">
+  <div class="row">
+    {% for image in section.images.all %}
       {% include 'sections/section_image.html' %}
-    </div>
-  {% endfor %}
+    {% endfor %}
+  </div>
 {% elif section.images.count > 1 %}
   {% if section.text %}
     {{ section.text|linebreaks }}
   {% endif %}
-  {% for image in section.images.all %}
-    <div class="row">
+  <div class="row">
+    {% for image in section.images.all %}
       {% include 'sections/section_image.html' %}
-    </div>
-  {% endfor %}
+    {% endfor %}
+  </div>
 {% elif section.images.count == 1 %}
   <div class="row">
     {% if section.text %}
@@ -24,11 +24,7 @@
       </div>
     {% endif %}
     {% with section.images.first as image %}
-      <div class="col-sm">
-        <div class="row">
-          {% include 'sections/section_image.html' %}
-        </div>
-      </div>
+      {% include 'sections/section_image.html' %}
     {% endwith %}
   </div>
 {% elif section.text %}

@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 {% block body_block %}
-  <div class="container">
+  <div class="container-fluid">
     {% include './objects_list_header.html' %}
     {% if object_list %}
-      {% if page_obj.has_other_pages %}<span class="objects-page-span objects-nav">{% include 'page_control.html' %}</span>{% endif %}
-      <br>
-      {% block items_block %}
-      {% endblock %}
-      {% if page_obj.has_other_pages %}<span class="objects-page-span objects-nav">{% include 'page_control.html' %}</span>{% endif %}
+      <div class="objects-section">
+        {% if page_obj.has_other_pages %}<span class="objects-page-span objects-nav">{% include 'page_control.html' %}</span>{% endif %}
+        <br>
+        {% block items_block %}
+        {% endblock %}
+        {% if page_obj.has_other_pages %}<span class="objects-page-span objects-nav">{% include 'page_control.html' %}</span>{% endif %}
+      </div>
     {% else %}
       <br>
       <div class="container-fluid">

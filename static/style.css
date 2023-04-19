@@ -83,12 +83,12 @@ html {
 }
 
 .pagination-span {
-  line-height: 5;
+  margin-bottom: 5px;
 }
 
 .section-image {
   max-height: 550px;
-  width: auto;
+  max-width: 100%;
 }
 
 .section-video {
@@ -253,6 +253,7 @@ p h1 h2 h3 h4 h5 h6 span {
 .art-page-span {
   color: #111111;
   background-color: #eeeeee;
+  max-width: 1320px;
   padding: 10px;
   line-height: 1.75;
   border-radius: 5px;
@@ -266,7 +267,7 @@ p h1 h2 h3 h4 h5 h6 span {
 .art-section {
   color: #222222;
   background-color: #eeeeee;
-  max-width: 100%;
+  max-width: 1320px;
   padding: 15px;
   margin-bottom: 10px;
   position: relative;
@@ -614,6 +615,7 @@ p h1 h2 h3 h4 h5 h6 span {
 .documentation-page-span {
   color: #111111;
   background-color: #eeeeee;
+  max-width: 1320px;
   padding: 10px;
   line-height: 1.75;
   border-radius: 5px;
@@ -622,7 +624,7 @@ p h1 h2 h3 h4 h5 h6 span {
 .documentation-section {
   color: #222222;
   background-color: #eeeeee;
-  max-width: 100%;
+  max-width: 1320px;
   padding: 15px;
   margin-bottom: 10px;
   position: relative;
@@ -776,6 +778,7 @@ p h1 h2 h3 h4 h5 h6 span {
 .home-page-span {
   color: #111111;
   background-color: #eeeeee;
+  max-width: 1320px;
   padding: 10px;
   line-height: 1.75;
   border-radius: 5px;
@@ -784,7 +787,7 @@ p h1 h2 h3 h4 h5 h6 span {
 .home-section {
   color: #222222;
   background-color: #eeeeee;
-  max-width: 100%;
+  max-width: 1320px;
   padding: 15px;
   margin-bottom: 10px;
   position: relative;
@@ -997,6 +1000,7 @@ p h1 h2 h3 h4 h5 h6 span {
 .members-page-span {
   color: #111111;
   background-color: #eeeeee;
+  max-width: 1320px;
   padding: 10px;
   line-height: 1.75;
   border-radius: 5px;
@@ -1012,7 +1016,7 @@ p h1 h2 h3 h4 h5 h6 span {
 .members-section {
   color: #222222;
   background-color: #eeeeee;
-  max-width: 100%;
+  max-width: 1320px;
   padding: 15px;
   margin-bottom: 10px;
   position: relative;
@@ -1126,6 +1130,7 @@ p h1 h2 h3 h4 h5 h6 span {
 .music-page-span {
   color: #111111;
   background-color: #eeeeee;
+  max-width: 1320px;
   padding: 10px;
   line-height: 1.75;
   border-radius: 5px;
@@ -1139,7 +1144,7 @@ p h1 h2 h3 h4 h5 h6 span {
 .music-section {
   color: #222222;
   background-color: #eeeeee;
-  max-width: 100%;
+  max-width: 1320px;
   padding: 15px;
   margin-bottom: 10px;
   position: relative;
@@ -1283,6 +1288,7 @@ p h1 h2 h3 h4 h5 h6 span {
 .objects-page-span {
   color: #111111;
   background-color: #eeeeee;
+  max-width: 1320px;
   padding: 10px;
   line-height: 1.75;
   border-radius: 5px;
@@ -1291,7 +1297,7 @@ p h1 h2 h3 h4 h5 h6 span {
 .objects-section {
   color: #222222;
   background-color: #eeeeee;
-  max-width: 100%;
+  max-width: 1320px;
   padding: 10px;
   position: relative;
   border-radius: 5px;
@@ -1389,6 +1395,7 @@ p h1 h2 h3 h4 h5 h6 span {
 .posts-page-span {
   color: #111111;
   background-color: #eeeeee;
+  max-width: 1320px;
   padding: 10px;
   line-height: 1.75;
   border-radius: 5px;
@@ -1397,7 +1404,7 @@ p h1 h2 h3 h4 h5 h6 span {
 .posts-section {
   color: #222222;
   background-color: #eeeeee;
-  max-width: 100%;
+  max-width: 1320px;
   padding: 15px;
   margin-bottom: 10px;
   position: relative;

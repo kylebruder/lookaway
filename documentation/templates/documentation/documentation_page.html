@@ -4,13 +4,13 @@
 <div class="container-fluid">
   <!-- Heading -->
   {% include './documentation_page_header.html' %}
-  {% if profile.text %}
-    <p class="documentation-page-span">{{ profile.text }}</p>
-  {% endif %}
   {% if sections or new_articles or new_stories or new_documents or top_articles or top_stories or top_documents or profile.links or profile.bitcoin_wallet or profile.litecoin_wallet %}
     <div class="row">
       {% if sections %}
-        <div class="col-lg">
+        <div class="col-sm">
+          {% if profile.text %}
+            <p class="documentation-page-span">{{ profile.text }}</p>
+          {% endif %}
           {% include './documentation_page_sections.html' %}
           {% if profile.links or profile.bitcoin_wallet or profile.litecoin_wallet %}
             {% include './documentation_page_links.html' %}
@@ -18,7 +18,10 @@
         </div>
       {% endif %}
       {% if new_articles or new_stories or new_documents or top_articles or top_stories or top_documents %}
-        <div class="col-lg">
+        <div class="col-sm">
+          {% if not sections and profile.text %}
+            <p class="documentation-page-span">{{ profile.text }}</p>
+          {% endif %}
           {% include './documentation_page_items.html' %}
           {% if not sections %}
             {% include './documentation_page_links.html' %}
@@ -26,12 +29,14 @@
         </div>
       {% elif profile.links or profile.bitcoin_wallet or profile.litecoin_wallet %}
         {% if not sections %}
-          <div class="col-lg">
+          <div class="col-sm">
             {% include './documentation_page_links.html' %}
           </div>
         {% endif %}
       {% endif %}
     </div>
+  {% elif profile.text %}
+    <p class="documentation-page-span">{{ profile.text }}</p>
   {% else %}
     <div class="container">
       <span class="documentation-page-span documentation-alert"><i>Coming Soon...</i></span>
