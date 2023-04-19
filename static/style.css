@@ -182,13 +182,10 @@ p h1 h2 h3 h4 h5 h6 span {
   display: block;
   width: 100px;
   height: 100px;
+  margin-bottom: 15px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: inherit;
-  background-color: #eeeeee;
-  border-style: solid;
-  border-width: 3px;
-  border-color: #000000;
 }
 
 .art-gallery-image {
@@ -563,6 +560,7 @@ p h1 h2 h3 h4 h5 h6 span {
   display: block;
   width: 100px;
   height: 100px;
+  margin-bottom: 15px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: inherit;
@@ -1186,6 +1184,7 @@ p h1 h2 h3 h4 h5 h6 span {
   display: block;
   width: 100px;
   height: 100px;
+  margin-bottom: 15px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #eeeeee;
@@ -1348,6 +1347,7 @@ p h1 h2 h3 h4 h5 h6 span {
   display: block;
   width: 100px;
   height: 100px;
+  margin-bottom: 15px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: inherit;
