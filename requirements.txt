@@ -18,5 +18,5 @@ pytz==2020.1
 qrcode==6.1
 six==1.15.0
 soupsieve==2.0.1
-sqlparse==0.3.1
+sqlparse==0.4.4
 wavio==0.0.4
