@@ -1,7 +1,12 @@
 {% for field in form %}
   <div class="row">
     <div class="col-sm-2">
-      <h5 class="form-label">{{ field.label_tag }}</h5>
+      <h5 class="form-label">
+        {{ field.label_tag }}
+        {% if x.help_text %}
+          <span class="form-help" data-bs-toggle="tooltip" data-bs-placement="right" title="{{ x.help_text }}">&#9432;</span>
+        {% endif %}
+      </h5>
     </div>
     <div class="col-sm-10">
       {% if field.help_text %}

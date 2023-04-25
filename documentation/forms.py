@@ -34,9 +34,9 @@ class CustomModelMultipleChoiceField(forms.models.ModelMultipleChoiceField):
 class DocumentationAppProfileForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="""The title will appear in the header
-            It will also appear on search engine results pages (SERPs) and can \
-            impact search engine optimization (SEO)""",
+        help_text="""The title will appear in the header.
+It will also appear on search engine results pages (SERPs) and can 
+impact search engine optimization (SEO).""",
         max_length=128,
         required=False,
     )
@@ -46,10 +46,10 @@ class DocumentationAppProfileForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description
-            The description will be used by Search Engines and will impact SEO
-            Include key words used in the title
-            Keep it less than 155 characters""",
+        help_text="""Add a short description.
+The description will be used by Search Engines and will impact SEO.
+Include key words used in the title.
+Keep it less than 155 characters.""",
         max_length=155,
         required=False,
     )
@@ -60,31 +60,27 @@ class DocumentationAppProfileForm(forms.ModelForm):
             }
         ),
         label="Blurb",
-        help_text="Add a short blurb that will be displayed under the header",
+        help_text="Add a short blurb that will be displayed under the header.",
         max_length=65535,
         required=False,
     )
     logo = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="""The logo will appear on the landing page and list headers
-            The optimal image size is 250 pixels wide by 250 pixels high \
-            (1:1)""",
+        help_text="""The logo will appear on the landing page and list headers.
+The optimal image size is 250 pixels wide by 250 pixels high (1:1).""",
     )
     banner = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="""The banner is the background image for the landing page \
-            header
-            The optimal image size is 1800 pixels wide by 400 pixels high \
-            (9:2)""",
+        help_text="""The banner is the background image for the landing page header.
+The optimal image size is 1800 pixels wide by 400 pixels high (9:2).""",
     )
     bg_image = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
         label="Background Image",
-        help_text="The background image will appear on pages related to \
-            this app",
+        help_text="The background image will appear on pages related to this app.",
     )
     n = forms.IntegerField(
         max_value=1000,
@@ -156,11 +152,11 @@ class DocumentationAppProfileForm(forms.ModelForm):
             'litecoin_wallet',
         )
         help_texts = {
-            'links': "Add featured links that will appear on the landing page",
-            'show_title': """Check this option if you would like the title to \
-                appear on the landing page header""",
-            'show_desc': """Check this option if you would like the \
-                meta description to appear on the landing page""",
+            'links': "Add featured links that will appear on the landing page.",
+            'show_title': """Check this option if you would like the title to 
+appear on the landing page header.""",
+            'show_desc': """Check this option if you would like the 
+meta description to appear on the landing page.""",
         }
         labels = {
             'show_desc': "Show description",
@@ -190,18 +186,17 @@ class DocumentationPageSectionForm(forms.ModelForm):
 
     is_enabled = forms.BooleanField(
         label="Enabled",
-        help_text="""Choose this option if you want this section to appear\
-            on the landing page""",
+        help_text="""Choose this option if you want this section to appear
+on the landing page.""",
         required=False,
     )
     images = CustomModelMultipleChoiceField(
         queryset = Image.objects.all(),
         required=False,
-        help_text="Choose one or more Images to include in this Section",
+        help_text="Choose one or more Images to include in this Section.",
     )
     title = forms.CharField(
-        help_text="""The Section title will appear in the header of this \
-            Section""",
+        help_text="""The Section title will appear in the header of this Section.""",
         max_length=255,
     )
     text = forms.CharField(
@@ -210,7 +205,7 @@ class DocumentationPageSectionForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Enter the Section text here",
+        help_text="Enter the Section text here.",
         max_length=65535,
         required=False,
     )
@@ -221,7 +216,7 @@ class DocumentationPageSectionForm(forms.ModelForm):
             }
         ),
         label="Info",
-        help_text="Add highlighted information in this section",
+        help_text="Add highlighted information in this section.",
         max_length=65535,
         required=False,
     )
@@ -232,20 +227,20 @@ class DocumentationPageSectionForm(forms.ModelForm):
             }
         ),
         label="Alert",
-        help_text="Add a highlighted alert that will display in this section",
+        help_text="Add a highlighted alert that will display in this section.",
         max_length=65535,
         required=False,
     )
     order = forms.DecimalField(
-        help_text="""Choose the order in which the Section will appear on \
-            the landing page
-            Lower values will appear first""",
+        help_text="""Choose the order in which the Section will appear on 
+the landing page.
+Lower values will appear first.""",
         max_digits=8,
         initial=0,
     )
     hide_title = forms.BooleanField(
-        help_text ="""Choose this option if you do not want \
-            the title of this section to be displayed on the page""",
+        help_text ="""Choose this option if you do not want 
+the title of this section to be displayed on the page.""",
         required=False,
     )
     order.widget.attrs.update({'class': 'form-text-field'})
@@ -272,13 +267,13 @@ class DocumentationPageSectionForm(forms.ModelForm):
             'links',
         )
         help_texts = {
-            'sounds': """Choose one or more Sounds""",
-            'videos': """Choose one or more Videos""",
-            'code': """Choose one or more Code samples""",
-            'links': """Choose one or more Links""",
-            'members_only': """Choose this option if you would like to \
-                restrict the visibility of this section to members of \
-                the site""",
+            'sounds': """Choose one or more Sounds.""",
+            'videos': """Choose one or more Videos.""",
+            'code': """Choose one or more Code samples.""",
+            'links': """Choose one or more Links.""",
+            'members_only': """Choose this option if you would like to 
+restrict the visibility of this section to members of 
+the site.""",
         }
 
     def __init__(self, *args, **kwargs):
@@ -330,15 +325,14 @@ class ArticleForm(forms.ModelForm):
     image = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="Choose an image that represents the Article",
+        help_text="Choose an image that represents the Article.",
     )
     title = forms.CharField(
-        help_text="""The Article title will appear on the site and is used to \
-            create the permanent URL for the Article
-            It will also appear on search engine results pages (SERPs) and can \
-            impact search engine optimization (SEO)
-            The optimal format is 'Primary Keyword - Secondary Keyword | Brand \
-            Name'""",
+        help_text="""The Article title will appear on the site and is used to 
+create the permanent URL for the Article.
+It will also appear on search engine results pages (SERPs) and can 
+impact search engine optimization (SEO).
+The optimal format is 'Primary Keyword - Secondary Keyword | Brand Name'.""",
         max_length=128,
     )
     meta_description = forms.CharField(
@@ -347,10 +341,10 @@ class ArticleForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description of the Article
-            The description will be used by Search Engines and will impact SEO
-            Include key words used in the title
-            Keep it less than 155 characters""",
+        help_text="""Add a short description of the Article.
+The description will be used by Search Engines and will impact SEO.
+Include key words used in the title.
+Keep it less than 155 characters.""",
         max_length=155,
         required=False, 
     )
@@ -360,7 +354,7 @@ class ArticleForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Introduce the topic and context of the Article""",
+        help_text="""Introduce the topic and context of the Article.""",
         label="Introduction",
         max_length=65535,
         required=False,
@@ -371,8 +365,8 @@ class ArticleForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Restate any information, observations, evidence or other \
-            details and tie it all together""",
+        help_text="""Restate any information, observations, evidence or other 
+details and tie it all together.""",
         label="Conclusion",
         max_length=65535,
         required=False,
@@ -393,10 +387,9 @@ class ArticleForm(forms.ModelForm):
             'litecoin_wallet',
         )
         help_texts = {
-            'image': """Choose an image that represents the topic of the \
-                Article (optional)""",
-            'links': "Add one or more links (optional)",
-            'tags': "Add one or more tags (optional)",
+            'image': """Choose an image that represents the topic of the Article. (optional)""",
+            'links': "Add one or more links. (optional)",
+            'tags': "Add one or more tags. (optional)",
         }
 
     def __init__(self, *args, **kwargs):
@@ -428,12 +421,10 @@ class ArticleSectionForm(forms.ModelForm):
     images = CustomModelMultipleChoiceField(
         queryset = Image.objects.all(),
         required=False,
-        help_text="""Choose one or more images to include in this Section \
-        (optional)""",
+        help_text="""Choose one or more images to include in this Section. (optional)""",
     )
     title = forms.CharField(
-        help_text="""The Section title will appear as the heading of the \
-            Section in the Article""",
+        help_text="""The Section title will appear as the heading of the Section in the Article.""",
         max_length=255,
     )
     text = forms.CharField(
@@ -442,14 +433,13 @@ class ArticleSectionForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Enter the Article Section text here",
+        help_text="Enter the Article Section text here.",
         max_length=65535,
         required=False,
     )
     order = forms.DecimalField(
-        help_text="""Choose the order in which the Section will appear in the \
-            Articleation
-            Lower values will appear first""",
+        help_text="""Choose the order in which the Section will appear in the Article.
+Lower values will appear first.""",
         max_digits=8,
         initial=0,
     )
@@ -471,20 +461,14 @@ class ArticleSectionForm(forms.ModelForm):
             'links',
         )
         help_texts = {
-            'article': """Choose the Article in which this Section \
-                will appear""",
-            'hide_title': """Choose this option if you do not want \
-                the title of this section to be displayed on the Article page""",
-            'images': """Choose one or more Images that support your \
-                Article (optional)""",
-            'sounds': """Choose one or more Sounds that support your \
-                Article (optional)""",
-            'videos': """Choose one or more Videos that support your \
-                Article (optional)""",
-            'code': """Choose one or more Code samples that support your \
-                Article (optional)""",
-            'links': """Choose one or more Links that provide reference to \
-                your Article (optional)""",
+            'article': """Choose the Article in which this Section will appear.""",
+            'hide_title': """Choose this option if you do not want 
+the title of this section to be displayed on the Article page.""",
+            'images': """Choose one or more Images that support your Article. (optional)""",
+            'sounds': """Choose one or more Sounds that support your Article. (optional)""",
+            'videos': """Choose one or more Videos that support your Article. (optional)""",
+            'code': """Choose one or more Code samples that support your Article. (optional)""",
+            'links': """Choose one or more Links that provide reference to your Article. (optional)""",
         }
 
     def __init__(self, *args, **kwargs):
@@ -529,15 +513,14 @@ class SupportDocumentForm(forms.ModelForm):
     image = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="Choose an image that represents the Support Document",
+        help_text="Choose an image that represents the Support Document.",
     )
     title = forms.CharField(
-        help_text="""The title will appear on the site and is used to \
-            create the permanent URL for the Support Document page
-            It will also appear on search engine results pages and \
-            may impact search engine optimization
-            The optimal format is 'Primary Keyword - Secondary Keyword | Brand \
-            Name'""",
+        help_text="""The title will appear on the site and is used to 
+create the permanent URL for the Support Document page.
+It will also appear on search engine results pages and 
+may impact search engine optimization.
+The optimal format is 'Primary Keyword - Secondary Keyword | Brand Name'.""",
         max_length=128,
     )
     meta_description = forms.CharField(
@@ -546,10 +529,10 @@ class SupportDocumentForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description of the Support Document
-            The meta description is used by Search Engines
-            Include key words used in the title
-            Keep it less than 155 characters""",
+        help_text="""Add a short description of the Support Document.
+The meta description is used by Search Engines.
+Include key words used in the title.
+Keep it less than 155 characters.""",
         max_length=155,
         required=False, 
     )
@@ -559,7 +542,7 @@ class SupportDocumentForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Introduce the topic of the Support Document",
+        help_text="Introduce the topic of the Support Document.",
         label="Introduction",
         max_length=65535,
         required=False,
@@ -570,8 +553,8 @@ class SupportDocumentForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Restate the key points in your Information and anything \
-            supporting the validity and source.""",
+        help_text="""Restate the key points in your Information and anything 
+supporting the validity and source.""",
         label="Conclusion",
         max_length=65535,
         required=False,
@@ -592,12 +575,12 @@ class SupportDocumentForm(forms.ModelForm):
             'litecoin_wallet',
         )
         help_texts = {
-            'image': """Choose an image that represents the topic of the \
-                Support Document (optional)""",
-            'links': "Add one or more reference links (optional)",
-            'tags': "Add one or more tags (optional)",
-            'numbered': """Check this box if you would like the Sections of the \
-            Support Document to be displayed as a numbered list""",
+            'image': """Choose an image that represents the topic of the 
+Support Document. (optional)""",
+            'links': "Add one or more reference links. (optional)",
+            'tags': "Add one or more tags. (optional)",
+            'numbered': """Check this box if you would like the Sections of the 
+Support Document to be displayed as a numbered list.""",
         }
 
     def __init__(self, *args, **kwargs):
@@ -624,11 +607,11 @@ class SupportDocSectionForm(forms.ModelForm):
     images = CustomModelMultipleChoiceField(
         queryset = Image.objects.all(),
         required=False,
-        help_text="Choose one or more Images to include in this Section",
+        help_text="Choose one or more Images to include in this Section.",
     )
     title = forms.CharField(
-        help_text="""The Section title will appear as the header of the \
-            Section in the Document""",
+        help_text="""The Section title will appear as the header of the 
+Section in the Document.""",
         max_length=255,
     )
     text = forms.CharField(
@@ -637,7 +620,7 @@ class SupportDocSectionForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Enter the Section text here",
+        help_text="Enter the Section text here.",
         max_length=65535,
         required=False,
     )
@@ -647,7 +630,7 @@ class SupportDocSectionForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Provide a useful tip that will be helpful for this Section",
+        help_text="Provide a useful tip that will be helpful for this Section.",
         max_length=65535,
         required=False,
     )
@@ -657,14 +640,13 @@ class SupportDocSectionForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Warn your readers of any pitfalls related to this Section",
+        help_text="Warn your readers of any pitfalls related to this Section.",
         max_length=65535,
         required=False,
     )
     order = forms.DecimalField(
-        help_text="""Choose the order in which the Section will appear in the \
-            Support Document
-            Lower values will appear first""",
+        help_text="""Choose the order in which the Section will appear in the Support Document.
+Lower values will appear first.""",
         max_digits=8,
         initial=0,
     )
@@ -688,21 +670,21 @@ class SupportDocSectionForm(forms.ModelForm):
             'support_reference',
         )
         help_texts = {
-            'support_document': """Choose the Support Document in which this \
-                Section will appear""",
-            'support_reference': """Does this Section reference another Support \
+            'support_document': """Choose the Support Document in which this 
+                Section will appear.""",
+            'support_reference': """Does this Section reference another Support 
                 Document?
                 Add one here (optional)""",
-            'images': """Choose one or more Images that support your \
-                Information (optional)""",
-            'sounds': """Choose one or more Sounds that support your \
-                Information (optional)""",
-            'videos': """Choose one or more Videos that support your \
-                Information (optional)""",
-            'code': """Choose one or more Code samples that support your \
-                Information (optional)""",
-            'links': """Choose one or more Links that provide reference to your \
-                Information (optional)""",
+            'images': """Choose one or more Images that support your 
+                Information. (optional)""",
+            'sounds': """Choose one or more Sounds that support your 
+                Information. (optional)""",
+            'videos': """Choose one or more Videos that support your 
+                Information. (optional)""",
+            'code': """Choose one or more Code samples that support your 
+                Information. (optional)""",
+            'links': """Choose one or more Links that provide reference to your 
+                Information. (optional)""",
         }
 
     def __init__(self, *args, **kwargs):
@@ -746,15 +728,14 @@ class StoryForm(forms.ModelForm):
     image = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False,
-        help_text="Choose an image that represents the Story",
+        help_text="Choose an image that represents the Story.",
     )
     title = forms.CharField(
-        help_text="""The Story title will appear on the site and is used to \
-            create the permanent URL for the Story. \
-            It will also appear on search engine results pages (SERPs) and can \
-            impact search engine optimization (SEO). \
-            The optimal format is 'Primary Keyword - Secondary Keyword | Brand \
-            Name'.""",
+        help_text="""The Story title will appear on the site and is used to 
+create the permanent URL for the Story. 
+It will also appear on search engine results pages (SERPs) and can 
+impact search engine optimization (SEO). 
+The optimal format is 'Primary Keyword - Secondary Keyword | Brand Name'.""",
         max_length=128,
     )
     author = forms.CharField(
@@ -773,23 +754,23 @@ class StoryForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description of the Story. \
-            The description will be used by Search Engines and will impact SEO. \
-            Include key words used in the title.\
-            Keep it less than 155 characters.""",
+        help_text="""Add a short description of the Story. 
+The description will be used by Search Engines and will impact SEO. 
+Include key words used in the title.
+Keep it less than 155 characters.""",
         max_length=155,
         label="Meta Description",
     )
     editor = forms.CharField(
-        help_text="""Who edited this story?""",
+        help_text="""Who edited this story? (optional)""",
         max_length=128,
-        label="Editor(s) (optional)",
+        label="Editor(s)",
         required=False,
     )
     translator = forms.CharField(
-        help_text="""Who translated this story?""",
+        help_text="""Who translated this story? (optional)""",
         max_length=128,
-        label="Translator(s) (optional)",
+        label="Translator(s)",
         required=False,
     )
     intro = forms.CharField(
@@ -798,8 +779,8 @@ class StoryForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Introduce the topic and context of the Story""",
-        label="Foreword (optional)",
+        help_text="""Introduce the topic and context of the Story. (optional)""",
+        label="Foreword",
         max_length=65535,
         required=False,
     )
@@ -809,22 +790,22 @@ class StoryForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Restate any information, observations, evidence or other \
-            details and tie it all together""",
-        label="Afterword (optional)",
+        help_text="""Restate any information, observations, evidence or other 
+details and tie it all together. (optional)""",
+        label="Afterword",
         max_length=65535,
         required=False,
     )
     original_publisher = forms.CharField(
-        help_text="""Who originally published this story?""",
+        help_text="""Who originally published this story? (optional)""",
         max_length=128,
-        label="Orignal Publisher (optional)",
+        label="Orignal Publisher",
         required=False,
     )
     original_publication_year = forms.DecimalField(
         help_text="Which year was this Story originally published? (optional)",
         max_digits=4,
-        label="Original Year of Publication (optional)",
+        label="Original Year of Publication",
         required=False,
     )
     title.widget.attrs.update({'class': 'form-text-field'})
@@ -854,10 +835,9 @@ class StoryForm(forms.ModelForm):
             'litecoin_wallet',
         )
         help_texts = {
-            'image': """Choose an image that represents the topic of the \
-                Story (optional)""",
-            'links': "Add one or more links (optional)",
-            'tags': "Add one or more tags (optional)",
+            'image': """Choose an image that represents the topic of the Story. (optional)""",
+            'links': "Add one or more links. (optional)",
+            'tags': "Add one or more tags. (optional)",
         }
 
     def __init__(self, *args, **kwargs):
@@ -884,12 +864,11 @@ class StorySectionForm(forms.ModelForm):
     images = CustomModelMultipleChoiceField(
         queryset = Image.objects.all(),
         required=False,
-        help_text="""Choose one or more images to include in this Section \
-        (optional)""",
+        help_text="""Choose one or more images to include in this Section. (optional)""",
     )
     title = forms.CharField(
-        help_text="""The Section title will appear as the heading of the \
-            Section in the Story""",
+        help_text="""The Section title will appear as the heading of the 
+Section in the Story.""",
         max_length=255,
     )
     text = forms.CharField(
@@ -898,20 +877,19 @@ class StorySectionForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Enter the Section text here",
+        help_text="Enter the Section text here.",
         max_length=65535,
         required=False,
     )
     order = forms.DecimalField(
-        help_text="""Choose the order in which the Section will appear in the \
-            Story
-            Lower values will appear first""",
+        help_text="""Choose the order in which the Section will appear in the Story.
+Lower values will appear first.""",
         max_digits=8,
         initial=0,
     )
     hide_title = forms.BooleanField(
-        help_text =  """Choose this option if you do not want \
-            the title of this section to be displayed on the Story page""",
+        help_text =  """Choose this option if you do not want 
+the title of this section to be displayed on the Story page.""",
         required=False,
     )    
     order.widget.attrs.update({'class': 'form-text-field'})
@@ -928,12 +906,11 @@ class StorySectionForm(forms.ModelForm):
             'images',
         )
         help_texts = {
-            'story': """Choose the Story in which this Section \
-                will appear""",
-            'hide_title': """Choose this option if you do not want \
-                the title of this section to be displayed on the Story page""",
-            'images': """Choose one or more Images that complement \
-                this section of the story (optional)""",
+            'story': """Choose the Story in which this Section will appear.""",
+            'hide_title': """Choose this option if you do not want
+the title of this section to be displayed on the Story page.""",
+            'images': """Choose one or more Images that complement 
+this section of the story. (optional)""",
         }
 
     def __init__(self, *args, **kwargs):

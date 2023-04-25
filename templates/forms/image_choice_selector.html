@@ -1,8 +1,12 @@
 {% if x.field.choices.queryset.count > 0 %}
   <div class="col-md form-field">
-    <h5 class="form-label">{{ x.label }}</h5>
-    <p>{{ x.help_text }}</p>
-    <p>{{ x.errors }}{{ form.instance. }}</p>
+    <h5 class="form-label">
+      {{ x.label }}
+      {% if x.help_text %}
+        <span class="form-help" data-bs-toggle="tooltip" data-bs-placement="right" title="{{ x.help_text }}">&#9432;</span>
+      {% endif %}
+    </h5>
+    <p>{{ x.errors }}{{ form.instance }}</p>
     <!-- Null choice -->
     <div class="form-image-selection">
       <div class="form-image-card float-start">

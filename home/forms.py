@@ -119,8 +119,8 @@ class SiteProfileForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a notice that will appear in the footer \
-            on every page.""",
+        help_text="""Add a notice that will appear in the footer 
+on every page.""",
         max_length=155,
         label="Legal Notice",
         required=False,
@@ -131,8 +131,8 @@ class SiteProfileForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Set a contact email that will appear in the footer \
-            on every page.""",
+        help_text="""Set a contact email that will appear in the footer 
+on every page.""",
         max_length=64,
         label = "Admin Contact Email",
         required=False,
@@ -143,13 +143,13 @@ class SiteProfileForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Set an alternate css file. Enter a relative path \
-            starting with a '/'. Leaving this field blank will use the \
-            default Lookaway CSS. There path you provide is not validated. \
-            If the provided path is unavailable, most browsers will fail \
-            silently and may result in no styling at all. This setting can \
-            also be changed in the Django admin panel.
-            Example: '/static/my_style.css'.""",
+        help_text="""Set an alternate css file. Enter a relative path 
+starting with a '/'. Leaving this field blank will use the 
+default Lookaway CSS. There path you provide is not validated. 
+If the provided path is unavailable, most browsers will fail 
+silently and may result in no styling at all. This setting can 
+also be changed in the Django admin panel.
+Example: '/static/my_style.css'.""",
         max_length=64,
         label = "Alternative CSS",
         required=False,
@@ -218,9 +218,9 @@ class HomeAppProfileForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""The title will appear in the header. \
-            It will also appear on search engine results pages (SERPs) and can \
-            impact search engine optimization (SEO).""",
+        help_text="""The title will appear in the header. 
+It will also appear on search engine results pages (SERPs) and can 
+impact search engine optimization (SEO).""",
         max_length=128,
         required=False,
     )
@@ -230,10 +230,10 @@ class HomeAppProfileForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description of the website. \
-            The description will be used by Search Engines and will impact SEO. \
-            Include key words used on your page. \
-            Keep it less than 155 characters.""",
+        help_text="""Add a short description of the website. 
+The description will be used by Search Engines and will impact SEO. 
+Include key words used on your page. 
+Keep it less than 155 characters.""",
         max_length=155,
         required=False,
     )
@@ -246,10 +246,8 @@ class HomeAppProfileForm(forms.ModelForm):
     banner = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="""The banner is the background image for the home page \
-            header. \
-            The optimal image size is 1800 pixels wide by 400 pixels high \
-            (9:2).""",
+        help_text="""The banner is the background image for the home page 
+header. The optimal image size is 1800 pixels wide by 400 pixels high (9:2).""",
     )
     bg_image = CustomModelChoiceField(
         queryset=Image.objects.all(),
@@ -500,8 +498,8 @@ class HomePageSectionForm(forms.ModelForm):
 
     is_enabled = forms.BooleanField(
         label="Enabled",
-        help_text="""Choose this option if you want this section to appear\
-            on the home page.""",
+        help_text="""Choose this option if you want this section to appear
+on the home page.""",
         required=False,
     )
     images = CustomModelMultipleChoiceField(
@@ -515,8 +513,8 @@ class HomePageSectionForm(forms.ModelForm):
         help_text="Choose one or featured visuals in this section.",
     )
     title = forms.CharField(
-        help_text="""The section title will appear in the header of this \
-            section.""",
+        help_text="""The section title will appear in the header of this 
+section.""",
         max_length=255,
     )
     text = forms.CharField(
@@ -552,14 +550,14 @@ class HomePageSectionForm(forms.ModelForm):
         required=False,
     )
     order = forms.DecimalField(
-        help_text="""Choose the order in which the section will appear on \
-            the home page. \
-            Lower values will appear first.""",
+        help_text="""Choose the order in which the section will appear on 
+the home page. 
+Lower values will appear first.""",
         max_digits=8,
     )
     hide_title = forms.BooleanField(
-        help_text ="""Choose this option if you do not want \
-            the title of this section to be displayed on the page.""",
+        help_text ="""Choose this option if you do not want 
+the title of this section to be displayed on the page.""",
         required=False,
     )
     order.widget.attrs.update({'class': 'form-text-field'})
@@ -604,9 +602,9 @@ class HomePageSectionForm(forms.ModelForm):
             'videos': """Choose one or more videos.""",
             'code': """Choose one or more code samples.""",
             'links': """Choose one or more links.""",
-            'members_only': """Choose this option if you would like to \
-                restrict the visibility of this section to members of \
-                the site.""",
+            'members_only': """Choose this option if you would like to 
+restrict the visibility of this section to members of 
+the site.""",
         }
 
     def __init__(self, *args, **kwargs):
