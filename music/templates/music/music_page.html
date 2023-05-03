@@ -4,7 +4,7 @@
 <div class="container-fluid">
   <!-- Heading -->
   {% include './music_page_header.html' %}
-  {% if sections or new_tracks or new_albums or profile.links or top_tracks or top_albums or profile.bitcoin_wallet or profile.litecoin_wallet %}
+  {% if sections or new_tracks or new_albums or profile.links.count.all > 0 or top_tracks or top_albums or profile.bitcoin_wallet or profile.litecoin_wallet %}
     <div class="row">
       {% if sections %}
         <div class="col-sm">

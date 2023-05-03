@@ -7,7 +7,7 @@
 {% block title_block %}
   <h3 class="brand-title members-page-span members-alert">{{ profile.member }}</h3><br>
 {% endblock %}
-{% block desc_block %}
+{% block member_block %}
   <p class="members-page-span members-alert">
     Member since <span class="index-heading-span">{{ member.date_joined|date:"M d, Y" }}</span><br>
     {% if member.check_is_new %}
@@ -34,6 +34,8 @@
       <span class="badge bg-light text-dark">Founder</span>
     {% endif %}
   </p>
+{% endblock %}
+{% block desc_block %}
   {% if meta_desc and profile.show_desc %}
     <br><p class="members-page-span members-alert"><i>{{ meta_desc }}</i></p>
   {% endif %}

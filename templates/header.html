@@ -7,6 +7,7 @@
     {% endif %}
     <div class="col-md">
       {% if meta_title and profile.show_title %}{% block title_block %}{% endblock %}{% endif %}
+      {% if member %}{% block member_block %}{% endblock %}{% endif %}
       {% if meta_desc and profile.show_desc %}{% block desc_block %}{% endblock %}{% endif %}
       {% block nav_block %}{% endblock %}
     </div>

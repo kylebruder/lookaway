@@ -4,7 +4,7 @@
 <div class="container-fluid">
   <!-- Heading -->
   {% include './members_page_header.html' %}
-  {% if sections or members or contributors or profile.links or profile.bitcoin_wallet or profile.litecoin_wallet %}
+  {% if sections or members or contributors or profile.links.count.all > 0 or profile.bitcoin_wallet or profile.litecoin_wallet %}
     <div class="row">
       {% if sections %}
         <div class="col-sm">
