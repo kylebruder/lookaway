@@ -39,10 +39,10 @@ class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(
         label="Login Name",
         max_length=32,
-        help_text="""Use only lower case letters in your Member Login \
-            Name. Your Member Login name is used to create a permanent URL for \
-            your Profile page and is also used to credit \
-            your contributions unless you choose a display name or provide \
+        help_text="""Use only lower case letters in your Member Login 
+            Name. Your Member Login name is used to create a permanent URL for 
+            your Profile page and is also used to credit 
+            your contributions unless you choose a display name or provide 
             a first and last name.""",
     )
     password1 = forms.CharField(
@@ -55,33 +55,33 @@ class UserRegistrationForm(UserCreationForm):
         )
     first_name = forms.CharField(
         label="First Name (optional)",
-        help_text="""You may use your real name or an alias or completely fake \
+        help_text="""You may use your real name or an alias or completely fake 
             name.""",
         required=False,
     )
     last_name = forms.CharField(
         label="Last Name (optional)",
-        help_text="""If you provide a first AND last name, they will be used  \
-            to credit your contributions unless you choose a display name for \
+        help_text="""If you provide a first AND last name, they will be used  
+            to credit your contributions unless you choose a display name for 
             your Profile after creating your Member account.""",
         required=False,
     )
     email = forms.CharField(
         widget=forms.EmailInput(),
         label="Recovery Email (optional)",
-        help_text="""If you provide an email contact, your email address will \
-            only be used to recover your password in the event you no longer \
-            know you password. IMPORTANT! If you do not provide an valid \
-            email address, you will be unable to use the Password Recovery \
-            Service. We do not confirm whether or not your recovery email \
-            address is valid so be sure you have can access the email address \
-            you provide. The recovery email can be changed any time as long \
+        help_text="""If you provide an email contact, your email address will 
+            only be used to recover your password in the event you no longer 
+            know you password. IMPORTANT! If you do not provide an valid 
+            email address, you will be unable to use the Password Recovery 
+            Service. We do not confirm whether or not your recovery email 
+            address is valid so be sure you have can access the email address 
+            you provide. The recovery email can be changed any time as long 
             as you are authenticated to the site.""",
         required=False,
     )
     accept_terms = forms.BooleanField(
         label="Member Agreement",
-        help_text="""Check this box if you have read the Member Agreement and \
+        help_text="""Check this box if you have read the Member Agreement and 
             accept the terms.""",
         required=True,
     )
@@ -165,7 +165,7 @@ class MembersPageSectionForm(forms.ModelForm):
 
     is_enabled = forms.BooleanField(
         label="Enabled",
-        help_text="""Choose this option if you want this section to appear\
+        help_text="""Choose this option if you want this section to appear
             on the landing page""",
         required=False,
     )
@@ -175,7 +175,7 @@ class MembersPageSectionForm(forms.ModelForm):
         help_text="Choose one or more Images to include in this Section",
     )
     title = forms.CharField(
-        help_text="""The section title will appear in the header of this \
+        help_text="""The section title will appear in the header of this 
             Section""",
         max_length=255,
     )
@@ -212,14 +212,14 @@ class MembersPageSectionForm(forms.ModelForm):
         required=False,
     )
     order = forms.DecimalField(
-        help_text="""Choose the order in which the section will appear on \
+        help_text="""Choose the order in which the section will appear on 
             the landing page
             Lower values will appear first""",
         max_digits=8,
         initial=0,
     )
     hide_title = forms.BooleanField(
-        help_text ="""Choose this option if you do not want \
+        help_text ="""Choose this option if you do not want 
             the title of this section to be displayed on the page""",
         required=False,
     )
@@ -245,14 +245,13 @@ class MembersPageSectionForm(forms.ModelForm):
             'members',
         )
         help_texts = {
-            'sounds': """Choose one or more sounds""",
-            'videos': """Choose one or more videos""",
-            'code': """Choose one or more code samples""",
-            'links': """Choose one or more links""",
-            'members': """Choose one or more members to feature""",
-            'members_only': """Choose this option if you would like to \
-                restrict the visibility of this section to members of \
-                the site""",
+            'sounds': """Choose one or more sounds.""",
+            'videos': """Choose one or more videos.""",
+            'code': """Choose one or more code samples.""",
+            'links': """Choose one or more links.""",
+            'members': """Choose one or more members to feature.""",
+            'members_only': """Choose this option if you would like to 
+restrict the visibility of this section to members of the site.""",
         }
 
     def __init__(self, *args, **kwargs):
@@ -290,7 +289,7 @@ class MembersAppProfileForm(forms.ModelForm):
 
     title = forms.CharField(
         help_text="""The title will appear in the header
-            It will also appear on search engine results pages (SERPs) and can \
+            It will also appear on search engine results pages (SERPs) and can 
             impact search engine optimization (SEO)""",
         max_length=128,
         required=False,
@@ -323,22 +322,22 @@ class MembersAppProfileForm(forms.ModelForm):
         queryset=Image.objects.all(),
         required=False, 
         help_text="""The logo will appear on the landing page and list headers
-            The optimal image size is 250 pixels wide by 250 pixels high \
+            The optimal image size is 250 pixels wide by 250 pixels high 
             (1:1)""",
     )
     banner = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="""The banner is the background image for the landing page \
+        help_text="""The banner is the background image for the landing page 
             header
-            The optimal image size is 1800 pixels wide by 400 pixels high \
+            The optimal image size is 1800 pixels wide by 400 pixels high 
             (9:2)""",
     )
     bg_image = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
         label="Background Image",
-        help_text="The background image will appear on pages related to \
+        help_text="The background image will appear on pages related to 
             this app",
     )
     n_members = forms.IntegerField(
@@ -413,11 +412,11 @@ class MembersAppProfileForm(forms.ModelForm):
             'litecoin_wallet',
         )
         help_texts = {
-            'links': "Add featured links that will appear on the landing page",
-            'show_title': """Check this option if you would like the title to \
-                appear on the landing page header""",
-            'show_desc': """Check this option if you would like the \
-                meta description to appear on the landing page""",
+            'links': "Add featured links that will appear on the landing page.",
+            'show_title': """Check this option if you would like the title to 
+appear on the landing page header.""",
+            'show_desc': """Check this option if you would like the 
+meta description to appear on the landing page.""",
         }
         labels = {
             'show_desc': "Show description",
@@ -450,9 +449,9 @@ class ProfileForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description of your profile page \
-            The description will be used by Search Engines and will impact SEO \
-            Include key words used on your page \
+        help_text="""Add a short description of your profile page 
+            The description will be used by Search Engines and will impact SEO 
+            Include key words used on your page 
             Keep it less than 155 characters""",
         max_length=155,
         required=False,
@@ -466,21 +465,21 @@ class ProfileForm(forms.ModelForm):
     banner = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="""The banner is the background image for your profile page \
+        help_text="""The banner is the background image for your profile page 
             header
-            The optimal image size is 1800 pixels wide by 400 pixels high \
+            The optimal image size is 1800 pixels wide by 400 pixels high 
             (9:2)""",
     )
     bg_image = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
         label="Background Image",
-        help_text="The background image will appear on your profile page \
+        help_text="The background image will appear on your profile page 
             and lists of your contributions",
     )
     display_name = forms.CharField(
         max_length=64,
-        help_text="""Your display name is shown on your profile page and is \
+        help_text="""Your display name is shown on your profile page and is 
             used to credit your contributions.""",
         required=False,
         label="Display Name (optional)",
@@ -513,9 +512,9 @@ class ProfileForm(forms.ModelForm):
             'show_email',
         )
         help_texts = {
-            'show_email': """Choose this option if you have already provided \
-                an email address and you would like your email address \
-                to appear on your profile page""",
+            'show_email': """Choose this option if you have already provided 
+an email address and you would like your email address 
+to appear on your profile page.""",
         }
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
@@ -835,7 +834,7 @@ class MemberProfileSectionForm(forms.ModelForm):
 
     is_enabled = forms.BooleanField(
         label="Enabled",
-        help_text="""Choose this option if you want this section to appear\
+        help_text="""Choose this option if you want this section to appear
             on your profile page""",
         required=False,
     )
@@ -850,7 +849,7 @@ class MemberProfileSectionForm(forms.ModelForm):
         help_text="Choose one or more visuals to feature in this Section",
     )
     title = forms.CharField(
-        help_text="""The section title will appear in the header of this \
+        help_text="""The section title will appear in the header of this 
             Section""",
         max_length=255,
     )
@@ -887,14 +886,14 @@ class MemberProfileSectionForm(forms.ModelForm):
         required=False,
     )
     order = forms.DecimalField(
-        help_text="""Choose the order in which the section will appear on \
+        help_text="""Choose the order in which the section will appear on 
             your profile page
             Lower values will appear first""",
         max_digits=8,
         initial=0,
     )
     hide_title = forms.BooleanField(
-        help_text ="""Choose this option if you do not want \
+        help_text ="""Choose this option if you do not want 
             the title of this section to be displayed on the page""",
         required=False,
     )
@@ -928,22 +927,22 @@ class MemberProfileSectionForm(forms.ModelForm):
             'albums',
         )
         help_texts = {
-            'posts': """Choose one or more featured posts""",
-            'responses': """Choose one or more featured responses""",
-            'articles': """Choose one or more featured articles""",
-            'stories': """Choose one or more featured stories""",
-            'documents': """Choose one or more featured documents""",
-            'visuals': """Choose one or more featured visuals""",
-            'galleries': """Choose one or more featured galleries""",
-            'tracks': """Choose one or more featured tracks""",
-            'albums': """Choose one or more featured albums""",
-            'sounds': """Choose one or more sounds""",
-            'videos': """Choose one or more videos""",
-            'code': """Choose one or more Code samples""",
-            'links': """Choose one or more links""",
-            'members_only': """Choose this option if you would like to \
-                restrict the visibility of this section to members of \
-                the site""",
+            'posts': """Choose one or more featured posts.""",
+            'responses': """Choose one or more featured responses.""",
+            'articles': """Choose one or more featured articles.""",
+            'stories': """Choose one or more featured stories.""",
+            'documents': """Choose one or more featured documents.""",
+            'visuals': """Choose one or more featured visuals.""",
+            'galleries': """Choose one or more featured galleries.""",
+            'tracks': """Choose one or more featured tracks.""",
+            'albums': """Choose one or more featured albums.""",
+            'sounds': """Choose one or more sounds.""",
+            'videos': """Choose one or more videos.""",
+            'code': """Choose one or more Code samples.""",
+            'links': """Choose one or more links.""",
+            'members_only': """Choose this option if you would like to 
+restrict the visibility of this section to members of 
+the site.""",
         }
 
     def __init__(self, *args, **kwargs):

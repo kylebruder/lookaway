@@ -33,7 +33,7 @@ class MusicAppProfileForm(forms.ModelForm):
 
     title = forms.CharField(
         help_text="""The title will appear in the header
-            It will also appear on search engine results pages (SERPs) and can \
+            It will also appear on search engine results pages (SERPs) and can 
             impact search engine optimization (SEO)""",
         max_length=128,
         required=False,
@@ -66,22 +66,22 @@ class MusicAppProfileForm(forms.ModelForm):
         queryset=Image.objects.all(),
         required=False, 
         help_text="""The logo will appear on the landing page and list headers
-            The optimal image size is 250 pixels wide by 250 pixels high \
+            The optimal image size is 250 pixels wide by 250 pixels high 
             (1:1)""",
     )
     banner = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="""The banner is the background image for the landing page \
+        help_text="""The banner is the background image for the landing page 
             header
-            The optimal image size is 1800 pixels wide by 400 pixels high \
+            The optimal image size is 1800 pixels wide by 400 pixels high 
             (9:2)""",
     )
     bg_image = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
         label="Background Image",
-        help_text="The background image will appear on pages related to \
+        help_text="The background image will appear on pages related to 
             this app",
     )
     n_tracks = forms.IntegerField(
@@ -166,11 +166,11 @@ class MusicAppProfileForm(forms.ModelForm):
             'litecoin_wallet',
         )
         help_texts = {
-            'links': "Add featured links that will appear on the landing page",
-            'show_title': """Check this option if you would like the title to \
-                appear on the landing page header""",
-            'show_desc': """Check this option if you would like the \
-                meta description to appear on the landing page""",
+            'links': "Add featured links that will appear on the landing page.",
+            'show_title': """Check this option if you would like the title to 
+appear on the landing page header.""",
+            'show_desc': """Check this option if you would like the 
+meta description to appear on the landing page.""",
         }
         labels = {
             'show_desc': "Show description",
@@ -199,7 +199,7 @@ class MusicPageSectionForm(forms.ModelForm):
 
     is_enabled = forms.BooleanField(
         label="Enabled",
-        help_text="""Choose this option if you want this section to appear\
+        help_text="""Choose this option if you want this section to appear
             on the landing page""",
         required=False,
     )
@@ -209,7 +209,7 @@ class MusicPageSectionForm(forms.ModelForm):
         help_text="Choose one or more Images to include in this Section",
     )
     title = forms.CharField(
-        help_text="""The section title will appear in the header of this \
+        help_text="""The section title will appear in the header of this 
             Section""",
         max_length=255,
     )
@@ -246,14 +246,14 @@ class MusicPageSectionForm(forms.ModelForm):
         required=False,
     )
     order = forms.DecimalField(
-        help_text="""Choose the order in which the section will appear on \
+        help_text="""Choose the order in which the section will appear on 
             the landing page
             Lower values will appear first""",
         max_digits=8,
         initial=0,
     )
     hide_title = forms.BooleanField(
-        help_text ="""Choose this option if you do not want \
+        help_text ="""Choose this option if you do not want 
             the title of this section to be displayed on the page""",
         required=False,
     )
@@ -280,13 +280,13 @@ class MusicPageSectionForm(forms.ModelForm):
             'links',
         )
         help_texts = {
-            'sounds': """Choose one or more Sounds""",
-            'videos': """Choose one or more Videos""",
-            'code': """Choose one or more Code samples""",
-            'links': """Choose one or more Links""",
-            'members_only': """Choose this option if you would like to \
-                restrict the visibility of this section to members of \
-                the site""",
+            'sounds': """Choose one or more Sounds.""",
+            'videos': """Choose one or more Videos.""",
+            'code': """Choose one or more Code samples.""",
+            'links': """Choose one or more Links.""",
+            'members_only': """Choose this option if you would like to 
+restrict the visibility of this section to members of 
+the site.""",
         }
 
     def __init__(self, *args, **kwargs):
@@ -337,11 +337,11 @@ class AlbumForm(forms.ModelForm):
         label="Cover Image",
     )
     title = forms.CharField(
-        help_text="""The Album title will appear on the site and is used to \
+        help_text="""The Album title will appear on the site and is used to 
             create the permanent URL for the Album  
-            It will also appear on search engine results pages (SERPs) and \
+            It will also appear on search engine results pages (SERPs) and 
             can impact search engine optimization (SEO)
-            The optimal format is 'Primary Keyword - Secondary Keyword | \
+            The optimal format is 'Primary Keyword - Secondary Keyword | 
             Brand Name'""",
         max_length=128,
     )
@@ -352,7 +352,7 @@ class AlbumForm(forms.ModelForm):
             }
         ),
         help_text="""Add a short description of the Album 
-            The description will be used by Search Engines and will impact \
+            The description will be used by Search Engines and will impact 
             SEO
             Include key words used in the title
             Keep it less than 155 characters""",
@@ -409,13 +409,11 @@ class AlbumForm(forms.ModelForm):
             'tags',
         )
         help_texts = {
-            'cover': """Choose an image to represent the Album cover
-                For best results use an image with a 1:1 aspect ratio \
-                (optional)""",
-            'links': """Add one or more links related the this Album
-                Example: label website/band website/purchase options \
-                (optional)""",
-            'tags': "Add one or more tags",
+            'cover': """Choose an image to represent the Album cover.
+For best results use an image with a 1:1 aspect ratio. (optional)""",
+            'links': """Add one or more links related the this Album.
+Example: label website/band website/purchase options. (optional)""",
+            'tags': "Add one or more tags.",
         }
 
     def __init__(self, *args, **kwargs):
@@ -440,11 +438,11 @@ class TrackForm(forms.ModelForm):
         required=False,
     )
     title = forms.CharField(
-        help_text="""The Track title will appear on the site and is used to \
+        help_text="""The Track title will appear on the site and is used to 
             create the permanent URL for the Track
-            It will also appear on search engine results pages (SERPs) and can \
+            It will also appear on search engine results pages (SERPs) and can 
             impact search engine optimization (SEO)
-            The optimal format is 'Primary Keyword - Secondary Keyword | Brand \
+            The optimal format is 'Primary Keyword - Secondary Keyword | Brand 
             Name'""",
         max_length=128,
     )
@@ -472,7 +470,7 @@ class TrackForm(forms.ModelForm):
         required=False,
     )
     order = forms.DecimalField(
-        help_text="""Choose the order in which the Track will appear in Track \
+        help_text="""Choose the order in which the Track will appear in Track 
             lists on Albums
             Lower order values will appear first""",
         max_digits=8,
@@ -525,15 +523,13 @@ class TrackForm(forms.ModelForm):
             'litecoin_wallet',
         )
         help_texts = {
-            'cover': """Choose an image to represent the Album cover
-                For best results use an image with a 1:1 aspect ratio \
-                (optional)""",
-            'sound': "Select the Sound file for the Track",
-            'video': "Add a music video for the Track (optional)",
-            'links': """Add one or more links related the this Album
-                Example: label website/band website/purchase options \
-                (optional)""",
-            'tags': "Add one or more tags (optional)",
+            'cover': """Choose an image to represent the Album cover.
+For best results use an image with a 1:1 aspect ratio. (optional)""",
+            'sound': "Select the Sound file for the Track.",
+            'video': "Add a music video for the Track. (optional)",
+            'links': """Add one or more links related the this Album.
+Example: label website/band website/purchase options. (optional)""",
+            'tags': "Add one or more tags. (optional)",
         }
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')

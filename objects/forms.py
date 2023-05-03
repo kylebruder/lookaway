@@ -31,9 +31,9 @@ class CustomModelMultipleChoiceField(forms.models.ModelMultipleChoiceField):
 class ObjectsAppProfileForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="""The title will appear in the header
-            It will also appear on search engine results pages (SERPs) and can \
-            impact search engine optimization (SEO)""",
+        help_text="""The title will appear in the header.
+It will also appear on search engine results pages (SERPs) and can 
+impact search engine optimization (SEO).""",
         max_length=128,
         required=False,
     )
@@ -43,10 +43,10 @@ class ObjectsAppProfileForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description
-            The description will be used by Search Engines and will impact SEO
-            Include key words used in the title
-            Keep it less than 155 characters""",
+        help_text="""Add a short description.
+The description will be used by Search Engines and will impact SEO.
+Include key words used in the title.
+Keep it less than 155 characters.""",
         max_length=155,
         required=False,
     )
@@ -57,31 +57,27 @@ class ObjectsAppProfileForm(forms.ModelForm):
             }
         ),
         label="Blurb",
-        help_text="Add a short blurb that will be displayed under the header",
+        help_text="Add a short blurb that will be displayed under the header.",
         max_length=65535,
         required=False,
     )
     logo = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="""The logo will appear on the landing page and list headers
-            The optimal image size is 250 pixels wide by 250 pixels high \
-            (1:1)""",
+        help_text="""The logo will appear on the landing page and list headers.
+The optimal image size is 250 pixels wide by 250 pixels high (1:1).""",
     )
     banner = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="""The banner is the background image for the landing page \
-            header
-            The optimal image size is 1800 pixels wide by 400 pixels high \
-            (9:2)""",
+        help_text="""The banner is the background image for the landing page header.
+The optimal image size is 1800 pixels wide by 400 pixels high (9:2).""",
     )
     bg_image = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
         label="Background Image",
-        help_text="The background image will appear on pages related to \
-            this app",
+        help_text="The background image will appear on pages related to this app.",
     )
     n_images = forms.IntegerField(
         max_value=1000,
@@ -236,11 +232,11 @@ class ObjectsAppProfileForm(forms.ModelForm):
             'litecoin_wallet',
         )
         help_texts = {
-            'links': "Add featured links that will appear on the landing page",
-            'show_title': """Check this option if you would like the title to \
-                appear on the landing page header""",
-            'show_desc': """Check this option if you would like the \
-                meta description to appear on the landing page""",
+            'links': "Add featured links that will appear on the landing page.",
+            'show_title': """Check this option if you would like the title to 
+appear on the landing page header.""",
+            'show_desc': """Check this option if you would like the 
+meta description to appear on the landing page.""",
         }
         labels = {
             'show_desc': "Show description",
@@ -282,14 +278,14 @@ class ObjectsAppTranscoderSettingsForm(forms.ModelForm):
     ]
 
     ffmpeg_path = forms.CharField(
-        help_text="""Specify the path to the ffmpeg binary. \
-            You must have ffmpeg installed in order to transcode
-            sound and video files.""",
+        help_text="""Specify the path to the ffmpeg binary. 
+You must have ffmpeg installed in order to transcode
+sound and video files.""",
         max_length=128,
     )
     image_format = forms.CharField(
-        help_text="""Choose the format which will be used to \
-            transcode uploaded image files.""",
+        help_text="""Choose the format which will be used to 
+transcode uploaded image files.""",
         max_length=128,
         widget=forms.Select(
             choices=IMAGE_FORMAT_CHOICES,
@@ -335,8 +331,8 @@ class ObjectsAppTranscoderSettingsForm(forms.ModelForm):
         ),
     )
     sound_format = forms.CharField(
-        help_text="""Choose the format which will be used to \
-            transcode uploaded sound files.""",
+        help_text="""Choose the format which will be used to 
+transcode uploaded sound files.""",
         max_length=128,
         widget=forms.Select(
             choices=SOUND_FORMAT_CHOICES,
@@ -346,8 +342,8 @@ class ObjectsAppTranscoderSettingsForm(forms.ModelForm):
         ),
     )
     video_format = forms.CharField(
-        help_text="""Choose the format which will be used to \
-            transcode uploaded video files.""",
+        help_text="""Choose the format which will be used to 
+transcode uploaded video files.""",
         max_length=128,
         widget=forms.Select(
             choices=VIDEO_FORMAT_CHOICES,
@@ -414,15 +410,15 @@ class ObjectsAppTranscoderSettingsForm(forms.ModelForm):
             'video_crf',
         )
         help_texts = {
-            'links': "Add featured links that will appear on the landing page",
-            'show_title': """Check this option if you would like the title to \
-                appear on the landing page header""",
-            'show_desc': """Check this option if you would like the \
-                meta description to appear on the landing page""",
-            'sound_crf': """Higher values mean more compression, \
-                but at some point you will notice quality degradation.""",
-            'video_crf': """Higher values mean more compression, \
-                but at some point you will notice quality degradation.""",
+            'links': "Add featured links that will appear on the landing page.",
+            'show_title': """Check this option if you would like the title to 
+appear on the landing page heade.r""",
+            'show_desc': """Check this option if you would like the 
+meta description to appear on the landing page.""",
+            'sound_crf': """Higher values mean more compression, 
+but at some point you will notice quality degradation.""",
+            'video_crf': """Higher values mean more compression, 
+but at some point you will notice quality degradation.""",
             'sound_bitrate': """Number of kilobytes per second.""",
             'video_bitrate': """Number of kilobytes per second."""
         },
@@ -434,18 +430,17 @@ class ObjectsPageSectionForm(forms.ModelForm):
 
     is_enabled = forms.BooleanField(
         label="Enabled",
-        help_text="""Choose this option if you want this section to appear\
-            on the landing page""",
+        help_text="""Choose this option if you want this section to appear
+on the landing page.""",
         required=False,
     )
     images = CustomModelMultipleChoiceField(
         queryset = Image.objects.all(),
         required=False,
-        help_text="Choose one or more Images to include in this Section",
+        help_text="Choose one or more Images to include in this Section.",
     )
     title = forms.CharField(
-        help_text="""The section title will appear in the header of this \
-            Section""",
+        help_text="""The section title will appear in the header of this Section.""",
         max_length=255,
     )
     text = forms.CharField(
@@ -454,7 +449,7 @@ class ObjectsPageSectionForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Enter the section text here",
+        help_text="Enter the section text here.",
         max_length=65535,
         required=False,
     )
@@ -465,7 +460,7 @@ class ObjectsPageSectionForm(forms.ModelForm):
             }
         ),
         label="Info",
-        help_text="Add highlighted information in this section",
+        help_text="Add highlighted information in this section.",
         max_length=65535,
         required=False,
     )
@@ -476,20 +471,20 @@ class ObjectsPageSectionForm(forms.ModelForm):
             }
         ),
         label="Alert",
-        help_text="Add a highlighted alert that will display in this section",
+        help_text="Add a highlighted alert that will display in this section.",
         max_length=65535,
         required=False,
     )
     order = forms.DecimalField(
-        help_text="""Choose the order in which the section will appear on \
-            the landing page
-            Lower values will appear first""",
+        help_text="""Choose the order in which the section will appear on 
+the landing page.
+Lower values will appear first.""",
         max_digits=8,
         initial=0,
     )
     hide_title = forms.BooleanField(
-        help_text ="""Choose this option if you do not want \
-            the title of this section to be displayed on the page""",
+        help_text ="""Choose this option if you do not want 
+the title of this section to be displayed on the page.""",
         required=False,
     )
     order.widget.attrs.update({'class': 'form-text-field'})
@@ -513,14 +508,13 @@ class ObjectsPageSectionForm(forms.ModelForm):
             'links',
         )
         help_texts = {
-            'sounds': """Choose one or more sounds""",
-            'videos': """Choose one or more videos""",
-            'code': """Choose one or more code samples""",
-            'links': """Choose one or more links""",
-            'members': """Choose one or more members to feature""",
-            'members_only': """Choose this option if you would like to \
-                restrict the visibility of this section to members of \
-                the site""",
+            'sounds': """Choose one or more sounds.""",
+            'videos': """Choose one or more videos.""",
+            'code': """Choose one or more code samples.""",
+            'links': """Choose one or more links.""",
+            'members': """Choose one or more members to feature.""",
+            'members_only': """Choose this option if you would like to 
+restrict the visibility of this section to members of the site.""",
         }
 
     def __init__(self, *args, **kwargs):
@@ -558,8 +552,8 @@ class ImageCreateForm(forms.ModelForm):
     # Remove comment lines to allow adding these fields on creation form.
     '''
     title = forms.CharField(
-        help_text="""Give the Image a memorable and unique title that will be \
-            easy to reference later""",
+        help_text="""Give the Image a memorable and unique title that will be 
+easy to reference later.""",
         max_length=64,
     )
     text = forms.CharField(
@@ -568,14 +562,13 @@ class ImageCreateForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""The Image text may appear on pages that include Images""",
+        help_text="""The Image text may appear on pages that include Images.""",
         max_length=1024,
         required=False,
     )
     credit = forms.CharField(
-        help_text="""Give credit to the original creator of the image file\
-            Obtain expressed permission before uploading images with exclusive \
-            rights""",
+        help_text="""Give credit to the original creator of the image file.
+Obtain expressed permission before uploading images with exclusive rights.""",
         max_length=256,
         required=False,
     )
@@ -597,17 +590,17 @@ class ImageCreateForm(forms.ModelForm):
             'image_file': ImagePreviewWidget
         }
         help_texts = {
-            'image_file': """Obtain permission before uploading depicitons of \
-                private persons or places
-                Image Preview will appear when successfully uploaded""",
-            'tags': "Choose one or more tags",
+            'image_file': """Obtain permission before uploading depicitons of 
+private persons or places.
+Image Preview will appear when successfully uploaded.""",
+            'tags': "Choose one or more tags.",
         }
 
 class ImageUpdateForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="""Give the Image a memorable and unique title that will be \
-            easy to reference later""",
+        help_text="""Give the Image a memorable and unique title that will be 
+easy to reference later.""",
         max_length=64,
     )
     text = forms.CharField(
@@ -616,21 +609,20 @@ class ImageUpdateForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""The Image text may appear on pages that include Images""",
+        help_text="""The Image text may appear on pages that include Images.""",
         max_length=1024,
         required=False,
     )
     order = forms.DecimalField(
-        help_text="""Choose the order in which the image will appear. \
-            Lower values will appear first""",
+        help_text="""Choose the order in which the image will appear. 
+Lower values will appear first.""",
         max_digits=8,
         initial=0,
     )
     credit = forms.CharField(
         max_length=256,
-        help_text="""Give credit to the original creator of the image file\
-            Obtain expressed permission before uploading images with exclusive \
-            rights""",
+        help_text="""Give credit to the original creator of the image file
+Obtain expressed permission before uploading images with exclusive rights.""",
         required=False,
     )
 
@@ -648,7 +640,7 @@ class ImageUpdateForm(forms.ModelForm):
             'tags',
         ]
         help_texts = {
-            'tags': "Choose one or more tags",
+            'tags': "Choose one or more tags.",
         }
 
 class SoundCreateForm(forms.ModelForm):
@@ -656,8 +648,8 @@ class SoundCreateForm(forms.ModelForm):
     # Remove comment lines to allow adding these fields on creation form.
     '''
     title = forms.CharField(
-        help_text="""Give the Sound a memorable and unique title that will be \
-            easy to reference later""",
+        help_text="""Give the Sound a memorable and unique title that will be 
+easy to reference later.""",
         max_length=64,
     )
     text = forms.CharField(
@@ -666,14 +658,13 @@ class SoundCreateForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="The text may appear on pages that include Images",
+        help_text="The text may appear on pages that include Images.",
         max_length=1024,
         required=False,
     )
     credit = forms.CharField(
-        help_text="""Give credit to the original creator of the Sound file
-            Obtain expressed permission before uploading sounds with exclusive \
-            rights""",
+        help_text="""Give credit to the original creator of the Sound file.
+Obtain expressed permission before uploading sounds with exclusive rights.""",
         max_length=256,
         required=False,
     )
@@ -694,17 +685,17 @@ class SoundCreateForm(forms.ModelForm):
             'sound_file': SoundPreviewWidget
         }
         help_texts = {
-            'sound_file': """Obtain permission before uploading depicitons of \
-                private persons or places
-                Sound Preview will appear when successfully uploaded""",
-            'tags': "Choose one or more tags",
+            'sound_file': """Obtain permission before uploading depicitons of 
+private persons or places.
+Sound Preview will appear when successfully uploaded.""",
+            'tags': "Choose one or more tags.",
         }
 
 class SoundUpdateForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="""Give the Sound a memorable and unique title that will be \
-            easy to reference later""",
+        help_text="""Give the Sound a memorable and unique title that will be 
+easy to reference later.""",
         max_length=64,
     )
     text = forms.CharField(
@@ -713,20 +704,20 @@ class SoundUpdateForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="The text may appear on pages that include Images",
+        help_text="The text may appear on pages that include Images.",
         max_length=1024,
         required=False,
     )
     order = forms.DecimalField(
-        help_text="""Choose the order in which the sound will appear. \
-            Lower values will appear first""",
+        help_text="""Choose the order in which the sound will appear. 
+Lower values will appear first.""",
         max_digits=8,
         initial=0,
     )
     credit = forms.CharField(
-        help_text="""Give credit to the original creator of the Sound file
-            Obtain expressed permission before uploading sounds with exclusive \
-            rights""",
+        help_text="""Give credit to the original creator of the Sound file.
+Obtain expressed permission before uploading sounds with exclusive 
+rights.""",
         max_length=256,
         required=False,
     )
@@ -745,7 +736,7 @@ class SoundUpdateForm(forms.ModelForm):
             'tags',
         ]
         help_texts = {
-            'tags': "Choose one or more tags",
+            'tags': "Choose one or more tags.",
         }
 
 class VideoCreateForm(forms.ModelForm):
@@ -753,8 +744,8 @@ class VideoCreateForm(forms.ModelForm):
     # Remove comment lines to allow adding these fields on creation form.
     '''
     title = forms.CharField(
-        help_text="""Give the Video memorable and unique title that will be easy \
-            to reference later""",
+        help_text="""Give the Video memorable and unique title that will be easy 
+to reference later.""",
         max_length=64,
     )
     text = forms.CharField(
@@ -763,14 +754,13 @@ class VideoCreateForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="The text may appear on pages that include Images",
+        help_text="The text may appear on pages that include Images.",
         max_length=1024,
         required=False,
     )
     credit = forms.CharField(
-        help_text="""Give credit to the original creator of the Video file
-            Obtain expressed permission before uploading videos with exclusive \
-            rights.""",
+        help_text="""Give credit to the original creator of the Video file.
+Obtain expressed permission before uploading videos with exclusive rights.""",
         max_length=256,
         required=False,
     )
@@ -792,17 +782,17 @@ class VideoCreateForm(forms.ModelForm):
         }
 
         help_texts = {
-            'video_file': """Obtain permission before uploading depicitons of \
-                private persons or places
-                Video Preview will appear when successfully uploaded""",
-            'tags': "Choose one or more tags",
+            'video_file': """Obtain permission before uploading depicitons of 
+private persons or places.
+Video Preview will appear when successfully uploaded.""",
+            'tags': "Choose one or more tags.",
         }
 
 class VideoUpdateForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="""Give the Video memorable and unique title that will be easy \
-            to reference later""",
+        help_text="""Give the Video memorable and unique title that will be easy 
+to reference later.""",
         max_length=64,
     )
     text = forms.CharField(
@@ -811,22 +801,21 @@ class VideoUpdateForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="The text may appear on pages that include Videos",
+        help_text="The text may appear on pages that include Videos.",
         max_length=1024,
         required=False,
     )
     credit = forms.CharField(
-        help_text="""Give credit to the original creator of the Video file
-            Obtain expressed permission before uploading videos with exclusive \
-            rights.""",
+        help_text="""Give credit to the original creator of the Video file.
+Obtain expressed permission before uploading videos with exclusive rights.""",
         max_length=256,
         required=False,
     )
 
     title.widget.attrs.update({'class': 'form-text-field'})
     order = forms.DecimalField(
-        help_text="""Choose the order in which the video will appear. \
-            Lower values will appear first""",
+        help_text="""Choose the order in which the video will appear. 
+Lower values will appear first.""",
         max_digits=8,
         initial=0,
     )
@@ -844,15 +833,15 @@ class VideoUpdateForm(forms.ModelForm):
             'tags',
         ]
         help_texts = {
-            'tags': "Choose one or more tags",
+            'tags': "Choose one or more tags.",
         }
 
 
 class CodeForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="""Give the Code sample a memorable and unique title that will \
-            be easy to reference later""",
+        help_text="""Give the Code sample a memorable and unique title that will 
+be easy to reference later.""",
         max_length=256,
     )
     text = forms.CharField(
@@ -861,14 +850,14 @@ class CodeForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Include comments with your Code (optional)",
+        help_text="Include comments with your Code. (optional)",
         label="Comments",
         max_length=1024,
         required=False,
     )
     order = forms.DecimalField(
-        help_text="""Choose the order in which the code will appear. \
-            Lower values will appear first""",
+        help_text="""Choose the order in which the code will appear. 
+Lower values will appear first.""",
         max_digits=8,
         initial=0,
     )
@@ -879,7 +868,7 @@ class CodeForm(forms.ModelForm):
                 'class': 'code-block form-text-field',
             }
         ),
-        help_text="Enter the code here",
+        help_text="Enter the code here.",
         max_length=65535,
     )
     language= forms.CharField(
@@ -887,8 +876,8 @@ class CodeForm(forms.ModelForm):
         max_length=64,
     )
     language_version= forms.CharField(
-        help_text="""For which version or versions of the language is the code \
-            written?""",
+        help_text="""For which version or versions of the language is the code 
+written?""",
         max_length=64,
     )
     file_path = forms.CharField(
@@ -898,13 +887,13 @@ class CodeForm(forms.ModelForm):
     )
     source = forms.CharField(
         help_text="""From where does the code originate?
-            Please credit yourself or your source (optional)""",
+Please credit yourself or your source. (optional)""",
         max_length=64,
         required=False,
     )
     source_url = forms.CharField(
         help_text="""Does the source have a website or webpage?
-            If so enter it here (optional)""",
+If so enter it here. (optional)""",
         max_length=256,
         required=False,
     )
@@ -938,13 +927,13 @@ class CodeForm(forms.ModelForm):
             }),
         }
         help_texts = {
-            'tags': "Choose one or more tags",
+            'tags': "Choose one or more tags.",
         }
 
 class LinkCreateForm(forms.ModelForm):
 
     url = forms.CharField(
-        help_text="Enter the URL here",
+        help_text="Enter the URL here.",
         max_length=256,
     )
     url.widget.attrs.update({'class': 'form-text-field'})
@@ -958,13 +947,13 @@ class LinkCreateForm(forms.ModelForm):
 class LinkForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="""Give the Link a memorable and unique title that will be \
-            easy to reference later""",
+        help_text="""Give the Link a memorable and unique title that will be 
+easy to reference later.""",
         max_length=256,
         required=False,
     )
     url = forms.CharField(
-        help_text="Enter the URL here",
+        help_text="Enter the URL here.",
         max_length=256,
     )
     text = forms.CharField(
@@ -973,18 +962,18 @@ class LinkForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="The text may appear on pages that include Links",
+        help_text="The text may appear on pages that include Links.",
         max_length=512,
         required=False,
     )
     favicon_href = forms.CharField(
-        help_text="Enter a URL for the webpage image",
+        help_text="Enter a URL for the webpage image.",
         max_length=256,
         required=False,
     )
     order = forms.DecimalField(
-        help_text="""Choose the order in which the link will appear. \
-            Lower values will appear first""",
+        help_text="""Choose the order in which the link will appear. 
+Lower values will appear first.""",
         max_digits=8,
         initial=0,
     )
@@ -1005,18 +994,18 @@ class LinkForm(forms.ModelForm):
             'tags',
         ]
         help_texts = {
-            'tags': "Choose one or more tags",
+            'tags': "Choose one or more tags.",
         }
 
 class TagForm(forms.ModelForm):
 
     key = forms.CharField(
-        help_text="Enter a word or words that describe a category",
+        help_text="Enter a word or words that describe a category.",
         max_length=64,
     )
     value = forms.CharField(
-        help_text="""Enter words or numbers that describe a qualitative or \
-            quantitative value""",
+        help_text="""Enter words or numbers that describe a qualitative or 
+quantitative value.""",
         max_length=64,
         required=False,
     )
