@@ -337,8 +337,8 @@ class MembersAppProfileForm(forms.ModelForm):
         queryset=Image.objects.all(),
         required=False, 
         label="Background Image",
-        help_text="The background image will appear on pages related to 
-            this app",
+        help_text="""The background image will appear on pages related to 
+            this app""",
     )
     n_members = forms.IntegerField(
         max_value=1000,
@@ -474,15 +474,15 @@ class ProfileForm(forms.ModelForm):
         queryset=Image.objects.all(),
         required=False, 
         label="Background Image",
-        help_text="The background image will appear on your profile page 
-            and lists of your contributions",
+        help_text="""The background image will appear on your profile page 
+and lists of your contributions.""",
     )
     display_name = forms.CharField(
         max_length=64,
         help_text="""Your display name is shown on your profile page and is 
-            used to credit your contributions.""",
+used to credit your contributions.""",
         required=False,
-        label="Display Name (optional)",
+        label="Display Name. (optional)",
     )
     text = forms.CharField(
         widget=forms.Textarea(

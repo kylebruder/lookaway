@@ -72,17 +72,15 @@ class MusicAppProfileForm(forms.ModelForm):
     banner = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="""The banner is the background image for the landing page 
-            header
-            The optimal image size is 1800 pixels wide by 400 pixels high 
-            (9:2)""",
+        help_text="""The banner is the background image for the landing page header.
+The optimal image size is 1800 pixels wide by 400 pixels high (9:2).""",
     )
     bg_image = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
         label="Background Image",
-        help_text="The background image will appear on pages related to 
-            this app",
+        help_text="""The background image will appear on pages related to 
+this app.""",
     )
     n_tracks = forms.IntegerField(
         max_value=1000,
