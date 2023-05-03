@@ -32,9 +32,9 @@ class CustomModelMultipleChoiceField(forms.models.ModelMultipleChoiceField):
 class MusicAppProfileForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="""The title will appear in the header
-            It will also appear on search engine results pages (SERPs) and can 
-            impact search engine optimization (SEO)""",
+        help_text="""The title will appear in the header.
+It will also appear on search engine results pages (SERPs) and can 
+impact search engine optimization (SEO).""",
         max_length=128,
         required=False,
     )
@@ -44,10 +44,10 @@ class MusicAppProfileForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description
-            The description will be used by Search Engines and will impact SEO
-            Include key words used in the title
-            Keep it less than 155 characters""",
+        help_text="""Add a short description.
+The description will be used by Search Engines and will impact SEO.
+Include key words used in the title.
+Keep it less than 155 characters.""",
         max_length=155,
         required=False,
     )
@@ -58,16 +58,15 @@ class MusicAppProfileForm(forms.ModelForm):
             }
         ),
         label="Blurb",
-        help_text="Add a short blurb that will be displayed under the header",
+        help_text="Add a short blurb that will be displayed under the header.",
         max_length=65535,
         required=False,
     )
     logo = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="""The logo will appear on the landing page and list headers
-            The optimal image size is 250 pixels wide by 250 pixels high 
-            (1:1)""",
+        help_text="""The logo will appear on the landing page and list headers.
+The optimal image size is 250 pixels wide by 250 pixels high (1:1).""",
     )
     banner = CustomModelChoiceField(
         queryset=Image.objects.all(),
@@ -198,17 +197,17 @@ class MusicPageSectionForm(forms.ModelForm):
     is_enabled = forms.BooleanField(
         label="Enabled",
         help_text="""Choose this option if you want this section to appear
-            on the landing page""",
+on the landing page.""",
         required=False,
     )
     images = CustomModelMultipleChoiceField(
         queryset = Image.objects.all(),
         required=False,
-        help_text="Choose one or more Images to include in this Section",
+        help_text="Choose one or more Images to include in this Section.",
     )
     title = forms.CharField(
         help_text="""The section title will appear in the header of this 
-            Section""",
+Section.""",
         max_length=255,
     )
     text = forms.CharField(
@@ -217,7 +216,7 @@ class MusicPageSectionForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Enter the section text here",
+        help_text="Enter the section text here.",
         max_length=65535,
         required=False,
     )
@@ -228,7 +227,7 @@ class MusicPageSectionForm(forms.ModelForm):
             }
         ),
         label="Info",
-        help_text="Add highlighted information in this section",
+        help_text="Add highlighted information in this section.",
         max_length=65535,
         required=False,
     )
@@ -239,20 +238,20 @@ class MusicPageSectionForm(forms.ModelForm):
             }
         ),
         label="Alert",
-        help_text="Add a highlighted alert that will display in this section",
+        help_text="Add a highlighted alert that will display in this section.",
         max_length=65535,
         required=False,
     )
     order = forms.DecimalField(
         help_text="""Choose the order in which the section will appear on 
-            the landing page
-            Lower values will appear first""",
+the landing page.
+Lower values will appear first.""",
         max_digits=8,
         initial=0,
     )
     hide_title = forms.BooleanField(
         help_text ="""Choose this option if you do not want 
-            the title of this section to be displayed on the page""",
+the title of this section to be displayed on the page.""",
         required=False,
     )
     order.widget.attrs.update({'class': 'form-text-field'})
@@ -331,16 +330,15 @@ class AlbumForm(forms.ModelForm):
     cover = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="Choose an iconic image as the cover for the Album",
+        help_text="Choose an iconic image as the cover for the Album.",
         label="Cover Image",
     )
     title = forms.CharField(
         help_text="""The Album title will appear on the site and is used to 
-            create the permanent URL for the Album  
-            It will also appear on search engine results pages (SERPs) and 
-            can impact search engine optimization (SEO)
-            The optimal format is 'Primary Keyword - Secondary Keyword | 
-            Brand Name'""",
+create the permanent URL for the Album.
+It will also appear on search engine results pages (SERPs) and 
+can impact search engine optimization (SEO).
+The optimal format is 'Primary Keyword - Secondary Keyword | Brand Name.'""",
         max_length=128,
     )
     meta_description = forms.CharField(
@@ -349,11 +347,10 @@ class AlbumForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description of the Album 
-            The description will be used by Search Engines and will impact 
-            SEO
-            Include key words used in the title
-            Keep it less than 155 characters""",
+        help_text="""Add a short description of the Album.
+The description will be used by Search Engines and will impact SEO.
+Include key words used in the title.
+Keep it less than 155 characters""",
         max_length=155,
         required=False, 
     )
@@ -363,7 +360,7 @@ class AlbumForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Provide some information and context about the Album",
+        help_text="Provide some information and context about the Album.",
         max_length=65535,
     )
     artist = forms.CharField(
@@ -432,14 +429,14 @@ class TrackForm(forms.ModelForm):
 
     image = CustomModelChoiceField(
         queryset=Image.objects.all(),
-        help_text="Choose an Image that represents the Track (optional)",
+        help_text="Choose an Image that represents the Track. (optional)",
         required=False,
     )
     title = forms.CharField(
         help_text="""The Track title will appear on the site and is used to 
-            create the permanent URL for the Track
-            It will also appear on search engine results pages (SERPs) and can 
-            impact search engine optimization (SEO)
+create the permanent URL for the Track.
+It will also appear on search engine results pages (SERPs) and can 
+impact search engine optimization (SEO).
             The optimal format is 'Primary Keyword - Secondary Keyword | Brand 
             Name'""",
         max_length=128,
@@ -450,10 +447,10 @@ class TrackForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description of the Track
-            The description will be used by Search Engines and will impact SEO
-            Include key words used in the title
-            Keep it less than 155 characters""",
+        help_text="""Add a short description of the Track.
+The description will be used by Search Engines and will impact SEO.
+Include key words used in the title.
+Keep it less than 155 characters.""",
         max_length=155,
         required=False,
     )
@@ -463,14 +460,14 @@ class TrackForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Provide some information and context about the Track",
+        help_text="Provide some information and context about the Track.",
         max_length=65535,
         required=False,
     )
     order = forms.DecimalField(
         help_text="""Choose the order in which the Track will appear in Track 
-            lists on Albums
-            Lower order values will appear first""",
+lists on Albums.
+Lower order values will appear first.""",
         max_digits=8,
         initial=0,
     )

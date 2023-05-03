@@ -39,11 +39,11 @@ class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(
         label="Login Name",
         max_length=32,
-        help_text="""Use only lower case letters in your Member Login 
-            Name. Your Member Login name is used to create a permanent URL for 
-            your Profile page and is also used to credit 
-            your contributions unless you choose a display name or provide 
-            a first and last name.""",
+        help_text="""Use only lower case letters in your Member Login Name.
+Your Member Login name is used to create a permanent URL for 
+your Profile page and is also used to credit 
+your contributions unless you choose a display name or provide 
+a first and last name.""",
     )
     password1 = forms.CharField(
         widget=forms.PasswordInput(),
@@ -55,34 +55,35 @@ class UserRegistrationForm(UserCreationForm):
         )
     first_name = forms.CharField(
         label="First Name (optional)",
-        help_text="""You may use your real name or an alias or completely fake 
-            name.""",
+        help_text="""You may use your real name or an alias or completely fake name.""",
         required=False,
     )
     last_name = forms.CharField(
         label="Last Name (optional)",
         help_text="""If you provide a first AND last name, they will be used  
-            to credit your contributions unless you choose a display name for 
-            your Profile after creating your Member account.""",
+to credit your contributions unless you choose a display name for 
+your Profile after creating your Member account.""",
         required=False,
     )
     email = forms.CharField(
         widget=forms.EmailInput(),
         label="Recovery Email (optional)",
         help_text="""If you provide an email contact, your email address will 
-            only be used to recover your password in the event you no longer 
-            know you password. IMPORTANT! If you do not provide an valid 
-            email address, you will be unable to use the Password Recovery 
-            Service. We do not confirm whether or not your recovery email 
-            address is valid so be sure you have can access the email address 
-            you provide. The recovery email can be changed any time as long 
-            as you are authenticated to the site.""",
+only be used to recover your password in the event you no longer 
+know you password. 
+IMPORTANT! If you do not provide an valid email address, 
+you will be unable to use the Password Recovery Service. 
+We do not confirm whether or not your recovery email 
+address is valid so be sure you have can access the email address 
+you provide. 
+The recovery email can be changed any time as long 
+as you are authenticated to the site.""",
         required=False,
     )
     accept_terms = forms.BooleanField(
         label="Member Agreement",
         help_text="""Check this box if you have read the Member Agreement and 
-            accept the terms.""",
+accept the terms.""",
         required=True,
     )
     username.widget.attrs.update({'class': 'form-text-field'})
@@ -166,17 +167,16 @@ class MembersPageSectionForm(forms.ModelForm):
     is_enabled = forms.BooleanField(
         label="Enabled",
         help_text="""Choose this option if you want this section to appear
-            on the landing page""",
+on the landing page.""",
         required=False,
     )
     images = CustomModelMultipleChoiceField(
         queryset = Image.objects.all(),
         required=False,
-        help_text="Choose one or more Images to include in this Section",
+        help_text="Choose one or more Images to include in this Section.",
     )
     title = forms.CharField(
-        help_text="""The section title will appear in the header of this 
-            Section""",
+        help_text="""The section title will appear in the header of this Section.""",
         max_length=255,
     )
     text = forms.CharField(
@@ -185,7 +185,7 @@ class MembersPageSectionForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Enter the section text here",
+        help_text="Enter the section text here.",
         max_length=65535,
         required=False,
     )
@@ -196,7 +196,7 @@ class MembersPageSectionForm(forms.ModelForm):
             }
         ),
         label="Info",
-        help_text="Add highlighted information in this section",
+        help_text="Add highlighted information in this section.",
         max_length=65535,
         required=False,
     )
@@ -207,20 +207,20 @@ class MembersPageSectionForm(forms.ModelForm):
             }
         ),
         label="Alert",
-        help_text="Add a highlighted alert that will display in this section",
+        help_text="Add a highlighted alert that will display in this section.",
         max_length=65535,
         required=False,
     )
     order = forms.DecimalField(
         help_text="""Choose the order in which the section will appear on 
-            the landing page
-            Lower values will appear first""",
+the landing page.
+Lower values will appear first.""",
         max_digits=8,
         initial=0,
     )
     hide_title = forms.BooleanField(
         help_text ="""Choose this option if you do not want 
-            the title of this section to be displayed on the page""",
+the title of this section to be displayed on the page.""",
         required=False,
     )
     order.widget.attrs.update({'class': 'form-text-field'})
@@ -288,9 +288,9 @@ restrict the visibility of this section to members of the site.""",
 class MembersAppProfileForm(forms.ModelForm):
 
     title = forms.CharField(
-        help_text="""The title will appear in the header
-            It will also appear on search engine results pages (SERPs) and can 
-            impact search engine optimization (SEO)""",
+        help_text="""The title will appear in the header.
+It will also appear on search engine results pages (SERPs) and can 
+impact search engine optimization (SEO).""",
         max_length=128,
         required=False,
     )
@@ -300,10 +300,9 @@ class MembersAppProfileForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description
-            The description will be used by Search Engines and will impact SEO
-            Include key words used in the title
-            Keep it less than 155 characters""",
+        help_text="""Add a short description. The description will be used by Search Engines and will impact SEO.
+Include key words used in the title.
+Keep it less than 155 characters.""",
         max_length=155,
         required=False,
     )
@@ -314,31 +313,27 @@ class MembersAppProfileForm(forms.ModelForm):
             }
         ),
         label="Blurb",
-        help_text="Add a short blurb that will be displayed under the header",
+        help_text="Add a short blurb that will be displayed under the header.",
         max_length=65535,
         required=False,
     )
     logo = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="""The logo will appear on the landing page and list headers
-            The optimal image size is 250 pixels wide by 250 pixels high 
-            (1:1)""",
+        help_text="""The logo will appear on the landing page and list headers.
+The optimal image size is 250 pixels wide by 250 pixels high (1:1).""",
     )
     banner = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="""The banner is the background image for the landing page 
-            header
-            The optimal image size is 1800 pixels wide by 400 pixels high 
-            (9:2)""",
+        help_text="""The banner is the background image for the landing page header.
+The optimal image size is 1800 pixels wide by 400 pixels high (9:2).""",
     )
     bg_image = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
         label="Background Image",
-        help_text="""The background image will appear on pages related to 
-            this app""",
+        help_text="""The background image will appear on pages related to this app.""",
     )
     n_members = forms.IntegerField(
         max_value=1000,
@@ -449,10 +444,10 @@ class ProfileForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="""Add a short description of your profile page 
-            The description will be used by Search Engines and will impact SEO 
-            Include key words used on your page 
-            Keep it less than 155 characters""",
+        help_text="""Add a short description of your profile page. 
+The description will be used by Search Engines and will impact SEO.
+Include key words used on your page. 
+Keep it less than 155 characters.""",
         max_length=155,
         required=False,
     )
@@ -465,10 +460,8 @@ class ProfileForm(forms.ModelForm):
     banner = CustomModelChoiceField(
         queryset=Image.objects.all(),
         required=False, 
-        help_text="""The banner is the background image for your profile page 
-            header
-            The optimal image size is 1800 pixels wide by 400 pixels high 
-            (9:2)""",
+        help_text="""The banner is the background image for your profile page header.
+The optimal image size is 1800 pixels wide by 400 pixels high (9:2).""",
     )
     bg_image = CustomModelChoiceField(
         queryset=Image.objects.all(),
@@ -482,7 +475,7 @@ and lists of your contributions.""",
         help_text="""Your display name is shown on your profile page and is 
 used to credit your contributions.""",
         required=False,
-        label="Display Name. (optional)",
+        label="Display Name.",
     )
     text = forms.CharField(
         widget=forms.Textarea(
@@ -490,9 +483,9 @@ used to credit your contributions.""",
                 'class': 'form-text-field',
             }
         ),
-        help_text="Explain yourself here.",
+        help_text="Explain yourself here. (optional)",
         required=False, 
-        label="Blurb (optional)",
+        label="Blurb",
     )
     display_name.widget.attrs.update({'class': 'form-text-field'})
 
@@ -516,6 +509,10 @@ used to credit your contributions.""",
 an email address and you would like your email address 
 to appear on your profile page.""",
         }
+
+    def clean_display_name(self):
+        return self.cleaned_data['display_name'] or None
+
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super(ProfileForm, self).__init__(*args, **kwargs)
@@ -835,22 +832,21 @@ class MemberProfileSectionForm(forms.ModelForm):
     is_enabled = forms.BooleanField(
         label="Enabled",
         help_text="""Choose this option if you want this section to appear
-            on your profile page""",
+on your profile page.""",
         required=False,
     )
     images = CustomModelMultipleChoiceField(
         queryset = Image.objects.all(),
         required=False,
-        help_text="Choose one or more Images to include in this Section",
+        help_text="Choose one or more Images to include in this Section.",
     )
     visuals = CustomModelMultipleChoiceField(
         queryset = Visual.objects.all(),
         required=False,
-        help_text="Choose one or more visuals to feature in this Section",
+        help_text="Choose one or more visuals to feature in",
     )
     title = forms.CharField(
-        help_text="""The section title will appear in the header of this 
-            Section""",
+        help_text="""The section title will appear in the header of this Section.""",
         max_length=255,
     )
     text = forms.CharField(
@@ -859,7 +855,7 @@ class MemberProfileSectionForm(forms.ModelForm):
                 'class': 'form-text-field',
             }
         ),
-        help_text="Enter the section text here",
+        help_text="Enter the section text here.",
         max_length=65535,
         required=False,
     )
@@ -870,7 +866,7 @@ class MemberProfileSectionForm(forms.ModelForm):
             }
         ),
         label="Info",
-        help_text="Add highlighted information in this section",
+        help_text="Add highlighted information in this section.",
         max_length=65535,
         required=False,
     )
@@ -881,20 +877,20 @@ class MemberProfileSectionForm(forms.ModelForm):
             }
         ),
         label="Alert",
-        help_text="Add a highlighted alert that will display in this section",
+        help_text="Add a highlighted alert that will display in this section.",
         max_length=65535,
         required=False,
     )
     order = forms.DecimalField(
         help_text="""Choose the order in which the section will appear on 
-            your profile page
-            Lower values will appear first""",
+your profile page.
+Lower values will appear first.""",
         max_digits=8,
         initial=0,
     )
     hide_title = forms.BooleanField(
         help_text ="""Choose this option if you do not want 
-            the title of this section to be displayed on the page""",
+the title of this section to be displayed on the page.""",
         required=False,
     )
     order.widget.attrs.update({'class': 'form-text-field'})
