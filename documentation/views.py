@@ -446,7 +446,7 @@ class ArticleDetailView(DetailView):
                     ),
                 }
             # Response button
-            if self.request.user.has_perm('documentation:add_response'):
+            if self.request.user.has_perm('posts.add_responsepost'):
                 context['can_respond'] = True
                 context['response_button'] = {
                     'url': reverse(
@@ -470,7 +470,7 @@ class ArticleDetailView(DetailView):
                 members_only=False,
             ).order_by('weight', '-publication_date')[:5]
         # Add section button
-        if self.request.user.has_perm('documentation.add_articlepagesection'):
+        if self.request.user.has_perm('documentation.add_articlesection'):
             context['show_section_add_button'] = True
             context['section_add_button'] = {
                 'url': reverse(
@@ -478,10 +478,10 @@ class ArticleDetailView(DetailView):
                 ),
             }
         # Edit documentation page section button
-        if self.request.user.has_perm('documentation.change_articlepagesection'):
+        if self.request.user.has_perm('documentation.change_articlesection'):
             context['show_section_edit_button'] = True
         # Delete documentation page section button
-        if self.request.user.has_perm('documentation.delete_articlepagesection'):
+        if self.request.user.has_perm('documentation.delete_articlesection'):
             context['show_section_delete_button'] = True
         return context
 
@@ -646,7 +646,7 @@ class ArticleSectionDetailView(LoginRequiredMixin, DetailView):
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         # Add section button
-        if self.request.user.has_perm('documentation.add_articlepagesection'):
+        if self.request.user.has_perm('documentation.add_articlesection'):
             context['show_section_add_button'] = True
             context['section_add_button'] = {
                 'url': reverse(
@@ -654,10 +654,10 @@ class ArticleSectionDetailView(LoginRequiredMixin, DetailView):
                 ),
             }
         # Edit documentation page section button
-        if self.request.user.has_perm('documentation.change_articlepagesection'):
+        if self.request.user.has_perm('documentation.change_articlesection'):
             context['show_section_edit_button'] = True
         # Delete documentation page section button
-        if self.request.user.has_perm('documentation.delete_articlepagesection'):
+        if self.request.user.has_perm('documentation.delete_articlesection'):
             context['show_section_delete_button'] = True
         return context
 
@@ -916,7 +916,7 @@ class SupportDocumentDetailView(DetailView):
                     ),
                 }
             # Response button
-            if self.request.user.has_perm('documentation:add_response'):
+            if self.request.user.has_perm('posts.add_responsepost'):
                 context['can_respond'] = True
                 context['response_button'] = {
                     'url': reverse(
@@ -940,7 +940,7 @@ class SupportDocumentDetailView(DetailView):
                 members_only=False,
             ).order_by('weight', '-publication_date')[:5]
         # Add section button
-        if self.request.user.has_perm('documentation.add_support_documentpagesection'):
+        if self.request.user.has_perm('documentation.add_supportdocsection'):
             context['show_section_add_button'] = True
             context['section_add_button'] = {
                 'url': reverse(
@@ -948,10 +948,10 @@ class SupportDocumentDetailView(DetailView):
                 ),
             }
         # Edit documentation page section button
-        if self.request.user.has_perm('documentation.change_support_documentpagesection'):
+        if self.request.user.has_perm('documentation.change_supportdocsection'):
             context['show_section_edit_button'] = True
         # Delete documentation page section button
-        if self.request.user.has_perm('documentation.delete_support_documentpagesection'):
+        if self.request.user.has_perm('documentation.delete_supportdocsection'):
             context['show_section_delete_button'] = True
         return context
 
@@ -1117,7 +1117,7 @@ class SupportDocSectionDetailView(LoginRequiredMixin, DetailView):
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         # Add section button
-        if self.request.user.has_perm('documentation.add_support_documentpagesection'):
+        if self.request.user.has_perm('documentation.add_support_documentsection'):
             context['show_section_add_button'] = True
             context['section_add_button'] = {
                 'url': reverse(
@@ -1125,10 +1125,10 @@ class SupportDocSectionDetailView(LoginRequiredMixin, DetailView):
                 ),
             }
         # Edit documentation page section button
-        if self.request.user.has_perm('documentation.change_support_documentpagesection'):
+        if self.request.user.has_perm('documentation.change_support_documentsection'):
             context['show_section_edit_button'] = True
         # Delete documentation page section button
-        if self.request.user.has_perm('documentation.delete_support_documentpagesection'):
+        if self.request.user.has_perm('documentation.delete_support_documentsection'):
             context['show_section_delete_button'] = True
         return context
 
@@ -1380,7 +1380,7 @@ class StoryDetailView(DetailView):
                     ),
                 }
             # Response button
-            if self.request.user.has_perm('documentation:add_response'):
+            if self.request.user.has_perm('posts.add_responsepost'):
                 context['can_respond'] = True
                 context['response_button'] = {
                     'url': reverse(
@@ -1404,7 +1404,7 @@ class StoryDetailView(DetailView):
                 members_only=False,
             ).order_by('weight', '-publication_date')[:5]
         # Add section button
-        if self.request.user.has_perm('documentation.add_storypagesection'):
+        if self.request.user.has_perm('documentation.add_storysection'):
             context['show_section_add_button'] = True
             context['section_add_button'] = {
                 'url': reverse(
@@ -1412,10 +1412,10 @@ class StoryDetailView(DetailView):
                 ),
             }
         # Edit documentation page section button
-        if self.request.user.has_perm('documentation.change_storypagesection'):
+        if self.request.user.has_perm('documentation.change_storysection'):
             context['show_section_edit_button'] = True
         # Delete documentation page section button
-        if self.request.user.has_perm('documentation.delete_storypagesection'):
+        if self.request.user.has_perm('documentation.delete_storysection'):
             context['show_section_delete_button'] = True
         return context
 
@@ -1581,7 +1581,7 @@ class StorySectionDetailView(LoginRequiredMixin, DetailView):
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         # Add section button
-        if self.request.user.has_perm('documentation.add_storypagesection'):
+        if self.request.user.has_perm('documentation.add_storysection'):
             context['show_section_add_button'] = True
             context['section_add_button'] = {
                 'url': reverse(
@@ -1589,10 +1589,10 @@ class StorySectionDetailView(LoginRequiredMixin, DetailView):
                 ),
             }
         # Edit documentation page section button
-        if self.request.user.has_perm('documentation.change_storypagesection'):
+        if self.request.user.has_perm('documentation.change_storysection'):
             context['show_section_edit_button'] = True
         # Delete documentation page section button
-        if self.request.user.has_perm('documentation.delete_storypagesection'):
+        if self.request.user.has_perm('documentation.delete_storysection'):
             context['show_section_delete_button'] = True
         return context
 

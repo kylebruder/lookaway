@@ -418,7 +418,7 @@ class PostDetailView(DetailView):
                     ),
                 }
             # Response button
-            if self.request.user.has_perm('posts:add_response'):
+            if self.request.user.has_perm('posts.add_responsepost'):
                 context['can_respond'] = True
                 context['response_button'] = {
                     'url': reverse(
@@ -551,7 +551,7 @@ def publish_post_view(request, pk):
 
 class ResponsePostCreateView(LoginRequiredMixin, PermissionRequiredMixin, MemberCreateMixin, CreateView):
 
-    permission_required = 'posts:add_responsepost'
+    permission_required = 'posts.add_responsepost'
     model = ResponsePost
     form_class = ResponsePostForm
 

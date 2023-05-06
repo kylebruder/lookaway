@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load music_filters %} 
 {% block body_block %}
 <div class="container music-bg">
   {% if track.is_public or track.owner.pk == request.user.pk %}

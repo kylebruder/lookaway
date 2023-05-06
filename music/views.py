@@ -437,7 +437,7 @@ class AlbumDetailView(DetailView):
                     ),
                 }
             # Response button
-            if self.request.user.has_perm('posts:add_response'):
+            if self.request.user.has_perm('posts.add_responsepost'):
                 context['can_respond'] = True
                 context['response_button'] = {
                     'url': reverse(
@@ -751,7 +751,7 @@ class TrackDetailView(DetailView):
                     ),
                 }
             # Response button
-            if self.request.user.has_perm('posts:add_response'):
+            if self.request.user.has_perm('posts.add_responsepost'):
                 context['can_respond'] = True
                 context['response_button'] = {
                     'url': reverse(
