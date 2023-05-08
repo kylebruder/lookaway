@@ -760,18 +760,19 @@ class MemberProfileView(DetailView, AppPageMixin):
             }
         # Add member profile section button
         if self.request.user.has_perm('members.add_memberprofilesection'):
-            context['show_member_profile_section_add_button'] = True
-            context['member_profile_section_add_button'] = {
+            print("add button")
+            context['show_section_add_button'] = True
+            context['section_add_button'] = {
                 'url': reverse(
                     'members:member_profile_section_create',
                 ),
             }
         # Edit member profile section button
         if self.request.user.has_perm('members.change_memberprofilesection'):
-            context['show_member_profile_section_edit_button'] = True
+            context['show_section_edit_button'] = True
         # Delete member profile section button
         if self.request.user.has_perm('members.delete_memberprofilesection'):
-            context['show_member_profile_section_delete_button'] = True
+            context['show_section_delete_button'] = True
         return context
         # Turning these off for now
         ## Images
@@ -976,6 +977,21 @@ class MemberProfileSectionDetailView(LoginRequiredMixin, DetailView):
         profile = get_object_or_404(Profile, member=self.request.user)
         context['profile'] = profile
         context['meta_title'] = profile.title
+        # Add member profile section button
+        if self.request.user.has_perm('members.add_memberprofilesection'):
+            print("add button")
+            context['show_section_add_button'] = True
+            context['section_add_button'] = {
+                'url': reverse(
+                    'members:member_profile_section_create',
+                ),
+            }
+        # Edit member profile section button
+        if self.request.user.has_perm('members.change_memberprofilesection'):
+            context['show_section_edit_button'] = True
+        # Delete member profile section button
+        if self.request.user.has_perm('members.delete_memberprofilesection'):
+            context['show_section_delete_button'] = True
         return context
 
 class MemberProfileSectionUpdateView(LoginRequiredMixin, MemberUpdateMixin, UpdateView):

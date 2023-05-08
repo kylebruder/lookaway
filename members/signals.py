@@ -45,9 +45,8 @@ def create_member_profile(sender, instance, created, *args, **kwargs):
             nothing will happen
             '''
             group, new = Group.objects.get_or_create(name=name)
-            if new:
-                for p in perms:
-                    group.permissions.add(p)
+            for p in perms:
+                group.permissions.add(p)
 
         # Default groups
         ## Members
@@ -56,6 +55,13 @@ def create_member_profile(sender, instance, created, *args, **kwargs):
             get_multiple_model_perms(
                 'posts',
                 ['post','responsepost',]
+            )
+        )    
+        get_or_create_group(
+            "Members",
+            get_multiple_model_perms(
+                'members',
+                ['memberprofilesection',]
             )
         )    
         ## Contributors

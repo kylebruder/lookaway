@@ -2,7 +2,29 @@
 {% block body_block %}
 <div class="container members-bg">
   <p><i>From <a href="{% url 'members:member_profile' profile.member.username %}">{{ profile.member }}</a>'s profile page.</i></p>
-  {% include './members_page_section.html' %}
+  <div class="members-section">
+    <div class="row">
+      <div class="col">
+        {% if not section.hide_title %}
+          <h4 class="members-title">{{ section.title }}</h4>
+        {% endif %}
+      </div>
+      {% if section.owner.pk == request.user.pk %}
+        <div class="col-auto">
+          {% if show_section_add_button %}
+            <a href="{{ section_add_button|lookup:"url" }}?order={{ section.next_order }}"><button type="button" class="btn btn-sm btn-primary create-button">+</button></a>
+          {% endif %}
+          {% if show_section_edit_button %}
+            <a href="{% url 'members:member_profile_section_update' section.pk %}"><button type="button" class="btn btn-sm btn-warning edit-button">&#9998;</button></a>
+          {% endif %}
+          {% if show_section_edit_button %}
+            <a href="{% url 'members:member_profile_section_delete' section.pk %}"><button type="button" class="btn btn-sm btn-danger delete-button">X</button></a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div> 
+    {% include 'sections/section.html' %}
+  </div>
   {% if section.is_public %}
     Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}<br>
     {% if object.last_modified > object.creation_date %}
