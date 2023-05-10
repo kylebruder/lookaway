@@ -58,15 +58,15 @@ class CodeWidget(Textarea):
 class FictionWidget(CheckboxInput):
 
     def render(self, name, value, attrs=None, renderer=None):
-        if value == None:
+        if value == True:
           checked = "checked"
         else:
           checked = ''
 
-        template = '''<div class="custom-control custom-switch" style="padding-left: 0px;">\
+        template = '''<div class="form-check form-switch" style="padding-left: 0px;">\
           <span class="float-start" style="padding-right: 50px;">Non-Fiction</span>
-          <input type="checkbox" class="custom-control-input" id="customSwitch1" name="{name}" {checked}>\
-          <label class="custom-control-label" for="customSwitch1">\
+          <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="{name}" {checked}>\
+          <label class="custom-control-label" for="flexSwitchCheckChecked">\
           Fiction
           </label>
         </div>'''.format(name=name, checked=checked)
