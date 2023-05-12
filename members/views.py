@@ -750,7 +750,7 @@ class MemberProfileView(DetailView, AppPageMixin):
                 ),
                 'text': "Edit Profile",
             }
-        if self.request.user.has_perm('members.add_invite'):
+        if self.request.user.has_perm('members.add_invitelink'):
             context['show_invite_add_button'] = True
             context['invite_add_button'] = {
                 'url': reverse(

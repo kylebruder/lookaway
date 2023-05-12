@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block body_block %}
 
-<div class="container updates-bg">
+<div class="container home-bg">
     <h3>Authentication</h3>
     <form method="POST">
         {% csrf_token %}
@@ -10,6 +10,6 @@
     </form>
     <br>
     <p>Reset your password <a href="{% url 'password_reset' %}">here</a></p>
+    <br>
 </div>
-<br>
 {% endblock %}
