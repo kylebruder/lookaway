@@ -859,28 +859,6 @@ on your profile page.""",
         max_length=65535,
         required=False,
     )
-    info = forms.CharField(
-        widget=forms.Textarea(
-            attrs={
-                'class': 'form-text-field',
-            }
-        ),
-        label="Info",
-        help_text="Add highlighted information in this section.",
-        max_length=65535,
-        required=False,
-    )
-    alert = forms.CharField(
-        widget=forms.Textarea(
-            attrs={
-                'class': 'form-text-field',
-            }
-        ),
-        label="Alert",
-        help_text="Add a highlighted alert that will display in this section.",
-        max_length=65535,
-        required=False,
-    )
     order = forms.DecimalField(
         help_text="""Choose the order in which the section will appear on 
 your profile page.
@@ -906,8 +884,6 @@ the title of this section to be displayed on the page.""",
             'hide_title',
             'order',
             'text',
-            'info',
-            'alert',
             'sounds',
             'videos',
             'code',

@@ -35,15 +35,13 @@
     </div>
   </div>
   <!-- Information -->
-  {% if member.is_staff %}
-    <div class="collapse" id="support_documents">
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          {% include './studio_supportdocuments.html' %}
-        </div>
+  <div class="collapse" id="support_documents">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        {% include './studio_supportdocuments.html' %}
       </div>
     </div>
-  {% endif %}
+  </div>
   <!-- Member Visuals -->
   <div class="collapse" id="visuals">
     <div class="card" style="width: 18rem;">

@@ -47,9 +47,9 @@
     {% endfor %}
   </ul>
 {% endif %}
-{% if section.support_documents.count > 0 %}
+{% if section.documents.count > 0 %}
   <ul class="list-group">
-    {% for document in section.support_documents.all %}
+    {% for document in section.documents.all %}
       <li class="list-group-item documentation-list-li">
         {% include 'items/document_item.html' %}
       </li>
