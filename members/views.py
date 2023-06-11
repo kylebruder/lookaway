@@ -914,7 +914,7 @@ class MemberProfileSettingsUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        if self.request.user.pk == self.object.pk:
+        if self.request.user == self.object.member:
             return super().form_valid(form)
         else:
             return reverse_lazy('members:member_profile',

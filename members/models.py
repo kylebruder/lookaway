@@ -31,7 +31,7 @@ class Member(User):
         try:
             return self.profile.image.thumbnail_file.url
         except:
-            return '/static/icon.webp' 
+            return '/static/member.webp' 
 
     def check_is_founder(self):
         '''
