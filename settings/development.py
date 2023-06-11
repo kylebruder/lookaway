@@ -58,6 +58,9 @@ ALLOWED_HOSTS = [
     'testserver',
     ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8080',
+]
 
 # Application definition
 

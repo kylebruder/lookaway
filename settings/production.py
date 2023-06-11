@@ -52,12 +52,11 @@ SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    'testserver',
-    ]
+# Add your domain name here (example.com)
+ALLOWED_HOSTS = []
 
+# Add your domain name here with scheme (https://example.com)
+CSRF_TRUSTED_ORIGINS = []
 
 # Application definition
 
