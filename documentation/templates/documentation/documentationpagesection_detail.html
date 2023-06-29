@@ -4,7 +4,8 @@
   <p><i>From the <a href="{% url 'documentation:documentation_page' %}">{{ profile.title }}</a> landing page.</i></p>
   {% include 'sections/enabled.html' %}
   {% include 'objects/members_only.html' %}
-  {% include './documentationpagesection.html' %}
+  {% include 'sections/section.html' %}
+  <br>
   {% if section.is_public %}
     Contributed by <a href="{% url 'members:member_profile' object.owner.profile.slug %}">{{ object.owner }}</a> on {{ object.publication_date }}<br>
     {% if object.last_modified > object.creation_date %}

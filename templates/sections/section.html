@@ -56,6 +56,15 @@
     {% endfor %}
   </ul>
 {% endif %}
+{% if section.support_documents.count > 0 %}
+  <ul class="list-group">
+    {% for document in section.support_documents.all %}
+      <li class="list-group-item documentation-list-li">
+        {% include 'items/document_item.html' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
 {% if section.visuals.count > 0 %}
   {% for visual in section.visuals.all %}
     <a href="{% url 'art:visual_detail' visual.slug %}">
