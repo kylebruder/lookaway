@@ -11,7 +11,7 @@
         <a href="{% url 'documentation:story_update' story.slug %}">
           <button type="button" class="btn btn-sm btn-warning float-end">Edit</button>
         </a>
-        <a href="{% url 'documentation:story_section_create' %}?story={{ story.pk }}">
+	<a href="{% url 'documentation:story_section_create' %}?story={{ story.pk }}&order={{ story.next_section_order }}">
           <button type="button" class="btn btn-sm btn-primary float-end">+Section</button>
         </a>
         {% if not story.is_public %}

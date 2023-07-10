@@ -11,7 +11,7 @@
         <a href="{% url 'documentation:support_document_update' document.slug %}">
           <button type="button" class="btn btn-sm btn-warning float-end">Edit</button>
         </a>
-        <a href="{% url 'documentation:support_doc_section_create' %}?support_document={{ document.pk }}">
+	<a href="{% url 'documentation:support_doc_section_create' %}?support_document={{ document.pk }}&order={{ document.next_section_order}}">
           <button type="button" class="btn btn-sm btn-primary float-end">+Section</button>
         </a>
         {% if not document.is_public %}

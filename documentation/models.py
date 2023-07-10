@@ -96,6 +96,21 @@ class Article(Doc, CryptoWalletsMixin):
         except:
             return '/static/icon.webp'
 
+    def next_section_order(self):
+        '''
+        If The Article has Sections, returns a floating point value that 
+        equals the highest ordered ArticleSection belonging to the Article
+        plus one or else return 1.
+        '''
+        if ArticleSection.objects.filter(article=self).count() > 0:
+            return float(
+                ArticleSection.objects.filter(
+                    article=self
+                ).order_by('order').last().order
+            ) + 1
+        else:
+            return 1
+
 class ArticleSection(Section):
 
     article = models.ForeignKey(
@@ -163,6 +178,21 @@ class Story(Doc, CryptoWalletsMixin):
         except:
             return '/static/icon.webp'
 
+    def next_section_order(self):
+        '''
+        If The Story has Sections, returns a floating point value that 
+        equals the highest ordered StorySection belonging to the Story
+        plus one or else return 1.
+        '''
+        if StorySection.objects.filter(story=self).count() > 0:
+            return float(
+                StorySection.objects.filter(
+                    story=self
+                ).order_by('order').last().order
+            ) + 1
+        else:
+            return 1
+
 class StorySection(Section):
 
     story = models.ForeignKey(
@@ -201,6 +231,21 @@ class SupportDocument(Doc, CryptoWalletsMixin):
                 return self.owner.profile.image.thumbnail_file.url
         except:
             return '/static/icon.webp'
+
+    def next_section_order(self):
+        '''
+        If The SupportDocument has Sections, returns a floating point value that        
+        equals the highest ordered SupportDocSection belonging to the SupportDocument
+        plus one or else return 1.
+        ''' 
+        if SupportDocSection.objects.filter(support_document=self).count() > 0:
+            return float(
+                SupportDocSection.objects.filter(
+                    support_document=self
+                ).order_by('order').last().order
+            ) + 1
+        else:
+            return 1
 
 class SupportDocSection(Section):
 

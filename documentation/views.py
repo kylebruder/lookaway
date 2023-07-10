@@ -1117,7 +1117,7 @@ class SupportDocSectionDetailView(LoginRequiredMixin, DetailView):
         profile, created = DocumentationAppProfile.objects.get_or_create(pk=1)
         context['profile'] = profile
         # Add section button
-        if self.request.user.has_perm('documentation.add_support_documentsection'):
+        if self.request.user.has_perm('documentation.add_supportdocsection'):
             context['show_section_add_button'] = True
             context['section_add_button'] = {
                 'url': reverse(
@@ -1125,10 +1125,10 @@ class SupportDocSectionDetailView(LoginRequiredMixin, DetailView):
                 ),
             }
         # Edit documentation page section button
-        if self.request.user.has_perm('documentation.change_support_documentsection'):
+        if self.request.user.has_perm('documentation.change_supportdocsection'):
             context['show_section_edit_button'] = True
         # Delete documentation page section button
-        if self.request.user.has_perm('documentation.delete_support_documentsection'):
+        if self.request.user.has_perm('documentation.delete_supportdocsection'):
             context['show_section_delete_button'] = True
         return context
 
