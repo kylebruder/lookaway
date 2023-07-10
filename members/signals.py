@@ -76,8 +76,14 @@ def create_member_profile(sender, instance, created, *args, **kwargs):
         get_or_create_group(
             "Writers",
             get_multiple_model_perms(
-                'documentation',
-                ['article','story',]
+                'documentation', [
+                    'article',
+                    'articlesection',
+                    'story',
+                    'storysection',
+                    'supportdocument',
+                    'supportdocsection',
+                ]
             ),
         )    
         ## Artists
