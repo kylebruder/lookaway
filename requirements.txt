@@ -17,6 +17,6 @@ Pygments==2.15.0
 pytz==2020.1
 qrcode==6.1
 six==1.15.0
-soupsieve==2.0.1
+soupsieve==2.8.4
 sqlparse==0.5.4
 wavio==0.0.4
